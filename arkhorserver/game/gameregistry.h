@@ -42,6 +42,7 @@ public:
     Player *findPlayerById(QString id);
     Character *findCharacterById(QString id);
     Monster *findMonsterById(QString id);
+    Gate *findGateById(QString id);
 
     const GameObject *findObjectPrototypeByType(QString tid);
     GameObject *findObjectInstanceByType(QString tid);
@@ -64,6 +65,7 @@ private:
     int m_nextActionId;
     int m_nextOptionId;
     int m_nextMythosId;
+    int m_nextGateId;
 
 private:
     QMap<QString, GameAction*> m_actions;
@@ -78,7 +80,7 @@ private:
     QList<ArkhamEncounter *> m_arkEncounters;
     QList<OtherWorldEncounter *> m_otherEncounters;
     QMap<QString, MythosCard *> m_mythosCards;
-    QList<Gate *> m_gates;
+    QMap<QString, Gate *> m_gates;
 };
 
 template <typename T>

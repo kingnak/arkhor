@@ -26,7 +26,7 @@ bool CloseGateAction::execute()
     DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(name(), gGame->context().player()->getCharacter(), s, gGame->context().gate()->closeAdjustment());
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
     if (res.boolResult) {
-        GameField *f = gGame->context().gate()->field();
+        GameField *f = gGame->context().gate()->sourceField();
         if (m_bSeal) {
             f->setSealed(true);
         }

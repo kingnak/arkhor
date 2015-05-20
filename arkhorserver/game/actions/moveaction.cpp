@@ -76,7 +76,7 @@ bool MoveAction::moveOtherWorld()
             // TODO: Let choose gate
             Gate *p = c->field()->backGates().at(0);
             p->comeBack(c);
-            gGame->notifier()->actionExecute(this, QString("Returned to %1").arg(p->field()->name()));
+            gGame->notifier()->actionExecute(this, QString("Returned to %1").arg(p->sourceField()->name()));
         }
         return true;
     default:

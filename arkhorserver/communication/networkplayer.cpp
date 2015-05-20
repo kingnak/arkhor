@@ -151,6 +151,11 @@ void NetworkPlayer::actionExecute(const GameAction *action, QString desc)
     sendText(QString("Executing action %1: %2").arg(action->name(), desc));
 }
 
+void NetworkPlayer::objectsInvalidated(QStringList ids)
+{
+    m_conn->sendMessage(Message::S_INVALIDATE_OBJECTS, QVariant(ids));
+}
+
 DieTestUpdateData NetworkPlayer::dieRollStart(const DieRollTestData test)
 {
     // same as update...

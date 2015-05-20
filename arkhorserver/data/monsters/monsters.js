@@ -21,7 +21,7 @@ var m = game.createMonster({
 game.registerMonster(10, m);
 
 m = game.createMonster({
-    id: "MO_TestMonseter",
+    id: "MO_TEST",
     name: "Test Monster",
     description: "MEIN TEST!",
     //dimension: Constants.Dimension.Circle,

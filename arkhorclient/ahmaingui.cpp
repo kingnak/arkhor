@@ -4,6 +4,7 @@
 #include "connectionhandler.h"
 #include "objectregistry.h"
 #include "monsterdata.h"
+#include "gatedata.h"
 #include <QtGui>
 
 using namespace AH::Common;
@@ -109,6 +110,13 @@ void AhMainGui::displayItemInfo(const QString &id)
             displayMonsterDetails(&m);
             break;
         }
+        case AH::Common::RequestObjectsData::Gate:
+        {
+            AH::Common::GateData g;
+            d.data >> g;
+            displayGateDetails(&g);
+            break;
+        }
         default:
             QMessageBox::information(this, "Info", id);
         }
@@ -127,6 +135,13 @@ void AhMainGui::displayMonsterDetails(const MonsterData *m)
 {
     ui->wgtInfoMonster->displayMonster(m);
     ui->stkInfo->setCurrentWidget(ui->pageInfoMonster);
+    ui->tabIntInfInv->setCurrentWidget(ui->tabInfo);
+}
+
+void AhMainGui::displayGateDetails(const GateData *g)
+{
+    ui->wgtInfoGate->displayGate(g);
+    ui->stkInfo->setCurrentWidget(ui->pageInfoGate);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInfo);
 }
 

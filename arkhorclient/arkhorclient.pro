@@ -21,7 +21,10 @@ HEADERS += \
     resourcepool.h \
     utils.h \
     registryobjectstackitem.h \
-    diewidget.h
+    diewidget.h \
+    asyncobjectreceiver.h \
+    gatewidget.h \
+    gatedatawidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -45,7 +48,10 @@ SOURCES += \
     resourcepool.cpp \
     utils.cpp \
     registryobjectstackitem.cpp \
-    diewidget.cpp
+    diewidget.cpp \
+    gatewidget.cpp \
+    asyncobjectreveiver.cpp \
+    gatedatawidget.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -63,7 +69,16 @@ FORMS += \
     dierollwidget.ui \
     characterwidget.ui \
     weaponchooser.ui \
-    monsterwidget.ui
+    monsterwidget.ui \
+    gatedatawidget.ui
 
 RESOURCES += \
     client_resources.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/release/ -lquazip
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/debug/ -lquazip
+else:unix:!macx: LIBS += -L$$PWD/../3rdparty/compiled/ -lquazip
+
+INCLUDEPATH += $$PWD/../3rdparty/compiled/include/
+INCLUDEPATH += $$PWD/../3rdparty/compiled/include/zlib
+# DEPENDPATH += $$PWD/../3rdparty/compiled/include/

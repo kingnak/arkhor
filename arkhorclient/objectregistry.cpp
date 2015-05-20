@@ -21,11 +21,13 @@ void ObjectRegistry::init(ConnectionHandler *c)
     }
     m_conn = c;
     connect(m_conn, SIGNAL(objectDescriptions(AH::Common::DescribeObjectsData)), this, SLOT(receivedDescriptions(AH::Common::DescribeObjectsData)));
+    connect(m_conn, SIGNAL(objectInvalidations(QStringList)), this, SLOT(receivedInvalidations(QStringList)));
     connect(m_conn, SIGNAL(characterUpdate(AH::Common::CharacterData)), this, SLOT(updateCharacter(AH::Common::CharacterData)));
 }
 
 bool ObjectRegistry::hasObject(QString id)
 {
+    QReadLocker r(&m_lock);
     return m_registry.contains(id);
 }
 
@@ -33,13 +35,17 @@ DescribeObjectsData ObjectRegistry::getObjects(RequestObjectsData reqs)
 {
     DescribeObjectsData descs;
     RequestObjectsData pendingRequests;
-    foreach (RequestObjectsData::ObjectRequest r, reqs.getRequests())
+
     {
-        if (m_registry.contains(r.second)) {
-            DescribeObjectsData::ObjectDescription d = m_registry[r.second];
-            descs.addDescription(d);
-        } else {
-            pendingRequests.addRequest(r);
+        QReadLocker r(&m_lock);
+        foreach (RequestObjectsData::ObjectRequest r, reqs.getRequests())
+        {
+            if (m_registry.contains(r.second)) {
+                DescribeObjectsData::ObjectDescription d = m_registry[r.second];
+                descs.addDescription(d);
+            } else {
+                pendingRequests.addRequest(r);
+            }
         }
     }
 
@@ -52,8 +58,11 @@ DescribeObjectsData ObjectRegistry::getObjects(RequestObjectsData reqs)
 
 DescribeObjectsData::ObjectDescription ObjectRegistry::getObject(QString id, AH::Common::RequestObjectsData::ObjectType type)
 {
-    if (m_registry.contains(id)) {
-        return m_registry[id];
+    {
+        QReadLocker rl(&m_lock);
+        if (m_registry.contains(id)) {
+            return m_registry[id];
+        }
     }
 
     RequestObjectsData reqs;
@@ -67,6 +76,102 @@ DescribeObjectsData::ObjectDescription ObjectRegistry::getObject(QString id, AH:
     DescribeObjectsData::ObjectDescription d;
     d.type = RequestObjectsData::Unknown;
     return d;
+}
+
+void ObjectRegistry::asyncSubscribeObject(AsyncObjectReceiver *recv, QString id, RequestObjectsData::ObjectType type)
+{
+    {
+        QWriteLocker r(&m_subscriberLock);
+        m_subscribedMap[id] << recv;
+        m_subscriberMap[recv] << id;
+    }
+
+
+    bool contains;
+    AH::Common::DescribeObjectsData::ObjectDescription desc;
+    {
+        QReadLocker r(&m_lock);
+        if (contains =  m_registry.contains(id)) {
+            desc = m_registry[id];
+        }
+    }
+
+    if (contains) {
+        recv->objectDescribed(desc);
+    } else {
+        getObject(id, type);
+    }
+}
+
+void ObjectRegistry::asyncGetObject(AsyncObjectReceiver *recv, QString id, RequestObjectsData::ObjectType type)
+{
+    bool contains;
+    AH::Common::DescribeObjectsData::ObjectDescription desc;
+    {
+        QReadLocker rl(&m_lock);
+        if (contains = m_registry.contains(id)) {
+            desc = m_registry[id];
+        }
+    }
+
+    if (contains) {
+        recv->objectDescribed(desc);
+        return;
+    }
+
+    {
+        QWriteLocker rs(&m_subscriberLock);
+        m_singleShotSubscriberMap[id] << recv;
+    }
+
+    getObject(id, type);
+}
+
+void ObjectRegistry::unsubscribe(AsyncObjectReceiver *recv)
+{
+    QWriteLocker w(&m_subscriberLock);
+
+    // Remove from subscribers, subscribed ids
+    QSet<QString> subs = m_subscriberMap.value(recv);
+    m_subscriberMap.remove(recv);
+
+    QSet<QString> toRemove;
+    foreach (QString id, subs) {
+        m_subscribedMap[id].remove(recv);
+        if (m_subscribedMap[id].isEmpty()) toRemove << id;
+    }
+    foreach (QString id, toRemove) {
+        m_subscribedMap.remove(id);
+    }
+
+    // Remove from single shot
+    toRemove.clear();
+    foreach (QString id, m_singleShotSubscriberMap.keys()) {
+        m_singleShotSubscriberMap[id].remove(recv);
+        if (m_singleShotSubscriberMap[id].isEmpty()) toRemove << id;
+    }
+    foreach (QString id, toRemove) {
+        m_singleShotSubscriberMap.remove(id);
+    }
+}
+
+void ObjectRegistry::unsubscribe(AsyncObjectReceiver *recv, QString id)
+{
+    QWriteLocker w(&m_subscriberLock);
+
+    if (m_subscriberMap.contains(recv)) {
+        m_subscriberMap[recv].remove(id);
+        if (m_subscriberMap[recv].isEmpty()) {
+            m_subscriberMap.remove(recv);
+        }
+    }
+
+    if (m_subscribedMap.contains(id)) {
+        m_subscribedMap[id].remove(recv);
+        if (m_subscribedMap[id].isEmpty()) {
+            m_subscribedMap.remove(id);
+        }
+    }
 }
 
 DescribeObjectsData ObjectRegistry::getObjectsOfType(QStringList ids, RequestObjectsData::ObjectType type)
@@ -89,30 +194,57 @@ void ObjectRegistry::receivedDescriptions(DescribeObjectsData descs)
             qWarning("Unknown object received");
             continue;
         }
-        // TODO:Verify
-        /*
-        QVariantMap m;
-        d.second >> m;
-        if (m.contains("id")) {
-            m_registry[m["id"].toString()] = d;
-        } else {
-            qWarning("Received Object Type has no Id");
+
+        {
+            QWriteLocker w(&m_lock);
+            m_registry[d.id] = d;
         }
-        */
-        m_registry[d.id] = d;
+
         emit objectDescribed(d);
 
+        // Update character
         if (d.type == RequestObjectsData::Character) {
             CharacterData c;
             d.data >> c;
             updateCharacter(c);
         }
-        /*
-        switch (d.first) {
 
+
+        {
+            QReadLocker rs(&m_subscriberLock);
+            // Inform asnych subscribers and single shots
+            foreach (AsyncObjectReceiver *recv, m_singleShotSubscriberMap.value(d.id)) {
+                recv->objectDescribed(d);
+            }
+            m_singleShotSubscriberMap.remove(d.id);
+
+            foreach (AsyncObjectReceiver *recv, m_subscribedMap.value(d.id)) {
+                recv->objectDescribed(d);
+            }
         }
-        */
     }
+}
+
+void ObjectRegistry::receivedInvalidations(QStringList lst)
+{
+    QSet<QString> rerequests;
+
+    {
+        QWriteLocker l(&m_lock);
+        foreach (QString id, lst) {
+            m_registry.remove(id);
+
+            if (m_subscribedMap.contains(id)) {
+                rerequests << id;
+            }
+        }
+    }
+
+    AH::Common::RequestObjectsData pendingRequests;
+    foreach (QString id, rerequests) {
+        pendingRequests.addRequest(AH::Common::RequestObjectsData::ObjectRequest(AH::Common::RequestObjectsData::Unknown, id));
+    }
+    m_conn->requestObjects(pendingRequests);
 }
 
 void ObjectRegistry::updateCharacter(CharacterData character)

@@ -2,22 +2,26 @@
 #define GATE_H
 
 #include <ahglobal.h>
+#include <gatedata.h>
 
 class GameField;
 class Character;
 
-class Gate
+class Gate : public AH::Common::GateData
 {
 public:
-    Gate(AH::Dimension dim, int closeAdjustment, GameField *dest);
+    Gate(AH::Dimensions dim, int closeAdjustment, GameField *dest);
 
-    QString id() const { return "GA_Dummy"; }
-    AH::Dimension dimension() const { return m_dim; }
-    int closeAdjustment() const { return m_closeAdjustment; }
+    //QString id() const { return "GA_Dummy"; }
 
-    GameField *field() { return m_field; }
-    void setField(GameField *field) { m_field = field; }
-    GameField *destination() { return m_dest; }
+    void setId(const QString id) { m_id = id; }
+
+    virtual AH::Common::FieldData::FieldID source() const;
+    virtual AH::Common::FieldData::FieldID destination() const;
+
+    GameField *sourceField() { return m_sourceField; }
+    void setSourceField(GameField *field) { m_sourceField = field; }
+    GameField *destinationField() { return m_destField; }
 
     void open();
 
@@ -27,11 +31,8 @@ public:
     void seal(Character *c);
 
 private:
-    bool m_open;
-    AH::Dimension m_dim;
-    int m_closeAdjustment;
-    GameField *m_dest;
-    GameField *m_field;
+    GameField *m_destField;
+    GameField *m_sourceField;
 };
 
 #endif // GATE_H

@@ -29,7 +29,10 @@ void Movement::characterMoved()
 
 void Movement::enterPhase()
 {
-    int speed = gGame->context().getCurCharacterSkill(AH::Skill_Speed).finalVal();
+    int speed = 0;
+    if (!gGame->context().player()->getCharacter()->isDelayed())
+        speed = gGame->context().getCurCharacterSkill(AH::Skill_Speed).finalVal();
+
     gGame->context().player()->getCharacter()->setMovementAmount(speed);
 
     m_outcome = FightPhase::EndUnknown;

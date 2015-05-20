@@ -96,10 +96,16 @@ void BroadcastNotifier::actionFinish(const GameAction *action, QString desc)
 }
 
 void BroadcastNotifier::actionExecute(const GameAction *action, QString desc)
-
 {
     foreach (Player *p, m_game->getPlayers()) {
         p->actionExecute(action, desc);
+    }
+}
+
+void BroadcastNotifier::objectsInvalidated(QStringList ids)
+{
+    foreach (Player *p, m_game->getPlayers()) {
+        p->objectsInvalidated(ids);
     }
 }
 

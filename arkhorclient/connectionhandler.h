@@ -67,6 +67,7 @@ signals:
     void characterUpdate(AH::Common::CharacterData c);
 
     void objectDescriptions(AH::Common::DescribeObjectsData descs);
+    void objectInvalidations(QStringList lst);
 
     void playerCharacterInstantiated(QString playerId, QString investigatorId);
 

@@ -29,6 +29,8 @@ public:
     virtual void actionFinish(const GameAction *action, QString desc = QString::null);
     virtual void actionExecute(const GameAction *action, QString desc = QString::null);
 
+    virtual void objectsInvalidated(QStringList ids);
+
 private:
     Game *m_game;
 };

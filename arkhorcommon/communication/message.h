@@ -41,6 +41,7 @@ namespace AH{
 
                 C_REQUEST_OBJECTS,
                 S_DESCRIBE_OBJECTS,
+                S_INVALIDATE_OBJECTS,
 
                 S_CHOOSE_INVESTIGATOR,
                 C_SELECT_INVESTIGATOR,

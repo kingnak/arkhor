@@ -43,6 +43,8 @@ public:
     virtual void actionFinish(const GameAction *action, QString desc = QString::null);
     virtual void actionExecute(const GameAction *action, QString desc = QString::null);
 
+    virtual void objectsInvalidated(QStringList id);
+
     virtual AH::Common::DieTestUpdateData dieRollStart(const AH::Common::DieRollTestData test);
     virtual AH::Common::DieTestUpdateData dieRollUpdate(const AH::Common::DieRollTestData test);
     virtual void dieRollFinish(const AH::Common::DieRollTestData test);

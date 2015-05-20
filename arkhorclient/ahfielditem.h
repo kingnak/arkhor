@@ -4,12 +4,14 @@
 #include <QGraphicsItem>
 #include <fielddata.h>
 #include <gamefielddata.h>
+#include "asyncobjectreceiver.h"
 
 class ItemStacker;
 class StackItem;
 
 class ClueAreaItem;
 class ClickAreaItem;
+class GateItem;
 
 class AhFieldItem : public QGraphicsObject
 {
@@ -49,6 +51,7 @@ signals:
 private slots:
     void characterClicked(const StackItem *itm);
     void monsterClicked(const StackItem *itm);
+    void gateClicked(const GateItem *itm);
 
 private:
     void initCharacterItem();
@@ -63,6 +66,7 @@ private:
 
 private:
     friend class ClickAreaItem;
+    friend class GateItem;
 
 private:
     AH::Common::FieldData::FieldID m_id;
@@ -76,7 +80,7 @@ private:
 
     ClickAreaItem *m_fieldArea;
     ClueAreaItem *m_clues;
-    QGraphicsPixmapItem *m_gate;
+    GateItem *m_gate;
     QGraphicsPixmapItem *m_specialMarker;
     QGraphicsPixmapItem *m_thisCharacter;
 };
@@ -118,6 +122,29 @@ private:
     quint32 m_clueCount;
     QGraphicsPixmapItem *m_icon;
     QGraphicsTextItem *m_text;
+};
+
+class GateItem : public QGraphicsRectItem, public AsyncObjectReceiver
+{
+public:
+    GateItem(QRectF rect, AhFieldItem *parent);
+
+    QString gateId() const { return m_gateId; }
+    void setGateId(const QString id);
+    void unsetGate() { setGateId(QString::null); }
+
+    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+
+private:
+    void init();
+
+private:
+    AhFieldItem *m_parent;
+    QString m_gateId;
+    QGraphicsPixmapItem *m_pixmap;
 };
 
 #endif // AHFIELDITEM_H

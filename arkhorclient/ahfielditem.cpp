@@ -2,6 +2,8 @@
 #include "itemstacker.h"
 #include "registryobjectstackitem.h"
 #include "resourcepool.h"
+#include "objectregistry.h"
+#include "gatewidget.h"
 #include <QtGui>
 
 static const double STACK_ITEM_SIZE = 75;
@@ -70,21 +72,21 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
     if (m_characters) {
         m_characters->clear();        
         foreach (QString id, data.characterIds()) {
-            m_characters->addItem(new StackItem(QPixmap(":/test/client_resources/test/jenny_barnes_figure.png"), "", id));
+            //m_characters->addItem(new StackItem(QPixmap(":/test/client_resources/test/jenny_barnes_figure.png"), "", id));
+            m_characters->addItem(new CharacterStackItem(id));
         }
     }
 
     if (m_monsters) {
         m_monsters->clear();
         foreach (QString id, data.monsterIds()) {
-            //m_monsters->addItem(new StackItem(QPixmap(":/test/client_resources/test/Cultist.png"), "", id));
             m_monsters->addItem(new MonsterStackItem(id));
         }
     }
 
     if (m_clues) m_clues->setClueCount(data.clueAmount());
 
-    if (m_gate) m_gate->setVisible(!data.gateId().isEmpty());
+    if (m_gate) m_gate->setGateId(data.gateId());
 
     if (m_specialMarker) {
         m_specialMarker->setVisible(false);
@@ -221,8 +223,9 @@ void AhFieldItem::initGateItem()
 {
     if (m_type != Location)
         return;
-    QPixmap port = QPixmap(":/test/client_resources/ah-lurker-monstergate.png").scaled(PORTAL_SIZE, PORTAL_SIZE);
-    m_gate = new QGraphicsPixmapItem(port, this);
+    //m_gate = new GateItem(QRectF(0,0,PORTAL_SIZE,PORTAL_SIZE), this);
+    m_gate = new GateItem(QRectF(0,0,160,160), this);
+    m_gate->setScale(PORTAL_SIZE/160.);
     m_gate->setZValue(-2);
     m_gate->setPos(-PORTAL_SIZE/2,-PORTAL_SIZE/2);
 }
@@ -255,6 +258,12 @@ void AhFieldItem::monsterClicked(const StackItem *itm)
         emit itemInfoRequested(itm->data().toString());
 }
 
+void AhFieldItem::gateClicked(const GateItem *itm)
+{
+    if (itm)
+        emit itemInfoRequested(itm->gateId());
+}
+
 ////////////////////////////////
 
 ClickAreaItem::ClickAreaItem(QRectF r, AhFieldItem *parent)
@@ -274,12 +283,19 @@ void ClickAreaItem::setActive(bool active)
 
 void ClickAreaItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    Q_UNUSED(event);
+    if (!m_isActive) {
+        event->ignore();
+        return;
+    }
     m_mouseDown = true;
 }
 
 void ClickAreaItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (!m_isActive) {
+        event->ignore();
+        return;
+    }
     if (m_mouseDown) {
         m_mouseDown = false;
         if (boundingRect().contains(event->pos()))
@@ -289,14 +305,22 @@ void ClickAreaItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void ClickAreaItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
-    Q_UNUSED(event);
+    if (!m_isActive) {
+        event->ignore();
+        return;
+    }
+
     m_mouseIn = true;
     updateColor();
 }
 
 void ClickAreaItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
-    Q_UNUSED(event);
+    if (!m_isActive) {
+        event->ignore();
+        return;
+    }
+
     m_mouseIn = false;
     updateColor();
 }
@@ -349,4 +373,48 @@ void ClueAreaItem::init()
     m_text->setFont(AhFieldItem::getItemFont(16, true));
 
     setClueCount(0);
+}
+
+//////////////////////////////
+
+GateItem::GateItem(QRectF rect, AhFieldItem *parent)
+    : QGraphicsRectItem(rect, parent), m_parent(parent)
+{
+    init();
+}
+
+void GateItem::setGateId(const QString id)
+{
+    if (id == m_gateId) return;
+
+    if (!m_gateId.isEmpty()) {
+        ObjectRegistry::instance()->unsubscribe(this, id);
+    }
+    m_gateId = id;
+    if (m_gateId.isEmpty()) {
+        m_pixmap->setPixmap(QPixmap());
+    } else {
+        ObjectRegistry::instance()->asyncSubscribeObject(this, m_gateId, AH::Common::RequestObjectsData::Gate);
+    }
+}
+
+void GateItem::objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc)
+{
+    AH::Common::GateData g;
+    desc.data >> g;
+    m_pixmap->setPixmap(GateWidget::drawGate(&g).scaled(boundingRect().size().toSize()));
+}
+
+void GateItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    Q_UNUSED(event)
+    if (!m_gateId.isEmpty()) {
+        m_parent->gateClicked(this);
+    }
+}
+
+void GateItem::init()
+{
+    setPen(Qt::NoPen);
+    m_pixmap = new QGraphicsPixmapItem(this);
 }

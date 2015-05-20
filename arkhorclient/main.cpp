@@ -12,9 +12,19 @@ using namespace AH::Common;
 #include "flowlayout.h"
 #include "diewidget.h"
 */
+/*
+#include "gatewidget.h"
+using namespace AH::Common;
+*/
+#include "resourcepool.h"
+
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+
+    //ResourcePool::instance()->addZip("D:/priv/proj/arkhor/arkhor/res.zip");
+    ResourcePool::instance()->addDirectory("D:/priv/proj/arkhor/arkhor/res/");
+
     Form f;
     f.show();
 
@@ -46,7 +56,16 @@ int main(int argc, char **argv)
     w.displayMonster(&m);
     w.show();
     */
-
+    /*
+    GateData g;
+    g.m_open = true;
+    g.m_adjustment = -3;
+    g.m_dest = FieldData::OW_Yuggoth;
+    g.m_dims = AH::Dim_Triangle;
+    GateWidget w;
+    w.displayGate(&g);
+    w.show();
+    */
     //AhMainGui gui;
     //gui.show();
     app.exec();

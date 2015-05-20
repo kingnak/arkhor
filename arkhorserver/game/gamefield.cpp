@@ -52,11 +52,7 @@ void GameField::setGate(Gate *p)
     Q_ASSERT_X(m_type == AH::Common::FieldData::Location, "Set Gate", "Can only add gate to Interior");
     m_gate = p;
     if (p) {
-        p->setField(this);
-        // TODO Gate data
-        m_gateId = "ASDF";
-    } else {
-        m_gateId = "";
+        p->setSourceField(this);
     }
     gGame->boardDirty();
 }
@@ -136,6 +132,14 @@ QStringList GameField::monsterIds() const
         ret << m->id();
     }
     return ret;
+}
+
+QString GameField::gateId() const
+{
+    if (m_gate) {
+        return m_gate->id();
+    }
+    return QString::null;
 }
 
 QList<int> GameField::neighbourIds() const

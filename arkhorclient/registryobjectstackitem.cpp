@@ -1,33 +1,27 @@
 #include "registryobjectstackitem.h"
 #include "objectregistry.h"
 #include "monsterwidget.h"
+#include "resourcepool.h"
 
-RegistryObjectStackItem::RegistryObjectStackItem(QString id, QObject *parent) :
-    QObject(parent), m_id(id)
+RegistryObjectStackItem::RegistryObjectStackItem(QString id) :
+    m_id(id)
 {
 }
 
 void RegistryObjectStackItem::wasAdded()
 {
-    if (ObjectRegistry::instance()->hasObject(m_id)) {
-        updateObject(ObjectRegistry::instance()->getObject(m_id));
-    } else {
-        connect(ObjectRegistry::instance(), SIGNAL(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)), this, SLOT(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)));
-    }
+    ObjectRegistry::instance()->asyncGetObject(this, m_id);
 }
 
-void RegistryObjectStackItem::objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription desc)
+void RegistryObjectStackItem::objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc)
 {
-    if (m_id == desc.id) {
-        disconnect(ObjectRegistry::instance(), SIGNAL(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)), this, SLOT(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)));
-        updateObject(desc);
-    }
+    updateObject(desc);
 }
 
 //////////////////////////////////////
 
-MonsterStackItem::MonsterStackItem(QString id, QObject *parent)
-    : RegistryObjectStackItem(id, parent)
+MonsterStackItem::MonsterStackItem(QString id)
+    : RegistryObjectStackItem(id)
 {
     setData(id);
 }
@@ -49,3 +43,12 @@ void MonsterStackItem::updateObject(AH::Common::DescribeObjectsData::ObjectDescr
     QPixmap pic = MonsterFrontWidget::drawMonster(&m);
     setPixmap(pic);
 }
+
+/////////////////////////////////////
+
+CharacterStackItem::CharacterStackItem(QString id)
+{
+    setData(id);
+    setPixmap(ResourcePool::instance()->loadCharacterFigure(id));
+}
+

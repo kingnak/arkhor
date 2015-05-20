@@ -10,6 +10,7 @@
 #include <objectdata.h>
 #include <gameobjectdata.h>
 #include <monsterdata.h>
+#include <gatedata.h>
 #include <encounterdata.h>
 
 class ObjectRegistry;
@@ -48,6 +49,7 @@ private slots:
     void displayInventoryData(QListWidgetItem *itm);
 
     void displayMonsterDetails(const AH::Common::MonsterData *m);
+    void displayGateDetails(const AH::Common::GateData *g);
 
 
 

@@ -9,11 +9,13 @@
 #include "arkhamencounter.h"
 #include "otherworldencounter.h"
 #include "mythoscard.h"
+#include "gate.h"
 
 GameRegistry::GameRegistry()
 :   m_nextActionId(0),
     m_nextOptionId(0),
-    m_nextMythosId(0)
+    m_nextMythosId(0),
+    m_nextGateId(0)
 {
 }
 
@@ -123,8 +125,14 @@ bool GameRegistry::registerMythosCard(MythosCard *m)
 
 bool GameRegistry::registerGate(Gate *g)
 {
-    m_gates << g;
-    return true;
+    if (g) {
+        if (g->id().isEmpty()) {
+            g->setId(QString("GT_GEN_%1").arg(++m_nextGateId));
+        }
+        m_gates[g->id()] = g;
+        return true;
+    }
+    return false;
 }
 
 bool GameRegistry::removePlayer(Player *p)
@@ -174,6 +182,11 @@ Character *GameRegistry::findCharacterById(QString id)
 Monster *GameRegistry::findMonsterById(QString id)
 {
     return m_monsters.value(id);
+}
+
+Gate *GameRegistry::findGateById(QString id)
+{
+    return m_gates.value(id);
 }
 
 QList<GameObject *> GameRegistry::allObjects()

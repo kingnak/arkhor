@@ -61,7 +61,6 @@ namespace AH {
             virtual AH::Common::FieldData::FieldID fieldId() const { return m_fieldId; }
 
         protected:
-        public:
             QString m_id;
             QString m_tid;
             QString m_name;

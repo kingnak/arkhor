@@ -112,12 +112,14 @@ public:
 
     void boardDirty();
     void characterDirty(Character *c);
+    void invalidateObject(QString id);
 
     void commitUpdates();
 
     Player *playerForCharacter(Character *c);
 
     AH::Common::DescribeObjectsData describeObjects(const AH::Common::RequestObjectsData &reqs) const;
+    AH::Common::DescribeObjectsData::ObjectDescription describeObject(const AH::Common::RequestObjectsData::ObjectRequest &r) const;
 
     AH::Dimension randomDimension() const;
     AH::Common::FieldData::FieldID randomLocation(bool onlyStable) const;
@@ -178,6 +180,8 @@ private:
     GameBoard *m_board;
     GameNotifier *m_notifier;
     GameRegistry *m_registry;
+
+    QSet<QString> m_invalidatedObjects;
 
     int m_nextPlayerId;
     bool m_started;

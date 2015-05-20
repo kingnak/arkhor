@@ -51,7 +51,7 @@ public:
 
     virtual QStringList characterIds() const;
     virtual QStringList monsterIds() const;
-    //virtual QString gateId() const;
+    virtual QString gateId() const;
     virtual QList<int> neighbourIds() const;
 
 private:

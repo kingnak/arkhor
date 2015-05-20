@@ -38,6 +38,8 @@ public:
     virtual void actionUpdate(const GameAction *action, QString desc = QString::null) = 0;
     virtual void actionFinish(const GameAction *action, QString desc = QString::null) = 0;
     virtual void actionExecute(const GameAction *action, QString desc = QString::null) = 0;
+
+    virtual void objectsInvalidated(QStringList id) = 0;
 };
 
 #endif // GAMENOTIFIER_H

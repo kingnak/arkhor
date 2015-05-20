@@ -1,23 +1,21 @@
 #ifndef REGISTRYOBJECTSTACKITEM_H
 #define REGISTRYOBJECTSTACKITEM_H
 
-#include <QObject>
 #include <itemstacker.h>
 #include <objectdata.h>
+#include "asyncobjectreceiver.h"
 
-class RegistryObjectStackItem : public QObject, public StackItem
+class RegistryObjectStackItem : public StackItem, public AsyncObjectReceiver
 {
-    Q_OBJECT
 public:
-    explicit RegistryObjectStackItem(QString id, QObject *parent = 0);
+    explicit RegistryObjectStackItem(QString id);
 
     virtual void wasAdded();
 
+    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+
 protected:
     virtual void updateObject(AH::Common::DescribeObjectsData::ObjectDescription desc) = 0;
-
-private slots:
-    void objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription desc);
 
 protected:
     QString m_id;
@@ -26,11 +24,17 @@ protected:
 class MonsterStackItem : public RegistryObjectStackItem
 {
 public:
-    explicit MonsterStackItem(QString id, QObject *parent = 0);
+    explicit MonsterStackItem(QString id);
     virtual void wasAdded();
 
 protected:
     virtual void updateObject(AH::Common::DescribeObjectsData::ObjectDescription desc);
+};
+
+class CharacterStackItem : public StackItem
+{
+public:
+    explicit CharacterStackItem(QString id);
 };
 
 #endif // REGISTRYOBJECTSTACKITEM_H

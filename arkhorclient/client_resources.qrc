@@ -18,17 +18,14 @@
         <file alias="dim_triangle">client_resources/dim_triangle.png</file>
         <file>client_resources/monster_overlay2.png</file>
         <file alias="success">client_resources/Action-ok-icon.png</file>
-    </qresource>
-    <qresource prefix="/test">
-        <file>client_resources/test/Byakhee.png</file>
-        <file>client_resources/test/Chthonian.png</file>
-        <file>client_resources/test/Cultist.png</file>
-        <file>client_resources/test/DarkYoung.png</file>
-        <file>client_resources/test/Dhole.png</file>
-        <file>client_resources/test/ElderThing.png</file>
-        <file>client_resources/ah-lurker-monstergate.png</file>
-        <file>client_resources/test/jenny_barnes_figure.png</file>
-        <file>client_resources/test/sister_mary_figure.png</file>
+        <file alias="gate_abyss">client_resources/gate_abyss.png</file>
+        <file alias="gate_another_dimension">client_resources/gate_another_dimension.png</file>
+        <file alias="gate_celeano">client_resources/gate_celeano.png</file>
+        <file alias="gate_city_of_great_race">client_resources/gate_city_of_great_race.png</file>
+        <file alias="gate_dreamlands">client_resources/gate_dreamlands.png</file>
+        <file alias="gate_plateau_of_leng">client_resources/gate_leng.png</file>
+        <file alias="gate_r_lyeh">client_resources/gate_r_lyeh.png</file>
+        <file alias="gate_yuggoth">client_resources/gate_yuggoth.png</file>
     </qresource>
     <qresource prefix="/core/marker">
         <file alias="activity_1">client_resources/activity_marker_1.png</file>

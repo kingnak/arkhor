@@ -303,7 +303,7 @@ bool Game::createGate(GameField *field)
             idx = 0;
         }
         for (int i = 0; i < monsterCount; ++i) {
-            GameField *f = gates[idx]->field();
+            GameField *f = gates[idx]->sourceField();
             createMonster(f);
             idx++;
             idx %= gates.count();
@@ -395,7 +395,7 @@ void Game::closeGate(Gate *g, Character *c)
     QList<Monster *> monsters = m_board->getBoardMonsters();
     monsters << m_board->field(AH::Common::FieldData::Sp_Outskirts)->monsters();
 
-    AH::Dimensions closeDim = g->dimension();
+    AH::Dimensions closeDim = g->dimensions();
     foreach (Monster *m, monsters) {
         if (closeDim.testFlag(m->dimension())) {
             returnMonster(m);
@@ -473,6 +473,11 @@ void Game::characterDirty(Character *c)
     c->setDirty(true);
 }
 
+void Game::invalidateObject(QString id)
+{
+    m_invalidatedObjects << id;
+}
+
 void Game::commitUpdates()
 {
     if (m_board->isDirty()) {
@@ -488,6 +493,13 @@ void Game::commitUpdates()
                 p->sendCharacter(c);
             }
         }
+    }
+
+    if (!m_invalidatedObjects.isEmpty()) {
+        QStringList lst = QStringList(m_invalidatedObjects.toList());
+        m_notifier->objectsInvalidated(lst);
+
+        m_invalidatedObjects.clear();
     }
 }
 
@@ -506,63 +518,79 @@ AH::Common::DescribeObjectsData Game::describeObjects(const AH::Common::RequestO
 {
     AH::Common::DescribeObjectsData ret;
     foreach (AH::Common::RequestObjectsData::ObjectRequest r, reqs.getRequests()) {
-        AH::Common::DescribeObjectsData::ObjectDescription d;
-        d.type = AH::Common::RequestObjectsData::Unknown;
+        ret.addDescription(describeObject(r));
+    }
+    return ret;
+}
 
-        switch (r.first) {
-        case AH::Common::RequestObjectsData::Unknown:
-        {
-            GameObject *obj = m_registry->findObjectById(r.second);
-            Character *c = m_registry->findCharacterById(r.second);
-            Monster *m = m_registry->findMonsterById(r.second);
-            if (obj) {
-                d.data << *(obj->data());
-                d.id = obj->id();
-                d.type = AH::Common::RequestObjectsData::Object;
-            } else if (c) {
-                d.data << *(c->data());
-                d.id = c->id();
-                d.type = AH::Common::RequestObjectsData::Character;
-            } else if (m) {
-                d.data << *(m->data());
-                d.id = m->id();
-                d.type = AH::Common::RequestObjectsData::Monster;
-            }
-            // TODO: Extend
-            break;
-        }
-        case AH::Common::RequestObjectsData::Object:
-        {
-            GameObject *obj = m_registry->findObjectById(r.second);
-            if (obj) {
-                d.data << *(obj->data());
-                d.id = obj->id();
-                d.type = AH::Common::RequestObjectsData::Object;
-            }
-            break;
-        }
-        case AH::Common::RequestObjectsData::Monster:
-            break;
-        case AH::Common::RequestObjectsData::Character:
-        {
-            Character *c = m_registry->findCharacterById(r.second);
-            if (c) {
-                d.data << *(c->data());
-                d.id = c->id();
-                d.type = AH::Common::RequestObjectsData::Character;
-            }
-            break;
-        }
-        case AH::Common::RequestObjectsData::Gate:
-            break;
-        //case AH::Common::RequestObjectsData::Board:
-        //  break;
-        }
+AH::Common::DescribeObjectsData::ObjectDescription Game::describeObject(const AH::Common::RequestObjectsData::ObjectRequest &r) const
+{
+    AH::Common::DescribeObjectsData::ObjectDescription d;
+    d.type = AH::Common::RequestObjectsData::Unknown;
 
-        ret.addDescription(d);
+    switch (r.first) {
+    case AH::Common::RequestObjectsData::Unknown:
+    {
+        GameObject *obj = m_registry->findObjectById(r.second);
+        if (obj) return describeObject(qMakePair(AH::Common::RequestObjectsData::Object, r.second));
+
+        Character *c = m_registry->findCharacterById(r.second);
+        if (c) return describeObject(qMakePair(AH::Common::RequestObjectsData::Character, r.second));
+
+        Monster *m = m_registry->findMonsterById(r.second);
+        if (m) return describeObject(qMakePair(AH::Common::RequestObjectsData::Monster, r.second));
+
+        Gate *g = m_registry->findGateById(r.second);
+        if (g) return describeObject(qMakePair(AH::Common::RequestObjectsData::Gate, r.second));
+
+        // TODO: Extend
+        break;
+    }
+    case AH::Common::RequestObjectsData::Object:
+    {
+        GameObject *obj = m_registry->findObjectById(r.second);
+        if (obj) {
+            d.data << *(obj->data());
+            d.id = obj->id();
+            d.type = AH::Common::RequestObjectsData::Object;
+        }
+        break;
+    }
+    case AH::Common::RequestObjectsData::Monster:
+    {
+        Monster *m = m_registry->findMonsterById(r.second);
+        if (m) {
+            d.data << *(m->data());
+            d.id = m->id();
+            d.type = AH::Common::RequestObjectsData::Monster;
+        }
+        break;
+    }
+    case AH::Common::RequestObjectsData::Character:
+    {
+        Character *c = m_registry->findCharacterById(r.second);
+        if (c) {
+            d.data << *(c->data());
+            d.id = c->id();
+            d.type = AH::Common::RequestObjectsData::Character;
+        }
+        break;
+    }
+    case AH::Common::RequestObjectsData::Gate:
+    {
+        Gate *g = m_registry->findGateById(r.second);
+        if (g) {
+            d.data << *(g->data());
+            d.id = g->id();
+            d.type = AH::Common::RequestObjectsData::Gate;
+        }
+        break;
+    }
+    //case AH::Common::RequestObjectsData::Board:
+    //  break;
     }
 
-    return ret;
+    return d;
 }
 
 AH::Dimension Game::randomDimension() const
@@ -825,6 +853,5 @@ void Game::cleanupDeactivatedPlayers()
 
 void Game::sendBoard()
 {
-    // TODO: Check if board is dirty?
     m_notifier->sendBoard(m_board);
 }

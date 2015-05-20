@@ -38,7 +38,7 @@
         <enum>QTabWidget::East</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tabInteraction">
         <attribute name="icon">
@@ -163,6 +163,10 @@
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <widget class="QStackedWidget" name="stkInfo">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="pageInfoEmpty"/>
            <widget class="QWidget" name="pageInfoMonster">
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
@@ -183,7 +187,26 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="page_2"/>
+           <widget class="QWidget" name="pageInfoGate">
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="GateDataWidget" name="wgtInfoGate" native="true"/>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>545</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </item>
         </layout>
@@ -274,6 +297,12 @@
    <class>MonsterWidget</class>
    <extends>QWidget</extends>
    <header>monsterwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GateDataWidget</class>
+   <extends>QWidget</extends>
+   <header>gatedatawidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

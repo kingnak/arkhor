@@ -79,6 +79,59 @@ QString Utils::stringForDimension(AH::Dimension dim)
     }
 }
 
+QString Utils::stringForField(FieldData::FieldID fid)
+{
+    switch (fid) {
+    case FieldData::NS_Northside: return "Northside";
+    case FieldData::NS_TrainStation: return "Train Station";
+    case FieldData::NS_Newspaper: return "Newspaper";
+    case FieldData::NS_CuriosieShoppe: return "Curiosie Shoppe";
+    case FieldData::DT_Downtown: return "Downtown";
+    case FieldData::DT_BankOfArhham: return "Bank of Arhham";
+    case FieldData::DT_ArkhamAsylum: return "Arkham Asylum";
+    case FieldData::DT_IndependenceSquare: return "Independence Square";
+    case FieldData::ET_Easttown: return "Easttown";
+    case FieldData::ET_HibbsRoadhouse: return "Hibb's Roadhouse";
+    case FieldData::ET_VelmasDiner: return "Velma's Diner";
+    case FieldData::ET_PoliceStation: return "Police Station";
+    case FieldData::MD_MerchantDist: return "Merchant District";
+    case FieldData::MD_UnvisitedIsle: return "Unvisited Isle";
+    case FieldData::MD_RiverDocks: return "River Docks";
+    case FieldData::MD_TheUnnamable: return "The Unnamable";
+    case FieldData::RT_Rivertown: return "Rivertown";
+    case FieldData::RT_Graveyard: return "Graveyard";
+    case FieldData::RT_BlackCave: return "Black Cave";
+    case FieldData::RT_GeneralStore: return "General Store";
+    case FieldData::MU_MiskatonicU: return "Miskatonic University";
+    case FieldData::MU_ScienceBuilding: return "Science Building";
+    case FieldData::MU_Administration: return "Administration";
+    case FieldData::MU_Library: return "Library";
+    case FieldData::FH_FrenchHill: return "French Hill";
+    case FieldData::FH_TheWitchHouse: return "The Witch House";
+    case FieldData::FH_SilverTwilightLodge: return "Silver Twilight Lodge";
+    case FieldData::UT_Uptown: return "Uptown";
+    case FieldData::UT_StMarysHospital: return "St. Mary's Hospital";
+    case FieldData::UT_YeOldeMagickShoppe: return "Ye Olde Magick Shoppe";
+    case FieldData::UT_Woods: return "Woods";
+    case FieldData::SS_Southside: return "Southside";
+    case FieldData::SS_MasBoardingHouse: return "Ma's Boarding House";
+    case FieldData::SS_SouthChurch: return "South Church";
+    case FieldData::SS_HistoricalSociety: return "Historical Society";
+    case FieldData::OW_AnotherDimension: return "Another Dimension";
+    case FieldData::OW_Abyss: return "The Abyss";
+    case FieldData::OW_CityOfGreatRace: return "The City of the Great Race";
+    case FieldData::OW_Yuggoth: return "Yuggoth";
+    case FieldData::OW_Celeano: return "Great Hall of Celeano";
+    case FieldData::OW_TheDreamlands: return "The Dreamlands";
+    case FieldData::OW_PlateauOfLeng: return "Plateau Of Leng";
+    case FieldData::OW_R_lyeh: return "R'lyeh";
+    case FieldData::Sp_Sky: return "Sky";
+    case FieldData::Sp_Outskirts: return "Outskirts";
+    case FieldData::Sp_SpaceAndTime: return "Space and Time";
+    }
+    return "";
+}
+
 QString Utils::stringForMovement(MonsterData::MovementType m)
 {
     switch (m)

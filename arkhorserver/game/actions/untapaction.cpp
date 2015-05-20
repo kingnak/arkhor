@@ -15,15 +15,19 @@ AH::GamePhases UntapAction::phases() const
 
 bool UntapAction::execute()
 {
+    bool hasUntapped = false;
     QList<GameObject *> &inv = gGame->context().player()->getCharacter()->inventory();
     gGame->notifier()->actionStart(this);
     foreach (GameObject *o, inv) {
         if (o->isExhausted()) {
             o->refresh();
+            gGame->invalidateObject(o->id());
             gGame->notifier()->actionUpdate(this, o->name());
+            hasUntapped = true;
         }
     }
     gGame->notifier()->actionFinish(this);
-    gGame->characterDirty(gGame->context().player()->getCharacter());
+    if (hasUntapped)
+        gGame->characterDirty(gGame->context().player()->getCharacter());
     return true;
 }

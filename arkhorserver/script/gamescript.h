@@ -21,6 +21,8 @@ class OtherWorldEncounterScript;
 class MonsterScript;
 class MythosCardScript;
 
+class QScriptEngineDebugger;
+
 class GameScript : public QObject, public QScriptable
 {
     Q_OBJECT
@@ -45,6 +47,7 @@ public:
 
     Q_INVOKABLE QScriptValue quickOption();
 
+    Q_INVOKABLE QScriptValue registerSingleObject(GameObjectScript *o);
     Q_INVOKABLE QScriptValue registerObject(GameObjectScript *o);
     Q_INVOKABLE QScriptValue registerMultiObject(quint32 count, GameObjectScript *o);
     Q_INVOKABLE GameObjectScript *createObject();
@@ -82,6 +85,10 @@ private:
 
     Game *m_game;
     GameContextScript *m_ctx;
+
+#ifdef DEBUG_SCRIPT_BUILD
+    QScriptEngineDebugger *m_debugger;
+#endif
 };
 
 Q_DECLARE_METATYPE(GameScript*)

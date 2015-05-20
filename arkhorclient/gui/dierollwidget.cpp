@@ -6,6 +6,8 @@
 #include "utils.h"
 #include "diewidget.h"
 
+#define PROPERTY_MODIFIER_ID "PROP_MOD_ID"
+
 using namespace AH::Common;
 
 DieRollWidget::DieRollWidget(QWidget *parent) :
@@ -56,7 +58,19 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     cleanModifiers();
     mods.append(data.clueBurnMods().modifications());
     foreach (PropertyModificationData mod, mods) {
-        QLabel *l = new QLabel(QString("%1: %2").arg(mod.modifierId()).arg(mod.modificationAmount()));
+
+        // TODO: This assumes modifier is already known
+        QString id = mod.modifierId();
+        QString name = id;
+        if (ObjectRegistry::instance()->hasObject(id)) {
+            AH::Common::GameOptionData obj;
+            ObjectRegistry::instance()->getObject(id).data >> obj;
+            name = obj.name();
+        }
+
+        QLabel *l = new QLabel(QString("<a href=\"%1\">%2</a>: %3").arg(id).arg(name).arg(Utils::stringForPropertyModification(mod)));
+        l->setProperty(PROPERTY_MODIFIER_ID, mod.modifierId());
+        connect(l, SIGNAL(linkActivated(QString)), this, SLOT(modifierLinkClicked()));
         ui->scrlMods->layout()->addWidget(l);
     }
 
@@ -98,6 +112,13 @@ void DieRollWidget::on_btnOk_clicked()
     cleanDice();
     cleanModifiers();
     emit dieUpdateChosen(upd);
+}
+
+void DieRollWidget::modifierLinkClicked()
+{
+    QString id = sender()->property(PROPERTY_MODIFIER_ID).toString();
+    if (!id.isEmpty())
+        emit itemInfoRequested(id);
 }
 
 void DieRollWidget::cleanDice()

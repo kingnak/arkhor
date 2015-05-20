@@ -2,56 +2,58 @@ QT += network
 
 HEADERS += \
     connectionhandler.h \
-    form.h \
-    ahmaingui.h \
     ahboardscene.h \
-    ahfielditem.h \
-    itemstacker.h \
-    ahgraphicsview.h \
-    flowlayout.h \
     ahboardfillerhelper.h \
-    movementchooser.h \
-    focuschooser.h \
-    optionchooser.h \
-    dierollwidget.h \
     objectregistry.h \
-    characterwidget.h \
-    weaponchooser.h \
-    monsterwidget.h \
     resourcepool.h \
     utils.h \
-    registryobjectstackitem.h \
-    diewidget.h \
     asyncobjectreceiver.h \
-    gatewidget.h \
-    gatedatawidget.h
+    gui/ahfielditem.h \
+    gui/ahgraphicsview.h \
+    gui/ahmaingui.h \
+    gui/characterwidget.h \
+    gui/dierollwidget.h \
+    gui/diewidget.h \
+    gui/flowlayout.h \
+    gui/focuschooser.h \
+    gui/gatedatawidget.h \
+    gui/gatewidget.h \
+    gui/itemstacker.h \
+    gui/monsterwidget.h \
+    gui/movementchooser.h \
+    gui/optionchooser.h \
+    gui/registryobjectstackitem.h \
+    gui/startform.h \
+    gui/weaponchooser.h \
+    gui/gameobjectwidget.h
 
 SOURCES += \
     connectionhandler.cpp \
-    form.cpp \
     main.cpp \
-    ahmaingui.cpp \
     ahboardscene.cpp \
-    ahfielditem.cpp \
-    itemstacker.cpp \
-    ahgraphicsview.cpp \
-    flowlayout.cpp \
     ahboardfillerhelper.cpp \
-    movementchooser.cpp \
-    focuschooser.cpp \
-    optionchooser.cpp \
-    dierollwidget.cpp \
     objectregistry.cpp \
-    characterwidget.cpp \
-    weaponchooser.cpp \
-    monsterwidget.cpp \
     resourcepool.cpp \
     utils.cpp \
-    registryobjectstackitem.cpp \
-    diewidget.cpp \
-    gatewidget.cpp \
     asyncobjectreveiver.cpp \
-    gatedatawidget.cpp
+    gui/ahfielditem.cpp \
+    gui/ahgraphicsview.cpp \
+    gui/ahmaingui.cpp \
+    gui/characterwidget.cpp \
+    gui/dierollwidget.cpp \
+    gui/diewidget.cpp \
+    gui/flowlayout.cpp \
+    gui/focuschooser.cpp \
+    gui/gatedatawidget.cpp \
+    gui/gatewidget.cpp \
+    gui/itemstacker.cpp \
+    gui/monsterwidget.cpp \
+    gui/movementchooser.cpp \
+    gui/optionchooser.cpp \
+    gui/registryobjectstackitem.cpp \
+    gui/startform.cpp \
+    gui/weaponchooser.cpp \
+    gui/gameobjectwidget.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -61,16 +63,17 @@ INCLUDEPATH += $$PWD/../arkhorcommon
 DEPENDPATH += $$PWD/../arkhorcommon
 
 FORMS += \
-    form.ui \
-    ahmaingui.ui \
-    movementchooser.ui \
-    focuschooser.ui \
-    optionchooser.ui \
-    dierollwidget.ui \
-    characterwidget.ui \
-    weaponchooser.ui \
-    monsterwidget.ui \
-    gatedatawidget.ui
+    gui/ahmaingui.ui \
+    gui/characterwidget.ui \
+    gui/dierollwidget.ui \
+    gui/focuschooser.ui \
+    gui/gatedatawidget.ui \
+    gui/monsterwidget.ui \
+    gui/movementchooser.ui \
+    gui/optionchooser.ui \
+    gui/startform.ui \
+    gui/weaponchooser.ui \
+    gui/gameobjectwidget.ui
 
 RESOURCES += \
     client_resources.qrc

@@ -14,6 +14,15 @@ class ArkhamEncounterScript : public QObject, public ArkhamEncounter
 public:
     explicit ArkhamEncounterScript(QObject *parent = 0);
 
+#ifdef DEBUG_SCRIPT_BUILD
+    Q_PROPERTY(quint32 fieldId READ fieldId)
+    Q_PROPERTY(QString description READ description)
+    Q_PROPERTY(QList<AH::Common::GameOptionData> optionData READ optionData)
+    Q_PROPERTY(QStringList optionIds READ optionIds)
+
+    QStringList optionIds() const { return m_optionIds; }
+#endif
+
     static void castFromValue(const QScriptValue &v, ArkhamEncounterScript *&o) { o = qobject_cast<ArkhamEncounterScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, ArkhamEncounterScript * const &in) { return eng->newQObject(in); }
 

@@ -20,12 +20,15 @@ void operator >>(const QVariant &data, PropertyValueData &target)
     map["value"] >> target.m_val;
 }
 
+DEFINE_ENUM_SERIALIZER(PropertyModificationData::ModificationType)
+
 void operator <<(QVariant &data, const PropertyModificationData &target)
 {
     QVariantMap map;
-    map["property"] << target.m_prop;
-    map["modification"] << target.m_mod;
-    map["modifierId"] << target.m_modifierId;
+    map["property"] << target.affectedProperty();
+    map["modification"] << target.modificationAmount();
+    map["modificationType"] << target.type();
+    map["modifierId"] << target.modifierId();
     data << map;
 }
 
@@ -35,6 +38,7 @@ void operator >>(const QVariant &data, PropertyModificationData &target)
    data >> map;
    map["property"] >> target.m_prop;
    map["modification"] >> target.m_mod;
+   map["modificationType"] >> target.m_type;
    map["modifierId"] >> target.m_modifierId;
 }
 

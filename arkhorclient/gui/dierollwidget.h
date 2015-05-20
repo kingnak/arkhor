@@ -20,12 +20,13 @@ public slots:
     void displayDieRoll(AH::Common::DieRollTestData data);
 
 signals:
+    void itemInfoRequested(QString id);
     void dieUpdateChosen(AH::Common::DieTestUpdateData upd);
 
 private slots:
     void updateClueBurnAmount(int ct);
     void on_btnOk_clicked();
-    void modifierLinkClicked() {}
+    void modifierLinkClicked();
 
 private:
     void cleanDice();

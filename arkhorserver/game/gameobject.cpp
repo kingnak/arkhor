@@ -85,6 +85,15 @@ bool GameObject::unequip()
     return true;
 }
 
+QList<AH::Common::PropertyModificationData> GameObject::getModificationData() const
+{
+    QList<AH::Common::PropertyModificationData> ret;
+    foreach (PropertyModification m, getModifications()) {
+        ret << *(m.data());
+    }
+    return ret;
+}
+
 bool GameObject::cast(Player *p)
 {
     if (m_type != AH::Obj_Spell) {

@@ -1,3 +1,4 @@
+/*
 var m = game.createMonster({
 	id: "MO_BYAKHEE",
 	name: "Byakhee",
@@ -19,7 +20,7 @@ var m = game.createMonster({
 });
 
 game.registerMonster(10, m);
-
+*/
 m = game.createMonster({
     id: "MO_TEST",
     name: "Test Monster",
@@ -40,3 +41,4 @@ m = game.createMonster({
 });
 
 game.registerMonster(10, m);
+

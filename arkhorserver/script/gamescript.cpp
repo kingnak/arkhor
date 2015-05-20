@@ -18,6 +18,16 @@
 #include "otherworldencounterscript.h"
 #include "mythoscardscript.h"
 
+
+#ifdef DEBUG_SCRIPT_BUILD
+#include <QScriptEngineDebugger>
+#include <QMainWindow>
+#include <QAction>
+
+Q_DECLARE_METATYPE(QList<AH::Common::GameOptionData>)
+
+#endif
+
 GameScript::GameScript(Game *game, QObject *parent) :
     QObject(parent), m_game(game)
 {
@@ -27,6 +37,14 @@ GameScript::GameScript(Game *game, QObject *parent) :
 
 bool GameScript::init(const QString &scriptBaseDir)
 {
+#ifdef DEBUG_SCRIPT_BUILD
+    qRegisterMetaType<QList<AH::Common::GameOptionData> >("QList<AH::Common::GameOptionData>");
+    m_debugger = new QScriptEngineDebugger(this);
+    m_debugger->attachTo(m_engine);
+    m_debugger->standardWindow()->show();
+    m_debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+#endif
+
     qScriptRegisterMetaType<GameActionScript*>(m_engine, GameActionScript::castToValue, GameActionScript::castFromValue);
     qScriptRegisterMetaType<GameOptionScript*>(m_engine, GameOptionScript::castToValue, GameOptionScript::castFromValue);
     qScriptRegisterMetaType<GameObjectScript*>(m_engine, GameObjectScript::castToValue, GameObjectScript::castFromValue);
@@ -353,6 +371,12 @@ QScriptValue GameScript::quickOption()
     return opt;
 }
 
+QScriptValue GameScript::registerSingleObject(GameObjectScript *o)
+{
+    m_game->registerObject(o, 0);
+    return m_engine->newQObject(o);
+}
+
 QScriptValue GameScript::registerObject(GameObjectScript *o)
 {
     m_game->registerObject(o);
@@ -470,6 +494,12 @@ bool GameScript::parseScripts(QDir base)
             }
             QTextStream ts(&f);
             QString src = ts.readAll();
+
+#ifdef DEBUG_SCRIPT_BUILD
+            //QString fn = fi.absoluteFilePath();
+            //m_debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+#endif
+
             QScriptValue v = m_engine->evaluate(src, fi.absoluteFilePath(), 1);
             if (v.isError()) {
                 qCritical() << "Error Parsing file " << fi.absoluteFilePath() << ": " << v.toString();

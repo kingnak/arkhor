@@ -38,11 +38,11 @@
         <enum>QTabWidget::East</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="tabInteraction">
         <attribute name="icon">
-         <iconset resource="client_resources.qrc">
+         <iconset resource="../client_resources.qrc">
           <normaloff>:/core/images/interaction</normaloff>:/core/images/interaction</iconset>
         </attribute>
         <attribute name="title">
@@ -154,7 +154,7 @@
        </widget>
        <widget class="QWidget" name="tabInfo">
         <attribute name="icon">
-         <iconset resource="client_resources.qrc">
+         <iconset resource="../client_resources.qrc">
           <normaloff>:/core/images/info</normaloff>:/core/images/info</iconset>
         </attribute>
         <attribute name="title">
@@ -207,13 +207,20 @@
              </item>
             </layout>
            </widget>
+           <widget class="QWidget" name="pageInfoObject">
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="GameObjectWidget" name="wgtInfoObject" native="true"/>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </item>
         </layout>
        </widget>
        <widget class="QWidget" name="tabInventory">
         <attribute name="icon">
-         <iconset resource="client_resources.qrc">
+         <iconset resource="../client_resources.qrc">
           <normaloff>:/core/images/inventory</normaloff>:/core/images/inventory</iconset>
         </attribute>
         <attribute name="title">
@@ -305,9 +312,15 @@
    <header>gatedatawidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>GameObjectWidget</class>
+   <extends>QWidget</extends>
+   <header>gameobjectwidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
-  <include location="client_resources.qrc"/>
+  <include location="../client_resources.qrc"/>
  </resources>
  <connections>
   <connection>

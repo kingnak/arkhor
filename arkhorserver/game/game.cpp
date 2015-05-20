@@ -148,9 +148,11 @@ void Game::registerOption(GameOption *o)
 
 void Game::registerObject(GameObject *o, quint32 count)
 {
-    //m_objects.insert(o->id(), o);
-    //m_objectCounts.insert(o->id(), count);
-    if (!m_registry->registerMultiObject(o, count)) {
+    if (count == 0) {
+        if (!m_registry->registerSingleObject(o)) {
+            qCritical() << "Error registering single object";
+        }
+    } else if (!m_registry->registerMultiObject(o, count)) {
         qCritical() << "Error registering object(s)";
     }
 }

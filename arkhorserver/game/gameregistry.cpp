@@ -69,6 +69,18 @@ bool GameRegistry::registerMultiObject(GameObject *o, int ct)
     return true;
 }
 
+bool GameRegistry::registerSingleObject(GameObject *o)
+{
+    if (!o) return false;
+    if (o->typeId().isEmpty()) return false;
+    if (m_objectTypes.contains(o->typeId())) return false;
+
+    m_objectTypes.insert(o->typeId(), o);
+    o->setId(o->typeId());
+    m_objects.insert(o->id(), o);
+    return true;
+}
+
 bool GameRegistry::registerInvestigator(Investigator *i)
 {
     return doRegisterItem(i, m_investigators);

@@ -26,6 +26,7 @@ public:
     bool registerAction(GameAction *a);
     bool registerOption(GameOption *o);
     bool registerMultiObject(GameObject *o, int ct = 1);
+    bool registerSingleObject(GameObject *o);
     bool registerInvestigator(Investigator *i);
     bool registerPlayer(Player *p);
     bool registerCharacter(Character *c);

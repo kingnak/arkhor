@@ -5,7 +5,7 @@
 #include <serializer.hpp>
 #include <ahglobal.h>
 #include <QStringList>
-//#include <propertymodfier.h>
+#include "propertyvaluedata.h"
 
 namespace AH {
     namespace Common {
@@ -41,7 +41,8 @@ namespace AH {
 
             virtual QStringList actionIds() const { return m_actionIds; }
             virtual QStringList optionIds() const { return m_optionIds; }
-            //virtual PropertyModifyerList getModifiers();
+            virtual QList<PropertyModificationData> getModificationData() const { return m_modsData; }
+
 
         protected:
             QString m_id;
@@ -56,6 +57,8 @@ namespace AH {
             QStringList m_actionIds;
             QStringList m_optionIds;
             bool m_isEquipped;
+
+            QList<PropertyModificationData> m_modsData;
 
             // For Spells
             int m_castCost;

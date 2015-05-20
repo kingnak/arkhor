@@ -196,3 +196,43 @@ QString Utils::stringForCostItem(CostItem::PaymentItem pi)
     }
     return "";
 }
+
+QString Utils::stringForObjectType(AH::GameObjectType t)
+{
+    switch (t)
+    {
+    case AH::NoObject: return "";
+    case AH::Obj_CommonItem: return "Common Item";
+    case AH::Obj_UniqueItem: return "Unique Item";
+    case AH::Obj_Spell: return "Spell";
+    case AH::Obj_Skill: return "Skill";
+    case AH::Obj_Ally: return "Ally";
+    case AH::Obj_Blessing_Curse: return "Blessing / Curse";
+    case AH::Obj_Special: return "Special";
+    }
+    return "";
+}
+
+QString Utils::stringForPropertyModification(PropertyModificationData mod)
+{
+    QString prop = stringForProperty(mod.affectedProperty());
+    QString val;
+    switch (mod.type()) {
+    case PropertyModificationData::Additive:
+        val = fullNumberString(mod.modificationAmount());
+        break;
+    case PropertyModificationData::Multiplicative:
+        val = QString("*%1").arg(mod.modificationAmount());
+        break;
+    case PropertyModificationData::DividingUp:
+        val = "^";
+    case PropertyModificationData::DividingDown:
+        val += QString("/%1").arg(mod.modificationAmount());
+        break;
+    case PropertyModificationData::Setting:
+        val = QString("=%1").arg(mod.modificationAmount());
+        break;
+    }
+
+    return prop + " " + val;
+}

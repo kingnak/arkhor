@@ -24,7 +24,7 @@ QList<AH::Common::PropertyModificationData> PropertyModificationList::toProperty
     QList<AH::Common::PropertyModificationData> ret;
     ret.reserve(this->size());
     foreach (PropertyModification mod, *this) {
-        ret << mod;
+        ret << *(mod.data());
     }
     return ret;
 }
@@ -32,4 +32,11 @@ QList<AH::Common::PropertyModificationData> PropertyModificationList::toProperty
 AH::Common::ModifiedPropertyValueData ModifiedPropertyValue::toModifiedPropertyValueData() const
 {
     return AH::Common::ModifiedPropertyValueData(m_prop, m_finalVal, m_mods.toPropertyModificationDataList());
+}
+
+
+AH::Common::PropertyModificationData *PropertyModification::data()
+{
+    m_modifierId = (m_modifier) ? m_modifier->modifierId() : m_modifierId;
+    return AH::Common::PropertyModificationData::data();
 }

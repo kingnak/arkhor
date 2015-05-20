@@ -1,7 +1,7 @@
 
 #include <QApplication>
-#include "form.h"
-#include "ahmaingui.h"
+#include "gui/startform.h"
+#include "gui/ahmaingui.h"
 /*
 #include "monsterwidget.h"
 #include <monsterdata.h>
@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     //ResourcePool::instance()->addZip("D:/priv/proj/arkhor/arkhor/res.zip");
     ResourcePool::instance()->addDirectory("D:/priv/proj/arkhor/arkhor/res/");
 
-    Form f;
+    StartForm f;
     f.show();
 
     /*

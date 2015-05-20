@@ -26,6 +26,13 @@
         <file alias="gate_plateau_of_leng">client_resources/gate_leng.png</file>
         <file alias="gate_r_lyeh">client_resources/gate_r_lyeh.png</file>
         <file alias="gate_yuggoth">client_resources/gate_yuggoth.png</file>
+        <file alias="ally_back">client_resources/ally-back.png</file>
+        <file alias="common_item_back">client_resources/common_item-back.png</file>
+        <file alias="skill_back">client_resources/skill-back.png</file>
+        <file alias="spell_back">client_resources/spell-back.png</file>
+        <file alias="unique_item_back">client_resources/unique_item-back.png</file>
+        <file alias="blessing_card">client_resources/Blessing.png</file>
+        <file alias="curse_card">client_resources/Curse.png</file>
     </qresource>
     <qresource prefix="/core/marker">
         <file alias="activity_1">client_resources/activity_marker_1.png</file>

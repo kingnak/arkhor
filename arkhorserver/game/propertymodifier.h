@@ -15,6 +15,8 @@ public:
     {
     }
 
+    virtual PropertyModificationData *data();
+
     const PropertyModifier *getModifier() const { return m_modifier; }
     int modify(int base) const { return base + m_mod; }
     //virtual QString modifierId() const;
@@ -62,7 +64,7 @@ class PropertyModifier
 {
 public:
     virtual QString modifierId() const = 0;
-    virtual PropertyModificationList getModifications() = 0;
+    virtual PropertyModificationList getModifications() const = 0;
 };
 
 #endif // PROPERTYMODIFIER_H

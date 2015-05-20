@@ -61,8 +61,8 @@ public:
     bool returnToArkham();
 
     // Items
-    void addMonsterMarker(Monster *m) { m_monsterMarkers.append(m); gGame->characterDirty(this); }
-    void addGateMarker(Gate *p) { m_gateMarkers.append(p); gGame->characterDirty(this); }
+    void addMonsterMarker(Monster *m) { if (!m) return; m_monsterMarkers.append(m); gGame->characterDirty(this); }
+    void addGateMarker(Gate *p) { if (!p) return; m_gateMarkers.append(p); gGame->characterDirty(this); }
 
     // Game state
     const Gate *getExploredGate() const;

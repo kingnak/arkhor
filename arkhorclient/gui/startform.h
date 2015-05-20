@@ -1,5 +1,5 @@
-#ifndef FORM_H
-#define FORM_H
+#ifndef STARTFORM_H
+#define STARTFORM_H
 
 #include <QWidget>
 #include "connectionhandler.h"
@@ -8,16 +8,16 @@
 class AhMainGui;
 
 namespace Ui {
-class Form;
+class StartForm;
 }
 
-class Form : public QWidget
+class StartForm : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Form(QWidget *parent = 0);
-    ~Form();
+    explicit StartForm(QWidget *parent = 0);
+    ~StartForm();
 
 private slots:
     void on_btnConnect_clicked();
@@ -37,11 +37,11 @@ private slots:
     void startGame();
 
 private:
-    Ui::Form *ui;
+    Ui::StartForm *ui;
     ConnectionHandler *m_conn;
 
     QString m_thisPlayerId;
     AhMainGui *m_mainGui;
 };
 
-#endif // FORM_H
+#endif // STARTFORM_H

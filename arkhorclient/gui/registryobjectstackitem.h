@@ -1,7 +1,7 @@
 #ifndef REGISTRYOBJECTSTACKITEM_H
 #define REGISTRYOBJECTSTACKITEM_H
 
-#include <itemstacker.h>
+#include "itemstacker.h"
 #include <objectdata.h>
 #include "asyncobjectreceiver.h"
 

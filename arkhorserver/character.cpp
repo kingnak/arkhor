@@ -218,9 +218,12 @@ bool Character::pay(const CostList &cost)
 
 void Character::losePossessions()
 {
-    m_clues = (m_clues+1)/2;
-    // TODO: Loose objects (let user decide)
-    gGame->characterDirty(this);
+    int newClues = (m_clues+1)/2;
+    if (newClues != m_clues) {
+        m_clues = newClues;
+        // TODO: Loose objects (let user decide)
+        gGame->characterDirty(this);
+    }
 }
 
 void Character::unconscious()
@@ -382,8 +385,11 @@ void Character::addStamina(int amount)
         amount = qMax(0, newAmount);
     }
     int maxStamina = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxStamina).finalVal();
-    m_curStamina = qMin(maxStamina, m_curStamina + amount);
+    int newStamina = qMin(maxStamina, m_curStamina + amount);
+    if (newStamina == m_curStamina)
+        return;
 
+    m_curStamina = newStamina;
     gGame->characterDirty(this);
 }
 
@@ -395,8 +401,11 @@ void Character::addSanity(int amount)
         amount = qMax(0, newAmount);
     }
     int maxSanity = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxSanity).finalVal();
-    m_curSanity = qMin(maxSanity, m_curSanity + amount);
+    int newSanity  = qMin(maxSanity, m_curSanity + amount);
+    if (newSanity == m_curSanity)
+        return;
 
+    m_curSanity = newSanity;
     gGame->characterDirty(this);
 }
 
@@ -404,8 +413,11 @@ void Character::restoreStamina()
 {
     m_curDmgStamina = 0;
     int maxStamina = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxStamina).finalVal();
-    m_curStamina = maxStamina;
 
+    if (m_curStamina == maxStamina)
+        return;
+
+    m_curStamina = maxStamina;
     gGame->characterDirty(this);
 }
 
@@ -413,8 +425,11 @@ void Character::restoreSanity()
 {
     m_curDmgSanity = 0;
     int maxSanity = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxSanity).finalVal();
-    m_curSanity = maxSanity;
 
+    if (m_curSanity == maxSanity)
+        return;
+
+    m_curSanity = maxSanity;
     gGame->characterDirty(this);
 }
 

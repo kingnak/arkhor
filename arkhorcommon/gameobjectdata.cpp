@@ -30,6 +30,7 @@ void operator <<(QVariant &data, const GameObjectData &target)
     map["actionIds"] << target.actionIds();
     map["optionIds"] << target.optionIds();
     map["equipped"] << target.isEquipped();
+    map["modifications"] << target.getModificationData();
     map["castCost"] << target.castCost();
     map["castAdjustment"] << target.castAdjustment();
     map["castTarget"] << target.castTarget();
@@ -52,6 +53,7 @@ void operator >>(const QVariant &data, GameObjectData &target)
     map["actionIds"] >> target.m_actionIds;
     map["optionIds"] >> target.m_optionIds;
     map["equipped"] >> target.m_isEquipped;
+    map["modifications"] >> target.m_modsData;
     map["castCost"] >> target.m_castCost;
     map["castAdjustment"] >> target.m_castAdjustment;
     map["castTarget"] >> target.m_castTarget;

@@ -17,7 +17,7 @@ GamePhase::~GamePhase()
 void GamePhase::execute()
 {
     enterPhase();
-    gGame->commitUpdates();
+    //gGame->commitUpdates();
 
     Player *player = gGame->getCurrentPlayer();
 
@@ -25,7 +25,7 @@ void GamePhase::execute()
     foreach (GameAction *a, phaseActions) {
         a->execute();
     }
-    gGame->commitUpdates();
+    //gGame->commitUpdates();
 
     QList<GameAction *> actions;
     actions << player->getCharacter()->getActions(gGame->context().phase());

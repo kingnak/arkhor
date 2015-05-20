@@ -20,18 +20,23 @@ int main(int argc, char *argv[])
     //SimpleGameNotifier gn;
     Game g;
     GameScript *script = new GameScript(&g);
-#ifdef _DEBUG
-//#error ok
-#ifdef Q_OS_WIN
-    QString baseDir = "D:\\priv\\proj\\arkhor\\arkhor\\arkhorserver\\data";
-#else
-    QString baseDir = "/home/kingnak/Projects/arkhor/arkhorserver/data/";
-#endif
-#else
+
     QString baseDir = "./data";
     if (app.arguments().length() > 0)
         baseDir = app.arguments()[0];
+
+#ifdef _DEBUG
+    if (!QDir(baseDir).exists()) {
+//#error ok
+#ifdef Q_OS_WIN
+        baseDir = "D:\\priv\\proj\\arkhor\\arkhor\\arkhorserver\\data\\";
+#else
+        baseDir = "/home/kingnak/Projects/arkhor/arkhorserver/data/";
 #endif
+    }
+#else
+#endif
+
     if (!script->init(baseDir))
         return 1;
 

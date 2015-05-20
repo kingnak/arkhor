@@ -1,5 +1,5 @@
 #include "ahboardscene.h"
-#include "ahfielditem.h"
+#include "gui/ahfielditem.h"
 #include "ahboardfillerhelper.h"
 
 using namespace AH::Common;

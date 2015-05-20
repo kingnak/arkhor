@@ -19,7 +19,7 @@ public:
     GameObject() {}
     virtual ~GameObject() {}
 
-    virtual QString modifierId() const { return typeId(); }
+    virtual QString modifierId() const { return id(); }
 
     virtual void exhaust() { if (m_bExhaustable) m_bIsExhausted = true; }
     virtual void refresh() { if (m_bExhaustable) m_bIsExhausted = false; }
@@ -38,6 +38,8 @@ public:
 
     // For spells
     virtual bool cast(Player *p) = 0;
+
+    virtual QList<AH::Common::PropertyModificationData> getModificationData() const;
 
     //virtual PropertyModificationList getModifications() const = 0;
 };

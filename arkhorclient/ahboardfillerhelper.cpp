@@ -2,7 +2,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QStringList>
-#include "ahfielditem.h"
+#include "gui/ahfielditem.h"
 #include "ahboardscene.h"
 
 AhBoardfillerHelper::AhBoardfillerHelper()

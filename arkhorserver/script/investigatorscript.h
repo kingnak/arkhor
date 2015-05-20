@@ -13,6 +13,9 @@ class InvestigatorScript : public QObject, public Investigator
 public:
     explicit InvestigatorScript(QObject *parent = 0);
 
+    Q_PROPERTY(QString id READ id)
+    Q_PROPERTY(QString uniqueAbilityId READ uniqueAbilityId)
+
     virtual Character *instantiate();
 
     static QScriptValue createInvestigator(QScriptContext *ctx, QScriptEngine *eng);

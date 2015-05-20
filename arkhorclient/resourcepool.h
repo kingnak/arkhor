@@ -16,20 +16,15 @@ public:
     bool addDirectory(QString dir);
     bool addZip(QString zip);
 
-    QPixmap loadMonster(QString id);
+    QPixmap loadMonster(const QString &id);
     QPixmap loadCharacterFigure(QString id);
     QFont loadMainFont();
     QPixmap loadDimensionSymbol(AH::Dimension dim);
     QPixmap loadOtherWorldGate(AH::Common::FieldData::FieldID id);
-
-private:
-    QString getIdFromEntry(QString e);
-    QByteArray intLoadResource(QString id);
-    QPixmap intLoadPixmap(QString id);
+    QPixmap loadObjectImage(QString id, AH::GameObjectType type);
 
 private:
     struct ResourceDef {
-        //QString id;
         enum Type {
             None, Zip, File
         } type;
@@ -41,8 +36,15 @@ private:
         ResourceDef(QString f, QString r) : type(Zip), base(f), rel(r) {}
     };
 
+private:
+    bool addEntry(QString e, ResourceDef d);
+    QPair<QString, QString> getIdFromEntry(QString e);
+    QByteArray intLoadResource(QString id, QString sub = QString::null);
+    QPixmap intLoadPixmap(QString id, QString sub = QString::null);
+
     QMap<QString, QPixmap> m_pixmapCache;
-    QMap<QString, ResourceDef> m_resPaths;
+    QMap<QString, QMap<QString, ResourceDef> > m_resPaths;
+    QMap<QString, QPair<QString, QString> > m_monsterIdCache;
     bool m_mainFontLoaded;
 
 private:

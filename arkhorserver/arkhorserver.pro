@@ -1,6 +1,8 @@
-QT += network script
+QT += network script scripttools
 
 CONFIG(debug):DEFINES += "_DEBUG=1"
+
+DEFINES += DEBUG_SCRIPT_BUILD
 
 HEADERS += \
     communication/clientconnection.h \

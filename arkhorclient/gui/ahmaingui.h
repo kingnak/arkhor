@@ -12,6 +12,8 @@
 #include <monsterdata.h>
 #include <gatedata.h>
 #include <encounterdata.h>
+#include <QListWidgetItem>
+#include "asyncobjectreceiver.h"
 
 class ObjectRegistry;
 class ConnectionHandler;
@@ -34,14 +36,13 @@ public:
     void setThisPlayerId(QString id);
     void setThisCharacterId(QString id);
 
-public slots:
-    void start();
-    void refitGui();
-
-private:
     enum {
         ObjectIdRole = Qt::UserRole
     };
+
+public slots:
+    void start();
+    void refitGui();
 
 private slots:
     void displayItemInfo(const QString &id);
@@ -50,7 +51,7 @@ private slots:
 
     void displayMonsterDetails(const AH::Common::MonsterData *m);
     void displayGateDetails(const AH::Common::GateData *g);
-
+    void displayObjectDetails(const AH::Common::GameObjectData *o);
 
 
     void chooseOption(QList<AH::Common::GameOptionData> opts);
@@ -86,6 +87,14 @@ private:
     ObjectRegistry *m_registry;
 
     QString m_pendingDisplayId;
+};
+
+class InventoryListItem : public QListWidgetItem, public AsyncObjectReceiver
+{
+public:
+    explicit InventoryListItem(QString objectId);
+
+    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
 };
 
 #endif // AHMAINGUI_H

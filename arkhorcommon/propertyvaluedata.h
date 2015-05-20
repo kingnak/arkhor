@@ -95,21 +95,35 @@ namespace AH {
         class ARKHOR_COMMON_EXPORTS PropertyModificationData
         {
         public:
-            PropertyModificationData(PropertyValueData::Property prop = PropertyValueData::NoProperty, int modification = 0)
-                : m_prop(prop), m_mod(modification) {}
+
+            enum ModificationType {
+                Additive,
+                Multiplicative,
+                DividingUp,
+                DividingDown,
+                Setting
+            };
+
+            PropertyModificationData(PropertyValueData::Property prop = PropertyValueData::NoProperty, int modification = 0, ModificationType type = Additive)
+                : m_prop(prop), m_mod(modification), m_type(type) {}
             virtual ~PropertyModificationData() {}
+
+            virtual PropertyModificationData *data() { return this; }
 
             PropertyValueData::Property affectedProperty() const { return m_prop; }
             int modificationAmount() const { return m_mod; }
+            ModificationType type() const { return m_type; }
             virtual QString modifierId() const { return m_modifierId; }
 
         protected:
             PropertyValueData::Property m_prop;
             int m_mod;
+            ModificationType m_type;
             QString m_modifierId;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, PropertyModificationData);
         };
+        DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, PropertyModificationData::ModificationType);
 
         class ARKHOR_COMMON_EXPORTS ModifiedPropertyValueData
         {

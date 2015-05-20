@@ -23,7 +23,7 @@ QPixmap MonsterFrontWidget::drawMonster(const AH::Common::MonsterData *m, QSize 
         // Main image
         QPainter p(&ret);
         p.setRenderHint(QPainter::Antialiasing);
-        QPixmap img = ResourcePool::instance()->loadMonster(m->typeId()).scaled(s);
+        QPixmap img = ResourcePool::instance()->loadMonster(m->id()).scaled(s);
         p.drawPixmap(0, 0, img);
         QPixmap overlay = QPixmap(":/core/images/monster_overlay").scaled(s);
         p.drawPixmap(0, 0, overlay);
@@ -111,7 +111,7 @@ void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m)
         // Main image
         QPainter p(&m_cache);
         p.setRenderHint(QPainter::Antialiasing);
-        QPixmap img = ResourcePool::instance()->loadMonster(m->typeId()).scaled(s);
+        QPixmap img = ResourcePool::instance()->loadMonster(m->id()).scaled(s);
         p.drawPixmap(0, 0, img);
         QPixmap overlay = QPixmap(":/core/images/monster_overlay").scaled(s);
         p.drawPixmap(0, 0, overlay);

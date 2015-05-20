@@ -1,14 +1,14 @@
-#include "form.h"
-#include "ui_form.h"
+#include "startform.h"
+#include "ui_startform.h"
 #include <utils/cleanupthread.h>
 #include <QMessageBox>
 #include "ahmaingui.h"
 
 Q_DECLARE_METATYPE(QList<AH::Common::InvestigatorData>)
 
-Form::Form(QWidget *parent) :
+StartForm::StartForm(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Form),
+    ui(new Ui::StartForm),
     m_conn(NULL)
 {
     ui->setupUi(this);
@@ -18,13 +18,13 @@ Form::Form(QWidget *parent) :
     m_mainGui = new AhMainGui;
 }
 
-Form::~Form()
+StartForm::~StartForm()
 {
     delete ui;
     delete m_mainGui;
 }
 
-void Form::on_btnConnect_clicked()
+void StartForm::on_btnConnect_clicked()
 {
     QString h = ui->txtHost->text();
     int p = ui->spnPort->value();
@@ -51,12 +51,12 @@ void Form::on_btnConnect_clicked()
 
 }
 
-void Form::on_btnStart_clicked()
+void StartForm::on_btnStart_clicked()
 {
     m_conn->startGame();
 }
 
-void Form::on_cmbInvestigators_currentIndexChanged(int)
+void StartForm::on_cmbInvestigators_currentIndexChanged(int)
 {
     QVariant v = ui->cmbInvestigators->itemData(ui->cmbInvestigators->currentIndex());
     AH::Common::InvestigatorData d;
@@ -64,7 +64,7 @@ void Form::on_cmbInvestigators_currentIndexChanged(int)
     ui->txtInvDetail->setText(v.toString());
 }
 
-void Form::on_btnSelectInv_clicked()
+void StartForm::on_btnSelectInv_clicked()
 {
     QVariant v = ui->cmbInvestigators->itemData(ui->cmbInvestigators->currentIndex());
     AH::Common::InvestigatorData d;
@@ -72,13 +72,13 @@ void Form::on_btnSelectInv_clicked()
     m_conn->chooseInvestigator(d);
 }
 
-void Form::connectionEstablished()
+void StartForm::connectionEstablished()
 {
     ui->grpConnection->setEnabled(false);
     m_conn->registerPlayer();
 }
 
-void Form::versionMismatch(quint32 c, quint32 s)
+void StartForm::versionMismatch(quint32 c, quint32 s)
 {
     QString cstr = QString("%1.%2.%3.%4").arg((c>>24)&0xFF).arg((c>>16)&0xFF).arg((c>>8)&0xFF).arg((c>>0)&0xFF);
     QString sstr = QString("%1.%2.%3.%4").arg((s>>24)&0xFF).arg((s>>16)&0xFF).arg((s>>8)&0xFF).arg((s>>0)&0xFF);
@@ -89,18 +89,18 @@ void Form::versionMismatch(quint32 c, quint32 s)
     );
 }
 
-void Form::promptActive()
+void StartForm::promptActive()
 {
     QMessageBox::information(this, "Active?", "It's your turn. You have 15 seconds to verify that you are still here!\nClick on OK!");
     m_conn->confirmActive();
 }
 
-void Form::gameStarted()
+void StartForm::gameStarted()
 {
     ui->btnStart->setEnabled(false);
 }
 
-void Form::setPlayerData(AH::Common::PlayerData d)
+void StartForm::setPlayerData(AH::Common::PlayerData d)
 {
     m_thisPlayerId = d.id();
     ui->lblId->setText(d.id());
@@ -109,7 +109,7 @@ void Form::setPlayerData(AH::Common::PlayerData d)
     m_mainGui->initConnection(m_conn);
 }
 
-void Form::setInvestigatorList(QList<AH::Common::InvestigatorData> l)
+void StartForm::setInvestigatorList(QList<AH::Common::InvestigatorData> l)
 {
     ui->grpInvestigator->setEnabled(true);
     ui->cmbInvestigators->clear();
@@ -120,7 +120,7 @@ void Form::setInvestigatorList(QList<AH::Common::InvestigatorData> l)
     }
 }
 
-void Form::characterInstantiated(QString playerId, QString charaterId)
+void StartForm::characterInstantiated(QString playerId, QString charaterId)
 {
     if (playerId == this->m_thisPlayerId) {
         int idx = ui->cmbInvestigators->findData(charaterId);
@@ -132,7 +132,7 @@ void Form::characterInstantiated(QString playerId, QString charaterId)
     ui->btnSelectInv->setEnabled(false);
 }
 
-void Form::startGame()
+void StartForm::startGame()
 {
     m_mainGui->start();
     this->close();

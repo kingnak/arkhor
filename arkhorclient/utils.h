@@ -18,6 +18,9 @@ struct Utils {
     static QString stringForMonsterAttribute(AH::Common::MonsterData::MonsterAttribute a);
     static QStringList stringsForMonsterAttributes(AH::Common::MonsterData::MonsterAttributes attrs);
     static QString stringForCostItem(AH::Common::CostItem::PaymentItem pi);
+    static QString stringForObjectType(AH::GameObjectType t);
+    static QStringList stringsForPhases(AH::GamePhases ph);
+    static QString stringForPropertyModification(AH::Common::PropertyModificationData mod);
 };
 
 #endif // UTILS_H

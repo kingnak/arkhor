@@ -17,6 +17,9 @@ public:
 
     GameObject *clone();
 
+    Q_PROPERTY(QString id READ id)
+    Q_PROPERTY(QString typeId READ typeId)
+
     static void castFromValue(const QScriptValue &v, GameObjectScript *&o) { o = qobject_cast<GameObjectScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, GameObjectScript * const &in) { return eng->newQObject(in); }
 
@@ -24,7 +27,7 @@ public:
 
     virtual QList<GameAction *> getActions() const { return m_actMap.values(); }
     virtual QList<GameOption *> getOptions() const { return m_optMap.values(); }
-    virtual PropertyModificationList getModifications();
+    virtual PropertyModificationList getModifications() const;
 
     virtual bool resolveDependencies(GameRegistry *reg);
 

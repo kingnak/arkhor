@@ -37,7 +37,7 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
 
     QScriptValue data = ctx->argument(0);
 
-    ret->m_tid = data.property("id").toString();
+    ret->m_tid = data.property("tid").toString();
     ret->m_name = data.property("name").toString();
     ret->m_description = data.property("description").toString();
     ret->m_type = static_cast<AH::GameObjectType> (data.property("type").toUInt32());
@@ -88,7 +88,7 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
     return pRet;
 }
 
-PropertyModificationList GameObjectScript::getModifications()
+PropertyModificationList GameObjectScript::getModifications() const
 {
     return m_mods;
 }
@@ -96,7 +96,7 @@ PropertyModificationList GameObjectScript::getModifications()
 bool GameObjectScript::verify(GameObjectScript *ob, QString *msg)
 {
     QStringList errs;
-    if (ob->typeId().isEmpty()) errs.append("id must be set");
+    if (ob->typeId().isEmpty()) errs.append("tid must be set");
     if (ob->name().isEmpty()) errs.append("name must be set");
     if (ob->type() == AH::NoObject) errs.append("type must be set");
     if (ob->type() == AH::Obj_Spell) {

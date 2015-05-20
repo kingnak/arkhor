@@ -23,12 +23,18 @@ bool ResourcePool::addDirectory(QString dir)
             if (!addDirectory(fi.absoluteFilePath()))
                 return false;
         } else {
-            QString id = getIdFromEntry(QDir::fromNativeSeparators(fi.absoluteFilePath()));
+            /*
+            QPair<QString, QString> data = getIdFromEntry(QDir::fromNativeSeparators(fi.absoluteFilePath()));
+            QString id = data.first;
+            QString sub = data.second;
             if (id.isNull()) continue;
-            if (m_resPaths.contains(id)) {
-                qWarning() << "Overriding previous resource for id" << id;
+            if (m_resPaths.contains(id) && m_resPaths[id].contains(sub)) {
+                qWarning() << "Overriding previous resource for id" << id << ", Subitem" << sub;
             }
-            m_resPaths[id] = ResourceDef(fi.absoluteFilePath());
+
+            m_resPaths[id][sub] = ResourceDef(fi.absoluteFilePath());
+            */
+            addEntry(QDir::fromNativeSeparators(fi.fileName()), ResourceDef(fi.absoluteFilePath()));
         }
     }
 
@@ -43,28 +49,51 @@ bool ResourcePool::addZip(QString zip)
     QList<QuaZipFileInfo> entries = z.getFileInfoList();
     foreach (QuaZipFileInfo e, entries) {
         if (e.uncompressedSize > 0) {
+            /*
             QString id = getIdFromEntry(e.name);
             if (id.isNull()) continue;
             if (m_resPaths.contains(id)) {
                 qWarning() << "Overriding previous resource for id" << id;
             }
             m_resPaths[id] = ResourceDef(zip, e.name);
+            */
+            addEntry(e.name, ResourceDef(zip, e.name));
         }
     }
 
     return true;
 }
 
-QPixmap ResourcePool::loadMonster(QString id)
+QPixmap ResourcePool::loadMonster(const QString &id)
 {
-    QPixmap ret = intLoadPixmap(id);
+    if (id.isEmpty()) return QPixmap();
+    QString sub = "";
+    QString rid = id;
+    if (m_monsterIdCache.contains(id)) {
+        sub = m_monsterIdCache[id].second;
+        rid = m_monsterIdCache[id].first;
+    } else {
+        QRegExp rx("^(.*):(\\d+)$");
+        if (rx.indexIn(id) >= 0) {
+            rid = rx.cap(1);
+            int n = rx.cap(2).toInt();
+            int ct = m_resPaths.value(id).count();
+            if (ct > 1) {
+                n %= ct;
+                sub = QString::number(n+1);
+            }
+        }
+        m_monsterIdCache[id] = qMakePair(rid, sub);
+    }
+
+    QPixmap ret = intLoadPixmap(rid, sub);
     if (ret.isNull()) return QPixmap(":/core/images/unknown_monster");
     return ret;
 }
 
 QPixmap ResourcePool::loadCharacterFigure(QString id)
 {
-    QPixmap ret = intLoadPixmap(id + "_figure");
+    QPixmap ret = intLoadPixmap(id, "figure");
     //if (ret.isNull()) return QPixmap(":/core/images/unknown_monster");
     return ret;
 }
@@ -111,19 +140,57 @@ QPixmap ResourcePool::loadOtherWorldGate(AH::Common::FieldData::FieldID id)
     }
 }
 
-QString ResourcePool::getIdFromEntry(QString e)
+QPixmap ResourcePool::loadObjectImage(QString id, AH::GameObjectType type)
+{
+    // TODO: id specific images
+    switch (type) {
+    case AH::Obj_CommonItem: return QPixmap(":/core/images/common_item_back");
+    case AH::Obj_UniqueItem: return QPixmap(":/core/images/unique_item_back");
+    case AH::Obj_Spell: return QPixmap(":/core/images/spell_back");
+    case AH::Obj_Skill: return QPixmap(":/core/images/skill_back");
+    case AH::Obj_Ally: return QPixmap(":/core/images/ally_back");
+        // TODO: Special?
+    //case AH::Obj_Special: return QPixmap(":/core/images/Special_back");
+    case AH::Obj_Blessing_Curse:
+        // TODO: Better
+        if (id.contains("BLESSING"))
+            return QPixmap(":/core/images/blessing_card");
+        else if (id.contains("CURSE"))
+            return QPixmap(":/core/images/curse_card");
+    }
+
+    return QPixmap();
+}
+
+bool ResourcePool::addEntry(QString e, ResourcePool::ResourceDef d)
+{
+    QPair<QString, QString> data = getIdFromEntry(e);
+    QString id = data.first;
+    QString sub = data.second;
+    if (id.isNull()) return false;
+    if (m_resPaths.contains(id) && m_resPaths[id].contains(sub)) {
+        qWarning() << "Overriding previous resource for id" << id << ", Subitem" << sub;
+    }
+
+    m_resPaths[id][sub] = d;
+    return true;
+}
+
+QPair<QString, QString> ResourcePool::getIdFromEntry(QString e)
 {
     int ls = e.lastIndexOf('/');
-    int ps = e.lastIndexOf('.');
-    if (ls > ps) {
-        qCritical() << "Cannot determine extension for entry" << e << ". Ignoring";
-        return QString::null;
-    }
-    QString fname = e.mid(ls+1, ps-ls-1);
-    QString ext = e.mid(ps+1).toLower();
+    e = e.mid(ls+1);
 
-    qDebug() << "id:" << fname << "type:" << ext;
-    return fname;
+    QRegExp rx("^([^-]+)(?:-([^-\\.]+))?\\.(.*)$");
+    if (rx.exactMatch(e)) {
+        QString id = rx.cap(1);
+        QString subItem = rx.cap(2);
+        QString ext = rx.cap(3);
+
+        qDebug() << "Id:" << id << "Sub:" << subItem << "Type:" << ext;
+        return qMakePair(id, subItem);
+    }
+    return qMakePair(QString(), QString());
 }
 
 ResourcePool::ResourcePool()
@@ -132,13 +199,13 @@ ResourcePool::ResourcePool()
 
 }
 
-QByteArray ResourcePool::intLoadResource(QString id)
+QByteArray ResourcePool::intLoadResource(QString id, QString sub)
 {
     if (id.isEmpty() || !m_resPaths.contains(id)) {
         return QByteArray();
     }
 
-    ResourceDef rd = m_resPaths[id];
+    ResourceDef rd = m_resPaths[id].value(sub);
     QIODevice *dev = NULL;
     if (rd.type == ResourceDef::Zip) {
         dev = new QuaZipFile(rd.base, rd.rel);
@@ -158,11 +225,12 @@ QByteArray ResourcePool::intLoadResource(QString id)
     return d;
 }
 
-QPixmap ResourcePool::intLoadPixmap(QString id)
+QPixmap ResourcePool::intLoadPixmap(QString id, QString sub)
 {
-    if (m_pixmapCache.contains(id)) return m_pixmapCache[id];
+    QString key = id + "-" + sub;
+    if (m_pixmapCache.contains(key)) return m_pixmapCache[key];
 
-    QByteArray ba = intLoadResource(id);
+    QByteArray ba = intLoadResource(id, sub);
     if (ba.isEmpty()) return QPixmap();
 
     QBuffer buf(&ba);
@@ -175,6 +243,6 @@ QPixmap ResourcePool::intLoadPixmap(QString id)
     } else {
         ret = QPixmap();
     }
-    m_pixmapCache[id] = ret;
+    m_pixmapCache[key] = ret;
     return ret;
 }

@@ -5,6 +5,7 @@
 #include "objectregistry.h"
 #include "monsterdata.h"
 #include "gatedata.h"
+#include "resourcepool.h"
 #include <QtGui>
 
 using namespace AH::Common;
@@ -24,6 +25,7 @@ AhMainGui::AhMainGui(QWidget *parent) :
     ui->wgtMovmentChooser->setBoard(m_scene, ui->grvBoard);
 
     connect(m_scene, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
+    connect(ui->wgtDieRoll, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
 }
 
 AhMainGui::~AhMainGui()
@@ -117,6 +119,13 @@ void AhMainGui::displayItemInfo(const QString &id)
             displayGateDetails(&g);
             break;
         }
+        case AH::Common::RequestObjectsData::Object:
+        {
+            AH::Common::GameObjectData o;
+            d.data >> o;
+            displayObjectDetails(&o);
+            break;
+        }
         default:
             QMessageBox::information(this, "Info", id);
         }
@@ -142,6 +151,13 @@ void AhMainGui::displayGateDetails(const GateData *g)
 {
     ui->wgtInfoGate->displayGate(g);
     ui->stkInfo->setCurrentWidget(ui->pageInfoGate);
+    ui->tabIntInfInv->setCurrentWidget(ui->tabInfo);
+}
+
+void AhMainGui::displayObjectDetails(const GameObjectData *o)
+{
+    ui->wgtInfoObject->displayGameObject(o);
+    ui->stkInfo->setCurrentWidget(ui->pageInfoObject);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInfo);
 }
 
@@ -249,8 +265,7 @@ void AhMainGui::updateCharacter(CharacterData c)
 
         ui->lstInventory->clear();
         foreach (QString id, c.inventoryIds()) {
-            QListWidgetItem *itm = new QListWidgetItem(id);
-            itm->setData(ObjectIdRole, id);
+            QListWidgetItem *itm = new InventoryListItem(id);
             ui->lstInventory->addItem(itm);
         }
     }
@@ -289,4 +304,20 @@ void AhMainGui::encounterSelected(QString id)
     m_conn->selectEncounterOption(id);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
+}
+
+//////////////////////////////
+
+InventoryListItem::InventoryListItem(QString objectId)
+{
+    setData(AhMainGui::ObjectIdRole, objectId);
+    ObjectRegistry::instance()->asyncSubscribeObject(this, objectId, AH::Common::RequestObjectsData::Object);
+}
+
+void InventoryListItem::objectDescribed(const DescribeObjectsData::ObjectDescription &desc)
+{
+    AH::Common::GameObjectData o;
+    desc.data >> o;
+    setText(o.name());
+    setIcon(ResourcePool::instance()->loadObjectImage(o.id(), o.type()));
 }

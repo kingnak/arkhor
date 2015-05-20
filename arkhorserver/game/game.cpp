@@ -16,6 +16,7 @@
 #include "monster.h"
 #include "gate.h"
 #include "mythoscard.h"
+#include "ancientone.h"
 #include <QThread>
 #include <QDebug>
 
@@ -102,8 +103,24 @@ void Game::play()
     commitUpdates();
     mythos();
     m_notifier->firstPlayerChanged(getFirstPlayer());
-    while (true) {
-        playRound();
+    bool cont = true;
+    while (cont) {
+        cont = playRound();
+    }
+
+    GameState gs = checkGameState();
+    switch (gs) {
+    case GS_Win_ClosedGates:
+    case GS_Win_DefeatedAncientOne:
+    case GS_Win_SealedGates:
+        won(gs);
+        break;
+    case GS_Lost:
+        lost(gs);
+        break;
+    case GS_AwakeAncientOne:
+        awakeAncientOne();
+        break;
     }
 }
 
@@ -982,24 +999,25 @@ void Game::executePlayerPhase(int idx, AH::GamePhase phase)
     */
 }
 
-void Game::playRound()
+bool Game::playRound()
 {
     upkeep();
-    postRoundChecks();
+    if (!postRoundChecks()) return false;
 
     movement();
-    postRoundChecks();
+    if (!postRoundChecks()) return false;
 
     arkhamEncountery();
-    postRoundChecks();
+    if (!postRoundChecks()) return false;
 
     otherWorldEncountery();
-    postRoundChecks();
+    if (!postRoundChecks()) return false;
 
     mythos();
-    postRoundChecks();
+    if (!postRoundChecks()) return false;
 
     nextRound();
+    return true;
 }
 
 void Game::nextRound()
@@ -1025,8 +1043,66 @@ bool Game::postRoundChecks()
 {
     cleanupDeactivatedPlayers();
     commitUpdates();
-    // TODO: Check if won / ancient one awakes
-    return true;
+    return checkGameState() == GS_Continue;
+}
+
+Game::GameState Game::checkGameState()
+{
+    if (m_context.phase() == AH::EndFightPhase) {
+        // TODO
+    } else {
+        // Count sealed gates and open gates
+        int ctSealed = 0;
+        int ctOpen = 0;
+        foreach (GameField *gf, m_board->fields(AH::Common::FieldData::Location)) {
+            if (gf->isSealed()) ctSealed++;
+            if (gf->gate() != NULL) ctOpen++;
+        }
+
+        if (ctSealed >= m_context.getGameProperty(PropertyValue::Game_SealedGatesToWin).finalVal()) {
+            return GS_Win_SealedGates;
+        }
+
+        if (ctOpen == 0) {
+            // Count collected trophies
+            int ctTrophies = 0;
+            foreach (Player *p, m_playerList) {
+                ctTrophies += p->getCharacter()->gateMarkerIds().count();
+            }
+
+            if (ctTrophies >= m_context.getGameProperty(PropertyValue::Game_GateTrophiesToWin).finalVal()) {
+                return GS_Win_ClosedGates;
+            }
+        }
+
+        // Awake ancient one?
+        if (m_ancientOne->doomValue() >= m_ancientOne->doomTrack()) {
+            return GS_AwakeAncientOne;
+        }
+    }
+
+    return GS_Continue;
+}
+
+void Game::won(Game::GameState gs)
+{
+    m_notifier->notifyWon("You have won!");
+}
+
+void Game::lost(Game::GameState gs)
+{
+    m_notifier->notifyLost("You have lost!");
+}
+
+void Game::awakeAncientOne()
+{
+    m_ancientOne->awake();
+    endFight();
+}
+
+void Game::endFight()
+{
+    // TODO
 }
 
 void Game::cleanupDeactivatedPlayers()

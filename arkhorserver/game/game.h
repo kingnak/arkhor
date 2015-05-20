@@ -150,6 +150,16 @@ protected:
     void initInvestigators();
 
 private:
+    enum GameState {
+        GS_Continue,
+        GS_Win_ClosedGates,
+        GS_Win_SealedGates,
+        GS_Win_DefeatedAncientOne,
+        GS_AwakeAncientOne,
+        GS_Lost
+    };
+
+private:
     Q_INVOKABLE void start();
     void play();
 
@@ -161,9 +171,15 @@ private:
 
     void executePlayerPhase(int idx, AH::GamePhase phase);
 
-    void playRound();
+    bool playRound();
     void nextRound();
     bool postRoundChecks();
+    GameState checkGameState();
+
+    void won(GameState gs);
+    void lost(GameState gs);
+    void awakeAncientOne();
+    void endFight();
 
     void cleanupDeactivatedPlayers();
 

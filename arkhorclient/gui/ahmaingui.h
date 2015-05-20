@@ -85,6 +85,9 @@ private slots:
     void choiceSelected(AH::Common::ChoiceResponseData resp);
     void choiceCanceled();
 
+    void won(QString msg);
+    void lost(QString msg);
+
 private:
     Ui::AhMainGui *ui;
     AhBoardScene *m_scene;

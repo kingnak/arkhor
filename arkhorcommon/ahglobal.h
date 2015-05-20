@@ -29,6 +29,7 @@ namespace AH
         // Special Phases
         DieRoll = 0x0100,
         FightPhase = 0x0200,
+        EndFightPhase = 0x0400,
     };
 
     Q_DECLARE_FLAGS(GamePhases, GamePhase)

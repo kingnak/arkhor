@@ -83,6 +83,9 @@ signals:
 
     void offerChoice(AH::Common::ChoiceData choice);
 
+    void won(QString msg);
+    void lost(QString msg);
+
 private slots:
     void handleMessage(AH::Common::Message msg);
     void sockError();

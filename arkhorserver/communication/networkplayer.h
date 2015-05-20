@@ -48,6 +48,9 @@ public:
     virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer);
     virtual void abortAcknowledge();
 
+    void notifyWon(QString msg);
+    void notifyLost(QString msg);
+
     ///////// INTERACTOR:
 
     virtual AH::Common::DieTestUpdateData dieRollStart(const AH::Common::DieRollTestData test);

@@ -888,6 +888,9 @@ bool GameScript::parseScripts(QDir base)
             if (src.length() > 0) {
                 QString fn = fi.absoluteFilePath();
                 qDebug(qPrintable(fn));
+
+                src = QString("(function(){%1})();").arg(src);
+
                 QScriptValue v = m_engine->evaluate(src, fn, 1);
                 if (v.isError()) {
                     qCritical() << "Error Parsing file " << fi.absoluteFilePath() << ": " << v.toString();

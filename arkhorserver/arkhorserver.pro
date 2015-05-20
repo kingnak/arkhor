@@ -237,6 +237,4 @@ OTHER_FILES += \
     data/objects/unique/weapons.js \
     data/objects/test.js \
     data/mythos/rumor.js \
-    data/ancient one/azathoth.js \
-    data/ancient one/azathoth.js \
-    data/ancient one/azathoth.js
+    data/ancientone/azathoth.js

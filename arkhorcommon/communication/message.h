@@ -82,6 +82,9 @@ namespace AH{
                 C_SELECT_CHOICE,
                 C_CANCEL_CHOICE,
 
+                S_WON,
+                S_LOST,
+
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF
             } type;

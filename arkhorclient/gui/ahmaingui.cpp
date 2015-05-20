@@ -84,6 +84,9 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(m_conn, SIGNAL(offerChoice(AH::Common::ChoiceData)), this, SLOT(offerChoice(AH::Common::ChoiceData)));
     connect(ui->pageChoice, SIGNAL(choiceSelected(AH::Common::ChoiceResponseData)), this, SLOT(choiceSelected(AH::Common::ChoiceResponseData)));
     connect(ui->pageChoice, SIGNAL(choiceCanceled()), this, SLOT(choiceCanceled()));
+
+    connect(m_conn, SIGNAL(won(QString)), this, SLOT(won(QString)));
+    connect(m_conn, SIGNAL(lost(QString)), this, SLOT(lost(QString)));
 }
 
 void AhMainGui::setThisPlayerId(QString id)
@@ -331,6 +334,16 @@ void AhMainGui::choiceCanceled()
      m_conn->choiceCanceled();
      ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
      refitGui();
+}
+
+void AhMainGui::won(QString msg)
+{
+    QMessageBox::information(this, "WON!", msg);
+}
+
+void AhMainGui::lost(QString msg)
+{
+    QMessageBox::critical(this, "LOST!", msg);
 }
 
 //////////////////////////////

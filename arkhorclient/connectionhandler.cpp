@@ -290,6 +290,18 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         break;
     }
 
+    case AH::Common::Message::S_WON:
+    {
+        emit won(msg.payload.toString());
+        break;
+    }
+
+    case AH::Common::Message::S_LOST:
+    {
+        emit lost(msg.payload.toString());
+        break;
+    }
+
     default:
         qDebug() << "Did not understand message type: " << msg.type;
     }

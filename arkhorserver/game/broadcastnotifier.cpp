@@ -146,6 +146,20 @@ void BroadcastNotifier::abortAcknowledge()
     Q_ASSERT(false);
 }
 
+void BroadcastNotifier::notifyWon(QString msg)
+{
+    foreach (Player *p, m_game->getPlayers()) {
+        p->notifyWon(msg);
+    }
+}
+
+void BroadcastNotifier::notifyLost(QString msg)
+{
+    foreach (Player *p, m_game->getPlayers()) {
+        p->notifyLost(msg);
+    }
+}
+
 bool BroadcastNotifier::event(QEvent *eve)
 {
     if (eve->type() == QEvent::Timer) {

@@ -77,6 +77,8 @@ namespace AH {
                 Game_CloseCuriosityShoppeTerrorLevel,
                 Game_CloseYeOldeMagickShoppeTerrorLevel,
                 Game_OverrunArkhamTerrorLevel,
+                Game_SealedGatesToWin,
+                Game_GateTrophiesToWin,
 
                 Damage_General = DAMAGE_OFFSET,
                 Damage_Magical,

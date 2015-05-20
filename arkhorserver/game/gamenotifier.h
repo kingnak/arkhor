@@ -46,6 +46,9 @@ public:
     virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer = NULL) = 0;
 
     virtual void abortAcknowledge() = 0;
+
+    virtual void notifyWon(QString msg) = 0;
+    virtual void notifyLost(QString msg) = 0;
 };
 
 

@@ -22,6 +22,7 @@ public:
 
     virtual void awake();
 
+    int doomValue() const { return m_doomValue; }
 
 protected:
     int m_doomValue;

@@ -174,6 +174,16 @@ void NetworkPlayer::abortAcknowledge()
     m_ackReceiver = NULL;
 }
 
+void NetworkPlayer::notifyWon(QString msg)
+{
+    m_conn->sendMessage(AH::Common::Message::S_WON, msg);
+}
+
+void NetworkPlayer::notifyLost(QString msg)
+{
+    m_conn->sendMessage(AH::Common::Message::S_LOST, msg);
+}
+
 DieTestUpdateData NetworkPlayer::dieRollStart(const DieRollTestData test)
 {
     // same as update...

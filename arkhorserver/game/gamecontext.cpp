@@ -284,6 +284,12 @@ ModifiedPropertyValue GameContext::getGameProperty(PropertyValue::Property prope
     case PropertyValue::Game_OverrunArkhamTerrorLevel:
         base = 10;
         break;
+    case PropertyValue::Game_SealedGatesToWin:
+        base = 6;
+        break;
+    case PropertyValue::Game_GateTrophiesToWin:
+        base = playerCount;
+        break;
 
     default:
         Q_ASSERT_X(false, "GameContext::getCharacterProperty", "Property not defined");

@@ -61,12 +61,16 @@ namespace AH
     };
 
     enum Dimension {
-        NoDimension,
-        Dim_Square,
-        Dim_Circle,
-        Dim_Moon,
-        Dim_Bar
+        NoDimension = 0,
+        Dim_Square = 0x0001,
+        Dim_Circle = 0x0002,
+        Dim_Moon = 0x0004,
+        Dim_Bar = 0x0008,
+        Dim_Star = 0x0010,
+        Dim_Diamond = 0x0020,
+        Dim_Octagon = 0x0040
     };
+    Q_DECLARE_FLAGS(Dimensions, Dimension)
 
     enum OtherWorldPhase {
         NoPhase,

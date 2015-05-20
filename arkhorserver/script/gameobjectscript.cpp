@@ -11,7 +11,7 @@ GameObjectScript::GameObjectScript(QObject *parent) :
 {
 }
 
-GameObject *GameObjectScript::clone() const
+GameObject *GameObjectScript::clone()
 {
     GameObjectScript *c = new GameObjectScript(parent());
     c->GameObjectData::operator=(*data());

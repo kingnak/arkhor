@@ -218,6 +218,11 @@ void Game::removePlayer(Player *p)
     }
 }
 
+void Game::returnMonster(Monster *m)
+{
+    m_monsterPool.addCard(m);
+}
+
 GameContext &Game::context()
 {
     return m_context;
@@ -265,17 +270,24 @@ AH::Common::DescribeObjectsData Game::describeObjects(const AH::Common::RequestO
         AH::Common::DescribeObjectsData::ObjectDescription d;
         d.first = AH::Common::RequestObjectsData::Unknown;
 
-        if (r.first == AH::Common::RequestObjectsData::Unknown) {
-            // TODO: find correct type
-            qWarning("Cannot resolve unknown objects, yet");
-        }
-
         switch (r.first) {
         case AH::Common::RequestObjectsData::Unknown:
+        {
+            GameObject *obj = m_registry->findObjectById(r.second);
+            Character *c = m_registry->findCharacterById(r.second);
+            if (obj) {
+                d.second << *(obj->data());
+                d.first = AH::Common::RequestObjectsData::Object;
+            } else if (c) {
+                d.second << *(c->data());
+                d.first = AH::Common::RequestObjectsData::Character;
+            }
+            // TODO: Extend
             break;
+        }
         case AH::Common::RequestObjectsData::Object:
         {
-            const GameObject *obj = m_registry->findObjectById(r.second);
+            GameObject *obj = m_registry->findObjectById(r.second);
             if (obj) {
                 d.second << *(obj->data());
                 d.first = AH::Common::RequestObjectsData::Object;

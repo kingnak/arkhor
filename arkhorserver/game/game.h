@@ -78,6 +78,8 @@ public:
 
     void removePlayer(Player *p);
 
+    void returnMonster(Monster *m);
+
     GameContext &context();
     GameBoard *board();
 
@@ -135,6 +137,7 @@ private:
     QMap<AH::Common::FieldData::FieldID, QList<ArkhamEncounter *> > m_arkEnc;
 
     QMap<AH::GameObjectType, Deck<GameObject> > m_objectDecks;
+    Deck<Monster> m_monsterPool;
 
     QList<Player *> m_playerList;
     QVector<GamePhase *> m_phases;

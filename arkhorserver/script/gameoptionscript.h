@@ -34,7 +34,7 @@ private:
     static bool parseCostItem(QScriptValue v, AH::Common::CostItem &ci);
 
 private:
-    QScriptValue m_object;
+    QScriptValue m_this;
     QScriptValue m_isAvailable;
 };
 

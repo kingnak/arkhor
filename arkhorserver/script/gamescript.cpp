@@ -11,7 +11,9 @@
 #include "gameactionscript.h"
 #include "gameoptionscript.h"
 #include "gameobjectscript.h"
+#include "characterscript.h"
 #include "arkhamencounterscript.h"
+#include "monsterscript.h"
 
 GameScript::GameScript(Game *game, QObject *parent) :
     QObject(parent), m_game(game)
@@ -25,6 +27,8 @@ bool GameScript::init(const QString &scriptBaseDir)
     qScriptRegisterMetaType<GameOptionScript*>(m_engine, GameOptionScript::castToValue, GameOptionScript::castFromValue);
     qScriptRegisterMetaType<GameObjectScript*>(m_engine, GameObjectScript::castToValue, GameObjectScript::castFromValue);
     qScriptRegisterMetaType<ArkhamEncounterScript*>(m_engine, ArkhamEncounterScript::castToValue, ArkhamEncounterScript::castFromValue);
+    qScriptRegisterMetaType<CharacterScript*>(m_engine, CharacterScript::castToValue, CharacterScript::castFromValue);
+    qScriptRegisterMetaType<MonsterScript*>(m_engine, MonsterScript::castToValue, MonsterScript::castFromValue);
 
     // Register global objects:
     // Main Game Script
@@ -109,6 +113,42 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
     mods.setProperty("Prop_Movement", AH::Common::PropertyValueData::Prop_Movement, QScriptValue::ReadOnly);
     mods.setProperty("Game_SealClueCost", AH::Common::PropertyValueData::Game_SealClueCost, QScriptValue::ReadOnly);
     consts.setProperty("Mods", mods, QScriptValue::ReadOnly);
+
+    // Dimensions
+    QScriptValue dims = m_engine->newObject();
+    dims.setProperty("Square", AH::Dim_Square, QScriptValue::ReadOnly);
+    dims.setProperty("Circle", AH::Dim_Circle, QScriptValue::ReadOnly);
+    dims.setProperty("Moon", AH::Dim_Moon, QScriptValue::ReadOnly);
+    dims.setProperty("Bar", AH::Dim_Bar, QScriptValue::ReadOnly);
+    dims.setProperty("Star", AH::Dim_Star, QScriptValue::ReadOnly);
+    dims.setProperty("Diamond", AH::Dim_Diamond, QScriptValue::ReadOnly);
+    dims.setProperty("Octagon", AH::Dim_Octagon, QScriptValue::ReadOnly);
+    consts.setProperty("Dimension", dims, QScriptValue::ReadOnly);
+
+    // Monster Movements
+    QScriptValue movs = m_engine->newObject();
+    movs.setProperty("Normal", AH::Common::MonsterData::Normal, QScriptValue::ReadOnly);
+    movs.setProperty("Fast", AH::Common::MonsterData::Fast, QScriptValue::ReadOnly);
+    movs.setProperty("Stationary", AH::Common::MonsterData::Stationary, QScriptValue::ReadOnly);
+    movs.setProperty("Flying", AH::Common::MonsterData::Flying, QScriptValue::ReadOnly);
+    movs.setProperty("Special", AH::Common::MonsterData::Special, QScriptValue::ReadOnly);
+    consts.setProperty("Movement", movs, QScriptValue::ReadOnly);
+
+    // Monster Attributes
+    QScriptValue monAtt = m_engine->newObject();
+    monAtt.setProperty("Ambush", AH::Common::MonsterData::Ambush, QScriptValue::ReadOnly);
+    monAtt.setProperty("Endless", AH::Common::MonsterData::Endless, QScriptValue::ReadOnly);
+    monAtt.setProperty("PhysicalResistance", AH::Common::MonsterData::PhysicalResistance, QScriptValue::ReadOnly);
+    monAtt.setProperty("MagicalResistance", AH::Common::MonsterData::MagicalResistance, QScriptValue::ReadOnly);
+    monAtt.setProperty("PhysicalImmunity", AH::Common::MonsterData::PhysicalImmunity, QScriptValue::ReadOnly);
+    monAtt.setProperty("MagicalImmunity", AH::Common::MonsterData::MagicalImmunity, QScriptValue::ReadOnly);
+    monAtt.setProperty("Nightmarish_1", AH::Common::MonsterData::Nightmarish_1, QScriptValue::ReadOnly);
+    monAtt.setProperty("Nightmarish_2", AH::Common::MonsterData::Nightmarish_2, QScriptValue::ReadOnly);
+    monAtt.setProperty("Nightmarish_3", AH::Common::MonsterData::Nightmarish_3, QScriptValue::ReadOnly);
+    monAtt.setProperty("Overwhelming_1", AH::Common::MonsterData::Overwhelming_1, QScriptValue::ReadOnly);
+    monAtt.setProperty("Overwhelming_2", AH::Common::MonsterData::Overwhelming_2, QScriptValue::ReadOnly);
+    monAtt.setProperty("Overwhelming_3", AH::Common::MonsterData::Overwhelming_3, QScriptValue::ReadOnly);
+    consts.setProperty("Monster", monAtt, QScriptValue::ReadOnly);
 }
 
 void GameScript::initFieldConstants(QScriptValue &consts)

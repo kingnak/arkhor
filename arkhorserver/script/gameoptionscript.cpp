@@ -54,7 +54,7 @@ GameOptionScript *GameOptionScript::createGameOption(QScriptContext *ctx, QScrip
 
     GameOptionScript *pRet = ret.take();
     QScriptValue object = eng->newQObject(pRet);
-    pRet->m_object = object;
+    pRet->m_this = object;
 
     return pRet;
 }
@@ -65,7 +65,7 @@ bool GameOptionScript::isAvailable()
         return m_isAvailable.toBool();
     }
     if (m_isAvailable.isFunction()) {
-        QScriptValue res = m_isAvailable.call(m_object);
+        QScriptValue res = m_isAvailable.call(m_this);
         if (res.isBool()) {
             return res.toBool();
         } else {

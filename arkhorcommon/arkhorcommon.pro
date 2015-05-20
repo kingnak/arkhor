@@ -25,7 +25,8 @@ HEADERS += \
     fielddata.h \
     attributesliderdata.h \
     diedata.h \
-    objectdata.h
+    objectdata.h \
+    monsterdata.h
 
 SOURCES += \
     communication/message.cpp \
@@ -45,4 +46,5 @@ SOURCES += \
     fielddata.cpp \
     attributesliderdata.cpp \
     diedata.cpp \
-    objectdata.cpp
+    objectdata.cpp \
+    monsterdata.cpp

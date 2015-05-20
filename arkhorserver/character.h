@@ -51,7 +51,7 @@ public:
     void addSanity(int amount);
 
     // Items
-    void addMonsterMakrker(Monster *m) { m_monsterMarkers.append(m); }
+    void addMonsterMarker(Monster *m) { m_monsterMarkers.append(m); }
     void addGateMarker(Gate *p) { m_gateMarkers.append(p); }
 
     // Game state

@@ -15,7 +15,7 @@ class GameObjectScript : public QObject, public GameObject
 public:
     explicit GameObjectScript(QObject *parent = 0);
 
-    GameObject *clone() const;
+    GameObject *clone();
 
     static void castFromValue(const QScriptValue &v, GameObjectScript *&o) { o = qobject_cast<GameObjectScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, GameObjectScript * const &in) { return eng->newQObject(in); }

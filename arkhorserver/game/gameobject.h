@@ -13,7 +13,7 @@ class GameObject : public AH::Common::GameObjectData, public PropertyModifier
 {
 public:
     void setId(const QString &id) { m_id = id; }
-    virtual GameObject *clone() const = 0;
+    virtual GameObject *clone() = 0;
 
     GameObject() {}
     virtual ~GameObject() {}

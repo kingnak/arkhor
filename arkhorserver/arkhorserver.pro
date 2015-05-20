@@ -62,7 +62,8 @@ HEADERS += \
     game/arkhamencounter.h \
     script/arkhamencounterscript.h \
     game/gameregistry.h \
-    game/dietesthelper.h
+    game/dietesthelper.h \
+    script/monsterscript.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -125,7 +126,8 @@ SOURCES += \
     game/arkhamencounter.cpp \
     script/arkhamencounterscript.cpp \
     game/gameregistry.cpp \
-    game/dietesthelper.cpp
+    game/dietesthelper.cpp \
+    script/monsterscript.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

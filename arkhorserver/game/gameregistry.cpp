@@ -258,9 +258,13 @@ bool GameRegistry::resolveDependencies()
     foreach (ArkhamEncounter *ae, m_arkEncounters) {
         ok &= ae->resolveDependencies(this);
     }
-
     foreach (OtherWorldEncounter *owe, m_otherEncounters) {
         ok &= owe->resolveDependencies(this);
+    }
+
+    // Resolve Mythos
+    foreach (MythosCard *mc, m_mythosCards) {
+        ok &= mc->resolveDependencies();
     }
 
     return ok;

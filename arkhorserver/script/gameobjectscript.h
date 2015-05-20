@@ -7,12 +7,13 @@
 #include <QScriptEngine>
 #include "gameactionscript.h"
 #include "gameoptionscript.h"
+#include "dynamicpropertyscript.h"
 
 class QScriptContext;
 class GameRegistry;
 class CharacterScript;
 
-class GameObjectScript : public QObject, public GameObject
+class GameObjectScript : public DynamicScriptableObject, public GameObject
 {
     Q_OBJECT
 public:
@@ -40,6 +41,8 @@ public:
     virtual QList<GameOption *> getOptions() const { return m_optMap.values(); }
     virtual PropertyModificationList getModifications() const;
 
+    virtual QList<AH::Common::DynamicPropertyData> dynamicProperties() const;
+
     virtual bool resolveDependencies(GameRegistry *reg);
 
     virtual bool cast(Player *p);
@@ -52,6 +55,9 @@ public:
 signals:
 
 public slots:
+
+protected:
+    virtual void dynamicPropertyChanged();
 
 private:
     static bool verify(GameObjectScript *ob, QString *msg = NULL);

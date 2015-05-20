@@ -9,7 +9,7 @@
 #include <QDebug>
 
 GameObjectScript::GameObjectScript(QObject *parent) :
-    QObject(parent)
+    DynamicScriptableObject(parent)
 {
 }
 
@@ -27,6 +27,7 @@ GameObject *GameObjectScript::clone()
     c->m_onRemoveFunc = m_onRemoveFunc;
     c->m_castFunc = m_castFunc;
     c->m_this = gGameScript->engine()->newQObject(c);
+    clonePropertiesInto(c);
 
     return c;
 }
@@ -130,6 +131,8 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
         }
     }
 
+    DynamicPropertyScript::createDynamicProperties(data.property("properties"), ret.data());
+
     QString err;
     if (!verify(ret.data(), &err)) {
         ctx->throwError(QScriptContext::TypeError, "createObject: Invalid GameObject data. Errors:\n"+err);
@@ -160,6 +163,11 @@ PropertyModificationList GameObjectScript::getModifications() const
         }
     }
     return m_mods;
+}
+
+QList<AH::Common::DynamicPropertyData> GameObjectScript::dynamicProperties() const
+{
+    return this->getDynamicPropertyDataList();
 }
 
 bool GameObjectScript::verify(GameObjectScript *ob, QString *msg)
@@ -229,6 +237,8 @@ bool GameObjectScript::resolveDependencies(GameRegistry *reg)
 
     // Options => Actions must be resolved already
 
+    DynamicScriptableObject::resolveDependencies(m_this);
+
     return ok;
 }
 
@@ -285,6 +295,11 @@ CharacterScript *GameObjectScript::csOwner() const
     return NULL;
 }
 
+void GameObjectScript::dynamicPropertyChanged()
+{
+    gGame->invalidateObject(id());
+}
+
 ////////////////////////
 
 bool GameObjectScriptProxyAction::execute()
@@ -320,7 +335,8 @@ bool GameObjectScriptProxyOption::isAvailable() const
     if (m_obj->isExhausted()) {
         return false;
     }
-    return m_opt->isAvailable();
+    QScriptValue obj = gGameScript->engine()->newQObject(m_obj, QScriptEngine::QtOwnership, QScriptEngine::PreferExistingWrapperObject);
+    return m_opt->isAvailableWithObject(obj);
 }
 
 GameAction *GameObjectScriptProxyOption::action()

@@ -34,7 +34,17 @@ void GameObjectWidget::displayGameObject(const AH::Common::GameObjectData *obj)
             ui->lblSpellAdjust->setText("");
             ui->lblSpellCost->setText("");
         }
-        ui->lblDesc->setText(obj->description());
+        QString desc = obj->description();
+        QStringList props;
+        foreach (AH::Common::DynamicPropertyData dp, obj->dynamicProperties()) {
+            QString s = QString("%1: %2").arg(dp.name(), dp.display());
+            props << s;
+        }
+        if (props.size() > 0) {
+            desc += "\n\n" + props.join("\n");
+        }
+        ui->lblDesc->setText(desc);
+
         QStringList l;
         foreach (AH::Common::PropertyModificationData mod, obj->getModificationData()) {
             l << Utils::stringForPropertyModification(mod);
@@ -44,6 +54,8 @@ void GameObjectWidget::displayGameObject(const AH::Common::GameObjectData *obj)
         ui->lblPrice->setText(QString("$ %1").arg(obj->price()));
         ui->lblHands->setText(QString("%1 hands").arg(obj->handCount()));
         ui->lblImage->setPixmap(ResourcePool::instance()->loadObjectImage(obj->typeId(), obj->type()));
+
+
     } else {
         ui->lblName->setText("");
         ui->lblType->setText("");

@@ -21,6 +21,7 @@ public slots:
 
     void selectFromObjectList(QStringList objectIds, int min = 0, int max = 1);
     void selectPayment(AH::Common::Cost cost);
+    void selectString(QString desc, QList<AH::Common::ChoiceData::OptionData> options);
 
 signals:
     void choiceSelected(AH::Common::ChoiceResponseData resp);

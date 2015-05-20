@@ -23,6 +23,8 @@ public:
 
     virtual bool isAvailable() const;
 
+    bool isAvailableWithObject(QScriptValue obj) const;
+
 signals:
 
 public slots:

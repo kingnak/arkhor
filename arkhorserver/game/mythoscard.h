@@ -4,6 +4,8 @@
 #include <mythosdata.h>
 #include "propertymodifier.h"
 
+class GameOption;
+
 class MythosCard : public AH::Common::MythosData
 {
 public:
@@ -11,7 +13,26 @@ public:
 
     void setId(QString id) { m_id = id; }
 
+    virtual bool resolveDependencies() = 0;
     virtual void resolveDynamicAttributes() = 0;
+
+    // Headlines
+    virtual void executeHeadline() = 0;
+
+    // Environment
+    virtual PropertyModificationList getModifications() = 0;
+
+    // Rumors
+    virtual void onMythos() = 0;
+    virtual void onPass() = 0;
+    virtual void onFail() = 0;
+    virtual void setupRumor() = 0;
+    virtual void teardownRumor() = 0;
+    virtual GameOption *rumorFieldOption() = 0;
+    virtual AH::Common::FieldData::FieldID rumorFieldId() = 0;
+
+    virtual void pass();
+    virtual void fail();
 
     /*
     void resolve();

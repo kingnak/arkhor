@@ -5,10 +5,12 @@
 #include <QMetaType>
 #include <QScriptEngine>
 #include <ahglobal.h>
+#include <choicedata.h>
 
 class CharacterScript;
 class GateScript;
 class GameObjectScript;
+class MythosCardScript;
 
 class GameContextScript : public QObject
 {
@@ -23,17 +25,21 @@ public:
     Q_PROPERTY(QObjectList allCharacters READ getAllCharacters)
     Q_PROPERTY(GateScript* gate READ curGate)
     Q_PROPERTY(int terrorLevel READ getTerrorLevel)
+    Q_PROPERTY(MythosCardScript* rumor READ activeRumor)
 
     CharacterScript *curCharacter();
     QObjectList getAllCharacters();
     GateScript *curGate();
     int getTerrorLevel();
+    MythosCardScript *activeRumor();
 
     Q_INVOKABLE int genericDieRollSum(QString desc, int dieCount);
     Q_INVOKABLE bool genericDieRollTest(QString desc, int dieCount, int target);
     Q_INVOKABLE int genericDieRollCount(QString desc, int dieCount);
     Q_INVOKABLE bool skillTest(QString desc, int skill, int adjust, int target);
     Q_INVOKABLE int dieRollSkillCount(QString desc, int skill, int adjust);
+
+    Q_INVOKABLE QString selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options);
 
     Q_INVOKABLE bool spontaneousMonsterFight();
 

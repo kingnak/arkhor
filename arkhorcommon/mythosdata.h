@@ -5,6 +5,7 @@
 #include "arkhorcommonglobal.h"
 #include "serializer.hpp"
 #include "fielddata.h"
+#include "dynamicpropertydata.h"
 
 namespace AH {
     namespace Common {
@@ -38,6 +39,8 @@ namespace AH {
             AH::Dimensions whiteMovement() const { return m_moveWhite; }
             AH::Dimensions blackMovement() const { return m_moveBlack; }
 
+            virtual QList<DynamicPropertyData> dynamicProperties() const { return m_dynProps; }
+
         protected:
             MythosType m_type;
             EnvironmentType m_envType;
@@ -48,6 +51,7 @@ namespace AH {
             FieldData::FieldID m_gateField;
             AH::Dimensions m_moveBlack;
             AH::Dimensions m_moveWhite;
+            QList<DynamicPropertyData> m_dynProps;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, MythosData);
         };

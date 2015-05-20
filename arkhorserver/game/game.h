@@ -39,20 +39,20 @@ public:
     static Game *instance();
     QList<Player *> getPlayers();
 
-    void registerInvestigator(Investigator *i);
+    bool registerInvestigator(Investigator *i);
     QList<Investigator *> allInvestigators() const;
 
-    void registerCharacter(Character *c);
-    void registerAction(GameAction *a);
-    void registerOption(GameOption *o);
-    void registerObject(GameObject *o, quint32 count = 1);
-    void registerArkhamEnconutry(ArkhamEncounter *a);
-    void registerOtherWorldEncountery(OtherWorldEncounter *e);
-    void registerMonster(Monster *m, quint32 count = 1);
-    void registerMythos(MythosCard *m);
+    bool registerCharacter(Character *c);
+    bool registerAction(GameAction *a);
+    bool registerOption(GameOption *o);
+    bool registerObject(GameObject *o, quint32 count = 1);
+    bool registerArkhamEnconutry(ArkhamEncounter *a);
+    bool registerOtherWorldEncountery(OtherWorldEncounter *e);
+    bool registerMonster(Monster *m, quint32 count = 1);
+    bool registerMythos(MythosCard *m);
     bool resolveDependencies();
 
-    void registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId);
+    bool registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId);
 
     int terrorLevel() const { return m_terrorLevel; }
     void increaseTerrorLevel(int amount = 1) { m_terrorLevel += amount; }
@@ -96,6 +96,7 @@ public:
     GameObject *drawObject(AH::GameObjectType t);
     GameObject *drawSpecificObject(QString id);
     void returnObject(GameObject *o);
+    int drawableObjectCount(AH::GameObjectType t);
 
     bool createGate(GameField *field);
     bool createMonster(GameField *field);
@@ -127,6 +128,12 @@ public:
 
     AH::Dimension randomDimension() const;
     AH::Common::FieldData::FieldID randomLocation(bool onlyStable) const;
+
+    bool setRumor(MythosCard *r);
+    MythosCard *rumor() { return m_rumor; }
+
+    bool setEnvironment(MythosCard *e);
+    MythosCard *environment() { return m_environment; }
 
 protected:
     void initBoard();
@@ -184,6 +191,9 @@ private:
     GameBoard *m_board;
     GameNotifier *m_notifier;
     GameRegistry *m_registry;
+
+    MythosCard *m_environment;
+    MythosCard *m_rumor;
 
     QSet<QString> m_invalidatedObjects;
 

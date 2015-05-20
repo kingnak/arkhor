@@ -70,12 +70,17 @@ GameOptionScript *GameOptionScript::createGameOption(QScriptValue data, QScriptC
 
 bool GameOptionScript::isAvailable() const
 {
+    return isAvailableWithObject(m_this);
+}
+
+bool GameOptionScript::isAvailableWithObject(QScriptValue obj) const
+{
     if (m_isAvailable.isBool()) {
         return m_isAvailable.toBool();
     }
     if (m_isAvailable.isFunction()) {
         QScriptValue av = m_isAvailable;
-        QScriptValue res = av.call(m_this);
+        QScriptValue res = av.call(obj);
         if (res.isBool()) {
             return res.toBool();
         } else {

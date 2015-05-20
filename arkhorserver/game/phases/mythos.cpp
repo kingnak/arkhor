@@ -3,7 +3,7 @@
 #include "monster.h"
 
 Mythos::Mythos(Game *game)
-    : GamePhase(game)
+    : GamePhase(game), m_activeRumor(NULL)
 {
     m_mythos = new MythosAction;
 }
@@ -11,6 +11,11 @@ Mythos::Mythos(Game *game)
 Mythos::~Mythos()
 {
     delete m_mythos;
+}
+
+void Mythos::enterPhase()
+{
+    m_activeRumor = gGame->rumor();
 }
 
 QList<GameAction *> Mythos::getPhaseActions()
@@ -23,6 +28,13 @@ QList<GameOption *> Mythos::getPhaseOptions()
 {
     return QList<GameOption *>()
             << getSkipOption();
+}
+
+void Mythos::finishPhase()
+{
+    if (m_activeRumor) {
+        m_activeRumor->onMythos();
+    }
 }
 
 ////////////////////////////
@@ -54,9 +66,25 @@ bool MythosAction::execute()
     }
 
     // 4. resolve
-    // TODO
-
-    gGame->returnMythos(card);
+    switch (card->type()) {
+    case AH::Common::MythosData::Headline:
+        card->executeHeadline();
+        gGame->returnMythos(card);
+        break;
+    case AH::Common::MythosData::Environment:
+        if (!gGame->setEnvironment(card)) {
+            gGame->returnMythos(card);
+        }
+        break;
+    case AH::Common::MythosData::Rumor:
+        if (gGame->setRumor(card)) {
+            GameOption *opt = card->rumorFieldOption();
+            gGame->board()->field(card->rumorFieldId())->addFieldOption(opt);
+            card->setupRumor();
+        } else {
+            gGame->returnMythos(card);
+        }
+    }
 
     return true;
 }

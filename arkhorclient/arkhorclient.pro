@@ -34,7 +34,8 @@ HEADERS += \
     gui/objectselectorwidget.h \
     gui/choicewidget.h \
     gui/objectinfowidget.h \
-    gui/paymentselectorwidget.h
+    gui/paymentselectorwidget.h \
+    gui/stringchoiceselectorwidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -67,7 +68,8 @@ SOURCES += \
     gui/objectselectorwidget.cpp \
     gui/choicewidget.cpp \
     gui/objectinfowidget.cpp \
-    gui/paymentselectorwidget.cpp
+    gui/paymentselectorwidget.cpp \
+    gui/stringchoiceselectorwidget.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

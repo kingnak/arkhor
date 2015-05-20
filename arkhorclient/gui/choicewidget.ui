@@ -41,6 +41,7 @@
       </layout>
      </widget>
      <widget class="PaymentSelectorWidget" name="pagePaymentSelector"/>
+     <widget class="StringChoiceSelectorWidget" name="pageStrings"/>
     </widget>
    </item>
    <item>
@@ -96,6 +97,12 @@
    <class>PaymentSelectorWidget</class>
    <extends>QWidget</extends>
    <header>gui/paymentselectorwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>StringChoiceSelectorWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/stringchoiceselectorwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

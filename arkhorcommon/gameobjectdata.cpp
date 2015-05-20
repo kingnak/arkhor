@@ -35,6 +35,7 @@ void operator <<(QVariant &data, const GameObjectData &target)
     map["castCost"] << target.castCost();
     map["castAdjustment"] << target.castAdjustment();
     map["castTarget"] << target.castTarget();
+    map["properties"] << target.dynamicProperties();
     data << map;
 }
 
@@ -59,6 +60,7 @@ void operator >>(const QVariant &data, GameObjectData &target)
     map["castCost"] >> target.m_castCost;
     map["castAdjustment"] >> target.m_castAdjustment;
     map["castTarget"] >> target.m_castTarget;
+    map["properties"] >> target.m_dynProps;
 }
 
 DEFINE_ENUM_SERIALIZER(GameObjectData::ObjectAttribute)

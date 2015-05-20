@@ -24,13 +24,16 @@ public:
     Mythos(Game *game);
     ~Mythos();
 
+
 protected:
+    void enterPhase();
     QList<GameAction *> getPhaseActions();
     QList<GameOption *> getPhaseOptions();
-    //void enterPhase();
+    void finishPhase();
 
 private:
     MythosAction *m_mythos;
+    MythosCard *m_activeRumor;
 };
 
 #endif // MYTHOS_H

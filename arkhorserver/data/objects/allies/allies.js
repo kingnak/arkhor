@@ -30,7 +30,7 @@ var duke = game.createObject({
 	]
 });
 game.registerSingleObject(duke);
- 
+/*
 // Ruby Standish
 var rubyStandish = game.createObject({
 	tid: "AL_Ruby_Standish",
@@ -98,3 +98,4 @@ var thomMalone = game.createObject({
 	}
 });
 game.registerSingleObject(thomMalone);
+*/

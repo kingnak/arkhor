@@ -38,6 +38,7 @@ public:
 
     QList<GameOption *> getFieldOptions() { return m_options; }
     void addFieldOption(GameOption *o) { m_options.append(o); }
+    void removeFieldOption(GameOption *o) { m_options.removeAll(o); }
 
     bool isConnectedTo(GameField *other) const;
     bool isConnectedTo(int other) const;

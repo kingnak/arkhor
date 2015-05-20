@@ -36,13 +36,12 @@ game.registerMultiObject(1, ancientTablet);
 // BOOK OF DZYAN
 var readDzyan = game.quickOption({
 	//id: "CI_READ_BOOK_OF_DZYAN",
-	name: "Use Blue Watcher",
+    name: "Read Book of Dzyan",
 	costs: { type: Constants.Costs.Movement, amount: 2},
 	phases: Constants.GamePhases.Movement,
 	continueType: Constants.Option.CanContinue,
 	chooseType: Constants.Option.Supplemental,
 	activate: function() {
-		debugger;
 		this.exhaust();
 		var res = game.context.skillTest("Read Book of Dzyan", Constants.Skills.Lore, -1, 1);
 		if (res) {
@@ -70,10 +69,12 @@ var dzyan = game.createObject({
 		"discard Book of Dzyan. If you fail, nothing happens.",
 	price: 3,
 	optionIds: [readDzyan.id],
-	// TODO: Dynamic properties for GUI display?
 	onAddToInventory: function(c) {
 		this.tokens = 0;
-	}
+    },
+    properties: {
+        tokens: { display: "Tokens on Book", value: 0, onDisplay: function() { return this.tokens + " / 2"; } }
+    }
 });
 game.registerMultiObject(1, dzyan); 
 

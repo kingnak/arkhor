@@ -8,6 +8,7 @@
 #include "gameobjectscript.h"
 #include "game/drawcardhelper.h"
 #include "gamescript.h"
+#include "mythoscardscript.h"
 #include <QDebug>
 
 GameContextScript::GameContextScript(QObject *parent) :
@@ -52,6 +53,13 @@ int GameContextScript::getTerrorLevel()
     return gGame->terrorLevel();
 }
 
+MythosCardScript *GameContextScript::activeRumor()
+{
+    MythosCard *r = gGame->rumor();
+    MythosCardScript *rs = dynamic_cast<MythosCardScript *> (r);
+    return rs;
+}
+
 int GameContextScript::genericDieRollSum(QString desc, int dieCount)
 {
     DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericSummer(desc, dieCount);
@@ -90,6 +98,15 @@ int GameContextScript::dieRollSkillCount(QString desc, int skill, int adjust)
     DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillCounter(desc, gGame->context().player()->getCharacter(), sk, adjust);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
     return res.intResult;
+}
+
+QString GameContextScript::selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options)
+{
+    AH::Common::ChoiceData ch;
+    ch.setSelectStrings(options);
+    ch.setDescription(desc);
+    AH::Common::ChoiceResponseData res = gGame->context().player()->offerChoice(ch);
+    return res.toString();
 }
 
 bool GameContextScript::spontaneousMonsterFight()

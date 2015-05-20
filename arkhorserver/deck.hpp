@@ -25,7 +25,7 @@ public:
     T *drawBottom()
     { return m_deck.isEmpty() ? NULL : m_deck.takeLast(); }
     void returnToDeck(T *t)
-    { m_deck.append(t); }
+    { if (t) m_deck.append(t); }
 
 private:
     QList<T *> m_deck;

@@ -25,6 +25,7 @@ Game::Game()
 :   m_context(this, NULL, NULL, AH::NoGamePhase),
     m_board(NULL),
     m_nextPlayerId(0),
+    m_rumor(NULL),
     m_started(false),
     m_terrorLevel(1)
 {
@@ -115,13 +116,15 @@ QList<Player *> Game::getPlayers()
     return m_registry->allPlayers();
 }
 
-void Game::registerInvestigator(Investigator *i)
+bool Game::registerInvestigator(Investigator *i)
 {
     QWriteLocker l(&m_lock);
     //m_investigators[i->id()] = i;
     if (!m_registry->registerInvestigator(i)) {
         qCritical() << "Error registering investigator";
+        return false;
     }
+    return true;
 }
 
 QList<Investigator *> Game::allInvestigators() const
@@ -131,39 +134,48 @@ QList<Investigator *> Game::allInvestigators() const
     return m_registry->allInvestigators();
 }
 
-void Game::registerCharacter(Character *c)
+bool Game::registerCharacter(Character *c)
 {
     //m_characters.insert(c->id(), c);
     if (!m_registry->registerCharacter(c)) {
         qCritical() << "Error registering character";
+        return false;
     }
+    return true;
 }
 
-void Game::registerAction(GameAction *a)
+bool Game::registerAction(GameAction *a)
 {
     //m_actions.insert(a->id(), a);
     if (!m_registry->registerAction(a)) {
         qCritical() << "Error registering action";
+        return false;
     }
+    return true;
 }
 
-void Game::registerOption(GameOption *o)
+bool Game::registerOption(GameOption *o)
 {
     //m_options.insert(o->id(), o);
     if (!m_registry->registerOption(o)) {
         qCritical() << "Error registering option";
+        return false;
     }
+    return true;
 }
 
-void Game::registerObject(GameObject *o, quint32 count)
+bool Game::registerObject(GameObject *o, quint32 count)
 {
     if (count == 0) {
         if (!m_registry->registerSingleObject(o)) {
             qCritical() << "Error registering single object";
+            return false;
         }
     } else if (!m_registry->registerMultiObject(o, count)) {
         qCritical() << "Error registering object(s)";
+        return false;
     }
+    return true;
 }
 
 bool Game::resolveDependencies()
@@ -202,39 +214,48 @@ bool Game::resolveDependencies()
     return ok;
 }
 
-void Game::registerArkhamEnconutry(ArkhamEncounter *a)
+bool Game::registerArkhamEnconutry(ArkhamEncounter *a)
 {
     //m_arkEnc[a->fieldId()] << a;
     if (!m_registry->registerArkhamEncounter(a)) {
         qCritical() << "Error registering Arkham Encounter";
+        return false;
     }
+    return true;
 }
 
-void Game::registerOtherWorldEncountery(OtherWorldEncounter *e)
+bool Game::registerOtherWorldEncountery(OtherWorldEncounter *e)
 {
     //m_owEnc << e;
     if (!m_registry->registerOtherWorldEncounter(e)) {
         qCritical() << "Error registering Other World Encounter";
+        return false;
     }
+    return true;
 }
 
-void Game::registerMonster(Monster *m, quint32 count)
+bool Game::registerMonster(Monster *m, quint32 count)
 {
     if (!m_registry->registerMonster(m, count)) {
         qCritical() << "Error registering monster(s)";
+        return false;
     }
+    return true;
 }
 
-void Game::registerMythos(MythosCard *m)
+bool Game::registerMythos(MythosCard *m)
 {
     if (!m_registry->registerMythosCard(m)) {
         qCritical() << "Error registering mythos card";
+        return false;
     }
+    return true;
 }
 
-void Game::registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId)
+bool Game::registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId)
 {
     m_fieldOptionMap[fId] << opId;
+    return true;
 }
 
 Player *Game::getFirstPlayer()
@@ -336,6 +357,11 @@ void Game::returnObject(GameObject *o)
         o->setOwner(NULL);
     }
     m_objectDecks[o->type()].returnToDeck(o);
+}
+
+int Game::drawableObjectCount(AH::GameObjectType t)
+{
+    return m_objectDecks[t].size();
 }
 
 bool Game::createGate(GameField *field)
@@ -666,6 +692,37 @@ AH::Common::FieldData::FieldID Game::randomLocation(bool onlyStable) const
     Q_ASSERT(m_board->field(ret) != NULL);
     Q_ASSERT(m_board->field(ret)->type() == AH::Common::FieldData::Location);
     return ret;
+}
+
+bool Game::setRumor(MythosCard *r)
+{
+    if (r == NULL) {
+        //returnMythos(m_rumor);
+        m_rumor = NULL;
+        return true;
+    }
+    if (m_rumor) {
+        return false;
+    }
+    if (r->type() != AH::Common::MythosData::Rumor) {
+        return false;
+    }
+    m_rumor = r;
+    return true;
+}
+
+bool Game::setEnvironment(MythosCard *e)
+{
+    if (m_environment) {
+        returnMythos(m_environment);
+    }
+    if (e) {
+        if (e->type() != AH::Common::MythosData::Environment) {
+            return false;
+        }
+    }
+    m_environment = e;
+    return true;
 }
 
 // protected

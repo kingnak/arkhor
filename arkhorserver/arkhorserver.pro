@@ -90,7 +90,8 @@ HEADERS += \
     game/actions/dierollaction.h \
     game/drawcardhelper.h \
     game/choicehelper.h \
-    game/actions/castspellaction.h
+    game/actions/castspellaction.h \
+    script/dynamicpropertyscript.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -174,7 +175,8 @@ SOURCES += \
     game/actions/dierollaction.cpp \
     game/drawcardhelper.cpp \
     game/choicehelper.cpp \
-    game/actions/castspellaction.cpp
+    game/actions/castspellaction.cpp \
+    script/dynamicpropertyscript.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -229,4 +231,5 @@ OTHER_FILES += \
     data/objects/unique/tomes.js \
     data/objects/unique/unfinished.js \
     data/objects/unique/weapons.js \
-    data/objects/test.js
+    data/objects/test.js \
+    data/mythos/rumor.js

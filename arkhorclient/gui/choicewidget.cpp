@@ -27,6 +27,9 @@ void ChoiceWidget::offerChoice(ChoiceData choice)
     case ChoiceData::ChoosePayment:
         selectPayment(choice.getCosts());
         break;
+    case ChoiceData::ChooseString:
+        selectString(choice.description(), choice.getStrings());
+        break;
     default:
         Q_ASSERT(false);
     }
@@ -48,6 +51,13 @@ void ChoiceWidget::selectPayment(Cost cost)
     ui->stkChoices->setCurrentWidget(ui->pagePaymentSelector);
 }
 
+void ChoiceWidget::selectString(QString desc, QList<ChoiceData::OptionData> options)
+{
+    m_type = ChoiceData::ChooseString;
+    ui->pageStrings->displayChoices(desc, options);
+    ui->stkChoices->setCurrentWidget(ui->pageStrings);
+}
+
 void ChoiceWidget::on_btnOk_clicked()
 {
     switch (m_type) {
@@ -62,6 +72,13 @@ void ChoiceWidget::on_btnOk_clicked()
     {
         int sels = ui->pagePaymentSelector->getSelectedPaymentIndex();
         emit choiceSelected(sels);
+        break;
+    }
+
+    case ChoiceData::ChooseString:
+    {
+        QString selId = ui->pageStrings->getSelectedChoiceId();
+        emit choiceSelected(selId);
         break;
     }
     }

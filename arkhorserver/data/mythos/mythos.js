@@ -1,3 +1,4 @@
+
 game.registerMythosCard(game.createMythosCard({
 	name: "TestMythos",
 	type: Constants.Mythos.Headline,
@@ -5,5 +6,7 @@ game.registerMythosCard(game.createMythosCard({
 	clueField: Constants.Fields.DT_ArkhamAsylum,
     gateField: Constants.Fields.DT_ArkhamAsylum,
 	moveBlack: Constants.Dimension.Square,
-    moveWhite: Constants.Dimension.Triangle
+    moveWhite: Constants.Dimension.Triangle,
+
+    executeHeadline: function() {}
 }));

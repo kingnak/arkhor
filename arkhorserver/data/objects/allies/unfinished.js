@@ -1,3 +1,4 @@
+/*
 // Eric Colt
 var ericColt = game.createObject({
 	tid: "AL_Eric_Colt",
@@ -60,3 +61,4 @@ var ericColt = game.createObject({
 	// TODO: Prevent Nightmarish damage
 });
 game.registerSingleObject(ericColt);
+*/

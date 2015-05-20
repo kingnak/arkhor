@@ -73,6 +73,9 @@ bool GameScript::init(const QString &scriptBaseDir)
     qScriptRegisterMetaType<AH::ObjectTypeCount>(m_engine, GameScript::castObjTypeCountToValue, GameScript::castObjTypeCountFromValue);
     qScriptRegisterMetaType<QList<AH::ObjectTypeCount> >(m_engine, GameScript::castListToValue<AH::ObjectTypeCount>, GameScript::castListFromValue<AH::ObjectTypeCount>);
 
+    qScriptRegisterMetaType<AH::Common::ChoiceData::OptionData>(m_engine, GameScript::castChoiceOptionToValue, GameScript::castChoiceOptionFromValue);
+    qScriptRegisterMetaType<QList<AH::Common::ChoiceData::OptionData> >(m_engine, GameScript::castListToValue<AH::Common::ChoiceData::OptionData>, GameScript::castListFromValue<AH::Common::ChoiceData::OptionData>);
+
     qRegisterMetaType<GameContextScript*>();
     qRegisterMetaType<CharacterScript*>();
     qRegisterMetaType<QList<CharacterScript*> >();
@@ -94,6 +97,20 @@ bool GameScript::init(const QString &scriptBaseDir)
 GameContextScript *GameScript::getGameContext()
 {
     return m_ctx;
+}
+
+GameObjectScript *GameScript::drawSingleObject(qint32 type)
+{
+    AH::GameObjectType t = static_cast<AH::GameObjectType> (type);
+
+    GameObject *o = gGame->drawObject(t);
+    if (!o) return NULL;
+    GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
+    if (!os) {
+        gGame->returnObject(o);
+        qWarning() << "Drawn object was not a script object";
+    }
+    return os;
 }
 
 QScriptValue GameScript::initConstants()
@@ -383,9 +400,12 @@ void GameScript::initFieldConstants(QScriptValue &consts)
     consts.setProperty("FieldType", fdt, QScriptValue::ReadOnly);
 }
 
-void GameScript::registerInvestigator(InvestigatorScript *i)
+QScriptValue GameScript::registerInvestigator(InvestigatorScript *i)
 {
-    m_game->registerInvestigator(i);
+    if (!m_game->registerInvestigator(i)) {
+        return m_engine->currentContext()->throwError("Error registering Investigator");
+    }
+    return QScriptValue();
 }
 
 QScriptValue GameScript::createInvestigator()
@@ -395,7 +415,9 @@ QScriptValue GameScript::createInvestigator()
 
 QScriptValue GameScript::registerAction(GameActionScript *a)
 {
-    m_game->registerAction(a);
+    if (!m_game->registerAction(a)) {
+        m_engine->currentContext()->throwError("Error registering action");
+    }
     return m_engine->newQObject(a);
 }
 
@@ -406,7 +428,9 @@ GameActionScript *GameScript::createAction()
 
 QScriptValue GameScript::registerOption(GameOptionScript *o)
 {
-    m_game->registerOption(o);
+    if (!m_game->registerOption(o)) {
+        m_engine->currentContext()->throwError("Error registering option");
+    }
     return m_engine->newQObject(o);
 }
 
@@ -440,6 +464,12 @@ GameObjectScript *GameScript::drawSpecificObject(QString id)
         qWarning() << "Drawn object was not a script object. Id:" << id;
     }
     return os;
+}
+
+int GameScript::cardsOnDeck(qint32 type)
+{
+    AH::GameObjectType t = static_cast<AH::GameObjectType> (type);
+    return gGame->drawableObjectCount(t);
 }
 
 void GameScript::createGate(qint32 fld)
@@ -518,19 +548,25 @@ QScriptValue GameScript::getDieRollOption()
 
 QScriptValue GameScript::registerSingleObject(GameObjectScript *o)
 {
-    m_game->registerObject(o, 0);
+    if (!m_game->registerObject(o, 0)) {
+        return m_engine->currentContext()->throwError("Error registering Single Object");
+    }
     return m_engine->newQObject(o);
 }
 
 QScriptValue GameScript::registerObject(GameObjectScript *o)
 {
-    m_game->registerObject(o);
+    if (!m_game->registerObject(o)) {
+        return m_engine->currentContext()->throwError("Error registering Object");
+    }
     return m_engine->newQObject(o);
 }
 
 QScriptValue GameScript::registerMultiObject(quint32 count, GameObjectScript *o)
 {
-    m_game->registerObject(o, count);
+    if (!m_game->registerObject(o, count)) {
+        return m_engine->currentContext()->throwError("Error registering Multiple Objects");
+    }
     return m_engine->newQObject(o);
 }
 
@@ -561,7 +597,9 @@ ArkhamEncounterScript *GameScript::createArkhamEncounter()
 
 QScriptValue GameScript::registerArkhamEncounter(ArkhamEncounterScript *e)
 {
-    m_game->registerArkhamEnconutry(e);
+    if (!m_game->registerArkhamEnconutry(e)) {
+        m_engine->currentContext()->throwError("Error registering Arkham Encounter");
+    }
     return m_engine->newQObject(e);
 }
 
@@ -572,7 +610,9 @@ OtherWorldEncounterScript *GameScript::createOtherWorldEncounter()
 
 QScriptValue GameScript::registerOtherWorldEncounter(OtherWorldEncounterScript *e)
 {
-    m_game->registerOtherWorldEncountery(e);
+    if (!m_game->registerOtherWorldEncountery(e)) {
+        m_engine->currentContext()->throwError("Error registering Other World Encounter");
+    }
     return m_engine->newQObject(e);
 }
 
@@ -583,7 +623,9 @@ MonsterScript *GameScript::createMonster()
 
 QScriptValue GameScript::registerMonster(quint32 count, MonsterScript *m)
 {
-    m_game->registerMonster(m, count);
+    if (!m_game->registerMonster(m, count)) {
+        m_engine->currentContext()->throwError("Error registering monster");
+    }
     return m_engine->newQObject(m);
 }
 
@@ -594,7 +636,9 @@ MythosCardScript *GameScript::createMythosCard()
 
 QScriptValue GameScript::registerMythosCard(MythosCardScript *m)
 {
-    m_game->registerMythos(m);
+    if (!m_game->registerMythos(m)) {
+        m_engine->currentContext()->throwError("Error registering Mythos");
+    }
     return m_engine->newQObject(m);
 }
 
@@ -728,6 +772,29 @@ bool GameScript::parseObjectTypeCount(QScriptValue v, QList<AH::ObjectTypeCount>
     return true;
 }
 
+bool GameScript::parseOptionChoiceData(QScriptValue v, AH::Common::ChoiceData::OptionData &o)
+{
+    QString id, name, desc;
+    if (v.isArray()) {
+        int len = v.property("length").toInt32();
+        if (len > 0) {
+            // Assume id = name if only 1 value.
+            // So possible: ["name" (=id)] | ["id", "name"] | ["id", "name, "desc"]
+            id = v.property(0).toString();
+            name = len > 1 ? v.property(1).toString() : v.property(0).toString();
+            desc = v.property(2).toString();
+        }
+    } else if (v.isObject()) {
+        id = v.property("id").toString();
+        name = v.property("name").toString();
+        desc = v.property("description").toString();
+    } else {
+        id = name = v.toString();
+    }
+    o = AH::Common::ChoiceData::OptionData(id, name, desc);
+    return true;
+}
+
 QScriptValue GameScript::castCostToValue(QScriptEngine *eng, const AH::Common::Cost &in)
 {
     //parseCosts()
@@ -759,6 +826,21 @@ void GameScript::castObjTypeCountFromValue(const QScriptValue &v, AH::ObjectType
         qCritical("Error parsing Object Type Count");
     } else {
         o = l.value(0);
+    }
+}
+
+QScriptValue GameScript::castChoiceOptionToValue(QScriptEngine *eng, const AH::Common::ChoiceData::OptionData &in)
+{
+    Q_UNUSED(eng)
+    Q_UNUSED(in)
+    Q_ASSERT_X(false, "GameScript::castChoiceOptionToValue", "Not implemented");
+    return QScriptValue();
+}
+
+void GameScript::castChoiceOptionFromValue(const QScriptValue &v, AH::Common::ChoiceData::OptionData &o)
+{
+    if (!parseOptionChoiceData(v, o)) {
+        qCritical("Error parsing Choice Options");
     }
 }
 

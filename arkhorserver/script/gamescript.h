@@ -39,14 +39,16 @@ public:
     Q_PROPERTY(GameContextScript* context READ getGameContext SCRIPTABLE true)
     GameContextScript *getGameContext();
 
-    //Q_INVOKABLE GameObjectScript *drawObject(qint32 type);
+    Q_INVOKABLE GameObjectScript *drawSingleObject(qint32 type);
     Q_INVOKABLE GameObjectScript *drawSpecificObject(QString id);
+
+    Q_INVOKABLE int cardsOnDeck(qint32 type);
 
     Q_INVOKABLE void createGate(qint32 fld);
 
 
     ////////// SETUP
-    Q_INVOKABLE void registerInvestigator(InvestigatorScript *i);
+    Q_INVOKABLE QScriptValue registerInvestigator(InvestigatorScript *i);
     Q_INVOKABLE QScriptValue createInvestigator();
 
     Q_INVOKABLE QScriptValue registerAction(GameActionScript *a);
@@ -77,6 +79,7 @@ public:
     Q_INVOKABLE MythosCardScript *createMythosCard();
     Q_INVOKABLE QScriptValue registerMythosCard(MythosCardScript *m);
 
+    ///////// HELPER
     static QStringList array2stringlist(QScriptValue ar);
     static QScriptValueList array2list(QScriptValue ar);
 
@@ -86,14 +89,20 @@ public:
 
     static bool parseObjectTypeCount(QScriptValue v, QList<AH::ObjectTypeCount> &o);
 
+    static bool parseOptionChoiceData(QScriptValue v, AH::Common::ChoiceData::OptionData &o);
+
+    template<typename T>
+    static T parseFlags(QScriptValue v, T defVal);
+
+    //////// CASTER
     static QScriptValue castCostToValue(QScriptEngine *eng, AH::Common::Cost const &in);
     static void castCostFromValue(const QScriptValue &v, AH::Common::Cost &o);
 
     static QScriptValue castObjTypeCountToValue(QScriptEngine *eng, AH::ObjectTypeCount const &in);
     static void castObjTypeCountFromValue(const QScriptValue &v, AH::ObjectTypeCount &o);
 
-    template<typename T>
-    static T parseFlags(QScriptValue v, T defVal);
+    static QScriptValue castChoiceOptionToValue(QScriptEngine *eng, AH::Common::ChoiceData::OptionData const &in);
+    static void castChoiceOptionFromValue(const QScriptValue &v, AH::Common::ChoiceData::OptionData &o);
 
     template<typename T>
     static QScriptValue castListToValue(QScriptEngine *eng, QList<T> const &in);
@@ -176,5 +185,7 @@ Q_DECLARE_METATYPE(GameScript*)
 Q_DECLARE_METATYPE(AH::Common::Cost)
 Q_DECLARE_METATYPE(AH::ObjectTypeCount)
 Q_DECLARE_METATYPE(QList<AH::ObjectTypeCount>)
+Q_DECLARE_METATYPE(AH::Common::ChoiceData::OptionData)
+Q_DECLARE_METATYPE(QList<AH::Common::ChoiceData::OptionData>)
 
 #endif // GAMESCRIPT_H

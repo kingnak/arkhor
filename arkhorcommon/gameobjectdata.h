@@ -6,6 +6,7 @@
 #include <ahglobal.h>
 #include <QStringList>
 #include "propertyvaluedata.h"
+#include "dynamicpropertydata.h"
 
 namespace AH {
     namespace Common {
@@ -51,6 +52,8 @@ namespace AH {
 
             virtual ObjectAttributes getAttributes() const { return m_attrs; }
 
+            virtual QList<DynamicPropertyData> dynamicProperties() const { return m_dynProps; }
+
         protected:
             QString m_id;
             QString m_tid;
@@ -67,6 +70,8 @@ namespace AH {
             ObjectAttributes m_attrs;
 
             QList<PropertyModificationData> m_modsData;
+
+            QList<DynamicPropertyData> m_dynProps;
 
             // For Spells
             int m_castCost;

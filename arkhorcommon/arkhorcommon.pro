@@ -29,7 +29,8 @@ HEADERS += \
     encounterdata.h \
     mythosdata.h \
     gatedata.h \
-    choicedata.h
+    choicedata.h \
+    dynamicpropertydata.h
 
 SOURCES += \
     communication/message.cpp \
@@ -53,4 +54,5 @@ SOURCES += \
     encounterdata.cpp \
     mythosdata.cpp \
     gatedata.cpp \
-    choicedata.cpp
+    choicedata.cpp \
+    dynamicpropertydata.cpp

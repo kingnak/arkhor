@@ -16,7 +16,14 @@ namespace AH {
             enum ChoiceType {
                 None,
                 ChooseObjects,
-                ChoosePayment
+                ChoosePayment,
+                ChooseString,
+            };
+            struct OptionData {
+                QString id, name, description;
+                OptionData(QString id = QString::null, QString name = QString::null, QString desc = QString::null)
+                    : id(id), name(name), description(desc) {}
+                DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, OptionData);
             };
 
             ChoiceData(ChoiceType type = None, QString desc = QString::null)
@@ -28,12 +35,15 @@ namespace AH {
             int getMax() const { return m_max; }
             QStringList getObjectIds() const { return m_objectIds; }
             Cost getCosts() const { return m_costs; }
+            QList<OptionData> getStrings() const { return m_strings; }
 
             void setType(ChoiceType type) { m_type = type; }
             void setDescription(const QString &desc) { m_desc = desc; }
 
             void setSelectObjects(QStringList objectIds, int min = 0, int max = 1);
             void setSelectPayment(Cost c);
+
+            void setSelectStrings(QList<OptionData> options);
 
         private:
             ChoiceType m_type;
@@ -46,6 +56,9 @@ namespace AH {
 
             // Cost
             Cost m_costs;
+
+            // Strings
+            QList<OptionData> m_strings;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, ChoiceData);
         };

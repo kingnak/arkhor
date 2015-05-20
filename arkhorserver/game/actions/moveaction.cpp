@@ -1,0 +1,121 @@
+#include "moveaction.h"
+#include "../game.h"
+#include "../gameboard.h"
+#include "gate.h"
+#include "character.h"
+#include "../player.h"
+
+MoveAction::MoveAction()
+{
+}
+
+bool MoveAction::execute()
+{
+    if (gGame->context().player()->getCharacter()->isDelayed()) {
+        gGame->context().player()->getCharacter()->setDelayed(false);
+        return true;
+    }
+    switch (gGame->context().player()->getCharacter()->field()->type()) {
+    case AH::Common::FieldData::Location:
+    case AH::Common::FieldData::Street:
+        return moveArkham();
+    case AH::Common::FieldData::OtherWorld:
+        return moveOtherWorld();
+    default:
+        Q_ASSERT_X(false, "Movement", "Unsupported Field Type");
+    }
+    return false;
+}
+
+bool MoveAction::moveArkham()
+{
+    int speed = gGame->context().getCurCharacterProperty(PropertyValue::Prop_Movement).finalVal();
+    MovementPath p = gGame->context().player()->chooseMovement(gGame->context().player()->getCharacter()->field(), speed);
+
+    if (p.startField() == gGame->context().player()->getCharacter()->field()
+            && gGame->board()->validatePath(p)
+            && p.length() <= speed)
+    {
+        gGame->notifier()->actionStart(this, QString("Moving from %1").arg(p.first()->name()));
+        GameField *stopField = p.endField();
+        for (int i = 1; i < p.size(); ++i) {
+            gGame->notifier()->actionUpdate(this, QString("via %1").arg(p[i]->name()));
+            speed--;
+            if (p[i]->hasMonsters()) {
+                // STOP HERE!
+                stopField = p[i];
+                break;
+            }
+        }
+
+        stopField->placeCharacter(gGame->context().player()->getCharacter());
+        gGame->context().player()->getCharacter()->setMovementAmount(speed);
+        gGame->notifier()->actionFinish(this, QString("Stopping at %1").arg(stopField->name()));
+
+        return true;
+    }
+    return false;
+}
+
+bool MoveAction::moveOtherWorld()
+{
+    Character *c = gGame->context().player()->getCharacter();
+    switch (c->otherWorldPhase()) {
+    case AH::OWP_FirstField:
+        c->setOtherWoldPhase(AH::OWP_SecondField);
+        gGame->notifier()->actionExecute(this, "Moved to second field");
+        return true;
+    case AH::OWP_SecondField:
+        if (!c->field()->backGates().isEmpty()) {
+            // TODO: Let choose gate
+            Gate *p = c->field()->backGates().at(0);
+            p->comeBack(c);
+            gGame->notifier()->actionExecute(this, QString("Returned to %1").arg(p->field()->name()));
+        }
+        return true;
+    default:
+        Q_ASSERT_X(false, "Movement Other World", "Unsupported Other World Phase");
+    }
+
+    return false;
+}
+
+void MoveOption::determineMovementType()
+{
+    if (gGame->context().player()->getCharacter()->isDelayed()) {
+        m_chooseType = AH::ChooseMandatory;
+        m_continueType = AH::CannotContinue;
+        return;
+    }
+    switch (gGame->context().player()->getCharacter()->field()->type()) {
+    case AH::Common::FieldData::Location:
+    case AH::Common::FieldData::Street:
+        m_chooseType = AH::ChooseOptional;
+        m_continueType = AH::CanContinue;
+        break;
+    case AH::Common::FieldData::OtherWorld:
+        m_chooseType = AH::ChooseMandatory;
+        m_continueType = AH::CannotContinue;
+        break;
+    default:
+        m_chooseType = AH::ChooseOptional;
+        m_continueType = AH::CanContinue;
+    }
+}
+
+bool MoveOption::isAvailable()
+{
+    if (gGame->context().player()->getCharacter()->isDelayed()) {
+        return true;
+    }
+    switch (gGame->context().player()->getCharacter()->field()->type()) {
+    case AH::Common::FieldData::Location:
+    case AH::Common::FieldData::Street:
+        return gGame->context().getCurCharacterProperty(PropertyValue::Prop_Movement).finalVal() > 0;
+    case AH::Common::FieldData::OtherWorld:
+        return true;
+    default:
+        return false;
+    }
+
+}

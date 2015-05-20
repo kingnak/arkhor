@@ -1,0 +1,29 @@
+#ifndef INVESTIGATORSCRIPT_H
+#define INVESTIGATORSCRIPT_H
+
+#include <QObject>
+#include <QScriptValue>
+#include "game/investigator.h"
+
+class QScriptContext;
+
+class InvestigatorScript : public QObject, public Investigator
+{
+    Q_OBJECT
+public:
+    explicit InvestigatorScript(QObject *parent = 0);
+
+    virtual Character *instantiate();
+
+    static QScriptValue createInvestigator(QScriptContext *ctx, QScriptEngine *eng);
+
+signals:
+
+public slots:
+
+private:
+    static bool parseAttributeList(QScriptValue v, QList<AH::Common::InvestigatorData::AttributeValuePair> &ret);
+    static bool verify(InvestigatorScript *inv, QString *msg = NULL);
+};
+
+#endif // INVESTIGATORSCRIPT_H

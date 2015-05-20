@@ -10,6 +10,7 @@ public:
     virtual AH::GamePhases phases() const;
     virtual bool execute();
 
+    QString id() const { return "AC_UNTAP"; }
     virtual QString name() const { return "Untap"; }
     virtual QString description() const { return ""; }
 };

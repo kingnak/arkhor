@@ -2,6 +2,9 @@
     <qresource prefix="/core/images">
         <file alias="terror_track">client_resources/terror_track.png</file>
         <file alias="gameboard">client_resources/gameboard_v1.png</file>
+        <file alias="interaction">client_resources/041-48x48-Import-Export_Manager.png</file>
+        <file alias="info">client_resources/074-48x48-Info_ueber_asim.png</file>
+        <file alias="inventory">client_resources/094-48x48-Berechtigungsgruppe.png</file>
     </qresource>
     <qresource prefix="/test">
         <file>client_resources/test/Byakhee.png</file>
@@ -11,9 +14,15 @@
         <file>client_resources/test/Dhole.png</file>
         <file>client_resources/test/ElderThing.png</file>
         <file>client_resources/ah-lurker-monstergate.png</file>
+        <file>client_resources/test/jenny_barnes_figure.png</file>
+        <file>client_resources/test/sister_mary_figure.png</file>
     </qresource>
     <qresource prefix="/core/marker">
         <file alias="activity_1">client_resources/activity_marker_1.png</file>
         <file alias="clue">client_resources/clue.png</file>
+        <file alias="gate_closed">client_resources/gate_closed.png</file>
+    </qresource>
+    <qresource prefix="/core/data">
+        <file alias="boardfields">client_resources/boardfields.txt</file>
     </qresource>
 </RCC>

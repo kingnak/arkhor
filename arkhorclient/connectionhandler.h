@@ -6,6 +6,7 @@
 #include <communication/networkconnection.h>
 #include <playerdata.h>
 #include <investigatordata.h>
+#include <gameoptiondata.h>
 
 class ConnectionHandler : public QObject
 {
@@ -17,6 +18,8 @@ public:
     void registerPlayer();
     void startGame();
     void chooseInvestigator(AH::Common::InvestigatorData i);
+    void selectOption(QString id);
+    void selectMovementPath(QList<AH::Common::FieldData::FieldID> fieldIds);
 
 public slots:
     void startup();
@@ -29,8 +32,16 @@ signals:
     void promptActive();
 
     void gameStarted();
+    void gameStart();
     void setPlayerData(AH::Common::PlayerData d);
     void setInvestigatorList(QList<AH::Common::InvestigatorData> l);
+
+    void chooseOption(QList<AH::Common::GameOptionData> o);
+    void chooseMovement(AH::Common::FieldData::FieldID startId, int movementPoints);
+
+    void boardContent(QVariantMap boardMap);
+
+    void playerCharacterInstantiated(QString playerId, QString investigatorId);
 
 private slots:
     void handleMessage(AH::Common::Message msg);

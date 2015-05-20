@@ -11,6 +11,9 @@ public:
     virtual void init(Game *game);
 
     virtual void gameStarted();
+    virtual void startGame();
+
+    virtual void sendBoard(GameBoard *board);
 
     virtual void playerRemoved(Player *p);
 

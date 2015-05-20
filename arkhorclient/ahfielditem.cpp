@@ -28,6 +28,11 @@ QRectF AhFieldItem::boundingRect() const
     return m_itemRect;
 }
 
+void AhFieldItem::setClickable(bool clickable)
+{
+    if (m_fieldArea) m_fieldArea->setActive(clickable);
+}
+
 void AhFieldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     //painter->fillRect(m_itemRect,QColor(0,0,0,128));
@@ -48,9 +53,28 @@ void AhFieldItem::initSubItems()
     initPortalItem();
 
     /////////// TEST
-    QGraphicsEllipseItem *i = new QGraphicsEllipseItem(-5,-5,10,10,this);
-    i->setBrush(Qt::red);
+    //QGraphicsEllipseItem *i = new QGraphicsEllipseItem(-5,-5,10,10,this);
+    //i->setBrush(Qt::red);
     /////////// TEST
+}
+
+void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
+{
+    if (m_characters) {
+        m_characters->clear();
+        foreach (QString id, data.characterIds()) {
+            m_characters->addItem(StackItem(QPixmap(":/test/client_resources/test/jenny_barnes_figure.png"), "", id));
+        }
+    }
+
+    if (m_monsters) {
+        m_monsters->clear();
+        foreach (QString id, data.monsterIds()) {
+            m_monsters->addItem(StackItem(QPixmap(":/test/client_resources/test/Cultist.png"), "", id));
+        }
+    }
+
+    if (m_clues) m_clues->setClueCount(data.clueAmount());
 }
 
 void AhFieldItem::initCharacterItem()
@@ -72,9 +96,8 @@ void AhFieldItem::initCharacterItem()
     prxChar->setPos(bound.topLeft());
 
     ////////// TEST
-    m_characters->addItem(StackItem(QPixmap(":/test/client_resources/test/DarkYoung.png"), "", "Dark Young"));
-    m_characters->addItem(StackItem(QPixmap(":/test/client_resources/test/ElderThing.png"), "", "Elder Thing"));
-    m_characters->addItem(StackItem(QPixmap(":/test/client_resources/test/Chthonian.png"), "", "Chthonian"));
+    //m_characters->addItem(StackItem(QPixmap(":/test/client_resources/test/jenny_barnes_figure.png"), "", "Jenny Barnes"));
+    //m_characters->addItem(StackItem(QPixmap(":/test/client_resources/test/sister_mary_figure.png"), "", "Sister Mary"));
     ////////// TEST
 }
 
@@ -98,9 +121,9 @@ void AhFieldItem::initMonsterItem()
 
 
     ////////// TEST
-    m_monsters->addItem(StackItem(QPixmap(":/test/client_resources/test/Byakhee.png"), "", "Byakhee"));
-    m_monsters->addItem(StackItem(QPixmap(":/test/client_resources/test/Cultist.png"), "", "Cultist"));
-    m_monsters->addItem(StackItem(QPixmap(":/test/client_resources/test/Dhole.png"), "", "Dhole"));
+    //m_monsters->addItem(StackItem(QPixmap(":/test/client_resources/test/Byakhee.png"), "", "Byakhee"));
+    //m_monsters->addItem(StackItem(QPixmap(":/test/client_resources/test/Cultist.png"), "", "Cultist"));
+    //m_monsters->addItem(StackItem(QPixmap(":/test/client_resources/test/Dhole.png"), "", "Dhole"));
     ////////// TEST
 }
 
@@ -111,20 +134,25 @@ void AhFieldItem::initSpecialItem()
         m_specialMarker->setPos(-SPECLIAL_ITEM_SIZE, -SPECLIAL_ITEM_SIZE/2);
     else
         m_specialMarker->setPos(-SPECLIAL_ITEM_SIZE/2, -SPECLIAL_ITEM_SIZE/2);
-    m_specialMarker->setPixmap(QPixmap(":/core/marker/activity_1").scaled(QSize(SPECLIAL_ITEM_SIZE, SPECLIAL_ITEM_SIZE)));
+    //m_specialMarker->setPixmap(QPixmap(":/core/marker/activity_1").scaled(QSize(SPECLIAL_ITEM_SIZE, SPECLIAL_ITEM_SIZE)));
 }
 
 void AhFieldItem::initThisCharacterItem()
 {
     m_thisCharacter = new QGraphicsPixmapItem(this);
-    m_thisCharacter->setPos(0, -THIS_CHAR_ITEM_SIZE.height()/2);
+    if (m_type == Location)
+        m_thisCharacter->setPos(-THIS_CHAR_ITEM_SIZE.width()/2, m_itemRect.bottom()-THIS_CHAR_ITEM_SIZE.height());
+    else
+        m_thisCharacter->setPos(0, -THIS_CHAR_ITEM_SIZE.height()/2);
+    //QPixmap p = QPixmap(":/test/client_resources/test/jenny_barnes_figure.png").scaled(THIS_CHAR_ITEM_SIZE.toSize());
+    //m_thisCharacter->setPixmap(p);
 }
 
 void AhFieldItem::initClickAreaItem()
 {
     m_fieldArea = new ClickAreaItem(m_fieldRect, this);
     m_fieldArea->setZValue(-1);
-    m_fieldArea->setActive(true);
+    m_fieldArea->setActive(false);
 }
 
 void AhFieldItem::initClueItem()
@@ -149,6 +177,10 @@ void AhFieldItem::initPortalItem()
 
 void AhFieldItem::fieldAreaClicked()
 {
+    //QMessageBox::information(NULL, "field", QString::number(this->id()));
+    if (m_fieldArea->isActive()) {
+        emit fieldClicked(m_id);
+    }
 }
 
 void AhFieldItem::characterClicked(const StackItem &itm)
@@ -166,6 +198,7 @@ void AhFieldItem::monsterClicked(const StackItem &itm)
 ClickAreaItem::ClickAreaItem(QRectF r, AhFieldItem *parent)
     : QGraphicsRectItem(r, parent), m_isActive(false), m_mouseIn(false), m_mouseDown(false)
 {
+    m_field = parent;
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::LeftButton);
 }

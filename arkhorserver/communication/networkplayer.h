@@ -24,7 +24,12 @@ public:
 
     virtual void playerRemoved(Player *p);
 
+    virtual void playerCharacterInstantiated(Player *p);
+
     virtual void gameStarted();
+    virtual void startGame();
+
+    virtual void sendBoard(GameBoard *board);
 
     virtual void nextRound();
     virtual void gamePhaseChaned(AH::GamePhase phase);

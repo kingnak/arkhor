@@ -9,6 +9,8 @@ class EnterGateAction : public GameAction
 public:
     EnterGateAction();
 
+    QString id() const { return "AC_ENTER_GATE"; }
+
     virtual AH::GamePhases phases() const { return AH::ArkhamEncountery; }
 
     virtual bool execute();
@@ -21,8 +23,10 @@ class EnterGateOption : public GameOption
 {
 public:
     EnterGateOption()
-        : GameOption(&ea, AH::CannotContinue, AH::ChooseMandatory)
+        : GameOption(&ea, AH::CannotContinue, AH::ChooseMandatory, AH::ArkhamEncountery)
     {}
+
+    QString id() const { return "OP_ENTER_GATE"; }
 
     virtual bool isAvailable();
 

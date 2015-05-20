@@ -9,6 +9,8 @@ class CloseGateAction : public GameAction
 public:
     CloseGateAction();
 
+    QString id() const { return "AC_CLOSE_GATE"; }
+
     virtual AH::GamePhases phases() const { return AH::ArkhamEncountery; }
 
     virtual bool execute();
@@ -27,8 +29,10 @@ class CloseGateOption : public GameOption
 {
 public:
     CloseGateOption()
-        : GameOption(&ca, AH::CannotContinue, AH::ChooseOptional)
+        : GameOption(&ca, AH::CannotContinue, AH::ChooseOptional, AH::ArkhamEncountery)
     {}
+
+    QString id() const { return "OP_CLOSE_GATE"; }
 
     virtual bool execute();
 
@@ -44,8 +48,10 @@ class SealGateOption : public GameOption
 {
 public:
     SealGateOption()
-        : GameOption(&ca, AH::CannotContinue, AH::ChooseOptional)
+        : GameOption(&ca, AH::CannotContinue, AH::ChooseOptional, AH::ArkhamEncountery)
     {}
+
+    QString id() const { return "OP_SEAL_GATE"; }
 
     virtual bool execute();
     AH::Common::Cost getCosts() const;

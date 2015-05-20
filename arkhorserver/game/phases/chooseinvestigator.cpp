@@ -1,5 +1,6 @@
 #include "chooseinvestigator.h"
 #include "game/investigator.h"
+#include "character.h"
 #include "../player.h"
 
 ChooseInvestigator::ChooseInvestigator(Game *game)
@@ -17,8 +18,13 @@ void ChooseInvestigator::execute()
             if (p->isActive()) {
                 Character *c = sel->instantiate();
                 p->setCharacter(c);
+                gGame->registerCharacter(c);
+                gGame->board()->field(sel->startFieldId())->placeCharacter(c);
                 inv.removeAll(sel);
+                p->playerCharacterInstantiated(p);
             }
+        } else {
+            // TODO: None chosen, use random
         }
     }
 }

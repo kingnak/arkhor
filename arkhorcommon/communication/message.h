@@ -23,6 +23,7 @@ namespace AH{
                 S_KILL,
                 S_PLAYER_REMOVED,
 
+
                 C_REGISTER_PLAYER,
                 S_REGISTER_PLAYER_SUCCESSFUL,
                 S_REGISTER_PLAYER_FAILED,
@@ -30,8 +31,19 @@ namespace AH{
                 C_START_GAME,
                 S_GAME_STARTED,
 
+                S_BOARD_CONTENT,
+
                 S_CHOOSE_INVESTIGATOR,
                 C_SELECT_INVESTIGATOR,
+                S_PLAYER_CHAR_INSTANTIATED,
+
+                S_GAME_START,
+
+                S_CHOOSE_OPTION,
+                C_SELECT_OPTION,
+
+                S_CHOOSE_MOVEMENT_PATH,
+                C_MOVE_PATH,
 
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF

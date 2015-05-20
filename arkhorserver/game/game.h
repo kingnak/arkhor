@@ -37,6 +37,7 @@ public:
     void registerInvestigator(Investigator *i);
     QList<Investigator *> allInvestigators() const;
 
+    void registerCharacter(Character *c);
     void registerAction(GameAction *a);
     void registerOption(GameOption *o);
     void registerObject(GameObject *o, quint32 count = 1);
@@ -79,6 +80,8 @@ public:
 
     int getGateSealClueCost() const { return 5; }
 
+    void boardDirty();
+
 protected:
     void initBoard();
     void chooseInvestigators();
@@ -100,6 +103,8 @@ private:
 
     void cleanupDeactivatedPlayers();
 
+    void sendBoard();
+
 private:
     enum {
         UpkeepIndex = 0,
@@ -112,6 +117,7 @@ private:
 private:
     // Registries:
     QMap<QString, Investigator *> m_investigators;
+    QMap<QString, Character *> m_characters;
     QMap<QString, GameAction *> m_actions;
     QMap<QString, GameOption *> m_options;
     QMap<QString, GameObject *> m_objects;

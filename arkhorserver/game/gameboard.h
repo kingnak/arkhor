@@ -18,6 +18,7 @@ public:
     GameField *field(AH::Common::FieldData::FieldID id) { return m_fields[id]; }
 
     QList<GameField *> fields(AH::Common::FieldData::FieldType type);
+    QList<GameField *> allFields();
 
 private:
     QMap<int, GameField *> m_fields;

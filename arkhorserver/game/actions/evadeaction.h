@@ -9,6 +9,8 @@ class EvadeAction : public GameAction
 public:
     EvadeAction();
 
+    QString id() const { return "AC_EVADE"; }
+
     virtual AH::GamePhases phases() const { return AH::Movement; }
     virtual bool execute();
 
@@ -24,8 +26,10 @@ class EvadeOption : public GameOption
 {
 public:
     EvadeOption()
-        : GameOption(&sa, AH::CanContinue, AH::ChooseMandatory)
+        : GameOption(&sa, AH::CanContinue, AH::ChooseMandatory, AH::Movement)
     {}
+    QString id() const { return "OP_EVADE"; }
+
     void reset() { sa.m_hasFailedAttempt = false; }
 
     virtual bool isAvailable();

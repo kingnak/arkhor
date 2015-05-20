@@ -10,6 +10,7 @@
 #include "broadcastnotifier.h"
 #include "gameobject.h"
 #include "arkhamencounter.h"
+#include "character.h"
 #include <QThread>
 #include <QDebug>
 
@@ -59,15 +60,19 @@ void Game::start()
 
     // Game preparation:
     initBoard();
+    //initDecks();
     chooseInvestigators();
     cleanupDeactivatedPlayers();
     //chooseAnciantOne();
 
-    //initDecks();
+    m_notifier->startGame();
+    init();
+    play();
 }
 
 void Game::play()
 {
+    sendBoard();
     mythos();
     m_notifier->firstPlayerChanged(getFirstPlayer());
     while (true) {
@@ -96,6 +101,11 @@ QList<Investigator *> Game::allInvestigators() const
 {
     QReadLocker l(&m_lock);
     return m_investigators.values();
+}
+
+void Game::registerCharacter(Character *c)
+{
+    m_characters.insert(c->id(), c);
 }
 
 void Game::registerAction(GameAction *a)
@@ -223,6 +233,12 @@ GameNotifier *Game::notifier()
     return m_notifier;
 }
 
+void Game::boardDirty()
+{
+    // TODO: better...
+    sendBoard();
+}
+
 // protected
 void Game::initBoard()
 {
@@ -337,4 +353,10 @@ void Game::cleanupDeactivatedPlayers()
             m_notifier->playerRemoved(p);
         }
     }
+}
+
+void Game::sendBoard()
+{
+    // TODO: Check if board is dirty?
+    m_notifier->sendBoard(m_board);
 }

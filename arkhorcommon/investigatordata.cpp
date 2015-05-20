@@ -3,6 +3,11 @@
 namespace AH{ namespace Common {
 
 InvestigatorData::InvestigatorData()
+:   m_homeFieldId(FieldData::NO_NO_FIELD),
+    m_sanity(0),
+    m_stamina(0),
+    m_money(0),
+    m_focus(0)
 {
 }
 

@@ -13,16 +13,19 @@ public:
     bool execute();
     AH::GamePhases phases() const { return AH::Upkeep; }
 
+    QString id() const { return "AC_FOCUS"; }
     QString name() const { return "Focus"; }
-    QString description() const { return ""; }
+    QString description() const { return "Set the focus attributes"; }
 };
 
 class FocusOption : public GameOption
 {
 public:
     FocusOption()
-        : GameOption(&fa, AH::CanContinue, AH::ChooseOptional)
+        : GameOption(&fa, AH::CanContinue, AH::ChooseOptional, AH::Upkeep)
     { }
+
+    QString id() const { return "OP_FOCUS"; }
 
     virtual bool isAvailable();
 

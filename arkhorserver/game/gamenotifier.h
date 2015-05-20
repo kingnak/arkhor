@@ -9,6 +9,7 @@ class Player;
 class Game;
 class GameAction;
 class GameOption;
+class GameBoard;
 
 class GameNotifier
 {
@@ -20,6 +21,10 @@ public:
     virtual void gameStarted() = 0;
 
     virtual void playerRemoved(Player *p) = 0;
+
+    virtual void startGame() = 0;
+
+    virtual void sendBoard(GameBoard *board) = 0;
 
     virtual void nextRound() = 0;
     virtual void gamePhaseChaned(AH::GamePhase phase) = 0;

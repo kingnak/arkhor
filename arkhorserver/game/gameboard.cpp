@@ -168,6 +168,11 @@ QList<GameField *> GameBoard::fields(AH::Common::FieldData::FieldType type)
     return ret;
 }
 
+QList<GameField *> GameBoard::allFields()
+{
+    return m_fields.values();
+}
+
 void GameBoard::connectfield(AH::Common::FieldData::FieldID src, AH::Common::FieldData::FieldID dst, bool w, bool b)
 {
     m_fields[src]->m_neighbours.insert(m_fields[dst]);

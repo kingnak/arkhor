@@ -3,6 +3,7 @@
 
 #include "arkhorcommonglobal.h"
 #include <ahglobal.h>
+#include <fielddata.h>
 #include <serializer.hpp>
 #include <QStringList>
 
@@ -32,6 +33,8 @@ namespace AH {
 
             virtual QString fieldId() const { return m_fieldId; }
             bool isDelayed() const { return m_delayed; }
+            bool isSetOut() const { return m_isSetOut; }
+
             AH::OtherWorldPhase otherWorldPhase() const { return m_owPhase; }
 
         protected:
@@ -51,8 +54,9 @@ namespace AH {
             QStringList m_monsterMarkerIds;
             QStringList m_gateMarkerIds;
 
-            QString m_fieldId;
+            FieldData::FieldID m_fieldId;
             bool m_delayed;
+            bool m_isSetOut;
             AH::OtherWorldPhase m_owPhase;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, CharacterData);

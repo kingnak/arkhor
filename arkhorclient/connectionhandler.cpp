@@ -29,6 +29,18 @@ void ConnectionHandler::chooseInvestigator(AH::Common::InvestigatorData i)
     send(AH::Common::Message::C_SELECT_INVESTIGATOR, i.id());
 }
 
+void ConnectionHandler::selectOption(QString id)
+{
+    send(AH::Common::Message::C_SELECT_OPTION, id);
+}
+
+void ConnectionHandler::selectMovementPath(QList<AH::Common::FieldData::FieldID> fieldIds)
+{
+    QVariant v;
+    v << fieldIds;
+    send(AH::Common::Message::C_MOVE_PATH, v);
+}
+
 void ConnectionHandler::startup()
 {
     QTcpSocket *sock = new QTcpSocket;
@@ -73,6 +85,46 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         emit setInvestigatorList(l);
         break;
     }
+
+    case AH::Common::Message::S_PLAYER_CHAR_INSTANTIATED:
+    {
+        QVariantMap m;
+        msg.payload >> m;
+        emit playerCharacterInstantiated(m["player"].toString(), m["character"].toString());
+        break;
+    }
+
+    case AH::Common::Message::S_BOARD_CONTENT:
+    {
+        //QVariantMap m;
+        //msg.payload >> m;
+        emit boardContent(msg.payload.value<QVariantMap>());
+        break;
+    }
+
+    case AH::Common::Message::S_GAME_START:
+        emit gameStart();
+        break;
+
+    case AH::Common::Message::S_CHOOSE_OPTION:
+    {
+        QList<AH::Common::GameOptionData> l;
+        msg.payload >> l;
+        emit chooseOption(l);
+        break;
+    }
+
+    case AH::Common::Message::S_CHOOSE_MOVEMENT_PATH:
+    {
+        QVariantMap m;
+        msg.payload >> m;
+        AH::Common::FieldData::FieldID sid;
+        int mov;
+        m["startId"] >> sid;
+        m["movementPoints"] >> mov;
+        emit chooseMovement(sid, mov);
+    }
+
     default:
         qDebug() << "Did not understand message type: " << msg.type;
     }

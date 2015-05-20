@@ -3,6 +3,7 @@
 
 #include "arkhorcommonglobal.h"
 #include "ahglobal.h"
+#include "fielddata.h"
 #include <QStringList>
 #include "serializer.hpp"
 
@@ -34,7 +35,7 @@ namespace AH {
             QString id() const { return m_id; }
             QString name() const { return m_name; }
             QString occupation() const { return m_occupation; }
-            int startFieldId() const { return m_homeFieldId; }
+            FieldData::FieldID startFieldId() const { return m_homeFieldId; }
             int sanity() const { return m_sanity; }
             int stamina() const { return m_stamina; }
             int money() const { return m_money; }
@@ -50,7 +51,7 @@ namespace AH {
             QString m_id;
             QString m_name;
             QString m_occupation;
-            int m_homeFieldId;
+            FieldData::FieldID m_homeFieldId;
             int m_sanity;
             int m_stamina;
             int m_money;

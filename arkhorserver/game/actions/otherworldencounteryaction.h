@@ -9,6 +9,8 @@ class OtherWorldEncounteryAction : public GameAction
 public:
     OtherWorldEncounteryAction();
 
+    QString id() const { return "AC_OTHERWORLD_ENCOUNTERY"; }
+
     virtual AH::GamePhases phases() const { return AH::OtherWorldEncountery; }
 
     virtual bool execute();
@@ -21,8 +23,10 @@ class OtherWorldEncounteryOption : public GameOption
 {
 public:
     OtherWorldEncounteryOption()
-        : GameOption(&ea, AH::CannotContinue, AH::ChooseMandatory)
+        : GameOption(&ea, AH::CannotContinue, AH::ChooseMandatory, AH::OtherWorldEncountery)
     {}
+
+    QString id() const { return "OP_OTHERWORLD_ENCOUNTERY"; }
 
     virtual bool isAvailable();
 

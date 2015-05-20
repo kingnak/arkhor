@@ -5,6 +5,8 @@
 #include "connectionhandler.h"
 #include <playerdata.h>
 
+class AhMainGui;
+
 namespace Ui {
 class Form;
 }
@@ -29,10 +31,15 @@ private slots:
     void gameStarted();
     void setPlayerData(AH::Common::PlayerData d);
     void setInvestigatorList(QList<AH::Common::InvestigatorData> l);
+    void characterInstantiated(QString playerId, QString charaterId);
+    void startGame();
 
 private:
     Ui::Form *ui;
     ConnectionHandler *m_conn;
+
+    QString m_thisPlayerId;
+    AhMainGui *m_mainGui;
 };
 
 #endif // FORM_H

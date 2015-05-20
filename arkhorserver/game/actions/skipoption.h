@@ -9,6 +9,10 @@ public:
         : GameOption(NULL, AH::CannotContinue, AH::ChooseOptional, AH::AllPhases)
     {}
 
+    virtual QString id() const { return "OP_SKIP"; }
+    virtual QString name() const { return "Skip"; }
+    virtual QString description() const { return "Finish this round."; }
+
     virtual bool isAvailable() { return true; }
 
     virtual bool execute() { return true; }

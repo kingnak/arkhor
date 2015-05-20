@@ -2,6 +2,7 @@
 #include "ui_form.h"
 #include <utils/cleanupthread.h>
 #include <QMessageBox>
+#include "ahmaingui.h"
 
 Q_DECLARE_METATYPE(QList<AH::Common::InvestigatorData>)
 
@@ -13,11 +14,14 @@ Form::Form(QWidget *parent) :
     ui->setupUi(this);
 
     AH::registerCommonMetaTypes();
+
+    m_mainGui = new AhMainGui;
 }
 
 Form::~Form()
 {
     delete ui;
+    delete m_mainGui;
 }
 
 void Form::on_btnConnect_clicked()
@@ -39,6 +43,9 @@ void Form::on_btnConnect_clicked()
     connect(m_conn, SIGNAL(setPlayerData(AH::Common::PlayerData)), this, SLOT(setPlayerData(AH::Common::PlayerData)));
     connect(m_conn, SIGNAL(setInvestigatorList(QList<AH::Common::InvestigatorData>)), this, SLOT(setInvestigatorList(QList<AH::Common::InvestigatorData>)));
     connect(m_conn, SIGNAL(gameStarted()), this, SLOT(gameStarted()));
+
+    connect(m_conn, SIGNAL(playerCharacterInstantiated(QString,QString)), this, SLOT(characterInstantiated(QString,QString)));
+    connect(m_conn, SIGNAL(gameStart()), this, SLOT(startGame()));
     t->start();
 
 }
@@ -83,8 +90,11 @@ void Form::gameStarted()
 
 void Form::setPlayerData(AH::Common::PlayerData d)
 {
+    m_thisPlayerId = d.id();
     ui->lblId->setText(d.id());
     ui->btnStart->setEnabled(true);
+
+    m_mainGui->initConnection(m_conn);
 }
 
 void Form::setInvestigatorList(QList<AH::Common::InvestigatorData> l)
@@ -96,4 +106,21 @@ void Form::setInvestigatorList(QList<AH::Common::InvestigatorData> l)
         v << i;
         ui->cmbInvestigators->addItem(i.id(), v);
     }
+}
+
+void Form::characterInstantiated(QString playerId, QString charaterId)
+{
+    if (playerId == this->m_thisPlayerId) {
+        int idx = ui->cmbInvestigators->findData(charaterId);
+        if (idx >= 0) ui->cmbInvestigators->setCurrentIndex(idx);
+        ui->cmbInvestigators->setEnabled(false);
+    }
+    ui->btnSelectInv->setEnabled(false);
+}
+
+void Form::startGame()
+{
+    m_mainGui->show();
+    this->close();
+    //this->deleteLater();
 }

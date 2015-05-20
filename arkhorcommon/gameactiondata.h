@@ -13,10 +13,10 @@ namespace AH {
             GameActionData();
             virtual ~GameActionData() {}
 
-            QString id() const { return m_id; }
-            QString name() const { return m_name; }
-            QString description() const { return m_description; }
-            QString sourceId() const { return m_sourceId; }
+            virtual QString id() const { return m_id; }
+            virtual QString name() const { return m_name; }
+            virtual QString description() const { return m_description; }
+            virtual QString sourceId() const { return m_sourceId; }
             virtual AH::GamePhases phases() const { return m_phases; }
 
         protected:

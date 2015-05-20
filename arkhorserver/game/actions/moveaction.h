@@ -9,6 +9,8 @@ class MoveAction : public GameAction
 public:
     MoveAction();
 
+    QString id() const { return "AC_MOVE"; }
+
     virtual AH::GamePhases phases() const { return AH::Movement; }
 
     virtual bool execute();
@@ -24,7 +26,9 @@ private:
 class MoveOption : public GameOption
 {
 public:
-    MoveOption() : GameOption(&ma) {}
+    MoveOption() : GameOption(&ma, AH::CanContinue, AH::ChooseOptional, AH::Movement) {}
+
+    QString id() const { return "OP_MOVE"; }
 
     void determineMovementType();
 

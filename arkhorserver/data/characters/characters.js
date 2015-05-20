@@ -59,7 +59,7 @@ game.registerInvestigator(game.createInvestigator({
   ),
   attributes: {
     SpeedSneak: Array(
-      Array(0,4),
+      Array(5,4), // <- eig. 0/4!
       Array(1,3),
       Array(2,2),
       Array(3,1)

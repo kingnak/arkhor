@@ -3,6 +3,7 @@
 #include <QDebug>
 
 Investigator::Investigator()
+    : m_isInstantiated(false)
 {
 }
 

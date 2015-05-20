@@ -20,9 +20,9 @@ Character::Character(Investigator *i)
     m_curMovement(0),
     m_money(0),
     m_isDelayed(false),
-    */
-    m_explorededGate(NULL),
     m_owPhase(AH::NoPhase)
+    */
+    m_explorededGate(NULL)
 {
     instantiateFromInvestigator();
 }
@@ -68,7 +68,10 @@ QList<AttributeSlider> &Character::getModifyableFocusAttributes()
     return m_sliders;
 }
 
-const Gate *Character::getExploredGate() const { return m_explorededGate; }
+const Gate *Character::getExploredGate() const
+{
+    return m_explorededGate;
+}
 
 bool Character::canPay(const Cost &cost) const
 {
@@ -182,6 +185,8 @@ void Character::devour()
 
 void Character::instantiateFromInvestigator()
 {
+    m_investigatorId = m_investigator->id();
+    m_id = "CH_"+m_investigatorId;
     m_curStamina = m_maxStamina = m_investigator->stamina();
     m_curSanity = m_maxSanity = m_investigator->sanity();
     m_money = m_investigator->money();
@@ -215,9 +220,14 @@ void Character::instantiateFromInvestigator()
     }
     m_sliders.append(ll);
 
+    m_fieldId = m_investigator->startFieldId();
+
     // TODO Random and fixed possesion
-    // TODO start field
     // TODO Unique ability
+
+
+    // TEST:
+    m_movementPoints = 5;
 }
 
 int Character::getAttributeValue(AH::Attribute attr) const

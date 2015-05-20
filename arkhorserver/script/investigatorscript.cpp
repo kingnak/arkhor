@@ -31,7 +31,7 @@ QScriptValue InvestigatorScript::createInvestigator(QScriptContext *ctx, QScript
     ret->m_id = data.property("id").toString();
     ret->m_name = data.property("name").toString();
     ret->m_occupation = data.property("occupation").toString();
-    ret->m_homeFieldId = data.property("homeFieldId").toInt32();
+    ret->m_homeFieldId = static_cast<AH::Common::FieldData::FieldID> (data.property("homeFieldId").toInt32());
     ret->m_sanity = data.property("sanity").toInt32();
     ret->m_stamina = data.property("stamina").toInt32();
     ret->m_money = data.property("money").toInt32();

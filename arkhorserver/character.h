@@ -82,7 +82,7 @@ protected:
     int m_maxFocus;
 
     const Gate *m_explorededGate;
-    AH::OtherWorldPhase m_owPhase;
+    //AH::OtherWorldPhase m_owPhase;
 
     QList<Gate *> m_gateMarkers;
     QList<Monster *> m_monsterMarkers;

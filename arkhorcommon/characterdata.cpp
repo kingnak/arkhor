@@ -3,6 +3,18 @@
 namespace AH { namespace Common {
 
 CharacterData::CharacterData()
+:   m_curStamina(0),
+    m_curSanity(0),
+    m_maxStamina(0),
+    m_maxSanity(0),
+    m_money(0),
+    m_curFocus(0),
+    m_movementPoints(0),
+    m_clues(0),
+    m_fieldId(FieldData::NO_NO_FIELD),
+    m_delayed(false),
+    m_isSetOut(false),
+    m_owPhase(AH::NoPhase)
 {
 }
 
@@ -24,6 +36,7 @@ void operator <<(QVariant &data, const CharacterData &c)
     map["gateMarkerIds"] << c.gateMarkerIds();
     map["fieldId"] << c.fieldId();
     map["delayed"] << c.isDelayed();
+    map["isSetOut"] << c.isSetOut();
     map["otherWorldPhase"] << c.otherWorldPhase();
     data << map;
 }
@@ -47,6 +60,7 @@ void operator >>(const QVariant &data, CharacterData &c)
     map["gateMarkerIds"] >> c.m_gateMarkerIds;
     map["fieldId"] >> c.m_fieldId;
     map["delayed"] >> c.m_delayed;
+    map["isSetOut"] >> c.m_isSetOut;
     map["otherWorldPhase"] >> c.m_owPhase;
 }
 

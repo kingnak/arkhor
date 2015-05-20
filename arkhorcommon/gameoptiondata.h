@@ -14,7 +14,9 @@ namespace AH {
             GameOptionData();
             virtual ~GameOptionData();
 
-            QString id() const { return m_id; }
+            GameOptionData *data() { return this; }
+
+            virtual QString id() const { return m_id; }
             virtual QString name() const { return m_name; }
             virtual QString description() const { return m_description; }
             QString sourceId() const { return m_sourceId; }

@@ -4,6 +4,8 @@
 #include "game/gameaction.h"
 #include <cost.h>
 #include "game/investigator.h"
+#include "character.h"
+#include "game/gameoption.h"
 #include <QEventLoop>
 #include <QThread>
 #include <QTimerEvent>
@@ -55,9 +57,31 @@ void NetworkPlayer::playerRemoved(Player *p)
     m_conn->sendMessage(Message::S_PLAYER_REMOVED, m);
 }
 
+void NetworkPlayer::playerCharacterInstantiated(Player *p)
+{
+    QVariantMap m;
+    m["player"] << p->id();
+    m["character"] << p->getCharacter()->investigatorId();
+    m_conn->sendMessage(Message::S_PLAYER_CHAR_INSTANTIATED, m);
+}
+
 void NetworkPlayer::gameStarted()
 {
     m_conn->sendMessage(Message::S_GAME_STARTED, QVariant());
+}
+
+void NetworkPlayer::startGame()
+{
+    m_conn->sendMessage(Message::S_GAME_START, QVariant());
+}
+
+void NetworkPlayer::sendBoard(GameBoard *board)
+{
+    QVariantMap m;
+    foreach (GameField *f, board->allFields()) {
+        m[QString::number(f->id())] << *f->data();
+    }
+    m_conn->sendMessage(Message::S_BOARD_CONTENT, m);
 }
 
 void NetworkPlayer::nextRound()
@@ -143,7 +167,23 @@ Investigator *NetworkPlayer::chooseInvestigator(QList<Investigator *> invs)
 
 GameOption *NetworkPlayer::chooseOption(QList<GameOption *> options)
 {
-    Q_UNUSED(options);
+    QVariant v;
+    v << options;
+    m_conn->sendMessage(Message::S_CHOOSE_OPTION, v);
+
+    AH::Common::Message resp;
+    QList<Message::Type> l;
+    l << Message::C_SELECT_OPTION;
+    bool ok = awaitResponse(resp, l);
+    if (ok) {
+        // Find investigator by its id
+        QString id = resp.payload.toString();
+        foreach (GameOption *i, options) {
+            if (i->id() == id) {
+                return i;
+            }
+        }
+    }
     return NULL;
 }
 
@@ -156,9 +196,25 @@ QList<int> NetworkPlayer::chooseFocus(QList<AttributeSlider> sliders, int totalF
 
 MovementPath NetworkPlayer::chooseMovement(GameField *start, int movement)
 {
-    Q_UNUSED(start);
-    Q_UNUSED(movement);
-    return MovementPath();
+    QVariantMap map;
+    map["startId"] << start->id();
+    map["movementPoints"] << movement;
+    m_conn->sendMessage(Message::S_CHOOSE_MOVEMENT_PATH, map);
+
+    AH::Common::Message resp;
+    QList<Message::Type> l;
+    l << Message::C_MOVE_PATH;
+    bool ok = awaitResponse(resp, l);
+    MovementPath ret;
+    if (ok) {
+        QList<FieldData::FieldID> lst;
+        resp.payload >> lst;
+        foreach (FieldData::FieldID id, lst) {
+            GameField *f = gGame->board()->field(id);
+            ret << f;
+        }
+    }
+    return ret;
 }
 
 CostList NetworkPlayer::choosePayment(const Cost &c)

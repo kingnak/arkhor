@@ -14,6 +14,8 @@ namespace AH {
             GameFieldData();
             virtual ~GameFieldData() {}
 
+            GameFieldData *data() { return this; }
+
             FieldData::FieldID id() const { return m_id; }
             QString name() const { return m_name; }
             FieldData::FieldType type() const { return m_type; }
@@ -42,6 +44,9 @@ namespace AH {
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, GameFieldData);
         };
+
+        Q_DECLARE_METATYPE(GameFieldData)
+        //Q_DECLARE_METATYPE(GameFieldData*)
     }
 }
 

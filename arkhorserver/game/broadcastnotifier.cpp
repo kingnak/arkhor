@@ -18,6 +18,20 @@ void BroadcastNotifier::gameStarted()
     }
 }
 
+void BroadcastNotifier::startGame()
+{
+    foreach (Player *p, m_game->getPlayers()) {
+        p->startGame();
+    }
+}
+
+void BroadcastNotifier::sendBoard(GameBoard *board)
+{
+    foreach (Player *p, m_game->getPlayers()) {
+        p->sendBoard(board);
+    }
+}
+
 void BroadcastNotifier::playerRemoved(Player *player)
 {
     foreach (Player *p, m_game->getPlayers()) {

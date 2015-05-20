@@ -3,6 +3,7 @@
 
 #include <QGraphicsItem>
 #include <fielddata.h>
+#include <gamefielddata.h>
 
 class ItemStacker;
 class StackItem;
@@ -26,13 +27,17 @@ public:
 
     void setFieldRect(QRectF r);
     void setFieldExtent(QSizeF s);
+    void setClickable(bool clickable);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );
 
     void initSubItems();
 
+    void updateFromData(AH::Common::GameFieldData data);
+
 signals:
     void itemInfoRequested(QString id);
+    void fieldClicked(AH::Common::FieldData::FieldID id);
 
 private slots:
     void characterClicked(const StackItem &itm);
@@ -64,7 +69,7 @@ private:
     ClueAreaItem *m_clues;
     QGraphicsPixmapItem *m_portal;
     QGraphicsPixmapItem *m_specialMarker;
-    QGraphicsItem *m_thisCharacter;
+    QGraphicsPixmapItem *m_thisCharacter;
 };
 
 class ClickAreaItem : public QGraphicsRectItem

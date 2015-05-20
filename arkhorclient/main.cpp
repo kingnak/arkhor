@@ -6,10 +6,10 @@
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    //Form f;
-    //f.show();
-    AhMainGui gui;
-    gui.show();
+    Form f;
+    f.show();
+    //AhMainGui gui;
+    //gui.show();
     app.exec();
 }
 

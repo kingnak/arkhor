@@ -21,6 +21,7 @@ public:
 
     // Preparation
     virtual Investigator *chooseInvestigator(QList<Investigator *> invs) = 0;
+    virtual void playerCharacterInstantiated(Player *p) = 0;
 
     // Main Game
     virtual GameOption *chooseOption(QList<GameOption *> options) = 0;

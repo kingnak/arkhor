@@ -52,6 +52,8 @@ bool MoveAction::moveArkham()
         gGame->context().player()->getCharacter()->setMovementAmount(speed);
         gGame->notifier()->actionFinish(this, QString("Stopping at %1").arg(stopField->name()));
 
+        gGame->boardDirty();
+
         return true;
     }
     return false;

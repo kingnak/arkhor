@@ -9,6 +9,8 @@ class FightAction : public GameAction
 public:
     FightAction();
 
+    QString id() const { return "AC_FIGHT"; }
+
     virtual AH::GamePhases phases() const { return AH::Movement; }
 
     virtual bool execute();
@@ -21,8 +23,10 @@ class FightOption : public GameOption
 {
 public:
     FightOption() :
-        GameOption(&fa, AH::CanContinue, AH::ChooseMandatory)
+        GameOption(&fa, AH::CanContinue, AH::ChooseMandatory, AH::Movement)
     {}
+
+    QString id() const { return "OP_FIGHT"; }
 
     virtual bool isAvailable();
 

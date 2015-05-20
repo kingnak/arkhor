@@ -9,6 +9,8 @@ class ArkhamEncounteryAction : public GameAction
 public:
     ArkhamEncounteryAction() {}
 
+    QString id() const { return "AC_ARKHAM_ENCOUNTERY"; }
+
     virtual AH::GamePhases phases() const { return AH::ArkhamEncountery; }
 
     virtual bool execute();
@@ -21,8 +23,10 @@ class ArkhamEncounteryOption : public GameOption
 {
 public:
     ArkhamEncounteryOption()
-        : GameOption(&ea, AH::CannotContinue, AH::ChooseOptional)
+        : GameOption(&ea, AH::CannotContinue, AH::ChooseOptional, AH::ArkhamEncountery)
     {}
+
+    QString id() const { return "OP_ARKHAM_ENCOUNTERY"; }
 
     virtual bool isAvailable() { return true; }
 

@@ -15,6 +15,7 @@
 #include "arkhamencounterscript.h"
 #include "monsterscript.h"
 #include "gamecontextscript.h"
+#include "otherworldencounterscript.h"
 
 GameScript::GameScript(Game *game, QObject *parent) :
     QObject(parent), m_game(game)
@@ -66,6 +67,21 @@ QScriptValue GameScript::initConstants()
 
 void GameScript::initGlobalConstants(QScriptValue &consts)
 {
+
+    // Skills
+    QScriptValue sk = m_engine->newObject();
+    sk.setProperty("Speed", AH::Skill_Speed, QScriptValue::ReadOnly);
+    sk.setProperty("Sneak", AH::Skill_Sneak, QScriptValue::ReadOnly);
+    sk.setProperty("Fight", AH::Skill_Fight, QScriptValue::ReadOnly);
+    sk.setProperty("Will", AH::Skill_Will, QScriptValue::ReadOnly);
+    sk.setProperty("Lore", AH::Skill_Lore, QScriptValue::ReadOnly);
+    sk.setProperty("Luck", AH::Skill_Luck, QScriptValue::ReadOnly);
+    sk.setProperty("Evade", AH::Skill_Evade, QScriptValue::ReadOnly);
+    sk.setProperty("Combat", AH::Skill_Combat, QScriptValue::ReadOnly);
+    sk.setProperty("Horror", AH::Skill_Horror, QScriptValue::ReadOnly);
+    sk.setProperty("Spell", AH::Skill_Spell, QScriptValue::ReadOnly);
+    consts.setProperty("Skills", sk, QScriptValue::ReadOnly);
+
     // ObjectType
     QScriptValue ot = m_engine->newObject();
     ot.setProperty("CommonItem", AH::Obj_CommonItem, QScriptValue::ReadOnly);
@@ -143,6 +159,14 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
     dims.setProperty("Plus", AH::Dim_Plus, QScriptValue::ReadOnly);
     dims.setProperty("Triangle", AH::Dim_Triangle, QScriptValue::ReadOnly);
     consts.setProperty("Dimension", dims, QScriptValue::ReadOnly);
+
+    // Other World Colors
+    QScriptValue owc = m_engine->newObject();
+    owc.setProperty("Red", AH::OWC_Red, QScriptValue::ReadOnly);
+    owc.setProperty("Green", AH::OWC_Green, QScriptValue::ReadOnly);
+    owc.setProperty("Blue", AH::OWC_Blue, QScriptValue::ReadOnly);
+    owc.setProperty("Yellow", AH::OWC_Yellow, QScriptValue::ReadOnly);
+    consts.setProperty("OtherWorld", owc, QScriptValue::ReadOnly);
 
     // Monster Movements
     QScriptValue movs = m_engine->newObject();
@@ -264,6 +288,40 @@ GameOptionScript *GameScript::createOption()
     return GameOptionScript::createGameOption(context(), engine());
 }
 
+QScriptValue GameScript::quickOption()
+{
+    if (context()->argumentCount() != 1 || !context()->argument(0).isObject()) {
+        return context()->throwError(QScriptContext::TypeError, "quickOption: Must call with 1 object");
+    }
+
+    QScriptValue data = context()->argument(0);
+    GameActionScript *a = GameActionScript::createGameAction(data, context(), engine());
+    if (!a) {
+        return context()->throwError(QScriptContext::TypeError, "quickOption: Error creating action");
+    }
+
+    QScriptValue act = registerAction(a);
+    if (act.isError()) {
+        return act;
+    }
+
+    data.setProperty("activate", QScriptValue());
+    QString aid = act.property("id").toString();
+    data.setProperty("actionId", aid);
+    data.setProperty("id", QScriptValue());
+
+    GameOptionScript *o = GameOptionScript::createGameOption(data, context(), engine());
+    if (!o) {
+        return context()->throwError(QScriptContext::TypeError, "quickOption: Error creating option");
+    }
+
+    QScriptValue opt = registerOption(o);
+    if (opt.isError()) {
+        return opt;
+    }
+    return opt;
+}
+
 QScriptValue GameScript::registerObject(GameObjectScript *o)
 {
     m_game->registerObject(o);
@@ -304,6 +362,17 @@ ArkhamEncounterScript *GameScript::createArkhamEncounter()
 QScriptValue GameScript::registerArkhamEncounter(ArkhamEncounterScript *e)
 {
     m_game->registerArkhamEnconutry(e);
+    return m_engine->newQObject(e);
+}
+
+OtherWorldEncounterScript *GameScript::createOtherWorldEncounter()
+{
+    return OtherWorldEncounterScript::createEncounter(context(), engine());
+}
+
+QScriptValue GameScript::registerOtherWorldEncounter(OtherWorldEncounterScript *e)
+{
+    m_game->registerOtherWorldEncountery(e);
     return m_engine->newQObject(e);
 }
 

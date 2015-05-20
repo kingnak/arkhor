@@ -30,6 +30,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
 
     // Setup labels
     ui->lblDescription->setText(data.description());
+    ui->lblSuccess->setVisible(data.isSucceeded());
     ui->lblAdjustment->setText(QString::number(data.rollData().pool().adjustment()));
     ui->lblDieCount->setText(QString::number(ct));
     if (data.rollData().pool().type() == DiePoolData::Property) {

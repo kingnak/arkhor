@@ -1,12 +1,12 @@
 #ifndef ARKHAMENCOUNTER_H
 #define ARKHAMENCOUNTER_H
 
-#include <arkhamencounterdata.h>
+#include <encounterdata.h>
 
 class GameOption;
 class GameRegistry;
 
-class ArkhamEncounter : public AH::Common::ArkhamEncounterData
+class ArkhamEncounter : public AH::Common::EncounterData
 {
 public:
 

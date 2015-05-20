@@ -56,7 +56,7 @@ public:
     virtual QList<int> chooseFocus(QList<AttributeSlider> sliders, int totalFocus);
     virtual MovementPath chooseMovement(GameField *start, int movement);
 
-    virtual GameOption *chooseEncounterOption(ArkhamEncounter *enc);
+    virtual QString chooseEncounterOption(AH::Common::EncounterData *enc);
 
     virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c);
     virtual AH::Common::PropertyValueData::Property chooseSkill(QList<AH::Common::ModifiedPropertyValueData> options);

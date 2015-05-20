@@ -31,6 +31,13 @@
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout">
+       <item row="2" column="1">
+        <widget class="QLabel" name="lblAdjustment">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="1">
         <widget class="QLabel" name="lblBaseVal">
          <property name="text">
@@ -83,7 +90,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>183</width>
+            <width>185</width>
             <height>78</height>
            </rect>
           </property>
@@ -132,10 +139,28 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="lblAdjustment">
+       <item row="8" column="1">
+        <widget class="QLabel" name="lblSuccess">
+         <property name="minimumSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
          <property name="text">
           <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="client_resources.qrc">:/core/images/success</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -206,7 +231,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="client_resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>spnClueBurn</sender>

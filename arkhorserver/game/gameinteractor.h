@@ -8,13 +8,13 @@
 #include <cost.h>
 #include <diedata.h>
 #include "propertymodifier.h"
+#include "encounterdata.h"
 
 class Game;
 class GameOption;
 class GameObject;
 class Investigator;
 class Player;
-class ArkhamEncounter;
 
 class GameInteractor
 {
@@ -35,7 +35,7 @@ public:
 
     virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c) = 0;
 
-    virtual GameOption *chooseEncounterOption(ArkhamEncounter *enc) = 0;
+    virtual QString chooseEncounterOption(AH::Common::EncounterData *enc) = 0;
 
     virtual bool chooseWeapons(QList<GameObject *> weapons, ModifiedPropertyValue hands, QStringList &selected) = 0;
 

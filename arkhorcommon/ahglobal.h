@@ -92,6 +92,16 @@ namespace AH
         ChooseSupplemental
     };
 
+    enum OtherWorldColor {
+        OWC_NoColor = 0,
+        OWC_Red = 0x01,
+        OWC_Green = 0x02,
+        OWC_Blue = 0x04,
+        OWC_Yellow = 0x08
+    };
+
+    Q_DECLARE_FLAGS(OtherWorldColors, OtherWorldColor)
+
     ARKHOR_COMMON_EXPORTS void registerCommonMetaTypes();
 
     DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, AH::Attribute);

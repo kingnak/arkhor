@@ -17,6 +17,7 @@
         <file alias="dim_star">client_resources/dim_star.png</file>
         <file alias="dim_triangle">client_resources/dim_triangle.png</file>
         <file>client_resources/monster_overlay2.png</file>
+        <file alias="success">client_resources/Action-ok-icon.png</file>
     </qresource>
     <qresource prefix="/test">
         <file>client_resources/test/Byakhee.png</file>

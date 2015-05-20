@@ -300,7 +300,7 @@ MovementPath NetworkPlayer::chooseMovement(GameField *start, int movement)
     return ret;
 }
 
-GameOption *NetworkPlayer::chooseEncounterOption(ArkhamEncounter *enc)
+QString NetworkPlayer::chooseEncounterOption(EncounterData *enc)
 {
     QVariant v;
     v << *enc->data();
@@ -313,13 +313,9 @@ GameOption *NetworkPlayer::chooseEncounterOption(ArkhamEncounter *enc)
     if (ok) {
         // Find investigator by its id
         QString id = resp.payload.toString();
-        foreach (GameOption *i, enc->options()) {
-            if (i->id() == id) {
-                return i;
-            }
-        }
+        return id;
     }
-    return NULL;
+    return QString::null;
 }
 
 CostList NetworkPlayer::choosePayment(const Cost &c)

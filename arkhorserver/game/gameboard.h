@@ -3,6 +3,7 @@
 
 #include "gamefield.h"
 #include "movementpath.h"
+#include <ahglobal.h>
 #include <QMap>
 
 class GameBoard
@@ -22,6 +23,8 @@ public:
 
     void setDirty(bool dirty = true) { m_dirty = dirty; }
     bool isDirty() const { return m_dirty; }
+
+    AH::OtherWorldColors colorsForOtherWorld(AH::Common::FieldData::FieldID id) const;
 
 private:
     QMap<int, GameField *> m_fields;

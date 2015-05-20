@@ -17,6 +17,7 @@ class GameActionScript;
 class GameOptionScript;
 class GameObjectScript;
 class ArkhamEncounterScript;
+class OtherWorldEncounterScript;
 class MonsterScript;
 
 class GameScript : public QObject, public QScriptable
@@ -41,6 +42,8 @@ public:
     Q_INVOKABLE QScriptValue registerOption(GameOptionScript *o);
     Q_INVOKABLE GameOptionScript *createOption();
 
+    Q_INVOKABLE QScriptValue quickOption();
+
     Q_INVOKABLE QScriptValue registerObject(GameObjectScript *o);
     Q_INVOKABLE QScriptValue registerMultiObject(quint32 count, GameObjectScript *o);
     Q_INVOKABLE GameObjectScript *createObject();
@@ -49,6 +52,9 @@ public:
 
     Q_INVOKABLE ArkhamEncounterScript *createArkhamEncounter();
     Q_INVOKABLE QScriptValue registerArkhamEncounter(ArkhamEncounterScript *e);
+
+    Q_INVOKABLE OtherWorldEncounterScript *createOtherWorldEncounter();
+    Q_INVOKABLE QScriptValue registerOtherWorldEncounter(OtherWorldEncounterScript *e);
 
     Q_INVOKABLE MonsterScript *createMonster();
     Q_INVOKABLE QScriptValue registerMonster(quint32 count, MonsterScript *m);

@@ -13,7 +13,14 @@ bool ArkhamEncounteryAction::execute()
         return false;
     }
 
-    GameOption *opt = p->chooseEncounterOption(enc);
+    GameOption *opt = NULL;
+    QString id = p->chooseEncounterOption(enc);
+    foreach (GameOption *i, enc->options()) {
+        if (i->id() == id) {
+            opt = i;
+            break;
+        }
+    }
     if (!opt) {
         return false;
     }

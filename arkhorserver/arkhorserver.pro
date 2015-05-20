@@ -69,7 +69,9 @@ HEADERS += \
     game/phases/fight/chooseweaponsaction.h \
     game/phases/fight/attackaction.h \
     game/actions/chooseskillhelper.h \
-    script/gamecontextscript.h
+    script/gamecontextscript.h \
+    script/otherworldencounterscript.h \
+    game/otherworldencounter.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -139,7 +141,9 @@ SOURCES += \
     game/phases/fight/chooseweaponsaction.cpp \
     game/phases/fight/attackaction.cpp \
     game/actions/chooseskillhelper.cpp \
-    script/gamecontextscript.cpp
+    script/gamecontextscript.cpp \
+    game/otherworldencounter.cpp \
+    script/otherworldencounterscript.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

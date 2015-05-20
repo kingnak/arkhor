@@ -2,6 +2,7 @@
 #include "../game.h"
 #include "character.h"
 #include "../player.h"
+#include "game/otherworldencounter.h"
 
 OtherWorldEncounteryAction::OtherWorldEncounteryAction()
 {
@@ -9,8 +10,25 @@ OtherWorldEncounteryAction::OtherWorldEncounteryAction()
 
 bool OtherWorldEncounteryAction::execute()
 {
-    // Assume succesful
-    return true;
+    Player *p = gGame->context().player();
+    OtherWorldEncounter *enc = gGame->drawOtherWorldEncounter(p->getCharacter()->fieldId());
+    if (!enc) {
+        return false;
+    }
+
+    GameOption *opt = NULL;
+    QString id = p->chooseEncounterOption(enc);
+    foreach (GameOption *i, enc->options()) {
+        if (i->id() == id) {
+            opt = i;
+            break;
+        }
+    }
+    if (!opt) {
+        return false;
+    }
+
+    return opt->execute();
 }
 
 

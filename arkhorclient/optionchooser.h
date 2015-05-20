@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <gameoptiondata.h>
 #include <propertyvaluedata.h>
-#include <arkhamencounterdata.h>
+#include <encounterdata.h>
 
 namespace Ui {
 class OptionChooser;
@@ -24,7 +24,7 @@ public:
 public slots:
     void setOptions(QList<AH::Common::GameOptionData> opts);
     void setSkills(QList<AH::Common::ModifiedPropertyValueData> opts);
-    void setEncounter(AH::Common::ArkhamEncounterData enc);
+    void setEncounter(AH::Common::EncounterData enc);
 
 signals:
     void optionChosen(QString id);

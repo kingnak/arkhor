@@ -373,6 +373,11 @@ bool Character::commitDamage()
 
 void Character::addStamina(int amount)
 {
+    if (m_curDmgStamina > 0) {
+        int newAmount = amount - m_curDmgStamina;
+        m_curDmgStamina = qMax(0, m_curDmgStamina - amount);
+        amount = qMax(0, newAmount);
+    }
     int maxStamina = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxStamina).finalVal();
     m_curStamina = qMin(maxStamina, m_curStamina + amount);
 
@@ -381,8 +386,31 @@ void Character::addStamina(int amount)
 
 void Character::addSanity(int amount)
 {
+    if (m_curDmgSanity > 0) {
+        int newAmount = amount - m_curDmgSanity;
+        m_curDmgSanity = qMax(0, m_curDmgSanity - amount);
+        amount = qMax(0, newAmount);
+    }
     int maxSanity = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxSanity).finalVal();
     m_curSanity = qMin(maxSanity, m_curSanity + amount);
+
+    gGame->characterDirty(this);
+}
+
+void Character::restoreStamina()
+{
+    m_curDmgStamina = 0;
+    int maxStamina = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxStamina).finalVal();
+    m_curStamina = maxStamina;
+
+    gGame->characterDirty(this);
+}
+
+void Character::restoreSanity()
+{
+    m_curDmgSanity = 0;
+    int maxSanity = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxSanity).finalVal();
+    m_curSanity = maxSanity;
 
     gGame->characterDirty(this);
 }

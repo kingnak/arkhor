@@ -20,6 +20,7 @@ public:
     Q_PROPERTY(QString id READ id)
 
     static GameActionScript *createGameAction(QScriptContext *ctx, QScriptEngine *eng);
+    static GameActionScript *createGameAction(QScriptValue data, QScriptContext *ctx, QScriptEngine *eng);
 
     virtual bool execute();
 

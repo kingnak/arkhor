@@ -19,6 +19,7 @@ public:
     Q_PROPERTY(QString id READ id)
 
     static GameOptionScript *createGameOption(QScriptContext *ctx, QScriptEngine *eng);
+    static GameOptionScript *createGameOption(QScriptValue data, QScriptContext *ctx, QScriptEngine *eng);
 
     virtual bool isAvailable() const;
 

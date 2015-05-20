@@ -229,7 +229,7 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
 
     case AH::Common::Message::S_CHOOSE_ENCOUNTER:
     {
-        AH::Common::ArkhamEncounterData a;
+        AH::Common::EncounterData a;
         msg.payload >> a;
         emit chooseEncounterOption(a);
         break;

@@ -10,7 +10,7 @@
 #include <objectdata.h>
 #include <gameobjectdata.h>
 #include <monsterdata.h>
-#include <arkhamencounterdata.h>
+#include <encounterdata.h>
 
 class ObjectRegistry;
 class ConnectionHandler;
@@ -73,7 +73,7 @@ private slots:
     void weaponsCanceled();
     void weaponsSelected(QStringList weaponIds);
 
-    void chooseEncounter(AH::Common::ArkhamEncounterData encounter);
+    void chooseEncounter(AH::Common::EncounterData encounter);
     void encounterSelected(QString id);
 
 private:

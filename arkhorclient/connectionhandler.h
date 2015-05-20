@@ -12,7 +12,7 @@
 #include <characterdata.h>
 #include <gameobjectdata.h>
 #include <objectdata.h>
-#include <arkhamencounterdata.h>
+#include <encounterdata.h>
 
 class ConnectionHandler : public QObject
 {
@@ -57,7 +57,7 @@ signals:
     void chooseFocus(QList<AH::Common::AttributeSliderData> sliders, int focusAmount);
     void chooseSkill(QList<AH::Common::ModifiedPropertyValueData> opts);
     void chooseWeapons(QList<AH::Common::GameObjectData> weapons, AH::Common::ModifiedPropertyValueData hands);
-    void chooseEncounterOption(AH::Common::ArkhamEncounterData encounter);
+    void chooseEncounterOption(AH::Common::EncounterData encounter);
 
     void dieRollInfo(AH::Common::DieRollTestData data);
 

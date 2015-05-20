@@ -26,6 +26,7 @@ void DieWidget::setDieValue(int val)
 
 void DieWidget::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event)
     QPainter p(this);
     p.drawPixmap(0, 0, m_cache);
 }

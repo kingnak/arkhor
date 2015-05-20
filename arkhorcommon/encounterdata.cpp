@@ -1,13 +1,13 @@
-#include "arkhamencounterdata.h"
+#include "encounterdata.h"
 
 namespace AH { namespace Common {
 
-ArkhamEncounterData::ArkhamEncounterData()
+EncounterData::EncounterData()
     : m_fieldId(FieldData::NO_NO_FIELD)
 {
 }
 
-void operator <<(QVariant &data, const ArkhamEncounterData &target)
+void operator <<(QVariant &data, const EncounterData &target)
 {
     QVariantMap map;
     map["field"] << target.fieldId();
@@ -16,7 +16,7 @@ void operator <<(QVariant &data, const ArkhamEncounterData &target)
     data << map;
 }
 
-void operator >>(const QVariant &data, ArkhamEncounterData &target)
+void operator >>(const QVariant &data, EncounterData &target)
 {
     QVariantMap map;
     data >> map;

@@ -46,6 +46,7 @@ public:
     // Fixed values
     int getMaximumFocus() const { return m_maxFocus; }
     void addClue(int amount) { m_clues += amount; gGame->characterDirty(this); }
+    void addMoney(int amount) { m_money += amount; gGame->characterDirty(this); }
     void setMovementAmount(int amount) { m_movementPoints = amount; gGame->characterDirty(this); }
     void setFocusAmount(int amount) { m_curFocus = amount; gGame->characterDirty(this); }
 
@@ -54,6 +55,8 @@ public:
     bool commitDamage();
     void addStamina(int amount);
     void addSanity(int amount);
+    void restoreStamina();
+    void restoreSanity();
 
     // Items
     void addMonsterMarker(Monster *m) { m_monsterMarkers.append(m); gGame->characterDirty(this); }

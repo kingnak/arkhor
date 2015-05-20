@@ -21,12 +21,12 @@ HEADERS += \
     playerdata.h \
     serializer.hpp \
     propertyvaluedata.h \
-    arkhamencounterdata.h \
     fielddata.h \
     attributesliderdata.h \
     diedata.h \
     objectdata.h \
-    monsterdata.h
+    monsterdata.h \
+    encounterdata.h
 
 SOURCES += \
     communication/message.cpp \
@@ -42,9 +42,9 @@ SOURCES += \
     investigatordata.cpp \
     playerdata.cpp \
     propertyvaluedata.cpp \
-    arkhamencounterdata.cpp \
     fielddata.cpp \
     attributesliderdata.cpp \
     diedata.cpp \
     objectdata.cpp \
-    monsterdata.cpp
+    monsterdata.cpp \
+    encounterdata.cpp

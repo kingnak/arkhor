@@ -34,10 +34,25 @@ public:
     //static DieTestSpec createAttributeTest(Character *c, AH::Attribute attr, int adjustment, int target = 1);
     //static DieTestSpec createGenericTest(int dieCount, QList<int> successVals, int target = 1);
 
-    //static DieTestSpec createGenericCounter(int dieCount, QList<int> successVals);
-    //static DieTestSpec createGenericSummer(int dieCount);
+    static DieTestSpec createSkillCounter(QString desc, Character *c, AH::Skill skill, int adjustment);
+
+    static DieTestSpec createGenericCounter(QString desc, int dieCount, QList<quint32> successVals);
+    static DieTestSpec createGenericSummer(QString desc, int dieCount);
 
     static DieTestResult executeDieTest(Player *p, DieTestSpec &spec);
+
+private:
+    static void fixedPool(DieTestSpec &spec, int size);
+    static void skillPool(DieTestSpec &spec, Character *c, AH::Skill skill, int adjust);
+    static void propertyPool(DieTestSpec &spec, ModifiedPropertyValue poolBase, int adjust);
+    static void clueBurnSkill(DieTestSpec &spec, Character *c, AH::Skill skill);
+    static void clueBurnProperty(DieTestSpec &spec, ModifiedPropertyValue clueBurnMods);
+    static void summer(DieTestSpec &spec);
+    static void counter(DieTestSpec &spec, QList<quint32> successes);
+    static void successCounter(DieTestSpec &spec, Character *c);
+    static void value(DieTestSpec &spec);
+    static void test(DieTestSpec &spec, int target);
+    static void finalize(DieTestSpec &spec);
 
 private:
     DieTestHelper();

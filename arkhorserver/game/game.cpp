@@ -10,6 +10,7 @@
 #include "broadcastnotifier.h"
 #include "gameobject.h"
 #include "arkhamencounter.h"
+#include "otherworldencounter.h"
 #include "character.h"
 #include "monster.h"
 #include <QThread>
@@ -151,7 +152,6 @@ void Game::registerObject(GameObject *o, quint32 count)
 
 bool Game::resolveDependencies()
 {
-    //m_registry->registerOption(new SkipOption);
     m_registry->registerOption(GamePhase::getSkipOption());
 
     bool ok = m_registry->resolveDependencies();
@@ -176,12 +176,22 @@ bool Game::resolveDependencies()
             ok &= a->resolveDependencies(m_registry);
         }
     }
+
+    foreach (OtherWorldEncounter *e, m_owEnc) {
+        ok &= e->resolveDependencies(m_registry);
+    }
+
     return ok;
 }
 
 void Game::registerArkhamEnconutry(ArkhamEncounter *a)
 {
     m_arkEnc[a->fieldId()] << a;
+}
+
+void Game::registerOtherWorldEncountery(OtherWorldEncounter *e)
+{
+    m_owEnc << e;
 }
 
 void Game::registerMonster(Monster *m, quint32 count)
@@ -257,6 +267,39 @@ ArkhamEncounter *Game::drawArkhamEncounter(AH::Common::FieldData::FieldID field)
         m_arkEncDecks[field].addCard(enc);
     }
     return enc;
+}
+
+OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldID field)
+{
+    AH::OtherWorldColors colors = m_board->colorsForOtherWorld(field);
+    Q_ASSERT_X(colors != AH::OWC_NoColor, "Game::drawOtherWorldEncounter", "Field has no colors. Is it an other world field?");
+
+    // Sanity check...
+    int ct = m_owEncDeck.size();
+
+    // Draw until matching color is found
+    OtherWorldEncounter *e = NULL;
+    do {
+        ct--;
+        e = m_owEncDeck.draw();
+        m_owEncDeck.addCard(e);
+        if (colors.testFlag(e->color())) {
+            // Check if field matches (no field matches all)
+            if (e->fieldId() != AH::Common::FieldData::NO_NO_FIELD) {
+                if (e->fieldId() != field) {
+                    e = NULL;
+                }
+            }
+        } else {
+            e = NULL;
+        }
+    } while (!e && ct >= 0);
+
+    if (!e) {
+        qWarning() << "Could not find an OW Encountery for field" << field;
+    }
+
+    return e;
 }
 
 void Game::boardDirty()
@@ -389,6 +432,10 @@ void Game::initDecks()
         foreach (ArkhamEncounter *ae, m_arkEnc[fId]) {
             m_arkEncDecks[fId].addCard(ae);
         }
+    }
+
+    foreach (OtherWorldEncounter *e, m_owEnc) {
+        m_owEncDeck.addCard(e);
     }
 }
 

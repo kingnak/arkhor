@@ -69,7 +69,7 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(ui->wgtWeaponChooser, SIGNAL(weaponsSelected(QStringList)), this, SLOT(weaponsSelected(QStringList)));
 
     // ENCOUNTER
-    connect(m_conn, SIGNAL(chooseEncounterOption(AH::Common::ArkhamEncounterData)), this, SLOT(chooseEncounter(AH::Common::ArkhamEncounterData)));
+    connect(m_conn, SIGNAL(chooseEncounterOption(AH::Common::EncounterData)), this, SLOT(chooseEncounter(AH::Common::EncounterData)));
     connect(ui->wgtOptionChooser, SIGNAL(encounterChosen(QString)), this, SLOT(encounterSelected(QString)));
 }
 
@@ -248,7 +248,7 @@ void AhMainGui::weaponsSelected(QStringList weaponIds)
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
 }
 
-void AhMainGui::chooseEncounter(ArkhamEncounterData encounter)
+void AhMainGui::chooseEncounter(EncounterData encounter)
 {
     ui->stkInteraction->setCurrentWidget(ui->pageOptionChooser);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);

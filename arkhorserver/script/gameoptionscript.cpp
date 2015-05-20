@@ -14,10 +14,15 @@ GameOptionScript *GameOptionScript::createGameOption(QScriptContext *ctx, QScrip
         ctx->throwError(QScriptContext::TypeError, "createOption: Must call with 1 object");
         return NULL;
     }
+    QScriptValue data = ctx->argument(0);
 
+    return createGameOption(data, ctx, eng);
+}
+
+GameOptionScript *GameOptionScript::createGameOption(QScriptValue data, QScriptContext *ctx, QScriptEngine *eng)
+{
     QScopedPointer<GameOptionScript> ret(new GameOptionScript);
 
-    QScriptValue data = ctx->argument(0);
 
     ret->m_id = data.property("id").toString();
     //ret->m_name = data.property("name").toString();

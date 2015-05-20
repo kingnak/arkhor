@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QMetaType>
 #include <QScriptEngine>
+#include <ahglobal.h>
 
 class CharacterScript;
 
@@ -19,6 +20,10 @@ public:
     Q_PROPERTY(CharacterScript* character READ curCharacter)
 
     CharacterScript *curCharacter();
+
+    Q_INVOKABLE int genericDieRollSum(int dieCount, QString desc);
+    Q_INVOKABLE bool skillTest(QString desc, int skill, int adjust, int target);
+    Q_INVOKABLE int dieRollSkillCount(QString desc, int skill, int adjust);
 
 signals:
 

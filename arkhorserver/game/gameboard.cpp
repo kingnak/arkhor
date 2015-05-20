@@ -174,6 +174,22 @@ QList<GameField *> GameBoard::allFields()
     return m_fields.values();
 }
 
+AH::OtherWorldColors GameBoard::colorsForOtherWorld(AH::Common::FieldData::FieldID id) const
+{
+    switch (id) {
+    case AH::Common::FieldData::OW_AnotherDimension: return AH::OtherWorldColors(AH::OWC_Red | AH::OWC_Green | AH::OWC_Blue | AH::OWC_Yellow);
+    case AH::Common::FieldData::OW_Abyss: return AH::OtherWorldColors(AH::OWC_Red | AH::OWC_Blue);
+    case AH::Common::FieldData::OW_CityOfGreatRace: return AH::OtherWorldColors(AH::OWC_Green | AH::OWC_Yellow);
+    case AH::Common::FieldData::OW_Yuggoth: return AH::OtherWorldColors(AH::OWC_Blue | AH::OWC_Yellow);
+    case AH::Common::FieldData::OW_Celeano: return AH::OtherWorldColors(AH::OWC_Blue | AH::OWC_Green);
+    case AH::Common::FieldData::OW_TheDreamlands: return AH::OtherWorldColors(AH::OWC_Red | AH::OWC_Green | AH::OWC_Blue | AH::OWC_Yellow);
+    case AH::Common::FieldData::OW_PlateauOfLeng: return AH::OtherWorldColors(AH::OWC_Red | AH::OWC_Green);
+    case AH::Common::FieldData::OW_R_lyeh: return AH::OtherWorldColors(AH::OWC_Red | AH::OWC_Yellow);
+    default:
+        return AH::OtherWorldColors(AH::OWC_NoColor);
+    }
+}
+
 void GameBoard::connectfield(AH::Common::FieldData::FieldID src, AH::Common::FieldData::FieldID dst, bool w, bool b)
 {
     m_fields[src]->m_neighbours.insert(m_fields[dst]);

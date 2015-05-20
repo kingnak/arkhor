@@ -2,6 +2,9 @@
 #include <QScriptContext>
 #include <qscriptengine.h>
 #include "gamescript.h"
+#include "game/game.h"
+#include "game/player.h"
+#include "character.h"
 #include <QDebug>
 
 GameActionScript::GameActionScript(QObject *parent) :
@@ -15,10 +18,14 @@ GameActionScript *GameActionScript::createGameAction(QScriptContext *ctx, QScrip
         ctx->throwError(QScriptContext::TypeError, "createAction: Must call with 1 object");
         return NULL;
     }
-
-    QScopedPointer<GameActionScript> ret(new GameActionScript);
-
     QScriptValue data = ctx->argument(0);
+
+    return createGameAction(data, ctx, eng);
+}
+
+GameActionScript *GameActionScript::createGameAction(QScriptValue data, QScriptContext *ctx, QScriptEngine *eng)
+{
+    QScopedPointer<GameActionScript> ret(new GameActionScript);
 
     ret->m_id = data.property("id").toString();
     ret->m_name = data.property("name").toString();
@@ -60,6 +67,7 @@ bool GameActionScript::execute()
         qWarning() << "Script Action Error: " << s;
         return false;
     }
+    gGame->context().player()->getCharacter()->commitDamage();
     if (res.isBool())
         return res.toBool();
     return true;

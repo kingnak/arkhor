@@ -1,5 +1,5 @@
-#ifndef ARKHAMENCOUNTERDATA_H
-#define ARKHAMENCOUNTERDATA_H
+#ifndef ENCOUNTERDATA_H
+#define ENCOUNTERDATA_H
 
 #include "arkhorcommonglobal.h"
 #include "serializer.hpp"
@@ -9,13 +9,13 @@
 
 namespace AH {
     namespace Common {
-        class ARKHOR_COMMON_EXPORTS ArkhamEncounterData
+        class ARKHOR_COMMON_EXPORTS EncounterData
         {
         public:
-            ArkhamEncounterData();
-            virtual ~ArkhamEncounterData() {}
+            EncounterData();
+            virtual ~EncounterData() {}
 
-            virtual ArkhamEncounterData *data() { return this; }
+            virtual EncounterData *data() { return this; }
 
             FieldData::FieldID fieldId() const { return m_fieldId; }
             //virtual QStringList optionIds() const { return m_optionIds; }
@@ -28,11 +28,11 @@ namespace AH {
             QString m_description;
             QList<GameOptionData> m_optionData;
 
-            DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, ArkhamEncounterData);
+            DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, EncounterData);
         };
 
     }
 }
 
 
-#endif // ARKHAMENCOUNTERDATA_H
+#endif // ENCOUNTERDATA_H

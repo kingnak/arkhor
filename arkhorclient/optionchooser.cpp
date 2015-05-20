@@ -77,7 +77,7 @@ void OptionChooser::setSkills(QList<ModifiedPropertyValueData> opts)
     }
 }
 
-void OptionChooser::setEncounter(ArkhamEncounterData enc)
+void OptionChooser::setEncounter(EncounterData enc)
 {
     m_type = ChooseEncounter;
     QString baseDesc = enc.description();

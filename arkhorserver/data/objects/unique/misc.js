@@ -11,11 +11,12 @@ var useElderSign = game.quickOption({
 	},
 	activate: function() {
 		debugger;
-		game.context.gate.seal();
+        game.context.gate.seal(this.owner);
 		this.owner.damageStamina(1);
 		this.owner.damageSanity(1);
 		// TODO: remove token from doom track
-		this.owner.removeFromInventory(this);
+        //this.owner.removeFromInventory(this);
+        this.removeFromGame();
 	}
 });
 var elderSign = game.createObject({

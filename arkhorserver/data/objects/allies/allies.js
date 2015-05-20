@@ -24,7 +24,7 @@ var duke = game.createObject({
 			phases: Constants.GamePhases.Any,
 			activate: function() {
 				owner.restoreSanity();
-				this.returnToDeck();
+                this.discard();
 			}
 		}).id
 	]
@@ -75,7 +75,7 @@ var sirBrinton = game.createObject({
 			phases: Constants.GamePhases.Any,
 			activate: function() {
 				owner.restoreStamina();
-				this.returnToDeck();
+                this.discard();
 			}
 		}).id
 	]

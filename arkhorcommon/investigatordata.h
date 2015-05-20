@@ -23,13 +23,6 @@ namespace AH {
                     : first(f), second(s) {}
             };
 
-            struct ObjectTypeCount {
-                AH::GameObjectType type;
-                int amount;
-                ObjectTypeCount(AH::GameObjectType t = AH::NoObject, int a = 0)
-                    : type(t), amount(a) {}
-            };
-
             const InvestigatorData *data() const { return this; }
 
             QString id() const { return m_id; }
@@ -68,7 +61,6 @@ namespace AH {
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, InvestigatorData);
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, InvestigatorData::AttributeValuePair);
-            DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, InvestigatorData::ObjectTypeCount);
         };
 
         //DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, Inv);

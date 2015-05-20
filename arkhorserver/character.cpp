@@ -299,9 +299,14 @@ void Character::loseClues()
     gGame->characterDirty(this);
 }
 
-void Character::losePossessions()
+void Character::loseHalfPossessions()
 {
     ChoiceHelper::loseHalfPossesions(this);
+}
+
+void Character::losePossessions(int count)
+{
+    ChoiceHelper::losePossessions(this, count);
 }
 
 void Character::arrest()
@@ -321,7 +326,7 @@ void Character::unconscious()
     }
 
     m_curStamina = 1;
-    losePossessions();
+    loseHalfPossessions();
     gGame->board()->field(AH::Common::FieldData::UT_StMarysHospital)->placeCharacter(this);
     setSetout(true);
     gGame->characterDirty(this);
@@ -336,7 +341,7 @@ void Character::insane()
     }
 
     m_curSanity = 1;
-    losePossessions();
+    loseHalfPossessions();
     gGame->board()->field(AH::Common::FieldData::DT_ArkhamAsylum)->placeCharacter(this);
     setSetout(true);
     gGame->characterDirty(this);
@@ -354,7 +359,7 @@ void Character::lostInSpaceAndTime()
 {
     m_curSanity = qMax(1, m_curSanity);
     m_curStamina = qMax(1, m_curStamina);
-    losePossessions();
+    loseHalfPossessions();
     setDelayed(true);
     gGame->board()->field(AH::Common::FieldData::Sp_SpaceAndTime)->placeCharacter(this);
     gGame->characterDirty(this);

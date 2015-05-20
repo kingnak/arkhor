@@ -11,7 +11,7 @@ var readTome = game.quickOption({
 		this.exhaust();
 		var res = game.context.skillTest("Read Tome", Constants.Skills.Lore, -1, 1);
 		if (res) {
-			this.returnToDeck();
+            this.discard();
             var obj = game.context.drawObject(Constants.ObjectType.CommonItem);
 			game.context.character.addToInventory(obj);
 		}
@@ -51,7 +51,7 @@ var food = game.createObject({
 		phases: Constants.GamePhases.Any,
 		activate: function() {
 			this.owner.preventDamageStamina(1);
-			this.returnToDeck();
+            this.discard();
 		}
 	}).id
 });
@@ -123,7 +123,7 @@ var readJournal = game.quickOption({
 		this.exhaust();
 		var res = game.context.skillTest("Read Old Journal", Constants.Skills.Lore, -1, 1);
 		if (res) {
-			this.returnToDeck();
+            this.discard();
 			game.context.character.addClue(3);
 		}
 	}
@@ -154,7 +154,7 @@ var resMat = game.createObject({
 		activate: function() {
 			// This is not 100% correct, but good enough...
 			this.owner.addClue(1);
-			this.returnToDeck();
+            this.discard();
 		}
 	}).id
 });
@@ -172,7 +172,7 @@ var whiskey = game.createObject({
 		phases: Constants.GamePhases.Any,
 		activate: function() {
 			this.owner.preventDamageSanity(1);
-			this.returnToDeck();
+            this.discard();
 		}
 	}).id
 });

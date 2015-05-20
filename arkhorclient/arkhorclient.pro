@@ -1,6 +1,7 @@
 QT += network
 
-#CONFIG(debug):DEFINES += "_DEBUG=1"
+unix:CONFIG(debug, debug|release): DEFINES += "_DEBUG=1"
+
 CONFIG += console
 
 HEADERS += \

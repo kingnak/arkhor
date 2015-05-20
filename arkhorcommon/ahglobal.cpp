@@ -76,4 +76,17 @@ namespace AH {
         qRegisterMetaType<AH::Common::ChoiceData>("AH::Common::ChoiceData");
     }
 
+    void operator <<(QVariant &data, const ObjectTypeCount &c) {
+        QVariantMap map;
+        map["type"] << c.type;
+        map["amount"] << c.amount;
+        data << map;
+    }
+
+    void operator >>(const QVariant &data, ObjectTypeCount &c) {
+        QVariantMap map;
+        data >> map;
+        map["type"] >> c.type;
+        map["amount"] >> c.amount;
+    }
 }

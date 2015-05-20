@@ -3,6 +3,8 @@
 
 #include "game/gameoption.h"
 #include "game/gameaction.h"
+#include "game/gameobject.h"
+
 /*
 class DieRollAction : public GameAction
 {
@@ -50,7 +52,7 @@ public:
     };
 
     DieRollOption(ReRollType type, AH::Skills skills)
-        : m_type(type), m_skills(skills), m_used(false) {}
+        : m_type(type), m_skills(skills), m_used(false), m_source(NULL) {}
 
     virtual AH::GamePhases phases() const { return AH::DieRoll; }
     virtual bool isAvailable() const;
@@ -58,10 +60,13 @@ public:
 
     QString name() const;
     QString description() const;
+    QString sourceId() const;
 
     ReRollType type() const { return m_type; }
     AH::Skills skills() const { return m_skills; }
     bool wasUsed() const { return m_used; }
+
+    void setSource(GameObject *obj) { m_source = obj; }
 
     void reset() { m_used = false; }
 
@@ -69,6 +74,7 @@ private:
     ReRollType m_type;
     AH::Skills m_skills;
     bool m_used;
+    GameObject *m_source;
 };
 
 #endif // DIEROLLACTION_H

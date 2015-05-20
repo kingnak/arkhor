@@ -111,8 +111,15 @@ namespace AH
         OWC_Blue = 0x04,
         OWC_Yellow = 0x08
     };
-
     Q_DECLARE_FLAGS(OtherWorldColors, OtherWorldColor)
+
+    struct ARKHOR_COMMON_EXPORTS ObjectTypeCount {
+        GameObjectType type;
+        int amount;
+        ObjectTypeCount(GameObjectType t = NoObject, int a = 0)
+            : type(t), amount(a) {}
+        DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, ObjectTypeCount);
+    };
 
     ARKHOR_COMMON_EXPORTS void registerCommonMetaTypes();
 
@@ -129,3 +136,4 @@ namespace AH
 }
 
 #endif // AHGLOBAL_H
+

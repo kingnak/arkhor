@@ -26,8 +26,8 @@ int main(int argc, char *argv[])
         baseDir = app.arguments()[1];
 
 #ifdef _DEBUG
-    if (!QDir(baseDir).exists()) {
 //#error ok
+    if (!QDir(baseDir).exists()) {
 #ifdef Q_OS_WIN
         baseDir = "D:\\priv\\proj\\arkhor\\arkhor\\arkhorserver\\data\\";
 #else

@@ -5,6 +5,7 @@
 #include "game/game.h"
 #include "characterscript.h"
 #include "propertymodificationscript.h"
+#include "game/actions/castspellaction.h"
 #include <QDebug>
 
 GameObjectScript::GameObjectScript(QObject *parent) :
@@ -24,9 +25,17 @@ GameObject *GameObjectScript::clone()
     c->m_modsFunc = m_modsFunc;
     c->m_onAddFunc = m_onAddFunc;
     c->m_onRemoveFunc = m_onRemoveFunc;
+    c->m_castFunc = m_castFunc;
     c->m_this = gGameScript->engine()->newQObject(c);
 
     return c;
+}
+
+void GameObjectScript::removeFromGame()
+{
+    if (this->owner()) {
+        this->owner()->removeFromInventory(this);
+    }
 }
 
 GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScriptEngine *eng)
@@ -82,9 +91,44 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
     ret->m_onAddFunc = data.property("onAddToInventory");
     ret->m_onRemoveFunc = data.property("onRemoveFromInventory");
 
-    ret->m_castCost = data.property("castCost").toInt32();
-    ret->m_castAdjustment = data.property("castAdjustment").toInt32();
-    ret->m_castFunc = data.property("cast");
+    if (ret->m_type == AH::Obj_Spell) {
+        if (data.property("castTarget").isValid())
+            ret->m_castTarget = data.property("castTarget").toInt32();
+        else
+            ret->m_castTarget = 1;
+        ret->m_castCost = data.property("castCost").toInt32();
+        ret->m_castAdjustment = data.property("castAdjustment").toInt32();
+        ret->m_castFunc = data.property("cast");
+
+        QScriptValue castOption;
+        AH::GamePhases phases = AH::NoGamePhase;
+        if (ret->m_castFunc.isFunction()) {
+            // Default cast option
+            castOption = eng->newObject();
+            phases = AH::AllPhases;
+        } else if (ret->m_castFunc.isObject()) {
+            // extract Real function
+            castOption = ret->m_castFunc;
+            ret->m_castFunc = castOption.property("cast");
+            castOption.setProperty("cast", QScriptValue());
+            phases = GameScript::parseFlags<AH::GamePhases> (castOption.property("phases"), AH::AllPhases);
+        }
+
+        if (castOption.isValid()) {
+            CastSpellAction *castAct = new CastSpellAction;
+            gGame->registerAction(castAct);
+            castOption.setProperty("actionId", castAct->id());
+            // make supplemental by default
+            if (!castOption.property("chooseType").isValid())
+                castOption.setProperty("chooseType", AH::ChooseSupplemental);
+
+            GameOptionScript *castOpt = GameOptionScript::createGameOption(castOption, ctx, eng);
+            gGame->registerOption(castOpt);
+            castAct->setPhases(phases);
+            castAct->setName("Cast "+ret->m_name);
+            ret->m_optMap[castOpt->id()] = NULL;// = castOpt;
+        }
+    }
 
     QString err;
     if (!verify(ret.data(), &err)) {
@@ -194,7 +238,7 @@ bool GameObjectScript::cast(Player *p)
         return false;
     }
 
-    m_castFunc.call();
+    m_castFunc.call(m_this);
     return true;
 }
 
@@ -228,7 +272,7 @@ bool GameObjectScript::onRemoveFromInventory(Character *c)
     return true;
 }
 
-CharacterScript *GameObjectScript::csOwner()
+CharacterScript *GameObjectScript::csOwner() const
 {
     Character *o = owner();
     if (o) {
@@ -292,3 +336,11 @@ const GameAction *GameObjectScriptProxyOption::action() const
     return GameOption::action();
 }
 
+//////////////////////////////////
+
+bool CastSpellAction::executeOnObject(QScriptValue obj)
+{
+    GameObjectScript *spell = qscriptvalue_cast<GameObjectScript *> (obj);
+    Q_ASSERT(spell && spell->type() == AH::Obj_Spell);
+    return spell->cast(gGame->context().player());
+}

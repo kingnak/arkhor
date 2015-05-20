@@ -15,9 +15,11 @@ var masOption = game.quickOption({
 		"the Ally deck.",
 	phases: Constants.GamePhases.ArkhamEncountery,
 	activate: function() {
-		// TODO Let decide
-        var al = game.context.drawObject(Constants.ObjectType.Ally);
-		game.context.character.addToInventory(al);
+        var res = game.context.drawMultipleObjects(Constants.ObjectType.Ally, "Recruit Ally", 1000, 0, 1);
+        if (res.length > 0) {
+            var item = res[0];
+            game.context.character.addToInventory(item);
+        }
 	}
 });
 game.addFieldOption(Constants.Fields.SS_MasBoardingHouse, masOption.id);
@@ -40,10 +42,22 @@ var mas_enc1 = game.createArkhamEncounter({
 			activate: function() {
 				var res = game.context.skillTest("Talk to Ryan", Constants.Skills.Will, 0, 1);
 				if (res) {
-					// TODO: Let decide
-                    var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
-					// TODO: Pay
-					game.context.character.addToInventory(ob);
+                    // TODO: This is not 100% correct. It offers a Common and Unique item,
+                    // and user has to choose one. Not first choose the type, then choose to buy...
+                    var types = [
+                                {type: Constants.ObjectType.CommonItem, amount: 1},
+                                {type: Constants.ObjectType.UniqueItem, amount: 1},
+                            ];
+                    var sels = game.context.drawMixedObjects("Buy Items", types, 0, 1);
+                    if (sels.length > 0) {
+                        var item = sels[0];
+                        var costs = { type: Constants.Costs.Money, amount: item.price};
+                        if (game.context.character.pay(costs)) {
+                            game.context.character.addToInventory(item);
+                        } else {
+                            item.returnToDeck();
+                        }
+                    }
 				} else {
 					game.context.character.delay();
 				}

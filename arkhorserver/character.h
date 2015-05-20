@@ -88,7 +88,8 @@ public:
     bool pay(const AH::Common::CostList &cost);
 
     void loseClues();
-    void losePossessions();
+    void loseHalfPossessions();
+    void losePossessions(int count);
     void arrest();
     void unconscious();
     void insane();

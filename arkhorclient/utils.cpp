@@ -35,16 +35,24 @@ QString Utils::stringForProperty(AH::Common::PropertyValueData::Property p)
     case PropertyValueData::Prop_CastAdjustment: return "Spell Cast Adjustment";
 
     case PropertyValueData::DieRoll_All: return "All";
-    case PropertyValueData::DieRoll_Speed: return "Speed";
-    case PropertyValueData::DieRoll_Sneak: return "Sneak";
-    case PropertyValueData::DieRoll_Fight: return "Fight";
-    case PropertyValueData::DieRoll_Will: return "Will";
-    case PropertyValueData::DieRoll_Lore: return "Lore";
-    case PropertyValueData::DieRoll_Luck: return "Luck";
-    case PropertyValueData::DieRoll_Evade: return "Evade";
-    case PropertyValueData::DieRoll_Combat: return "Combat";
-    case PropertyValueData::DieRoll_Horror: return "Horror";
-    case PropertyValueData::DieRoll_Spell: return "Spell";
+    case PropertyValueData::DieRoll_Speed: return "Extra Die per Clue for Speed";
+    case PropertyValueData::DieRoll_Sneak: return "Extra Die per Clue for Sneak";
+    case PropertyValueData::DieRoll_Fight: return "Extra Die per Clue for Fight";
+    case PropertyValueData::DieRoll_Will: return "Extra Die per Clue for Will";
+    case PropertyValueData::DieRoll_Lore: return "Extra Die per Clue for Lore";
+    case PropertyValueData::DieRoll_Luck: return "Extra Die per Clue for Luck";
+    case PropertyValueData::DieRoll_Evade: return "Extra Die per Clue for Evade";
+    case PropertyValueData::DieRoll_Combat: return "Extra Die per Clue for Combat";
+    case PropertyValueData::DieRoll_Horror: return "Extra Die per Clue for Horror";
+    case PropertyValueData::DieRoll_Spell: return "Extra Die per Clue for Spell";
+
+    case PropertyValueData::DrawCard_CommonItem: return "Draw extra Common Item card";
+    case PropertyValueData::DrawCard_UniqueItem: return "Draw extra Unique Item card";
+    case PropertyValueData::DrawCard_Spell: return "Draw extra Spell card";
+    case PropertyValueData::DrawCard_Skill: return "Draw extra Skill card";
+    case PropertyValueData::DrawCard_Ally: return "Draw extra Ally card";
+    case PropertyValueData::DrawCard_ArkhamEncountery: return "Draw extra Arkham Encountery card";
+    case PropertyValueData::DrawCard_OtherWorldEncountery: return "Draw extra Other World Encountery card";
 
     case PropertyValueData::Game_SealClueCost: return "Seal Clue Cost";
     case PropertyValueData::Game_AllowMaskMonster: return "Mask Monsters";

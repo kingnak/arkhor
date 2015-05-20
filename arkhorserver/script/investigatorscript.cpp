@@ -55,13 +55,9 @@ QScriptValue InvestigatorScript::createInvestigator(QScriptContext *ctx, QScript
     ret->m_uniqueAbilityId = data.property("uniqueAbilityId").toString();
     ret->m_fixedPossesionObjectIds = GameScript::array2stringlist( data.property("fixedPossesionObjectIds") );
 
-    QScriptValueList rndPoss = GameScript::array2list( data.property("randomPossessions") );
-    foreach (QScriptValue v, rndPoss) {
-        int type = v.property("type").toInt32();
-        int amount = v.property("amount").toInt32();
-        AH::Common::InvestigatorData::ObjectTypeCount otc(static_cast<AH::GameObjectType>(type), amount);
-        ret->m_randomPossessions << otc;
-    }
+    QList<AH::ObjectTypeCount> rndPoss;
+    GameScript::parseObjectTypeCount(data.property("randomPossessions"), rndPoss);
+    ret->m_randomPossessions = rndPoss;
 
     QString err;
     if (!verify(ret.data(), &err)) {

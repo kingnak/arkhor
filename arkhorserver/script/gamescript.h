@@ -84,8 +84,13 @@ public:
     static bool parseCostList(QScriptValue v, AH::Common::CostList &cl);
     static bool parseCostItem(QScriptValue v, AH::Common::CostItem &ci);
 
+    static bool parseObjectTypeCount(QScriptValue v, QList<AH::ObjectTypeCount> &o);
+
     static QScriptValue castCostToValue(QScriptEngine *eng, AH::Common::Cost const &in);
     static void castCostFromValue(const QScriptValue &v, AH::Common::Cost &o);
+
+    static QScriptValue castObjTypeCountToValue(QScriptEngine *eng, AH::ObjectTypeCount const &in);
+    static void castObjTypeCountFromValue(const QScriptValue &v, AH::ObjectTypeCount &o);
 
     template<typename T>
     static T parseFlags(QScriptValue v, T defVal);
@@ -169,5 +174,7 @@ void GameScript::castListFromValue(const QScriptValue &v, QList<T> &o)
 
 Q_DECLARE_METATYPE(GameScript*)
 Q_DECLARE_METATYPE(AH::Common::Cost)
+Q_DECLARE_METATYPE(AH::ObjectTypeCount)
+Q_DECLARE_METATYPE(QList<AH::ObjectTypeCount>)
 
 #endif // GAMESCRIPT_H

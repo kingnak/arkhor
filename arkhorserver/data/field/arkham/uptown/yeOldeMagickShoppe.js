@@ -6,9 +6,10 @@ var magOption = game.quickOption({
 		"discard the other.",
 	phases: Constants.GamePhases.ArkhamEncountery,
 	activate: function() {
-		// TODO Let decide
-        var sp = game.context.drawObject(Constants.ObjectType.Spell);
-		game.context.character.addToInventory(sp);
+        var sp = game.context.drawMulitpleObjects(Constants.ObjectType.Spell, "Select Spell", 2, 0, 1);
+        if (sp.length > 0) {
+            game.context.character.addToInventory(sp[0]);
+        }
 	}
 });
 game.addFieldOption(Constants.Fields.UT_YeOldeMagickShoppe, magOption.id);

@@ -12,7 +12,7 @@ game.registerOtherWorldEncounter(game.createOtherWorldEncounter({
 			//description: "",
 			phases: Constants.GamePhases.OtherWorldEncountery,
 			activate: function() {
-				var res = game.context.skillTest("Check Light", Constants.Skills.Luck, -1, 1);
+                var res = game.context.skillTest("Check Light", Constants.Skills.Luck, -2, 1);
 				if (res) {
 					game.context.character.returnToArkham();
 				} else {

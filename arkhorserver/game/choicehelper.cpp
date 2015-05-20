@@ -40,6 +40,26 @@ bool ChoiceHelper::choosePayment(Character *c, AH::Common::Cost options, AH::Com
 
 void ChoiceHelper::loseHalfPossesions(Character *c)
 {
+    // Count losable objects
+    int ct = 0;
+    foreach (GameObject *o, c->inventory()) {
+        if (o->type() == AH::Obj_CommonItem || o->type() == AH::Obj_UniqueItem) {
+            if (!o->getAttributes().testFlag(AH::Common::GameObjectData::CannotBeLost)) {
+                ct++;
+            }
+        }
+    }
+
+    ct /= 2;
+    losePossessions(c, ct);
+}
+
+void ChoiceHelper::losePossessions(Character *c, int count)
+{
+    if (count <= 0) {
+        return;
+    }
+
     // Loose objects (let user decide)
     QList<GameObject *> objs;
     QStringList ids;
@@ -52,21 +72,17 @@ void ChoiceHelper::loseHalfPossesions(Character *c)
         }
     }
 
-    int ct = (objs.count()) / 2;
+    AH::Common::ChoiceData choice;
+    choice.setSelectObjects(ids, count, count);
+    choice.setDescription("Select items to lose");
+    Player *p = gGame->playerForCharacter(c);
+    AH::Common::ChoiceResponseData resp = p->offerChoice(choice);
 
-    if (ct > 0) {
-        AH::Common::ChoiceData choice;
-        choice.setSelectObjects(ids, ct, ct);
-        choice.setDescription("Select items to lose");
-        Player *p = gGame->playerForCharacter(c);
-        AH::Common::ChoiceResponseData resp = p->offerChoice(choice);
-
-        QStringList loseIds = resp.toStringList();
-        foreach (GameObject *obj, objs) {
-            if (loseIds.contains(obj->id())) {
-                c->removeFromInventory(obj);
-                gGame->returnObject(obj);
-            }
+    QStringList loseIds = resp.toStringList();
+    foreach (GameObject *obj, objs) {
+        if (loseIds.contains(obj->id())) {
+            c->removeFromInventory(obj);
+            gGame->returnObject(obj);
         }
     }
 }

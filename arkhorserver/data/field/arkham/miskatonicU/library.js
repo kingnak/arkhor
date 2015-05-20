@@ -35,9 +35,9 @@ var lib_enc2 = game.createArkhamEncounter({
 				if (res == 0) {
 					game.context.character.placeOnField(Constants.Fields.MU_MiskatonicU);
 				} else if (res == 1) {
-					// TODO: Let decide...
-                    var sp = game.context.drawObject(Constants.ObjectType.Spell);
-					game.context.character.addToInventory(sp);
+                    var sp = game.context.drawMultipleObjects(Constants.ObjectType.Spell, "Select Spell", 2, 1, 1);
+                    if (sp.length > 0)
+                        game.context.character.addToInventory(sp[0]);
 				} else if (res >= 2) {
                     var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
 					game.context.character.addToInventory(ob);

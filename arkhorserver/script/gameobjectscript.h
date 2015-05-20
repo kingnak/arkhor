@@ -28,6 +28,9 @@ public:
     Q_INVOKABLE void exhaust() { GameObject::exhaust(); }
     Q_INVOKABLE void returnToDeck() { GameObject::returnToDeck(); }
 
+    Q_INVOKABLE void discard() { returnToDeck(); }
+    Q_INVOKABLE void removeFromGame();
+
     static void castFromValue(const QScriptValue &v, GameObjectScript *&o) { o = qobject_cast<GameObjectScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, GameObjectScript * const &in) { return eng->newQObject(in); }
 
@@ -44,7 +47,7 @@ public:
     virtual bool onAddToInventory(Character *c);
     virtual bool onRemoveFromInventory(Character *c);
 
-    CharacterScript *csOwner();
+    CharacterScript *csOwner() const;
 
 signals:
 
@@ -117,6 +120,23 @@ private:
     GameObjectScript *m_obj;
     GameOptionScript *m_opt;
     GameObjectScriptProxyAction *m_proxy;
+};
+
+///////////////////////////////////
+
+class CastSpellAction : public GameActionScript
+{
+public:
+    CastSpellAction() {}
+
+    //virtual QString id() const { return "AC_CAST_"+m_spell->id(); }
+    //virtual QString name() const { return "Cast "+m_spell->name(); }
+    //virtual QString description() const { return m_spell->description(); }
+
+    virtual bool executeOnObject(QScriptValue obj);
+
+    void setPhases(AH::GamePhases ph) { m_phases = ph; }
+    void setName(QString name) { m_name = name; }
 };
 
 Q_DECLARE_METATYPE(GameObjectScript*)

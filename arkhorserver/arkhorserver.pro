@@ -1,6 +1,7 @@
 QT += network script scripttools
 
-#CONFIG(debug):DEFINES += "_DEBUG=1"
+unix:CONFIG(debug, debug|release): DEFINES += "_DEBUG=1"
+
 CONFIG += console
 CONFIG -= windows
 
@@ -88,7 +89,8 @@ HEADERS += \
     script/gatescript.h \
     game/actions/dierollaction.h \
     game/drawcardhelper.h \
-    game/choicehelper.h
+    game/choicehelper.h \
+    game/actions/castspellaction.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -171,7 +173,8 @@ SOURCES += \
     script/gatescript.cpp \
     game/actions/dierollaction.cpp \
     game/drawcardhelper.cpp \
-    game/choicehelper.cpp
+    game/choicehelper.cpp \
+    game/actions/castspellaction.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -225,4 +228,5 @@ OTHER_FILES += \
     data/objects/unique/misc.js \
     data/objects/unique/tomes.js \
     data/objects/unique/unfinished.js \
-    data/objects/unique/weapons.js
+    data/objects/unique/weapons.js \
+    data/objects/test.js

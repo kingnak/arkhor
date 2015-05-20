@@ -13,7 +13,7 @@ var train_enc1 = game.createArkhamEncounter({
 			name: "Sell Story",
 			phases: Constants.GamePhases.ArkhamEncountery,
 			activate: function() {
-				var res = game.context.skillTest("Let him draw", Constants.Skill.Luck, -1, 1);
+                var res = game.context.skillTest("Let him draw", Constants.Skills.Luck, -1, 1);
 				if (res) {
                     var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
 					game.context.character.addToInventory(ob);
@@ -45,7 +45,7 @@ var train_enc2 = game.createArkhamEncounter({
 			name: "Catch stranger",
 			phases: Constants.GamePhases.ArkhamEncountery,
 			activate: function() {
-				var res = game.context.skillTest("Catch stranger", Constants.Skill.Speed, -1, 1);
+                var res = game.context.skillTest("Catch stranger", Constants.Skills.Speed, -1, 1);
 				if (res) {
                     var ob = game.context.drawObject(Constants.ObjectType.Spell);
 					game.context.character.addToInventory(ob);

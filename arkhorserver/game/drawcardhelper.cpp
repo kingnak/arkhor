@@ -19,17 +19,39 @@ QList<GameObject *> DrawCardHelper::drawObjects(Player *p, QString desc, AH::Gam
     if (ct <= 0) return sels;
 
     // Draw objects
-    QStringList ids;
     for (int i = 0; i < ct; ++i) {
         GameObject *o = gGame->drawObject(type);
         if (o) {
             allObjs << o;
-            ids << o->id();
         }
     }
 
+    sels = doDrawObject(p, desc, allObjs, min, max, allowQuickReturn);
+    return sels;
+}
+
+QList<GameObject *> DrawCardHelper::drawMixedObjects(Player *p, QString desc, QList<AH::ObjectTypeCount> types, int min, int max, bool allowQuickReturn)
+{
+    QList<GameObject *> sels;
+    if (types.isEmpty()) return sels;
+
+    QList<GameObject *> allObjs;
+    foreach (AH::ObjectTypeCount t, types) {
+        for (int i = 0; i < t.amount; ++i) {
+            allObjs << gGame->drawObject(t.type);
+        }
+    }
+
+    sels = doDrawObject(p, desc, allObjs, min, max, allowQuickReturn);
+    return sels;
+}
+
+QList<GameObject *> DrawCardHelper::doDrawObject(Player *p, QString desc, QList<GameObject *> avail, int min, int max, bool allowQuickReturn)
+{
+    QList<GameObject *> sels;
+
     // Re-normalize arguments
-    ct = allObjs.count();
+    int ct = avail.count();
     max = qMin(max, ct);
     min = qMin(min, max);
 
@@ -39,7 +61,12 @@ QList<GameObject *> DrawCardHelper::drawObjects(Player *p, QString desc, AH::Gam
 
     // Quick returns: Are those ok? More options?
     if (allowQuickReturn && ct == max && min == max) {
-        return allObjs;
+        return avail;
+    }
+
+    QStringList ids;
+    foreach (GameObject *o, avail) {
+        ids << o->id();
     }
 
     // Let user choose!
@@ -52,7 +79,7 @@ QList<GameObject *> DrawCardHelper::drawObjects(Player *p, QString desc, AH::Gam
     if (resp.isValid()) {
         selIds = resp.toStringList();
     }
-    foreach (GameObject *o, allObjs) {
+    foreach (GameObject *o, avail) {
         if (selIds.contains(o->id())) {
             sels << o;
         } else {
@@ -60,6 +87,5 @@ QList<GameObject *> DrawCardHelper::drawObjects(Player *p, QString desc, AH::Gam
             gGame->returnObject(o);
         }
     }
-
     return sels;
 }

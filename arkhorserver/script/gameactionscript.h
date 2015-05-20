@@ -23,7 +23,7 @@ public:
     static GameActionScript *createGameAction(QScriptValue data, QScriptContext *ctx, QScriptEngine *eng);
 
     virtual bool execute();
-    bool executeOnObject(QScriptValue obj);
+    virtual bool executeOnObject(QScriptValue obj);
 
 signals:
 

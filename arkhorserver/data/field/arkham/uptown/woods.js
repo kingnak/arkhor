@@ -26,7 +26,7 @@ var woods_enc2 = game.createArkhamEncounter({
 			activate: function() {
 				var res = game.context.skillTest("Avoid trap", Constants.Skills.Luck, -1, 1);
 				if (!res) {
-					// TODO: Choose items to lose
+                    game.context.character.losePossessions(2);
 					game.context.character.damageStamina(2);
 				}
 			}

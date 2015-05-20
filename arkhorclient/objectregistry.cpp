@@ -211,14 +211,21 @@ void ObjectRegistry::receivedDescriptions(DescribeObjectsData descs)
 
 
         {
-            QReadLocker rs(&m_subscriberLock);
+            // Prevent deadlock/concurrent modification when a single shot subscriber
+            // is removed during notification (this is common...)
+            QWriteLocker ws(&m_subscriberLock);
+            QMap<QString, QSet<AsyncObjectReceiver*> > sssm = m_singleShotSubscriberMap;
+            QMap<QString, QSet<AsyncObjectReceiver*> > sm = m_subscribedMap;
+            sssm.detach();
+            sm.detach();
+            m_singleShotSubscriberMap.remove(d.id);
+            ws.unlock();
+
             // Inform asnych subscribers and single shots
-            foreach (AsyncObjectReceiver *recv, m_singleShotSubscriberMap.value(d.id)) {
+            foreach (AsyncObjectReceiver *recv, sssm.value(d.id)) {
                 recv->objectDescribed(d);
             }
-            m_singleShotSubscriberMap.remove(d.id);
-
-            foreach (AsyncObjectReceiver *recv, m_subscribedMap.value(d.id)) {
+            foreach (AsyncObjectReceiver *recv, sm.value(d.id)) {
                 recv->objectDescribed(d);
             }
         }

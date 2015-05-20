@@ -70,6 +70,9 @@ bool GameScript::init(const QString &scriptBaseDir)
 
     qScriptRegisterMetaType<AH::Common::Cost>(m_engine, GameScript::castCostToValue, GameScript::castCostFromValue);
 
+    qScriptRegisterMetaType<AH::ObjectTypeCount>(m_engine, GameScript::castObjTypeCountToValue, GameScript::castObjTypeCountFromValue);
+    qScriptRegisterMetaType<QList<AH::ObjectTypeCount> >(m_engine, GameScript::castListToValue<AH::ObjectTypeCount>, GameScript::castListFromValue<AH::ObjectTypeCount>);
+
     qRegisterMetaType<GameContextScript*>();
     qRegisterMetaType<CharacterScript*>();
     qRegisterMetaType<QList<CharacterScript*> >();
@@ -155,7 +158,8 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         gp.setProperty("AllPhases", AH::AllPhases, QScriptValue::ReadOnly);
         gp.setProperty("DieRollPhase", AH::DieRoll, QScriptValue::ReadOnly);
         gp.setProperty("FightPhase", AH::FightPhase, QScriptValue::ReadOnly);
-        gp.setProperty("Any", static_cast<int> (AH::AllPhases | AH::DieRoll | AH::FightPhase), QScriptValue::ReadOnly);
+        //gp.setProperty("Any", static_cast<int> (AH::AllPhases | AH::DieRoll | AH::FightPhase), QScriptValue::ReadOnly);
+        gp.setProperty("Any", AH::AllPhases, QScriptValue::ReadOnly);
         consts.setProperty("GamePhases", gp, QScriptValue::ReadOnly);
     }
 
@@ -230,6 +234,15 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         mods.setProperty("Monster_Awareness", AH::Common::PropertyValueData::Monster_Awareness, QScriptValue::ReadOnly);
         mods.setProperty("Monster_Toughness", AH::Common::PropertyValueData::Monster_Toughness, QScriptValue::ReadOnly);
         consts.setProperty("Mods", mods, QScriptValue::ReadOnly);
+    }
+
+    // Die Roll options
+    {
+        QScriptValue reroll = m_engine->newObject();
+        reroll.setProperty("All", DieRollOption::ReRollAll, QScriptValue::ReadOnly);
+        reroll.setProperty("AllFailed", DieRollOption::ReRollAllFailed, QScriptValue::ReadOnly);
+        reroll.setProperty("OneFailed", DieRollOption::ReRollOneFailed, QScriptValue::ReadOnly);
+        consts.setProperty("Reroll", reroll, QScriptValue::ReadOnly);
     }
 
     // Dimensions
@@ -606,6 +619,8 @@ QScriptValueList GameScript::array2list(QScriptValue ar)
         for (int i = 0; i < len; ++i) {
             ret << ar.property(i);
         }
+    } else {
+        ret << ar;
     }
 
     return ret;
@@ -700,6 +715,19 @@ bool GameScript::parseCostItem(QScriptValue v, AH::Common::CostItem &ci)
     return true;
 }
 
+bool GameScript::parseObjectTypeCount(QScriptValue v, QList<AH::ObjectTypeCount> &o)
+{
+    o.clear();
+    QScriptValueList objTypes = GameScript::array2list(v);
+    foreach (QScriptValue v, objTypes) {
+        int type = v.property("type").toInt32();
+        int amount = v.property("amount").toInt32();
+        AH::ObjectTypeCount otc(static_cast<AH::GameObjectType>(type), amount);
+        o << otc;
+    }
+    return true;
+}
+
 QScriptValue GameScript::castCostToValue(QScriptEngine *eng, const AH::Common::Cost &in)
 {
     //parseCosts()
@@ -713,6 +741,24 @@ void GameScript::castCostFromValue(const QScriptValue &v, AH::Common::Cost &o)
 {
     if (!parseCosts(v, o)) {
         qCritical("Error parsing costs");
+    }
+}
+
+QScriptValue GameScript::castObjTypeCountToValue(QScriptEngine *eng, const AH::ObjectTypeCount &in)
+{
+    Q_UNUSED(eng)
+    Q_UNUSED(in)
+    Q_ASSERT_X(false, "GameScript::castObjTypeCountToValue", "Not implemented");
+    return QScriptValue();
+}
+
+void GameScript::castObjTypeCountFromValue(const QScriptValue &v, AH::ObjectTypeCount &o)
+{
+    QList<AH::ObjectTypeCount> l;
+    if (!parseObjectTypeCount(v, l)) {
+        qCritical("Error parsing Object Type Count");
+    } else {
+        o = l.value(0);
     }
 }
 

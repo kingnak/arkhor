@@ -3,11 +3,9 @@ var shopOption = game.quickOption({
 	description: "Instead of having an encounter here, "+
 		"you may draw 3 Unique Items and purchase one of "+
 		"them for its list price. Discard the other two "+
-		"items."+
-		"\nNot implemented",
+        "items.",
 	phases: Constants.GamePhases.ArkhamEncountery,
 	activate: function() {
-        debugger;
         var res = game.context.drawMultipleObjects(Constants.ObjectType.UniqueItem, "Buy Items", 3, 0, 1);
         if (res.length > 0) {
             var item = res[0];
@@ -59,10 +57,24 @@ var shop_enc2 = game.createArkhamEncounter({
 			name: "Sale (not implemented)",
 			phases: Constants.GamePhases.ArkhamEncountery,
 			activate: function() {
-				// TODO
+                debugger;
+                // TODO: Let others buy, too
+                var types = [
+                            {type: Constants.ObjectType.CommonItem, amount: 3},
+                            {type: Constants.ObjectType.UniqueItem, amount: 1},
+                        ];
+                var sels = game.context.drawMixedObjects("Buy Items", types, 0, 1000);
+                for (var i = 0; i < sels.length; ++i) {
+                    var item = sels[i];
+                    var costs = { type: Constants.Costs.Money, amount: item.price};
+                    if (game.context.character.pay(costs)) {
+                        game.context.character.addToInventory(item);
+                    } else {
+                        item.returnToDeck();
+                    }
+                }
 			}
-		}).id,
-		"OP_SKIP"
+        }).id
 	]
 });
 game.registerArkhamEncounter(shop_enc2);

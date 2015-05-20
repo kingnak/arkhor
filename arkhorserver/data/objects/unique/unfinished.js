@@ -47,7 +47,7 @@ var useBlueWatcher = game.quickOption({
 	continueType: Constants.Option.CanContinue,
 	chooseType: Constants.Option.Supplemental,
 	activate: function() {
-		this.returnToDeck();
+        this.discard();
 		// TODO
 	}
 });
@@ -75,7 +75,7 @@ var useDragonsEye = game.quickOption({
 	chooseType: Constants.Option.Supplemental,
 	activate: function() {
 		this.owner.damageSanity(1);
-		this.returnToDeck();
+        this.discard();
 		// TODO
 	}
 });
@@ -114,7 +114,7 @@ var useFlute = game.quickOption({
 			// Well, defeat means "defeated by"
 			monsters[i].defeat(this.owner);
 		}
-		this.returnToDeck();
+        this.discard();
 	}
 });
 var flute = game.createObject({

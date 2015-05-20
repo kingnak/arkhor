@@ -26,10 +26,10 @@ void GameObjectWidget::displayGameObject(const AH::Common::GameObjectData *obj)
         ui->lblExhausted->setVisible(obj->isExhausted());
         //ui->lblPhases->setText(Utils::stringsForPhases(obj->));
         if (obj->type() == AH::Obj_Spell) {
-            ui->lblSpellCost->setText(QString::number(obj->castCost()));
+            ui->lblSpellCost->setText(QString("Cast Sanity Const: %1").arg(obj->castCost()));
             QString s = Utils::fullNumberString(obj->castAdjustment());
             if (obj->castTarget() != 1) s += QString(" [%1]").arg(obj->castAdjustment());
-            ui->lblSpellAdjust->setText(s);
+            ui->lblSpellAdjust->setText("Cast Adjustment: "+s);
         } else {
             ui->lblSpellAdjust->setText("");
             ui->lblSpellCost->setText("");

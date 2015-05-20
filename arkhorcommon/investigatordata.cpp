@@ -66,18 +66,4 @@ void operator >>(const QVariant &data, InvestigatorData::AttributeValuePair &c) 
     map["second"] >> c.second;
 }
 
-void operator <<(QVariant &data, const InvestigatorData::ObjectTypeCount &c) {
-    QVariantMap map;
-    map["type"] << c.type;
-    map["amount"] << c.amount;
-    data << map;
-}
-
-void operator >>(const QVariant &data, InvestigatorData::ObjectTypeCount &c) {
-    QVariantMap map;
-    data >> map;
-    map["type"] >> c.type;
-    map["amount"] >> c.amount;
-}
-
 }}

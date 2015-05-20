@@ -7,6 +7,8 @@ bool DieRollOption::isAvailable() const
 {
     if (m_used)
         return false;
+    if (m_source && m_source->isExhausted())
+        return false;
     if (!gGame->context().dieRoll())
         return false;
     AH::Common::PropertyValueData prop = gGame->context().dieRoll()->data.rollData().pool().property().property();
@@ -43,6 +45,10 @@ bool DieRollOption::execute()
         break;
     }
 
+    if (m_source) {
+        m_source->exhaust();
+    }
+
     return true;
 }
 
@@ -66,4 +72,12 @@ QString DieRollOption::description() const
     }
     Q_ASSERT_X(false, "DieRollOption", "Invalid type");
     return "";
+}
+
+QString DieRollOption::sourceId() const
+{
+    if (m_source) {
+        return m_source->id();
+    }
+    return GameOption::sourceId();
 }

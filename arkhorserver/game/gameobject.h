@@ -20,7 +20,7 @@ public:
     GameObject() : m_owner(NULL) {}
     virtual ~GameObject() {}
 
-    Character *owner() { return m_owner; }
+    Character *owner() const { return m_owner; }
     void setOwner(Character *c) { m_owner = c; }
 
     virtual QString modifierId() const { return id(); }
@@ -48,7 +48,7 @@ public:
     // For spells
     virtual bool cast(Player *p) = 0;
 
-    virtual QList<AH::Common::PropertyModificationData> getModificationData();
+    virtual QList<AH::Common::PropertyModificationData> getModificationData() const;
 
     //virtual PropertyModificationList getModifications() const = 0;
 

@@ -40,7 +40,8 @@ public:
     Q_INVOKABLE GameObjectScript *drawObject(qint32 type);
     Q_INVOKABLE GameObjectScript *drawObject(qint32 type, QString desc);
 
-    Q_INVOKABLE /*QScriptValue*/ QList<GameObjectScript *> drawMultipleObjects(qint32 type, QString desc, int count, int min, int max);
+    Q_INVOKABLE QList<GameObjectScript *> drawMultipleObjects(qint32 type, QString desc, int count, int min, int max);
+    Q_INVOKABLE QList<GameObjectScript *> drawMixedObjects(QString desc, QList<AH::ObjectTypeCount> types, int min, int max);
 
 signals:
 

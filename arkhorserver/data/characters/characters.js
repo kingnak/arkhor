@@ -30,10 +30,8 @@ game.registerInvestigator(game.createInvestigator({
 	clues: 10,
 
 	uniqueAbilityId: jennyBarnesSpecialObject.typeId,
+    fixedPossesionObjectIds: ["SP_Find_Gate"],
 
-      fixedPossesionObjectIds: [
-          "OB_TEST"
-      ],
 	randomPossessions: [
 		{type: Constants.ObjectType.CommonItem, amount: 2},
 		{type: Constants.ObjectType.UniqueItem, amount: 1},

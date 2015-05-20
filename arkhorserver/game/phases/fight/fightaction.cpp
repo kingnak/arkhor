@@ -42,5 +42,6 @@ QString FightOption::sourceId() const
 
 bool FightOption::isAvailable() const
 {
-    return gGame->context().player()->getCharacter()->field()->hasMonsters();
+    //return gGame->context().player()->getCharacter()->field()->hasMonsters();
+    return gGame->context().monster() != NULL;
 }

@@ -21,7 +21,7 @@ void GameObject::exhaust()
 void GameObject::refresh()
 {
     if (m_bExhaustable) {
-        if (!m_bIsExhausted) {
+        if (m_bIsExhausted) {
             m_bIsExhausted = false;
             gGame->invalidateObject(this->id());
         }
@@ -134,7 +134,7 @@ void GameObject::returnToDeck()
     gGame->returnObject(this);
 }
 
-QList<AH::Common::PropertyModificationData> GameObject::getModificationData()
+QList<AH::Common::PropertyModificationData> GameObject::getModificationData() const
 {
     QList<AH::Common::PropertyModificationData> ret;
     foreach (PropertyModification m, getModifications()) {
@@ -154,10 +154,13 @@ bool GameObject::cast(Player *p)
     }
 
     // Pay cost
-    ModifiedPropertyValue cc = gGame->context().getCharacterProperty(p->getCharacter(), PropertyValue::Prop_CastCost);
-    if (cc.finalVal() != 0) {
+    PropertyModificationList cc = gGame->context().player()->getCharacter()->getPropertyModifiers().filtered(PropertyValue::Prop_CastCost);
+    cc += gGame->getGameModifiers().filtered(PropertyValue::Prop_CastCost);
+    PropertyValue basecc(PropertyValue::Prop_CastCost, this->castCost());
+    ModifiedPropertyValue modcc(basecc, cc.apply(basecc.value()), cc);
+    if (modcc.finalVal() != 0) {
         AH::Common::CostList cost;
-        cost << AH::Common::CostItem(AH::Common::CostItem::Pay_Sanity, cc.finalVal());
+        cost << AH::Common::CostItem(AH::Common::CostItem::Pay_Sanity, modcc.finalVal());
         if (!p->getCharacter()->pay(cost)) {
             return false;
         }
@@ -168,8 +171,12 @@ bool GameObject::cast(Player *p)
 
     // Test will
     if (this->castTarget() > 0) {
-        ModifiedPropertyValue ca = gGame->context().getCharacterProperty(p->getCharacter(), PropertyValue::Prop_CastAdjustment);
-        DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest("Cast " + name(), p->getCharacter(), AH::Skill_Will, ca.finalVal(), this->castTarget());
+        PropertyModificationList ca = gGame->context().player()->getCharacter()->getPropertyModifiers().filtered(PropertyValue::Prop_CastAdjustment);
+        ca += gGame->getGameModifiers().filtered(PropertyValue::Prop_CastAdjustment);
+        PropertyValue baseca(PropertyValue::Prop_CastAdjustment, this->castAdjustment());
+        ModifiedPropertyValue modca(basecc, ca.apply(baseca.value()), ca);
+
+        DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest("Cast " + name(), p->getCharacter(), AH::Skill_Will, modca.finalVal(), this->castTarget());
         DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
 
         if (!res.boolResult) {

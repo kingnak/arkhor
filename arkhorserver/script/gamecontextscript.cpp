@@ -153,3 +153,23 @@ QList<GameObjectScript *> GameContextScript::drawMultipleObjects(qint32 type, QS
     }
     return ret;
 }
+
+QList<GameObjectScript *> GameContextScript::drawMixedObjects(QString desc, QList<AH::ObjectTypeCount> types, int min, int max)
+{
+    // TODO: Handle modifiers?
+
+    DrawCardHelper hlp;
+    QList<GameObject *> objs = hlp.drawMixedObjects(gGame->context().player(), desc, types, min, max);
+
+    QList<GameObjectScript *> ret;
+    foreach (GameObject *o, objs) {
+        GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
+        if (!os) {
+            gGame->returnObject(o);
+            qWarning() << "Drawn object was not a script object";
+        } else {
+            ret << os;
+        }
+    }
+    return ret;
+}

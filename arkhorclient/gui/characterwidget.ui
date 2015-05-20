@@ -157,7 +157,7 @@
      <item row="7" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>LLore / Luck</string>
+        <string>Lore / Luck</string>
        </property>
       </widget>
      </item>

@@ -16,7 +16,7 @@ var readTablet = game.quickOption({
 		for (var i = 0; i < 2-res; i++) {
 			game.context.addClue(2);
 		}
-		this.returnToDeck();
+        this.discard();
 	}
 });
 var ancientTablet = game.createObject({
@@ -52,7 +52,7 @@ var readDzyan = game.quickOption({
 			// Place tokens
 			this.tokens++;
 			if (this.tokens >= 2) {
-				this.returnToDeck();
+                this.discard();
 			}
 		}
 	}
@@ -90,7 +90,7 @@ var readCabala = game.quickOption({
 		if (res) {
             var ob = game.context.drawObject(Constants.ObjectType.Skill);
 			this.owner.addToInventory(ob);
-			this.returnToDeck();
+            this.discard();
 		}
 	}
 });
@@ -123,7 +123,7 @@ var readCultes = game.quickOption({
 			this.owner.addToInventory(ob);
 			this.owner.addClue(1);
 			this.owner.damageSanity(2);
-			this.returnToDeck();
+            this.discard();
 		}
 	}
 });

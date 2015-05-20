@@ -10,7 +10,7 @@ var churchOption = game.quickOption({
 		"choose be Blessed.",
 	phases: Constants.GamePhases.ArkhamEncountery,
 	activate: function() {
-		// TODO Let decide
+        // TODO Let decide which character to be blessed
 		var blessing = game.drawSpecificObject("BC_BLESSING");
 		game.context.character.addToInventory(blessing);
 	}

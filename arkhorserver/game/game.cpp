@@ -761,7 +761,7 @@ void Game::initInvestigators()
     // RANDOM POSSESSION
     foreach (Character *c, m_registry->allCharacters())
     {
-        foreach (AH::Common::InvestigatorData::ObjectTypeCount otc, c->investigator()->randomPossesions()) {
+        foreach (AH::ObjectTypeCount otc, c->investigator()->randomPossesions()) {
             // TODO: MUST BE INTERACTION! IF THERE IS A SPECIAL ABILITY BY INVESTIGATOR,
             // HE MIGHT CHOOSE FROM VARIOUS CARDS!
             for (int i = 0; i < otc.amount; ++i) {

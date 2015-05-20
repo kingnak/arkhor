@@ -6,10 +6,10 @@ var admOption = game.quickOption({
 		"discard the other.",
 	phases: Constants.GamePhases.ArkhamEncountery,
 	activate: function() {
-		// TODO Let decide
-		var sk = game.context.drawObject(Constants.ObjectType.Skill);
-		game.context.character.addToInventory(sk);
-		//game.context.drawCard(Constants.ObjectType.Skill, new DrawCardOption(2, 1));
+        var sk = game.context.drawMultipleObjects(Constants.ObjectType.Skill, "Select Skill", 2, 1, 1);
+        if (sk.length > 0) {
+            game.context.character.addToInventory(sk[0]);
+        }
 	}
 });
 game.addFieldOption(Constants.Fields.MU_Administration, admOption.id);

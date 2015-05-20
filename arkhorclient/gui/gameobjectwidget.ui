@@ -41,14 +41,14 @@
      <item>
       <widget class="QLabel" name="lblName">
        <property name="text">
-        <string>TextLabel</string>
+        <string>(Name)</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="lblType">
        <property name="text">
-        <string>TextLabel</string>
+        <string>(Type)</string>
        </property>
       </widget>
      </item>
@@ -67,21 +67,21 @@
      <item>
       <widget class="QLabel" name="lblSpellCost">
        <property name="text">
-        <string>TextLabel</string>
+        <string>(SpellCost)</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="lblSpellAdjust">
        <property name="text">
-        <string>TextLabel</string>
+        <string>(SpellAdjust)</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="lblDesc">
        <property name="text">
-        <string>TextLabel</string>
+        <string>(Description)</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -91,28 +91,28 @@
      <item>
       <widget class="QLabel" name="lblModifications">
        <property name="text">
-        <string>TextLabel</string>
+        <string>(Modifications)</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="lblAttributes">
        <property name="text">
-        <string>TextLabel</string>
+        <string>(Attributes)</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="lblPrice">
        <property name="text">
-        <string>TextLabel</string>
+        <string>(Price)</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="lblHands">
        <property name="text">
-        <string>TextLabel</string>
+        <string>(Hands)</string>
        </property>
       </widget>
      </item>

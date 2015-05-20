@@ -19,6 +19,7 @@
 #include "mythoscardscript.h"
 #include "characterscript.h"
 #include "gamefieldscript.h"
+#include "ancientonescript.h"
 #include "gatescript.h"
 #include "game/actions/dierollaction.h"
 
@@ -61,6 +62,7 @@ bool GameScript::init(const QString &scriptBaseDir)
     qScriptRegisterMetaType<CharacterScript*>(m_engine, CharacterScript::castToValue, CharacterScript::castFromValue);
     qScriptRegisterMetaType<MonsterScript*>(m_engine, MonsterScript::castToValue, MonsterScript::castFromValue);
     qScriptRegisterMetaType<MythosCardScript*>(m_engine, MythosCardScript::castToValue, MythosCardScript::castFromValue);
+    qScriptRegisterMetaType<AncientOneScript*>(m_engine, AncientOneScript::castToValue, AncientOneScript::castFromValue);
 
     qScriptRegisterMetaType<GameContextScript*>(m_engine, GameContextScript::castToValue, GameContextScript::castFromValue);
     qScriptRegisterMetaType<GameFieldScript*>(m_engine, GameFieldScript::castToValue, GameFieldScript::castFromValue);
@@ -603,7 +605,7 @@ ArkhamEncounterScript *GameScript::createArkhamEncounter()
 QScriptValue GameScript::registerArkhamEncounter(ArkhamEncounterScript *e)
 {
     if (!m_game->registerArkhamEnconutry(e)) {
-        m_engine->currentContext()->throwError("Error registering Arkham Encounter");
+        return m_engine->currentContext()->throwError("Error registering Arkham Encounter");
     }
     return m_engine->newQObject(e);
 }
@@ -616,7 +618,7 @@ OtherWorldEncounterScript *GameScript::createOtherWorldEncounter()
 QScriptValue GameScript::registerOtherWorldEncounter(OtherWorldEncounterScript *e)
 {
     if (!m_game->registerOtherWorldEncountery(e)) {
-        m_engine->currentContext()->throwError("Error registering Other World Encounter");
+        return m_engine->currentContext()->throwError("Error registering Other World Encounter");
     }
     return m_engine->newQObject(e);
 }
@@ -642,9 +644,22 @@ MythosCardScript *GameScript::createMythosCard()
 QScriptValue GameScript::registerMythosCard(MythosCardScript *m)
 {
     if (!m_game->registerMythos(m)) {
-        m_engine->currentContext()->throwError("Error registering Mythos");
+        return m_engine->currentContext()->throwError("Error registering Mythos");
     }
     return m_engine->newQObject(m);
+}
+
+AncientOneScript *GameScript::createAncientOne()
+{
+    return AncientOneScript::createAncientOne(context(), engine());
+}
+
+QScriptValue GameScript::registerAncientOne(AncientOneScript *a)
+{
+    if (!m_game->registerAncientOne(a)) {
+        return m_engine->currentContext()->throwError("Error registering Ancient One");
+    }
+    return m_engine->newQObject(a);
 }
 
 QStringList GameScript::array2stringlist(QScriptValue ar)

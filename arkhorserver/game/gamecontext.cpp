@@ -4,6 +4,12 @@
 #include "character.h"
 #include "monster.h"
 #include "propertymodifier.h"
+#include "ancientone.h"
+
+AncientOne *GameContext::ancientOne()
+{
+    return gGame->ancientOne();
+}
 
 ModifiedPropertyValue GameContext::getCurCharacterProperty(PropertyValue::Property property)
 {
@@ -221,6 +227,8 @@ ModifiedPropertyValue GameContext::getMonsterProperty(const Monster *m, AH::Comm
 
     PropertyModificationList mods = m->getModifications().filtered(property);
     mods += m_game->getGameModifiers().filtered(property);
+    // ANCIENT ONE!
+    mods += ancientOne()->getMonsterModifications(m->typeId()).filtered(property);
 
     int finalVal = mods.apply(base);
 
@@ -245,7 +253,7 @@ ModifiedPropertyValue GameContext::getGameProperty(PropertyValue::Property prope
         base = 8-(playerCount-1)/2;
         break;
     case PropertyValue::Game_MaxBoardMonsterCount:
-        if (getGameProperty(PropertyValue::Game_TerrorLevel).finalVal() >= 10) {
+        if (getGameProperty(PropertyValue::Game_TerrorLevel).finalVal() >= getGameProperty(PropertyValue::Game_OverrunArkhamTerrorLevel).finalVal()) {
             base = 10000;
         } else {
             base = playerCount+3;
@@ -264,6 +272,19 @@ ModifiedPropertyValue GameContext::getGameProperty(PropertyValue::Property prope
             base = 1;
         }
         break;
+    case PropertyValue::Game_CloseGeneralStoreTerrorLevel:
+        base = 3;
+        break;
+    case PropertyValue::Game_CloseCuriosityShoppeTerrorLevel:
+        base = 6;
+        break;
+    case PropertyValue::Game_CloseYeOldeMagickShoppeTerrorLevel:
+        base = 9;
+        break;
+    case PropertyValue::Game_OverrunArkhamTerrorLevel:
+        base = 10;
+        break;
+
     default:
         Q_ASSERT_X(false, "GameContext::getCharacterProperty", "Property not defined");
     }

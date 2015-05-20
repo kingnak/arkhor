@@ -21,6 +21,7 @@ class ArkhamEncounterScript;
 class OtherWorldEncounterScript;
 class MonsterScript;
 class MythosCardScript;
+class AncientOneScript;
 
 class QScriptEngineDebugger;
 
@@ -78,6 +79,9 @@ public:
 
     Q_INVOKABLE MythosCardScript *createMythosCard();
     Q_INVOKABLE QScriptValue registerMythosCard(MythosCardScript *m);
+
+    Q_INVOKABLE AncientOneScript *createAncientOne();
+    Q_INVOKABLE QScriptValue registerAncientOne(AncientOneScript *a);
 
     ///////// HELPER
     static QStringList array2stringlist(QScriptValue ar);

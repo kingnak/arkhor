@@ -43,6 +43,7 @@
         <file alias="toughness">client_resources/Toughness.png</file>
         <file alias="elder_sign">client_resources/elder_sign.png</file>
         <file alias="monster_marker_icon">client_resources/monster_marker_icon.png</file>
+        <file alias="location_locked">client_resources/location_locked.png</file>
     </qresource>
     <qresource prefix="/core/data">
         <file alias="boardfields">client_resources/boardfields.txt</file>

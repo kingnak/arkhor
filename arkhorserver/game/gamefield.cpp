@@ -6,7 +6,8 @@
 GameField::GameField(AH::Common::FieldData::FieldID id, const QString &name, AH::Common::FieldData::FieldType type)
 :   m_gate(NULL),
     m_whiteField(NULL),
-    m_blackField(NULL)
+    m_blackField(NULL),
+    m_lockFlags(0)
 {
     m_id = id;
     m_name = name;
@@ -55,6 +56,29 @@ void GameField::setGate(Gate *p)
         p->setSourceField(this);
     }
     gGame->boardDirty();
+}
+
+void GameField::lock(quint32 lockFlag)
+{
+    if (lockFlag != 0 && (m_lockFlags & lockFlag) == 0) {
+        // New lock
+        m_lockFlags |= lockFlag;
+        gGame->boardDirty();
+    }
+}
+
+void GameField::unlock(quint32 lockFlag)
+{
+    if (lockFlag != 0 && (m_lockFlags & lockFlag) != 0) {
+        // Remove lock
+        m_lockFlags |= ~lockFlag;
+        gGame->boardDirty();
+    }
+}
+
+bool GameField::isLocked() const
+{
+    return m_lockFlags != 0;
 }
 
 bool GameField::isConnectedTo(GameField *other) const

@@ -152,10 +152,20 @@ bool GameBoard::validatePath(MovementPath p)
     for (int i = 1; i < p.size(); ++i) {
         if (!p.at(i-1)->isConnectedTo(p.at(i))) {
             return false;
+        } else if (p.at(i)->isLocked()) {
+            // Go through a locked field!
+            return false;
         }
     }
 
     return true;
+}
+
+void GameBoard::unlockFields(quint32 unlockFlags)
+{
+    foreach (GameField *f, m_fields) {
+        f->unlock(unlockFlags);
+    }
 }
 
 QList<GameField *> GameBoard::fields(AH::Common::FieldData::FieldType type)

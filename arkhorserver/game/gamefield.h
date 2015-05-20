@@ -16,6 +16,9 @@ class GameField : public AH::Common::GameFieldData
 public:
     GameField(AH::Common::FieldData::FieldID id, const QString &name, AH::Common::FieldData::FieldType type);
 
+    static const quint32 LOCK_PERMANENT = 0x1000;
+    static const quint32 LOCK_TERROR = 0x0800;
+
     void putClue(int amount = 1);
     int takeClues();
 
@@ -31,6 +34,10 @@ public:
     void setGate(Gate *p);
 
     void setSealed(bool sealed) { m_sealed = sealed; }
+
+    void lock(quint32 lockFlag);
+    void unlock(quint32 lockFlag);
+    bool isLocked() const;
 
     QSet<GameField *> neighbours() { return m_neighbours; }
     GameField *whiteField() { return m_whiteField; }
@@ -64,6 +71,8 @@ private:
     QList<Gate *> m_backGates;
     GameField *m_whiteField;
     GameField *m_blackField;
+
+    quint32 m_lockFlags;
 
     friend class GameBoard;
 };

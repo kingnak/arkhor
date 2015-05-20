@@ -26,6 +26,7 @@ Game::Game()
     m_board(NULL),
     m_environment(NULL),
     m_rumor(NULL),
+    m_ancientOne(NULL),
     m_nextPlayerId(0),
     m_started(false),
     m_terrorLevel(1)
@@ -73,7 +74,7 @@ void Game::start()
     initBoard();
     chooseInvestigators();
     cleanupDeactivatedPlayers();
-    //chooseAnciantOne();
+    chooseAncientOne();
     initDecks();
     initMonsters();
 
@@ -89,13 +90,14 @@ void Game::start()
 void Game::play()
 {
     // TEST
+    /*
     Player *p = getFirstPlayer();
     for (int i = 0; i < 10; ++i) {
         p->getCharacter()->addMonsterTrophy(drawMonster());
     }
     p->getCharacter()->addGateTrophy(new Gate(AH::Dim_Circle, 0, m_board->field(AH::Common::FieldData::OW_Abyss)));
     //p->getCharacter()->addGateTrophy(new Gate(AH::Dim_Circle, 0, m_board->field(AH::Common::FieldData::OW_Abyss)));
-
+    */
 
     commitUpdates();
     mythos();
@@ -253,10 +255,70 @@ bool Game::registerMythos(MythosCard *m)
     return true;
 }
 
+bool Game::registerAncientOne(AncientOne *ao)
+{
+    if (!m_registry->registerAncientOne(ao)) {
+        qCritical() << "Error registering ancient one";
+        return false;
+    }
+    return true;
+}
+
 bool Game::registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId)
 {
     m_fieldOptionMap[fId] << opId;
     return true;
+}
+
+void Game::increaseTerrorLevel(int amount)
+{
+    m_terrorLevel += amount;
+
+    int realTL = m_context.getGameProperty(PropertyValue::Game_TerrorLevel).finalVal();
+
+    // Adjust so that real TL is never > 10
+    if (realTL > 10) {
+        int diff = realTL - 10;
+        m_terrorLevel -= diff;
+        realTL = m_context.getGameProperty(PropertyValue::Game_TerrorLevel).finalVal();
+        Q_ASSERT(realTL == 10);
+        int doomAdd = amount - diff;
+        for (int i = 0; i < doomAdd; ++i) {
+            // TODO: Increase doom
+        }
+    }
+
+    if (realTL >= m_context.getGameProperty(PropertyValue::Game_CloseGeneralStoreTerrorLevel).finalVal()) {
+        m_board->field(AH::Common::FieldData::RT_GeneralStore)->lock(GameField::LOCK_TERROR);
+    } else {
+        m_board->field(AH::Common::FieldData::RT_GeneralStore)->unlock(GameField::LOCK_TERROR);
+    }
+
+    if (realTL >= m_context.getGameProperty(PropertyValue::Game_CloseCuriosityShoppeTerrorLevel).finalVal()) {
+        m_board->field(AH::Common::FieldData::NS_CuriositieShoppe)->lock(GameField::LOCK_TERROR);
+    } else {
+        m_board->field(AH::Common::FieldData::NS_CuriositieShoppe)->unlock(GameField::LOCK_TERROR);
+    }
+
+    if (realTL >= m_context.getGameProperty(PropertyValue::Game_CloseYeOldeMagickShoppeTerrorLevel).finalVal()) {
+        m_board->field(AH::Common::FieldData::UT_YeOldeMagickShoppe)->lock(GameField::LOCK_TERROR);
+    } else {
+        m_board->field(AH::Common::FieldData::UT_YeOldeMagickShoppe)->unlock(GameField::LOCK_TERROR);
+    }
+
+    if (amount > 0) {
+        // Remove a random ally
+        for (int i = 0; i < amount; ++i) {
+            drawObject(AH::Obj_Ally);
+        }
+
+        // If TL > 10, increase
+
+    }
+
+    if (realTL >= m_context.getGameProperty(PropertyValue::Game_OverrunArkhamTerrorLevel).finalVal()) {
+        overrunArkham();
+    }
 }
 
 Player *Game::getFirstPlayer()
@@ -482,6 +544,11 @@ void Game::closeGate(Gate *g, Character *c)
             returnMonster(m);
         }
     }
+}
+
+void Game::overrunArkham()
+{
+    // TODO?
 }
 
 GameContext &Game::context()
@@ -783,13 +850,23 @@ void Game::initMonsters()
             m_board->field(AH::Common::FieldData::Sp_Outskirts)->placeMonster(m);
     }
     */
-    m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_DARK_YOUNG"));
+    //m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_MANIAC"));
 }
 
 void Game::chooseInvestigators()
 {
     ChooseInvestigator ci(this);
     ci.execute();
+}
+
+void Game::chooseAncientOne()
+{
+    foreach (AncientOne *a, m_registry->allAncientOnes()) {
+        m_ancientOnePool.addCard(a);
+    }
+    // TODO: Let user decide?
+    m_ancientOnePool.shuffle();
+    m_ancientOne = m_ancientOnePool.draw();
 }
 
 void Game::initInvestigators()
@@ -908,24 +985,19 @@ void Game::executePlayerPhase(int idx, AH::GamePhase phase)
 void Game::playRound()
 {
     upkeep();
-    cleanupDeactivatedPlayers();
-    commitUpdates();
+    postRoundChecks();
 
     movement();
-    cleanupDeactivatedPlayers();
-    commitUpdates();
+    postRoundChecks();
 
     arkhamEncountery();
-    cleanupDeactivatedPlayers();
-    commitUpdates();
+    postRoundChecks();
 
     otherWorldEncountery();
-    cleanupDeactivatedPlayers();
-    commitUpdates();
+    postRoundChecks();
 
     mythos();
-    cleanupDeactivatedPlayers();
-    commitUpdates();
+    postRoundChecks();
 
     nextRound();
 }
@@ -947,6 +1019,14 @@ void Game::nextRound()
     m_notifier->nextRound();
     m_notifier->firstPlayerChanged(getFirstPlayer());
     commitUpdates();
+}
+
+bool Game::postRoundChecks()
+{
+    cleanupDeactivatedPlayers();
+    commitUpdates();
+    // TODO: Check if won / ancient one awakes
+    return true;
 }
 
 void Game::cleanupDeactivatedPlayers()

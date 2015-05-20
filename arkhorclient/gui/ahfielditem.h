@@ -36,6 +36,8 @@ public:
     void setFieldExtent(QSizeF s);
     void setClickable(bool clickable);
 
+    bool isLocked() const { return m_locked; }
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );
 
     void initSubItems();
@@ -70,6 +72,7 @@ private:
 
 private:
     AH::Common::FieldData::FieldID m_id;
+    bool m_locked;
     FieldItemType m_type;
     QRectF m_itemRect;
     QRectF m_fieldRect;

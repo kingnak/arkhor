@@ -10,6 +10,7 @@
 #include "otherworldencounter.h"
 #include "mythoscard.h"
 #include "gate.h"
+#include "ancientone.h"
 
 GameRegistry::GameRegistry()
 :   m_nextActionId(0),
@@ -156,6 +157,13 @@ bool GameRegistry::removePlayer(Player *p)
     return true;
 }
 
+bool GameRegistry::registerAncientOne(AncientOne *ao)
+{
+    if (m_ancientOnes.contains(ao->id())) return false;
+    m_ancientOnes[ao->id()] = ao;
+    return true;
+}
+
 GameAction *GameRegistry::findActionById(QString id)
 {
     return m_actions.value(id);
@@ -239,6 +247,11 @@ QList<OtherWorldEncounter *> GameRegistry::allOtherWorldEncounters()
 QList<MythosCard *> GameRegistry::allMythosCards()
 {
     return m_mythosCards.values();
+}
+
+QList<AncientOne *> GameRegistry::allAncientOnes()
+{
+    return m_ancientOnes.values();
 }
 
 bool GameRegistry::resolveDependencies()

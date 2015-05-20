@@ -15,6 +15,7 @@ static const double PORTAL_SIZE = 75;
 AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, QRectF rect, QGraphicsItem *parent)
 :   QGraphicsObject(parent),
     m_id(id),
+    m_locked(false),
     m_type(type),
     m_monsters(NULL),
     m_characters(NULL),
@@ -88,10 +89,15 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
 
     if (m_gate) m_gate->setGateId(data.gateId());
 
+    m_locked = data.isLocked();
     if (m_specialMarker) {
         m_specialMarker->setVisible(false);
         if (data.isSealed()) {
             m_specialMarker->setPixmap(QPixmap(":/core/marker/elder_sign").scaled(SPECLIAL_ITEM_SIZE, SPECLIAL_ITEM_SIZE));
+            m_specialMarker->setVisible(true);
+        }
+        if (m_locked) {
+            m_specialMarker->setPixmap(QPixmap(":/core/marker/location_locked"));
             m_specialMarker->setVisible(true);
         }
     }

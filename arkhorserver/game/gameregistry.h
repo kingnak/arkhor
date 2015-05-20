@@ -15,7 +15,7 @@ class ArkhamEncounter;
 class OtherWorldEncounter;
 class MythosCard;
 class Gate;
-//class AncientOne;
+class AncientOne;
 
 class GameRegistry
 {
@@ -36,6 +36,7 @@ public:
     bool registerMythosCard(MythosCard *m);
     bool registerGate(Gate *g);
     bool removePlayer(Player *p);
+    bool registerAncientOne(AncientOne *ao);
 
     GameAction *findActionById(QString id);
     GameOption *findOptionById(QString id);
@@ -57,6 +58,7 @@ public:
     QList<ArkhamEncounter *> allArkhamEncounters();
     QList<OtherWorldEncounter *> allOtherWorldEncounters();
     QList<MythosCard *> allMythosCards();
+    QList<AncientOne *> allAncientOnes();
 
     bool resolveDependencies();
 
@@ -82,6 +84,7 @@ private:
     QList<OtherWorldEncounter *> m_otherEncounters;
     QMap<QString, MythosCard *> m_mythosCards;
     QMap<QString, Gate *> m_gates;
+    QMap<QString, AncientOne *> m_ancientOnes;
 };
 
 template <typename T>

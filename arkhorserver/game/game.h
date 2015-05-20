@@ -24,6 +24,7 @@ class Player;
 class ArkhamEncounter;
 class OtherWorldEncounter;
 class MythosCard;
+class AncientOne;
 
 class Game : public QObject
 {
@@ -50,12 +51,13 @@ public:
     bool registerOtherWorldEncountery(OtherWorldEncounter *e);
     bool registerMonster(Monster *m, quint32 count = 1);
     bool registerMythos(MythosCard *m);
+    bool registerAncientOne(AncientOne *ao);
     bool resolveDependencies();
 
     bool registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId);
 
     int terrorLevel() const { return m_terrorLevel; }
-    void increaseTerrorLevel(int amount = 1) { m_terrorLevel += amount; }
+    void increaseTerrorLevel(int amount = 1);
     void setTerrorLevel(int val) { m_terrorLevel = val; }
 
     /*
@@ -83,6 +85,8 @@ public:
     Player *getFirstPlayer();
     Player *getCurrentPlayer();
 
+    AncientOne *ancientOne() { return m_ancientOne; }
+
     bool addPlayer(Player *p);
 
     void removePlayer(Player *p);
@@ -102,6 +106,8 @@ public:
     bool createMonster(GameField *field);
     bool putOutskirtsMonster(Monster *m);
     void closeGate(Gate *g, Character *c);
+
+    void overrunArkham();
 
     GameContext &context();
     GameBoard *board();
@@ -140,6 +146,7 @@ protected:
     void initDecks();
     void initMonsters();
     void chooseInvestigators();
+    void chooseAncientOne();
     void initInvestigators();
 
 private:
@@ -156,6 +163,7 @@ private:
 
     void playRound();
     void nextRound();
+    bool postRoundChecks();
 
     void cleanupDeactivatedPlayers();
 
@@ -183,6 +191,8 @@ private:
 
     Deck<Monster> m_monsterPool;
 
+    Deck<AncientOne> m_ancientOnePool;
+
     QList<Player *> m_playerList;
     QVector<GamePhase *> m_phases;
     static Game *s_instance;
@@ -194,6 +204,8 @@ private:
 
     MythosCard *m_environment;
     MythosCard *m_rumor;
+
+    AncientOne *m_ancientOne;
 
     QSet<QString> m_invalidatedObjects;
 

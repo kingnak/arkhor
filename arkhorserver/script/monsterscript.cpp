@@ -68,7 +68,7 @@ MonsterScript *MonsterScript::createMonster(QScriptContext *ctx, QScriptEngine *
 
     QString err;
     if (!verify(ret.data(), &err)) {
-        ctx->throwError(QScriptContext::TypeError, "createInvestigator: Invalid Investigator data. Errors:\n"+err);
+        ctx->throwError(QScriptContext::TypeError, "createMonster: Invalid Monster data. Errors:\n"+err);
         return NULL;
     }
 

@@ -13,6 +13,7 @@ class Game;
 class Player;
 class Character;
 class Gate;
+class AncientOne;
 
 class GameContext
 {
@@ -25,6 +26,7 @@ public:
     Gate *gate() { return m_gate; }
     AH::GamePhase phase() { return m_phase; }
     DieTestHelper::DieTestSpec *dieRoll() { return m_dieRoll; }
+    AncientOne *ancientOne();
 
     void setMonster( Monster *m ) { m_monster = m; }
     void setGate( Gate *g ) { m_gate = g; }

@@ -21,6 +21,7 @@ namespace AH {
             FieldData::FieldType type() const { return m_type; }
 
             bool isSealed() const { return m_sealed; }
+            virtual bool isLocked() const { return m_locked; }
 
             virtual QStringList characterIds() const { return m_characterIds; }
             virtual QStringList monsterIds() const { return m_monsterIds; }
@@ -35,6 +36,7 @@ namespace AH {
             FieldData::FieldType m_type;
             int m_clues;
             bool m_sealed;
+            bool m_locked;
 
             QStringList m_characterIds;
             QStringList m_monsterIds;

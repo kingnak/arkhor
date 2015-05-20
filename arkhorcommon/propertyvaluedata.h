@@ -73,6 +73,10 @@ namespace AH {
                 Game_MaxOutskirtsMonsterCount,
                 Game_TerrorLevel,
                 Game_MonsterCountFromGates,
+                Game_CloseGeneralStoreTerrorLevel,
+                Game_CloseCuriosityShoppeTerrorLevel,
+                Game_CloseYeOldeMagickShoppeTerrorLevel,
+                Game_OverrunArkhamTerrorLevel,
 
                 Damage_General = DAMAGE_OFFSET,
                 Damage_Magical,

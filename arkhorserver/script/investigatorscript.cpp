@@ -36,6 +36,7 @@ QScriptValue InvestigatorScript::createInvestigator(QScriptContext *ctx, QScript
     ret->m_stamina = data.property("stamina").toInt32();
     ret->m_money = data.property("money").toInt32();
     ret->m_focus = data.property("focus").toInt32();
+    ret->m_clues = data.property("clues").toInt32();
 
     QScriptValue attr = data.property("attributes");
     QScriptValue attrSS = attr.property("SpeedSneak");

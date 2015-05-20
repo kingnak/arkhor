@@ -33,12 +33,10 @@ public:
     {}
 
     QString id() const { return "OP_CLOSE_GATE"; }
-
-    virtual bool execute();
-
     virtual QString name() const { return "Close Gate"; }
 
     virtual bool isAvailable();
+    virtual bool execute();
 
 private:
     CloseGateAction ca;
@@ -51,12 +49,13 @@ public:
         : GameOption(&ca, AH::CannotContinue, AH::ChooseOptional, AH::ArkhamEncountery)
     {}
 
+    QString name() const { return "Seal Gate"; }
     QString id() const { return "OP_SEAL_GATE"; }
 
-    virtual bool execute();
     AH::Common::Cost getCosts() const;
 
     virtual bool isAvailable();
+    virtual bool execute();
 
 private:
     CloseGateAction ca;

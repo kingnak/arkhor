@@ -48,6 +48,13 @@ void ConnectionHandler::selectFocus(QList<int> positionDiffs)
     send(AH::Common::Message::C_SELECT_FOCUS, v);
 }
 
+void ConnectionHandler::chooseDieRollUpdate(AH::Common::DieTestUpdateData upd)
+{
+    QVariant v;
+    v << upd;
+    send(AH::Common::Message::C_DIE_ROLL_UPDATE, v);
+}
+
 void ConnectionHandler::startup()
 {
     QTcpSocket *sock = new QTcpSocket;

@@ -19,6 +19,19 @@ public:
 public slots:
     void displayDieRoll(AH::Common::DieRollTestData data);
 
+signals:
+    void dieUpdateChosen(AH::Common::DieTestUpdateData upd);
+
+private slots:
+    void updateClueBurnAmount(int ct);
+    void on_btnOk_clicked();
+
+private:
+    void cleanDice();
+
+private:
+    int m_clueBurnFactor;
+
 private:
     Ui::DieRollWidget *ui;
 };

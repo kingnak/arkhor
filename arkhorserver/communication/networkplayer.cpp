@@ -142,21 +142,36 @@ void NetworkPlayer::actionExecute(const GameAction *action, QString desc)
     sendText(QString("Executing action %1: %2").arg(action->name(), desc));
 }
 
-void NetworkPlayer::dieRollStart(const DieRollTestData test)
+DieTestUpdateData NetworkPlayer::dieRollStart(const DieRollTestData test)
 {
-    QVariant v;
-    v << test;
-    m_conn->sendMessage(Message::S_DIE_ROLL_INFO, v);
+    // same as update...
+    return dieRollUpdate(test);
 }
 
-void NetworkPlayer::dieRollUpdate(const DieRollTestData test)
+DieTestUpdateData NetworkPlayer::dieRollUpdate(const DieRollTestData test)
 {
-    dieRollStart(test);
+    // Start with display
+    dieRollFinish(test);
+
+    // Ask for updates
+    AH::Common::Message resp;
+    QList<Message::Type> l;
+    l << Message::C_DIE_ROLL_UPDATE;
+    bool ok = awaitResponse(resp, l);
+    if (ok) {
+        // Find investigator by its id
+        DieTestUpdateData upd;
+        resp.payload >> upd;
+        return upd;
+    }
+    return DieTestUpdateData();
 }
 
 void NetworkPlayer::dieRollFinish(const DieRollTestData test)
 {
-    dieRollStart(test);
+    QVariant v;
+    v << test;
+    m_conn->sendMessage(Message::S_DIE_ROLL_INFO, v);
 }
 
 Investigator *NetworkPlayer::chooseInvestigator(QList<Investigator *> invs)

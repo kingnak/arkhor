@@ -39,6 +39,7 @@ private slots:
     void focusChosen(QList<int> diffs);
 
     void showDieRollInfo(AH::Common::DieRollTestData data);
+    void dieUpdateChosen(AH::Common::DieTestUpdateData upd);
 
 private:
     Ui::AhMainGui *ui;

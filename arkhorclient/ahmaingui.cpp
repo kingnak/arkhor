@@ -50,6 +50,7 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
 
     // DIE ROLL
     connect(m_conn, SIGNAL(dieRollInfo(AH::Common::DieRollTestData)), this, SLOT(showDieRollInfo(AH::Common::DieRollTestData)));
+    connect(ui->wgtDieRoll, SIGNAL(dieUpdateChosen(AH::Common::DieTestUpdateData)), this, SLOT(dieUpdateChosen(AH::Common::DieTestUpdateData)));
 }
 
 void AhMainGui::displayItemInfo(const QString &id)
@@ -107,4 +108,10 @@ void AhMainGui::showDieRollInfo(DieRollTestData data)
     ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
     ui->stkInteraction->setCurrentWidget(ui->pageDieRoll);
     ui->wgtDieRoll->displayDieRoll(data);
+}
+
+void AhMainGui::dieUpdateChosen(DieTestUpdateData upd)
+{
+    m_conn->chooseDieRollUpdate(upd);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
 }

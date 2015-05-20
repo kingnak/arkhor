@@ -31,7 +31,7 @@ namespace AH {
             QStringList monsterMarkerIds() const { return m_monsterMarkerIds; }
             QStringList gateMarkerIds() const { return m_gateMarkerIds; }
 
-            virtual QString fieldId() const { return m_fieldId; }
+            virtual FieldData::FieldID fieldId() const { return m_fieldId; }
             bool isDelayed() const { return m_delayed; }
             bool isSetOut() const { return m_isSetOut; }
 

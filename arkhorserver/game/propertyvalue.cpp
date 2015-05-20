@@ -71,3 +71,8 @@ AH::Attribute PropertyValue::property2Attribute(PropertyValue::Property prop)
     }
     return AH::NoAttribute;
 }
+
+AH::Common::PropertyValueData::Property PropertyValue::skill2DieRoll(AH::Skill skill)
+{
+    return static_cast<PropertyValue::Property> (DIEROLL_OFFSET | skill);
+}

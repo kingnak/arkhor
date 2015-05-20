@@ -34,6 +34,8 @@ public:
      */
     DiePoolIndex addDie(Die *d);
 
+    QList<DiePoolIndex> addDice(QList<StandardDieSpec> spec);
+
     /**
      * @brief roll Rolls all unrolled dice
      */

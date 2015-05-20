@@ -16,7 +16,7 @@ namespace AH {
                 ATTR_OFFSET = 0x100,
                 SKILL_OFFSET = 0x200,
                 PROP_OFFSET = 0x400,
-
+                DIEROLL_OFFSET = 0x800,
                 GAME_OFFSET = 0x1000
             };
         public:
@@ -46,6 +46,18 @@ namespace AH {
                 Prop_Focus,
                 Prop_Movement,
                 Prop_MinSuccessDieRoll,
+
+                DieRoll_All = DIEROLL_OFFSET | AH::NoSkill,
+                DieRoll_Speed = DIEROLL_OFFSET | AH::Skill_Speed,
+                DieRoll_Sneak = DIEROLL_OFFSET | AH::Skill_Sneak,
+                DieRoll_Fight = DIEROLL_OFFSET | AH::Skill_Fight,
+                DieRoll_Will = DIEROLL_OFFSET | AH::Skill_Will,
+                DieRoll_Lore = DIEROLL_OFFSET | AH::Skill_Lore,
+                DieRoll_Luck = DIEROLL_OFFSET | AH::Skill_Luck,
+                DieRoll_Evade = DIEROLL_OFFSET | AH::Skill_Evade,
+                DieRoll_Combat = DIEROLL_OFFSET | AH::Skill_Combat,
+                DieRoll_Horror = DIEROLL_OFFSET | AH::Skill_Horror,
+                DieRoll_Spell = DIEROLL_OFFSET | AH::Skill_Spell,
 
                 Game_SealClueCost = GAME_OFFSET
             };

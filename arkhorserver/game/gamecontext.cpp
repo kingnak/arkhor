@@ -19,6 +19,11 @@ ModifiedPropertyValue GameContext::getCurCharacterAttribute(AH::Attribute attr)
     return getCharacterAttribute(m_player->getCharacter(), attr);
 }
 
+ModifiedPropertyValue GameContext::getCurCharacterClueBurn(AH::Skill skill)
+{
+    return getCharacterClueBurn(m_player->getCharacter(), skill);
+}
+
 ModifiedPropertyValue GameContext::getCharacterProperty(const Character *c, PropertyValue::Property property)
 {
     AH::Attribute attr = PropertyValue::property2Attribute(property);
@@ -85,6 +90,21 @@ ModifiedPropertyValue GameContext::getCharacterAttribute(const Character *c, AH:
     int base = c->getAttributeValue(attr);
     PropertyModificationList mods = c->getPropertyModifiers().filtered(prop);
     mods += m_game->getGameModifiers().filtered(prop);
+
+    int finalVal = mods.apply(base);
+
+    ModifiedPropertyValue ret(PropertyValue(prop, base), finalVal, mods);
+    return ret;
+}
+
+ModifiedPropertyValue GameContext::getCharacterClueBurn(const Character *c, AH::Skill skill)
+{
+    PropertyValue::Property prop = PropertyValue::skill2DieRoll(skill);
+    PropertyModificationList mods = c->getPropertyModifiers().filtered(prop);
+    PropertyValue::Property propAll = static_cast<PropertyValue::Property> (PropertyValue::DieRoll_All);
+    mods += c->getPropertyModifiers().filtered(propAll);
+
+    int base = 1;
 
     int finalVal = mods.apply(base);
 

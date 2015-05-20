@@ -7,6 +7,7 @@ game.registerInvestigator(game.createInvestigator({
   stamina: 4,
   money: 10,
   focus: 1,
+  clues: 3,
   
   uniqueAbilityId: game.registerAction(game.createAction(
     {

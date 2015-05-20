@@ -31,8 +31,8 @@ public:
 
     virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c) = 0;
 
-    virtual void dieRollStart(const AH::Common::DieRollTestData test) = 0;
-    virtual void dieRollUpdate(const AH::Common::DieRollTestData test) = 0;
+    virtual AH::Common::DieTestUpdateData dieRollStart(const AH::Common::DieRollTestData test) = 0;
+    virtual AH::Common::DieTestUpdateData dieRollUpdate(const AH::Common::DieRollTestData test) = 0;
     virtual void dieRollFinish(const AH::Common::DieRollTestData test) = 0;
 };
 

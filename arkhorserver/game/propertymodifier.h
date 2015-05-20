@@ -41,6 +41,7 @@ public:
 class ModifiedPropertyValue
 {
 public:
+    ModifiedPropertyValue() : m_prop(PropertyValue::NoProperty, 0), m_finalVal(0) {}
     ModifiedPropertyValue(PropertyValue v, int finalVal, PropertyModificationList mods)
         : m_prop(v), m_finalVal(finalVal), m_mods(mods) {}
 

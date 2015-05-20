@@ -16,7 +16,9 @@ public:
     virtual void rollNew();
 
     // forwarders:
+    virtual const DiePool *pool() const { return &m_pool; }
     virtual void addDie(Die *die);
+    virtual void addDice(QList<StandardDieSpec> specs);
 
 private:
     DiePool m_pool;
@@ -37,8 +39,9 @@ public:
     virtual void rerollAll() = 0;
     virtual void rollNew() = 0;
 
-
+    virtual const DiePool *pool() const { return m_eval.pool(); }
     virtual void addDie(Die *die);
+    virtual void addDice(QList<StandardDieSpec> specs);
 
 private:
     DieRollSumEvaluator m_eval;

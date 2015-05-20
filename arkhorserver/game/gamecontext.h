@@ -29,10 +29,12 @@ public:
     ModifiedPropertyValue getCurCharacterProperty(PropertyValue::Property property);
     ModifiedPropertyValue getCurCharacterSkill(AH::Skill skill);
     ModifiedPropertyValue getCurCharacterAttribute(AH::Attribute attr);
+    ModifiedPropertyValue getCurCharacterClueBurn(AH::Skill skill);
 
     ModifiedPropertyValue getCharacterProperty(const Character *c, PropertyValue::Property property);
     ModifiedPropertyValue getCharacterSkill(const Character *c, AH::Skill skill);
     ModifiedPropertyValue getCharacterAttribute(const Character *c, AH::Attribute attr);
+    ModifiedPropertyValue getCharacterClueBurn(const Character *c, AH::Skill skill);
 
     ModifiedPropertyValue getGameProperty(PropertyValue::Property property);
 

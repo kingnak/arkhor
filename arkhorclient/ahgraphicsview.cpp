@@ -1,5 +1,6 @@
 #include "ahgraphicsview.h"
 #include <QWheelEvent>
+#include <math.h>
 
 AhGraphicsView::AhGraphicsView(QWidget *parent) :
     QGraphicsView(parent), m_zoom(1)

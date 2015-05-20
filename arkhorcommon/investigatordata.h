@@ -39,6 +39,7 @@ namespace AH {
             int sanity() const { return m_sanity; }
             int stamina() const { return m_stamina; }
             int money() const { return m_money; }
+            int clues() const { return m_clues; }
             int focus() const { return m_focus; }
             QList<AttributeValuePair> attrSpeedSneak() const { return m_attrSpeedSneak; }
             QList<AttributeValuePair> attrFightWill() const { return m_attrFightWill; }
@@ -55,6 +56,7 @@ namespace AH {
             int m_sanity;
             int m_stamina;
             int m_money;
+            int m_clues;
             int m_focus;
             QList<AttributeValuePair> m_attrSpeedSneak;
             QList<AttributeValuePair> m_attrFightWill;

@@ -37,6 +37,11 @@ void DieRollSumEvaluator::addDie(Die *die)
     m_pool.addDie(die);
 }
 
+void DieRollSumEvaluator::addDice(QList<StandardDieSpec> specs)
+{
+    m_pool.addDice(specs);
+}
+
 
 ////////////////////////////////////////////////////
 
@@ -74,4 +79,9 @@ void DieRollSumBoolEvaluator::rollNew()
 void DieRollSumBoolEvaluator::addDie(Die *die)
 {
     m_eval.addDie(die);
+}
+
+void DieRollSumBoolEvaluator::addDice(QList<StandardDieSpec> specs)
+{
+    m_eval.addDice(specs);
 }

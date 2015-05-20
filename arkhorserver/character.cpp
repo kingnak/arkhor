@@ -190,6 +190,7 @@ void Character::instantiateFromInvestigator()
     m_curStamina = m_maxStamina = m_investigator->stamina();
     m_curSanity = m_maxSanity = m_investigator->sanity();
     m_money = m_investigator->money();
+    m_clues = m_investigator->clues();
     m_curFocus = m_maxFocus = m_investigator->focus();
 
     m_sliders.clear();

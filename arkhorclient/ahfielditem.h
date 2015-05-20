@@ -51,7 +51,7 @@ private:
     void initThisCharacterItem();
     void initClickAreaItem();
     void initClueItem();
-    void initPortalItem();
+    void initGateItem();
 
     void fieldAreaClicked();
 
@@ -68,7 +68,7 @@ private:
 
     ClickAreaItem *m_fieldArea;
     ClueAreaItem *m_clues;
-    QGraphicsPixmapItem *m_portal;
+    QGraphicsPixmapItem *m_gate;
     QGraphicsPixmapItem *m_specialMarker;
     QGraphicsPixmapItem *m_thisCharacter;
 };

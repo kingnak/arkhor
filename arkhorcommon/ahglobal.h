@@ -24,7 +24,10 @@ namespace AH
         ArkhamEncountery = 0x0004,
         OtherWorldEncountery = 0x0008,
         Mythos = 0x0010,
-        AllPhases = Upkeep | Movement | ArkhamEncountery | OtherWorldEncountery | Mythos
+        AllPhases = Upkeep | Movement | ArkhamEncountery | OtherWorldEncountery | Mythos,
+
+        // Special Phases
+        DieRoll = 0x0100
     };
 
     Q_DECLARE_FLAGS(GamePhases, GamePhase)

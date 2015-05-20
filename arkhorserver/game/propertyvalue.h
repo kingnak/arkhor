@@ -21,6 +21,7 @@ public:
     static Property skill2Property(AH::Skill skill);
     static AH::Skill property2Skill(Property prop);
     static AH::Attribute property2Attribute(Property prop);
+    static Property skill2DieRoll(AH::Skill skill);
 };
 
 #endif // PROPERTYVALUE_H

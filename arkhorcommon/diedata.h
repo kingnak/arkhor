@@ -17,20 +17,24 @@ namespace AH {
                 None, Fixed, Property
             };
 
-            DiePoolData()
-                : m_type(None), m_count(0), m_adjust(0) {}
+            DiePoolData(PoolType type = None)
+                : m_type(type), m_count(0), m_adjust(0) {}
 
             DiePoolData(int count, int adjust)
                 : m_type(Fixed), m_count(count), m_adjust(adjust) {}
 
             DiePoolData(ModifiedPropertyValueData prop, int adjust)
-                : m_type(Property), m_count(0), m_adjust(adjust), m_property(prop) {}
+                : m_type(Property), m_count(prop.finalVal()), m_adjust(adjust), m_property(prop) {}
 
             PoolType type() const { return m_type; }
             int dieCount() const { return m_count; }
             int adjustment() const { return m_adjust; }
             ModifiedPropertyValueData property() const  { return m_property; }
             QList<quint32> dieValues() const { return m_dieVals; }
+
+            void setDieCount(int count) { m_count = count; }
+            void setAdjustment(int adjust) { m_adjust = adjust; }
+            void setProperty(ModifiedPropertyValueData prop) { m_property = prop; }
             void setDieValues(QList<quint32> vals) { m_dieVals = vals; }
 
         protected:
@@ -55,15 +59,16 @@ namespace AH {
             DieRollData()
                 : m_type(None) {}
 
-            DieRollData(DiePoolData pool)
-                : m_type(Sum), m_pool(pool) {}
-
-            DieRollData(DiePoolData pool, QList<quint32> successes)
-                : m_type(Count), m_pool(pool), m_successes(successes) {}
+            DieRollData(RollType type)
+                : m_type(type) {}
 
             RollType type() const { return m_type; }
             DiePoolData pool() const { return m_pool; }
+            DiePoolData &pool() { return m_pool; }
             QList<quint32> successRolls() const { return m_successes; }
+
+            void setPool(const DiePoolData &pool) { m_pool = pool; }
+            void setSuccessRolls(QList<quint32> successes) { m_successes = successes; }
 
         protected:
             RollType m_type;
@@ -85,25 +90,51 @@ namespace AH {
             DieRollTestData()
                 : m_type(None), m_target(0) {}
 
-            DieRollTestData(DieRollData roller)
-                : m_type(Value), m_roller(roller), m_target(0) {}
-
-            DieRollTestData(DieRollData roller, int target)
-                : m_type(Boolean), m_roller(roller), m_target(target) {}
+            DieRollTestData(TestType type, int target = 0)
+                : m_type(type), m_target(target) {}
 
             TestType type() const { return m_type; }
             DieRollData rollData() const { return m_roller; }
+            DieRollData &rollData() { return m_roller; }
             int targetValue() const { return m_target; }
+            int diceForClueBurn() const { return m_diceForClue; }
+            QStringList dieRollOptionIds() const { return m_optionIds; }
+
+            void setRollData(const DieRollData &drd) { m_roller = drd; }
+            void setDiceForClueBurn(int d4cb) { m_diceForClue = d4cb; }
+            void setRollOptionIds(QStringList lst) { m_optionIds = lst; }
 
         protected:
             TestType m_type;
             DieRollData m_roller;
             int m_target;
+            int m_diceForClue;
+            QStringList m_optionIds;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, DieRollTestData);
         };
 
         DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, DieRollTestData::TestType);
+
+        class DieTestUpdateData
+        {
+        public:
+            DieTestUpdateData() {}
+
+            DieTestUpdateData(QString optId, int clueBurns = 0)
+                : m_optionId(optId), m_clueBurnAmount(clueBurns)
+            {}
+
+            QString dieRollOptionId() const { return m_optionId; }
+            int clueBurnAmount() const { return m_clueBurnAmount; }
+
+        protected:
+            QString m_optionId;
+            int m_clueBurnAmount;
+
+            DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, DieTestUpdateData);
+        };
+
     }
 }
 

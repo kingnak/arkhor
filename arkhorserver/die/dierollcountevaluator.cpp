@@ -42,6 +42,11 @@ void DieRollCountEvaluator::addDie(Die *die)
     m_pool.addDie(die);
 }
 
+void DieRollCountEvaluator::addDice(QList<StandardDieSpec> specs)
+{
+    m_pool.addDice(specs);
+}
+
 void DieRollCountEvaluator::rerollFailed()
 {
     m_pool.reroll(m_failed);
@@ -84,6 +89,11 @@ void DieRollCountBoolEvaluator::rollNew()
 void DieRollCountBoolEvaluator::addDie(Die *die)
 {
     m_eval.addDie(die);
+}
+
+void DieRollCountBoolEvaluator::addDice(QList<StandardDieSpec> specs)
+{
+    m_eval.addDice(specs);
 }
 
 void DieRollCountBoolEvaluator::rerollFailed()

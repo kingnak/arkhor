@@ -6,6 +6,8 @@
 #include <diedata.h>
 
 class Character;
+class Player;
+class GameOption;
 class DieRollBoolEvaluator;
 class DieRollEvaluator;
 
@@ -16,7 +18,14 @@ public:
         DieRollEvaluator *eval;
         AH::Common::ModifiedPropertyValueData baseVal;
         AH::Common::DieRollTestData data;
+        QList<GameOption *> options;
         DieTestSpec() : eval(0) {}
+    };
+
+    struct DieTestResult {
+        bool boolResult;
+        int intResult;
+        DieTestResult() : boolResult(false), intResult(0) {}
     };
 
     static DieTestSpec createSkillTest(Character *c, AH::Skill skill, int adjustment, int target = 1);
@@ -26,7 +35,7 @@ public:
     static DieTestSpec createGenericCounter(int dieCount, QList<int> successVals);
     static DieTestSpec createGenericSummer(int dieCount);
 
-    static AH::Common::DieRollTestData toDieRollTestData(const DieTestSpec &spec);
+    static DieTestResult executeDieTest(Player *p, DieTestSpec &spec);
 
 private:
     DieTestHelper();

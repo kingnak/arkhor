@@ -13,7 +13,9 @@ public:
     virtual void rollNew() = 0;
 
     // forwarders:
+    virtual const DiePool *pool() const = 0;
     virtual void addDie(Die *die) = 0;
+    virtual void addDice(QList<StandardDieSpec> specs) = 0;
 
     virtual ~DieRollEvaluator() {}
 

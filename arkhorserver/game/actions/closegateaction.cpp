@@ -17,16 +17,8 @@ bool CloseGateAction::execute()
 {
     // TODO: Let user decide on skill!
     DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(gGame->context().player()->getCharacter(), AH::Skill_Fight, gGame->context().gate()->closeAdjustment());
-    gGame->context().player()->dieRollStart(DieTestHelper::toDieRollTestData(spec));
-    spec.eval->rollNew();
-    spec.eval->evaluate();
-
-    // TODO: Should this ask for actions?
-    gGame->context().player()->dieRollUpdate(DieTestHelper::toDieRollTestData(spec));
-
-    gGame->context().player()->dieRollFinish(DieTestHelper::toDieRollTestData(spec));
-
-    if (dynamic_cast<DieRollBoolEvaluator *> (spec.eval)->getBoolResult()) {
+    DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
+    if (res.boolResult) {
         gGame->context().gate()->close(gGame->context().player()->getCharacter());
         if (m_bSeal) {
             // TODO: Place ancient sign

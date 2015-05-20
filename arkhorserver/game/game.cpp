@@ -218,7 +218,7 @@ void Game::removePlayer(Player *p)
     }
 }
 
-GameContext Game::context()
+GameContext &Game::context()
 {
     return m_context;
 }
@@ -249,7 +249,7 @@ void Game::initBoard()
     }
 
     // TEST
-    m_board->field(AH::Common::FieldData::DT_ArkhamAsylum)->setGate(new Gate(AH::Dim_Bar, -1, m_board->field(AH::Common::FieldData::OW_Abyss)));
+    m_board->field(AH::Common::FieldData::DT_ArkhamAsylum)->setGate(new Gate(AH::Dim_Bar, -2, m_board->field(AH::Common::FieldData::OW_Abyss)));
 }
 
 void Game::initDecks()

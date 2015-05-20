@@ -77,7 +77,7 @@ public:
 
     void removePlayer(Player *p);
 
-    GameContext context();
+    GameContext &context();
     GameBoard *board();
 
     GameNotifier *notifier();

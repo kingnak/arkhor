@@ -26,11 +26,7 @@ DiePool::~DiePool()
 DiePool DiePool::createDiePool(QList<StandardDieSpec> spec)
 {
     DiePool p;
-    foreach (StandardDieSpec s, spec) {
-        for (quint8 i = 0; i < s.count; ++i) {
-            p.addDie(DieFactory::instance().createStandardDie(s.type));
-        }
-    }
+    p.addDice(spec);
     return p;
 }
 
@@ -39,6 +35,17 @@ DiePool::DiePoolIndex DiePool::addDie(Die *d)
     m_dice.append(d);
     d->unroll();
     return static_cast<DiePoolIndex> (m_dice.size()-1);
+}
+
+QList<DiePool::DiePoolIndex> DiePool::addDice(QList<StandardDieSpec> spec)
+{
+    QList<DiePoolIndex> ret;
+    foreach (StandardDieSpec s, spec) {
+        for (quint8 i = 0; i < s.count; ++i) {
+            ret << addDie(DieFactory::instance().createStandardDie(s.type));
+        }
+    }
+    return ret;
 }
 
 void DiePool::roll()

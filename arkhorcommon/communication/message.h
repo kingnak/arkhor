@@ -38,6 +38,7 @@ namespace AH{
                 S_PLAYER_CHAR_INSTANTIATED,
 
                 S_DIE_ROLL_INFO,
+                C_DIE_ROLL_UPDATE,
 
                 S_GAME_START,
 

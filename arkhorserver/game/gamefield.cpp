@@ -36,6 +36,7 @@ void GameField::removeGate(Gate *p)
 {
     if (m_gate == p) {
         m_gate = NULL;
+        m_gateId = "";
     }
 
     m_backGates.removeAll(p);
@@ -46,7 +47,13 @@ void GameField::setGate(Gate *p)
     Q_ASSERT_X(m_gate == NULL || p == NULL, "Set Gate", "Already have gate");
     Q_ASSERT_X(m_type == AH::Common::FieldData::Location, "Set Gate", "Can onlx add gate to Interior");
     m_gate = p;
-    if (p) p->setField(this);
+    if (p) {
+        p->setField(this);
+        // TODO Gate data
+        m_gateId = "ASDF";
+    } else {
+        m_gateId = "";
+    }
 }
 
 bool GameField::isConnectedTo(GameField *other) const

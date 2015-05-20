@@ -31,7 +31,13 @@
        <item>
         <widget class="QPushButton" name="btnOptionActivate">
          <property name="text">
-          <string>Ok</string>
+          <string>&amp;Ok</string>
+         </property>
+         <property name="autoDefault">
+          <bool>true</bool>
+         </property>
+         <property name="default">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

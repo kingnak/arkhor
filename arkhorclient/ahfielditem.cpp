@@ -16,7 +16,7 @@ AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, 
     m_characters(NULL),
     m_fieldArea(NULL),
     m_clues(NULL),
-    m_portal(NULL),
+    m_gate(NULL),
     m_specialMarker(NULL),
     m_thisCharacter(NULL)
 {
@@ -53,7 +53,7 @@ void AhFieldItem::initSubItems()
     initThisCharacterItem();
     initClickAreaItem();
     initClueItem();
-    initPortalItem();
+    initGateItem();
 
     /////////// TEST
     //QGraphicsEllipseItem *i = new QGraphicsEllipseItem(-5,-5,10,10,this);
@@ -78,6 +78,8 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
     }
 
     if (m_clues) m_clues->setClueCount(data.clueAmount());
+
+    if (m_gate) m_gate->setVisible(!data.gateId().isEmpty());
 }
 
 void AhFieldItem::initCharacterItem()
@@ -168,14 +170,14 @@ void AhFieldItem::initClueItem()
     m_clues->setClueCount(3);
 }
 
-void AhFieldItem::initPortalItem()
+void AhFieldItem::initGateItem()
 {
     if (m_type != Location)
         return;
     QPixmap port = QPixmap(":/test/client_resources/ah-lurker-monstergate.png").scaled(PORTAL_SIZE, PORTAL_SIZE);
-    m_portal = new QGraphicsPixmapItem(port, this);
-    m_portal->setZValue(-2);
-    m_portal->setPos(-PORTAL_SIZE/2,-PORTAL_SIZE/2);
+    m_gate = new QGraphicsPixmapItem(port, this);
+    m_gate->setZValue(-2);
+    m_gate->setPos(-PORTAL_SIZE/2,-PORTAL_SIZE/2);
 }
 
 void AhFieldItem::fieldAreaClicked()

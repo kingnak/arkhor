@@ -7,6 +7,7 @@ InvestigatorData::InvestigatorData()
     m_sanity(0),
     m_stamina(0),
     m_money(0),
+    m_clues(0),
     m_focus(0)
 {
 }
@@ -21,6 +22,7 @@ void operator <<(QVariant &data, const InvestigatorData &c) {
     map["stamina"] << c.m_stamina;
     map["money"] << c.m_money;
     map["focus"] << c.m_focus;
+    map["clues"] << c.m_clues;
     map["attrSpeedSneak"] << c.m_attrSpeedSneak;
     map["attrFightWill"] << c.m_attrFightWill;
     map["attrLoreLuck"] << c.m_attrLoreLuck;
@@ -41,6 +43,7 @@ void operator >>(const QVariant &data, InvestigatorData &c) {
     map["stamina"] >> c.m_stamina;
     map["money"] >> c.m_money;
     map["focus"] >> c.m_focus;
+    map["clues"] >> c.m_clues;
     map["attrSpeedSneak"] >> c.m_attrSpeedSneak;
     map["attrFightWill"] >> c.m_attrFightWill;
     map["attrLoreLuck"] >> c.m_attrLoreLuck;

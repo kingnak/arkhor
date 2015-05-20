@@ -23,6 +23,7 @@ public:
     void selectOption(QString id);
     void selectMovementPath(QList<AH::Common::FieldData::FieldID> fieldIds);
     void selectFocus(QList<int> positionDiffs);
+    void chooseDieRollUpdate(AH::Common::DieTestUpdateData upd);
 
 public slots:
     void startup();

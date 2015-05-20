@@ -50,7 +50,7 @@ bool CloseGateOption::execute()
     return GameOption::execute();
 }
 
-bool CloseGateOption::isAvailable()
+bool CloseGateOption::isAvailable() const
 {
     const Gate *g = gGame->context().player()->getCharacter()->getExploredGate();
     GameField *f = gGame->context().player()->getCharacter()->field();
@@ -70,7 +70,7 @@ bool SealGateOption::execute()
     return GameOption::execute();
 }
 
-Cost SealGateOption::getCosts() const
+Cost SealGateOption::costs() const
 {
     int amount = gGame->context().getGameProperty(PropertyValue::Game_SealClueCost).finalVal();
     CostList l;
@@ -80,7 +80,7 @@ Cost SealGateOption::getCosts() const
     return c;
 }
 
-bool SealGateOption::isAvailable()
+bool SealGateOption::isAvailable() const
 {
     const Gate *g = gGame->context().player()->getCharacter()->getExploredGate();
     GameField *f = gGame->context().player()->getCharacter()->field();

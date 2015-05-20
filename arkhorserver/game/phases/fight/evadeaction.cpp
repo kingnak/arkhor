@@ -27,7 +27,7 @@ bool EvadeAction::execute()
     return true;
 }
 
-bool EvadeOption::isAvailable()
+bool EvadeOption::isAvailable() const
 {
     Monster *m = gGame->context().monster();
     if (m->attributes().testFlag(AH::Common::MonsterData::Ambush)) {

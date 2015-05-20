@@ -34,7 +34,7 @@ bool FightAction::execute()
 }
 
 
-bool FightOption::isAvailable()
+bool FightOption::isAvailable() const
 {
     return gGame->context().player()->getCharacter()->field()->hasMonsters();
 }

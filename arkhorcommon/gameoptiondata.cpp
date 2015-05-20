@@ -3,6 +3,7 @@
 namespace AH { namespace Common {
 
 GameOptionData::GameOptionData()
+    : m_isAvailable(true), m_canPay(true)
 {
 }
 
@@ -22,6 +23,8 @@ void operator <<(QVariant &data, const GameOptionData &target)
     map["costs"] << target.costs();
     map["chooseType"] << target.chooseType();
     map["continueType"] << target.continueType();
+    map["available"] << target.isAvailable();
+    map["canPay"] << target.canPay();
     data << map;
 }
 
@@ -38,6 +41,8 @@ void operator >>(const QVariant &data, GameOptionData &target)
     map["costs"] >> target.m_costs;
     map["chooseType"] >> target.m_chooseType;
     map["continueType"] >> target.m_continueType;
+    map["available"] >> target.m_isAvailable;
+    map["canPay"] >> target.m_canPay;
 }
 
 }}

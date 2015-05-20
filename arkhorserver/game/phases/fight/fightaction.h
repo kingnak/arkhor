@@ -34,7 +34,7 @@ public:
 
     QString id() const { return "OP_FIGHT"; }
 
-    virtual bool isAvailable();
+    virtual bool isAvailable() const;
 
 private:
     FightAction fa;

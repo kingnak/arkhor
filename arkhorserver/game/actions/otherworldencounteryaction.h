@@ -28,7 +28,7 @@ public:
 
     QString id() const { return "OP_OTHERWORLD_ENCOUNTERY"; }
 
-    virtual bool isAvailable();
+    virtual bool isAvailable() const;
 
 private:
     OtherWorldEncounteryAction ea;

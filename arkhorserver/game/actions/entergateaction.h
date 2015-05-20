@@ -28,7 +28,7 @@ public:
 
     QString id() const { return "OP_ENTER_GATE"; }
 
-    virtual bool isAvailable();
+    virtual bool isAvailable() const;
 
 private:
     EnterGateAction ea;

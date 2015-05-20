@@ -22,9 +22,11 @@ public:
     }
     virtual ~GameOption() {}
 
+    GameOptionData *data();
+
     virtual AH::GamePhases phases() const;
 
-    virtual bool isAvailable() = 0;
+    //virtual bool isAvailable() = 0;
 
     virtual bool execute();
 

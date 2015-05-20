@@ -32,6 +32,9 @@ private slots:
     void on_btnOptionActivate_clicked();
 
 private:
+    QString displayCosts(const AH::Common::Cost &costs);
+
+private:
     enum {
         ChooseOption,
         ChooseSkill

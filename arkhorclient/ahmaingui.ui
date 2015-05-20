@@ -17,7 +17,20 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="AhGraphicsView" name="grvBoard"/>
+      <widget class="AhGraphicsView" name="grvBoard">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>200</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QTabWidget" name="tabIntInfInv">
@@ -25,7 +38,7 @@
         <enum>QTabWidget::East</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tabInteraction">
         <attribute name="icon">
@@ -39,7 +52,7 @@
          <item>
           <widget class="QStackedWidget" name="stkInteraction">
            <property name="currentIndex">
-            <number>5</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="pageEmptyInteraction">
             <layout class="QVBoxLayout" name="verticalLayout_9">

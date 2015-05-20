@@ -87,7 +87,7 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
     pay.setProperty("Movement", AH::Common::CostItem::Pay_Movement, QScriptValue::ReadOnly);
     pay.setProperty("GateTrophy", AH::Common::CostItem::Pay_GateTrophy, QScriptValue::ReadOnly);
     pay.setProperty("MonsterTrophy", AH::Common::CostItem::Pay_MonsterTrophy, QScriptValue::ReadOnly);
-    pay.setProperty("MonsterStamina", AH::Common::CostItem::Pay_MonsterStamina, QScriptValue::ReadOnly);
+    pay.setProperty("MonsterToughness", AH::Common::CostItem::Pay_MonsterToughness, QScriptValue::ReadOnly);
     consts.setProperty("Costs", pay, QScriptValue::ReadOnly);
 
     // Property Modifications

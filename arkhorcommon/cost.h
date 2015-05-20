@@ -21,7 +21,7 @@ namespace AH {
                 Pay_Movement,
                 Pay_GateTrophy,
                 Pay_MonsterTrophy,
-                Pay_MonsterStamina,
+                Pay_MonsterToughness,
 
             };
 

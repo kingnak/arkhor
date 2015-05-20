@@ -117,6 +117,9 @@ const Gate *Character::getExploredGate() const
 
 bool Character::canPay(const Cost &cost) const
 {
+    if (cost.getAlternatives().isEmpty()) {
+        return true;
+    }
     foreach (CostList cl, cost.getAlternatives()) {
         if (canPay(cl)) return true;
     }
@@ -157,7 +160,7 @@ bool Character::canPay(const CostList &cost) const
             if (m_monsterMarkers.size() < i.amount)
                 return false;
             break;
-        case CostItem::Pay_MonsterStamina:
+        case CostItem::Pay_MonsterToughness:
             //if (m_money < i.amount) return false; continue;
             Q_ASSERT_X(false, "CanPay", "Not yet implemented");
         }
@@ -199,7 +202,7 @@ bool Character::pay(const CostList &cost)
             for (int j = 0; j < i.amount; ++j)
                 m_monsterMarkers.removeFirst();
             break;
-        case CostItem::Pay_MonsterStamina:
+        case CostItem::Pay_MonsterToughness:
             //if (m_money < i.amount) return false; continue;
             Q_ASSERT_X(false, "CanPay", "Not yet implemented");
         }

@@ -86,6 +86,7 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
                 int diceToAdd = dieAdds;
                 if (oldDieCount < 0) diceToAdd += oldDieCount; // oldDieCount is negative!
                 spec.eval->addDice(QList<StandardDieSpec>() << StandardDieSpec(DieFactory::D6, diceToAdd));
+                gGame->commitUpdates();
             }
         }
 

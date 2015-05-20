@@ -13,12 +13,12 @@ var asylumOption1 = game.registerOption(game.createOption({
 
 var asylumOption2 = game.registerOption(game.createOption({
   id: "OP_Asylum_Regain_All",
+  costs: { type: Constants.Costs.Money, amount: 2},
   actionId: game.registerAction(game.createAction({
     id: "AC_Asylum_Regain_All",
     name: "Psychatric Care",
     description: "Instead of having an encounter here, you may recover Sanity by receiving psychiatric care. Pay $2 to restore your Sanity to its maximum value.",
     phases: Constants.GamePhases.ArkhamEncountery,
-    costs: { type: Constants.Costs.Money, amount: 2},
     activate: function() {
         game.context.character.restoreSanity();
     }

@@ -36,7 +36,7 @@ public:
     {}
     QString id() const { return "OP_ATTACK"; }
 
-    virtual bool isAvailable() { return true; }
+    virtual bool isAvailable() const { return true; }
 
 private:
     AttackAction aa;

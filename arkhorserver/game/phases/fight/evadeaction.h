@@ -39,7 +39,7 @@ public:
         sa.m_name = name;
     }
 
-    virtual bool isAvailable();
+    virtual bool isAvailable() const;
 
 private:
     EvadeAction sa;

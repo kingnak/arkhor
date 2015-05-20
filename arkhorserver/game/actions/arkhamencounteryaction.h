@@ -28,7 +28,7 @@ public:
 
     QString id() const { return "OP_ARKHAM_ENCOUNTERY"; }
 
-    virtual bool isAvailable() { return true; }
+    virtual bool isAvailable() const { return true; }
 
 private:
     ArkhamEncounteryAction ea;

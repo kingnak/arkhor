@@ -15,7 +15,7 @@ bool EnterGateAction::execute()
 }
 
 
-bool EnterGateOption::isAvailable()
+bool EnterGateOption::isAvailable() const
 {
     Character *c = gGame->context().player()->getCharacter();
     Gate *g = c->field()->gate();

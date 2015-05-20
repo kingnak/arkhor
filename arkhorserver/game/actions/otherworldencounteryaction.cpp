@@ -14,7 +14,7 @@ bool OtherWorldEncounteryAction::execute()
 }
 
 
-bool OtherWorldEncounteryOption::isAvailable()
+bool OtherWorldEncounteryOption::isAvailable() const
 {
     return gGame->context().player()->getCharacter()->field()->type() == AH::Common::FieldData::OtherWorld;
 }

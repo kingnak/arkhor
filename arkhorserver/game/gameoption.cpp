@@ -8,6 +8,12 @@
 
 using namespace AH::Common;
 
+GameOptionData *GameOption::data()
+{
+    m_canPay = gGame->context().player()->getCharacter()->canPay(costs());
+    return GameOptionData::data();
+}
+
 AH::GamePhases GameOption::phases() const
 {
     if (m_action)
@@ -21,7 +27,12 @@ bool GameOption::execute()
         Cost c = costs();
         // PAY!
         if (!c.getAlternatives().isEmpty()) {
-            CostList selected = gGame->context().player()->choosePayment(c);
+            CostList selected;
+            if (c.getAlternatives().size() > 1) {
+                selected = gGame->context().player()->choosePayment(c);
+            } else {
+                selected = c.getAlternatives().first();
+            }
             if (selected.isValid() && gGame->context().player()->getCharacter()->canPay(selected)) {
                 if (gGame->context().player()->getCharacter()->pay(selected)) {
                     return m_action->execute();

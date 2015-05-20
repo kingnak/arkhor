@@ -89,7 +89,7 @@ private:
     struct EndOption : public GameOption {
         EndOption() : GameOption(NULL, AH::CannotContinue, AH::ChooseMandatory) {}
         QString id() const { return "OP_END_FIGHT"; }
-        bool isAvailable() { return true; }
+        bool isAvailable() const { return true; }
         bool execute() { return true; }
         QString name() const { return m_name; }
         QString description() const { return m_desc; }

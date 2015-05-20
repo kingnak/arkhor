@@ -109,7 +109,7 @@ void MoveOption::determineMovementType()
     }
 }
 
-bool MoveOption::isAvailable()
+bool MoveOption::isAvailable() const
 {
     if (gGame->context().player()->getCharacter()->isDelayed()) {
         return true;

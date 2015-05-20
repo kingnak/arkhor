@@ -14,7 +14,7 @@ namespace AH {
             GameOptionData();
             virtual ~GameOptionData();
 
-            GameOptionData *data() { return this; }
+            virtual GameOptionData *data() { return this; }
 
             virtual QString id() const { return m_id; }
             virtual QString name() const { return m_name; }
@@ -24,6 +24,8 @@ namespace AH {
             virtual QString actionId() const { return m_actionId; }
 
             virtual Cost costs() const { return m_costs; }
+            virtual bool canPay() const { return m_canPay; }
+            virtual bool isAvailable() const { return m_isAvailable; }
 
             virtual AH::ChooseType chooseType() const { return m_chooseType; }
             virtual AH::ContinueType continueType() const { return m_continueType; }
@@ -38,6 +40,8 @@ namespace AH {
             Cost m_costs;
             ChooseType m_chooseType;
             ContinueType m_continueType;
+            bool m_isAvailable;
+            bool m_canPay;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, GameOptionData);
         };

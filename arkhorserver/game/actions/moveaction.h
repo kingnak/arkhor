@@ -36,7 +36,7 @@ public:
 
     void determineMovementType();
 
-    virtual bool isAvailable();
+    virtual bool isAvailable() const;
 
 private:
     MoveAction ma;

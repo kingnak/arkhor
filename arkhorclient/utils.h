@@ -4,6 +4,7 @@
 #include <QString>
 #include <propertyvaluedata.h>
 #include <monsterdata.h>
+#include <cost.h>
 
 struct Utils {
     static inline QString fullNumberString(int n) {
@@ -15,6 +16,7 @@ struct Utils {
     static QString stringForMovement(AH::Common::MonsterData::MovementType m);
     static QString stringForMonsterAttribute(AH::Common::MonsterData::MonsterAttribute a);
     static QStringList stringsForMonsterAttributes(AH::Common::MonsterData::MonsterAttributes attrs);
+    static QString stringForCostItem(AH::Common::CostItem::PaymentItem pi);
 };
 
 #endif // UTILS_H

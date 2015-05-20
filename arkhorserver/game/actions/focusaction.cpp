@@ -41,7 +41,7 @@ bool FocusAction::executeOnPlayer(Player *p, int &focusAmount)
     return true;
 }
 
-bool FocusOption::isAvailable()
+bool FocusOption::isAvailable() const
 {
      return gGame->context().getCurCharacterProperty(PropertyValue::Prop_Focus).finalVal() > 0;
 }

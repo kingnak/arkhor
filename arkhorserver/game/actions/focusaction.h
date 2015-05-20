@@ -30,7 +30,7 @@ public:
 
     QString id() const { return "OP_FOCUS"; }
 
-    virtual bool isAvailable();
+    virtual bool isAvailable() const;
 
 private:
     FocusAction fa;

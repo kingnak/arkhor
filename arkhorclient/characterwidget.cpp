@@ -19,6 +19,7 @@ void CharacterWidget::updateCharacterData(AH::Common::CharacterData data)
     ui->lblClue->setText(QString::number(data.clues()));
     ui->lblStamina->setText(QString("%1 / %2").arg(data.curStamina()).arg(data.maxStamina()));
     ui->lblSanity->setText(QString("%1 / %2").arg(data.curSanity()).arg(data.maxSanity()));
+    ui->lblMoney->setText(QString::number(data.money()));
     AH::Common::InvestigatorData::AttributeValuePair ss = data.investigatorData().attrSpeedSneak().value(data.attrSettings().value(0));
     ui->lblSpeedSneak->setText(QString("%1 / %2").arg(ss.first).arg(ss.second));
     AH::Common::InvestigatorData::AttributeValuePair fw = data.investigatorData().attrFightWill().value(data.attrSettings().value(1));

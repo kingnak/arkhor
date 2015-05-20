@@ -120,3 +120,20 @@ QStringList Utils::stringsForMonsterAttributes(MonsterData::MonsterAttributes at
     }
     return l;
 }
+
+QString Utils::stringForCostItem(CostItem::PaymentItem pi)
+{
+    switch (pi)
+    {
+    case AH::Common::CostItem::Pay_None: return "None";
+    case AH::Common::CostItem::Pay_Money: return "$";
+    case AH::Common::CostItem::Pay_Clue: return "Clue";
+    case AH::Common::CostItem::Pay_Stamina: return "Stamina";
+    case AH::Common::CostItem::Pay_Sanity: return "Sanity";
+    case AH::Common::CostItem::Pay_Movement: return "Movement Point";
+    case AH::Common::CostItem::Pay_GateTrophy: return "Gate Trophy";
+    case AH::Common::CostItem::Pay_MonsterTrophy: return "Monster Trophy";
+    case AH::Common::CostItem::Pay_MonsterToughness: return "Monster Toughness";
+    }
+    return "";
+}

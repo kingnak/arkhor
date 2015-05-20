@@ -272,7 +272,7 @@ int GUI::choosePayment(const QList<QPair<CostList, bool> > &costs)
             case CostItem::Pay_Movement: s = "%1 movement points"; break;
             case CostItem::Pay_GateTrophy: s = "%1 gate trophies"; break;
             case CostItem::Pay_MonsterTrophy: s = "%1 monster trophies"; break;
-            case CostItem::Pay_MonsterStamina: s = "monster trophies for %1 stamina"; break;
+            case CostItem::Pay_MonsterToughness: s = "monster trophies for %1 stamina"; break;
             default: s = "%1 ????";
             }
             line << s.arg(i.amount);

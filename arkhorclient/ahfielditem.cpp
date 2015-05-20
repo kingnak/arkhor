@@ -126,7 +126,8 @@ void AhFieldItem::initMonsterItem()
     if (m_type == OtherWorld) return;
 
     m_monsters = new ItemStacker;
-    m_monsters->setPicSize(QSize(STACK_ITEM_SIZE,STACK_ITEM_SIZE));
+    //m_monsters->setPicSize(QSize(STACK_ITEM_SIZE,STACK_ITEM_SIZE));
+    m_monsters->setPicSize(QSize(200,200));
     m_monsters->setAutoFillBackground(false);
     m_monsters->setAttribute(Qt::WA_TranslucentBackground);
     connect(m_monsters, SIGNAL(itemActivated(const StackItem*)), this, SLOT(monsterClicked(const StackItem*)));
@@ -138,8 +139,13 @@ void AhFieldItem::initMonsterItem()
     if (m_type == Location) stkSize = qMin(bound.height()/2., STACK_ITEM_SIZE);
     else stkSize = qMin(bound.height(), STACK_ITEM_SIZE);
 
-    prxMonst->resize(stkSize, stkSize);
-    prxMonst->setPos(bound.topRight().x()-prxMonst->size().width(), bound.topRight().y());
+    //prxMonst->resize(stkSize, stkSize);
+
+    prxMonst->resize(200,200);
+    double fact = stkSize/200.;
+    prxMonst->scale(fact, fact);
+
+    prxMonst->setPos(bound.topRight().x()-stkSize, bound.topRight().y());
 }
 
 void AhFieldItem::initSpecialItem()

@@ -20,7 +20,7 @@ public:
 
     static GameOptionScript *createGameOption(QScriptContext *ctx, QScriptEngine *eng);
 
-    virtual bool isAvailable();
+    virtual bool isAvailable() const;
 
 signals:
 

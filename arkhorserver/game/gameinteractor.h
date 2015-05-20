@@ -14,6 +14,7 @@ class GameOption;
 class GameObject;
 class Investigator;
 class Player;
+class ArkhamEncounter;
 
 class GameInteractor
 {
@@ -33,6 +34,8 @@ public:
     virtual MovementPath chooseMovement(GameField *start, int movement) = 0;
 
     virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c) = 0;
+
+    virtual GameOption *chooseEncounterOption(ArkhamEncounter *enc) = 0;
 
     virtual bool chooseWeapons(QList<GameObject *> weapons, ModifiedPropertyValue hands, QStringList &selected) = 0;
 

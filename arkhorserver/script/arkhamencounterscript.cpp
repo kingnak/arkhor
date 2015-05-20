@@ -53,7 +53,7 @@ ArkhamEncounterScript *ArkhamEncounterScript::createEncounter(QScriptContext *ct
 
     QString err;
     if (!verify(ret.data(), &err)) {
-        ctx->throwError(QScriptContext::TypeError, "createAction: Invalid GameAction data. Errors:\n"+err);
+        ctx->throwError(QScriptContext::TypeError, "createEncounter: Invalid Encounter data. Errors:\n"+err);
         return NULL;
     }
 

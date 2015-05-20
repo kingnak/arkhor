@@ -2,7 +2,6 @@
 #include "ui_ahmaingui.h"
 #include "ahboardscene.h"
 #include "connectionhandler.h"
-#include "flowlayout.h"
 #include "objectregistry.h"
 #include "monsterdata.h"
 #include <QtGui>
@@ -68,6 +67,10 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(m_conn, SIGNAL(chooseWeapons(QList<AH::Common::GameObjectData>,AH::Common::ModifiedPropertyValueData)), this, SLOT(chooseWeapons(QList<AH::Common::GameObjectData>,AH::Common::ModifiedPropertyValueData)));
     connect(ui->wgtWeaponChooser, SIGNAL(weaponsCanceled()), this, SLOT(weaponsCanceled()));
     connect(ui->wgtWeaponChooser, SIGNAL(weaponsSelected(QStringList)), this, SLOT(weaponsSelected(QStringList)));
+
+    // ENCOUNTER
+    connect(m_conn, SIGNAL(chooseEncounterOption(AH::Common::ArkhamEncounterData)), this, SLOT(chooseEncounter(AH::Common::ArkhamEncounterData)));
+    connect(ui->wgtOptionChooser, SIGNAL(encounterChosen(QString)), this, SLOT(encounterSelected(QString)));
 }
 
 void AhMainGui::setThisPlayerId(QString id)
@@ -242,5 +245,18 @@ void AhMainGui::weaponsCanceled()
 void AhMainGui::weaponsSelected(QStringList weaponIds)
 {
     m_conn->selectWeapons(weaponIds);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+}
+
+void AhMainGui::chooseEncounter(ArkhamEncounterData encounter)
+{
+    ui->stkInteraction->setCurrentWidget(ui->pageOptionChooser);
+    ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
+    ui->wgtOptionChooser->setEncounter(encounter);
+}
+
+void AhMainGui::encounterSelected(QString id)
+{
+    m_conn->selectEncounterOption(id);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
 }

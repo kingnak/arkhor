@@ -9,6 +9,9 @@ class AhGraphicsView : public QGraphicsView
 public:
     explicit AhGraphicsView(QWidget *parent = 0);
 
+public:
+    QSize sizeHint() const;
+
 signals:
 
 public slots:

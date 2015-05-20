@@ -10,9 +10,9 @@ ArkhamEncounterData::ArkhamEncounterData()
 void operator <<(QVariant &data, const ArkhamEncounterData &target)
 {
     QVariantMap map;
-    map["field"] << target.m_fieldId;
-    map["options"] << target.m_optionIds;
-    map["description"] << target.m_description;
+    map["field"] << target.fieldId();
+    map["options"] << target.optionData();
+    map["description"] << target.description();
     data << map;
 }
 
@@ -21,7 +21,7 @@ void operator >>(const QVariant &data, ArkhamEncounterData &target)
     QVariantMap map;
     data >> map;
     map["field"] >> target.m_fieldId;
-    map["options"] >> target.m_optionIds;
+    map["options"] >> target.m_optionData;
     map["description"] >> target.m_description;
 }
 

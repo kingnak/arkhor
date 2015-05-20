@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <gameoptiondata.h>
 #include <propertyvaluedata.h>
+#include <arkhamencounterdata.h>
 
 namespace Ui {
 class OptionChooser;
@@ -17,13 +18,18 @@ public:
     explicit OptionChooser(QWidget *parent = 0);
     ~OptionChooser();
 
+    QSize sizeHint() const { return QSize(100,100); }
+    QSize minimumSizeHint() const { return QSize(100,100); }
+
 public slots:
     void setOptions(QList<AH::Common::GameOptionData> opts);
     void setSkills(QList<AH::Common::ModifiedPropertyValueData> opts);
+    void setEncounter(AH::Common::ArkhamEncounterData enc);
 
 signals:
     void optionChosen(QString id);
     void skillChosen(AH::Common::PropertyValueData::Property skill);
+    void encounterChosen(QString id);
 
 private slots:
     void cleanupOptions();
@@ -37,8 +43,10 @@ private:
 private:
     enum {
         ChooseOption,
-        ChooseSkill
+        ChooseSkill,
+        ChooseEncounter
     } m_type;
+
     Ui::OptionChooser *ui;
 };
 

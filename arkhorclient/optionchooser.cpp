@@ -4,6 +4,7 @@
 #include "flowlayout.h"
 #include "utils.h"
 
+
 using namespace AH::Common;
 
 static const char *OPTION_DESCRIPTION_PROPERTY = "DESCRIPTION";
@@ -76,6 +77,48 @@ void OptionChooser::setSkills(QList<ModifiedPropertyValueData> opts)
     }
 }
 
+void OptionChooser::setEncounter(ArkhamEncounterData enc)
+{
+    m_type = ChooseEncounter;
+    QString baseDesc = enc.description();
+
+    if (enc.optionData().size() > 1)
+    {
+        QSet<QChar> usedMnemonics;
+        usedMnemonics.insert('o');
+
+        QLayout *l = ui->wgtOptionsList->layout();
+        foreach (GameOptionData o, enc.optionData()) {
+            QString name = o.name();
+            for (int i = 0; i < name.length(); ++i) {
+                QChar c = name.at(i).toLower();
+                if (!usedMnemonics.contains(c)) {
+                    usedMnemonics.insert(c);
+                    name.insert(i, '&');
+                    break;
+                }
+            }
+
+            QPushButton *b = new QPushButton(name);
+            b->setProperty(OPTION_DESCRIPTION_PROPERTY, baseDesc + "\n\n" + o.description() + displayCosts(o.costs()));
+            b->setProperty(OPTION_ID_PROPERTY, o.id());
+            QVariant v;
+            v << o;
+            b->setProperty(OPTION_PROPERTY, v);
+            connect(b, SIGNAL(clicked()), this, SLOT(showOption()));
+            l->addWidget(b);
+        }
+    } else {
+        QString id = enc.optionData().value(0).id();
+        ui->btnOptionActivate->setProperty(OPTION_ID_PROPERTY, id);
+        ui->btnOptionActivate->setEnabled(true);
+    }
+
+    ui->lblOptionDescription->setText(baseDesc);
+
+    ui->btnOptionActivate->setDefault(true);
+}
+
 void OptionChooser::cleanupOptions()
 {
     QLayout *l = ui->wgtOptionsList->layout();
@@ -121,6 +164,9 @@ void OptionChooser::on_btnOptionActivate_clicked()
     } else if (m_type == ChooseSkill) {
         AH::Common::PropertyValueData::Property p = static_cast<AH::Common::PropertyValueData::Property> (ui->btnOptionActivate->property(OPTION_SKILL_PROPERTY).toInt());
         emit skillChosen(p);
+    } else if (m_type == ChooseEncounter) {
+        QString id = ui->btnOptionActivate->property(OPTION_ID_PROPERTY).toString();
+        emit encounterChosen(id);
     }
 }
 

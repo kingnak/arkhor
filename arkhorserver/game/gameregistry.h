@@ -50,6 +50,8 @@ public:
 private:
     template <typename T>
     bool doRegisterItem(T *t, QMap<QString, T*> &m);
+    int m_nextActionId;
+    int m_nextOptionId;
 
 private:
     QMap<QString, GameAction*> m_actions;

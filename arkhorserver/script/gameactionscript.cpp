@@ -63,7 +63,7 @@ bool GameActionScript::execute()
 bool GameActionScript::verify(GameActionScript *act, QString *err)
 {
     QStringList errs;
-    if (act->m_id.isEmpty()) errs.append("id must be set");
+    //if (act->m_id.isEmpty()) errs.append("id must be set");
     if (act->m_name.isEmpty()) errs.append("name must be set");
     if (act->m_phases == AH::NoGamePhase) errs.append("phases must be set");
     if (act->m_function.isNull()) errs.append("activate function must be set");

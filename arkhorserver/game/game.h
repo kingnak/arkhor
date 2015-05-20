@@ -86,6 +86,8 @@ public:
 
     GameNotifier *notifier();
 
+    ArkhamEncounter *drawArkhamEncounter(AH::Common::FieldData::FieldID field);
+
     PropertyModificationList getGameModifiers() { return PropertyModificationList(); }
 
     int getGateSealClueCost() const { return 5; }
@@ -141,6 +143,8 @@ private:
     QMap<AH::Common::FieldData::FieldID, QList<ArkhamEncounter *> > m_arkEnc;
 
     QMap<AH::GameObjectType, Deck<GameObject> > m_objectDecks;
+    QMap<AH::Common::FieldData::FieldID, Deck<ArkhamEncounter> > m_arkEncDecks;
+
     Deck<Monster> m_monsterPool;
 
     QList<Player *> m_playerList;

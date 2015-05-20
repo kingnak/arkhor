@@ -151,6 +151,9 @@ void Game::registerObject(GameObject *o, quint32 count)
 
 bool Game::resolveDependencies()
 {
+    //m_registry->registerOption(new SkipOption);
+    m_registry->registerOption(GamePhase::getSkipOption());
+
     bool ok = m_registry->resolveDependencies();
     if (!ok) return false;
     // Resolve Field Options
@@ -244,6 +247,16 @@ GameBoard *Game::board()
 GameNotifier *Game::notifier()
 {
     return m_notifier;
+}
+
+ArkhamEncounter *Game::drawArkhamEncounter(AH::Common::FieldData::FieldID field)
+{
+    m_arkEncDecks[field].shuffle();
+    ArkhamEncounter *enc = m_arkEncDecks[field].draw();
+    if (enc) {
+        m_arkEncDecks[field].addCard(enc);
+    }
+    return enc;
 }
 
 void Game::boardDirty()
@@ -359,7 +372,7 @@ void Game::initBoard()
     }
 
     // TEST
-    m_board->field(AH::Common::FieldData::DT_ArkhamAsylum)->setGate(new Gate(AH::Dim_Slash, -2, m_board->field(AH::Common::FieldData::OW_Abyss)));
+    //m_board->field(AH::Common::FieldData::DT_ArkhamAsylum)->setGate(new Gate(AH::Dim_Slash, -2, m_board->field(AH::Common::FieldData::OW_Abyss)));
 }
 
 void Game::initDecks()
@@ -371,6 +384,12 @@ void Game::initDecks()
     foreach (AH::GameObjectType t, m_objectDecks.keys()) {
         m_objectDecks[t].shuffle();
     }
+
+    foreach (AH::Common::FieldData::FieldID fId, m_arkEnc.keys()) {
+        foreach (ArkhamEncounter *ae, m_arkEnc[fId]) {
+            m_arkEncDecks[fId].addCard(ae);
+        }
+    }
 }
 
 void Game::initMonsters()
@@ -380,7 +399,7 @@ void Game::initMonsters()
 
     // TEST
     Monster *m = m_monsterPool.draw();
-    m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m);
+    //m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m);
 }
 
 void Game::chooseInvestigators()

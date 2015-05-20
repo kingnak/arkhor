@@ -12,6 +12,11 @@ public:
 
     virtual QList<GameOption *> options() const = 0;
     virtual bool resolveDependencies(GameRegistry *reg) = 0;
+
+    QList<AH::Common::GameOptionData> optionData() const;
+
+protected:
+    QStringList m_optionIds;
 };
 
 #endif // ARKHAMENCOUNTER_H

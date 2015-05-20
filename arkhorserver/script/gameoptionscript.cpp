@@ -83,7 +83,7 @@ bool GameOptionScript::isAvailable() const
 bool GameOptionScript::verify(GameOptionScript *op, QString *msg)
 {
     QStringList errs;
-    if (op->id().isEmpty()) errs.append("id must be set");
+    //if (op->id().isEmpty()) errs.append("id must be set");
     //if (op->name().isEmpty()) errs.append("name must be set");
     //if (op->phases() == AH::NoGamePhase) errs.append("phases must be set");
     if (op->actionId().isEmpty()) errs.append("actionId must be set");

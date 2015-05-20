@@ -7,6 +7,7 @@
 #include "character.h"
 #include "game/gameoption.h"
 #include "game/gameobject.h"
+#include "game/arkhamencounter.h"
 #include <QEventLoop>
 #include <QThread>
 #include <QTimerEvent>
@@ -297,6 +298,28 @@ MovementPath NetworkPlayer::chooseMovement(GameField *start, int movement)
         }
     }
     return ret;
+}
+
+GameOption *NetworkPlayer::chooseEncounterOption(ArkhamEncounter *enc)
+{
+    QVariant v;
+    v << *enc->data();
+    m_conn->sendMessage(Message::S_CHOOSE_ENCOUNTER, v);
+
+    AH::Common::Message resp;
+    QList<Message::Type> l;
+    l << Message::C_SELECT_ENCOUNTER;
+    bool ok = awaitResponse(resp, l);
+    if (ok) {
+        // Find investigator by its id
+        QString id = resp.payload.toString();
+        foreach (GameOption *i, enc->options()) {
+            if (i->id() == id) {
+                return i;
+            }
+        }
+    }
+    return NULL;
 }
 
 CostList NetworkPlayer::choosePayment(const Cost &c)

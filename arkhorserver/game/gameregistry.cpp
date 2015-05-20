@@ -8,16 +8,26 @@
 #include "monster.h"
 
 GameRegistry::GameRegistry()
+:   m_nextActionId(0),
+    m_nextOptionId(0)
 {
 }
 
 bool GameRegistry::registerAction(GameAction *a)
 {
+    if (a->id().isEmpty()) {
+        QString genId = QString("AC_GEN_%1").arg(++m_nextActionId);
+        a->setId(genId);
+    }
     return doRegisterItem(a, m_actions);
 }
 
 bool GameRegistry::registerOption(GameOption *o)
 {
+    if (o->id().isEmpty()) {
+        QString genId = QString("OP_GEN_%1").arg(++m_nextOptionId);
+        o->setId(genId);
+    }
     return doRegisterItem(o, m_options);
 }
 

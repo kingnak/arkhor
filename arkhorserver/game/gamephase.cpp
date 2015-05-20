@@ -5,14 +5,13 @@
 #include "player.h"
 
 GamePhase::GamePhase(Game *game)
-    : m_game(game)
+    : m_game(game)//, m_skip(new SkipOption)
 {
-    m_skip = new SkipOption;
 }
 
 GamePhase::~GamePhase()
 {
-    delete m_skip;
+    //delete m_skip;
 }
 
 void GamePhase::execute()
@@ -83,4 +82,13 @@ void GamePhase::execute()
 
     finishPhase();
     gGame->commitUpdates();
+}
+
+
+
+SkipOption *GamePhase::s_skip = NULL;
+SkipOption *GamePhase::getSkipOption()
+{
+    if (!s_skip) s_skip = new SkipOption;
+    return s_skip;
 }

@@ -3,7 +3,11 @@
 namespace AH { namespace Common {
 
 GameOptionData::GameOptionData()
-    : m_isAvailable(true), m_canPay(true)
+:   m_phases(AH::NoGamePhase),
+    m_chooseType(ChooseOptional),
+    m_continueType(CannotContinue),
+    m_isAvailable(true),
+    m_canPay(true)
 {
 }
 

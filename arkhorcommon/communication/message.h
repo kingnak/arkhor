@@ -65,6 +65,9 @@ namespace AH{
                 C_SELECT_WEAPONS,
                 C_CANCEL_WEAPONS,
 
+                S_CHOOSE_ENCOUNTER,
+                C_SELECT_ENCOUNTER,
+
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF
             } type;

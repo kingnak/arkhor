@@ -13,9 +13,9 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2">
+  <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0">
      <item>
       <widget class="AhGraphicsView" name="grvBoard">
        <property name="sizePolicy">
@@ -52,7 +52,7 @@
          <item>
           <widget class="QStackedWidget" name="stkInteraction">
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="pageEmptyInteraction">
             <layout class="QVBoxLayout" name="verticalLayout_9">

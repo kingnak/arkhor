@@ -81,6 +81,11 @@ void ConnectionHandler::selectWeapons(QStringList weaponIds)
     send(AH::Common::Message::C_SELECT_WEAPONS, v);
 }
 
+void ConnectionHandler::selectEncounterOption(QString id)
+{
+    send(AH::Common::Message::C_SELECT_ENCOUNTER, id);
+}
+
 void ConnectionHandler::startup()
 {
     QTcpSocket *sock = new QTcpSocket;
@@ -219,6 +224,14 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         m["hands"] >> hands;
         m["weapons"] >> weapons;
         emit chooseWeapons(weapons, hands);
+        break;
+    }
+
+    case AH::Common::Message::S_CHOOSE_ENCOUNTER:
+    {
+        AH::Common::ArkhamEncounterData a;
+        msg.payload >> a;
+        emit chooseEncounterOption(a);
         break;
     }
 

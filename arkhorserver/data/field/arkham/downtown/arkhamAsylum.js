@@ -1,22 +1,22 @@
 var asylumOption1 = game.registerOption(game.createOption({
-  id: "OP_Asylum_Regain_One",
+  //id: "OP_Asylum_Regain_One",
   actionId: game.registerAction(game.createAction({
-    id: "AC_Asylum_Regain_One",
-    name: "Psychatric Care",
+    //id: "AC_Asylum_Regain_One",
+    name: "Psychatric Care (One)",
     description: "Instead of having an encounter here, you may recover Sanity by receiving psychiatric care. You regain 1 Sanity for free",
     phases: Constants.GamePhases.ArkhamEncountery,
     activate: function() {
-        game.context.character.addSanity(1);
+        //game.context.character.addSanity(1);
     }
   })).id
 }));
 
 var asylumOption2 = game.registerOption(game.createOption({
-  id: "OP_Asylum_Regain_All",
+  //id: "OP_Asylum_Regain_All",
   costs: { type: Constants.Costs.Money, amount: 2},
   actionId: game.registerAction(game.createAction({
-    id: "AC_Asylum_Regain_All",
-    name: "Psychatric Care",
+    //id: "AC_Asylum_Regain_All",
+    name: "Psychatric Care (All)",
     description: "Instead of having an encounter here, you may recover Sanity by receiving psychiatric care. Pay $2 to restore your Sanity to its maximum value.",
     phases: Constants.GamePhases.ArkhamEncountery,
     activate: function() {
@@ -36,11 +36,11 @@ var enc1 = game.createArkhamEncounter({
                 "0) Their stories fill you with horror even as you learn a few bits of knowledge. Lose 1 Sanity and gain 1 Clue token.\n"+
                 "1-2) You find several pieces of useful information. Gain 2 Clue tokens.\n"+
                 "3+) One of the interviews contains vital information. Gain 3 Clue tokens.",
-    options: [
+    options: ["OP_SKIP",
         game.registerOption(game.createOption({
-            id: "OP_Asylum_Enc1",
+            //id: "OP_Asylum_Enc1",
             actionId: game.registerAction(game.createAction({
-                id: "AC_Asylum_Enc1",
+                //id: "AC_Asylum_Enc1",
                 name: "Arkham Asylum Encountery",
                 phases: Constants.GamePhases.ArkhamEncountery,
                 activate: function() {

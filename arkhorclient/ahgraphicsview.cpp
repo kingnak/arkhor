@@ -7,6 +7,11 @@ AhGraphicsView::AhGraphicsView(QWidget *parent) :
 {
 }
 
+QSize AhGraphicsView::sizeHint() const
+{
+    return QAbstractScrollArea::sizeHint();
+}
+
 void AhGraphicsView::zoomIn()
 {
     scaleView(qreal(1.2));

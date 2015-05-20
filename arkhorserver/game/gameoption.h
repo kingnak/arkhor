@@ -22,6 +22,8 @@ public:
     }
     virtual ~GameOption() {}
 
+    void setId(QString id) { m_id = id; }
+
     GameOptionData *data();
 
     virtual AH::GamePhases phases() const;

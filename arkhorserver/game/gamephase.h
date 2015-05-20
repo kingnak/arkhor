@@ -15,19 +15,22 @@ public:
 
     virtual void execute();
 
+    static SkipOption *getSkipOption();
+
 protected:
     virtual void enterPhase() {}
     virtual QList<GameAction *> getPhaseActions() { return QList<GameAction* >(); }
     virtual QList<GameOption *> getPhaseOptions() { return QList<GameOption* >(); }
     virtual void finishPhase() {}
 
+    //SkipOption *getSkipOption() { return m_skip; }
+
 protected:
     Game *m_game;
 
-    SkipOption *getSkipOption() { return m_skip; }
-
 private:
-    SkipOption *m_skip;
+    //SkipOption *m_skip;
+    static SkipOption *s_skip;
 };
 
 #endif // GAMEPHASE_H

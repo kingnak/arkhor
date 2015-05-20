@@ -12,6 +12,8 @@ public:
     virtual ~GameAction() {}
 
     virtual bool execute() = 0;
+
+    void setId(QString id) { m_id = id; }
 };
 
 #endif // GAMEACTION_H

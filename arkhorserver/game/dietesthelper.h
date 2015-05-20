@@ -54,6 +54,8 @@ private:
     static void test(DieTestSpec &spec, int target);
     static void finalize(DieTestSpec &spec, const QString &desc);
 
+    static void updateReRollOptions(DieTestSpec &spec, bool init = false);
+
 private:
     DieTestHelper();
     Q_DISABLE_COPY(DieTestHelper)

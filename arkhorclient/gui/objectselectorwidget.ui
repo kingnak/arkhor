@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ObjectSelectorWidget</class>
+ <widget class="QWidget" name="ObjectSelectorWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>703</width>
+    <height>362</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QListWidget" name="lstAvailable"/>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnSelect">
+         <property name="text">
+          <string>&gt;&gt;</string>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+Right</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnDeselect">
+         <property name="text">
+          <string>&lt;&lt;</string>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+Left</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QListWidget" name="lstSelected"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Minimum:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblMin">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Maximum:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblMax">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>lstAvailable</sender>
+   <signal>itemClicked(QListWidgetItem*)</signal>
+   <receiver>ObjectSelectorWidget</receiver>
+   <slot>displayItem(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>146</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>296</x>
+     <y>2</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lstSelected</sender>
+   <signal>itemClicked(QListWidgetItem*)</signal>
+   <receiver>ObjectSelectorWidget</receiver>
+   <slot>displayItem(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>464</x>
+     <y>71</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>488</x>
+     <y>1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lstAvailable</sender>
+   <signal>itemDoubleClicked(QListWidgetItem*)</signal>
+   <receiver>ObjectSelectorWidget</receiver>
+   <slot>selectItem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>273</x>
+     <y>110</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>159</x>
+     <y>-5</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lstSelected</sender>
+   <signal>itemDoubleClicked(QListWidgetItem*)</signal>
+   <receiver>ObjectSelectorWidget</receiver>
+   <slot>deselectItem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>599</x>
+     <y>68</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>676</x>
+     <y>1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnSelect</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjectSelectorWidget</receiver>
+   <slot>selectItem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>359</x>
+     <y>169</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>346</x>
+     <y>-6</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnDeselect</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjectSelectorWidget</receiver>
+   <slot>deselectItem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>375</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>displayItem(QListWidgetItem*)</slot>
+  <slot>selectItem()</slot>
+  <slot>deselectItem()</slot>
+ </slots>
+</ui>

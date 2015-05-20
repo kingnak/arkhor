@@ -6,6 +6,7 @@
 #include <QScriptEngine>
 #include "character.h"
 #include "gamefieldscript.h"
+#include "gameobjectscript.h"
 
 class CharacterScript : public QObject, public Character
 {
@@ -17,8 +18,8 @@ public:
     static QScriptValue castToValue(QScriptEngine *eng, CharacterScript * const &in) { return eng->newQObject(in); }
 
 
-    Q_INVOKABLE void addToInventory(GameObject *o) { Character::addToInventory(o); }
-    Q_INVOKABLE void removeFromInventory(GameObject *o) { Character::removeFromInventory(o); }
+    Q_INVOKABLE void addToInventory(GameObjectScript *o) { Character::addToInventory(o); }
+    Q_INVOKABLE void removeFromInventory(GameObjectScript *o) { Character::removeFromInventory(o); }
 
     Q_PROPERTY(int sanity READ curSanity)
     Q_INVOKABLE void restoreSanity() { Character::restoreSanity(); }
@@ -53,8 +54,8 @@ public:
 
     //Q_INVOKABLE void setOut() { Character::setSetout(true); }
 
-    //Q_INVOKABLE bool canPay(AH::Common::Cost cost);
-    //Q_INVOKABLE bool pay(AH::Common::Cost cost);
+    Q_INVOKABLE bool canPay(AH::Common::Cost cost) { return Character::canPay(cost); }
+    Q_INVOKABLE bool pay(AH::Common::Cost cost) { return Character::pay(cost); }
 
 signals:
 

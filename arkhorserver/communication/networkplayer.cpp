@@ -341,6 +341,7 @@ QString NetworkPlayer::chooseEncounterOption(EncounterData *enc)
     return QString::null;
 }
 
+/*
 CostList NetworkPlayer::choosePayment(const Cost &c)
 {
     QVariant m;
@@ -360,6 +361,7 @@ CostList NetworkPlayer::choosePayment(const Cost &c)
     }
     return CostList();
 }
+*/
 
 AH::Common::PropertyValueData::Property NetworkPlayer::chooseSkill(QList<ModifiedPropertyValueData> options)
 {
@@ -377,6 +379,27 @@ AH::Common::PropertyValueData::Property NetworkPlayer::chooseSkill(QList<Modifie
         return s;
     }
     return AH::Common::PropertyValueData::NoProperty;
+}
+
+ChoiceResponseData NetworkPlayer::offerChoice(ChoiceData choice)
+{
+    QVariant m;
+    m << choice;
+    m_conn->sendMessage(Message::S_OFFER_CHOICE, m);
+
+    AH::Common::Message resp;
+    QList<Message::Type> l;
+    l << Message::C_CANCEL_CHOICE << Message::C_SELECT_CHOICE;
+    bool ok = awaitResponse(resp, l);
+    if (ok) {
+        ChoiceResponseData ret;
+        if (resp.type == Message::C_SELECT_CHOICE) {
+            //resp.payload >> ret;
+            ret = resp.payload;
+        }
+        return ret;
+    }
+    return ChoiceResponseData();
 }
 
 void NetworkPlayer::handleMessage(Message msg)

@@ -9,6 +9,7 @@
 #include <diedata.h>
 #include "propertymodifier.h"
 #include "encounterdata.h"
+#include <choicedata.h>
 
 class Game;
 class GameOption;
@@ -33,7 +34,7 @@ public:
     virtual QList<int> chooseFocus(QList<AttributeSlider> sliders, int totalFocus) = 0;
     virtual MovementPath chooseMovement(GameField *start, int movement) = 0;
 
-    virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c) = 0;
+    //virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c) = 0;
 
     virtual QString chooseEncounterOption(AH::Common::EncounterData *enc) = 0;
 
@@ -44,6 +45,8 @@ public:
     virtual AH::Common::DieTestUpdateData dieRollStart(const AH::Common::DieRollTestData test) = 0;
     virtual AH::Common::DieTestUpdateData dieRollUpdate(const AH::Common::DieRollTestData test) = 0;
     virtual void dieRollFinish(const AH::Common::DieRollTestData test) = 0;
+
+    virtual AH::Common::ChoiceResponseData offerChoice(AH::Common::ChoiceData choice) = 0;
 };
 
 #endif // GAMEINTERACTOR_H

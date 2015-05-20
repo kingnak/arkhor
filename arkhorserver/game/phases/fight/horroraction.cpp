@@ -18,7 +18,7 @@ bool HorrorAction::execute()
     Player *p = gGame->context().player();
 
     if (m->horrorDamage() > 0) {
-        DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest("Horror Check", p->getCharacter(), AH::Skill_Will, m->horrorAdjustment());
+        DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest("Horror Check", p->getCharacter(), AH::Skill_Horror, m->horrorAdjustment());
         DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
         if (res.boolResult) {
             m_fight->updatePhaseByResult(FightPhase::HorrorSuccess);

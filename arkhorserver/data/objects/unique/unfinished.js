@@ -15,7 +15,7 @@ var useStatue = game.quickOption({
 		var res = game.context.genericDieRollTest("Use Statue", 1, 1);
 		if (res) {
 			// TODO: Let user decide
-			//var obj = game.drawObject(Constants.ObjectType.Spell);
+            //var obj = game.context.drawObject(Constants.ObjectType.Spell);
 			//game.context.character.addToInventory(obj);
 			game.context.character.addClue(3);
 		} else {

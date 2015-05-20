@@ -7,6 +7,8 @@
 #include "die/diepool.h"
 #include "die/dierollcountevaluator.h"
 #include "die/dierollsumevaluator.h"
+#include "gameoption.h"
+#include "actions/dierollaction.h"
 #include <QSet>
 
 using namespace AH::Common;
@@ -68,6 +70,10 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
 {
     AH::Common::DieTestUpdateData upd;
 
+    gGame->context().setDieRoll(&spec);
+
+    updateReRollOptions(spec, true);
+
     upd = p->dieRollStart(spec.data);
     bool cont;
     do {
@@ -97,7 +103,21 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
             }
         }
 
-        // TODO: Handle Reroll options!
+        // Handle Reroll options!
+        if (!upd.dieRollOptionId().isEmpty()) {
+            GameOption *op = NULL;
+            foreach (GameOption *o, spec.options) {
+                if (o->id() == upd.dieRollOptionId()) {
+                    op = o;
+                    break;
+                }
+            }
+
+            DieRollOption *dro = dynamic_cast<DieRollOption *> (op);
+            if (dro) {
+                dro->execute();
+            }
+        }
 
         spec.eval->rollNew();
         spec.eval->evaluate();
@@ -111,11 +131,13 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
             spec.data.setSucceeded(dynamic_cast<const DieRollBoolEvaluator*>(spec.eval)->getBoolResult());
         }
 
+        updateReRollOptions(spec);
         upd = p->dieRollUpdate(spec.data);
         cont = upd.clueBurnAmount() > 0 || !upd.dieRollOptionId().isEmpty();
     } while (cont);
 
     //p->dieRollFinish(spec.data);
+    gGame->context().setDieRoll(NULL);
 
     DieTestResult ret;
     ret.intResult = spec.eval->getResult();
@@ -138,6 +160,7 @@ void DieTestHelper::skillPool(DieTestHelper::DieTestSpec &spec, Character *c, AH
     ModifiedPropertyValue poolBase = gGame->context().getCharacterSkill(c, skill);
     spec.baseVal = poolBase.toModifiedPropertyValueData();
     DiePoolData pd(poolBase.toModifiedPropertyValueData(), adjust);
+    spec.options = c->getOptions(AH::DieRoll);
     spec.data.rollData().setPool(pd);
 }
 
@@ -234,4 +257,24 @@ void DieTestHelper::finalize(DieTestHelper::DieTestSpec &spec, const QString &de
 
     spec.eval = eval;
     spec.data.setDescription(desc);
+}
+
+void DieTestHelper::updateReRollOptions(DieTestHelper::DieTestSpec &spec, bool init)
+{
+    QList<DieRollTestData::OptionDescription> descs;
+    QList<GameOption *> &opts = spec.options;
+    for (QList<GameOption *>::iterator it = opts.begin(); it != opts.end(); ) {
+        if (init) {
+            DieRollOption *op = dynamic_cast<DieRollOption *> (*it);
+            if (op) op->reset();
+        }
+
+        if (!(*it)->isAvailable()) {
+            it = opts.erase(it);
+        } else {
+            descs.append(qMakePair((*it)->id(), (*it)->name()));
+            ++it;
+        }
+    }
+    spec.data.setRollOptions(descs);
 }

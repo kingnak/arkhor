@@ -12,7 +12,7 @@ var hissoc_enc1 = game.createArkhamEncounter({
 			activate: function() {
 				var res = game.context.skillTest("Read books", Constants.Skills.Luck, -1, 2);
 				if (res) {
-					var ob = game.drawObject(Constants.ObjectType.Skill);
+                    var ob = game.context.drawObject(Constants.ObjectType.Skill);
 					game.context.character.addToInventory(ob);
 					game.context.character.delay();
 				}
@@ -39,7 +39,7 @@ var hissoc_enc2 = game.createArkhamEncounter({
 			activate: function() {
 				var res = game.context.skillTest("Read ledger", Constants.Skills.Luck, -1, 1);
 				if (res) {
-					var ob = game.drawObject(Constants.ObjectType.Spell);
+                    var ob = game.context.drawObject(Constants.ObjectType.Spell);
 					game.context.character.addToInventory(ob);
 				} else {
 					// TODO

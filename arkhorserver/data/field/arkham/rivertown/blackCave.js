@@ -41,7 +41,7 @@ var cave_enc2 = game.createArkhamEncounter({
 				} else if (res == 1) {
 					game.context.character.damageSanity(1);
 				} else if (res >= 2) {
-					var ob = game.drawObject(Constants.ObjectType.CommonItem);
+                    var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
 					game.context.character.addToInventory(ob);
 				} else {
 					debugger;

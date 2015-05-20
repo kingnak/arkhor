@@ -359,7 +359,7 @@ var m = game.createMonster({
   combatDamage: 1,
   toughness: 1,
   onDefeat: function() {
-    var obj = game.drawObject(Constants.ObjectType.UniqueItem);
+    var obj = game.context.drawObject(Constants.ObjectType.UniqueItem);
     game.context.character.addToInventory(obj);
     return false;
   }

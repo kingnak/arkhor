@@ -26,11 +26,13 @@ signals:
 private slots:
     void updateClueBurnAmount(int ct);
     void on_btnOk_clicked();
-    void modifierLinkClicked();
+    void modifierLinkClicked(QString id);
+    void reRollOptionClicked();
 
 private:
     void cleanDice();
     void cleanModifiers();
+    void cleanOptions();
 
 private:
     int m_clueBurnFactor;

@@ -50,7 +50,7 @@ void Gate::close(Character *c)
     m_sourceField->placeCharacter(c);
     m_sourceField->removeGate(this);
     m_destField->removeGate(this);
-    c->addGateMarker(this);
+    c->addGateTrophy(this);
     // Remove monsters done in GAME
 }
 

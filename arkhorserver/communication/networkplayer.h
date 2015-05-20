@@ -65,8 +65,10 @@ public:
 
     virtual QString chooseEncounterOption(AH::Common::EncounterData *enc);
 
-    virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c);
+    //virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c);
     virtual AH::Common::PropertyValueData::Property chooseSkill(QList<AH::Common::ModifiedPropertyValueData> options);
+
+    virtual AH::Common::ChoiceResponseData offerChoice(AH::Common::ChoiceData choice);
 
     // interface to network
     void handleMessage(AH::Common::Message msg);

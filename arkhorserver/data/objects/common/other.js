@@ -12,7 +12,7 @@ var readTome = game.quickOption({
 		var res = game.context.skillTest("Read Tome", Constants.Skills.Lore, -1, 1);
 		if (res) {
 			this.returnToDeck();
-			var obj = game.drawObject(Constants.ObjectType.CommonItem);
+            var obj = game.context.drawObject(Constants.ObjectType.CommonItem);
 			game.context.character.addToInventory(obj);
 		}
 	}

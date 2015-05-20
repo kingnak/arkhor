@@ -8,6 +8,7 @@
 #include <QScriptable>
 #include <QMetaType>
 #include "gamecontextscript.h"
+#include <cost.h>
 
 class QScriptEngine;
 class QScriptContext;
@@ -38,7 +39,7 @@ public:
     Q_PROPERTY(GameContextScript* context READ getGameContext SCRIPTABLE true)
     GameContextScript *getGameContext();
 
-    Q_INVOKABLE GameObjectScript *drawObject(qint32 type);
+    //Q_INVOKABLE GameObjectScript *drawObject(qint32 type);
     Q_INVOKABLE GameObjectScript *drawSpecificObject(QString id);
 
     Q_INVOKABLE void createGate(qint32 fld);
@@ -54,8 +55,8 @@ public:
     Q_INVOKABLE QScriptValue registerOption(GameOptionScript *o);
     Q_INVOKABLE GameOptionScript *createOption();
 
-
     Q_INVOKABLE QScriptValue quickOption();
+    Q_INVOKABLE QScriptValue getDieRollOption();
 
     Q_INVOKABLE QScriptValue registerSingleObject(GameObjectScript *o);
     Q_INVOKABLE QScriptValue registerObject(GameObjectScript *o);
@@ -79,8 +80,20 @@ public:
     static QStringList array2stringlist(QScriptValue ar);
     static QScriptValueList array2list(QScriptValue ar);
 
+    static bool parseCosts(QScriptValue v, AH::Common::Cost &c);
+    static bool parseCostList(QScriptValue v, AH::Common::CostList &cl);
+    static bool parseCostItem(QScriptValue v, AH::Common::CostItem &ci);
+
+    static QScriptValue castCostToValue(QScriptEngine *eng, AH::Common::Cost const &in);
+    static void castCostFromValue(const QScriptValue &v, AH::Common::Cost &o);
+
     template<typename T>
     static T parseFlags(QScriptValue v, T defVal);
+
+    template<typename T>
+    static QScriptValue castListToValue(QScriptEngine *eng, QList<T> const &in);
+    template<typename T>
+    static void castListFromValue(const QScriptValue &v, QList<T> &o);
 
 signals:
 
@@ -126,8 +139,35 @@ T GameScript::parseFlags(QScriptValue v, T defVal)
 }
 
 
+template<typename T>
+QScriptValue GameScript::castListToValue(QScriptEngine *eng, QList<T> const &in)
+{
+    QScriptValue arr = eng->newArray(in.length());
+    for (int i = 0; i < in.length(); ++i) {
+        arr.setProperty(i, eng->toScriptValue(in[i]));
+    }
+    return arr;
+}
+
+template<typename T>
+void GameScript::castListFromValue(const QScriptValue &v, QList<T> &o)
+{
+    o.clear();
+    if (v.isArray()) {
+        int len = v.property("length").toInt32();
+        for (int i = 0; i < len; ++i) {
+            QScriptValue elem = v.property(i);
+            o << qscriptvalue_cast<T> (elem);
+        }
+    } else {
+        o << qscriptvalue_cast<T> (v);
+    }
+}
+
+
 #define gGameScript (GameScript::instance())
 
 Q_DECLARE_METATYPE(GameScript*)
+Q_DECLARE_METATYPE(AH::Common::Cost)
 
 #endif // GAMESCRIPT_H

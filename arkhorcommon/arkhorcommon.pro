@@ -28,7 +28,8 @@ HEADERS += \
     monsterdata.h \
     encounterdata.h \
     mythosdata.h \
-    gatedata.h
+    gatedata.h \
+    choicedata.h
 
 SOURCES += \
     communication/message.cpp \
@@ -51,4 +52,5 @@ SOURCES += \
     monsterdata.cpp \
     encounterdata.cpp \
     mythosdata.cpp \
-    gatedata.cpp
+    gatedata.cpp \
+    choicedata.cpp

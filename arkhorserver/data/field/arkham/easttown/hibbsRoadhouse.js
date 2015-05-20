@@ -16,8 +16,8 @@ var hibbs_enc1 = game.createArkhamEncounter({
 			activate: function() {
                 var ryan = game.drawSpecificObject("AL_Ryan_Dean");
 				if (ryan.isNull()) {
-					var o1 = game.drawObject(Constants.ObjectType.CommonItem);
-					var o2 = game.drawObject(Constants.ObjectType.CommonItem);
+                    var o1 = game.context.drawObject(Constants.ObjectType.CommonItem);
+                    var o2 = game.context.drawObject(Constants.ObjectType.CommonItem);
 					game.context.character.addToInventory(o1);
 					game.context.character.addToInventory(o2);
 				} else {

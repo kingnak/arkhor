@@ -39,7 +39,7 @@ var rubyStandish = game.createObject({
 	type: Constants.ObjectType.Ally,
 	modifications: { property: Constants.Mods.Skill_Sneak, value: 2},
 	onAddToInventory: function(c) {
-		var ob = game.drawObject(Constants.ObjectType.UniqueItem);
+        var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
 		c.addToInventory(ob);
 	}
 });
@@ -56,7 +56,7 @@ var ryanDean = game.createObject({
 		{ property: Constants.Mods.Skill_Will, value: 1}
 	],
 	onAddToInventory: function(c) {
-		var ob = game.drawObject(Constants.ObjectType.CommonItem);
+        var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
 		c.addToInventory(ob);
 	}
 });
@@ -93,7 +93,7 @@ var thomMalone = game.createObject({
 		{ property: Constants.Mods.Skill_Lore, value: 1}
 	],
 	onAddToInventory: function(c) {
-		var ob = game.drawObject(Constants.ObjectType.Spell);
+        var ob = game.context.drawObject(Constants.ObjectType.Spell);
 		c.addToInventory(ob);
 	}
 });

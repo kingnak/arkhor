@@ -31,6 +31,7 @@ void operator <<(QVariant &data, const GameObjectData &target)
     map["optionIds"] << target.optionIds();
     map["equipped"] << target.isEquipped();
     map["modifications"] << target.getModificationData();
+    map["attributes"] << target.getAttributes();
     map["castCost"] << target.castCost();
     map["castAdjustment"] << target.castAdjustment();
     map["castTarget"] << target.castTarget();
@@ -54,9 +55,13 @@ void operator >>(const QVariant &data, GameObjectData &target)
     map["optionIds"] >> target.m_optionIds;
     map["equipped"] >> target.m_isEquipped;
     map["modifications"] >> target.m_modsData;
+    map["attributes"] >> target.m_attrs;
     map["castCost"] >> target.m_castCost;
     map["castAdjustment"] >> target.m_castAdjustment;
     map["castTarget"] >> target.m_castTarget;
 }
+
+DEFINE_ENUM_SERIALIZER(GameObjectData::ObjectAttribute)
+DEFINE_ENUM_SERIALIZER(GameObjectData::ObjectAttributes)
 
 }}

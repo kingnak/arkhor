@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>317</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -90,8 +90,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>185</width>
-            <height>78</height>
+            <width>183</width>
+            <height>53</height>
            </rect>
           </property>
          </widget>
@@ -167,6 +167,9 @@
       </layout>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QWidget" name="wgtDieRollOpts" native="true"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">

@@ -67,8 +67,8 @@ public:
 
 
     // Items
-    void addMonsterMarker(Monster *m) { if (!m) return; m_monsterMarkers.append(m); gGame->characterDirty(this); }
-    void addGateMarker(Gate *p) { if (!p) return; m_gateMarkers.append(p); gGame->characterDirty(this); }
+    void addMonsterTrophy(Monster *m) { if (!m) return; m_monsterMarkers.append(m); gGame->characterDirty(this); }
+    void addGateTrophy(Gate *p) { if (!p) return; m_gateMarkers.append(p); gGame->characterDirty(this); }
 
     // Game state
     const Gate *getExploredGate() const { return m_explorededGate; }
@@ -84,6 +84,7 @@ public:
     // Payment
     bool canPay(const AH::Common::Cost &cost) const;
     bool canPay(const AH::Common::CostList &cost) const;
+    bool pay(const AH::Common::Cost &cost);
     bool pay(const AH::Common::CostList &cost);
 
     void loseClues();

@@ -1,6 +1,7 @@
 QT += network
 
-CONFIG(debug):DEFINES += "_DEBUG=1"
+#CONFIG(debug):DEFINES += "_DEBUG=1"
+CONFIG += console
 
 HEADERS += \
     connectionhandler.h \
@@ -28,7 +29,11 @@ HEADERS += \
     gui/startform.h \
     gui/weaponchooser.h \
     gui/gameobjectwidget.h \
-    gui/mythosdatawidget.h
+    gui/mythosdatawidget.h \
+    gui/objectselectorwidget.h \
+    gui/choicewidget.h \
+    gui/objectinfowidget.h \
+    gui/paymentselectorwidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -57,7 +62,11 @@ SOURCES += \
     gui/startform.cpp \
     gui/weaponchooser.cpp \
     gui/gameobjectwidget.cpp \
-    gui/mythosdatawidget.cpp
+    gui/mythosdatawidget.cpp \
+    gui/objectselectorwidget.cpp \
+    gui/choicewidget.cpp \
+    gui/objectinfowidget.cpp \
+    gui/paymentselectorwidget.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -78,7 +87,9 @@ FORMS += \
     gui/startform.ui \
     gui/weaponchooser.ui \
     gui/gameobjectwidget.ui \
-    gui/mythosdatawidget.ui
+    gui/mythosdatawidget.ui \
+    gui/objectselectorwidget.ui \
+    gui/choicewidget.ui
 
 RESOURCES += \
     client_resources.qrc

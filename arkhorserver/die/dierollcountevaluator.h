@@ -21,6 +21,7 @@ public:
     virtual void addDice(QList<StandardDieSpec> specs);
 
     void rerollFailed();
+    void rerollNumFailed(int amount);
 
 private:
     const QSet<quint32> m_successRolls;

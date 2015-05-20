@@ -39,7 +39,7 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     m_registry = ObjectRegistry::instance();
     m_registry->init(conn);
 
-    connect(m_registry, SIGNAL(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)), this, SLOT(updateObject(AH::Common::DescribeObjectsData::ObjectDescription)));
+    //connect(m_registry, SIGNAL(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)), this, SLOT(updateObject(AH::Common::DescribeObjectsData::ObjectDescription)));
     connect(m_registry, SIGNAL(thisCharacterUpdated(AH::Common::CharacterData)), this, SLOT(updateCharacter(AH::Common::CharacterData)));
 
     // BOARD
@@ -79,6 +79,11 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(m_conn, SIGNAL(displayMythos(AH::Common::MythosData)), this, SLOT(displayMythos(AH::Common::MythosData)));
     connect(m_conn, SIGNAL(finishMythos()), this, SLOT(finishMythos()));
     connect(ui->btnAcknowledeMythos, SIGNAL(clicked()), this, SLOT(acknowledgeMythos()));
+
+    // CHOICE
+    connect(m_conn, SIGNAL(offerChoice(AH::Common::ChoiceData)), this, SLOT(offerChoice(AH::Common::ChoiceData)));
+    connect(ui->pageChoice, SIGNAL(choiceSelected(AH::Common::ChoiceResponseData)), this, SLOT(choiceSelected(AH::Common::ChoiceResponseData)));
+    connect(ui->pageChoice, SIGNAL(choiceCanceled()), this, SLOT(choiceCanceled()));
 }
 
 void AhMainGui::setThisPlayerId(QString id)
@@ -104,37 +109,8 @@ void AhMainGui::refitGui()
 
 void AhMainGui::displayItemInfo(const QString &id)
 {
-    DescribeObjectsData::ObjectDescription d = m_registry->getObject(id);
-    if (d.type == RequestObjectsData::Unknown) {
-        m_pendingDisplayId = id;
-    } else {
-        m_pendingDisplayId = QString::null;
-        switch (d.type) {
-        case AH::Common::RequestObjectsData::Monster:
-        {
-            AH::Common::MonsterData m;
-            d.data >> m;
-            displayMonsterDetails(&m);
-            break;
-        }
-        case AH::Common::RequestObjectsData::Gate:
-        {
-            AH::Common::GateData g;
-            d.data >> g;
-            displayGateDetails(&g);
-            break;
-        }
-        case AH::Common::RequestObjectsData::Object:
-        {
-            AH::Common::GameObjectData o;
-            d.data >> o;
-            displayObjectDetails(&o);
-            break;
-        }
-        default:
-            QMessageBox::information(this, "Info", id);
-        }
-    }
+    ui->wgtInfo->displayItemInfo(id);
+    ui->tabIntInfInv->setCurrentWidget(ui->tabInfo);
 }
 
 void AhMainGui::displayInventoryData(QListWidgetItem *itm)
@@ -145,6 +121,7 @@ void AhMainGui::displayInventoryData(QListWidgetItem *itm)
     }
 }
 
+/*
 void AhMainGui::displayMonsterDetails(const MonsterData *m)
 {
     ui->wgtInfoMonster->displayMonster(m);
@@ -165,12 +142,13 @@ void AhMainGui::displayObjectDetails(const GameObjectData *o)
     ui->stkInfo->setCurrentWidget(ui->pageInfoObject);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInfo);
 }
+*/
 
 void AhMainGui::chooseOption(QList<GameOptionData> opts)
 {
+    ui->wgtOptionChooser->setOptions(opts);
     ui->stkInteraction->setCurrentWidget(ui->pageOptionChooser);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
-    ui->wgtOptionChooser->setOptions(opts);
 }
 
 void AhMainGui::optionChosen(QString id)
@@ -182,9 +160,9 @@ void AhMainGui::optionChosen(QString id)
 
 void AhMainGui::chooseMove(AH::Common::FieldData::FieldID startId, int movementPoints)
 {
+    ui->wgtMovmentChooser->chooseMovement(startId, movementPoints);
     ui->stkInteraction->setCurrentWidget(ui->pageMovementChooser);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
-    ui->wgtMovmentChooser->chooseMovement(startId, movementPoints);
     refitGui();
 }
 
@@ -204,9 +182,9 @@ void AhMainGui::movementCanceled()
 
 void AhMainGui::chooseFocus(QList<AttributeSliderData> sliders, int focusAmount)
 {
+    ui->wgtFocusChooser->chooseFocus(sliders, focusAmount);
     ui->stkInteraction->setCurrentWidget(ui->pageFocusChooser);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
-    ui->wgtFocusChooser->chooseFocus(sliders, focusAmount);
 }
 
 void AhMainGui::focusChosen(QList<int> diffs)
@@ -218,9 +196,9 @@ void AhMainGui::focusChosen(QList<int> diffs)
 
 void AhMainGui::chooseSkill(QList<ModifiedPropertyValueData> options)
 {
+    ui->wgtOptionChooser->setSkills(options);
     ui->stkInteraction->setCurrentWidget(ui->pageOptionChooser);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
-    ui->wgtOptionChooser->setSkills(options);
 }
 
 void AhMainGui::skillChoosen(PropertyValueData::Property skill)
@@ -232,9 +210,9 @@ void AhMainGui::skillChoosen(PropertyValueData::Property skill)
 
 void AhMainGui::showDieRollInfo(DieRollTestData data)
 {
+    ui->wgtDieRoll->displayDieRoll(data);
     ui->stkInteraction->setCurrentWidget(ui->pageDieRoll);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
-    ui->wgtDieRoll->displayDieRoll(data);
 }
 
 void AhMainGui::dieUpdateChosen(DieTestUpdateData upd)
@@ -244,21 +222,23 @@ void AhMainGui::dieUpdateChosen(DieTestUpdateData upd)
     refitGui();
 }
 
-void AhMainGui::updateObject(DescribeObjectsData::ObjectDescription desc)
-{
-    Q_UNUSED(desc)
-    /*
-    if (desc.first == RequestObjectsData::Character) {
-        CharacterData c;
-        desc.second >> c;
-        updateCharacter(c);
-    }
-    */
-    if (!m_pendingDisplayId.isEmpty()) {
-        // TODO: Check if this is good this way...
-        displayItemInfo(m_pendingDisplayId);
-    }
-}
+//void AhMainGui::updateObject(DescribeObjectsData::ObjectDescription desc)
+//{
+//    Q_UNUSED(desc)
+//    /*
+//    if (desc.first == RequestObjectsData::Character) {
+//        CharacterData c;
+//        desc.second >> c;
+//        updateCharacter(c);
+//    }
+//    */
+//    /*
+//    if (!m_pendingDisplayId.isEmpty()) {
+//        // TODO: Check if this is good this way...
+//        displayItemInfo(m_pendingDisplayId);
+//    }
+//    */
+//}
 
 void AhMainGui::updateCharacter(CharacterData c)
 {
@@ -278,9 +258,9 @@ void AhMainGui::updateCharacter(CharacterData c)
 
 void AhMainGui::chooseWeapons(QList<GameObjectData> weapons, ModifiedPropertyValueData hands)
 {
+    ui->wgtWeaponChooser->chooseWeapons(weapons, hands);
     ui->stkInteraction->setCurrentWidget(ui->pageWeaponChooser);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
-    ui->wgtWeaponChooser->chooseWeapons(weapons, hands);
 }
 
 void AhMainGui::weaponsCanceled()
@@ -299,9 +279,9 @@ void AhMainGui::weaponsSelected(QStringList weaponIds)
 
 void AhMainGui::chooseEncounter(EncounterData encounter)
 {
+    ui->wgtOptionChooser->setEncounter(encounter);
     ui->stkInteraction->setCurrentWidget(ui->pageOptionChooser);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
-    ui->wgtOptionChooser->setEncounter(encounter);
 }
 
 void AhMainGui::encounterSelected(QString id)
@@ -313,9 +293,9 @@ void AhMainGui::encounterSelected(QString id)
 
 void AhMainGui::displayMythos(MythosData mythos)
 {
+    ui->wgtMythos->displayMythos(&mythos);
     ui->stkInteraction->setCurrentWidget(ui->pageMythos);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
-    ui->wgtMythos->displayMythos(&mythos);
 }
 
 void AhMainGui::acknowledgeMythos()
@@ -330,6 +310,27 @@ void AhMainGui::finishMythos()
     if (ui->stkInteraction->currentWidget() == ui->pageMythos) {
         ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     }
+}
+
+void AhMainGui::offerChoice(ChoiceData choice)
+{
+    ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
+    ui->pageChoice->offerChoice(choice);
+    ui->stkInteraction->setCurrentWidget(ui->pageChoice);
+}
+
+void AhMainGui::choiceSelected(ChoiceResponseData resp)
+{
+    m_conn->choiceSelected(resp);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
+}
+
+void AhMainGui::choiceCanceled()
+{
+     m_conn->choiceCanceled();
+     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+     refitGui();
 }
 
 //////////////////////////////

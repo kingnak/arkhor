@@ -5,6 +5,9 @@
 #include "monster.h"
 #include "game/phases/fight/fightphase.h"
 #include "gatescript.h"
+#include "gameobjectscript.h"
+#include "game/drawcardhelper.h"
+#include "gamescript.h"
 #include <QDebug>
 
 GameContextScript::GameContextScript(QObject *parent) :
@@ -101,4 +104,52 @@ bool GameContextScript::spontaneousMonsterFight()
         return false;
     }
     return true;
+}
+
+GameObjectScript *GameContextScript::drawObject(qint32 type)
+{
+    return drawObject(type, "Select Object");
+}
+
+GameObjectScript *GameContextScript::drawObject(qint32 type, QString desc)
+{
+    AH::GameObjectType t = static_cast<AH::GameObjectType> (type);
+
+    ModifiedPropertyValue val = gGame->context().getCurCharacterDrawObject(t);
+    int ct = val.finalVal();
+
+    DrawCardHelper hlp;
+    QList<GameObject *> objs = hlp.drawObjects(gGame->context().player(), desc, t, ct, 1, 1);
+
+    GameObject *o = objs.value(0);
+    if (!o) return NULL;
+    GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
+    if (!os) {
+        gGame->returnObject(o);
+        qWarning() << "Drawn object was not a script object";
+    }
+    return os;
+}
+
+QList<GameObjectScript *> GameContextScript::drawMultipleObjects(qint32 type, QString desc, int count, int min, int max)
+{
+    AH::GameObjectType t = static_cast<AH::GameObjectType> (type);
+
+    ModifiedPropertyValue val = gGame->context().getCurCharacterDrawObject(t);
+    int ct = val.modifiers().apply(count);
+
+    DrawCardHelper hlp;
+    QList<GameObject *> objs = hlp.drawObjects(gGame->context().player(), desc, t, ct, min, max);
+
+    QList<GameObjectScript *> ret;
+    foreach (GameObject *o, objs) {
+        GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
+        if (!os) {
+            gGame->returnObject(o);
+            qWarning() << "Drawn object was not a script object";
+        } else {
+            ret << os;
+        }
+    }
+    return ret;
 }

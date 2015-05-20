@@ -16,7 +16,7 @@ var masOption = game.quickOption({
 	phases: Constants.GamePhases.ArkhamEncountery,
 	activate: function() {
 		// TODO Let decide
-		var al = game.drawObject(Constants.ObjectType.Ally);
+        var al = game.context.drawObject(Constants.ObjectType.Ally);
 		game.context.character.addToInventory(al);
 	}
 });
@@ -41,7 +41,7 @@ var mas_enc1 = game.createArkhamEncounter({
 				var res = game.context.skillTest("Talk to Ryan", Constants.Skills.Will, 0, 1);
 				if (res) {
 					// TODO: Let decide
-					var ob = game.drawObject(Constants.ObjectType.UniqueItem);
+                    var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
 					// TODO: Pay
 					game.context.character.addToInventory(ob);
 				} else {

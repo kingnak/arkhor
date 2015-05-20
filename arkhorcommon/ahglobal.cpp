@@ -11,6 +11,7 @@
 #include "gameobjectdata.h"
 #include "encounterdata.h"
 #include "mythosdata.h"
+#include "choicedata.h"
 
 namespace AH {
     Attribute attributeForSkillTest(Skill skill)
@@ -72,6 +73,7 @@ namespace AH {
         qRegisterMetaType<AH::Common::ModifiedPropertyValueData>("AH::Common::ModifiedPropertyValueData");
         qRegisterMetaType<AH::Common::EncounterData>("AH::Common::EncounterData");
         qRegisterMetaType<AH::Common::MythosData>("AH::Common::MythosData");
+        qRegisterMetaType<AH::Common::ChoiceData>("AH::Common::ChoiceData");
     }
 
 }

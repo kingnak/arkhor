@@ -1,6 +1,6 @@
 var docksOption = game.quickOption({
 	costs: [
-		[{ type: Constants.Costs.MonsterToughness, amount: 5 }],
+        [{ type: Constants.Costs.MonsterToughness, amount: 5 }],
 		[{ type: Constants.Costs.GateTrophy, amount: 1}]
 	],
 	name: "Shady Character",
@@ -33,6 +33,7 @@ var docks_enc1 = game.createArkhamEncounter({
 			phases: Constants.GamePhases.ArkhamEncountery,
 			activate: function() {
 				var res = game.context.skillTest("Withstand stench", Constants.Skills.Will, -1, 1);
+                debugger;
 				if (res) {
 					game.context.character.damageSanity(1);
 				} else {
@@ -40,7 +41,7 @@ var docks_enc1 = game.createArkhamEncounter({
 				}
 				var ok = game.context.character.commitDamage();
 				if (ok) {
-					var ob = game.drawObject(Constants.ObjectType.UniqueItem);
+                    var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
 					game.context.character.addToInventory(ob);
 				}
 			}
@@ -48,7 +49,7 @@ var docks_enc1 = game.createArkhamEncounter({
 	]
 });
 game.registerArkhamEncounter(docks_enc1);
-
+/*
 var docks_enc2 = game.createArkhamEncounter({
 	field: Constants.Fields.MD_RiverDocks,
 	description: "As you look out across the waves, you "+
@@ -69,3 +70,4 @@ var docks_enc2 = game.createArkhamEncounter({
 	]
 });
 game.registerArkhamEncounter(docks_enc2);
+*/

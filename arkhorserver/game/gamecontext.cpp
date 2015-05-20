@@ -25,6 +25,11 @@ ModifiedPropertyValue GameContext::getCurCharacterClueBurn(AH::Skill skill)
     return getCharacterClueBurn(m_player->getCharacter(), skill);
 }
 
+ModifiedPropertyValue GameContext::getCurCharacterDrawObject(AH::GameObjectType type)
+{
+    return getCharacterDrawObject(m_player->getCharacter(), type);
+}
+
 ModifiedPropertyValue GameContext::getCharacterProperty(const Character *c, PropertyValue::Property property)
 {
     AH::Attribute attr = PropertyValue::property2Attribute(property);
@@ -52,13 +57,19 @@ ModifiedPropertyValue GameContext::getCharacterProperty(const Character *c, Prop
         base = c->movementPoints();
         break;
     case PropertyValue::Prop_MinSuccessDieRoll:
-        // TODO Blessing/Curse
+        // TODO Blessing/Curse ==> No, that are objects ==> handled by modifiers below
         base = 5;
         break;
     case PropertyValue::Prop_HandCount:
         base = 2;
         break;
+
     default:
+        if (PropertyValue::isDrawCardProperty(property)) {
+            base = 1;
+            break;
+        }
+
         Q_ASSERT_X(false, "GameContext::getCharacterProperty", "Property not defined");
     }
 
@@ -126,6 +137,19 @@ ModifiedPropertyValue GameContext::getCharacterClueBurn(const Character *c, AH::
 
     int base = 1;
 
+    int finalVal = mods.apply(base);
+
+    ModifiedPropertyValue ret(PropertyValue(prop, base), finalVal, mods);
+    return ret;
+}
+
+ModifiedPropertyValue GameContext::getCharacterDrawObject(const Character *c, AH::GameObjectType type)
+{
+    PropertyValue::Property prop = PropertyValue::objectDraw2Property(type);
+    PropertyModificationList mods = c->getPropertyModifiers().filtered(prop);
+    mods += m_game->getGameModifiers().filtered((prop));
+
+    int base = 1;
     int finalVal = mods.apply(base);
 
     ModifiedPropertyValue ret(PropertyValue(prop, base), finalVal, mods);

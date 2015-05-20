@@ -53,6 +53,15 @@ void DieRollCountEvaluator::rerollFailed()
     evaluate();
 }
 
+void DieRollCountEvaluator::rerollNumFailed(int amount)
+{
+    while (m_failed.size() > amount) {
+        m_failed.erase(m_failed.begin());
+    }
+    m_pool.reroll(m_failed);
+    evaluate();
+}
+
 ////////////////////////////////////////////////////
 
 DieRollCountBoolEvaluator::DieRollCountBoolEvaluator(DiePool initialPool, const QSet<quint32> &successRolls, quint32 target, DieRollBoolEvaluator::EvaluationType type)

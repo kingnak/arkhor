@@ -64,7 +64,7 @@ var hosp_enc2 = game.createArkhamEncounter({
 			activate: function() {
 				var res = game.context.skillTest("Sneak", Constants.Skills.Sneak, -1, 1);
 				if (res) {
-					var ob = game.drawObject(Constants.ObjectType.Spell);
+                    var ob = game.context.drawObject(Constants.ObjectType.Spell);
 					game.context.character.addToInventory(ob);
 				}
 			}

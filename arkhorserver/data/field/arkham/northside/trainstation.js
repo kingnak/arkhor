@@ -15,7 +15,7 @@ var train_enc1 = game.createArkhamEncounter({
 			activate: function() {
 				var res = game.context.skillTest("Let him draw", Constants.Skill.Luck, -1, 1);
 				if (res) {
-					var ob = game.drawObject(Constants.ObjectType.UniqueItem);
+                    var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
 					game.context.character.addToInventory(ob);
 				} else {
 					var dmg = game.context.genericDieRollSum("Damage by poisoned blade", 1);
@@ -47,7 +47,7 @@ var train_enc2 = game.createArkhamEncounter({
 			activate: function() {
 				var res = game.context.skillTest("Catch stranger", Constants.Skill.Speed, -1, 1);
 				if (res) {
-					var ob = game.drawObject(Constants.ObjectType.Spell);
+                    var ob = game.context.drawObject(Constants.ObjectType.Spell);
 					game.context.character.addToInventory(ob);
 				} else {
 					var dmg = game.context.genericDieRollSum("Damage by seeing him killed", 1);

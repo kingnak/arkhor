@@ -5,6 +5,7 @@
 #include "arkhorcommonglobal.h"
 #include <serializer.hpp>
 #include <QStringList>
+#include <QPair>
 #include "propertyvaluedata.h"
 
 namespace AH {
@@ -88,6 +89,8 @@ namespace AH {
                 None, Value, Boolean
             };
 
+            typedef QPair<QString, QString> OptionDescription;
+
             DieRollTestData()
                 : m_type(None), m_target(0), m_diceForClue(0), m_succeeded(false) {}
 
@@ -100,7 +103,7 @@ namespace AH {
             DieRollData &rollData() { return m_roller; }
             int targetValue() const { return m_target; }
             int diceForClueBurn() const { return m_diceForClue; }
-            QStringList dieRollOptionIds() const { return m_optionIds; }
+            QList<OptionDescription> dieRollOptions() const { return m_options; }
             ModifiedPropertyValueData clueBurnMods() const { return m_clueBurnMods; }
             bool isSucceeded() const { return m_succeeded; }
 
@@ -108,7 +111,7 @@ namespace AH {
             void setDescription(const QString &desc) { m_desc = desc; }
             void setRollData(const DieRollData &drd) { m_roller = drd; }
             void setDiceForClueBurn(int d4cb) { m_diceForClue = d4cb; }
-            void setRollOptionIds(QStringList lst) { m_optionIds = lst; }
+            void setRollOptions(QList<OptionDescription> lst) { m_options = lst; }
             void setClueBurnMods(ModifiedPropertyValueData mods) { m_clueBurnMods = mods; }
             void setSucceeded(bool success) { m_succeeded = success; }
             void setTargetValue(int val) { m_target = val; }
@@ -118,13 +121,14 @@ namespace AH {
             DieRollData m_roller;
             int m_target;
             int m_diceForClue;
-            QStringList m_optionIds;
+            QList<OptionDescription> m_options;
             ModifiedPropertyValueData m_clueBurnMods;
             QString m_desc;
             bool m_succeeded;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, DieRollTestData);
         };
+        //Q_DECLARE_METATYPE(DieRollTestData::OptionDescription)
 
         DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, DieRollTestData::TestType);
 

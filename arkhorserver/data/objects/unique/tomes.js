@@ -10,7 +10,7 @@ var readTablet = game.quickOption({
 	activate: function() {
 		var res = game.context.genericDieRollCount("Read Tablet", 2);
 		for (var i = 0; i < res; i++) {
-			var obj = game.drawObject(Constants.ObjectType.Spell);
+            var obj = game.context.drawObject(Constants.ObjectType.Spell);
 			game.context.character.addToInventory(obj);
 		}
 		for (var i = 0; i < 2-res; i++) {
@@ -46,7 +46,7 @@ var readDzyan = game.quickOption({
 		this.exhaust();
 		var res = game.context.skillTest("Read Book of Dzyan", Constants.Skills.Lore, -1, 1);
 		if (res) {
-			var ob = game.drawObject(Constants.ObjectType.Spell);
+            var ob = game.context.drawObject(Constants.ObjectType.Spell);
 			this.owner.addToInventory(ob);
 			this.owner.damageSanity(1);
 			// Place tokens
@@ -88,7 +88,7 @@ var readCabala = game.quickOption({
 		this.exhaust();
 		var res = game.context.skillTest("Read Cabala of Saboth", Constants.Skills.Lore, -2, 1);
 		if (res) {
-			var ob = game.drawObject(Constants.ObjectType.Skill);
+            var ob = game.context.drawObject(Constants.ObjectType.Skill);
 			this.owner.addToInventory(ob);
 			this.returnToDeck();
 		}
@@ -119,7 +119,7 @@ var readCultes = game.quickOption({
 		this.exhaust();
 		var res = game.context.skillTest("Read Cultes des Goules", Constants.Skills.Lore, -2, 1);
 		if (res) {
-			var ob = game.drawObject(Constants.ObjectType.Spell);
+            var ob = game.context.drawObject(Constants.ObjectType.Spell);
 			this.owner.addToInventory(ob);
 			this.owner.addClue(1);
 			this.owner.damageSanity(2);

@@ -1,6 +1,5 @@
 var shopOption = game.quickOption({
-	costs: { type: Constants.Costs.Money, amount: 8},
-	name: "Shop",
+    name: "Shop",
 	description: "Instead of having an encounter here, "+
 		"you may draw 3 Unique Items and purchase one of "+
 		"them for its list price. Discard the other two "+
@@ -8,7 +7,17 @@ var shopOption = game.quickOption({
 		"\nNot implemented",
 	phases: Constants.GamePhases.ArkhamEncountery,
 	activate: function() {
-		// TODO Let decide
+        debugger;
+        var res = game.context.drawMultipleObjects(Constants.ObjectType.UniqueItem, "Buy Items", 3, 0, 1);
+        if (res.length > 0) {
+            var item = res[0];
+            var costs = { type: Constants.Costs.Money, amount: item.price};
+            if (game.context.character.pay(costs)) {
+                game.context.character.addToInventory(item);
+            } else {
+                item.returnToDeck();
+            }
+        }
 	}
 });
 game.addFieldOption(Constants.Fields.NS_CuriositieShoppe, shopOption.id);

@@ -30,10 +30,6 @@ public slots:
 private:
     static bool verify(GameOptionScript *op, QString *msg = NULL);
 
-    static bool parseCosts(QScriptValue v, AH::Common::Cost &c);
-    static bool parseCostList(QScriptValue v, AH::Common::CostList &cl);
-    static bool parseCostItem(QScriptValue v, AH::Common::CostItem &ci);
-
 private:
     QScriptValue m_this;
     QScriptValue m_isAvailable;

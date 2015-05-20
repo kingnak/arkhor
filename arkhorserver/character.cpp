@@ -6,6 +6,7 @@
 #include "game/gameobject.h"
 #include "monster.h"
 #include "gate.h"
+#include "game/choicehelper.h"
 #include <QDebug>
 
 using namespace AH::Common;
@@ -47,13 +48,15 @@ CharacterData *Character::data()
     }
 
     m_monsterMarkerIds.clear();
+    m_monsterToughness = 0;
     foreach (const Monster *m, m_monsterMarkers) {
         m_monsterMarkerIds << m->id();
+        m_monsterToughness += m->toughness();
     }
 
     m_gateMarkerIds.clear();
     foreach (const Gate *g, m_gateMarkers) {
-        g->id();
+        m_gateMarkerIds << g->id();
     }
 
     m_fieldId = m_field->id();
@@ -103,6 +106,7 @@ QList<GameObject *> &Character::inventory()
 
 void Character::addToInventory(GameObject *obj)
 {
+    if (!obj) return;
     if (obj->owner() == NULL) {
         if (!obj->onAddToInventory(this)) {
             // Don't add
@@ -118,6 +122,7 @@ void Character::addToInventory(GameObject *obj)
 
 void Character::removeFromInventory(GameObject *obj)
 {
+    if (!obj) return;
     if (obj->owner() == this) {
         if (!obj->onRemoveFromInventory(this)) {
             // don't remove
@@ -187,11 +192,42 @@ bool Character::canPay(const CostList &cost) const
                 return false;
             break;
         case CostItem::Pay_MonsterToughness:
-            //if (m_money < i.amount) return false; continue;
+        {
+            int sum = 0;
+            foreach (Monster *m, m_monsterMarkers) {
+                sum += m->toughness();
+            }
+            if (sum < i.amount)
+                return false;
+            break;
+        }
+        default:
             Q_ASSERT_X(false, "CanPay", "Not yet implemented");
         }
     }
     return true;
+}
+
+bool Character::pay(const Cost &cost)
+{
+    /*
+    if (cost.getAlternatives().isEmpty()) {
+        return true;
+    }
+    if (cost.getAlternatives().size() == 1) {
+        return pay(cost.getAlternatives()[0]);
+    }
+
+    // Let user decide:
+    // TODO
+    return pay(cost.getAlternatives()[0]);
+    */
+    AH::Common::CostList sel;
+    bool ok = ChoiceHelper::choosePayment(this, cost, sel);
+    if (ok) {
+        return pay(sel);
+    }
+    return false;
 }
 
 bool Character::pay(const CostList &cost)
@@ -218,18 +254,34 @@ bool Character::pay(const CostList &cost)
             m_movementPoints -=  i.amount;
             break;
         case CostItem::Pay_GateTrophy:
-            // TODO: Return to stash
-            for (int j = 0; j < i.amount; ++j)
+            for (int j = 0; j < i.amount; ++j) {
+                // TODO: Return to stash?
                 m_gateMarkers.removeFirst();
+            }
             break;
         case CostItem::Pay_MonsterTrophy:
-            // TODO: Return to stash
-            // TODO: Let user choose
-            for (int j = 0; j < i.amount; ++j)
+            // TODO: Let user choose?
+            for (int j = 0; j < i.amount; ++j) {
+                gGame->returnMonster(m_monsterMarkers.first());
                 m_monsterMarkers.removeFirst();
+            }
             break;
         case CostItem::Pay_MonsterToughness:
+        {
+            // TODO: Better algorithm
+            // TODO: Let user choose?
+            int sum = 0;
+            for (int j = 0; sum < i.amount && m_monsterMarkers.size() > 0; ++j) {
+                Monster *m = m_monsterMarkers.first();
+                sum += m->toughness();
+                gGame->returnMonster(m);
+                m_monsterMarkers.removeFirst();
+            }
+            break;
+        }
+
             //if (m_money < i.amount) return false; continue;
+        default:
             Q_ASSERT_X(false, "CanPay", "Not yet implemented");
         }
     }
@@ -249,7 +301,7 @@ void Character::loseClues()
 
 void Character::losePossessions()
 {
-    // TODO: Loose objects (let user decide)
+    ChoiceHelper::loseHalfPossesions(this);
 }
 
 void Character::arrest()

@@ -16,6 +16,23 @@ void operator >> (const QVariant &data, T &target) {
     target = data.value<T>();
 }
 
+// Pair
+template<typename F, typename S>
+void operator << (QVariant &data, const QPair<F,S> &target) {
+    QVariantMap m;
+    m["first"] << target.first;
+    m["second"] << target.second;
+    data << m;
+}
+
+template<typename F, typename S>
+void operator >> (const QVariant &data, QPair<F,S> &target) {
+    QVariantMap m;
+    data >> m;
+    m["first"] >> target.first;
+    m["second"] >> target.second;
+}
+
 // List
 template<typename T>
 void operator << (QVariant &data, const QList<T> &target ) {

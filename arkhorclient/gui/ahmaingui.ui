@@ -179,6 +179,7 @@
              </item>
             </layout>
            </widget>
+           <widget class="ChoiceWidget" name="pageChoice"/>
           </widget>
          </item>
         </layout>
@@ -193,59 +194,7 @@
         </attribute>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QStackedWidget" name="stkInfo">
-           <property name="currentIndex">
-            <number>0</number>
-           </property>
-           <widget class="QWidget" name="pageInfoEmpty"/>
-           <widget class="QWidget" name="pageInfoMonster">
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="MonsterWidget" name="wgtInfoMonster" native="true"/>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="pageInfoGate">
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <widget class="GateDataWidget" name="wgtInfoGate" native="true"/>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>545</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="pageInfoObject">
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
-              <widget class="GameObjectWidget" name="wgtInfoObject" native="true"/>
-             </item>
-            </layout>
-           </widget>
-          </widget>
+          <widget class="ObjectInfoWidget" name="wgtInfo" native="true"/>
          </item>
         </layout>
        </widget>
@@ -332,27 +281,21 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>MonsterWidget</class>
-   <extends>QWidget</extends>
-   <header>gui/monsterwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>GateDataWidget</class>
-   <extends>QWidget</extends>
-   <header>gui/gatedatawidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>GameObjectWidget</class>
-   <extends>QWidget</extends>
-   <header>gui/gameobjectwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>MythosDataWidget</class>
    <extends>QWidget</extends>
    <header>gui/mythosdatawidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ChoiceWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/choicewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ObjectInfoWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/objectinfowidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

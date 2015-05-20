@@ -25,6 +25,11 @@ bool PropertyValue::isMonsterProperty(PropertyValue::Property p)
     return (p & MONSTER_OFFSET) == MONSTER_OFFSET;
 }
 
+bool PropertyValue::isDrawCardProperty(AH::Common::PropertyValueData::Property p)
+{
+    return (p & DRAWCARD_OFFSET) == DRAWCARD_OFFSET;
+}
+
 PropertyValue::Property PropertyValue::attribute2Property(AH::Attribute attr)
 {
     switch (attr) {
@@ -80,4 +85,18 @@ AH::Attribute PropertyValue::property2Attribute(PropertyValue::Property prop)
 AH::Common::PropertyValueData::Property PropertyValue::skill2DieRoll(AH::Skill skill)
 {
     return static_cast<PropertyValue::Property> (DIEROLL_OFFSET | skill);
+}
+
+AH::GameObjectType PropertyValue::property2ObjectType(AH::Common::PropertyValueData::Property prop)
+{
+    if (isDrawCardProperty(prop)) {
+        // TODO: This will also affect Arkham and Other World Encounteries
+        return static_cast<AH::GameObjectType> (prop & (~DRAWCARD_OFFSET));
+    }
+    return AH::NoObject;
+}
+
+AH::Common::PropertyValueData::Property PropertyValue::objectDraw2Property(AH::GameObjectType obj)
+{
+    return static_cast<PropertyValue::Property> (DRAWCARD_OFFSET | obj);
 }

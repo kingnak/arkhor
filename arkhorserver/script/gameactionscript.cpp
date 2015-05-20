@@ -25,6 +25,7 @@ GameActionScript *GameActionScript::createGameAction(QScriptContext *ctx, QScrip
 
 GameActionScript *GameActionScript::createGameAction(QScriptValue data, QScriptContext *ctx, QScriptEngine *eng)
 {
+    Q_UNUSED(eng)
     QScopedPointer<GameActionScript> ret(new GameActionScript);
 
     ret->m_id = data.property("id").toString();

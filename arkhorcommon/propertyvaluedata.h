@@ -20,6 +20,7 @@ namespace AH {
                 GAME_OFFSET = 0x1000,
                 DAMAGE_OFFSET = 0x2000,
                 MONSTER_OFFSET = 0x4000,
+                DRAWCARD_OFFSET = 0x8000,
             };
         public:
             enum Property {
@@ -81,7 +82,15 @@ namespace AH {
                 Monster_HorrorDamage,
                 Monster_HorrorAdjustment,
                 Monster_Awareness,
-                Monster_Toughness
+                Monster_Toughness,
+
+                DrawCard_CommonItem = DRAWCARD_OFFSET | AH::Obj_CommonItem,
+                DrawCard_UniqueItem = DRAWCARD_OFFSET | AH::Obj_UniqueItem,
+                DrawCard_Spell = DRAWCARD_OFFSET | AH::Obj_Spell,
+                DrawCard_Skill = DRAWCARD_OFFSET | AH::Obj_Skill,
+                DrawCard_Ally = DRAWCARD_OFFSET | AH::Obj_Ally,
+                DrawCard_ArkhamEncountery,
+                DrawCard_OtherWorldEncountery,
             };
 
             PropertyValueData(Property prop = NoProperty, int val = 0)

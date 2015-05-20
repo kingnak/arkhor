@@ -6,7 +6,8 @@
 #include "utils.h"
 #include "diewidget.h"
 
-#define PROPERTY_MODIFIER_ID "PROP_MOD_ID"
+//#define PROPERTY_MODIFIER_ID "PROP_MOD_ID"
+#define PROPERTY_OPTION_ID "PROP_OPT_ID"
 
 using namespace AH::Common;
 
@@ -17,6 +18,7 @@ DieRollWidget::DieRollWidget(QWidget *parent) :
     ui->setupUi(this);
     ui->wgtDice->setLayout(new FlowLayout);
     ui->scrlMods->setLayout(new QVBoxLayout);
+    ui->wgtDieRollOpts->setLayout(new QHBoxLayout);
 }
 
 DieRollWidget::~DieRollWidget()
@@ -69,10 +71,12 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
         }
 
         QLabel *l = new QLabel(QString("<a href=\"%1\">%2</a>: %3").arg(id).arg(name).arg(Utils::stringForPropertyModification(mod)));
-        l->setProperty(PROPERTY_MODIFIER_ID, mod.modifierId());
-        connect(l, SIGNAL(linkActivated(QString)), this, SLOT(modifierLinkClicked()));
+        //l->setProperty(PROPERTY_MODIFIER_ID, mod.modifierId());
+        connect(l, SIGNAL(linkActivated(QString)), this, SLOT(modifierLinkClicked(QString)));
         ui->scrlMods->layout()->addWidget(l);
     }
+    // Spacing
+    static_cast<QBoxLayout*>(ui->scrlMods->layout())->addStretch(1);
 
     // Display dice
     QList<quint32> vals = data.rollData().pool().dieValues();
@@ -99,6 +103,17 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     } else {
         ui->wgtDieAdd->setVisible(true);
     }
+
+    // Display options
+    cleanOptions();
+    // Spacing
+    static_cast<QBoxLayout*>(ui->wgtDieRollOpts->layout())->addStretch(1);
+    foreach (AH::Common::DieRollTestData::OptionDescription opt, data.dieRollOptions()) {
+        QPushButton *btn = new QPushButton(opt.second);
+        btn->setProperty(PROPERTY_OPTION_ID, opt.first);
+        connect(btn, SIGNAL(clicked()), this, SLOT(reRollOptionClicked()));
+        ui->wgtDieRollOpts->layout()->addWidget(btn);
+    }
 }
 
 void DieRollWidget::updateClueBurnAmount(int ct)
@@ -111,14 +126,27 @@ void DieRollWidget::on_btnOk_clicked()
     AH::Common::DieTestUpdateData upd(QString::null, ui->spnClueBurn->value());
     cleanDice();
     cleanModifiers();
+    cleanOptions();
     emit dieUpdateChosen(upd);
 }
 
-void DieRollWidget::modifierLinkClicked()
+void DieRollWidget::modifierLinkClicked(QString id)
 {
-    QString id = sender()->property(PROPERTY_MODIFIER_ID).toString();
+    //QString id = sender()->property(PROPERTY_MODIFIER_ID).toString();
     if (!id.isEmpty())
         emit itemInfoRequested(id);
+}
+
+void DieRollWidget::reRollOptionClicked()
+{
+    QString id = sender()->property(PROPERTY_OPTION_ID).toString();
+    if (!id.isEmpty()) {
+        AH::Common::DieTestUpdateData upd(id, 0);
+        cleanDice();
+        cleanModifiers();
+        cleanOptions();
+        emit dieUpdateChosen(upd);
+    }
 }
 
 void DieRollWidget::cleanDice()
@@ -145,6 +173,20 @@ void DieRollWidget::cleanModifiers()
         }
     }
     foreach (QWidget *w, ui->scrlMods->findChildren<QLabel*>()) {
+        delete w;
+    }
+}
+
+void DieRollWidget::cleanOptions()
+{
+    QLayout *l = ui->wgtDieRollOpts->layout();
+    if (l) {
+        QLayoutItem *child;
+        while ((child = l->takeAt(0)) != 0) {
+            delete child;
+        }
+    }
+    foreach (QWidget *w, ui->wgtDieRollOpts->findChildren<QPushButton*>()) {
         delete w;
     }
 }

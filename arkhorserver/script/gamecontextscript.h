@@ -8,6 +8,8 @@
 
 class CharacterScript;
 class GateScript;
+class GameObjectScript;
+
 class GameContextScript : public QObject
 {
     Q_OBJECT
@@ -34,6 +36,11 @@ public:
     Q_INVOKABLE int dieRollSkillCount(QString desc, int skill, int adjust);
 
     Q_INVOKABLE bool spontaneousMonsterFight();
+
+    Q_INVOKABLE GameObjectScript *drawObject(qint32 type);
+    Q_INVOKABLE GameObjectScript *drawObject(qint32 type, QString desc);
+
+    Q_INVOKABLE /*QScriptValue*/ QList<GameObjectScript *> drawMultipleObjects(qint32 type, QString desc, int count, int min, int max);
 
 signals:
 

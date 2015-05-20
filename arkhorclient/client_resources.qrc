@@ -42,6 +42,7 @@
         <file alias="stamina">client_resources/Stamina.png</file>
         <file alias="toughness">client_resources/Toughness.png</file>
         <file alias="elder_sign">client_resources/elder_sign.png</file>
+        <file alias="monster_marker_icon">client_resources/monster_marker_icon.png</file>
     </qresource>
     <qresource prefix="/core/data">
         <file alias="boardfields">client_resources/boardfields.txt</file>

@@ -11,6 +11,7 @@ CharacterData::CharacterData()
     m_curFocus(0),
     m_movementPoints(0),
     m_clues(0),
+    m_monsterToughness(0),
     m_fieldId(FieldData::NO_NO_FIELD),
     m_delayed(false),
     m_isSetOut(false),
@@ -36,6 +37,7 @@ void operator <<(QVariant &data, const CharacterData &c)
     map["inventoryIds"] << c.inventoryIds();
     map["monsterMarkerIds"] << c.monsterMarkerIds();
     map["gateMarkerIds"] << c.gateMarkerIds();
+    map["monsterToughness"] << c.getMonsterToughness();
     map["fieldId"] << c.fieldId();
     map["delayed"] << c.isDelayed();
     map["isSetOut"] << c.isSetOut();
@@ -62,6 +64,7 @@ void operator >>(const QVariant &data, CharacterData &c)
     map["inventoryIds"] >> c.m_inventoryIds;
     map["monsterMarkerIds"] >> c.m_monsterMarkerIds;
     map["gateMarkerIds"] >> c.m_gateMarkerIds;
+    map["monsterToughness"] >> c.m_monsterToughness;
     map["fieldId"] >> c.m_fieldId;
     map["delayed"] >> c.m_delayed;
     map["isSetOut"] >> c.m_isSetOut;

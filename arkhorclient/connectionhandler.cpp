@@ -91,6 +91,16 @@ void ConnectionHandler::acknowledge()
     send(AH::Common::Message::C_ACKNOWLEDGED);
 }
 
+void ConnectionHandler::choiceSelected(AH::Common::ChoiceResponseData resp)
+{
+    send(AH::Common::Message::C_SELECT_CHOICE, resp);
+}
+
+void ConnectionHandler::choiceCanceled()
+{
+    send(AH::Common::Message::C_CANCEL_CHOICE);
+}
+
 void ConnectionHandler::startup()
 {
     QTcpSocket *sock = new QTcpSocket;
@@ -269,6 +279,14 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
     case AH::Common::Message::S_ABORT_ACKNOWLEDGE:
     {
         emit finishMythos();
+        break;
+    }
+
+    case AH::Common::Message::S_OFFER_CHOICE:
+    {
+        AH::Common::ChoiceData d;
+        msg.payload >> d;
+        emit offerChoice(d);
         break;
     }
 

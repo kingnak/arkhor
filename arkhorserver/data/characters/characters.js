@@ -31,6 +31,9 @@ game.registerInvestigator(game.createInvestigator({
 
 	uniqueAbilityId: jennyBarnesSpecialObject.typeId,
 
+      fixedPossesionObjectIds: [
+          "OB_TEST"
+      ],
 	randomPossessions: [
 		{type: Constants.ObjectType.CommonItem, amount: 2},
 		{type: Constants.ObjectType.UniqueItem, amount: 1},

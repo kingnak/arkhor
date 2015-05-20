@@ -145,7 +145,7 @@ void Monster::defeat(Character *byCharacter)
         // Back to monter pool
         gGame->returnMonster(this);
     } else {
-        byCharacter->addMonsterMarker(this);
+        byCharacter->addMonsterTrophy(this);
     }
 }
 

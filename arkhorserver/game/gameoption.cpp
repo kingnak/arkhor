@@ -32,6 +32,7 @@ bool GameOption::execute()
         Cost c = costs();
         // PAY!
         if (!c.getAlternatives().isEmpty()) {
+            /*
             CostList selected;
             if (c.getAlternatives().size() > 1) {
                 selected = gGame->context().player()->choosePayment(c);
@@ -42,6 +43,10 @@ bool GameOption::execute()
                 if (gGame->context().player()->getCharacter()->pay(selected)) {
                     return action()->execute();
                 }
+            }
+            */
+            if (gGame->context().player()->getCharacter()->pay(c)) {
+                return action()->execute();
             }
             return false;
         } else {

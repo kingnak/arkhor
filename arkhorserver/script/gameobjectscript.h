@@ -23,6 +23,7 @@ public:
     Q_PROPERTY(QString id READ id)
     Q_PROPERTY(QString typeId READ typeId)
     Q_PROPERTY(CharacterScript* owner READ csOwner)
+    Q_PROPERTY(int price READ price)
 
     Q_INVOKABLE void exhaust() { GameObject::exhaust(); }
     Q_INVOKABLE void returnToDeck() { GameObject::returnToDeck(); }
@@ -119,5 +120,6 @@ private:
 };
 
 Q_DECLARE_METATYPE(GameObjectScript*)
+Q_DECLARE_METATYPE(QList<GameObjectScript*>)
 
 #endif // GAMEOBJECTSCRIPT_H

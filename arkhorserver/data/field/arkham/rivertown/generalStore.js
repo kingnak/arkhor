@@ -24,7 +24,7 @@ var store_enc1 = game.createArkhamEncounter({
 			name: "Take the item",
 			phases: Constants.GamePhases.ArkhamEncountery,
 			activate: function() {
-				var ob = game.drawObject(Constants.ObjectType.CommonItem);
+                var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
 				game.context.character.addToInventory(ob);
 			}
 		}).id

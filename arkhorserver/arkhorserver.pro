@@ -1,6 +1,8 @@
 QT += network script scripttools
 
-CONFIG(debug):DEFINES += "_DEBUG=1"
+#CONFIG(debug):DEFINES += "_DEBUG=1"
+CONFIG += console
+CONFIG -= windows
 
 DEFINES += DEBUG_SCRIPT_BUILD
 
@@ -83,7 +85,10 @@ HEADERS += \
     game/actions/undelayaction.h \
     game/actions/placeonfieldaction.h \
     script/gamefieldscript.h \
-    script/gatescript.h
+    script/gatescript.h \
+    game/actions/dierollaction.h \
+    game/drawcardhelper.h \
+    game/choicehelper.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -163,7 +168,10 @@ SOURCES += \
     game/actions/undelayaction.cpp \
     game/actions/placeonfieldaction.cpp \
     script/gamefieldscript.cpp \
-    script/gatescript.cpp
+    script/gatescript.cpp \
+    game/actions/dierollaction.cpp \
+    game/drawcardhelper.cpp \
+    game/choicehelper.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -208,4 +216,13 @@ OTHER_FILES += \
     data/objects/common/other.js \
     data/objects/common/unfinished.js \
     data/objects/skills/skills.js \
-    data/objects/skills/unfinished.js
+    data/objects/skills/unfinished.js \
+    data/objects/allies/allies.js \
+    data/objects/allies/unfinished.js \
+    data/objects/spells/misc.js \
+    data/objects/spells/unfinished.js \
+    data/objects/spells/weapons.js \
+    data/objects/unique/misc.js \
+    data/objects/unique/tomes.js \
+    data/objects/unique/unfinished.js \
+    data/objects/unique/weapons.js

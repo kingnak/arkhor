@@ -16,6 +16,12 @@ namespace AH {
             GameObjectData();
             virtual ~GameObjectData() {}
 
+            enum ObjectAttribute {
+                None,
+                CannotBeLost = 0x0001
+            };
+            Q_DECLARE_FLAGS(ObjectAttributes, ObjectAttribute)
+
             virtual GameObjectData *data() { return this; }
 
             QString id() const { return m_id; }
@@ -43,6 +49,7 @@ namespace AH {
             virtual QStringList optionIds() const { return m_optionIds; }
             virtual QList<PropertyModificationData> getModificationData() const { return m_modsData; }
 
+            virtual ObjectAttributes getAttributes() const { return m_attrs; }
 
         protected:
             QString m_id;
@@ -57,6 +64,7 @@ namespace AH {
             QStringList m_actionIds;
             QStringList m_optionIds;
             bool m_isEquipped;
+            ObjectAttributes m_attrs;
 
             QList<PropertyModificationData> m_modsData;
 
@@ -67,6 +75,9 @@ namespace AH {
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, GameObjectData);
         };
+
+        DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, GameObjectData::ObjectAttribute);
+        DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, GameObjectData::ObjectAttributes);
 
     }
 }

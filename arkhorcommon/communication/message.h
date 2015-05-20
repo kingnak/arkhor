@@ -58,8 +58,8 @@ namespace AH{
                 S_CHOOSE_SKILL,
                 C_SELECT_SKILL,
 
-                S_CHOOSE_PAYMENT,
-                C_SELECT_PAYMENT,
+                //S_CHOOSE_PAYMENT,
+                //C_SELECT_PAYMENT,
 
                 S_CHOOSE_MOVEMENT_PATH,
                 C_MOVE_PATH,
@@ -77,6 +77,10 @@ namespace AH{
                 S_ACKNOWLEDGE_MYTHOS,
                 S_ABORT_ACKNOWLEDGE,
                 C_ACKNOWLEDGED,
+
+                S_OFFER_CHOICE,
+                C_SELECT_CHOICE,
+                C_CANCEL_CHOICE,
 
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF

@@ -7,7 +7,7 @@ var magOption = game.quickOption({
 	phases: Constants.GamePhases.ArkhamEncountery,
 	activate: function() {
 		// TODO Let decide
-		var sp = game.drawObject(Constants.ObjectType.Spell);
+        var sp = game.context.drawObject(Constants.ObjectType.Spell);
 		game.context.character.addToInventory(sp);
 	}
 });

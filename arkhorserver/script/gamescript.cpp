@@ -20,6 +20,7 @@
 #include "characterscript.h"
 #include "gamefieldscript.h"
 #include "gatescript.h"
+#include "game/actions/dierollaction.h"
 
 #ifdef DEBUG_SCRIPT_BUILD
 #include <QScriptEngineDebugger>
@@ -64,6 +65,10 @@ bool GameScript::init(const QString &scriptBaseDir)
     qScriptRegisterMetaType<GameContextScript*>(m_engine, GameContextScript::castToValue, GameContextScript::castFromValue);
     qScriptRegisterMetaType<GameFieldScript*>(m_engine, GameFieldScript::castToValue, GameFieldScript::castFromValue);
     qScriptRegisterMetaType<GateScript*>(m_engine, GateScript::castToValue, GateScript::castFromValue);
+
+    qScriptRegisterMetaType<QList<GameObjectScript*> >(m_engine, GameScript::castListToValue<GameObjectScript*>, GameScript::castListFromValue<GameObjectScript*>);
+
+    qScriptRegisterMetaType<AH::Common::Cost>(m_engine, GameScript::castCostToValue, GameScript::castCostFromValue);
 
     qRegisterMetaType<GameContextScript*>();
     qRegisterMetaType<CharacterScript*>();
@@ -397,6 +402,7 @@ GameOptionScript *GameScript::createOption()
     return GameOptionScript::createGameOption(context(), engine());
 }
 
+/*
 GameObjectScript *GameScript::drawObject(qint32 type)
 {
     AH::GameObjectType t = static_cast<AH::GameObjectType> (type);
@@ -409,6 +415,7 @@ GameObjectScript *GameScript::drawObject(qint32 type)
     }
     return os;
 }
+*/
 
 GameObjectScript *GameScript::drawSpecificObject(QString id)
 {
@@ -439,7 +446,10 @@ QScriptValue GameScript::quickOption()
     QScriptValue data = context()->argument(0);
     GameActionScript *a = GameActionScript::createGameAction(data, context(), engine());
     if (!a) {
-        return context()->throwError(QScriptContext::TypeError, "quickOption: Error creating action");
+        if (!engine()->hasUncaughtException())
+            return context()->throwError(QScriptContext::TypeError, "quickOption: Error creating action");
+        else
+            return engine()->uncaughtException();
     }
 
     QScriptValue act = registerAction(a);
@@ -454,7 +464,10 @@ QScriptValue GameScript::quickOption()
 
     GameOptionScript *o = GameOptionScript::createGameOption(data, context(), engine());
     if (!o) {
-        return context()->throwError(QScriptContext::TypeError, "quickOption: Error creating option");
+        if (!engine()->hasUncaughtException())
+            return context()->throwError(QScriptContext::TypeError, "quickOption: Error creating option");
+        else
+            return engine()->uncaughtException();
     }
 
     QScriptValue opt = registerOption(o);
@@ -462,6 +475,32 @@ QScriptValue GameScript::quickOption()
         return opt;
     }
     return opt;
+}
+
+QScriptValue GameScript::getDieRollOption()
+{
+    if (context()->argumentCount() != 1 || !context()->argument(0).isObject()) {
+        return context()->throwError(QScriptContext::TypeError, "getDieRollOption: Must call with 1 object");
+    }
+
+    QScriptValue data = context()->argument(0);
+    AH::Skills skills = GameScript::parseFlags<AH::Skills>(data.property("skills"), AH::NoSkill);
+    DieRollOption::ReRollType type = static_cast<DieRollOption::ReRollType> (data.property("type").toInt32());
+    if (!type || !skills) {
+        return context()->throwError("Invalid Die Roll Option");
+    }
+
+    QString id = QString("OP_DIE_ROLL_%1_%2")
+            .arg(static_cast<int> (type))
+            .arg(static_cast<int> (skills));
+
+    if (!gGame->registry()->findOptionById(id)) {
+        // Create the option
+        DieRollOption *op = new DieRollOption(type, skills);
+        op->setId(id);
+        gGame->registerOption(op);
+    }
+    return id;
 }
 
 QScriptValue GameScript::registerSingleObject(GameObjectScript *o)
@@ -570,6 +609,111 @@ QScriptValueList GameScript::array2list(QScriptValue ar)
     }
 
     return ret;
+}
+
+bool GameScript::parseCosts(QScriptValue v, AH::Common::Cost &c)
+{
+    c.clear();
+    if (!v.isValid() || v.isNull() || v.isUndefined()) {
+        return true;
+    }
+
+    QScriptValueList lst;
+    if (v.isArray()) {
+        lst = GameScript::array2list(v);
+    } else if (v.isObject()) {
+        lst = QScriptValueList() << v;
+    } else {
+        return false;
+    }
+
+    if (lst.size() == 0) {
+        return true;
+        /*
+    } else if (lst.size() == 1) {
+        AH::Common::CostList cl;
+        if (!parseCostList(lst[0], cl)) {
+            return false;
+        }
+        c.addAlternative(cl);
+        return true;
+        */
+    } else {
+        foreach (QScriptValue item, lst) {
+            AH::Common::CostList cl;
+            if (!parseCostList(item, cl)) {
+                return false;
+            }
+            c.addAlternative(cl);
+        }
+        return true;
+    }
+}
+
+bool GameScript::parseCostList(QScriptValue v, AH::Common::CostList &cl)
+{
+    QScriptValueList lst;
+    if (v.isArray()) {
+        lst = GameScript::array2list(v);
+    } else if (v.isObject()) {
+        lst = QScriptValueList() << v;
+    } else {
+        return false;
+    }
+
+    if (lst.size() == 0) {
+        return false;
+        /*
+    } else if (lst.size() == 1) {
+        AH::Common::CostItem ci;
+        if (!parseCostItem(lst[0], ci)) {
+            return false;
+        }
+        cl.append(ci);
+        return true;
+        */
+    } else {
+        foreach (QScriptValue item, lst) {
+            AH::Common::CostItem ci;
+            if (!parseCostItem(item, ci)) {
+                return false;
+            }
+            cl.append(ci);
+        }
+        return true;
+    }
+}
+
+bool GameScript::parseCostItem(QScriptValue v, AH::Common::CostItem &ci)
+{
+    if (!v.isObject()) {
+        return false;
+    }
+
+    ci.type = static_cast<AH::Common::CostItem::PaymentItem> (v.property("type").toUInt32());
+    ci.amount = v.property("amount").toUInt32();
+
+    if (ci.type == AH::Common::CostItem::Pay_None || ci.amount == 0) {
+        return false;
+    }
+
+    return true;
+}
+
+QScriptValue GameScript::castCostToValue(QScriptEngine *eng, const AH::Common::Cost &in)
+{
+    //parseCosts()
+    Q_UNUSED(eng)
+    Q_UNUSED(in)
+    Q_ASSERT_X(false, "GameScript::castCostToValue", "Not implemented");
+    return QScriptValue();
+}
+
+void GameScript::castCostFromValue(const QScriptValue &v, AH::Common::Cost &o)
+{
+    if (!parseCosts(v, o)) {
+        qCritical("Error parsing costs");
+    }
 }
 
 bool GameScript::parseScripts(QDir base)

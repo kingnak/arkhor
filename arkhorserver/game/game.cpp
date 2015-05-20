@@ -86,6 +86,15 @@ void Game::start()
 
 void Game::play()
 {
+    // TEST
+    Player *p = getFirstPlayer();
+    for (int i = 0; i < 10; ++i) {
+        p->getCharacter()->addMonsterTrophy(drawMonster());
+    }
+    p->getCharacter()->addGateTrophy(new Gate(AH::Dim_Circle, 0, m_board->field(AH::Common::FieldData::OW_Abyss)));
+    //p->getCharacter()->addGateTrophy(new Gate(AH::Dim_Circle, 0, m_board->field(AH::Common::FieldData::OW_Abyss)));
+
+
     commitUpdates();
     mythos();
     m_notifier->firstPlayerChanged(getFirstPlayer());

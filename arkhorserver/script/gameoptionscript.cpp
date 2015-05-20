@@ -50,7 +50,7 @@ GameOptionScript *GameOptionScript::createGameOption(QScriptValue data, QScriptC
     if (data.property("chooseType").isValid() && !data.property("chooseType").isUndefined())
         ret->m_chooseType = static_cast<AH::ChooseType> (data.property("chooseType").toUInt32());
 
-    if (!parseCosts(data.property("costs"), ret->m_costs)) {
+    if (!GameScript::parseCosts(data.property("costs"), ret->m_costs)) {
         ctx->throwError(QScriptContext::TypeError, "createOption: Invalid Costs specification");
         return NULL;
     }
@@ -104,91 +104,3 @@ bool GameOptionScript::verify(GameOptionScript *op, QString *msg)
     return false;
 }
 
-bool GameOptionScript::parseCosts(QScriptValue v, AH::Common::Cost &c)
-{
-    c.clear();
-    if (!v.isValid() || v.isNull() || v.isUndefined()) {
-        return true;
-    }
-
-    QScriptValueList lst;
-    if (v.isArray()) {
-        lst = GameScript::array2list(v);
-    } else if (v.isObject()) {
-        lst = QScriptValueList() << v;
-    } else {
-        return false;
-    }
-
-    if (lst.size() == 0) {
-        return true;
-        /*
-    } else if (lst.size() == 1) {
-        AH::Common::CostList cl;
-        if (!parseCostList(lst[0], cl)) {
-            return false;
-        }
-        c.addAlternative(cl);
-        return true;
-        */
-    } else {
-        foreach (QScriptValue item, lst) {
-            AH::Common::CostList cl;
-            if (!parseCostList(item, cl)) {
-                return false;
-            }
-            c.addAlternative(cl);
-        }
-        return true;
-    }
-}
-
-bool GameOptionScript::parseCostList(QScriptValue v, AH::Common::CostList &cl)
-{
-    QScriptValueList lst;
-    if (v.isArray()) {
-        lst = GameScript::array2list(v);
-    } else if (v.isObject()) {
-        lst = QScriptValueList() << v;
-    } else {
-        return false;
-    }
-
-    if (lst.size() == 0) {
-        return false;
-        /*
-    } else if (lst.size() == 1) {
-        AH::Common::CostItem ci;
-        if (!parseCostItem(lst[0], ci)) {
-            return false;
-        }
-        cl.append(ci);
-        return true;
-        */
-    } else {
-        foreach (QScriptValue item, lst) {
-            AH::Common::CostItem ci;
-            if (!parseCostItem(item, ci)) {
-                return false;
-            }
-            cl.append(ci);
-        }
-        return true;
-    }
-}
-
-bool GameOptionScript::parseCostItem(QScriptValue v, AH::Common::CostItem &ci)
-{
-    if (!v.isObject()) {
-        return false;
-    }
-
-    ci.type = static_cast<AH::Common::CostItem::PaymentItem> (v.property("type").toUInt32());
-    ci.amount = v.property("amount").toUInt32();
-
-    if (ci.type == AH::Common::CostItem::Pay_None || ci.amount == 0) {
-        return false;
-    }
-
-    return true;
-}

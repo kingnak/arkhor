@@ -28,7 +28,7 @@ public:
 
     virtual AH::GamePhases phases() const;
 
-    //virtual bool isAvailable() = 0;
+    //virtual bool isAvailable() const = 0;
 
     virtual bool execute();
 

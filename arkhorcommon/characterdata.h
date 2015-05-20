@@ -34,6 +34,7 @@ namespace AH {
             QStringList inventoryIds() const { return m_inventoryIds; }
             QStringList monsterMarkerIds() const { return m_monsterMarkerIds; }
             QStringList gateMarkerIds() const { return m_gateMarkerIds; }
+            int getMonsterToughness() const { return m_monsterToughness; }
 
             virtual FieldData::FieldID fieldId() const { return m_fieldId; }
             bool isDelayed() const { return m_delayed; }
@@ -58,6 +59,7 @@ namespace AH {
             QStringList m_inventoryIds;
             QStringList m_monsterMarkerIds;
             QStringList m_gateMarkerIds;
+            int m_monsterToughness;
 
             FieldData::FieldID m_fieldId;
             bool m_delayed;

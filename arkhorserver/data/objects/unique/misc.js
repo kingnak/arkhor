@@ -6,7 +6,8 @@ var useElderSign = game.quickOption({
 	continueType: Constants.Option.CannotContinue,
 	chooseType: Constants.Option.Supplemental,
 	isAvailable: function() {
-		return this.owner.canCloseGate();
+        //return this.owner.canCloseGate();
+        return game.context.character.canCloseGate();
 	},
 	activate: function() {
 		debugger;

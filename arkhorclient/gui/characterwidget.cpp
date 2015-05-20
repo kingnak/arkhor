@@ -27,4 +27,7 @@ void CharacterWidget::updateCharacterData(AH::Common::CharacterData data)
     AH::Common::InvestigatorData::AttributeValuePair ll = data.investigatorData().attrLoreLuck().value(data.attrSettings().value(2));
     ui->lblLuckLore->setText(QString("%1 / %2").arg(ll.first).arg(ll.second));
     ui->lblFocus->setText(QString::number(data.curFocus()));
+    ui->lblMonsterTrophies->setText(QString::number(data.monsterMarkerIds().count()));
+    ui->lblGateTrophies->setText(QString::number(data.gateMarkerIds().count()));
+    ui->lblMonsterToughness->setText(QString::number(data.getMonsterToughness()));
 }

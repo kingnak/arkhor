@@ -53,7 +53,7 @@ var cross = game.createObject({
 	hands: 1,
 	price: 3,
 	modifications: function() {
-		debugger;
+        //debugger;
 		var m = game.context.monster;
 		var dmg = 0;
 		if (m) {

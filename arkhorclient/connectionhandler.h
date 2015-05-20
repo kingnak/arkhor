@@ -14,6 +14,7 @@
 #include <objectdata.h>
 #include <encounterdata.h>
 #include <mythosdata.h>
+#include <choicedata.h>
 
 class ConnectionHandler : public QObject
 {
@@ -39,6 +40,9 @@ public:
     void selectEncounterOption(QString id);
 
     void acknowledge();
+
+    void choiceSelected(AH::Common::ChoiceResponseData resp);
+    void choiceCanceled();
 
 public slots:
     void startup();
@@ -76,6 +80,8 @@ signals:
 
     void displayMythos(AH::Common::MythosData mythos);
     void finishMythos();
+
+    void offerChoice(AH::Common::ChoiceData choice);
 
 private slots:
     void handleMessage(AH::Common::Message msg);

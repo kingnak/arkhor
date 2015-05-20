@@ -36,10 +36,10 @@ var lib_enc2 = game.createArkhamEncounter({
 					game.context.character.placeOnField(Constants.Fields.MU_MiskatonicU);
 				} else if (res == 1) {
 					// TODO: Let decide...
-                    var sp = game.drawObject(Constants.ObjectType.Spell);
+                    var sp = game.context.drawObject(Constants.ObjectType.Spell);
 					game.context.character.addToInventory(sp);
 				} else if (res >= 2) {
-                    var ob = game.drawObject(Constants.ObjectType.UniqueItem);
+                    var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
 					game.context.character.addToInventory(ob);
 				} else {
 					debugger;

@@ -134,16 +134,22 @@ void NetworkConnection::doSendMessage(const Message &msg)
     ds.setVersion(QDataStream::Qt_4_6);
     ds << v;
 
-    quint32 len = buf.size();
     quint32 mag = MAGICK;
+    quint32 len = buf.size();
 
     //qDebug() << "sending " << len << " bytes message";
 
-    len = qToLittleEndian(len);
     mag = qToLittleEndian(mag);
+    len = qToLittleEndian(len);
 
-    m_socket->write(reinterpret_cast<const char *>(&mag), sizeof(mag));
-    m_socket->write(reinterpret_cast<const char *>(&len), sizeof(len));
+    char magChars[sizeof(mag)];
+    char lenChars[sizeof(len)];
+    intToBytes(mag, magChars);
+    intToBytes(len, lenChars);
+
+    m_socket->write(magChars, sizeof(magChars) / sizeof(*magChars));
+    m_socket->write(lenChars, sizeof(lenChars) / sizeof(*lenChars));
+    //m_socket->write(reinterpret_cast<const char *>(&len), sizeof(len));
     m_socket->write(buf);
 }
 
@@ -234,7 +240,9 @@ bool NetworkConnection::readProtocolHeader()
         return false;
     }
 
-    quint32 readMagick = qFromLittleEndian(*reinterpret_cast<const quint32 *> (m_buffer.constData()));
+    //quint32 readMagick = qFromLittleEndian(*reinterpret_cast<const quint32 *> (m_buffer.constData()));
+    quint32 readMagick = byteToInt<quint32>(m_buffer.constData(), MAGICK_SIZE);
+    readMagick = qFromLittleEndian(readMagick);
 
     if (readMagick != MAGICK) {
         abort();
@@ -255,7 +263,9 @@ bool NetworkConnection::readLength()
         return false;
     }
 
-    quint32 readLen = qFromLittleEndian(*reinterpret_cast<const quint32 *> (m_buffer.constData()));
+    //quint32 readLen = qFromLittleEndian(*reinterpret_cast<const quint32 *> (m_buffer.constData()));
+    quint32 readLen = byteToInt<quint32>(m_buffer.constData(), LENGTH_SIZE);
+    readLen = qFromLittleEndian(readLen);
 
     m_buffer.clear();
 
@@ -309,6 +319,32 @@ void NetworkConnection::handleMessage(const Message &msg)
     } else {
         receivedMessage(msg);
     }
+}
+
+template <typename T, size_t N>
+void NetworkConnection::intToBytes(T val, char(&dest)[N])
+{
+    for (size_t i = 0; i < N; ++i) {
+        dest[N-i-1] = val & 0xFF;
+        val >>= 8;
+    }
+}
+
+template <typename T, size_t N>
+T NetworkConnection::byteToInt(const char (&src)[N])
+{
+    return byteToInt(src, N);
+}
+
+template <typename T>
+T NetworkConnection::byteToInt(const char *src, size_t N)
+{
+    T ret = 0;
+    for (size_t i = 0; i < N; ++i) {
+        ret <<= 8;
+        ret |= (src[i]) & 0xFF;
+    }
+    return ret;
 }
 
 }}

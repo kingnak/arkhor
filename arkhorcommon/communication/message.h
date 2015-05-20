@@ -37,6 +37,8 @@ namespace AH{
                 C_SELECT_INVESTIGATOR,
                 S_PLAYER_CHAR_INSTANTIATED,
 
+                S_DIE_ROLL_INFO,
+
                 S_GAME_START,
 
                 S_CHOOSE_OPTION,

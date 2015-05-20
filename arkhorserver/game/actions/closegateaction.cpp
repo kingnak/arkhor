@@ -2,6 +2,9 @@
 #include "../game.h"
 #include "../player.h"
 #include "character.h"
+#include "game/dietesthelper.h"
+#include "gate.h"
+#include "die/dierollevaluator.h"
 
 using namespace AH::Common;
 
@@ -12,6 +15,23 @@ CloseGateAction::CloseGateAction()
 
 bool CloseGateAction::execute()
 {
+    // TODO: Let user decide on skill!
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(gGame->context().player()->getCharacter(), AH::Skill_Fight, gGame->context().gate()->closeAdjustment());
+    gGame->context().player()->dieRollStart(DieTestHelper::toDieRollTestData(spec));
+    spec.eval->rollNew();
+    spec.eval->evaluate();
+
+    // TODO: Should this ask for actions?
+    gGame->context().player()->dieRollUpdate(DieTestHelper::toDieRollTestData(spec));
+
+    gGame->context().player()->dieRollFinish(DieTestHelper::toDieRollTestData(spec));
+
+    if (dynamic_cast<DieRollBoolEvaluator *> (spec.eval)->getBoolResult()) {
+        gGame->context().gate()->close(gGame->context().player()->getCharacter());
+        if (m_bSeal) {
+            // TODO: Place ancient sign
+        }
+    }
     return true;
 }
 
@@ -27,6 +47,7 @@ QString CloseGateAction::name() const
 bool CloseGateOption::execute()
 {
     ca.m_bSeal = false;
+    gGame->context().setGate(gGame->context().player()->getCharacter()->field()->gate());
     return GameOption::execute();
 }
 
@@ -38,13 +59,17 @@ bool CloseGateOption::isAvailable()
     if (g && f->gate() && g == f->gate()) {
         return true;
     }
-    return false;
+
+    // TEST
+    //return false;
+    return true;
 }
 
 
 bool SealGateOption::execute()
 {
     ca.m_bSeal = true;
+    gGame->context().setGate(gGame->context().player()->getCharacter()->field()->gate());
     return GameOption::execute();
 }
 

@@ -18,6 +18,8 @@ public:
     GameObject() {}
     virtual ~GameObject() {}
 
+    virtual QString modifierId() const { return typeId(); }
+
     virtual void exhaust() { if (m_bExhaustable) m_bIsExhausted = true; }
     virtual void refresh() { if (m_bExhaustable) m_bIsExhausted = false; }
 

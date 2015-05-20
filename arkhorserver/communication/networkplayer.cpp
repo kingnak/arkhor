@@ -142,6 +142,23 @@ void NetworkPlayer::actionExecute(const GameAction *action, QString desc)
     sendText(QString("Executing action %1: %2").arg(action->name(), desc));
 }
 
+void NetworkPlayer::dieRollStart(const DieRollTestData test)
+{
+    QVariant v;
+    v << test;
+    m_conn->sendMessage(Message::S_DIE_ROLL_INFO, v);
+}
+
+void NetworkPlayer::dieRollUpdate(const DieRollTestData test)
+{
+    dieRollStart(test);
+}
+
+void NetworkPlayer::dieRollFinish(const DieRollTestData test)
+{
+    dieRollStart(test);
+}
+
 Investigator *NetworkPlayer::chooseInvestigator(QList<Investigator *> invs)
 {
     QVariant v;

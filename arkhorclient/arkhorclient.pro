@@ -12,7 +12,8 @@ HEADERS += \
     ahboardfillerhelper.h \
     movementchooser.h \
     focuschooser.h \
-    optionchooser.h
+    optionchooser.h \
+    dierollwidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -27,7 +28,8 @@ SOURCES += \
     ahboardfillerhelper.cpp \
     movementchooser.cpp \
     focuschooser.cpp \
-    optionchooser.cpp
+    optionchooser.cpp \
+    dierollwidget.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -41,7 +43,8 @@ FORMS += \
     ahmaingui.ui \
     movementchooser.ui \
     focuschooser.ui \
-    optionchooser.ui
+    optionchooser.ui \
+    dierollwidget.ui
 
 RESOURCES += \
     client_resources.qrc

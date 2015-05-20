@@ -23,7 +23,8 @@ HEADERS += \
     propertyvaluedata.h \
     arkhamencounterdata.h \
     fielddata.h \
-    attributesliderdata.h
+    attributesliderdata.h \
+    diedata.h
 
 SOURCES += \
     communication/message.cpp \
@@ -41,4 +42,5 @@ SOURCES += \
     propertyvaluedata.cpp \
     arkhamencounterdata.cpp \
     fielddata.cpp \
-    attributesliderdata.cpp
+    attributesliderdata.cpp \
+    diedata.cpp

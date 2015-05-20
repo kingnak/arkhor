@@ -9,10 +9,10 @@ class Character;
 class Gate
 {
 public:
-    Gate(AH::Dimension dim, int closeAmount, GameField *dest);
+    Gate(AH::Dimension dim, int closeAdjustment, GameField *dest);
 
     AH::Dimension dimension() const { return m_dim; }
-    int closeAmount() const { return m_closeAmount; }
+    int closeAdjustment() const { return m_closeAdjustment; }
 
     GameField *field() { return m_field; }
     void setField(GameField *field) { m_field = field; }
@@ -28,7 +28,7 @@ public:
 private:
     bool m_open;
     AH::Dimension m_dim;
-    int m_closeAmount;
+    int m_closeAdjustment;
     GameField *m_dest;
     GameField *m_field;
 };

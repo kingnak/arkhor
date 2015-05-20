@@ -8,6 +8,7 @@
 #include <investigatordata.h>
 #include <gameoptiondata.h>
 #include <attributesliderdata.h>
+#include <diedata.h>
 
 class ConnectionHandler : public QObject
 {
@@ -41,6 +42,8 @@ signals:
     void chooseOption(QList<AH::Common::GameOptionData> o);
     void chooseMovement(AH::Common::FieldData::FieldID startId, int movementPoints);
     void chooseFocus(QList<AH::Common::AttributeSliderData> sliders, int focusAmount);
+
+    void dieRollInfo(AH::Common::DieRollTestData data);
 
     void boardContent(QVariantMap boardMap);
 

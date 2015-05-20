@@ -4,11 +4,12 @@
 #include "arkhorcommonglobal.h"
 #include "serializer.hpp"
 #include "ahglobal.h"
+#include <QStringList>
 
 namespace AH {
     namespace Common {
 
-        class PropertyValueData
+        class ARKHOR_COMMON_EXPORTS PropertyValueData
         {
         protected:
             enum {
@@ -44,12 +45,14 @@ namespace AH {
                 Prop_MaxSanity,
                 Prop_Focus,
                 Prop_Movement,
+                Prop_MinSuccessDieRoll,
 
                 Game_SealClueCost = GAME_OFFSET
             };
 
-            PropertyValueData(Property prop, int val)
+            PropertyValueData(Property prop = NoProperty, int val = 0)
                 : m_val(val), m_prop(prop) {}
+            virtual ~PropertyValueData() {}
 
             int value() const { return m_val; }
             Property property() const { return m_prop; }
@@ -62,6 +65,45 @@ namespace AH {
         };
 
         DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, PropertyValueData::Property);
+
+        class ARKHOR_COMMON_EXPORTS PropertyModificationData
+        {
+        public:
+            PropertyModificationData(PropertyValueData::Property prop = PropertyValueData::NoProperty, int modification = 0)
+                : m_prop(prop), m_mod(modification) {}
+            virtual ~PropertyModificationData() {}
+
+            PropertyValueData::Property affectedProperty() const { return m_prop; }
+            int modificationAmount() const { return m_mod; }
+            virtual QString modifierId() const { return m_modifierId; }
+
+        protected:
+            PropertyValueData::Property m_prop;
+            int m_mod;
+            QString m_modifierId;
+
+            DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, PropertyModificationData);
+        };
+
+        class ARKHOR_COMMON_EXPORTS ModifiedPropertyValueData
+        {
+        public:
+            ModifiedPropertyValueData()
+                : m_finalVal(0) {}
+            ModifiedPropertyValueData(PropertyValueData prop, int finVal, QList<PropertyModificationData> mods)
+                : m_property(prop), m_finalVal(finVal), m_mods(mods) {}
+
+            PropertyValueData property() const { return m_property; }
+            int finalVal() const { return m_finalVal; }
+            QList<PropertyModificationData> modifications() const { return m_mods; }
+
+        protected:
+            PropertyValueData m_property;
+            int m_finalVal;
+            QList<PropertyModificationData> m_mods;
+
+            DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, ModifiedPropertyValueData);
+        };
     }
 }
 

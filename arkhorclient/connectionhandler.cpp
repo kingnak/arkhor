@@ -145,6 +145,14 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         break;
     }
 
+    case AH::Common::Message::S_DIE_ROLL_INFO:
+    {
+        AH::Common::DieRollTestData t;
+        msg.payload >> t;
+        emit dieRollInfo(t);
+        break;
+    }
+
     default:
         qDebug() << "Did not understand message type: " << msg.type;
     }

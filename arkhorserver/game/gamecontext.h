@@ -10,6 +10,7 @@ class Monster;
 class Game;
 class Player;
 class Character;
+class Gate;
 
 class GameContext
 {
@@ -19,9 +20,11 @@ public:
 
     Player *player() { return m_player; }
     Monster *monster() { return m_monster; }
+    Gate *gate() { return m_gate; }
     AH::GamePhase phase() { return m_phase; }
 
     void setMonster( Monster *m ) { m_monster = m; }
+    void setGate( Gate *g ) { m_gate = g; }
 
     ModifiedPropertyValue getCurCharacterProperty(PropertyValue::Property property);
     ModifiedPropertyValue getCurCharacterSkill(AH::Skill skill);
@@ -37,6 +40,7 @@ private:
     Game *m_game;
     Player *m_player;
     Monster *m_monster;
+    Gate *m_gate;
     AH::GamePhase m_phase;
 
     friend class Game;

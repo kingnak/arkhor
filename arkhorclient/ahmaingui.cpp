@@ -47,6 +47,9 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     // FOCUS
     connect(m_conn, SIGNAL(chooseFocus(QList<AH::Common::AttributeSliderData>,int)), this, SLOT(chooseFocus(QList<AH::Common::AttributeSliderData>,int)));
     connect(ui->wgtFocusChooser, SIGNAL(focusConfirmed(QList<int>)), this, SLOT(focusChosen(QList<int>)));
+
+    // DIE ROLL
+    connect(m_conn, SIGNAL(dieRollInfo(AH::Common::DieRollTestData)), this, SLOT(showDieRollInfo(AH::Common::DieRollTestData)));
 }
 
 void AhMainGui::displayItemInfo(const QString &id)
@@ -97,4 +100,11 @@ void AhMainGui::focusChosen(QList<int> diffs)
 {
     m_conn->selectFocus(diffs);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+}
+
+void AhMainGui::showDieRollInfo(DieRollTestData data)
+{
+    ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
+    ui->stkInteraction->setCurrentWidget(ui->pageDieRoll);
+    ui->wgtDieRoll->displayDieRoll(data);
 }

@@ -7,20 +7,20 @@
 class ModifiedPropertyValue;
 class PropertyModifier;
 
-class PropertyModification
+class PropertyModification : public AH::Common::PropertyModificationData
 {
 public:
     PropertyModification(const PropertyModifier *modifier, PropertyValue::Property prop, int mod)
-        : m_modifier(modifier), m_prop(prop), m_mod(mod)
-    {}
+        : AH::Common::PropertyModificationData(prop, mod), m_modifier(modifier)
+    {
+    }
 
     const PropertyModifier *getModifier() const { return m_modifier; }
-    PropertyValue::Property affectedProperty() const { return m_prop; }
     int modify(int base) const { return base + m_mod; }
+    //virtual QString modifierId() const;
 private:
     const PropertyModifier *m_modifier;
-    PropertyValue::Property m_prop;
-    int m_mod;
+
 };
 
 class PropertyModificationList : public QList<PropertyModification>
@@ -34,6 +34,8 @@ public:
         ret.append(o);
         return ret;
     }
+
+    QList<AH::Common::PropertyModificationData> toPropertyModificationDataList() const;
 };
 
 class ModifiedPropertyValue
@@ -47,6 +49,8 @@ public:
     int finalVal() const { return m_finalVal; }
     PropertyModificationList modifiers() const { return m_mods; }
 
+    AH::Common::ModifiedPropertyValueData toModifiedPropertyValueData() const;
+
 private:
     PropertyValue m_prop;
     int m_finalVal;
@@ -56,6 +60,7 @@ private:
 class PropertyModifier
 {
 public:
+    virtual QString modifierId() const = 0;
     virtual PropertyModificationList getModifications() = 0;
 };
 

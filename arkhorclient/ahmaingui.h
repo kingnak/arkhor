@@ -5,6 +5,7 @@
 #include <gameoptiondata.h>
 #include <fielddata.h>
 #include <attributesliderdata.h>
+#include <diedata.h>
 
 class ConnectionHandler;
 class AhBoardScene;
@@ -36,6 +37,8 @@ private slots:
 
     void chooseFocus(QList<AH::Common::AttributeSliderData> sliders, int focusAmount);
     void focusChosen(QList<int> diffs);
+
+    void showDieRollInfo(AH::Common::DieRollTestData data);
 
 private:
     Ui::AhMainGui *ui;

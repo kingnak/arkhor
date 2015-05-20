@@ -96,6 +96,20 @@
            </item>
           </layout>
          </widget>
+         <widget class="QWidget" name="pageDieRoll">
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>DIE ROLL</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="DieRollWidget" name="wgtDieRoll" native="true"/>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -144,6 +158,12 @@
    <class>OptionChooser</class>
    <extends>QWidget</extends>
    <header>optionchooser.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DieRollWidget</class>
+   <extends>QWidget</extends>
+   <header>dierollwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

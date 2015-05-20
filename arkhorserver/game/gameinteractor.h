@@ -5,6 +5,7 @@
 #include "attributeslider.h"
 #include "movementpath.h"
 #include <cost.h>
+#include <diedata.h>
 
 class Game;
 class GameOption;
@@ -29,6 +30,10 @@ public:
     virtual MovementPath chooseMovement(GameField *start, int movement) = 0;
 
     virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c) = 0;
+
+    virtual void dieRollStart(const AH::Common::DieRollTestData test) = 0;
+    virtual void dieRollUpdate(const AH::Common::DieRollTestData test) = 0;
+    virtual void dieRollFinish(const AH::Common::DieRollTestData test) = 0;
 };
 
 #endif // GAMEINTERACTOR_H

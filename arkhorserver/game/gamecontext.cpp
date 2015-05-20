@@ -45,6 +45,10 @@ ModifiedPropertyValue GameContext::getCharacterProperty(const Character *c, Prop
     case PropertyValue::Prop_Movement:
         base = c->movementPoints();
         break;
+    case PropertyValue::Prop_MinSuccessDieRoll:
+        // TODO Blessing/Curse
+        base = 5;
+        break;
     default:
         Q_ASSERT_X(false, "GameContext::getCharacterProperty", "Property not defined");
     }

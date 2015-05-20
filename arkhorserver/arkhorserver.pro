@@ -61,7 +61,8 @@ HEADERS += \
     script/propertymodificationscript.h \
     game/arkhamencounter.h \
     script/arkhamencounterscript.h \
-    game/gameregistry.h
+    game/gameregistry.h \
+    game/dietesthelper.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -123,7 +124,8 @@ SOURCES += \
     script/propertymodificationscript.cpp \
     game/arkhamencounter.cpp \
     script/arkhamencounterscript.cpp \
-    game/gameregistry.cpp
+    game/gameregistry.cpp \
+    game/dietesthelper.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

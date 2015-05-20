@@ -5,7 +5,7 @@
 Gate::Gate(AH::Dimension dim, int closeAmount, GameField *dest)
 :   m_open(false),
     m_dim(dim),
-    m_closeAmount(closeAmount),
+    m_closeAdjustment(closeAmount),
     m_dest(dest),
     m_field(NULL)
 {

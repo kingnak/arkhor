@@ -59,6 +59,16 @@ namespace AH {
             void handleMessage(const Message &msg);
 
         private:
+            template <typename T, size_t N>
+            static void intToBytes(T val, char(&dest)[N]);
+            template <typename T>
+            static void intToBytes(T val, char **dest, size_t N);
+            template <typename T, size_t N>
+            static T byteToInt(const char (&src)[N]);
+            template<typename T>
+            static T byteToInt(const char *src, size_t N);
+
+        private:
             int m_sockDesc;
             QTcpSocket *m_socket;
             QByteArray m_buffer;

@@ -13,7 +13,7 @@ bool PropertyModificationScript::parsePropertyModificationList(const PropertyMod
         lst = GameScript::array2list(propModList);
     } else if (propModList.isObject()) {
         lst << propModList;
-    } else if (!propModList.isValid() || propModList.isNull()){
+    } else if (!propModList.isValid() || propModList.isNull() || propModList.isUndefined()){
         out = PropertyModificationList();
         return true;
     } else {
@@ -39,8 +39,36 @@ bool PropertyModificationScript::parsePropertyModification(const PropertyModifie
     }
 
     PropertyValue::Property prop = static_cast<PropertyValue::Property> (propMod.property("property").toUInt32());
-    int val = propMod.property("value").toInt32();
+    //int val = propMod.property("value").toInt32();
+    QString mod = propMod.property("value").toString().trimmed();
+    PropertyModification::ModificationType type;
+    int skip = 1;
+    if (mod.startsWith("^/")) {
+        type = PropertyModification::DividingUp;
+        skip = 2;
+    } else if (mod.startsWith("/")) {
+        type = PropertyModification::DividingDown;
+    } else if (mod.startsWith("*")) {
+        type = PropertyModification::Multiplicative;
+    } else if (mod.startsWith("=")) {
+        type = PropertyModification::Setting;
+    } else if (mod.startsWith("-")) {
+        type = PropertyModification::Additive;
+        skip = 0;
+    } else if (mod.startsWith("+")) {
+        type = PropertyModification::Additive;
+    } else if (mod.at(0).isDigit()) {
+        type = PropertyModification::Additive;
+        skip = 0;
+    } else {
+        return false;
+    }
 
-    out = PropertyModification(modifier, prop, val);
+    bool ok;
+    mod = mod.mid(skip);
+    int val = mod.toInt(&ok);
+    if (!ok) return false;
+
+    out = PropertyModification(modifier, prop, val, type);
     return true;
 }

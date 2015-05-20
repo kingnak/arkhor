@@ -10,6 +10,36 @@ AH::Common::MonsterData *Monster::data()
     return AH::Common::MonsterData::data();
 }
 
+int Monster::awareness() const
+{
+    return gGame->context().getMonsterProperty(this, PropertyValue::Monster_Awareness).finalVal();
+}
+
+int Monster::horrorAdjustment() const
+{
+    return gGame->context().getMonsterProperty(this, PropertyValue::Monster_HorrorAdjustment).finalVal();
+}
+
+int Monster::horrorDamage() const
+{
+    return gGame->context().getMonsterProperty(this, PropertyValue::Monster_HorrorDamage).finalVal();
+}
+
+int Monster::combatAdjustment() const
+{
+    return gGame->context().getMonsterProperty(this, PropertyValue::Monster_CombatAdjustment).finalVal();
+}
+
+int Monster::combatDamage() const
+{
+    return gGame->context().getMonsterProperty(this, PropertyValue::Monster_CombatDamage).finalVal();
+}
+
+int Monster::toughness() const
+{
+    return gGame->context().getMonsterProperty(this, PropertyValue::Monster_Toughness).finalVal();
+}
+
 void Monster::move(AH::MovementDirection dir)
 {
     // Don't move if not on board
@@ -128,4 +158,25 @@ void Monster::endCombat()
         // Back to monster pool
         gGame->returnMonster(this);
     }
+}
+
+PropertyModificationList Monster::getModifications() const
+{
+    PropertyModificationList mods;
+    MonsterAttributes attrs = attributes();
+    if (attrs.testFlag(AH::Common::MonsterData::PhysicalImmunity)) {
+        mods << PropertyModification(this, PropertyValue::Damage_Physical, 0, PropertyModification::Setting);
+    }
+    if (attrs.testFlag(AH::Common::MonsterData::PhysicalResistance)) {
+        // rounded up half
+        mods << PropertyModification(this, PropertyValue::Damage_Physical, 2, PropertyModification::DividingUp);
+    }
+    if (attrs.testFlag(AH::Common::MonsterData::MagicalImmunity)) {
+        mods << PropertyModification(this, PropertyValue::Damage_Magical, 0, PropertyModification::Setting);
+    }
+    if (attrs.testFlag(AH::Common::MonsterData::MagicalResistance)) {
+        // rounded up half
+        mods << PropertyModification(this, PropertyValue::Damage_Magical, 2, PropertyModification::DividingUp);
+    }
+    return mods;
 }

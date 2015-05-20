@@ -10,15 +10,17 @@ class PropertyModifier;
 class PropertyModification : public AH::Common::PropertyModificationData
 {
 public:
-    PropertyModification(const PropertyModifier *modifier, PropertyValue::Property prop, int mod)
-        : AH::Common::PropertyModificationData(prop, mod), m_modifier(modifier)
+    PropertyModification(const PropertyModifier *modifier, PropertyValue::Property prop, int mod, ModificationType type = Additive)
+        : AH::Common::PropertyModificationData(prop, mod, type), m_modifier(modifier)
     {
     }
+
+    bool operator == (const PropertyModification &o) const;
 
     virtual PropertyModificationData *data();
 
     const PropertyModifier *getModifier() const { return m_modifier; }
-    int modify(int base) const { return base + m_mod; }
+    int modify(int base) const;
     //virtual QString modifierId() const;
 private:
     const PropertyModifier *m_modifier;

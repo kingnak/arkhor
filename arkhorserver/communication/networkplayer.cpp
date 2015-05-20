@@ -1,3 +1,4 @@
+#include <QCoreApplication>
 #include "networkplayer.h"
 #include "clientconnection.h"
 #include "game/game.h"
@@ -8,6 +9,7 @@
 #include "game/gameoption.h"
 #include "game/gameobject.h"
 #include "game/arkhamencounter.h"
+#include "game/mythoscard.h"
 #include <QEventLoop>
 #include <QThread>
 #include <QTimerEvent>
@@ -16,7 +18,8 @@ using namespace AH::Common;
 
 NetworkPlayer::NetworkPlayer()
 :   m_game(NULL),
-    m_conn(NULL)
+    m_conn(NULL),
+    m_ackReceiver(NULL)
 {
     m_promptTimer = new QTimer(this);
     m_promptTimer->setSingleShot(true);
@@ -154,6 +157,21 @@ void NetworkPlayer::actionExecute(const GameAction *action, QString desc)
 void NetworkPlayer::objectsInvalidated(QStringList ids)
 {
     m_conn->sendMessage(Message::S_INVALIDATE_OBJECTS, QVariant(ids));
+}
+
+bool NetworkPlayer::acknowledgeMythos(const MythosCard *m, QObject *observer)
+{
+    QVariant v;
+    v << *(m->data());
+    m_conn->sendMessage(AH::Common::Message::S_ACKNOWLEDGE_MYTHOS, v);
+    m_ackReceiver = observer;
+    return false;
+}
+
+void NetworkPlayer::abortAcknowledge()
+{
+    m_conn->sendMessage(AH::Common::Message::S_ABORT_ACKNOWLEDGE, QVariant());
+    m_ackReceiver = NULL;
 }
 
 DieTestUpdateData NetworkPlayer::dieRollStart(const DieRollTestData test)
@@ -379,6 +397,11 @@ void NetworkPlayer::doHandleMessage(Message msg)
     if (msg.type == Message::C_CONFIRM_ACTIVE) {
         m_killTimer->stop();
         m_promptTimer->start();
+    } else if (msg.type == Message::C_ACKNOWLEDGED) {
+        if (m_ackReceiver) {
+            qApp->postEvent(m_ackReceiver, new AcknowledgeEvent(this));
+        }
+        abortAcknowledge();
     } else if (m_waitMsgTypes.contains(msg.type)) {
         m_waitMsg = msg;
         m_bWaitSuccessful = true;

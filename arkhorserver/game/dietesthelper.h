@@ -52,7 +52,7 @@ private:
     static void successCounter(DieTestSpec &spec, Character *c);
     static void value(DieTestSpec &spec);
     static void test(DieTestSpec &spec, int target);
-    static void finalize(DieTestSpec &spec);
+    static void finalize(DieTestSpec &spec, const QString &desc);
 
 private:
     DieTestHelper();

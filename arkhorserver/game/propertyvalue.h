@@ -16,6 +16,7 @@ public:
     static bool isSkillProperty(Property p);
     static bool isCharacterProperty(Property p);
     static bool isGameProperty(Property p);
+    static bool isMonsterProperty(Property p);
 
     static Property attribute2Property(AH::Attribute attr);
     static Property skill2Property(AH::Skill skill);

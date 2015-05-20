@@ -23,7 +23,10 @@ namespace AH {
 
             enum EnvironmentType {
                 Env_None,
+                Env_Weather,
             };
+
+            const MythosData *data() const { return this; }
 
             QString id() const { return m_id; }
             MythosType type() const { return m_type; }

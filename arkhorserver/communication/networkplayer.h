@@ -45,6 +45,11 @@ public:
 
     virtual void objectsInvalidated(QStringList id);
 
+    virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer);
+    virtual void abortAcknowledge();
+
+    ///////// INTERACTOR:
+
     virtual AH::Common::DieTestUpdateData dieRollStart(const AH::Common::DieRollTestData test);
     virtual AH::Common::DieTestUpdateData dieRollUpdate(const AH::Common::DieRollTestData test);
     virtual void dieRollFinish(const AH::Common::DieRollTestData test);
@@ -95,6 +100,8 @@ private:
 
     QTimer *m_promptTimer;
     QTimer *m_killTimer;
+
+    QObject *m_ackReceiver;
 
     static const int PROMPT_TIMEOUT = 60*1000;
     static const int KILL_TIMEOUT = 15*1000;

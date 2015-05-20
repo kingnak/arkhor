@@ -34,7 +34,9 @@ public:
         : GameOption(&aa, AH::CanContinue, AH::ChooseMandatory, AH::Movement),
           aa(fight)
     {}
+
     QString id() const { return "OP_ATTACK"; }
+    QString sourceId() const;
 
     virtual bool isAvailable() const { return true; }
 

@@ -101,6 +101,36 @@ QList<GameObject *> &Character::inventory()
     return m_inventory;
 }
 
+void Character::addToInventory(GameObject *obj)
+{
+    if (obj->owner() == NULL) {
+        if (!obj->onAddToInventory(this)) {
+            // Don't add
+            return;
+        }
+        obj->setOwner(this);
+        m_inventory << obj;
+        gGame->characterDirty(this);
+    } else if (obj->owner() != this) {
+        Q_ASSERT(false);
+    }
+}
+
+void Character::removeFromInventory(GameObject *obj)
+{
+    if (obj->owner() == this) {
+        if (!obj->onRemoveFromInventory(this)) {
+            // don't remove
+            return;
+        }
+        m_inventory.removeAll(obj);
+        obj->setOwner(NULL);
+        gGame->characterDirty(this);
+    } else if (obj->owner() != NULL) {
+        Q_ASSERT(false);
+    }
+}
+
 QList<AttributeSlider> Character::getFocusAttributes() const
 {
     return m_sliders;
@@ -109,11 +139,6 @@ QList<AttributeSlider> Character::getFocusAttributes() const
 QList<AttributeSlider> &Character::getModifyableFocusAttributes()
 {
     return m_sliders;
-}
-
-const Gate *Character::getExploredGate() const
-{
-    return m_explorededGate;
 }
 
 bool Character::canPay(const Cost &cost) const
@@ -216,14 +241,24 @@ bool Character::pay(const CostList &cost)
     return res;
 }
 
+void Character::loseClues()
+{
+    m_clues = (m_clues+1)/2;
+    gGame->characterDirty(this);
+}
+
 void Character::losePossessions()
 {
-    int newClues = (m_clues+1)/2;
-    if (newClues != m_clues) {
-        m_clues = newClues;
-        // TODO: Loose objects (let user decide)
-        gGame->characterDirty(this);
-    }
+    // TODO: Loose objects (let user decide)
+}
+
+void Character::arrest()
+{
+    loseClues();
+    gGame->board()->field(AH::Common::FieldData::ET_PoliceStation)->placeCharacter(this);
+    setDelayed(true);
+    setSetout(true);
+    // Should actually set out next round...
 }
 
 void Character::unconscious()
@@ -317,7 +352,7 @@ void Character::instantiateFromInvestigator()
     // Unique ability
     GameObject *ua = gGame->registry()->findObjectById(m_investigator->uniqueAbilityId());
     if (ua) {
-        m_inventory.append(ua);
+        addToInventory(ua);
     } else {
         qWarning() << "Unique ability" << m_investigator->uniqueAbilityId() << "for investigator" << m_investigator->id() << "is not an object";
     }
@@ -431,6 +466,18 @@ void Character::restoreSanity()
 
     m_curSanity = maxSanity;
     gGame->characterDirty(this);
+}
+
+void Character::preventDamageStamina(int amount)
+{
+    // TODO: Is this right?
+    m_curDmgStamina = qMax(m_curDmgStamina - amount, 0);
+}
+
+void Character::preventDamageSanity(int amount)
+{
+    // TODO: Is this right?
+    m_curDmgSanity = qMax(m_curDmgSanity - amount, 0);
 }
 
 bool Character::returnToArkham()

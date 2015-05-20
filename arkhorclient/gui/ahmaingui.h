@@ -12,6 +12,7 @@
 #include <monsterdata.h>
 #include <gatedata.h>
 #include <encounterdata.h>
+#include <mythosdata.h>
 #include <QListWidgetItem>
 #include "asyncobjectreceiver.h"
 
@@ -79,6 +80,10 @@ private slots:
 
     void chooseEncounter(AH::Common::EncounterData encounter);
     void encounterSelected(QString id);
+
+    void displayMythos(AH::Common::MythosData mythos);
+    void acknowledgeMythos();
+    void finishMythos();
 
 private:
     Ui::AhMainGui *ui;

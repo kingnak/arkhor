@@ -29,3 +29,10 @@ QList<GameOption *> ArkhamEncoutery::getPhaseOptions()
 
     return opts;
 }
+
+void ArkhamEncoutery::enterPhase()
+{
+    GameField *f = gGame->context().player()->getCharacter()->field();
+    Gate *g = f ? f->gate() : NULL;
+    gGame->context().setGate(g);
+}

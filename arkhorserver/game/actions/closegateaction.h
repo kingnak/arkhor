@@ -33,6 +33,7 @@ public:
     {}
 
     QString id() const { return "OP_CLOSE_GATE"; }
+    QString sourceId() const;
     virtual QString name() const { return "Close Gate"; }
 
     virtual bool isAvailable() const;
@@ -51,6 +52,8 @@ public:
 
     QString name() const { return "Seal Gate"; }
     QString id() const { return "OP_SEAL_GATE"; }
+
+    QString sourceId() const;
 
     AH::Common::Cost costs() const;
 

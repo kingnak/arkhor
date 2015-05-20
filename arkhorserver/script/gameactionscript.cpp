@@ -32,18 +32,7 @@ GameActionScript *GameActionScript::createGameAction(QScriptValue data, QScriptC
     ret->m_description = data.property("description").toString();
     //ret->m_sourceId = data.property("sourceId").toString();
 
-    ret->m_phases = AH::NoGamePhase;
-    if (data.property("phases").isArray()) {
-        QScriptValueList lst = GameScript::array2list(data.property("phases"));
-        AH::GamePhases ph = AH::NoGamePhase;
-        foreach (QScriptValue v, lst) {
-            ph |= static_cast<AH::GamePhase> (v.toUInt32());
-        }
-        ret->m_phases = ph;
-    } else {
-        ret->m_phases = static_cast<AH::GamePhases> (data.property("phases").toUInt32());
-    }
-
+    ret->m_phases = GameScript::parseFlags<AH::GamePhases>(data.property("phases"), AH::NoGamePhase);
     ret->m_function = data.property("activate");
 
     QString err;
@@ -53,15 +42,21 @@ GameActionScript *GameActionScript::createGameAction(QScriptValue data, QScriptC
     }
 
     GameActionScript *pRet = ret.take();
-    QScriptValue object = eng->newQObject(pRet);
-    pRet->m_object = object;
+    //QScriptValue object = eng->newQObject(pRet);
+    //pRet->m_object = object;
 
     return pRet;
 }
 
 bool GameActionScript::execute()
 {
-    QScriptValue res = m_function.call(m_object);
+    //QScriptValue res = m_function.call(m_object);
+    return executeOnObject(QScriptValue());
+}
+
+bool GameActionScript::executeOnObject(QScriptValue obj)
+{
+    QScriptValue res = m_function.call(obj);
     if (res.isError()) {
         QString s = res.toString();
         qWarning() << "Script Action Error: " << s;

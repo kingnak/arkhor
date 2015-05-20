@@ -30,6 +30,9 @@ public:
     QList<GameAction *> getActions(AH::GamePhase phase);
     QList<GameOption *> getOptions(AH::GamePhase phase);
     QList<GameObject *> &inventory();
+    virtual void addToInventory(GameObject *obj);
+    virtual void removeFromInventory(GameObject *obj);
+
     Investigator *investigator() { return m_investigator; }
     AH::Common::InvestigatorData investigatorData() const { return *m_investigator->data(); }
 
@@ -48,7 +51,9 @@ public:
     void addClue(int amount) { m_clues += amount; gGame->characterDirty(this); }
     void addMoney(int amount) { m_money += amount; gGame->characterDirty(this); }
     void setMovementAmount(int amount) { m_movementPoints = amount; gGame->characterDirty(this); }
+    void addMovementPoint(int amount) { m_movementPoints += amount; gGame->characterDirty(this); }
     void setFocusAmount(int amount) { m_curFocus = amount; gGame->characterDirty(this); }
+    void loseMoney(int amount) { m_money = qMax(m_money-amount,0); gGame->characterDirty(this); }
 
     void damageStamina(int amount);
     void damageSanity(int amount);
@@ -57,15 +62,16 @@ public:
     void addSanity(int amount);
     void restoreStamina();
     void restoreSanity();
+    void preventDamageStamina(int amount);
+    void preventDamageSanity(int amount);
 
-    bool returnToArkham();
 
     // Items
     void addMonsterMarker(Monster *m) { if (!m) return; m_monsterMarkers.append(m); gGame->characterDirty(this); }
     void addGateMarker(Gate *p) { if (!p) return; m_gateMarkers.append(p); gGame->characterDirty(this); }
 
     // Game state
-    const Gate *getExploredGate() const;
+    const Gate *getExploredGate() const { return m_explorededGate; }
     void setExploredGate(const Gate *p) { m_explorededGate = p; gGame->characterDirty(this); }
 
     void setDelayed(bool delay) { m_delayed = delay; gGame->characterDirty(this); }
@@ -80,11 +86,14 @@ public:
     bool canPay(const AH::Common::CostList &cost) const;
     bool pay(const AH::Common::CostList &cost);
 
+    void loseClues();
     void losePossessions();
+    void arrest();
     void unconscious();
     void insane();
     void devour();
     void lostInSpaceAndTime();
+    bool returnToArkham();
 
 protected:
     void instantiateFromInvestigator();

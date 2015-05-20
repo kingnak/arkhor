@@ -17,7 +17,9 @@
 #include "gamecontextscript.h"
 #include "otherworldencounterscript.h"
 #include "mythoscardscript.h"
-
+#include "characterscript.h"
+#include "gamefieldscript.h"
+#include "gatescript.h"
 
 #ifdef DEBUG_SCRIPT_BUILD
 #include <QScriptEngineDebugger>
@@ -28,9 +30,14 @@ Q_DECLARE_METATYPE(QList<AH::Common::GameOptionData>)
 
 #endif
 
+GameScript *GameScript::s_instance = NULL;
+
 GameScript::GameScript(Game *game, QObject *parent) :
     QObject(parent), m_game(game)
 {
+    Q_ASSERT(s_instance == NULL);
+
+    s_instance = this;
     m_engine = new QScriptEngine(this);
     m_ctx = new GameContextScript(this);
 }
@@ -55,9 +62,12 @@ bool GameScript::init(const QString &scriptBaseDir)
     qScriptRegisterMetaType<MythosCardScript*>(m_engine, MythosCardScript::castToValue, MythosCardScript::castFromValue);
 
     qScriptRegisterMetaType<GameContextScript*>(m_engine, GameContextScript::castToValue, GameContextScript::castFromValue);
+    qScriptRegisterMetaType<GameFieldScript*>(m_engine, GameFieldScript::castToValue, GameFieldScript::castFromValue);
+    qScriptRegisterMetaType<GateScript*>(m_engine, GateScript::castToValue, GateScript::castFromValue);
 
     qRegisterMetaType<GameContextScript*>();
     qRegisterMetaType<CharacterScript*>();
+    qRegisterMetaType<QList<CharacterScript*> >();
 
     // Register global objects:
     // Main Game Script
@@ -118,6 +128,17 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         consts.setProperty("ObjectType", ot, QScriptValue::ReadOnly);
     }
 
+    // Continue and Choose Type
+    {
+        QScriptValue ct = m_engine->newObject();
+        ct.setProperty("CannotContinue", AH::CannotContinue, QScriptValue::ReadOnly);
+        ct.setProperty("CanContinue", AH::CanContinue, QScriptValue::ReadOnly);
+        ct.setProperty("Optional", AH::ChooseOptional, QScriptValue::ReadOnly);
+        ct.setProperty("Mandatory", AH::ChooseMandatory, QScriptValue::ReadOnly);
+        ct.setProperty("Supplemental", AH::ChooseSupplemental, QScriptValue::ReadOnly);
+        consts.setProperty("Option", ct, QScriptValue::ReadOnly);
+    }
+
     // GamePhase
     {
         QScriptValue gp = m_engine->newObject();
@@ -129,6 +150,7 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         gp.setProperty("AllPhases", AH::AllPhases, QScriptValue::ReadOnly);
         gp.setProperty("DieRollPhase", AH::DieRoll, QScriptValue::ReadOnly);
         gp.setProperty("FightPhase", AH::FightPhase, QScriptValue::ReadOnly);
+        gp.setProperty("Any", static_cast<int> (AH::AllPhases | AH::DieRoll | AH::FightPhase), QScriptValue::ReadOnly);
         consts.setProperty("GamePhases", gp, QScriptValue::ReadOnly);
     }
 
@@ -181,10 +203,27 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         mods.setProperty("Prop_MaxSanity", AH::Common::PropertyValueData::Prop_MaxSanity, QScriptValue::ReadOnly);
         mods.setProperty("Prop_Focus", AH::Common::PropertyValueData::Prop_Focus, QScriptValue::ReadOnly);
         mods.setProperty("Prop_Movement", AH::Common::PropertyValueData::Prop_Movement, QScriptValue::ReadOnly);
+        mods.setProperty("DieRoll_All", AH::Common::PropertyValueData::DieRoll_All, QScriptValue::ReadOnly);
+        mods.setProperty("DieRoll_Speed", AH::Common::PropertyValueData::DieRoll_Speed, QScriptValue::ReadOnly);
+        mods.setProperty("DieRoll_Sneak", AH::Common::PropertyValueData::DieRoll_Sneak, QScriptValue::ReadOnly);
+        mods.setProperty("DieRoll_Fight", AH::Common::PropertyValueData::DieRoll_Fight, QScriptValue::ReadOnly);
+        mods.setProperty("DieRoll_Will", AH::Common::PropertyValueData::DieRoll_Will, QScriptValue::ReadOnly);
+        mods.setProperty("DieRoll_Lore", AH::Common::PropertyValueData::DieRoll_Lore, QScriptValue::ReadOnly);
+        mods.setProperty("DieRoll_Luck", AH::Common::PropertyValueData::DieRoll_Luck, QScriptValue::ReadOnly);
+        mods.setProperty("DieRoll_Evade", AH::Common::PropertyValueData::DieRoll_Evade, QScriptValue::ReadOnly);
+        mods.setProperty("DieRoll_Combat", AH::Common::PropertyValueData::DieRoll_Combat, QScriptValue::ReadOnly);
+        mods.setProperty("DieRoll_Horror", AH::Common::PropertyValueData::DieRoll_Horror, QScriptValue::ReadOnly);
+        mods.setProperty("DieRoll_Spell", AH::Common::PropertyValueData::DieRoll_Spell, QScriptValue::ReadOnly);
         mods.setProperty("Game_SealClueCost", AH::Common::PropertyValueData::Game_SealClueCost, QScriptValue::ReadOnly);
         mods.setProperty("Damage_General", AH::Common::PropertyValueData::Damage_General, QScriptValue::ReadOnly);
         mods.setProperty("Damage_Magical", AH::Common::PropertyValueData::Damage_Magical, QScriptValue::ReadOnly);
         mods.setProperty("Damage_Physical", AH::Common::PropertyValueData::Damage_Physical, QScriptValue::ReadOnly);
+        mods.setProperty("Monster_CombatDamage", AH::Common::PropertyValueData::Monster_CombatDamage, QScriptValue::ReadOnly);
+        mods.setProperty("Monster_CombatAdjustment", AH::Common::PropertyValueData::Monster_CombatAdjustment, QScriptValue::ReadOnly);
+        mods.setProperty("Monster_HorrorDamage", AH::Common::PropertyValueData::Monster_HorrorDamage, QScriptValue::ReadOnly);
+        mods.setProperty("Monster_HorrorAdjustment", AH::Common::PropertyValueData::Monster_HorrorAdjustment, QScriptValue::ReadOnly);
+        mods.setProperty("Monster_Awareness", AH::Common::PropertyValueData::Monster_Awareness, QScriptValue::ReadOnly);
+        mods.setProperty("Monster_Toughness", AH::Common::PropertyValueData::Monster_Toughness, QScriptValue::ReadOnly);
         consts.setProperty("Mods", mods, QScriptValue::ReadOnly);
     }
 
@@ -233,6 +272,8 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         monAtt.setProperty("MagicalResistance", AH::Common::MonsterData::MagicalResistance, QScriptValue::ReadOnly);
         monAtt.setProperty("PhysicalImmunity", AH::Common::MonsterData::PhysicalImmunity, QScriptValue::ReadOnly);
         monAtt.setProperty("MagicalImmunity", AH::Common::MonsterData::MagicalImmunity, QScriptValue::ReadOnly);
+        monAtt.setProperty("Undead", AH::Common::MonsterData::Undead, QScriptValue::ReadOnly);
+        monAtt.setProperty("Mask", AH::Common::MonsterData::Mask, QScriptValue::ReadOnly);
         monAtt.setProperty("Nightmarish_1", AH::Common::MonsterData::Nightmarish_1, QScriptValue::ReadOnly);
         monAtt.setProperty("Nightmarish_2", AH::Common::MonsterData::Nightmarish_2, QScriptValue::ReadOnly);
         monAtt.setProperty("Nightmarish_3", AH::Common::MonsterData::Nightmarish_3, QScriptValue::ReadOnly);
@@ -240,6 +281,16 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         monAtt.setProperty("Overwhelming_2", AH::Common::MonsterData::Overwhelming_2, QScriptValue::ReadOnly);
         monAtt.setProperty("Overwhelming_3", AH::Common::MonsterData::Overwhelming_3, QScriptValue::ReadOnly);
         consts.setProperty("Monster", monAtt, QScriptValue::ReadOnly);
+    }
+
+    // Monster Damage
+    {
+        QScriptValue monDmg = m_engine->newObject();
+        monDmg.setProperty("Combat", Monster::Combat, QScriptValue::ReadOnly);
+        monDmg.setProperty("Horror", Monster::Horror, QScriptValue::ReadOnly);
+        monDmg.setProperty("Nightmare", Monster::Nightmare, QScriptValue::ReadOnly);
+        monDmg.setProperty("Overwhelm", Monster::Overwhelm, QScriptValue::ReadOnly);
+        consts.setProperty("MonsterDamage", monDmg, QScriptValue::ReadOnly);
     }
 }
 
@@ -249,10 +300,10 @@ void GameScript::initFieldConstants(QScriptValue &consts)
     fld.setProperty("NS_Northside", AH::Common::FieldData::NS_Northside, QScriptValue::ReadOnly);
     fld.setProperty("NS_TrainStation", AH::Common::FieldData::NS_TrainStation, QScriptValue::ReadOnly);
     fld.setProperty("NS_Newspaper", AH::Common::FieldData::NS_Newspaper, QScriptValue::ReadOnly);
-    fld.setProperty("NS_CuriosieShoppe", AH::Common::FieldData::NS_CuriosieShoppe, QScriptValue::ReadOnly);
+    fld.setProperty("NS_CuriositieShoppe", AH::Common::FieldData::NS_CuriositieShoppe, QScriptValue::ReadOnly);
 
     fld.setProperty("DT_Downtown", AH::Common::FieldData::DT_Downtown, QScriptValue::ReadOnly);
-    fld.setProperty("DT_BankOfArhham", AH::Common::FieldData::DT_BankOfArhham, QScriptValue::ReadOnly);
+    fld.setProperty("DT_BankOfArkham", AH::Common::FieldData::DT_BankOfArhham, QScriptValue::ReadOnly);
     fld.setProperty("DT_ArkhamAsylum", AH::Common::FieldData::DT_ArkhamAsylum, QScriptValue::ReadOnly);
     fld.setProperty("DT_IndependenceSquare", AH::Common::FieldData::DT_IndependenceSquare, QScriptValue::ReadOnly);
 
@@ -303,6 +354,15 @@ void GameScript::initFieldConstants(QScriptValue &consts)
     fld.setProperty("Sp_Outskirts", AH::Common::FieldData::Sp_Outskirts, QScriptValue::ReadOnly);
     fld.setProperty("Sp_SpaceAndTime", AH::Common::FieldData::Sp_SpaceAndTime, QScriptValue::ReadOnly);
     consts.setProperty("Fields", fld, QScriptValue::ReadOnly);
+
+    QScriptValue fdt = m_engine->newObject();
+    fdt.setProperty("Location", AH::Common::FieldData::Location, QScriptValue::ReadOnly);
+    fdt.setProperty("Street", AH::Common::FieldData::Street, QScriptValue::ReadOnly);
+    fdt.setProperty("Sky", AH::Common::FieldData::Sky, QScriptValue::ReadOnly);
+    fdt.setProperty("OtherWorld", AH::Common::FieldData::OtherWorld, QScriptValue::ReadOnly);
+    fdt.setProperty("SpaceAndTime", AH::Common::FieldData::SpaceAndTime, QScriptValue::ReadOnly);
+    fdt.setProperty("Outskirts", AH::Common::FieldData::Outskirts, QScriptValue::ReadOnly);
+    consts.setProperty("FieldType", fdt, QScriptValue::ReadOnly);
 }
 
 void GameScript::registerInvestigator(InvestigatorScript *i)
@@ -335,6 +395,39 @@ QScriptValue GameScript::registerOption(GameOptionScript *o)
 GameOptionScript *GameScript::createOption()
 {
     return GameOptionScript::createGameOption(context(), engine());
+}
+
+GameObjectScript *GameScript::drawObject(qint32 type)
+{
+    AH::GameObjectType t = static_cast<AH::GameObjectType> (type);
+    GameObject *o = gGame->drawObject(t);
+    if (!o) return NULL;
+    GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
+    if (!os) {
+        gGame->returnObject(o);
+        qWarning() << "Drawn object was not a script object";
+    }
+    return os;
+}
+
+GameObjectScript *GameScript::drawSpecificObject(QString id)
+{
+    GameObject *o = gGame->drawSpecificObject(id);
+    if (!o) return NULL;
+    GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
+    if (!os) {
+        gGame->returnObject(o);
+        qWarning() << "Drawn object was not a script object. Id:" << id;
+    }
+    return os;
+}
+
+void GameScript::createGate(qint32 fld)
+{
+    AH::Common::FieldData::FieldID fid = static_cast<AH::Common::FieldData::FieldID> (fld);
+    GameField *field = gGame->board()->field(fid);
+    if (field)
+        gGame->createGate(field);
 }
 
 QScriptValue GameScript::quickOption()
@@ -486,7 +579,7 @@ bool GameScript::parseScripts(QDir base)
         if (fi.isDir()) {
             if (!parseScripts(fi.absoluteFilePath()))
                 return false;
-        } else {
+        } else if (fi.fileName().endsWith(".js")){
             QFile f(fi.absoluteFilePath());
             if (!f.open(QIODevice::ReadOnly)) {
                 qCritical() << "Cannot open file: " << fi.absoluteFilePath();
@@ -500,10 +593,14 @@ bool GameScript::parseScripts(QDir base)
             //m_debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
 #endif
 
-            QScriptValue v = m_engine->evaluate(src, fi.absoluteFilePath(), 1);
-            if (v.isError()) {
-                qCritical() << "Error Parsing file " << fi.absoluteFilePath() << ": " << v.toString();
-                return false;
+            if (src.length() > 0) {
+                QString fn = fi.absoluteFilePath();
+                qDebug(qPrintable(fn));
+                QScriptValue v = m_engine->evaluate(src, fn, 1);
+                if (v.isError()) {
+                    qCritical() << "Error Parsing file " << fi.absoluteFilePath() << ": " << v.toString();
+                    return false;
+                }
             }
         }
     }

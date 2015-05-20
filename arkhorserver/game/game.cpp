@@ -271,7 +271,21 @@ void Game::returnMonster(Monster *m)
 Monster *Game::drawMonster()
 {
     m_monsterPool.shuffle();
-    return m_monsterPool.draw();
+    int ct = m_monsterPool.size();
+    do {
+        Monster *m = m_monsterPool.draw();
+        if (!m) return NULL;
+        if (m->attributes().testFlag(Monster::Mask)) {
+            if (context().getGameProperty(PropertyValue::Game_AllowMaskMonster).finalVal() > 0) {
+                return m;
+            } else {
+                m_monsterPool.returnToDeck(m);
+            }
+        } else {
+            return m;
+        }
+    } while (--ct > 0);
+    return NULL;
 }
 
 MythosCard *Game::drawMythos()
@@ -284,6 +298,35 @@ MythosCard *Game::drawMythos()
 void Game::returnMythos(MythosCard *m)
 {
     m_mythosDeck.returnToDeck(m);
+}
+
+GameObject *Game::drawObject(AH::GameObjectType t)
+{
+    if (!m_objectDecks.contains(t)) {
+        return NULL;
+    }
+    return m_objectDecks[t].draw();
+}
+
+GameObject *Game::drawSpecificObject(QString id)
+{
+    foreach (AH::GameObjectType t, m_objectDecks.keys()) {
+        GameObject *o = m_objectDecks[t].drawSpecificByTypeId(id);
+        if (o) {
+            return o;
+        }
+    }
+    return NULL;
+}
+
+void Game::returnObject(GameObject *o)
+{
+    if (!o) return;
+    if (o->owner() != NULL) {
+        o->owner()->removeFromInventory(o);
+        o->setOwner(NULL);
+    }
+    m_objectDecks[o->type()].returnToDeck(o);
 }
 
 bool Game::createGate(GameField *field)
@@ -673,6 +716,7 @@ void Game::initMonsters()
             m_board->field(AH::Common::FieldData::Sp_Outskirts)->placeMonster(m);
     }
     */
+    //m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_WARLOCK"));
 }
 
 void Game::chooseInvestigators()
@@ -695,7 +739,7 @@ void Game::initInvestigators()
             if (proto) {
                 obj = m_objectDecks[proto->type()].drawSpecificByTypeId(tid);
                 if (obj) {
-                    c->inventory().append(obj);
+                    c->addToInventory(obj);
                 } else {
                     qWarning() << "Cannot resolve fixed possession: No more objects of type" << tid;
                 }
@@ -714,7 +758,7 @@ void Game::initInvestigators()
             for (int i = 0; i < otc.amount; ++i) {
                 GameObject *obj = m_objectDecks[otc.type].draw();
                 if (obj)
-                    c->inventory().append(obj);
+                    c->addToInventory(obj);
                 else
                     qWarning() << "No more objects available for random possessions";
             }

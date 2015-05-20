@@ -1,5 +1,7 @@
 QT += network
 
+CONFIG(debug):DEFINES += "_DEBUG=1"
+
 HEADERS += \
     connectionhandler.h \
     ahboardscene.h \
@@ -25,7 +27,8 @@ HEADERS += \
     gui/registryobjectstackitem.h \
     gui/startform.h \
     gui/weaponchooser.h \
-    gui/gameobjectwidget.h
+    gui/gameobjectwidget.h \
+    gui/mythosdatawidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -53,7 +56,8 @@ SOURCES += \
     gui/registryobjectstackitem.cpp \
     gui/startform.cpp \
     gui/weaponchooser.cpp \
-    gui/gameobjectwidget.cpp
+    gui/gameobjectwidget.cpp \
+    gui/mythosdatawidget.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -73,14 +77,16 @@ FORMS += \
     gui/optionchooser.ui \
     gui/startform.ui \
     gui/weaponchooser.ui \
-    gui/gameobjectwidget.ui
+    gui/gameobjectwidget.ui \
+    gui/mythosdatawidget.ui
 
 RESOURCES += \
     client_resources.qrc
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/release/ -lquazip
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/debug/ -lquazip
-else:unix:!macx: LIBS += -L$$PWD/../3rdparty/compiled/ -lquazip
+else:unix:!macx:CONFIG(release, release|debug): LIBS += -L$$PWD/../3rdparty/compiled/release/ -lquazip
+else:unix:!macx:CONFIG(debug, release|debug): LIBS += -L$$PWD/../3rdparty/compiled/debug/ -lquazip
 
 INCLUDEPATH += $$PWD/../3rdparty/compiled/include/
 INCLUDEPATH += $$PWD/../3rdparty/compiled/include/zlib

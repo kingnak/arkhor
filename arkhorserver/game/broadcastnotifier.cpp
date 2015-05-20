@@ -1,6 +1,8 @@
 #include "broadcastnotifier.h"
 #include "game.h"
 #include "player.h"
+#include <QEventLoop>
+#include <QTimerEvent>
 
 BroadcastNotifier::BroadcastNotifier()
 {
@@ -109,3 +111,57 @@ void BroadcastNotifier::objectsInvalidated(QStringList ids)
     }
 }
 
+bool BroadcastNotifier::acknowledgeMythos(const MythosCard *m, QObject *observer)
+{
+    Q_ASSERT(observer == NULL);
+
+    m_openAcks = m_game->getPlayers().toSet();
+    foreach (Player *p, m_game->getPlayers()) {
+        if (p->acknowledgeMythos(m, this)) {
+            m_openAcks.remove(p);
+        }
+    }
+
+    QSet<Player *> missed;
+    if (!m_openAcks.empty()) {
+        m_ackTimeoutId = startTimer(90*1000);
+        m_ackLoop.exec();
+        missed = m_openAcks;
+        missed.detach();
+    }
+
+    foreach (Player *p, missed) {
+        p->abortAcknowledge();
+    }
+
+    m_openAcks.clear();
+    killTimer(m_ackTimeoutId);
+    m_ackTimeoutId = 0;
+
+    return true;
+}
+
+void BroadcastNotifier::abortAcknowledge()
+{
+    Q_ASSERT(false);
+}
+
+bool BroadcastNotifier::event(QEvent *eve)
+{
+    if (eve->type() == QEvent::Timer) {
+        if (dynamic_cast<QTimerEvent *> (eve)->timerId() == m_ackTimeoutId) {
+            m_ackLoop.exit(1);
+            return true;
+        }
+    } else if (eve->type() == AcknowledgeEvent::Type()) {
+        AcknowledgeEvent *aE = dynamic_cast<AcknowledgeEvent*> (eve);
+        m_openAcks.remove(aE->player());
+        if (m_openAcks.empty()) {
+            m_ackLoop.exit(0);
+        }
+        return true;
+    }
+    return false;
+}
+
+QEvent::Type AcknowledgeEvent::s_type = static_cast<QEvent::Type> (QEvent::registerEventType());

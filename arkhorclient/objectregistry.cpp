@@ -91,7 +91,7 @@ void ObjectRegistry::asyncSubscribeObject(AsyncObjectReceiver *recv, QString id,
     AH::Common::DescribeObjectsData::ObjectDescription desc;
     {
         QReadLocker r(&m_lock);
-        if (contains =  m_registry.contains(id)) {
+        if ((contains =  m_registry.contains(id))) {
             desc = m_registry[id];
         }
     }
@@ -109,7 +109,7 @@ void ObjectRegistry::asyncGetObject(AsyncObjectReceiver *recv, QString id, Reque
     AH::Common::DescribeObjectsData::ObjectDescription desc;
     {
         QReadLocker rl(&m_lock);
-        if (contains = m_registry.contains(id)) {
+        if ((contains = m_registry.contains(id))) {
             desc = m_registry[id];
         }
     }

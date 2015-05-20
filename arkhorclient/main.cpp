@@ -1,5 +1,6 @@
 
 #include <QApplication>
+#include <QDir>
 #include "gui/startform.h"
 #include "gui/ahmaingui.h"
 /*
@@ -22,8 +23,23 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
+    QString baseDir = "../res";
+    if (app.arguments().length() > 1)
+        baseDir = app.arguments()[1];
     //ResourcePool::instance()->addZip("D:/priv/proj/arkhor/arkhor/res.zip");
-    ResourcePool::instance()->addDirectory("D:/priv/proj/arkhor/arkhor/res/");
+#ifdef _DEBUG
+    if (!QDir(baseDir).exists()) {
+#ifdef Q_OS_WIN
+        baseDir = "D:/priv/proj/arkhor/arkhor/res/";
+#else
+        baseDir = "/home/kingnak/Projects/arkhor/res/";
+#endif
+    }
+#endif
+    if (QFileInfo(baseDir).isDir())
+        ResourcePool::instance()->addDirectory(baseDir);
+    else
+        ResourcePool::instance()->addZip(baseDir);
 
     StartForm f;
     f.show();

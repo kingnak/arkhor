@@ -47,16 +47,26 @@ QString CloseGateAction::name() const
 bool CloseGateOption::execute()
 {
     ca.m_bSeal = false;
-    gGame->context().setGate(gGame->context().player()->getCharacter()->field()->gate());
+    //gGame->context().setGate(gGame->context().player()->getCharacter()->field()->gate());
     return GameOption::execute();
+}
+
+QString CloseGateOption::sourceId() const
+{
+    if (gGame->context().gate())
+        return gGame->context().gate()->id();
+    return QString::null;
 }
 
 bool CloseGateOption::isAvailable() const
 {
-    const Gate *g = gGame->context().player()->getCharacter()->getExploredGate();
-    GameField *f = gGame->context().player()->getCharacter()->field();
+    //const Gate *g = gGame->context().player()->getCharacter()->getExploredGate();
+    //GameField *f = gGame->context().player()->getCharacter()->field();
+    const Gate *eg = gGame->context().player()->getCharacter()->getExploredGate();
+    const Gate *fg = gGame->context().gate();
 
-    if (g && f->gate() && g == f->gate()) {
+    //if (g && f->gate() && g == f->gate()) {
+    if (eg && eg == fg) {
         return true;
     }
 
@@ -67,8 +77,15 @@ bool CloseGateOption::isAvailable() const
 bool SealGateOption::execute()
 {
     ca.m_bSeal = true;
-    gGame->context().setGate(gGame->context().player()->getCharacter()->field()->gate());
+    //gGame->context().setGate(gGame->context().player()->getCharacter()->field()->gate());
     return GameOption::execute();
+}
+
+QString SealGateOption::sourceId() const
+{
+    if (gGame->context().gate())
+        return gGame->context().gate()->id();
+    return QString::null;
 }
 
 Cost SealGateOption::costs() const
@@ -83,10 +100,10 @@ Cost SealGateOption::costs() const
 
 bool SealGateOption::isAvailable() const
 {
-    const Gate *g = gGame->context().player()->getCharacter()->getExploredGate();
-    GameField *f = gGame->context().player()->getCharacter()->field();
+    const Gate *eg = gGame->context().player()->getCharacter()->getExploredGate();
+    const Gate *fg = gGame->context().gate();
 
-    if (g && f->gate() && g == f->gate()) {
+    if (eg && eg == fg) {
         return true;
     }
     return false;

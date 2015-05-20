@@ -9,6 +9,7 @@ class GameAction;
 class GameOption;
 class GameRegistry;
 class Player;
+class Character;
 
 class GameObject : public AH::Common::GameObjectData, public PropertyModifier
 {
@@ -16,13 +17,19 @@ public:
     void setId(const QString &id) { m_id = id; }
     virtual GameObject *clone() = 0;
 
-    GameObject() {}
+    GameObject() : m_owner(NULL) {}
     virtual ~GameObject() {}
+
+    Character *owner() { return m_owner; }
+    void setOwner(Character *c) { m_owner = c; }
 
     virtual QString modifierId() const { return id(); }
 
-    virtual void exhaust() { if (m_bExhaustable) m_bIsExhausted = true; }
-    virtual void refresh() { if (m_bExhaustable) m_bIsExhausted = false; }
+    virtual void exhaust();
+    virtual void refresh();
+
+    virtual bool onAddToInventory(Character *c);
+    virtual bool onRemoveFromInventory(Character *c) { Q_UNUSED(c) return true; }
 
     virtual QList<GameAction *> getActions() const = 0;
     virtual QList<GameOption *> getOptions() const = 0;
@@ -36,12 +43,17 @@ public:
     virtual bool equip(Player *p);
     virtual bool unequip();
 
+    void returnToDeck();
+
     // For spells
     virtual bool cast(Player *p) = 0;
 
-    virtual QList<AH::Common::PropertyModificationData> getModificationData() const;
+    virtual QList<AH::Common::PropertyModificationData> getModificationData();
 
     //virtual PropertyModificationList getModifications() const = 0;
+
+protected:
+    Character *m_owner;
 };
 
 /*

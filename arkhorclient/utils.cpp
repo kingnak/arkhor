@@ -57,6 +57,13 @@ QString Utils::stringForProperty(AH::Common::PropertyValueData::Property p)
     case PropertyValueData::Damage_General: return "General Damage";
     case PropertyValueData::Damage_Magical: return "Magical Damage";
     case PropertyValueData::Damage_Physical: return "Physical Damage";
+
+    case PropertyValueData::Monster_CombatDamage: return "Monster Combat Damage";
+    case PropertyValueData::Monster_CombatAdjustment: return "Monster Combat Rating";
+    case PropertyValueData::Monster_HorrorDamage: return "Monster Horror Damage";
+    case PropertyValueData::Monster_HorrorAdjustment: return "Monster Horror Rating";
+    case PropertyValueData::Monster_Awareness: return "Monster Awareness";
+    case PropertyValueData::Monster_Toughness: return "Monster Toughness";
     }
     return "";
 }
@@ -79,13 +86,25 @@ QString Utils::stringForDimension(AH::Dimension dim)
     }
 }
 
+QStringList Utils::stringsForDimensions(AH::Dimensions dims)
+{
+    QStringList l;
+    for (int i = 1; i < AH::Dimension_Max_Value_Sentinel; i <<= 1) {
+        AH::Dimension d = static_cast<AH::Dimension> (i);
+        if (dims.testFlag(d)) {
+            l << stringForDimension(d);
+        }
+    }
+    return l;
+}
+
 QString Utils::stringForField(FieldData::FieldID fid)
 {
     switch (fid) {
     case FieldData::NS_Northside: return "Northside";
     case FieldData::NS_TrainStation: return "Train Station";
     case FieldData::NS_Newspaper: return "Newspaper";
-    case FieldData::NS_CuriosieShoppe: return "Curiosie Shoppe";
+    case FieldData::NS_CuriositieShoppe: return "Curiositie Shoppe";
     case FieldData::DT_Downtown: return "Downtown";
     case FieldData::DT_BankOfArhham: return "Bank of Arhham";
     case FieldData::DT_ArkhamAsylum: return "Arkham Asylum";
@@ -155,6 +174,8 @@ QString Utils::stringForMonsterAttribute(MonsterData::MonsterAttribute a)
     case AH::Common::MonsterData::MagicalResistance: return "Magical Resistance";
     case AH::Common::MonsterData::PhysicalImmunity: return "Physical Immunity";
     case AH::Common::MonsterData::MagicalImmunity: return "Magical Immunity";
+    case AH::Common::MonsterData::Undead: return "Undead";
+    case AH::Common::MonsterData::Mask: return "Mask";
     case AH::Common::MonsterData::Nightmarish_1: return "Nightmarish 1";
     case AH::Common::MonsterData::Nightmarish_2: return "Nightmarish 2";
     case AH::Common::MonsterData::Nightmarish_3: return "Nightmarish 3";
@@ -235,4 +256,31 @@ QString Utils::stringForPropertyModification(PropertyModificationData mod)
     }
 
     return prop + " " + val;
+}
+
+QString Utils::stringForMythosType(MythosData::MythosType t, MythosData::EnvironmentType et, QString wrapSubType)
+{
+    switch (t) {
+    case MythosData::Headline: return "Headline";
+    case MythosData::Rumor: return "Rumor";
+    case MythosData::Environment:
+    {
+        QString s;
+        switch (et) {
+        case MythosData::Env_Weather:
+            s = "Weather";
+            break;
+        case MythosData::Env_None:
+            break;
+        }
+
+        if (wrapSubType.isEmpty()) {
+            wrapSubType = " (%1)";
+        }
+        QString e = "Environment" + wrapSubType.arg(s);
+        return e;
+    }
+    default:
+        return "";
+    }
 }

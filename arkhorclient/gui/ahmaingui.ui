@@ -38,7 +38,7 @@
         <enum>QTabWidget::East</enum>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tabInteraction">
         <attribute name="icon">
@@ -52,7 +52,7 @@
          <item>
           <widget class="QStackedWidget" name="stkInteraction">
            <property name="currentIndex">
-            <number>1</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="pageEmptyInteraction">
             <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -145,6 +145,37 @@
              </item>
              <item>
               <widget class="WeaponChooser" name="wgtWeaponChooser" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageMythos">
+            <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0">
+             <item>
+              <widget class="MythosDataWidget" name="wgtMythos" native="true"/>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_10">
+               <item>
+                <widget class="QPushButton" name="btnAcknowledeMythos">
+                 <property name="text">
+                  <string>&amp;Ok</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>
@@ -262,60 +293,66 @@
   <customwidget>
    <class>AhGraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>ahgraphicsview.h</header>
+   <header>gui/ahgraphicsview.h</header>
   </customwidget>
   <customwidget>
    <class>MovementChooser</class>
    <extends>QWidget</extends>
-   <header>movementchooser.h</header>
+   <header>gui/movementchooser.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>FocusChooser</class>
    <extends>QWidget</extends>
-   <header>focuschooser.h</header>
+   <header>gui/focuschooser.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>OptionChooser</class>
    <extends>QWidget</extends>
-   <header>optionchooser.h</header>
+   <header>gui/optionchooser.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>DieRollWidget</class>
    <extends>QWidget</extends>
-   <header>dierollwidget.h</header>
+   <header>gui/dierollwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>CharacterWidget</class>
    <extends>QWidget</extends>
-   <header>characterwidget.h</header>
+   <header>gui/characterwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>WeaponChooser</class>
    <extends>QWidget</extends>
-   <header>weaponchooser.h</header>
+   <header>gui/weaponchooser.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>MonsterWidget</class>
    <extends>QWidget</extends>
-   <header>monsterwidget.h</header>
+   <header>gui/monsterwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>GateDataWidget</class>
    <extends>QWidget</extends>
-   <header>gatedatawidget.h</header>
+   <header>gui/gatedatawidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>GameObjectWidget</class>
    <extends>QWidget</extends>
-   <header>gameobjectwidget.h</header>
+   <header>gui/gameobjectwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MythosDataWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/mythosdatawidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

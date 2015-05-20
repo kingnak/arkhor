@@ -10,6 +10,7 @@
 #include "objectdata.h"
 #include "gameobjectdata.h"
 #include "encounterdata.h"
+#include "mythosdata.h"
 
 namespace AH {
     Attribute attributeForSkillTest(Skill skill)
@@ -30,6 +31,15 @@ namespace AH {
         }
     }
 
+    Skill baseSkillForSpecialSkill(Skill skill) {
+        switch (skill) {
+        case Skill_Evade: return Skill_Sneak;
+        case Skill_Combat: return Skill_Fight;
+        case Skill_Horror: return Skill_Will;
+        case Skill_Spell: return Skill_Lore;
+        default: return NoSkill;
+        }
+    }
 
     DEFINE_ENUM_SERIALIZER(AH::Attribute)
     DEFINE_ENUM_SERIALIZER(AH::GamePhase)
@@ -61,6 +71,7 @@ namespace AH {
         qRegisterMetaType<QList<AH::Common::GameObjectData> >("QList<AH::Common::GameObjectData>");
         qRegisterMetaType<AH::Common::ModifiedPropertyValueData>("AH::Common::ModifiedPropertyValueData");
         qRegisterMetaType<AH::Common::EncounterData>("AH::Common::EncounterData");
+        qRegisterMetaType<AH::Common::MythosData>("AH::Common::MythosData");
     }
 
 }

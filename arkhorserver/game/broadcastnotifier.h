@@ -2,9 +2,12 @@
 #define BROADCASTNOTIFIER_H
 
 #include "game/gamenotifier.h"
+#include <QSet>
+#include <QEventLoop>
 
-class BroadcastNotifier : public GameNotifier
+class BroadcastNotifier : public QObject, public GameNotifier
 {
+    Q_OBJECT
 public:
     BroadcastNotifier();
 
@@ -31,8 +34,17 @@ public:
 
     virtual void objectsInvalidated(QStringList ids);
 
+    virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer = NULL);
+    virtual void abortAcknowledge();
+
+    virtual bool event(QEvent *eve);
+
 private:
     Game *m_game;
+    QSet<Player *> m_openAcks;
+    QEventLoop m_ackLoop;
+    int m_ackTimeoutId;
 };
+
 
 #endif // BROADCASTNOTIFIER_H

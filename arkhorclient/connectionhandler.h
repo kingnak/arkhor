@@ -13,6 +13,7 @@
 #include <gameobjectdata.h>
 #include <objectdata.h>
 #include <encounterdata.h>
+#include <mythosdata.h>
 
 class ConnectionHandler : public QObject
 {
@@ -36,6 +37,8 @@ public:
     void selectWeapons(QStringList weaponIds);
 
     void selectEncounterOption(QString id);
+
+    void acknowledge();
 
 public slots:
     void startup();
@@ -70,6 +73,9 @@ signals:
     void objectInvalidations(QStringList lst);
 
     void playerCharacterInstantiated(QString playerId, QString investigatorId);
+
+    void displayMythos(AH::Common::MythosData mythos);
+    void finishMythos();
 
 private slots:
     void handleMessage(AH::Common::Message msg);

@@ -217,18 +217,18 @@
   <customwidget>
    <class>MonsterFrontWidget</class>
    <extends>QWidget</extends>
-   <header>monsterwidget.h</header>
+   <header>gui/monsterwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>MonsterBackWidget</class>
    <extends>QWidget</extends>
-   <header>monsterwidget.h</header>
+   <header>gui/monsterwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="client_resources.qrc"/>
+  <include location="../client_resources.qrc"/>
  </resources>
  <connections/>
 </ui>

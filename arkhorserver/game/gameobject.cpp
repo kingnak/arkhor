@@ -8,6 +8,50 @@
 #include "dietesthelper.h"
 #include <QStringList>
 
+void GameObject::exhaust()
+{
+    if (m_bExhaustable) {
+        if (!m_bIsExhausted) {
+            m_bIsExhausted = true;
+            gGame->invalidateObject(this->id());
+        }
+    }
+}
+
+void GameObject::refresh()
+{
+    if (m_bExhaustable) {
+        if (!m_bIsExhausted) {
+            m_bIsExhausted = false;
+            gGame->invalidateObject(this->id());
+        }
+    }
+}
+
+bool GameObject::onAddToInventory(Character *c)
+{
+    if (type() == AH::Obj_Blessing_Curse) {
+        // Can only have one Blessing XOR Curse
+        // If adding one, and there is already the same,
+        // do nothing. If it is other type, remove other.
+        // Else, simply add
+        foreach (GameObject *o, c->inventory()) {
+            if (o->type() == AH::Obj_Blessing_Curse) {
+                if (o->typeId() == typeId()) {
+                    // same, don't add.
+                    return false;
+                } else {
+                    // Other type. Remove it and don't add
+                    c->removeFromInventory(o);
+                    return false;
+                }
+            }
+        }
+        // Had none, do default
+    }
+    return true;
+}
+
 QStringList GameObject::actionIds() const
 {
     QStringList ret;
@@ -85,7 +129,12 @@ bool GameObject::unequip()
     return true;
 }
 
-QList<AH::Common::PropertyModificationData> GameObject::getModificationData() const
+void GameObject::returnToDeck()
+{
+    gGame->returnObject(this);
+}
+
+QList<AH::Common::PropertyModificationData> GameObject::getModificationData()
 {
     QList<AH::Common::PropertyModificationData> ret;
     foreach (PropertyModification m, getModifications()) {

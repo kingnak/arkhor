@@ -25,8 +25,8 @@ MythosCardScript *MythosCardScript::createMythosCard(QScriptContext *ctx, QScrip
     ret->m_envType = static_cast<EnvironmentType> (data.property("environmentType").toUInt32());
     ret->m_clueField = static_cast<AH::Common::FieldData::FieldID> (data.property("clueField").toUInt32());
     ret->m_gateField = static_cast<AH::Common::FieldData::FieldID> (data.property("gateField").toUInt32());
-    ret->m_moveBlack = parseDimensions(data.property("moveBlack"));
-    ret->m_moveWhite = parseDimensions(data.property("moveWhite"));
+    ret->m_moveBlack = GameScript::parseFlags<AH::Dimensions>(data.property("moveBlack"), AH::NoDimension);
+    ret->m_moveWhite = GameScript::parseFlags<AH::Dimensions>(data.property("moveWhite"), AH::NoDimension);
 
     QString err;
     if (!verify(ret.data(), &err)) {
@@ -74,6 +74,7 @@ bool MythosCardScript::verify(MythosCardScript *myth, QString *err)
     return false;
 }
 
+/*
 AH::Dimensions MythosCardScript::parseDimensions(QScriptValue v)
 {
     if (v.isArray()) {
@@ -87,3 +88,4 @@ AH::Dimensions MythosCardScript::parseDimensions(QScriptValue v)
         return static_cast<AH::Dimension> (v.toUInt32());
     }
 }
+*/

@@ -49,6 +49,7 @@ namespace AH
     };
 
     ARKHOR_COMMON_EXPORTS Attribute attributeForSkillTest(Skill skill);
+    ARKHOR_COMMON_EXPORTS Skill baseSkillForSpecialSkill(Skill skill);
 
     enum GameObjectType {
         NoObject,
@@ -74,6 +75,9 @@ namespace AH
         Dim_Triangle = 0x0100,
     };
     Q_DECLARE_FLAGS(Dimensions, Dimension)
+    enum {
+        Dimension_Max_Value_Sentinel = Dim_Triangle
+    };
 
     enum MovementDirection {
         MoveBlack,

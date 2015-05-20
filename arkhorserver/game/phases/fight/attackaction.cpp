@@ -28,26 +28,14 @@ bool AttackAction::execute()
     filterEquipped(mag);
     filterEquipped(phy);
 
+    PropertyModificationList monsterMods = gGame->context().monster()->getModifications();
+    phy += monsterMods.filtered(PropertyValue::Damage_Physical);
+    mag += monsterMods.filtered(PropertyValue::Damage_Magical);
+
     int dmgBase = base.finalVal();
     int dmgGen = gen.apply(0);
     int dmgMag = mag.apply(0);
     int dmgPhy = phy.apply(0);
-
-    // Apply monster modifiers
-    if (m->attributes().testFlag(AH::Common::MonsterData::PhysicalImmunity)) {
-        dmgPhy = 0;
-    }
-    if (m->attributes().testFlag(AH::Common::MonsterData::PhysicalResistance)) {
-        // rounded up half
-        dmgPhy = (dmgPhy+1) / 2;
-    }
-    if (m->attributes().testFlag(AH::Common::MonsterData::MagicalImmunity)) {
-        dmgMag = 0;
-    }
-    if (m->attributes().testFlag(AH::Common::MonsterData::MagicalResistance)) {
-        // rounded up half
-        dmgMag = (dmgMag+1) / 2;
-    }
 
     // Calculate final pool
     int dmgTotal = dmgBase + dmgGen + dmgMag + dmgPhy;
@@ -63,6 +51,9 @@ bool AttackAction::execute()
     } else {
         m_fight->updatePhaseByResult(FightPhase::AttackFailed);
     }
+
+    // TODO: Call post-use methods for equipped objects
+
     return true;
 }
 
@@ -75,7 +66,12 @@ void AttackAction::filterEquipped(PropertyModificationList &lst)
                 continue;
             }
         }
-
         ++it;
     }
+}
+
+
+QString AttackOption::sourceId() const
+{
+    return gGame->context().monster()->id();
 }

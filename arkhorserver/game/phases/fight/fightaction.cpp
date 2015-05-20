@@ -3,6 +3,7 @@
 #include "character.h"
 #include "game/player.h"
 #include "fightphase.h"
+#include "monster.h"
 
 FightAction::FightAction(FightPhase *fight)
     : m_fight(fight)
@@ -33,6 +34,11 @@ bool FightAction::execute()
     return true;
 }
 
+
+QString FightOption::sourceId() const
+{
+    return gGame->context().monster()->id();
+}
 
 bool FightOption::isAvailable() const
 {

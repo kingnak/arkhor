@@ -30,3 +30,9 @@ bool HorrorAction::execute()
     }
     return true;
 }
+
+
+QString HorrorOption::sourceId() const
+{
+    return gGame->context().monster()->id();
+}

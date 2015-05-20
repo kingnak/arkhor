@@ -33,6 +33,7 @@ public:
     {}
 
     QString id() const { return "OP_FIGHT"; }
+    QString sourceId() const;
 
     virtual bool isAvailable() const;
 

@@ -30,6 +30,8 @@ namespace AH {
                 MagicalResistance = 0x0008,
                 PhysicalImmunity = 0x0010,
                 MagicalImmunity = 0x0020,
+                Undead = 0x0040,
+                Mask = 0x0080,
                 Nightmarish_1 = 0x0100,
                 Nightmarish_2 = 0x0200,
                 Nightmarish_3 = 0x0400,

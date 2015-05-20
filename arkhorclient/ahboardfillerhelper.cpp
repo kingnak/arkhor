@@ -52,7 +52,7 @@ AH::Common::FieldData::FieldID AhBoardfillerHelper::parseId(QString id)
     if (id== "NS_Northside") return AH::Common::FieldData::NS_Northside;
     if (id== "NS_TrainStation") return AH::Common::FieldData::NS_TrainStation;
     if (id== "NS_Newspaper") return AH::Common::FieldData::NS_Newspaper;
-    if (id== "NS_CuriosieShoppe") return AH::Common::FieldData::NS_CuriosieShoppe;
+    if (id== "NS_CuriositieShoppe") return AH::Common::FieldData::NS_CuriositieShoppe;
     if (id== "DT_Downtown") return AH::Common::FieldData::DT_Downtown;
     if (id== "DT_BankOfArhham") return AH::Common::FieldData::DT_BankOfArhham;
     if (id== "DT_ArkhamAsylum") return AH::Common::FieldData::DT_ArkhamAsylum;

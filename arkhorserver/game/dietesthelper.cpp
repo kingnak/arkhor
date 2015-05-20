@@ -10,112 +10,7 @@
 #include <QSet>
 
 using namespace AH::Common;
-/*
-DieTestHelper::DieTestSpec DieTestHelper::createSkillTest(QString desc, Character *c, AH::Skill skill, int adjustment, int target)
-{
-    ModifiedPropertyValue poolBase = gGame->context().getCharacterSkill(c, skill);
-    ModifiedPropertyValue clueBurnMods = gGame->context().getCharacterClueBurn(c, skill);
-    return createClueBurnTest(desc, c, poolBase, clueBurnMods, adjustment, target);
-}
 
-DieTestHelper::DieTestSpec DieTestHelper::createSkillCounter(QString desc, Character *c, AH::Skill skill, int adjustment)
-{
-    ModifiedPropertyValue poolBase = gGame->context().getCharacterSkill(c, skill);
-    // Get success values
-    QSet<quint32> successes;
-    for ( int i = gGame->context().getCharacterProperty(c, PropertyValue::Prop_MinSuccessDieRoll).finalVal(); i <= 6; ++i) {
-        successes << i;
-    }
-}
-
-DieTestHelper::DieTestSpec DieTestHelper::createGenericCounter(QString desc, int dieCount, QList<quint32> successVals)
-{
-    DieTestSpec spec;
-    DiePool p = DiePool::createDiePool(QList<StandardDieSpec>() << StandardDieSpec(DieFactory::D6, dieCount));
-
-    DieRollEvaluator *eval = new DieRollCountEvaluator(p, successVals.toSet());
-    spec.eval = eval;
-
-    AH::Common::DiePoolData poolData(dieCount, 0);
-
-    AH::Common::DieRollData rollData(AH::Common::DieRollData::Count);
-    rollData.setSuccessRolls(successVals);
-    rollData.setPool(poolData);
-
-    AH::Common::DieRollTestData testData(AH::Common::DieRollTestData::Value);
-    testData.setRollData(rollData);
-    testData.setDescription(desc);
-
-    spec.data = testData;
-    return spec;
-}
-
-DieTestHelper::DieTestSpec DieTestHelper::createGenericSummer(QString desc, int dieCount)
-{
-    DieTestSpec spec;
-    DiePool p = DiePool::createDiePool(QList<StandardDieSpec>() << StandardDieSpec(DieFactory::D6, dieCount));
-    DieRollEvaluator *eval = new DieRollSumEvaluator(p);
-    spec.eval = eval;
-
-    AH::Common::DiePoolData poolData(dieCount, 0);
-
-    AH::Common::DieRollData rollData(AH::Common::DieRollData::Sum);
-    rollData.setPool(poolData);
-
-    AH::Common::DieRollTestData testData(AH::Common::DieRollTestData::Value);
-    testData.setRollData(rollData);
-    testData.setDescription(desc);
-
-    spec.data = testData;
-    return spec;
-}
-
-DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(QString desc, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target)
-{
-    DieTestSpec spec;
-    // calculate pool size
-    spec.baseVal = poolBase.toModifiedPropertyValueData();
-    int ct = poolBase.finalVal();
-    ct += adjustment;
-
-    // Get success values
-    QSet<quint32> successes;
-    for ( int i = gGame->context().getCharacterProperty(c, PropertyValue::Prop_MinSuccessDieRoll).finalVal(); i <= 6; ++i) {
-        successes << i;
-    }
-
-    int dieCount = qMax(ct, 0);
-
-    // Create pool and evaluator
-    DiePool p = DiePool::createDiePool(QList<StandardDieSpec>() << StandardDieSpec(DieFactory::D6, dieCount));
-    DieRollBoolEvaluator *ret = new DieRollCountBoolEvaluator(p, successes, target, DieRollBoolEvaluator::GREATER_EQUALS);
-    spec.eval = ret;
-
-    AH::Common::DiePoolData poolData(poolBase.toModifiedPropertyValueData(), adjustment);
-
-    AH::Common::DieRollData rollData(AH::Common::DieRollData::Count);
-    rollData.setPool(poolData);
-    rollData.setSuccessRolls(successes.toList());
-
-    AH::Common::DieRollTestData test(AH::Common::DieRollTestData::Boolean, target);
-    test.setRollData(rollData);
-    test.setDiceForClueBurn(clueBurnMods.finalVal());
-    test.setClueBurnMods(clueBurnMods.toModifiedPropertyValueData());
-    test.setDescription(desc);
-
-    // Set die roll options
-    spec.options = c->getOptions(AH::DieRoll);
-    QStringList optIds;
-    foreach (GameOption *opt, spec.options) {
-        optIds << opt->id();
-    }
-
-
-    spec.data = test;
-
-    return spec;
-}
-*/
 DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(QString desc, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target)
 {
     DieTestSpec spec;
@@ -123,8 +18,7 @@ DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(QString desc, Chara
     clueBurnProperty(spec, clueBurnMods);
     successCounter(spec, c);
     test(spec, target);
-    finalize(spec);
-    spec.data.setDescription(desc);
+    finalize(spec, desc);
     return spec;
 }
 
@@ -135,8 +29,7 @@ DieTestHelper::DieTestSpec DieTestHelper::createSkillTest(QString desc, Characte
     clueBurnSkill(spec, c, skill);
     successCounter(spec, c);
     test(spec, target);
-    finalize(spec);
-    spec.data.setDescription(desc);
+    finalize(spec, desc);
     return spec;
 }
 
@@ -147,8 +40,27 @@ DieTestHelper::DieTestSpec DieTestHelper::createSkillCounter(QString desc, Chara
     clueBurnSkill(spec, c, skill);
     successCounter(spec, c);
     value(spec);
-    finalize(spec);
-    spec.data.setDescription(desc);
+    finalize(spec, desc);
+    return spec;
+}
+
+DieTestHelper::DieTestSpec DieTestHelper::createGenericCounter(QString desc, int dieCount, QList<quint32> successVals)
+{
+    DieTestSpec spec;
+    fixedPool(spec, dieCount);
+    counter(spec, successVals);
+    value(spec);
+    finalize(spec, desc);
+    return spec;
+}
+
+DieTestHelper::DieTestSpec DieTestHelper::createGenericSummer(QString desc, int dieCount)
+{
+    DieTestSpec spec;
+    fixedPool(spec, dieCount);
+    summer(spec);
+    value(spec);
+    finalize(spec, desc);
     return spec;
 }
 
@@ -264,7 +176,7 @@ void DieTestHelper::successCounter(DieTestHelper::DieTestSpec &spec, Character *
 {
     spec.data.rollData().setType(DieRollData::Count);
     QList<quint32> successes;
-    for ( int i = gGame->context().getCharacterProperty(c, PropertyValue::Prop_MinSuccessDieRoll).finalVal(); i <= 6; ++i) {
+    for (int i = gGame->context().getCharacterProperty(c, PropertyValue::Prop_MinSuccessDieRoll).finalVal(); i <= 6; ++i) {
         successes << i;
     }
     spec.data.rollData().setSuccessRolls(successes);
@@ -281,7 +193,7 @@ void DieTestHelper::test(DieTestHelper::DieTestSpec &spec, int target)
     spec.data.setTargetValue(target);
 }
 
-void DieTestHelper::finalize(DieTestHelper::DieTestSpec &spec)
+void DieTestHelper::finalize(DieTestHelper::DieTestSpec &spec, const QString &desc)
 {
     int dieCt = spec.data.rollData().pool().dieCount() + spec.data.rollData().pool().adjustment();
     dieCt = qMax(0, dieCt);
@@ -321,4 +233,5 @@ void DieTestHelper::finalize(DieTestHelper::DieTestSpec &spec)
     }
 
     spec.eval = eval;
+    spec.data.setDescription(desc);
 }

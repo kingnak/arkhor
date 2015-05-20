@@ -13,7 +13,7 @@ namespace AH {
                 NS_Northside = 0x0100,
                 NS_TrainStation,
                 NS_Newspaper,
-                NS_CuriosieShoppe,
+                NS_CuriositieShoppe,
 
                 DT_Downtown = 0x0200,
                 DT_BankOfArhham,

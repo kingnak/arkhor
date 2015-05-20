@@ -18,7 +18,8 @@ namespace AH {
                 PROP_OFFSET = 0x400,
                 DIEROLL_OFFSET = 0x800,
                 GAME_OFFSET = 0x1000,
-                DAMAGE_OFFSET = 0x2000
+                DAMAGE_OFFSET = 0x2000,
+                MONSTER_OFFSET = 0x4000,
             };
         public:
             enum Property {
@@ -73,7 +74,14 @@ namespace AH {
 
                 Damage_General = DAMAGE_OFFSET,
                 Damage_Magical,
-                Damage_Physical
+                Damage_Physical,
+
+                Monster_CombatDamage = MONSTER_OFFSET,
+                Monster_CombatAdjustment,
+                Monster_HorrorDamage,
+                Monster_HorrorAdjustment,
+                Monster_Awareness,
+                Monster_Toughness
             };
 
             PropertyValueData(Property prop = NoProperty, int val = 0)

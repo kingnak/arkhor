@@ -31,6 +31,8 @@ bool MythosAction::execute()
 {
     MythosCard *card = gGame->drawMythos();
 
+    gGame->notifier()->acknowledgeMythos(card);
+
     // 1. Gate
     GameField *gf = gGame->board()->field(card->gateField());
     gGame->createGate(gf);

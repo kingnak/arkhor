@@ -45,6 +45,10 @@ GameOptionScript *GameOptionScript::createGameOption(QScriptValue data, QScriptC
 
     ret->m_actionId = data.property("actionId").toString();
     ret->m_isAvailable = data.property("isAvailable");
+    if (data.property("continueType").isValid() && !data.property("continueType").isUndefined())
+        ret->m_continueType = static_cast<AH::ContinueType> (data.property("continueType").toUInt32());
+    if (data.property("chooseType").isValid() && !data.property("chooseType").isUndefined())
+        ret->m_chooseType = static_cast<AH::ChooseType> (data.property("chooseType").toUInt32());
 
     if (!parseCosts(data.property("costs"), ret->m_costs)) {
         ctx->throwError(QScriptContext::TypeError, "createOption: Invalid Costs specification");
@@ -78,8 +82,8 @@ bool GameOptionScript::isAvailable() const
             qWarning("Scripted GameOption: isAvailable did not return a bool");
         }
     }
-    if (!m_isAvailable.isValid() || m_isAvailable.isNull()) {
-        return true;
+    if (!m_isAvailable.isValid() || m_isAvailable.isNull() || m_isAvailable.isUndefined()) {
+        return GameOption::isAvailable();
     }
     qWarning("Scripted GameOption: isAvailable is neither function nor bool");
     return false;
@@ -103,7 +107,7 @@ bool GameOptionScript::verify(GameOptionScript *op, QString *msg)
 bool GameOptionScript::parseCosts(QScriptValue v, AH::Common::Cost &c)
 {
     c.clear();
-    if (!v.isValid() || v.isNull()) {
+    if (!v.isValid() || v.isNull() || v.isUndefined()) {
         return true;
     }
 

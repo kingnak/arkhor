@@ -74,6 +74,10 @@ namespace AH{
                 S_CHOOSE_ENCOUNTER,
                 C_SELECT_ENCOUNTER,
 
+                S_ACKNOWLEDGE_MYTHOS,
+                S_ABORT_ACKNOWLEDGE,
+                C_ACKNOWLEDGED,
+
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF
             } type;

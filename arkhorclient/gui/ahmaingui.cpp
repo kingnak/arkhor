@@ -74,6 +74,11 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     // ENCOUNTER
     connect(m_conn, SIGNAL(chooseEncounterOption(AH::Common::EncounterData)), this, SLOT(chooseEncounter(AH::Common::EncounterData)));
     connect(ui->wgtOptionChooser, SIGNAL(encounterChosen(QString)), this, SLOT(encounterSelected(QString)));
+
+    // MYTHOS
+    connect(m_conn, SIGNAL(displayMythos(AH::Common::MythosData)), this, SLOT(displayMythos(AH::Common::MythosData)));
+    connect(m_conn, SIGNAL(finishMythos()), this, SLOT(finishMythos()));
+    connect(ui->btnAcknowledeMythos, SIGNAL(clicked()), this, SLOT(acknowledgeMythos()));
 }
 
 void AhMainGui::setThisPlayerId(QString id)
@@ -304,6 +309,27 @@ void AhMainGui::encounterSelected(QString id)
     m_conn->selectEncounterOption(id);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
+}
+
+void AhMainGui::displayMythos(MythosData mythos)
+{
+    ui->stkInteraction->setCurrentWidget(ui->pageMythos);
+    ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
+    ui->wgtMythos->displayMythos(&mythos);
+}
+
+void AhMainGui::acknowledgeMythos()
+{
+    m_conn->acknowledge();
+    finishMythos();
+}
+
+void AhMainGui::finishMythos()
+{
+    ui->wgtMythos->displayMythos(NULL);
+    if (ui->stkInteraction->currentWidget() == ui->pageMythos) {
+        ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    }
 }
 
 //////////////////////////////

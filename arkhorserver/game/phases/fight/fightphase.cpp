@@ -37,6 +37,13 @@ bool FightPhase::isFightSituation() const
 bool FightPhase::handleFight(QList<Monster *> monsters)
 {
     m_monsters = monsters;
+
+    // Trick: dynamic monsters will be invalidated when requesting attrs/mods
+    foreach (Monster *m, m_monsters) {
+        m->attributes();
+        m->getModifications();
+    }
+
     AH::GamePhase returnPhase = gGame->context().phase();
     gGame->context().setPhase(AH::FightPhase);
     m_curPhase = FightEnter;
@@ -65,6 +72,7 @@ bool FightPhase::handleFight(QList<Monster *> monsters)
 
 void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
 {
+    bool canContinueFight = true;
     switch (res) {
     case NoResult:
         break;
@@ -74,7 +82,7 @@ void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
         break;
     case EvadeFailed:
         //m_hadFailedEvade = true;
-        damageStamina();
+        canContinueFight = damageStamina();
         m_curPhase = FightOrFlee;
         break;
     case FightChosen:
@@ -90,26 +98,30 @@ void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
         m_curPhase = ChooseWeapons;
         break;
     case HorrorFailed:
-        damageHorror();
+        canContinueFight = damageHorror();
         m_curPhase = FightOrFlee;
         break;
     case HorrorSuccess:
-        damageNightmarish();
+        canContinueFight = damageNightmarish();
         m_curPhase = FightOrFlee;
         break;
     case AttackFailed:
-        damageStamina();
+        canContinueFight = damageStamina();
         m_curPhase = FightOrFlee;
         break;
     case MonsterKilled:
-        damageOverwhelming();
+        canContinueFight = damageOverwhelming();
         m_curPhase = ChooseMonster;
         // Remove monster
         m_monsters.removeAll(gGame->context().monster());
+        // TODO: Unequip all spells
     }
 
     if (!gGame->context().player()->getCharacter()->commitDamage())
     {
+        m_outcome = EndFailed;
+    }
+    if (!canContinueFight) {
         m_outcome = EndFailed;
     }
 
@@ -143,17 +155,19 @@ QList<GameOption *> FightPhase::getPhaseOptions()
     return QList<GameOption *> ();
 }
 
-void FightPhase::damageStamina()
+bool FightPhase::damageStamina()
 {
     gGame->context().player()->getCharacter()->damageStamina(gGame->context().monster()->combatDamage());
+    return gGame->context().monster()->damage(gGame->context().player()->getCharacter(), Monster::Combat);
 }
 
-void FightPhase::damageHorror()
+bool FightPhase::damageHorror()
 {
     gGame->context().player()->getCharacter()->damageSanity(gGame->context().monster()->horrorDamage());
+    return gGame->context().monster()->damage(gGame->context().player()->getCharacter(), Monster::Horror);
 }
 
-void FightPhase::damageOverwhelming()
+bool FightPhase::damageOverwhelming()
 {
     AH::Common::MonsterData::MonsterAttributes attrs = gGame->context().monster()->attributes();
     int dmg = 0;
@@ -169,9 +183,10 @@ void FightPhase::damageOverwhelming()
     if (dmg > 0) {
         gGame->context().player()->getCharacter()->damageStamina(dmg);
     }
+    return gGame->context().monster()->damage(gGame->context().player()->getCharacter(), Monster::Overwhelm);
 }
 
-void FightPhase::damageNightmarish()
+bool FightPhase::damageNightmarish()
 {
     AH::Common::MonsterData::MonsterAttributes attrs = gGame->context().monster()->attributes();
     int dmg = 0;
@@ -187,6 +202,7 @@ void FightPhase::damageNightmarish()
     if (dmg > 0) {
         gGame->context().player()->getCharacter()->damageSanity(dmg);
     }
+    return gGame->context().monster()->damage(gGame->context().player()->getCharacter(), Monster::Nightmare);
 }
 
 QList<GameOption *> FightPhase::fightEnterOptions()

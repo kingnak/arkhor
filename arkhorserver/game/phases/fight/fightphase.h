@@ -64,10 +64,10 @@ private:
 
     FightOutcome m_outcome;
 
-    void damageStamina();
-    void damageHorror();
-    void damageOverwhelming();
-    void damageNightmarish();
+    bool damageStamina();
+    bool damageHorror();
+    bool damageOverwhelming();
+    bool damageNightmarish();
 
     QList<GameOption *> fightEnterOptions();
     QList<GameOption *> chooseMonsterOptions();

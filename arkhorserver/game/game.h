@@ -93,6 +93,10 @@ public:
     MythosCard *drawMythos();
     void returnMythos(MythosCard *m);
 
+    GameObject *drawObject(AH::GameObjectType t);
+    GameObject *drawSpecificObject(QString id);
+    void returnObject(GameObject *o);
+
     bool createGate(GameField *field);
     bool createMonster(GameField *field);
     bool putOutskirtsMonster(Monster *m);

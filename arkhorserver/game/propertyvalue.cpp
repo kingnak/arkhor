@@ -20,6 +20,11 @@ bool PropertyValue::isGameProperty(PropertyValue::Property p)
     return (p & GAME_OFFSET) == GAME_OFFSET;
 }
 
+bool PropertyValue::isMonsterProperty(PropertyValue::Property p)
+{
+    return (p & MONSTER_OFFSET) == MONSTER_OFFSET;
+}
+
 PropertyValue::Property PropertyValue::attribute2Property(AH::Attribute attr)
 {
     switch (attr) {

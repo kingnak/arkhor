@@ -4,6 +4,7 @@
 #include <QString>
 #include <propertyvaluedata.h>
 #include <monsterdata.h>
+#include <mythosdata.h>
 #include <cost.h>
 
 struct Utils {
@@ -13,6 +14,7 @@ struct Utils {
 
     static QString stringForProperty(AH::Common::PropertyValueData::Property p);
     static QString stringForDimension(AH::Dimension dim);
+    static QStringList stringsForDimensions(AH::Dimensions dims);
     static QString stringForField(AH::Common::FieldData::FieldID fid);
     static QString stringForMovement(AH::Common::MonsterData::MovementType m);
     static QString stringForMonsterAttribute(AH::Common::MonsterData::MonsterAttribute a);
@@ -21,6 +23,7 @@ struct Utils {
     static QString stringForObjectType(AH::GameObjectType t);
     static QStringList stringsForPhases(AH::GamePhases ph);
     static QString stringForPropertyModification(AH::Common::PropertyModificationData mod);
+    static QString stringForMythosType(AH::Common::MythosData::MythosType t, AH::Common::MythosData::EnvironmentType et, QString wrapSubType = QString::null);
 };
 
 #endif // UTILS_H

@@ -86,6 +86,11 @@ void ConnectionHandler::selectEncounterOption(QString id)
     send(AH::Common::Message::C_SELECT_ENCOUNTER, id);
 }
 
+void ConnectionHandler::acknowledge()
+{
+    send(AH::Common::Message::C_ACKNOWLEDGED);
+}
+
 void ConnectionHandler::startup()
 {
     QTcpSocket *sock = new QTcpSocket;
@@ -250,6 +255,20 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         AH::Common::EncounterData a;
         msg.payload >> a;
         emit chooseEncounterOption(a);
+        break;
+    }
+
+    case AH::Common::Message::S_ACKNOWLEDGE_MYTHOS:
+    {
+        AH::Common::MythosData m;
+        msg.payload >> m;
+        emit displayMythos(m);
+        break;
+    }
+
+    case AH::Common::Message::S_ABORT_ACKNOWLEDGE:
+    {
+        emit finishMythos();
         break;
     }
 

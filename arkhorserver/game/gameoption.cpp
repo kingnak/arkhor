@@ -21,8 +21,8 @@ GameOptionData *GameOption::data()
 
 AH::GamePhases GameOption::phases() const
 {
-    if (m_action)
-        return m_action->phases();
+    if (action())
+        return action()->phases();
     return m_phases;
 }
 
@@ -40,12 +40,12 @@ bool GameOption::execute()
             }
             if (selected.isValid() && gGame->context().player()->getCharacter()->canPay(selected)) {
                 if (gGame->context().player()->getCharacter()->pay(selected)) {
-                    return m_action->execute();
+                    return action()->execute();
                 }
             }
             return false;
         } else {
-            return m_action->execute();
+            return action()->execute();
         }
     }
     return false;
@@ -53,15 +53,15 @@ bool GameOption::execute()
 
 QString GameOption::name() const
 {
-    if (m_action)
-        return m_action->name();
+    if (action())
+        return action()->name();
     return m_name;
 }
 
 QString GameOption::description() const
 {
-    if (m_action)
-        return m_action->description();
+    if (action())
+        return action()->description();
     return m_description;
 }
 

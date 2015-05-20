@@ -86,7 +86,7 @@
   <customwidget>
    <class>GateWidget</class>
    <extends>QWidget</extends>
-   <header>gatewidget.h</header>
+   <header>gui/gatewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

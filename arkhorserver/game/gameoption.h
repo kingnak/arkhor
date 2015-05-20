@@ -39,6 +39,9 @@ public:
 
 //    virtual bool disposeAfterExecute() { return false; }
 
+    virtual GameAction *action() { return m_action; }
+    virtual const GameAction *action() const { return m_action; }
+
 protected:
     GameAction *m_action;
 };

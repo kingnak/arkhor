@@ -10,10 +10,10 @@ void GameBoard::init()
     addField(new GameField(AH::Common::FieldData::NS_Northside, "Northside", AH::Common::FieldData::Street));
     addField(new GameField(AH::Common::FieldData::NS_TrainStation, "Train Station", AH::Common::FieldData::Location));
     addField(new GameField(AH::Common::FieldData::NS_Newspaper, "Newspaper", AH::Common::FieldData::Location));
-    addField(new GameField(AH::Common::FieldData::NS_CuriosieShoppe, "Curiositie Shoppe", AH::Common::FieldData::Location));
+    addField(new GameField(AH::Common::FieldData::NS_CuriositieShoppe, "Curiositie Shoppe", AH::Common::FieldData::Location));
     connectfield(AH::Common::FieldData::NS_TrainStation, AH::Common::FieldData::NS_Northside, true, true);
     connectfield(AH::Common::FieldData::NS_Newspaper, AH::Common::FieldData::NS_Northside, true, true);
-    connectfield(AH::Common::FieldData::NS_CuriosieShoppe, AH::Common::FieldData::NS_Northside, true, true);
+    connectfield(AH::Common::FieldData::NS_CuriositieShoppe, AH::Common::FieldData::NS_Northside, true, true);
 
     addField(new GameField(AH::Common::FieldData::DT_Downtown, "Downtown", AH::Common::FieldData::Street));
     addField(new GameField(AH::Common::FieldData::DT_ArkhamAsylum, "Arkham Asylum", AH::Common::FieldData::Location));

@@ -2,6 +2,7 @@
 #include "game.h"
 #include "player.h"
 #include "character.h"
+#include "monster.h"
 #include "propertymodifier.h"
 
 ModifiedPropertyValue GameContext::getCurCharacterProperty(PropertyValue::Property property)
@@ -77,6 +78,14 @@ ModifiedPropertyValue GameContext::getCharacterSkill(const Character *c, AH::Ski
     PropertyModificationList mods = c->getPropertyModifiers().filtered(prop);
     mods += m_game->getGameModifiers().filtered(prop);
 
+    // Special skills also use base skill modifiers!
+    AH::Skill baseSkill = AH::baseSkillForSpecialSkill(skill);
+    if (baseSkill != AH::NoSkill) {
+        PropertyValue::Property baseProp = PropertyValue::skill2Property(baseSkill);
+        mods += c->getPropertyModifiers().filtered(baseProp);
+        mods += m_game->getGameModifiers().filtered(baseProp);
+    }
+
     int finalVal = mods.apply(attrValue.finalVal());
 
     ModifiedPropertyValue ret(
@@ -107,12 +116,62 @@ ModifiedPropertyValue GameContext::getCharacterClueBurn(const Character *c, AH::
     PropertyValue::Property propAll = static_cast<PropertyValue::Property> (PropertyValue::DieRoll_All);
     mods += c->getPropertyModifiers().filtered(propAll);
 
+    // Special skills also use base skill modifiers!
+    AH::Skill baseSkill = AH::baseSkillForSpecialSkill(skill);
+    if (baseSkill != AH::NoSkill) {
+        PropertyValue::Property baseProp = PropertyValue::skill2DieRoll(baseSkill);
+        mods += c->getPropertyModifiers().filtered(baseProp);
+        mods += m_game->getGameModifiers().filtered(baseProp);
+    }
+
     int base = 1;
 
     int finalVal = mods.apply(base);
 
     ModifiedPropertyValue ret(PropertyValue(prop, base), finalVal, mods);
     return ret;
+}
+
+ModifiedPropertyValue GameContext::getCurMonsterProperty(AH::Common::PropertyValueData::Property property)
+{
+    return getMonsterProperty(m_monster, property);
+}
+
+ModifiedPropertyValue GameContext::getMonsterProperty(const Monster *m, AH::Common::PropertyValueData::Property property)
+{
+    Q_ASSERT(PropertyValue::isMonsterProperty(property));
+
+    int base = 0;
+    switch (property)
+    {
+    case PropertyValue::Monster_CombatDamage:
+        base = m->baseCombatDamage();
+        break;
+    case PropertyValue::Monster_CombatAdjustment:
+        base = m->baseCombatAdjustment();
+        break;
+    case PropertyValue::Monster_HorrorDamage:
+        base = m->baseHorrorDamage();
+        break;
+    case PropertyValue::Monster_HorrorAdjustment:
+        base = m->baseHorrorAdjustment();
+        break;
+    case PropertyValue::Monster_Awareness:
+        base = m->baseAwareness();
+        break;
+    case PropertyValue::Monster_Toughness:
+        base = m->baseToughness();
+        break;
+    default:
+        Q_ASSERT_X(false, "GameContext::getMonsterProperty", "Property not defined");
+    }
+
+    PropertyModificationList mods = m->getModifications().filtered(property);
+    mods += m_game->getGameModifiers().filtered(property);
+
+    int finalVal = mods.apply(base);
+
+    return ModifiedPropertyValue(PropertyValue(property, base), finalVal, mods);
 }
 
 ModifiedPropertyValue GameContext::getGameProperty(PropertyValue::Property property)

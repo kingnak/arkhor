@@ -34,7 +34,7 @@ public slots:
 private:
     static bool verify(MythosCardScript *myth, QString *err = NULL);
 
-    static AH::Dimensions parseDimensions(QScriptValue v);
+    //static AH::Dimensions parseDimensions(QScriptValue v);
 
 private:
     QScriptValue m_object;

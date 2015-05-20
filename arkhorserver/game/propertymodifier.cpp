@@ -11,8 +11,15 @@ PropertyModificationList PropertyModificationList::filtered(PropertyValue::Prope
     return ret;
 }
 
+struct SortByType {
+    bool operator() (const PropertyModification &l, const PropertyModification &r) {
+        return l.type() < r.type();
+    }
+};
+
 int PropertyModificationList::apply(int value)
 {
+    qSort(this->begin(), this->end(), SortByType());
     foreach (PropertyModification p, *this) {
         value = p.modify(value);
     }
@@ -35,8 +42,28 @@ AH::Common::ModifiedPropertyValueData ModifiedPropertyValue::toModifiedPropertyV
 }
 
 
+bool PropertyModification::operator ==(const PropertyModification &o) const
+{
+    return (o.m_mod == m_mod
+            && o.m_prop == m_prop
+            && o.m_type == m_type);
+}
+
 AH::Common::PropertyModificationData *PropertyModification::data()
 {
     m_modifierId = (m_modifier) ? m_modifier->modifierId() : m_modifierId;
     return AH::Common::PropertyModificationData::data();
+}
+
+int PropertyModification::modify(int base) const
+{
+    switch (m_type) {
+    case Additive: return base + m_mod;
+    case Multiplicative: return base * m_mod;
+    case DividingUp: return (base + m_mod-1)/m_mod;
+    case DividingDown: return base/m_mod;
+    case Setting: return m_mod;
+    }
+    Q_ASSERT_X(false, "PropertyModification::modify", qPrintable(QString("Unknown modification type %1").arg(m_type)));
+    return 0;
 }

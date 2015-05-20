@@ -36,3 +36,8 @@ bool EvadeOption::isAvailable() const
     }
     return true;
 }
+
+QString EvadeOption::sourceId() const
+{
+    return gGame->context().monster()->id();
+}

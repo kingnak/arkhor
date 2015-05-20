@@ -81,7 +81,9 @@ HEADERS += \
     script/mythoscardscript.h \
     game/actions/setoutaction.h \
     game/actions/undelayaction.h \
-    game/actions/placeonfieldaction.h
+    game/actions/placeonfieldaction.h \
+    script/gamefieldscript.h \
+    script/gatescript.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -159,7 +161,9 @@ SOURCES += \
     script/mythoscardscript.cpp \
     game/actions/setoutaction.cpp \
     game/actions/undelayaction.cpp \
-    game/actions/placeonfieldaction.cpp
+    game/actions/placeonfieldaction.cpp \
+    script/gamefieldscript.cpp \
+    script/gatescript.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -199,4 +203,9 @@ OTHER_FILES += \
     data/objects/common/weapons.js \
     data/monsters/monsters.js \
     data/field/otherworld/abyss.js \
-    data/mythos/mythos.js
+    data/mythos/mythos.js \
+    data/monsters/unfinished.js \
+    data/objects/common/other.js \
+    data/objects/common/unfinished.js \
+    data/objects/skills/skills.js \
+    data/objects/skills/unfinished.js

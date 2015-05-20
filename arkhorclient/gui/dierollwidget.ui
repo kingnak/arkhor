@@ -157,7 +157,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="client_resources.qrc">:/core/images/success</pixmap>
+          <pixmap resource="../client_resources.qrc">:/core/images/success</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -223,7 +223,7 @@
      <item>
       <widget class="QPushButton" name="btnOk">
        <property name="text">
-        <string>Ok</string>
+        <string>&amp;Ok</string>
        </property>
       </widget>
      </item>
@@ -232,7 +232,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="client_resources.qrc"/>
+  <include location="../client_resources.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -3,18 +3,26 @@
 #include <QtGui>
 #include "flowlayout.h"
 #include "utils.h"
-
+#include "objectregistry.h"
+#include "monsterwidget.h"
+#include "gameobjectwidget.h"
+#include "gatedatawidget.h"
 
 using namespace AH::Common;
 
 static const char *OPTION_DESCRIPTION_PROPERTY = "DESCRIPTION";
+static const char *OPTION_COST_PROPERTY = "COSTS";
 static const char *OPTION_PROPERTY = "OPTION";
 static const char *OPTION_ID_PROPERTY = "ID";
 static const char *OPTION_SKILL_PROPERTY = "SKILL";
+static const char *OPTION_MONSTER_PROPERTY = "MONSTER";
+static const char *OPTION_OBJECT_PROPERTY = "OBJECT";
+static const char *OPTION_GATE_PROPERTY = "GATE";
 
 OptionChooser::OptionChooser(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OptionChooser)
+    ui(new Ui::OptionChooser),
+    m_moreWgt(NULL)
 {
     ui->setupUi(this);
     ui->wgtOptionsList->setLayout(new FlowLayout);
@@ -46,8 +54,12 @@ void OptionChooser::setOptions(QList<AH::Common::GameOptionData> opts)
         }
 
         QPushButton *b = new QPushButton(name);
-        b->setProperty(OPTION_DESCRIPTION_PROPERTY, o.description() + displayCosts(o.costs()));
+        b->setProperty(OPTION_DESCRIPTION_PROPERTY, o.description());
+        b->setProperty(OPTION_COST_PROPERTY, displayCosts(o.costs()));
         b->setProperty(OPTION_ID_PROPERTY, o.id());
+        if (o.description().isEmpty() && !o.sourceId().isEmpty()) {
+            ObjectRegistry::instance()->asyncGetObject(new OptionDescUpdater(b), o.sourceId());
+        }
         QVariant v;
         v << o;
         b->setProperty(OPTION_PROPERTY, v);
@@ -100,7 +112,8 @@ void OptionChooser::setEncounter(EncounterData enc)
             }
 
             QPushButton *b = new QPushButton(name);
-            b->setProperty(OPTION_DESCRIPTION_PROPERTY, baseDesc + "\n\n" + o.description() + displayCosts(o.costs()));
+            b->setProperty(OPTION_DESCRIPTION_PROPERTY, baseDesc + "\n\n" + o.description());
+            b->setProperty(OPTION_COST_PROPERTY, displayCosts(o.costs()));
             b->setProperty(OPTION_ID_PROPERTY, o.id());
             QVariant v;
             v << o;
@@ -134,11 +147,35 @@ void OptionChooser::cleanupOptions()
 
     ui->lblOptionDescription->setText("");
     ui->btnOptionActivate->setEnabled(false);
+
+    cleanupMore();
+}
+
+void OptionChooser::cleanupMore()
+{
+    /*
+    QLayout *l = ui->wgtMoreDescription->layout();
+    if (l) {
+        QLayoutItem *child;
+        while ((child = l->takeAt(0)) != 0) {
+            if (child->widget()) delete child->widget();
+            delete child;
+        }
+    }
+    */
+    /*
+    foreach (QWidget *w, ui->wgtMoreDescription->findChildren<QWidget*>()) {
+        delete w;
+    }
+    */
+    delete m_moreWgt;
+    m_moreWgt = NULL;
 }
 
 void OptionChooser::showOption()
 {
-    ui->lblOptionDescription->setText(sender()->property(OPTION_DESCRIPTION_PROPERTY).toString());
+    QString s = sender()->property(OPTION_DESCRIPTION_PROPERTY).toString() + sender()->property(OPTION_COST_PROPERTY).toString();
+    ui->lblOptionDescription->setText(s);
     ui->btnOptionActivate->setProperty(OPTION_ID_PROPERTY, sender()->property(OPTION_ID_PROPERTY));
     ui->btnOptionActivate->setProperty(OPTION_SKILL_PROPERTY, sender()->property(OPTION_SKILL_PROPERTY));
 
@@ -151,6 +188,49 @@ void OptionChooser::showOption()
         if (!o.isAvailable() || !o.canPay()) {
             ui->btnOptionActivate->setEnabled(false);
         }
+    }
+
+    cleanupMore();
+
+    v = sender()->property(OPTION_MONSTER_PROPERTY);
+    if (v.isValid() && !v.toString().isEmpty()) {
+        DescribeObjectsData::ObjectDescription desc = ObjectRegistry::instance()->getObject(v.toString());
+        if (desc.type != RequestObjectsData::Unknown) {
+            MonsterWidget *w = new MonsterWidget(this);
+            MonsterData m;
+            desc.data >> m;
+            w->displayMonster(&m);
+            // TODO: detect what to show
+            w->showBoth();
+            setMoreWidget(w);
+        }
+        return;
+    }
+
+    v = sender()->property(OPTION_OBJECT_PROPERTY);
+    if (v.isValid() && !v.toString().isEmpty()) {
+        DescribeObjectsData::ObjectDescription desc = ObjectRegistry::instance()->getObject(v.toString());
+        if (desc.type != RequestObjectsData::Unknown) {
+            GameObjectWidget *w = new GameObjectWidget(this);
+            GameObjectData o;
+            desc.data >> o;
+            w->displayGameObject(&o);
+            setMoreWidget(w);
+        }
+        return;
+    }
+
+    v = sender()->property(OPTION_GATE_PROPERTY);
+    if (v.isValid() && !v.toString().isEmpty()) {
+        DescribeObjectsData::ObjectDescription desc = ObjectRegistry::instance()->getObject(v.toString());
+        if (desc.type != RequestObjectsData::Unknown) {
+            GateDataWidget *w = new GateDataWidget(this);
+            GateData g;
+            desc.data >> g;
+            w->displayGate(&g);
+            setMoreWidget(w);
+        }
+        return;
     }
 }
 
@@ -186,4 +266,44 @@ QString OptionChooser::displayCosts(const Cost &costs)
     }
 
     return "\n\nCosts:\n"+alts.join("\nOR\n");
+}
+
+void OptionChooser::setMoreWidget(QWidget *w)
+{
+    Q_ASSERT_X(ui->wgtMoreDescription->layout()->count() == 1, "OptionChooser::setMoreWidget", "Layout must only contain the spacer");
+    QLayoutItem *itm = ui->wgtMoreDescription->layout()->takeAt(0);
+    ui->wgtMoreDescription->layout()->addWidget(w);
+    ui->wgtMoreDescription->layout()->addItem(itm);
+    m_moreWgt = w;
+}
+
+
+void OptionChooser::OptionDescUpdater::objectDescribed(const DescribeObjectsData::ObjectDescription &desc)
+{
+    if (!btn.isNull()) {
+        switch (desc.type) {
+        case RequestObjectsData::Monster:
+            btn->setProperty(OPTION_MONSTER_PROPERTY, desc.id);
+            break;
+        case RequestObjectsData::Object:
+            btn->setProperty(OPTION_OBJECT_PROPERTY, desc.id);
+            break;
+        case RequestObjectsData::Gate:
+            btn->setProperty(OPTION_GATE_PROPERTY, desc.id);
+            break;
+        default:
+        {
+            GameOptionData d;
+            desc.data >> d;
+            btn->setProperty(OPTION_DESCRIPTION_PROPERTY, d.description());
+        }
+        }
+    }
+    delete this;
+}
+
+OptionChooser::OptionDescUpdater::OptionDescUpdater(QPushButton *b)
+    : btn(b)
+{
+
 }

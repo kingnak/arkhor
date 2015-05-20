@@ -29,13 +29,22 @@ class GameScript : public QObject, public QScriptable
 public:
     explicit GameScript(Game *game, QObject *parent = 0);
 
+    static GameScript *instance() { return s_instance; }
+
     bool init(const QString &scriptBaseDir);
 
     QScriptEngine *engine() { return m_engine; }
 
     Q_PROPERTY(GameContextScript* context READ getGameContext SCRIPTABLE true)
-    GameContextScript *getGameContext();// { return m_ctx; }
+    GameContextScript *getGameContext();
 
+    Q_INVOKABLE GameObjectScript *drawObject(qint32 type);
+    Q_INVOKABLE GameObjectScript *drawSpecificObject(QString id);
+
+    Q_INVOKABLE void createGate(qint32 fld);
+
+
+    ////////// SETUP
     Q_INVOKABLE void registerInvestigator(InvestigatorScript *i);
     Q_INVOKABLE QScriptValue createInvestigator();
 
@@ -44,6 +53,7 @@ public:
 
     Q_INVOKABLE QScriptValue registerOption(GameOptionScript *o);
     Q_INVOKABLE GameOptionScript *createOption();
+
 
     Q_INVOKABLE QScriptValue quickOption();
 
@@ -69,6 +79,9 @@ public:
     static QStringList array2stringlist(QScriptValue ar);
     static QScriptValueList array2list(QScriptValue ar);
 
+    template<typename T>
+    static T parseFlags(QScriptValue v, T defVal);
+
 signals:
 
 public slots:
@@ -89,7 +102,31 @@ private:
 #ifdef DEBUG_SCRIPT_BUILD
     QScriptEngineDebugger *m_debugger;
 #endif
+
+    static GameScript *s_instance;
 };
+
+
+
+template<typename T>
+T GameScript::parseFlags(QScriptValue v, T defVal)
+{
+    if (v.isArray()) {
+        QScriptValueList lst = GameScript::array2list(v);
+        T coll = static_cast<T> (0);
+        foreach (QScriptValue e, lst) {
+            coll |= static_cast<T> (e.toUInt32());
+        }
+        return coll;
+    } else if (v.isValid() && !v.isUndefined()) {
+        return static_cast<T> (v.toUInt32());
+    } else {
+        return defVal;
+    }
+}
+
+
+#define gGameScript (GameScript::instance())
 
 Q_DECLARE_METATYPE(GameScript*)
 

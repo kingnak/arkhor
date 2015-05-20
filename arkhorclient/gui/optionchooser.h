@@ -2,13 +2,17 @@
 #define OPTIONCHOOSER_H
 
 #include <QWidget>
+#include <QPointer>
 #include <gameoptiondata.h>
 #include <propertyvaluedata.h>
 #include <encounterdata.h>
+#include "asyncobjectreceiver.h"
 
 namespace Ui {
 class OptionChooser;
 }
+
+class QPushButton;
 
 class OptionChooser : public QWidget
 {
@@ -33,12 +37,14 @@ signals:
 
 private slots:
     void cleanupOptions();
+    void cleanupMore();
 
     void showOption();
     void on_btnOptionActivate_clicked();
 
 private:
-    QString displayCosts(const AH::Common::Cost &costs);
+    static QString displayCosts(const AH::Common::Cost &costs);
+    void setMoreWidget(QWidget *w);
 
 private:
     enum {
@@ -48,6 +54,14 @@ private:
     } m_type;
 
     Ui::OptionChooser *ui;
+
+    struct OptionDescUpdater : public AsyncObjectReceiver {
+        QPointer<QPushButton> btn;
+        void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+        OptionDescUpdater(QPushButton *b);
+    };
+
+    QWidget *m_moreWgt;
 };
 
 #endif // OPTIONCHOOSER_H

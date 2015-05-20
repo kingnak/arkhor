@@ -1,7 +1,7 @@
 NS_Northside;Street;210,283,159,85
 NS_TrainStation;Location;121,13,150,140
 NS_Newspaper;Location;17,149,150,140
-NS_CuriosieShoppe;Location;21,295,150,140
+NS_CuriositieShoppe;Location;21,295,150,140
 DT_Downtown;Street;435,280,167,85
 DT_BankOfArhham;Location;296,13,150,140
 DT_ArkhamAsylum;Location;463,13,150,140

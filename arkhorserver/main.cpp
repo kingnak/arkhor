@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
     GameScript *script = new GameScript(&g);
 
     QString baseDir = "./data";
-    if (app.arguments().length() > 0)
-        baseDir = app.arguments()[0];
+    if (app.arguments().length() > 1)
+        baseDir = app.arguments()[1];
 
 #ifdef _DEBUG
     if (!QDir(baseDir).exists()) {

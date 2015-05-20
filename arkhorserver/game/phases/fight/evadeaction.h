@@ -34,6 +34,8 @@ public:
     {}
     QString id() const { return "OP_EVADE"; }
 
+    QString sourceId() const;
+
     void reset() { sa.m_hasFailedAttempt = false; }
     void setName(QString name) {
         sa.m_name = name;

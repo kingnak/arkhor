@@ -19,6 +19,12 @@ QList<GameAction *> Mythos::getPhaseActions()
             << m_mythos;
 }
 
+QList<GameOption *> Mythos::getPhaseOptions()
+{
+    return QList<GameOption *>()
+            << getSkipOption();
+}
+
 ////////////////////////////
 
 bool MythosAction::execute()

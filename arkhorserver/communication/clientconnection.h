@@ -17,12 +17,14 @@ protected:
     void receivedMessage(const AH::Common::Message &msg);
 
 private:
+    void handleVersion(const QVariant &v);
     void handleRegisterPlayer();
     void handleStartGame();
     void handleRequestObjects(const QVariant &reqsData);
 
 private:
     NetworkPlayer *m_player;
+    bool m_versionReceived;
 };
 
 #endif // CLIENTCONNECTION_H

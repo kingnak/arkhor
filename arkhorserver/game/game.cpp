@@ -319,13 +319,13 @@ bool Game::createGate(GameField *field)
         AH::Common::FieldData::FieldID fid = static_cast<AH::Common::FieldData::FieldID> (0x1000 + 0x0100*dest);
         GameField *f = m_board->field(fid);
         Gate *g = new Gate(d, adj, f);
-        f->setGate(g);
+        field->setGate(g);
 
         // remove clues
-        f->takeClues();
+        field->takeClues();
 
         // Draw investigators
-        QList<Character *> characters = f->characters();
+        QList<Character *> characters = field->characters();
         foreach (Character *c, characters) {
             c->setDelayed(true);
             g->enter(c);
@@ -334,7 +334,7 @@ bool Game::createGate(GameField *field)
         // Create monsters
         int monsterCount = context().getGameProperty(PropertyValue::Game_MonsterCountFromGates).finalVal();
         for (int i = 0; i < monsterCount; ++i) {
-            createMonster(f);
+            createMonster(field);
         }
         return true;
     }
@@ -542,8 +542,6 @@ AH::Common::DescribeObjectsData Game::describeObjects(const AH::Common::RequestO
 }
 
 // protected
-// TEST
-#include "gate.h"
 
 void Game::initBoard()
 {
@@ -552,7 +550,7 @@ void Game::initBoard()
     }
 
     // TEST
-    //m_board->field(AH::Common::FieldData::DT_ArkhamAsylum)->setGate(new Gate(AH::Dim_Slash, -2, m_board->field(AH::Common::FieldData::OW_Abyss)));
+    m_board->field(AH::Common::FieldData::DT_ArkhamAsylum)->setGate(new Gate(AH::Dim_Slash, -2, m_board->field(AH::Common::FieldData::OW_Abyss)));
 }
 
 void Game::initDecks()
@@ -588,7 +586,8 @@ void Game::initMonsters()
     // Shuffeled at each draw, no need here
 
     // TEST
-    //m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(drawMonster());
+    for (int i = 0;i < 4; ++i)
+        m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(drawMonster());
 }
 
 void Game::chooseInvestigators()

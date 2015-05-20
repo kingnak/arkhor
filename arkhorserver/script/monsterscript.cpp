@@ -77,7 +77,7 @@ AH::Common::MonsterData::MonsterAttributes MonsterScript::attributes()
 void MonsterScript::move(AH::MovementDirection dir)
 {
     if (m_movement == Special) {
-        m_specialMoveFunc.call(getThis());
+        m_specialMoveFunc.call(/*getThis()*/);
     } else {
         Monster::move(dir);
     }

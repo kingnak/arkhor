@@ -188,4 +188,5 @@ OTHER_FILES += \
     data/field/arkham/downtown/arkhamAsylum.js \
     data/objects/common/weapons.js \
     data/monsters/monsters.js \
-    data/field/otherworld/abyss.js
+    data/field/otherworld/abyss.js \
+    data/mythos/mythos.js

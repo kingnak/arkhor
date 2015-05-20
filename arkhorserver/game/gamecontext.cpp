@@ -151,6 +151,7 @@ ModifiedPropertyValue GameContext::getGameProperty(PropertyValue::Property prope
         } else {
             base = 1;
         }
+        break;
     default:
         Q_ASSERT_X(false, "GameContext::getCharacterProperty", "Property not defined");
     }

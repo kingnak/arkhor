@@ -7,7 +7,8 @@ using namespace AH::Common;
 
 ClientConnection::ClientConnection(int socketDescriptor)
 :   NetworkConnection(socketDescriptor),
-    m_player(NULL)
+    m_player(NULL),
+    m_versionReceived(false)
 {
     setPinging();
 }
@@ -22,8 +23,18 @@ void ClientConnection::cleanup()
 
 void ClientConnection::receivedMessage(const Message &msg)
 {
+    if (msg.type != Message::C_VERSION) {
+        if (!m_versionReceived) {
+            abort();
+            return;
+        }
+    }
 
     switch (msg.type) {
+    case Message::C_VERSION:
+        handleVersion(msg.payload);
+        break;
+
     case Message::C_REGISTER_PLAYER:
         handleRegisterPlayer();
         break;
@@ -42,6 +53,18 @@ void ClientConnection::receivedMessage(const Message &msg)
         } else {
             // ???
         }
+    }
+}
+
+void ClientConnection::handleVersion(const QVariant &v)
+{
+    quint32 vers;
+    v >> vers;
+    m_versionReceived = true;
+
+    sendMessage(Message::S_VERSION, QVariant(Message::PROTOCOL_VERSION));
+    if (vers != Message::PROTOCOL_VERSION) {
+        close();
     }
 }
 

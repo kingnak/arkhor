@@ -9,8 +9,13 @@ namespace AH{
     namespace Common {
         struct ARKHOR_COMMON_EXPORTS Message
         {
+            static const quint32 PROTOCOL_VERSION = 0x000100;
+
             enum Type {
                 NO_MESSAGE,
+
+                C_VERSION,
+                S_VERSION,
 
                 S_TEXT_MESSAGE,
 

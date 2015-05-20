@@ -27,6 +27,8 @@ private slots:
 
     void connectionEstablished();
 
+    void versionMismatch(quint32 c, quint32 s);
+
     void promptActive();
     void gameStarted();
     void setPlayerData(AH::Common::PlayerData d);

@@ -155,6 +155,7 @@ void NetworkConnection::doSendMessage(const Message &msg)
 
 void NetworkConnection::doClose()
 {
+    m_socket->flush();
     m_socket->close();
 }
 

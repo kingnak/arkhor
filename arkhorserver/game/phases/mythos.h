@@ -26,6 +26,7 @@ public:
 
 protected:
     QList<GameAction *> getPhaseActions();
+    QList<GameOption *> getPhaseOptions();
     //void enterPhase();
 
 private:

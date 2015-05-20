@@ -39,6 +39,7 @@ void Form::on_btnConnect_clicked()
     t->registerCleanupMethod(m_conn, "cleanup");
     connect(m_conn, SIGNAL(connected()), this, SLOT(connectionEstablished()));
 
+    connect(m_conn, SIGNAL(versionMismatch(quint32,quint32)), this, SLOT(versionMismatch(quint32,quint32)));
     connect(m_conn, SIGNAL(promptActive()), this, SLOT(promptActive()));
     connect(m_conn, SIGNAL(setPlayerData(AH::Common::PlayerData)), this, SLOT(setPlayerData(AH::Common::PlayerData)));
     connect(m_conn, SIGNAL(setInvestigatorList(QList<AH::Common::InvestigatorData>)), this, SLOT(setInvestigatorList(QList<AH::Common::InvestigatorData>)));
@@ -75,6 +76,17 @@ void Form::connectionEstablished()
 {
     ui->grpConnection->setEnabled(false);
     m_conn->registerPlayer();
+}
+
+void Form::versionMismatch(quint32 c, quint32 s)
+{
+    QString cstr = QString("%1.%2.%3.%4").arg((c>>24)&0xFF).arg((c>>16)&0xFF).arg((c>>8)&0xFF).arg((c>>0)&0xFF);
+    QString sstr = QString("%1.%2.%3.%4").arg((s>>24)&0xFF).arg((s>>16)&0xFF).arg((s>>8)&0xFF).arg((s>>0)&0xFF);
+
+    QMessageBox::critical(this, "Version Mismatch",
+        QString("This client cannot communicate with the server.\nClient version: %1\nServer version: %2\nUse the appropriate client!")
+                          .arg(cstr).arg(sstr)
+    );
 }
 
 void Form::promptActive()

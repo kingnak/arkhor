@@ -104,6 +104,16 @@ void ConnectionHandler::cleanup()
 void ConnectionHandler::handleMessage(AH::Common::Message msg)
 {
     switch (msg.type) {
+    case AH::Common::Message::S_VERSION:
+    {
+        quint32 v;
+        msg.payload >> v;
+        if (v != AH::Common::Message::PROTOCOL_VERSION) {
+            emit versionMismatch(AH::Common::Message::PROTOCOL_VERSION, v);
+        }
+        break;
+    }
+
     case AH::Common::Message::S_PROMPT_ACTIVE:
         emit promptActive();
         break;
@@ -249,6 +259,9 @@ void ConnectionHandler::established()
 {
     m_conn->startup();
     connect(m_conn, SIGNAL(messageReceived(AH::Common::Message)), this, SLOT(handleMessage(AH::Common::Message)));
+
+    send(AH::Common::Message::C_VERSION, QVariant(AH::Common::Message::PROTOCOL_VERSION));
+
     emit connected();
 }
 

@@ -45,6 +45,8 @@ signals:
     void connected();
     void disconnected();
 
+    void versionMismatch(quint32 thisVersion, quint32 serverVersion);
+
     void promptActive();
 
     void gameStarted();

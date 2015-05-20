@@ -208,7 +208,6 @@ QList<Gate *> GameBoard::getGates()
 
 void GameBoard::updateCaches()
 {
-    m_boardCacheDirty = false;
 
     m_boardMonsterCache.clear();
     m_gateCache.clear();
@@ -221,6 +220,8 @@ void GameBoard::updateCaches()
             m_gateCache << f->gate();
         }
     }
+
+    m_boardCacheDirty = false;
 }
 
 void GameBoard::connectfield(AH::Common::FieldData::FieldID src, AH::Common::FieldData::FieldID dst, bool w, bool b)

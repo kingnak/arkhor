@@ -34,6 +34,7 @@ bool GameScript::init(const QString &scriptBaseDir)
     qScriptRegisterMetaType<OtherWorldEncounterScript*>(m_engine, OtherWorldEncounterScript::castToValue, OtherWorldEncounterScript::castFromValue);
     qScriptRegisterMetaType<CharacterScript*>(m_engine, CharacterScript::castToValue, CharacterScript::castFromValue);
     qScriptRegisterMetaType<MonsterScript*>(m_engine, MonsterScript::castToValue, MonsterScript::castFromValue);
+    qScriptRegisterMetaType<MythosCardScript*>(m_engine, MythosCardScript::castToValue, MythosCardScript::castFromValue);
 
     qScriptRegisterMetaType<GameContextScript*>(m_engine, GameContextScript::castToValue, GameContextScript::castFromValue);
 

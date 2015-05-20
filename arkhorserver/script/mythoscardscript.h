@@ -38,4 +38,6 @@ private:
     QScriptValue m_object;
 };
 
+Q_DECLARE_METATYPE(MythosCardScript*)
+
 #endif // MYTHOSCARDSCRIPT_H

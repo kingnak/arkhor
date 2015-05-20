@@ -67,6 +67,9 @@ bool MythosAction::execute()
 
     // 4. resolve
     switch (card->type()) {
+    case AH::Common::MythosData::None:
+        gGame->returnMythos(card);
+        break;
     case AH::Common::MythosData::Headline:
         card->executeHeadline();
         gGame->returnMythos(card);
@@ -84,6 +87,7 @@ bool MythosAction::execute()
         } else {
             gGame->returnMythos(card);
         }
+        break;
     }
 
     return true;

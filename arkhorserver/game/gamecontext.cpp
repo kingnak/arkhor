@@ -30,6 +30,11 @@ ModifiedPropertyValue GameContext::getCurCharacterDrawObject(AH::GameObjectType 
     return getCharacterDrawObject(m_player->getCharacter(), type);
 }
 
+bool GameContext::checkCurCharacterIgnoreMonsterAttribute(AH::Common::MonsterData::MonsterAttribute attr)
+{
+    return checkCharacterIgnoreMonsterAttribute(m_player->getCharacter(), attr);
+}
+
 ModifiedPropertyValue GameContext::getCharacterProperty(const Character *c, PropertyValue::Property property)
 {
     AH::Attribute attr = PropertyValue::property2Attribute(property);
@@ -67,6 +72,11 @@ ModifiedPropertyValue GameContext::getCharacterProperty(const Character *c, Prop
     default:
         if (PropertyValue::isDrawCardProperty(property)) {
             base = 1;
+            break;
+        }
+
+        if (PropertyValue::isIgnoreProperty(property)) {
+            base = 0;
             break;
         }
 
@@ -154,6 +164,25 @@ ModifiedPropertyValue GameContext::getCharacterDrawObject(const Character *c, AH
 
     ModifiedPropertyValue ret(PropertyValue(prop, base), finalVal, mods);
     return ret;
+}
+
+bool GameContext::checkCharacterIgnoreMonsterAttribute(const Character *c, AH::Common::MonsterData::MonsterAttribute attr)
+{
+    int ignored = getCharacterIgnoredMonsterAttributes(c);
+
+    return (ignored != 0 && (ignored & attr) == attr);
+}
+
+AH::Common::MonsterData::MonsterAttributes GameContext::getCurCharacterIgnoredMonsterAttributes()
+{
+    return getCharacterIgnoredMonsterAttributes(m_player->getCharacter());
+}
+
+AH::Common::MonsterData::MonsterAttributes GameContext::getCharacterIgnoredMonsterAttributes(const Character *c)
+{
+    PropertyModificationList mods = c->getPropertyModifiers().filtered(PropertyValue::Ignore_MonsterAttributes);
+    // TODO: Can other modifiers apply?
+    return static_cast<AH::Common::MonsterData::MonsterAttributes> (mods.apply(0));
 }
 
 ModifiedPropertyValue GameContext::getCurMonsterProperty(AH::Common::PropertyValueData::Property property)

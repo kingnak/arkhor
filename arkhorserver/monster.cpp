@@ -142,11 +142,13 @@ void Monster::defeat(Character *byCharacter)
     }
 
     if (attributes().testFlag(Endless)) {
-        // Back to monter pool
-        gGame->returnMonster(this);
-    } else {
-        byCharacter->addMonsterTrophy(this);
+        if (!gGame->context().checkCharacterIgnoreMonsterAttribute(byCharacter, Endless)) {
+            // Back to monter pool
+            gGame->returnMonster(this);
+            return;
+        }
     }
+    byCharacter->addMonsterTrophy(this);
 }
 
 void Monster::endCombat()
@@ -162,8 +164,15 @@ void Monster::endCombat()
 
 PropertyModificationList Monster::getModifications() const
 {
+    return getFilteredModifications(0);
+}
+
+PropertyModificationList Monster::getFilteredModifications(AH::Common::MonsterData::MonsterAttributes ignoredAttributes) const
+{
     PropertyModificationList mods;
     MonsterAttributes attrs = attributes();
+    attrs &= ~ignoredAttributes;
+
     if (attrs.testFlag(AH::Common::MonsterData::PhysicalImmunity)) {
         mods << PropertyModification(this, PropertyValue::Damage_Physical, 0, PropertyModification::Setting);
     }

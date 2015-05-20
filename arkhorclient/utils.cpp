@@ -72,6 +72,10 @@ QString Utils::stringForProperty(AH::Common::PropertyValueData::Property p)
     case PropertyValueData::Monster_HorrorAdjustment: return "Monster Horror Rating";
     case PropertyValueData::Monster_Awareness: return "Monster Awareness";
     case PropertyValueData::Monster_Toughness: return "Monster Toughness";
+
+    case PropertyValueData::Ignore_MonsterAttributes: return "Ignore Monster Attributes";
+    case PropertyValueData::Ignore_PhysicalDamage: return "Ignore Physical Damage";
+    case PropertyValueData::Ignore_MagicalDamage: return "Ignore Magical Damage";
     }
     return "";
 }
@@ -109,6 +113,7 @@ QStringList Utils::stringsForDimensions(AH::Dimensions dims)
 QString Utils::stringForField(FieldData::FieldID fid)
 {
     switch (fid) {
+    case FieldData::NO_NO_FIELD: return "";
     case FieldData::NS_Northside: return "Northside";
     case FieldData::NS_TrainStation: return "Train Station";
     case FieldData::NS_Newspaper: return "Newspaper";
@@ -193,6 +198,10 @@ QString Utils::stringForMonsterAttribute(MonsterData::MonsterAttribute a)
 
     case AH::Common::MonsterData::MonsterAttribute_Max_Value_Sentinel:
         return "";
+
+    case AH::Common::MonsterData::Nightmarish_ALL:
+    case AH::Common::MonsterData::Overwhelming_ALL:
+        Q_ASSERT(false);
     }
     return "";
 }
@@ -260,6 +269,10 @@ QString Utils::stringForPropertyModification(PropertyModificationData mod)
         break;
     case PropertyModificationData::Setting:
         val = QString("=%1").arg(mod.modificationAmount());
+        break;
+    case PropertyModificationData::Oring:
+        // TODO: Better display for bitfields...
+        val = QString("|%1").arg(mod.modificationAmount());
         break;
     }
 

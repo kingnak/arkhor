@@ -18,6 +18,7 @@ public:
     static bool isGameProperty(Property p);
     static bool isMonsterProperty(Property p);
     static bool isDrawCardProperty(Property p);
+    static bool isIgnoreProperty(Property p);
 
     static Property attribute2Property(AH::Attribute attr);
     static Property skill2Property(AH::Skill skill);

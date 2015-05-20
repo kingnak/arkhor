@@ -13,14 +13,15 @@ namespace AH {
         {
         protected:
             enum {
-                ATTR_OFFSET = 0x100,
-                SKILL_OFFSET = 0x200,
-                PROP_OFFSET = 0x400,
-                DIEROLL_OFFSET = 0x800,
-                GAME_OFFSET = 0x1000,
-                DAMAGE_OFFSET = 0x2000,
-                MONSTER_OFFSET = 0x4000,
-                DRAWCARD_OFFSET = 0x8000,
+                ATTR_OFFSET =       0x00100,
+                SKILL_OFFSET =      0x00200,
+                PROP_OFFSET =       0x00400,
+                DIEROLL_OFFSET =    0x00800,
+                GAME_OFFSET =       0x01000,
+                DAMAGE_OFFSET =     0x02000,
+                MONSTER_OFFSET =    0x04000,
+                DRAWCARD_OFFSET =   0x08000,
+                IGNORE_OFFSET =     0x10000,
             };
         public:
             enum Property {
@@ -91,6 +92,10 @@ namespace AH {
                 DrawCard_Ally = DRAWCARD_OFFSET | AH::Obj_Ally,
                 DrawCard_ArkhamEncountery,
                 DrawCard_OtherWorldEncountery,
+
+                Ignore_MonsterAttributes = IGNORE_OFFSET,
+                Ignore_PhysicalDamage,
+                Ignore_MagicalDamage,
             };
 
             PropertyValueData(Property prop = NoProperty, int val = 0)
@@ -118,7 +123,8 @@ namespace AH {
                 Multiplicative,
                 DividingUp,
                 DividingDown,
-                Setting
+                Setting,
+                Oring
             };
 
             PropertyModificationData(PropertyValueData::Property prop = PropertyValueData::NoProperty, int modification = 0, ModificationType type = Additive)

@@ -30,6 +30,11 @@ bool PropertyValue::isDrawCardProperty(AH::Common::PropertyValueData::Property p
     return (p & DRAWCARD_OFFSET) == DRAWCARD_OFFSET;
 }
 
+bool PropertyValue::isIgnoreProperty(AH::Common::PropertyValueData::Property p)
+{
+    return (p & IGNORE_OFFSET) == IGNORE_OFFSET;
+}
+
 PropertyValue::Property PropertyValue::attribute2Property(AH::Attribute attr)
 {
     switch (attr) {

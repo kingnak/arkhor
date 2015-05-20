@@ -63,6 +63,7 @@ int PropertyModification::modify(int base) const
     case DividingUp: return (base + m_mod-1)/m_mod;
     case DividingDown: return base/m_mod;
     case Setting: return m_mod;
+    case Oring: return base | m_mod;
     }
     Q_ASSERT_X(false, "PropertyModification::modify", qPrintable(QString("Unknown modification type %1").arg(m_type)));
     return 0;

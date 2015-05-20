@@ -58,6 +58,7 @@ public:
 
     virtual QString modifierId() const { return id(); }
     virtual PropertyModificationList getModifications() const;
+    PropertyModificationList getFilteredModifications(MonsterAttributes ignoredAttributes) const;
 
 protected:
     GameField *m_field;

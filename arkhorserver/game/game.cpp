@@ -24,8 +24,9 @@ Game *Game::s_instance = NULL;
 Game::Game()
 :   m_context(this, NULL, NULL, AH::NoGamePhase),
     m_board(NULL),
-    m_nextPlayerId(0),
+    m_environment(NULL),
     m_rumor(NULL),
+    m_nextPlayerId(0),
     m_started(false),
     m_terrorLevel(1)
 {
@@ -782,7 +783,7 @@ void Game::initMonsters()
             m_board->field(AH::Common::FieldData::Sp_Outskirts)->placeMonster(m);
     }
     */
-    //m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_WARLOCK"));
+    m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_DARK_YOUNG"));
 }
 
 void Game::chooseInvestigators()

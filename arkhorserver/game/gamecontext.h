@@ -6,6 +6,7 @@
 //#include "player.h"
 #include "propertymodifier.h"
 #include "dietesthelper.h"
+#include "monsterdata.h"
 
 class Monster;
 class Game;
@@ -41,6 +42,11 @@ public:
     ModifiedPropertyValue getCharacterAttribute(const Character *c, AH::Attribute attr);
     ModifiedPropertyValue getCharacterClueBurn(const Character *c, AH::Skill skill);
     ModifiedPropertyValue getCharacterDrawObject(const Character *c, AH::GameObjectType type);
+
+    bool checkCurCharacterIgnoreMonsterAttribute(AH::Common::MonsterData::MonsterAttribute attr);
+    bool checkCharacterIgnoreMonsterAttribute(const Character *c, AH::Common::MonsterData::MonsterAttribute attr);
+    AH::Common::MonsterData::MonsterAttributes getCurCharacterIgnoredMonsterAttributes();
+    AH::Common::MonsterData::MonsterAttributes getCharacterIgnoredMonsterAttributes(const Character *c);
 
     ModifiedPropertyValue getCurMonsterProperty(PropertyValue::Property property);
     ModifiedPropertyValue getMonsterProperty(const Monster *m, PropertyValue::Property property);

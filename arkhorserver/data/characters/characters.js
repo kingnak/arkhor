@@ -30,7 +30,7 @@ game.registerInvestigator(game.createInvestigator({
 	clues: 10,
 
 	uniqueAbilityId: jennyBarnesSpecialObject.typeId,
-    fixedPossesionObjectIds: ["UI_Book_of_Dzyan", "UI_Elder_Sign"],
+    fixedPossesionObjectIds: ["UI_Book_of_Dzyan"],
 
 	randomPossessions: [
 		{type: Constants.ObjectType.CommonItem, amount: 2},

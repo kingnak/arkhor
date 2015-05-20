@@ -30,7 +30,22 @@ var duke = game.createObject({
 	]
 });
 game.registerSingleObject(duke);
-/*
+
+// Eric Colt
+var ericColt = game.createObject({
+    tid: "AL_Eric_Colt",
+    name: "Eric Colt",
+    description: "You take no Sanity loss from the Nightmarish ability."+
+        "\nNot implemented",
+    type: Constants.ObjectType.Ally,
+    modifications: [
+        { property: Constants.Mods.Skill_Speed, value: 2},
+        { property: Constants.Mods.Ignore_MonsterAttributes, value: "|"+Constants.Monster.DamageNightmarish },
+        { property: Constants.Mods.Ignore_MonsterAttributes, value: "|"+Constants.Monster.PhysicalResistance }
+    ]
+});
+game.registerSingleObject(ericColt);
+
 // Ruby Standish
 var rubyStandish = game.createObject({
 	tid: "AL_Ruby_Standish",
@@ -98,4 +113,4 @@ var thomMalone = game.createObject({
 	}
 });
 game.registerSingleObject(thomMalone);
-*/
+

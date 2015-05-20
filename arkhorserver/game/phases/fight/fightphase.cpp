@@ -170,6 +170,10 @@ bool FightPhase::damageHorror()
 bool FightPhase::damageOverwhelming()
 {
     AH::Common::MonsterData::MonsterAttributes attrs = gGame->context().monster()->attributes();
+    if (gGame->context().checkCurCharacterIgnoreMonsterAttribute(AH::Common::MonsterData::Overwhelming_ALL)) {
+        return true;
+    }
+
     int dmg = 0;
     if (attrs.testFlag(AH::Common::MonsterData::Overwhelming_1)) {
         dmg = 1;
@@ -189,6 +193,10 @@ bool FightPhase::damageOverwhelming()
 bool FightPhase::damageNightmarish()
 {
     AH::Common::MonsterData::MonsterAttributes attrs = gGame->context().monster()->attributes();
+    if (gGame->context().checkCurCharacterIgnoreMonsterAttribute(AH::Common::MonsterData::Nightmarish_ALL)) {
+        return true;
+    }
+
     int dmg = 0;
     if (attrs.testFlag(AH::Common::MonsterData::Nightmarish_1)) {
         dmg = 1;

@@ -81,6 +81,9 @@ void ChoiceWidget::on_btnOk_clicked()
         emit choiceSelected(selId);
         break;
     }
+    case ChoiceData::None:
+        emit choiceCanceled();
+        break;
     }
 }
 

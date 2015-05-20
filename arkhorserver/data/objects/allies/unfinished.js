@@ -1,15 +1,5 @@
 /*
-// Eric Colt
-var ericColt = game.createObject({
-	tid: "AL_Eric_Colt",
-	name: "Eric Colt",
-	description: "You take no Sanity loss from the Nightmarish ability."+
-		"\nNot implemented",
-	type: Constants.ObjectType.Ally,
-	modifications: { property: Constants.Mods.Skill_Speed, value: 2}
-	// TODO: Prevent Nightmarish damage
-});
-game.registerSingleObject(ericColt);
+
 
 // John Legrasse
 var johnLegrasse = game.createObject({

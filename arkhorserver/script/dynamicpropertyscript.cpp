@@ -10,9 +10,6 @@ DynamicPropertyScript::DynamicPropertyScript()
 #include "gameobjectscript.h"
 void DynamicPropertyScript::setObject(QScriptValue v)
 {
-    QObject *obj = v.toQObject();
-    GameObjectScript *gos = dynamic_cast<GameObjectScript *>(obj);
-    const char *cn = obj->metaObject()->className();
     m_this = v;
 }
 
@@ -20,11 +17,6 @@ QString DynamicPropertyScript::display() const
 {
     if (m_toString.isFunction()) {
         QScriptValue ts = m_toString;
-
-        QObject *obj = m_this.toQObject();
-        GameObjectScript *gos = dynamic_cast<GameObjectScript *>(obj);
-        //QScriptValue o2 = gGameScript->engine()->newQObject(this, QScriptEngine::QtOwnership, QScriptEngine::PreferExistingWrapperObject);
-        //QString ssss = ts.call(o2).toString();
         return ts.call(m_this).toString();
     }
     return m_val.toString();

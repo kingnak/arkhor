@@ -7,6 +7,8 @@
 #include "monster.h"
 #include "fightphase.h"
 
+using namespace AH::Common;
+
 AttackAction::AttackAction(FightPhase *fight)
     : m_fight(fight)
 {
@@ -28,7 +30,9 @@ bool AttackAction::execute()
     filterEquipped(mag);
     filterEquipped(phy);
 
-    PropertyModificationList monsterMods = gGame->context().monster()->getModifications();
+    MonsterData::MonsterAttributes ignoredAttributes = gGame->context().getCurCharacterIgnoredMonsterAttributes();
+
+    PropertyModificationList monsterMods = gGame->context().monster()->getFilteredModifications(ignoredAttributes);
     phy += monsterMods.filtered(PropertyValue::Damage_Physical);
     mag += monsterMods.filtered(PropertyValue::Damage_Magical);
 

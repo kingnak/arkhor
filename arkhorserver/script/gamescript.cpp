@@ -250,6 +250,7 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         mods.setProperty("Monster_HorrorAdjustment", AH::Common::PropertyValueData::Monster_HorrorAdjustment, QScriptValue::ReadOnly);
         mods.setProperty("Monster_Awareness", AH::Common::PropertyValueData::Monster_Awareness, QScriptValue::ReadOnly);
         mods.setProperty("Monster_Toughness", AH::Common::PropertyValueData::Monster_Toughness, QScriptValue::ReadOnly);
+        mods.setProperty("Ignore_MonsterAttributes", AH::Common::PropertyValueData::Ignore_MonsterAttributes, QScriptValue::ReadOnly);
         consts.setProperty("Mods", mods, QScriptValue::ReadOnly);
     }
 
@@ -315,6 +316,10 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         monAtt.setProperty("Overwhelming_1", AH::Common::MonsterData::Overwhelming_1, QScriptValue::ReadOnly);
         monAtt.setProperty("Overwhelming_2", AH::Common::MonsterData::Overwhelming_2, QScriptValue::ReadOnly);
         monAtt.setProperty("Overwhelming_3", AH::Common::MonsterData::Overwhelming_3, QScriptValue::ReadOnly);
+
+        // For Ignore:
+        monAtt.setProperty("DamageNightmarish", AH::Common::MonsterData::Nightmarish_ALL, QScriptValue::ReadOnly);
+        monAtt.setProperty("DamageOverwhelming", AH::Common::MonsterData::Overwhelming_ALL, QScriptValue::ReadOnly);
         consts.setProperty("Monster", monAtt, QScriptValue::ReadOnly);
     }
 

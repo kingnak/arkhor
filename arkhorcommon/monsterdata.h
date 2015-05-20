@@ -32,13 +32,16 @@ namespace AH {
                 MagicalImmunity = 0x0020,
                 Undead = 0x0040,
                 Mask = 0x0080,
+
                 Nightmarish_1 = 0x0100,
                 Nightmarish_2 = 0x0200,
                 Nightmarish_3 = 0x0400,
+                Nightmarish_ALL = Nightmarish_1 | Nightmarish_2 | Nightmarish_3,
+
                 Overwhelming_1 = 0x1000,
                 Overwhelming_2 = 0x2000,
                 Overwhelming_3 = 0x4000,
-
+                Overwhelming_ALL = Overwhelming_1 | Overwhelming_2 | Overwhelming_3,
 
                 MonsterAttribute_Max_Value_Sentinel
             };

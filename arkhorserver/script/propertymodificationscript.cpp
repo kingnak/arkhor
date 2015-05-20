@@ -57,6 +57,8 @@ bool PropertyModificationScript::parsePropertyModification(const PropertyModifie
         skip = 0;
     } else if (mod.startsWith("+")) {
         type = PropertyModification::Additive;
+    } else if (mod.startsWith("|")) {
+        type = PropertyModification::Oring;
     } else if (mod.at(0).isDigit()) {
         type = PropertyModification::Additive;
         skip = 0;

@@ -20,3 +20,16 @@ QStringList GameObject::optionIds() const
     }
     return ret;
 }
+
+bool GameObject::isFightObject()
+{
+    foreach (PropertyModification m, getModifications()) {
+        switch (m.affectedProperty()) {
+        case PropertyValue::Damage_General:
+        case PropertyValue::Damage_Physical:
+        case PropertyValue::Damage_Magical:
+            return true;
+        }
+    }
+    return false;
+}

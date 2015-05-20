@@ -13,7 +13,7 @@ MonsterData::MonsterData()
     m_horrorAdjustment(0),
     m_horrorDamage(0),
     m_combatAdjustment(0),
-    m_combatValue(0),
+    m_combatDamage(0),
     m_toughness(0),
     m_fieldId(FieldData::NO_NO_FIELD)
 {
@@ -31,7 +31,7 @@ void operator << (QVariant &data, const MonsterData &target)
     map["horrorAdjustment"] << target.horrorAdjustment();
     map["horrorDamage"] << target.horrorDamage();
     map["combatAdjustment"] << target.combatAdjustment();
-    map["combatValue"] << target.combatValue();
+    map["combatValue"] << target.combatDamage();
     map["toughness"] << target.toughness();
     map["attributes"] << target.attributes();
     data << map;
@@ -50,7 +50,7 @@ void operator >> (const QVariant &data, MonsterData &target)
     map["horrorAdjustment"] >> target.m_horrorAdjustment;
     map["horrorDamage"] >> target.m_horrorDamage;
     map["combatAdjustment"] >> target.m_combatAdjustment;
-    map["combatValue"] >> target.m_combatValue;
+    map["combatValue"] >> target.m_combatDamage;
     map["toughness"] >> target.m_toughness;
     map["attributes"] >> target.m_attributes;
 }

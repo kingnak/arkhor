@@ -4,8 +4,7 @@
 #include "../gamephase.h"
 #include "../gameaction.h"
 #include "../actions/moveaction.h"
-#include "../actions/evadeaction.h"
-#include "../actions/fightaction.h"
+#include "fight/fightphase.h"
 
 class Movement : public GamePhase
 {
@@ -19,8 +18,7 @@ protected:
 
 private:
     MoveOption *m_move;
-    EvadeOption *m_sneak;
-    FightOption *m_fight;
+    FightPhase *m_fight;
 };
 
 #endif // MOVEMENT_H

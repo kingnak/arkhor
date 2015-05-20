@@ -25,6 +25,7 @@ public:
 
     void setMonster( Monster *m ) { m_monster = m; }
     void setGate( Gate *g ) { m_gate = g; }
+    void setPhase( AH::GamePhase phase ) { m_phase = phase; }
 
     ModifiedPropertyValue getCurCharacterProperty(PropertyValue::Property property);
     ModifiedPropertyValue getCurCharacterSkill(AH::Skill skill);

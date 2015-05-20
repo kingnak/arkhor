@@ -10,14 +10,18 @@
 
 DieTestHelper::DieTestSpec DieTestHelper::createSkillTest(Character *c, AH::Skill skill, int adjustment, int target)
 {
+    ModifiedPropertyValue poolBase = gGame->context().getCharacterSkill(c, skill);
+    ModifiedPropertyValue clueBurnMods = gGame->context().getCharacterClueBurn(c, skill);
+    return createClueBurnTest(c, poolBase, clueBurnMods, adjustment, target);
+}
+
+DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target)
+{
     DieTestSpec spec;
     // calculate pool size
-    ModifiedPropertyValue v = gGame->context().getCharacterSkill(c, skill);
-    spec.baseVal = v.toModifiedPropertyValueData();
-    int ct = v.finalVal();
+    spec.baseVal = poolBase.toModifiedPropertyValueData();
+    int ct = poolBase.finalVal();
     ct += adjustment;
-
-    ModifiedPropertyValue clueBurnMods = gGame->context().getCharacterClueBurn(c, skill);
 
     // Get success values
     QSet<quint32> successes;

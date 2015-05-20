@@ -1,13 +1,15 @@
 #ifndef FIGHTACTION_H
 #define FIGHTACTION_H
 
-#include "../gameaction.h"
-#include "../gameoption.h"
+#include "game/gameaction.h"
+#include "game/gameoption.h"
+
+class FightPhase;
 
 class FightAction : public GameAction
 {
 public:
-    FightAction();
+    FightAction(FightPhase *fight);
 
     QString id() const { return "AC_FIGHT"; }
 
@@ -17,13 +19,17 @@ public:
 
     virtual QString name() const { return "Fight"; }
     virtual QString description() const { return ""; }
+
+private:
+    FightPhase *m_fight;
 };
 
 class FightOption : public GameOption
 {
 public:
-    FightOption() :
-        GameOption(&fa, AH::CanContinue, AH::ChooseMandatory, AH::Movement)
+    FightOption(FightPhase *fight) :
+        GameOption(&fa, AH::CanContinue, AH::ChooseMandatory, AH::Movement),
+        fa(fight)
     {}
 
     QString id() const { return "OP_FIGHT"; }

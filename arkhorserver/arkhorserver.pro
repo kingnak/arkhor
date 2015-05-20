@@ -16,9 +16,7 @@ HEADERS += \
     game/actions/arkhamencounteryaction.h \
     game/actions/closegateaction.h \
     game/actions/entergateaction.h \
-    game/actions/evadeaction.h \
-    game/actions/fightaction.h \
-    game/actions/focusaction.h \
+	game/actions/focusaction.h \
     game/actions/moveaction.h \
     game/actions/otherworldencounteryaction.h \
     game/actions/skipoption.h \
@@ -63,7 +61,13 @@ HEADERS += \
     script/arkhamencounterscript.h \
     game/gameregistry.h \
     game/dietesthelper.h \
-    script/monsterscript.h
+    script/monsterscript.h \
+    game/phases/fight/evadeaction.h \
+    game/phases/fight/fightaction.h \
+    game/phases/fight/fightphase.h \
+    game/phases/fight/horroraction.h \
+    game/phases/fight/chooseweaponsaction.h \
+    game/phases/fight/attackaction.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -81,9 +85,7 @@ SOURCES += \
     game/actions/arkhamencounteryaction.cpp \
     game/actions/closegateaction.cpp \
     game/actions/entergateaction.cpp \
-    game/actions/evadeaction.cpp \
-    game/actions/fightaction.cpp \
-    game/actions/focusaction.cpp \
+	game/actions/focusaction.cpp \
     game/actions/moveaction.cpp \
     game/actions/otherworldencounteryaction.cpp \
     game/actions/untapaction.cpp \
@@ -127,7 +129,13 @@ SOURCES += \
     script/arkhamencounterscript.cpp \
     game/gameregistry.cpp \
     game/dietesthelper.cpp \
-    script/monsterscript.cpp
+    script/monsterscript.cpp \
+    game/phases/fight/evadeaction.cpp \
+    game/phases/fight/fightaction.cpp \
+    game/phases/fight/fightphase.cpp \
+    game/phases/fight/horroraction.cpp \
+    game/phases/fight/chooseweaponsaction.cpp \
+    game/phases/fight/attackaction.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

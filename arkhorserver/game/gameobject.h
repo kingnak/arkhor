@@ -30,6 +30,7 @@ public:
     virtual QStringList optionIds() const;
 
     virtual bool resolveDependencies(GameRegistry *game) = 0;
+    virtual bool isFightObject();
 
     //virtual PropertyModificationList getModifications() const = 0;
 };

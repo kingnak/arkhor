@@ -28,12 +28,14 @@ public:
         DieTestResult() : boolResult(false), intResult(0) {}
     };
 
-    static DieTestSpec createSkillTest(Character *c, AH::Skill skill, int adjustment, int target = 1);
-    static DieTestSpec createAttributeTest(Character *c, AH::Attribute attr, int adjustment, int target = 1);
-    static DieTestSpec createGenericTest(int dieCount, QList<int> successVals, int target = 1);
+    static DieTestSpec createClueBurnTest(Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target = 1);
 
-    static DieTestSpec createGenericCounter(int dieCount, QList<int> successVals);
-    static DieTestSpec createGenericSummer(int dieCount);
+    static DieTestSpec createSkillTest(Character *c, AH::Skill skill, int adjustment, int target = 1);
+    //static DieTestSpec createAttributeTest(Character *c, AH::Attribute attr, int adjustment, int target = 1);
+    //static DieTestSpec createGenericTest(int dieCount, QList<int> successVals, int target = 1);
+
+    //static DieTestSpec createGenericCounter(int dieCount, QList<int> successVals);
+    //static DieTestSpec createGenericSummer(int dieCount);
 
     static DieTestResult executeDieTest(Player *p, DieTestSpec &spec);
 

@@ -17,7 +17,8 @@ namespace AH {
                 SKILL_OFFSET = 0x200,
                 PROP_OFFSET = 0x400,
                 DIEROLL_OFFSET = 0x800,
-                GAME_OFFSET = 0x1000
+                GAME_OFFSET = 0x1000,
+                DAMAGE_OFFSET = 0x2000
             };
         public:
             enum Property {
@@ -46,6 +47,7 @@ namespace AH {
                 Prop_Focus,
                 Prop_Movement,
                 Prop_MinSuccessDieRoll,
+                Prop_HandCount,
 
                 DieRoll_All = DIEROLL_OFFSET | AH::NoSkill,
                 DieRoll_Speed = DIEROLL_OFFSET | AH::Skill_Speed,
@@ -59,7 +61,11 @@ namespace AH {
                 DieRoll_Horror = DIEROLL_OFFSET | AH::Skill_Horror,
                 DieRoll_Spell = DIEROLL_OFFSET | AH::Skill_Spell,
 
-                Game_SealClueCost = GAME_OFFSET
+                Game_SealClueCost = GAME_OFFSET,
+
+                Damage_General = DAMAGE_OFFSET,
+                Damage_Magical,
+                Damage_Physical
             };
 
             PropertyValueData(Property prop = NoProperty, int val = 0)

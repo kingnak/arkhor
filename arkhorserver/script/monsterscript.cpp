@@ -29,7 +29,7 @@ QScriptValue MonsterScript::createMonster(QScriptContext *ctx, QScriptEngine *en
     ret->m_horrorAdjustment = data.property("horrorAdjustment").toInt32();
     ret->m_horrorDamage = data.property("horrorDamage").toInt32();
     ret->m_combatAdjustment = data.property("combatAdjustment").toInt32();
-    ret->m_combatValue = data.property("combatValue").toInt32();
+    ret->m_combatDamage = data.property("combatValue").toInt32();
     ret->m_toughness = data.property("toughness").toInt32();
 
     QScriptValue att = data.property("attributes");

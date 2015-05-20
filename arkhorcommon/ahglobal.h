@@ -27,7 +27,8 @@ namespace AH
         AllPhases = Upkeep | Movement | ArkhamEncountery | OtherWorldEncountery | Mythos,
 
         // Special Phases
-        DieRoll = 0x0100
+        DieRoll = 0x0100,
+        FightPhase = 0x0200,
     };
 
     Q_DECLARE_FLAGS(GamePhases, GamePhase)

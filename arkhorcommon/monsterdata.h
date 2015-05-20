@@ -9,7 +9,7 @@
 namespace AH {
     namespace Common {
 
-        class MonsterData
+        class ARKHOR_COMMON_EXPORTS MonsterData
         {
         public:
             MonsterData();
@@ -50,7 +50,7 @@ namespace AH {
             virtual int horrorAdjustment() const { return m_horrorAdjustment; }
             virtual int horrorDamage() const { return m_horrorDamage; }
             virtual int combatAdjustment() const { return m_combatAdjustment; }
-            virtual int combatValue() const { return m_combatValue; }
+            virtual int combatDamage() const { return m_combatDamage; }
             virtual int toughness() const { return m_toughness; }
             virtual MonsterAttributes attributes() const { return m_attributes; }
             virtual AH::Common::FieldData::FieldID fieldId() const { return m_fieldId; }
@@ -65,7 +65,7 @@ namespace AH {
             int m_horrorAdjustment;
             int m_horrorDamage;
             int m_combatAdjustment;
-            int m_combatValue;
+            int m_combatDamage;
             int m_toughness;
             MonsterAttributes m_attributes;
             FieldData::FieldID m_fieldId;

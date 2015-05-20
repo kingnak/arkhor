@@ -54,6 +54,9 @@ ModifiedPropertyValue GameContext::getCharacterProperty(const Character *c, Prop
         // TODO Blessing/Curse
         base = 5;
         break;
+    case PropertyValue::Prop_HandCount:
+        base = 2;
+        break;
     default:
         Q_ASSERT_X(false, "GameContext::getCharacterProperty", "Property not defined");
     }

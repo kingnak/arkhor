@@ -73,6 +73,8 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
     gp.setProperty("OtherWorldEncountery", AH::OtherWorldEncountery, QScriptValue::ReadOnly);
     gp.setProperty("Mythos", AH::Mythos, QScriptValue::ReadOnly);
     gp.setProperty("AllPhases", AH::AllPhases, QScriptValue::ReadOnly);
+    gp.setProperty("DieRollPhase", AH::DieRoll, QScriptValue::ReadOnly);
+    gp.setProperty("FightPhase", AH::FightPhase, QScriptValue::ReadOnly);
     consts.setProperty("GamePhases", gp, QScriptValue::ReadOnly);
 
     // Payment Items

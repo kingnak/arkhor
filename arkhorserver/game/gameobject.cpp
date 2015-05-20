@@ -111,7 +111,7 @@ bool GameObject::cast(Player *p)
     // Test will
     if (this->castTarget() > 0) {
         ModifiedPropertyValue ca = gGame->context().getCharacterProperty(p->getCharacter(), PropertyValue::Prop_CastAdjustment);
-        DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest(p->getCharacter(), AH::Skill_Will, ca.finalVal(), this->castTarget());
+        DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest("Cast " + name(), p->getCharacter(), AH::Skill_Will, ca.finalVal(), this->castTarget());
         DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
 
         if (!res.boolResult) {

@@ -2,7 +2,7 @@ var m = game.createMonster({
 	id: "MO_BYAKHEE",
 	name: "Byakhee",
 	description: 
-		"<em>It shrieked and flapped its wings. "+
+        "It shrieked and flapped its wings. "+
 		"I thought of the empty shell of a beetle, "+
 		"and the soft loam of rotting earth. It cocked "+
 		"its carapaced head at me, black teeth clicking "+
@@ -18,4 +18,21 @@ var m = game.createMonster({
 	//attributes: 
 });
 
-game.registerMonster(3, m);
+game.registerMonster(1, m);
+
+m = game.createMonster({
+    id: "MO_TestMonseter",
+    name: "Test Monster",
+    description: "MEIN TEST!",
+    dimension: Constants.Dimension.Circle,
+    movementType: Constants.Movement.Normal,
+    awareness: -2,
+    horrorAdjustment: -1,
+    horrorDamage: 2,
+    combatAdjustment: -1,
+    combatDamage: 2,
+    toughness: 1,
+    attributes: Constants.Monster.Unending
+});
+
+game.registerMonster(1, m);

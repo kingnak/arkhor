@@ -4,10 +4,11 @@
 #include <QObject>
 #include <QScriptEngine>
 #include "game/gameaction.h"
+#include <QScriptable>
 
 class QScriptContext;
 
-class GameActionScript : public QObject, public GameAction
+class GameActionScript : public QObject, public GameAction, public QScriptable
 {
     Q_OBJECT
 public:

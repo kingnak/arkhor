@@ -2,16 +2,30 @@
 #include <QApplication>
 #include "form.h"
 #include "ahmaingui.h"
-
+/*
 #include "monsterwidget.h"
 #include <monsterdata.h>
 using namespace AH::Common;
-
+*/
+/*
+#include <QStyle>
+#include "flowlayout.h"
+#include "diewidget.h"
+*/
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
     Form f;
     f.show();
+
+    /*
+    QWidget w;
+    FlowLayout *l = new FlowLayout(&w);
+    DieWidget *d = new DieWidget;
+    d->setDieValue(0);
+    l->addWidget(d);
+    w.show();
+    */
 
     /*
     MonsterData m;

@@ -15,6 +15,16 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <widget class="QLabel" name="lblDescription">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QWidget" name="wgtDice" native="true"/>
@@ -74,7 +84,7 @@
             <x>0</x>
             <y>0</y>
             <width>183</width>
-            <height>97</height>
+            <height>78</height>
            </rect>
           </property>
          </widget>

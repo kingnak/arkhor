@@ -2,6 +2,7 @@
 #include <QScriptContext>
 #include <qscriptengine.h>
 #include "gamescript.h"
+#include <QDebug>
 
 GameActionScript::GameActionScript(QObject *parent) :
     QObject(parent)
@@ -55,9 +56,13 @@ bool GameActionScript::execute()
 {
     QScriptValue res = m_function.call(m_object);
     if (res.isError()) {
+        QString s = res.toString();
+        qWarning() << "Script Action Error: " << s;
         return false;
     }
-    return res.toBool();
+    if (res.isBool())
+        return res.toBool();
+    return true;
 }
 
 bool GameActionScript::verify(GameActionScript *act, QString *err)

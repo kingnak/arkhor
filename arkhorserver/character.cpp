@@ -379,3 +379,11 @@ void Character::addStamina(int amount)
     gGame->characterDirty(this);
 }
 
+void Character::addSanity(int amount)
+{
+    int maxSanity = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxSanity).finalVal();
+    m_curSanity = qMin(maxSanity, m_curSanity + amount);
+
+    gGame->characterDirty(this);
+}
+

@@ -40,6 +40,7 @@ public:
         EndUnknown,
         EndSuccess,
         EndFlown,
+        EndEvaded,
         EndFailed
     };
 
@@ -78,7 +79,8 @@ private:
 
 private:
     QList<Monster *> m_flownMonsters;
-    bool m_hadFailedEvade;
+    bool m_hasEnteredFight;
+    //bool m_hadFailedEvade;
 
     EvadeOption *m_evade;
     FightOption *m_fight;

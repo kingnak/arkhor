@@ -15,6 +15,8 @@ public:
     static void castFromValue(const QScriptValue &v, CharacterScript *&o) { o = qobject_cast<CharacterScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, CharacterScript * const &in) { return eng->newQObject(in); }
 
+    Q_INVOKABLE void restoreSanity() { Character::addSanity(1000000); }
+    Q_INVOKABLE void addSanity(int amount) { Character::addSanity(amount); }
 
 signals:
 

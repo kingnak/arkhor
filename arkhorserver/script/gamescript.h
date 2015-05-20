@@ -6,6 +6,8 @@
 #include <QScriptValue>
 #include <QDir>
 #include <QScriptable>
+#include <QMetaType>
+#include "gamecontextscript.h"
 
 class QScriptEngine;
 class QScriptContext;
@@ -26,6 +28,9 @@ public:
     bool init(const QString &scriptBaseDir);
 
     QScriptEngine *engine() { return m_engine; }
+
+    Q_PROPERTY(GameContextScript* context READ getGameContext SCRIPTABLE true)
+    GameContextScript *getGameContext();// { return m_ctx; }
 
     Q_INVOKABLE void registerInvestigator(InvestigatorScript *i);
     Q_INVOKABLE QScriptValue createInvestigator();
@@ -66,6 +71,9 @@ private:
     QScriptEngine *m_engine;
 
     Game *m_game;
+    GameContextScript *m_ctx;
 };
+
+Q_DECLARE_METATYPE(GameScript*)
 
 #endif // GAMESCRIPT_H

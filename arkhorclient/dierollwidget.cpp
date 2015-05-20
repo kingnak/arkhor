@@ -4,6 +4,7 @@
 #include <QtGui>
 #include "objectregistry.h"
 #include "utils.h"
+#include "diewidget.h"
 
 using namespace AH::Common;
 
@@ -28,6 +29,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     QList<PropertyModificationData> mods;
 
     // Setup labels
+    ui->lblDescription->setText(data.description());
     ui->lblAdjustment->setText(QString::number(data.rollData().pool().adjustment()));
     ui->lblDieCount->setText(QString::number(ct));
     if (data.rollData().pool().type() == DiePoolData::Property) {
@@ -65,8 +67,10 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
 
     QLayout *l = ui->wgtDice->layout();
     for (int i = 0; i < totCt; ++i) {
-        QLabel *lbl = new QLabel(QString::number(vals.value(i)), this);
-        l->addWidget(lbl);
+        //QLabel *lbl = new QLabel(QString::number(vals.value(i)), this);
+        DieWidget *w = new DieWidget(this);
+        w->setDieValue(vals.value(i));
+        l->addWidget(w);
     }
 
     m_clueBurnFactor = data.diceForClueBurn();
@@ -104,7 +108,7 @@ void DieRollWidget::cleanDice()
             delete child;
         }
     }
-    foreach (QWidget *w, ui->wgtDice->findChildren<QLabel*>()) {
+    foreach (QWidget *w, ui->wgtDice->findChildren<DieWidget*>()) {
         delete w;
     }
 }

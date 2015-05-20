@@ -4,7 +4,7 @@
 #include "gamescript.h"
 
 GameOptionScript::GameOptionScript(QObject *parent) :
-    QObject(parent)
+    QObject(parent), GameOption(NULL, AH::CannotContinue, AH::ChooseOptional)
 {
 }
 

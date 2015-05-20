@@ -398,8 +398,9 @@ void Game::initMonsters()
         m_monsterPool.addCard(m);
 
     // TEST
+    m_monsterPool.shuffle();
     Monster *m = m_monsterPool.draw();
-    //m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m);
+    m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m);
 }
 
 void Game::chooseInvestigators()

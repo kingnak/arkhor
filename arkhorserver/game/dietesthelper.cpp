@@ -8,14 +8,14 @@
 #include "die/dierollcountevaluator.h"
 #include <QSet>
 
-DieTestHelper::DieTestSpec DieTestHelper::createSkillTest(Character *c, AH::Skill skill, int adjustment, int target)
+DieTestHelper::DieTestSpec DieTestHelper::createSkillTest(QString desc, Character *c, AH::Skill skill, int adjustment, int target)
 {
     ModifiedPropertyValue poolBase = gGame->context().getCharacterSkill(c, skill);
     ModifiedPropertyValue clueBurnMods = gGame->context().getCharacterClueBurn(c, skill);
-    return createClueBurnTest(c, poolBase, clueBurnMods, adjustment, target);
+    return createClueBurnTest(desc, c, poolBase, clueBurnMods, adjustment, target);
 }
 
-DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target)
+DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(QString desc, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target)
 {
     DieTestSpec spec;
     // calculate pool size
@@ -46,6 +46,7 @@ DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(Character *c, Modif
     test.setRollData(rollData);
     test.setDiceForClueBurn(clueBurnMods.finalVal());
     test.setClueBurnMods(clueBurnMods.toModifiedPropertyValueData());
+    test.setDescription(desc);
 
     // Set die roll options
     spec.options = c->getOptions(AH::DieRoll);
@@ -81,6 +82,9 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
 
                 int oldDieCount = pool.dieCount();
                 pool.setDieCount(pool.dieCount() + dieAdds);
+
+                // consider adjustment for actual die update!
+                oldDieCount += pool.adjustment();
 
                 // Special Case: when there was a negative count, don't simply add!
                 int diceToAdd = dieAdds;

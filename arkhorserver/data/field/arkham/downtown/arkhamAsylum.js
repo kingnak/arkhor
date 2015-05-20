@@ -1,21 +1,21 @@
 var asylumOption1 = game.registerOption(game.createOption({
-  //id: "OP_Asylum_Regain_One",
+  id: "OP_Asylum_Regain_One",
   actionId: game.registerAction(game.createAction({
-    //id: "AC_Asylum_Regain_One",
+    id: "AC_Asylum_Regain_One",
     name: "Psychatric Care (One)",
     description: "Instead of having an encounter here, you may recover Sanity by receiving psychiatric care. You regain 1 Sanity for free",
     phases: Constants.GamePhases.ArkhamEncountery,
     activate: function() {
-        //game.context.character.addSanity(1);
+        game.context.character.addSanity(1);
     }
   })).id
 }));
 
 var asylumOption2 = game.registerOption(game.createOption({
-  //id: "OP_Asylum_Regain_All",
+  id: "OP_Asylum_Regain_All",
   costs: { type: Constants.Costs.Money, amount: 2},
   actionId: game.registerAction(game.createAction({
-    //id: "AC_Asylum_Regain_All",
+    id: "AC_Asylum_Regain_All",
     name: "Psychatric Care (All)",
     description: "Instead of having an encounter here, you may recover Sanity by receiving psychiatric care. Pay $2 to restore your Sanity to its maximum value.",
     phases: Constants.GamePhases.ArkhamEncountery,

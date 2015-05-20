@@ -17,7 +17,7 @@ bool EvadeAction::execute()
     Monster *m = gGame->context().monster();
     Player *p = gGame->context().player();
 
-    DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest(p->getCharacter(), AH::Skill_Evade, m->awareness());
+    DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest(name() + " from monster", p->getCharacter(), AH::Skill_Evade, m->awareness());
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
     if (res.boolResult) {
         m_fight->updatePhaseByResult(FightPhase::CharacterFlown);

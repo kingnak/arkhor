@@ -20,7 +20,8 @@ HEADERS += \
     monsterwidget.h \
     resourcepool.h \
     utils.h \
-    registryobjectstackitem.h
+    registryobjectstackitem.h \
+    diewidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -43,7 +44,8 @@ SOURCES += \
     monsterwidget.cpp \
     resourcepool.cpp \
     utils.cpp \
-    registryobjectstackitem.cpp
+    registryobjectstackitem.cpp \
+    diewidget.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

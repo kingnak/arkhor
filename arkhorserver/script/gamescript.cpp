@@ -14,11 +14,13 @@
 #include "characterscript.h"
 #include "arkhamencounterscript.h"
 #include "monsterscript.h"
+#include "gamecontextscript.h"
 
 GameScript::GameScript(Game *game, QObject *parent) :
     QObject(parent), m_game(game)
 {
     m_engine = new QScriptEngine(this);
+    m_ctx = new GameContextScript(this);
 }
 
 bool GameScript::init(const QString &scriptBaseDir)
@@ -29,6 +31,11 @@ bool GameScript::init(const QString &scriptBaseDir)
     qScriptRegisterMetaType<ArkhamEncounterScript*>(m_engine, ArkhamEncounterScript::castToValue, ArkhamEncounterScript::castFromValue);
     qScriptRegisterMetaType<CharacterScript*>(m_engine, CharacterScript::castToValue, CharacterScript::castFromValue);
     qScriptRegisterMetaType<MonsterScript*>(m_engine, MonsterScript::castToValue, MonsterScript::castFromValue);
+
+    qScriptRegisterMetaType<GameContextScript*>(m_engine, GameContextScript::castToValue, GameContextScript::castFromValue);
+
+    qRegisterMetaType<GameContextScript*>();
+    qRegisterMetaType<CharacterScript*>();
 
     // Register global objects:
     // Main Game Script
@@ -42,6 +49,11 @@ bool GameScript::init(const QString &scriptBaseDir)
     bool ok = parseScripts(scriptBaseDir);
     if (!ok) return false;
     return m_game->resolveDependencies();
+}
+
+GameContextScript *GameScript::getGameContext()
+{
+    return m_ctx;
 }
 
 QScriptValue GameScript::initConstants()

@@ -43,7 +43,7 @@ QList<GameOption *> Movement::getPhaseOptions()
     switch (gGame->context().player()->getCharacter()->field()->type()) {
     case AH::Common::FieldData::Location:
     case AH::Common::FieldData::Street:
-        if (m_outcome != FightPhase::EndFlown &&  m_fight->isFightSituation()) {
+        if (m_outcome != FightPhase::EndFlown && m_outcome != FightPhase::EndEvaded &&  m_fight->isFightSituation()) {
             bool res = m_fight->handleFight();
             m_outcome = m_fight->getOutcome();
             if (!res) {

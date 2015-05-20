@@ -45,7 +45,7 @@ bool FightPhase::handleFight()
 
     gGame->context().setPhase(returnPhase);
 
-    if (m_outcome == EndFlown) {
+    if (m_outcome == EndEvaded) {
         // Can continue phase
         return true;
     }
@@ -62,7 +62,7 @@ void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
         m_curPhase = ChooseMonster;
         break;
     case EvadeFailed:
-        m_hadFailedEvade = true;
+        //m_hadFailedEvade = true;
         damageStamina();
         m_curPhase = FightOrFlee;
         break;
@@ -102,11 +102,6 @@ void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
 
     gGame->commitUpdates();
 }
-
-/*void FightPhase::execute()
-{
-
-}*/
 
 QList<GameOption *> FightPhase::getPhaseOptions()
 {
@@ -185,7 +180,8 @@ QList<GameOption *> FightPhase::fightEnterOptions()
 {
     // TODO: Clear all state
     m_outcome = EndUnknown;
-    m_hadFailedEvade = false;
+    m_hasEnteredFight = false;
+    //m_hadFailedEvade = false;
     m_flownMonsters.clear();
     return chooseMonsterOptions();
 }
@@ -199,13 +195,28 @@ QList<GameOption *> FightPhase::chooseMonsterOptions()
     }
 
     if (monsters.isEmpty()) {
-        if (m_hadFailedEvade) {
+        // Case 1: never entered fight => Evaded all monsters
+        if (!m_hasEnteredFight) {
+            m_outcome = EndEvaded;
+            return QList<GameOption*> () << m_endOption->setName("Success")->setDesc("You have evaded all monsters");
+        }
+        // Case 2: not flown from any monster
+        if (m_flownMonsters.isEmpty()) {
             m_outcome = EndSuccess;
             return QList<GameOption*> () << m_endOption->setName("Success")->setDesc("You have defeated all monsters");
-        } else {
+        }
+        // Case 3: flown from monsters
+        m_outcome = EndFlown;
+        return QList<GameOption*> () << m_endOption->setName("Success")->setDesc("You have flown from all monsters");
+        /*
+        if (m_triedEvade && !m_hadFailedEvade) {
             m_outcome = EndFlown;
             return QList<GameOption*> () << m_endOption->setName("Success")->setDesc("You have flown from all monsters");
+        } else {
+            m_outcome = EndSuccess;
+            return QList<GameOption*> () << m_endOption->setName("Success")->setDesc("You have defeated all monsters");
         }
+        */
     }
 
     if (monsters.size() > 1) {
@@ -227,6 +238,7 @@ QList<GameOption *> FightPhase::fightOrEvadeOptions()
 
 QList<GameOption *> FightPhase::fightOrFleeOptions()
 {
+    m_hasEnteredFight = true;
     m_curPhase = FightOrFlee;
     m_evade->setName("Flee");
     return QList<GameOption *>()
@@ -235,6 +247,7 @@ QList<GameOption *> FightPhase::fightOrFleeOptions()
 
 QList<GameOption *> FightPhase::horrorOptions()
 {
+    m_hasEnteredFight = true;
     m_curPhase = Horror;
     return QList<GameOption *> ()
             << m_horror;

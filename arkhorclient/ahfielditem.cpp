@@ -1,6 +1,7 @@
 #include "ahfielditem.h"
 #include "itemstacker.h"
 #include "registryobjectstackitem.h"
+#include "resourcepool.h"
 #include <QtGui>
 
 static const double STACK_ITEM_SIZE = 75;
@@ -84,12 +85,24 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
     if (m_clues) m_clues->setClueCount(data.clueAmount());
 
     if (m_gate) m_gate->setVisible(!data.gateId().isEmpty());
+
+    if (m_specialMarker) {
+        m_specialMarker->setVisible(false);
+        if (data.isSealed()) {
+            m_specialMarker->setPixmap(QPixmap(":/core/marker/elder_sign").scaled(SPECLIAL_ITEM_SIZE, SPECLIAL_ITEM_SIZE));
+            m_specialMarker->setVisible(true);
+        }
+    }
 }
 
 void AhFieldItem::initCharacterItem()
 {
+    if (m_type == Sky) return;
+    if (m_type == Outskirts) return;
+
     m_characters = new ItemStacker;
     m_characters->setPicSize(QSize(STACK_ITEM_SIZE,STACK_ITEM_SIZE));
+    m_characters->setFont(getItemFont());
     m_characters->setAutoFillBackground(false);
     m_characters->setAttribute(Qt::WA_TranslucentBackground);
     connect(m_characters, SIGNAL(itemActivated(const StackItem*)), this, SLOT(characterClicked(const StackItem*)));
@@ -124,8 +137,10 @@ void AhFieldItem::initCharacterItem()
 void AhFieldItem::initMonsterItem()
 {
     if (m_type == OtherWorld) return;
+    if (m_type == LostInSpaceAndTime) return;
 
     m_monsters = new ItemStacker;
+    m_monsters->setFont(getItemFont());
     //m_monsters->setPicSize(QSize(STACK_ITEM_SIZE,STACK_ITEM_SIZE));
     m_monsters->setPicSize(QSize(200,200));
     m_monsters->setAutoFillBackground(false);
@@ -151,6 +166,9 @@ void AhFieldItem::initMonsterItem()
 void AhFieldItem::initSpecialItem()
 {
     if (m_type == OtherWorld) return;
+    if (m_type == Sky) return;
+    if (m_type == Outskirts) return;
+    if (m_type == LostInSpaceAndTime) return;
 
     m_specialMarker = new QGraphicsPixmapItem(this);
     if (m_type == Street)
@@ -162,6 +180,9 @@ void AhFieldItem::initSpecialItem()
 
 void AhFieldItem::initThisCharacterItem()
 {
+    if (m_type == Sky) return;
+    if (m_type == Outskirts) return;
+
     m_thisCharacter = new QGraphicsPixmapItem(this);
     if (m_type == Location)
         m_thisCharacter->setPos(-THIS_CHAR_ITEM_SIZE.width()/2, m_itemRect.bottom()-THIS_CHAR_ITEM_SIZE.height());
@@ -177,6 +198,9 @@ void AhFieldItem::initThisCharacterItem()
 void AhFieldItem::initClickAreaItem()
 {
     if (m_type == OtherWorld) return;
+    if (m_type == Sky) return;
+    if (m_type == Outskirts) return;
+    if (m_type == LostInSpaceAndTime) return;
 
     m_fieldArea = new ClickAreaItem(m_fieldRect, this);
     m_fieldArea->setZValue(-1);
@@ -211,6 +235,14 @@ void AhFieldItem::fieldAreaClicked()
     }
 }
 
+QFont AhFieldItem::getItemFont(int pxSize, bool bold)
+{
+    QFont f = ResourcePool::instance()->loadMainFont();
+    f.setBold(bold);
+    f.setPixelSize(pxSize);
+    return f;
+}
+
 void AhFieldItem::characterClicked(const StackItem *itm)
 {
     if (itm)
@@ -231,6 +263,7 @@ ClickAreaItem::ClickAreaItem(QRectF r, AhFieldItem *parent)
     m_field = parent;
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::LeftButton);
+    setPen(QPen(Qt::NoPen));
 }
 
 void ClickAreaItem::setActive(bool active)
@@ -304,15 +337,16 @@ void ClueAreaItem::setClueCount(quint32 ct)
         m_text->setPlainText(QString::number(ct));
         m_text->setVisible(true);
         m_text->adjustSize();
-        m_text->setPos(0,0);
+        m_text->setPos(0, 0);
     }
 }
 
 void ClueAreaItem::init()
 {
+    setPen(QPen(Qt::NoPen));
     m_icon = new QGraphicsPixmapItem(QPixmap(":/core/marker/clue").scaled(this->boundingRect().size().toSize()), this);
     m_text = new QGraphicsTextItem(this);
-    m_text->setFont(QFont("Arial", 16));
+    m_text->setFont(AhFieldItem::getItemFont(16, true));
 
     setClueCount(0);
 }

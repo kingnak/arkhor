@@ -41,3 +41,6 @@ OW_Celeano;OtherWorld;1020,706,140,160
 OW_TheDreamlands;OtherWorld;1020,486,140,160
 OW_PlateauOfLeng;OtherWorld;1020,270,140,160
 OW_R_lyeh;OtherWorld;1020,50,140,160
+Sp_Outskirts;Outskirts;550,1677,100,100
+Sp_Sky;Sky;670,1677,100,100
+Sp_SpaceAndTime;SpaceAndTime;830,1677,100,100

@@ -48,6 +48,7 @@ namespace AH {
             virtual QString typeId() const { return m_tid; }
             virtual QString name() const { return m_name; }
             virtual QString description() const { return m_desc; }
+            virtual QString mythText() const { return m_mythText; }
             virtual AH::Dimension dimension() const { return m_dimension; }
             virtual MovementType movementType() const { return m_movement; }
             virtual int awareness() const { return m_awareness; }
@@ -65,6 +66,7 @@ namespace AH {
             QString m_tid;
             QString m_name;
             QString m_desc;
+            QString m_mythText;
             AH::Dimension m_dimension;
             MovementType m_movement;
             int m_awareness;

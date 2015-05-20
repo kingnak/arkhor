@@ -54,5 +54,7 @@ bool MythosAction::execute()
     // 4. resolve
     // TODO
 
+    gGame->returnMythos(card);
+
     return true;
 }

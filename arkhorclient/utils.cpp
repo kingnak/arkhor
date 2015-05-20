@@ -47,6 +47,12 @@ QString Utils::stringForProperty(AH::Common::PropertyValueData::Property p)
     case PropertyValueData::DieRoll_Spell: return "Spell";
 
     case PropertyValueData::Game_SealClueCost: return "Seal Clue Cost";
+    case PropertyValueData::Game_AllowMaskMonster: return "Mask Monsters";
+    case PropertyValueData::Game_MaxGateCount: return "Maximum open Gates";
+    case PropertyValueData::Game_MaxBoardMonsterCount: return "Maximum Monsters on Board";
+    case PropertyValueData::Game_MaxOutskirtsMonsterCount: return "Maximum Monsters on Outskirts";
+    case PropertyValueData::Game_TerrorLevel: return "Terror Level";
+    case PropertyValueData::Game_MonsterCountFromGates: return "Monster emerging from Gates";
 
     case PropertyValueData::Damage_General: return "General Damage";
     case PropertyValueData::Damage_Magical: return "Magical Damage";

@@ -37,6 +37,7 @@
         <file alias="sanity">client_resources/Sanity.png</file>
         <file alias="stamina">client_resources/Stamina.png</file>
         <file alias="toughness">client_resources/Toughness.png</file>
+        <file alias="elder_sign">client_resources/elder_sign.png</file>
     </qresource>
     <qresource prefix="/core/data">
         <file alias="boardfields">client_resources/boardfields.txt</file>

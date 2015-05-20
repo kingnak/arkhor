@@ -2,12 +2,12 @@ game.registerInvestigator(game.createInvestigator({
   id: "CH_Jenny_Barnes",
   name: "Jenny Barnes",
   occupation: "The Dilittante",
-  homeFieldId: Constants.Fields.NS_TrainStation,
+  homeFieldId: Constants.Fields.NS_Northside,
   sanity: 6,
   stamina: 4,
   money: 10,
   focus: 1,
-  clues: 3,
+  clues: 10,
   
   uniqueAbilityId: game.registerAction(game.createAction(
     {

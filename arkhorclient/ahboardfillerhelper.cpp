@@ -25,6 +25,9 @@ void AhBoardfillerHelper::initBoard(AhBoardScene *scene, QGraphicsItem *parent)
         case AH::Common::FieldData::Street: fieldType = AhFieldItem::Street; break;
         case AH::Common::FieldData::Location: fieldType = AhFieldItem::Location; break;
         case AH::Common::FieldData::OtherWorld: fieldType = AhFieldItem::OtherWorld; break;
+        case AH::Common::FieldData::Sky: fieldType = AhFieldItem::Sky; break;
+        case AH::Common::FieldData::SpaceAndTime: fieldType = AhFieldItem::LostInSpaceAndTime; break;
+        case AH::Common::FieldData::Outskirts: fieldType = AhFieldItem::Outskirts; break;
         default:
         //Sky
         //SpaceAndTime,
@@ -100,8 +103,8 @@ AH::Common::FieldData::FieldType AhBoardfillerHelper::parseType(QString type)
 {
     if (type == "Street") return AH::Common::FieldData::Street;
     if (type == "Location") return AH::Common::FieldData::Location;
-    if (type == "Sky") return AH::Common::FieldData::Sky;
     if (type == "OtherWorld") return AH::Common::FieldData::OtherWorld;
+    if (type == "Sky") return AH::Common::FieldData::Sky;
     if (type == "SpaceAndTime") return AH::Common::FieldData::SpaceAndTime;
     if (type == "Outskirts") return AH::Common::FieldData::Outskirts;
     Q_ASSERT(false);

@@ -1,13 +1,13 @@
 var m = game.createMonster({
 	id: "MO_BYAKHEE",
 	name: "Byakhee",
-	description: 
+    mythText:
         "It shrieked and flapped its wings. "+
 		"I thought of the empty shell of a beetle, "+
 		"and the soft loam of rotting earth. It cocked "+
 		"its carapaced head at me, black teeth clicking "+
-		"against each other.",
-    dimension: Constants.Dimension.Square,
+        "against each other.",
+    //dimension: Constants.Dimension.Square,
     movementType: Constants.Movement.Fast,
 	awareness: -2,
 	horrorAdjustment: -1,
@@ -18,24 +18,25 @@ var m = game.createMonster({
 	//attributes: 
 });
 
-game.registerMonster(3, m);
+game.registerMonster(10, m);
 
 m = game.createMonster({
     id: "MO_TestMonseter",
     name: "Test Monster",
     description: "MEIN TEST!",
-    dimension: Constants.Dimension.Circle,
-    movementType: Constants.Movement.Special,
+    //dimension: Constants.Dimension.Circle,
+    movementType: Constants.Movement.Flying,
     awareness: -2,
     horrorAdjustment: -1,
     horrorDamage: 2,
     combatAdjustment: -1,
     combatDamage: 2,
     toughness: 1,
-    attributes: Constants.Monster.Unending,
+    attributes: Constants.Monster.Endless,
+                           /*
 	onMove: function() {
 		game.context.character.addClue(1);
-	}
+    }*/
 });
 
-game.registerMonster(3, m);
+game.registerMonster(10, m);

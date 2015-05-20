@@ -15,8 +15,9 @@ ArkhamEncoutery::ArkhamEncoutery(Game *game)
 QList<GameOption *> ArkhamEncoutery::getPhaseOptions()
 {
     QList<GameOption *> opts;
+    bool isSetOut = gGame->context().player()->getCharacter()->isSetOut();
     GameField *field = gGame->context().player()->getCharacter()->field();
-    if (field->type() == AH::Common::FieldData::Location) {
+    if (!isSetOut && field->type() == AH::Common::FieldData::Location) {
         opts = field->getFieldOptions();
         opts << m_enter;
         opts << m_enc;

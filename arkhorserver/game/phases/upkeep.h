@@ -5,6 +5,7 @@
 #include "../gameaction.h"
 #include "../actions/focusaction.h"
 #include "../actions/untapaction.h"
+#include "../actions/setoutaction.h"
 
 class Upkeep : public GamePhase
 {
@@ -18,6 +19,7 @@ protected:
     void enterPhase();
 
 private:
+    SetOutAction *m_setout;
     UntapAction *m_untap;
     FocusOption *m_focus;
 };

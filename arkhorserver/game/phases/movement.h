@@ -4,6 +4,8 @@
 #include "../gamephase.h"
 #include "../gameaction.h"
 #include "../actions/moveaction.h"
+#include "../actions/undelayaction.h"
+#include "../actions/placeonfieldaction.h"
 #include "fight/fightphase.h"
 
 class Movement : public GamePhase
@@ -20,7 +22,9 @@ protected:
     void finishPhase();
 
 private:
+    UndelayOption *m_undelay;
     MoveOption *m_move;
+    PlaceOnFieldOption *m_place;
     FightPhase *m_fight;
 
     FightPhase::FightOutcome m_outcome;

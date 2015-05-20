@@ -15,6 +15,7 @@
 #include "character.h"
 #include "monster.h"
 #include "gate.h"
+#include "mythoscard.h"
 #include <QThread>
 #include <QDebug>
 
@@ -273,7 +274,9 @@ Monster *Game::drawMonster()
 
 MythosCard *Game::drawMythos()
 {
-    return m_mythosDeck.draw();
+    MythosCard *m = m_mythosDeck.draw();
+    m->resolveDynamicAttributes();
+    return m;
 }
 
 void Game::returnMythos(MythosCard *m)
@@ -311,14 +314,13 @@ bool Game::createGate(GameField *field)
         // TODO: place doom token
 
         // Create gate
-        // TODO: This leaks. Create scripted gates instead?
         int adj = RandomSource::instance().nextUint(0, 4)-2;
-        int dim = RandomSource::instance().nextUint(0, 9);
         int dest = RandomSource::instance().nextUint(0, 7);
-        AH::Dimension d = static_cast<AH::Dimension> (1<<dim);
+        AH::Dimension d = randomDimension();
         AH::Common::FieldData::FieldID fid = static_cast<AH::Common::FieldData::FieldID> (0x1000 + 0x0100*dest);
         GameField *f = m_board->field(fid);
         Gate *g = new Gate(d, adj, f);
+        m_registry->registerGate(g);
         field->setGate(g);
 
         // remove clues
@@ -345,6 +347,11 @@ bool Game::createMonster(GameField *field)
     Monster *m = drawMonster();
     if (!m) {
         return false;
+    }
+
+    if (m->dimension() == AH::NoDimension) {
+        // Set random dimension
+        m->setDimension(randomDimension());
     }
 
     int curMonsterCount = m_board->getBoardMonsters().count();
@@ -379,6 +386,21 @@ bool Game::putOutskirtsMonster(Monster *m)
 
     m_board->field(AH::Common::FieldData::Sp_Outskirts)->placeMonster(m);
     return true;
+}
+
+void Game::closeGate(Gate *g, Character *c)
+{
+    g->close(c);
+    // Return monsters
+    QList<Monster *> monsters = m_board->getBoardMonsters();
+    monsters << m_board->field(AH::Common::FieldData::Sp_Outskirts)->monsters();
+
+    AH::Dimensions closeDim = g->dimension();
+    foreach (Monster *m, monsters) {
+        if (closeDim.testFlag(m->dimension())) {
+            returnMonster(m);
+        }
+    }
 }
 
 GameContext &Game::context()
@@ -420,7 +442,9 @@ OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldI
         ct--;
         e = m_owEncDeck.draw();
         m_owEncDeck.returnToDeck(e);
-        if (colors.testFlag(e->color())) {
+        // TEST: Allow multi colored cards
+        //if (colors.testFlag(e->color())) {
+        if ((colors & e->color()) != 0) {
             // Check if field matches (no field matches all)
             if (e->fieldId() != AH::Common::FieldData::NO_NO_FIELD) {
                 if (e->fieldId() != field) {
@@ -541,6 +565,27 @@ AH::Common::DescribeObjectsData Game::describeObjects(const AH::Common::RequestO
     return ret;
 }
 
+AH::Dimension Game::randomDimension() const
+{
+    int dim = RandomSource::instance().nextUint(0, 9);
+    return static_cast<AH::Dimension> (1<<dim);
+}
+
+AH::Common::FieldData::FieldID Game::randomLocation(bool onlyStable) const
+{
+    int district = RandomSource::instance().nextUint(1, 9) * 0x0100;
+    int fld = RandomSource::instance().nextUint(1,3);
+    int id = district | fld;
+    if (id == 0x0703) {
+        return randomLocation(onlyStable);
+    }
+
+    AH::Common::FieldData::FieldID ret = static_cast<AH::Common::FieldData::FieldID> (id);
+    Q_ASSERT(m_board->field(ret) != NULL);
+    Q_ASSERT(m_board->field(ret)->type() == AH::Common::FieldData::Location);
+    return ret;
+}
+
 // protected
 
 void Game::initBoard()
@@ -550,7 +595,8 @@ void Game::initBoard()
     }
 
     // TEST
-    m_board->field(AH::Common::FieldData::DT_ArkhamAsylum)->setGate(new Gate(AH::Dim_Slash, -2, m_board->field(AH::Common::FieldData::OW_Abyss)));
+    //m_board->field(AH::Common::FieldData::DT_ArkhamAsylum)->setGate(new Gate(AH::Dim_Slash, -2, m_board->field(AH::Common::FieldData::OW_Abyss)));
+    //m_board->field(AH::Common::FieldData::DT_IndependenceSquare)->setGate(new Gate(AH::Dim_Circle, +2, m_board->field(AH::Common::FieldData::OW_Abyss)));
 }
 
 void Game::initDecks()
@@ -586,8 +632,17 @@ void Game::initMonsters()
     // Shuffeled at each draw, no need here
 
     // TEST
+    /*
     for (int i = 0;i < 4; ++i)
         m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(drawMonster());
+    for (int i = 0;i < 6; ++i) {
+        Monster *m = drawMonster();
+        if (m->movementType() == AH::Common::MonsterData::Flying)
+            m_board->field(AH::Common::FieldData::Sp_Sky)->placeMonster(m);
+        else
+            m_board->field(AH::Common::FieldData::Sp_Outskirts)->placeMonster(m);
+    }
+    */
 }
 
 void Game::chooseInvestigators()

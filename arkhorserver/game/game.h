@@ -96,6 +96,7 @@ public:
     bool createGate(GameField *field);
     bool createMonster(GameField *field);
     bool putOutskirtsMonster(Monster *m);
+    void closeGate(Gate *g, Character *c);
 
     GameContext &context();
     GameBoard *board();
@@ -117,6 +118,9 @@ public:
     Player *playerForCharacter(Character *c);
 
     AH::Common::DescribeObjectsData describeObjects(const AH::Common::RequestObjectsData &reqs) const;
+
+    AH::Dimension randomDimension() const;
+    AH::Common::FieldData::FieldID randomLocation(bool onlyStable) const;
 
 protected:
     void initBoard();

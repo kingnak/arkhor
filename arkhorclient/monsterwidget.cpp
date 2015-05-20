@@ -22,6 +22,7 @@ QPixmap MonsterFrontWidget::drawMonster(const AH::Common::MonsterData *m, QSize 
     if (m) {
         // Main image
         QPainter p(&ret);
+        p.setRenderHint(QPainter::Antialiasing);
         QPixmap img = ResourcePool::instance()->loadMonster(m->typeId()).scaled(s);
         p.drawPixmap(0, 0, img);
         QPixmap overlay = QPixmap(":/core/images/monster_overlay").scaled(s);
@@ -109,6 +110,7 @@ void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m)
     if (m) {
         // Main image
         QPainter p(&m_cache);
+        p.setRenderHint(QPainter::Antialiasing);
         QPixmap img = ResourcePool::instance()->loadMonster(m->typeId()).scaled(s);
         p.drawPixmap(0, 0, img);
         QPixmap overlay = QPixmap(":/core/images/monster_overlay").scaled(s);
@@ -202,6 +204,15 @@ void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m)
         if (!desc.isEmpty()) {
             QRect rTxt;
             p.drawText(textClip, Qt::TextWordWrap, desc, &rTxt);
+            textClip.setTop(rTxt.bottom() + 2);
+        }
+
+        QString myth = m->mythText();
+        if (!myth.isEmpty()) {
+            QRect rTxt;
+            ftxt.setItalic(true);
+            p.setFont(ftxt);
+            p.drawText(textClip, Qt::TextWordWrap, myth, &rTxt);
             textClip.setTop(rTxt.bottom() + 2);
         }
 

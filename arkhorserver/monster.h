@@ -19,6 +19,8 @@ public:
 
     virtual MonsterData *data();
 
+    void setDimension(AH::Dimension dim) { m_dimension = dim; }
+
     GameField *field() { return m_field; }
     void setField(GameField *f) { m_field = f; }
 

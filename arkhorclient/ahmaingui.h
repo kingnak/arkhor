@@ -35,6 +35,7 @@ public:
 
 public slots:
     void start();
+    void refitGui();
 
 private:
     enum {

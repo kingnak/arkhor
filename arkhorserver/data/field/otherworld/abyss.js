@@ -1,6 +1,6 @@
 game.registerOtherWorldEncounter(game.createOtherWorldEncounter({
-	field: Constants.Fields.OW_Abyss,
-	color: Constants.OtherWorld.Blue,
+    //field: Constants.Fields.OW_Abyss,
+    color: Constants.OtherWorld.Blue | Constants.OtherWorld.Red|Constants.OtherWorld.Yellow|Constants.OtherWorld.Green,
 	description: "A glowing light ahead draws you towards it. "+
 		"Make a <b>Luck (-1) check</b>. If you pass, the glow "+
 		"is a way home. Return to Arkham. If you fail, the light "+

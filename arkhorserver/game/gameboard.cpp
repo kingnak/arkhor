@@ -212,7 +212,10 @@ void GameBoard::updateCaches()
     m_boardMonsterCache.clear();
     m_gateCache.clear();
     foreach (GameField *f, m_fields.values()) {
-        if (f->type() == AH::Common::FieldData::Location || f->type() == AH::Common::FieldData::Street) {
+        if (f->type() == AH::Common::FieldData::Location
+                || f->type() == AH::Common::FieldData::Street
+                || f->type() == AH::Common::FieldData::Sky)
+        {
             m_boardMonsterCache << f->monsters();
         }
 

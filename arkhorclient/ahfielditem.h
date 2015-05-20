@@ -18,7 +18,10 @@ public:
     enum FieldItemType {
         Location = QGraphicsItem::UserType + 1,
         Street,
-        OtherWorld
+        OtherWorld,
+        Sky,
+        LostInSpaceAndTime,
+        Outskirts
     };
 
     AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, QRectF rect, QGraphicsItem *parent = 0);
@@ -36,6 +39,8 @@ public:
     void initSubItems();
 
     void updateFromData(AH::Common::GameFieldData data);
+
+    static QFont getItemFont(int pxSize = 24, bool bold = true);
 
 signals:
     void itemInfoRequested(QString id);

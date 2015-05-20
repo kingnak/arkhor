@@ -6,15 +6,19 @@
 Movement::Movement(Game *game)
     : GamePhase(game)
 {
+    m_undelay = new UndelayOption;
     m_move = new MoveOption(this);
     m_fight = new FightPhase;
+    m_place = new PlaceOnFieldOption;
     m_outcome = FightPhase::EndUnknown;
 }
 
 Movement::~Movement()
 {
+    delete m_undelay;
     delete m_move;
     delete m_fight;
+    delete m_place;
 }
 
 void Movement::characterMoved()
@@ -40,6 +44,9 @@ void Movement::finishPhase()
 
 QList<GameOption *> Movement::getPhaseOptions()
 {
+    if (m_undelay->isAvailable())
+        return QList<GameOption*>() << m_undelay;
+
     switch (gGame->context().player()->getCharacter()->field()->type()) {
     case AH::Common::FieldData::Location:
     case AH::Common::FieldData::Street:
@@ -58,6 +65,16 @@ QList<GameOption *> Movement::getPhaseOptions()
     case AH::Common::FieldData::OtherWorld:
         return QList<GameOption *>()
                 << m_move;
+
+    case AH::Common::FieldData::SpaceAndTime:
+    {
+        AH::Common::FieldData::FieldID fid = gGame->context().player()->getCharacter()->investigator()->startFieldId();
+        GameField *f = gGame->board()->field(fid);
+        m_place->setField(f);
+        return QList<GameOption *>()
+                << m_place;
+    }
+
     default:
         Q_ASSERT_X(false, "Movement", "Unsupported Field Type");
         return QList<GameOption *>();

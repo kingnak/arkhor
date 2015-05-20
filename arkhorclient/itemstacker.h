@@ -8,6 +8,7 @@
 class QPushButton;
 class QToolButton;
 class ItemStacker;
+class QLabel;
 
 class StackItem
 {
@@ -54,6 +55,8 @@ public:
     QSize minimumSizeHint() const;
 
     void setDisplayOffset(int off);
+    void setDisplayCount(bool on = true);
+    void setFont(QFont f);
 
 signals:
     void itemAdded(const StackItem *item);
@@ -89,6 +92,8 @@ private:
     QPushButton *m_displays[DISPLAY_COUNT];
     QList<StackItem *> m_items;
     int m_cur;
+    QFont m_font;
+    QLabel *m_lblCount;
 };
 
 #endif // ITEMSTACKER_H

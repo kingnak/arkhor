@@ -95,7 +95,7 @@ bool InvestigatorScript::verify(InvestigatorScript *inv, QString *msg)
     if (inv->m_name.isEmpty()) errs.append("name must be set");
     AH::Common::FieldData::FieldID fid = static_cast<AH::Common::FieldData::FieldID> (inv->m_homeFieldId);
     if (gGame->board()->field(fid) == NULL) errs.append("home field is invalid");
-    if (gGame->board()->field(fid)->type() != AH::Common::FieldData::Location) errs.append("home field must be a Location field");
+    //else if (gGame->board()->field(fid)->type() != AH::Common::FieldData::Location) errs.append("home field must be a Location field");
     if (inv->m_sanity <= 0) errs.append("sanity must be greater than 0");
     if (inv->m_stamina <= 0) errs.append("stamina must be greater than 0");
     if (inv->m_focus <= 0) errs.append("focus must be greater than 0");

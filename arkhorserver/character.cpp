@@ -6,6 +6,7 @@
 #include "game/gameobject.h"
 #include "monster.h"
 #include "gate.h"
+#include <QDebug>
 
 using namespace AH::Common;
 
@@ -264,7 +265,7 @@ void Character::lostInSpaceAndTime()
     m_curSanity = qMax(1, m_curSanity);
     m_curStamina = qMax(1, m_curStamina);
     losePossessions();
-    setDelayed(this);
+    setDelayed(true);
     gGame->board()->field(AH::Common::FieldData::Sp_SpaceAndTime)->placeCharacter(this);
     gGame->characterDirty(this);
     //gGame->boardDirty();
@@ -314,6 +315,8 @@ void Character::instantiateFromInvestigator()
     GameObject *ua = gGame->registry()->findObjectById(m_investigator->uniqueAbilityId());
     if (ua) {
         m_inventory.append(ua);
+    } else {
+        qWarning() << "Unique ability" << m_investigator->uniqueAbilityId() << "for investigator" << m_investigator->id() << "is not an object";
     }
 
     // Game will give Random and fixed possesion

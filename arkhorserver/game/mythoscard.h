@@ -11,6 +11,8 @@ public:
 
     void setId(QString id) { m_id = id; }
 
+    virtual void resolveDynamicAttributes() = 0;
+
     /*
     void resolve();
 

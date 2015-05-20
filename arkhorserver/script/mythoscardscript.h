@@ -25,6 +25,8 @@ public:
     */
     static MythosCardScript *createMythosCard(QScriptContext *ctx, QScriptEngine *eng);
 
+    virtual void resolveDynamicAttributes();
+
 signals:
 
 public slots:

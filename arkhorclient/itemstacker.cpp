@@ -22,6 +22,7 @@ ItemStacker::ItemStacker(QWidget *parent) :
     }
     m_cur = -1;
 
+
     m_next = new QToolButton(this);
     m_prev = new QToolButton(this);
     m_next->setText(">");
@@ -31,6 +32,9 @@ ItemStacker::ItemStacker(QWidget *parent) :
 
     m_next->setVisible(false);
     m_prev->setVisible(false);
+    m_lblCount = new QLabel(this);
+    m_lblCount->setAutoFillBackground(true);
+    m_lblCount->setAlignment(Qt::AlignCenter|Qt::AlignHCenter);
 }
 
 ItemStacker::~ItemStacker()
@@ -56,6 +60,16 @@ QSize ItemStacker::minimumSizeHint() const
 void ItemStacker::setDisplayOffset(int off)
 {
     m_displayOffset = off;
+}
+
+void ItemStacker::setDisplayCount(bool on)
+{
+    m_lblCount->setVisible(on);
+}
+
+void ItemStacker::setFont(QFont f)
+{
+    m_lblCount->setFont(f);
 }
 
 void ItemStacker::addItem(StackItem *itm)
@@ -138,6 +152,7 @@ void ItemStacker::resizeEvent(QResizeEvent *ev)
     */
     m_next->setGeometry(this->width()-wn, 0, wn, m_next->sizeHint().height());
     m_prev->setGeometry(this->width()-wp-wn, 0, wp, m_prev->sizeHint().height());
+    m_lblCount->setGeometry(m_displayOffset, this->height()-m_lblCount->sizeHint().height()-DISPLAY_COUNT*m_displayOffset, wn, m_lblCount->sizeHint().height());
 }
 
 void ItemStacker::itemClicked()
@@ -187,6 +202,8 @@ void ItemStacker::updateItemVisibility()
 
     m_next->setVisible(m_items.size() > 1);
     m_prev->setVisible(m_items.size() > 1);
+    m_lblCount->setVisible(m_items.size() > 1);
+    m_lblCount->setText(QString::number(m_items.size()));
 }
 
 void ItemStacker::updateItemPixmaps()

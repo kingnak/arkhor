@@ -33,6 +33,7 @@ MonsterScript *MonsterScript::createMonster(QScriptContext *ctx, QScriptEngine *
     ret->m_tid = data.property("id").toString();
     ret->m_name = data.property("name").toString();
     ret->m_desc = data.property("description").toString();
+    ret->m_mythText = data.property("mythText").toString();
     int dim = data.property("dimension").toInt32();
     ret->m_dimension = static_cast<AH::Dimension> (dim);
     int mov = data.property("movementType").toInt32();

@@ -17,6 +17,23 @@ GameRegistry::GameRegistry()
 {
 }
 
+GameRegistry::~GameRegistry()
+{
+    qDeleteAll(m_actions.values());
+    qDeleteAll(m_options.values());
+    qDeleteAll(m_investigators.values());
+    qDeleteAll(m_players.values());
+    qDeleteAll(m_characters.values());
+    qDeleteAll(m_objects.values());
+    qDeleteAll(m_objectTypes.values());
+    qDeleteAll(m_monsters.values());
+    qDeleteAll(m_monsterTypes.values());
+    qDeleteAll(m_arkEncounters);
+    qDeleteAll(m_otherEncounters);
+    qDeleteAll(m_mythosCards.values());
+    qDeleteAll(m_gates);
+}
+
 bool GameRegistry::registerAction(GameAction *a)
 {
     if (a->id().isEmpty()) {
@@ -101,6 +118,12 @@ bool GameRegistry::registerMythosCard(MythosCard *m)
         return false;
     }
     m_mythosCards.insert(m->id(), m);
+    return true;
+}
+
+bool GameRegistry::registerGate(Gate *g)
+{
+    m_gates << g;
     return true;
 }
 

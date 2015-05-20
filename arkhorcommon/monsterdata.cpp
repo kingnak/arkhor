@@ -26,6 +26,7 @@ void operator << (QVariant &data, const MonsterData &target)
     map["tid"] << target.typeId();
     map["name"] << target.name();
     map["desc"] << target.description();
+    map["mythText"] << target.mythText();
     map["dimension"] << target.dimension();
     map["movement"] << target.movementType();
     map["awareness"] << target.awareness();
@@ -46,6 +47,7 @@ void operator >> (const QVariant &data, MonsterData &target)
     map["tid"] >> target.m_tid;
     map["name"] >> target.m_name;
     map["desc"] >> target.m_desc;
+    map["mythText"] >> target.m_mythText;
     map["dimension"] >> target.m_dimension;
     map["movement"] >> target.m_movement;
     map["awareness"] >> target.m_awareness;

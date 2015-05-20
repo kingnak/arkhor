@@ -89,6 +89,11 @@ void AhMainGui::start()
     m_registry->getObject(m_registry->thisCharacterId(), AH::Common::RequestObjectsData::Character);
 }
 
+void AhMainGui::refitGui()
+{
+    ui->tabIntInfInv->resize(ui->tabIntInfInv->minimumSizeHint());
+}
+
 void AhMainGui::displayItemInfo(const QString &id)
 {
     DescribeObjectsData::ObjectDescription d = m_registry->getObject(id);
@@ -136,6 +141,7 @@ void AhMainGui::optionChosen(QString id)
 {
     m_conn->selectOption(id);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
 }
 
 void AhMainGui::chooseMove(AH::Common::FieldData::FieldID startId, int movementPoints)
@@ -143,18 +149,21 @@ void AhMainGui::chooseMove(AH::Common::FieldData::FieldID startId, int movementP
     ui->stkInteraction->setCurrentWidget(ui->pageMovementChooser);
     ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
     ui->wgtMovmentChooser->chooseMovement(startId, movementPoints);
+    refitGui();
 }
 
 void AhMainGui::movementChosen(QList<FieldData::FieldID> path)
 {
     m_conn->selectMovementPath(path);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
 }
 
 void AhMainGui::movementCanceled()
 {
     m_conn->selectMovementPath(QList<FieldData::FieldID>());
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
 }
 
 void AhMainGui::chooseFocus(QList<AttributeSliderData> sliders, int focusAmount)
@@ -168,6 +177,7 @@ void AhMainGui::focusChosen(QList<int> diffs)
 {
     m_conn->selectFocus(diffs);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
 }
 
 void AhMainGui::chooseSkill(QList<ModifiedPropertyValueData> options)
@@ -181,6 +191,7 @@ void AhMainGui::skillChoosen(PropertyValueData::Property skill)
 {
     m_conn->selectSkill(skill);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
 }
 
 void AhMainGui::showDieRollInfo(DieRollTestData data)
@@ -194,6 +205,7 @@ void AhMainGui::dieUpdateChosen(DieTestUpdateData upd)
 {
     m_conn->chooseDieRollUpdate(upd);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
 }
 
 void AhMainGui::updateObject(DescribeObjectsData::ObjectDescription desc)
@@ -240,12 +252,14 @@ void AhMainGui::weaponsCanceled()
 {
     m_conn->cancelWeapons();
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
 }
 
 void AhMainGui::weaponsSelected(QStringList weaponIds)
 {
     m_conn->selectWeapons(weaponIds);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
 }
 
 void AhMainGui::chooseEncounter(EncounterData encounter)
@@ -259,4 +273,5 @@ void AhMainGui::encounterSelected(QString id)
 {
     m_conn->selectEncounterOption(id);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
 }

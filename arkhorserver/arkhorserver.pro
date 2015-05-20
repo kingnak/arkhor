@@ -1,5 +1,7 @@
 QT += network script
 
+CONFIG(debug):DEFINES += "_DEBUG=1"
+
 HEADERS += \
     communication/clientconnection.h \
     communication/gameserver.h \
@@ -74,7 +76,10 @@ HEADERS += \
     game/otherworldencounter.h \
     game/phases/mythos.h \
     game/mythoscard.h \
-    script/mythoscardscript.h
+    script/mythoscardscript.h \
+    game/actions/setoutaction.h \
+    game/actions/undelayaction.h \
+    game/actions/placeonfieldaction.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -149,7 +154,10 @@ SOURCES += \
     script/otherworldencounterscript.cpp \
     game/phases/mythos.cpp \
     game/mythoscard.cpp \
-    script/mythoscardscript.cpp
+    script/mythoscardscript.cpp \
+    game/actions/setoutaction.cpp \
+    game/actions/undelayaction.cpp \
+    game/actions/placeonfieldaction.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

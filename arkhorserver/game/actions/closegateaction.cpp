@@ -30,7 +30,7 @@ bool CloseGateAction::execute()
         if (m_bSeal) {
             f->setSealed(true);
         }
-        gGame->context().gate()->close(gGame->context().player()->getCharacter());
+        gGame->closeGate(gGame->context().gate(), gGame->context().player()->getCharacter());
     }
     return true;
 }

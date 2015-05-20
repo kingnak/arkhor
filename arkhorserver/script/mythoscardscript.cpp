@@ -1,5 +1,6 @@
 #include "mythoscardscript.h"
 #include "gamescript.h"
+#include "game/game.h"
 
 MythosCardScript::MythosCardScript(QObject *parent) :
     QObject(parent)
@@ -40,15 +41,31 @@ MythosCardScript *MythosCardScript::createMythosCard(QScriptContext *ctx, QScrip
     return pRet;
 }
 
+void MythosCardScript::resolveDynamicAttributes()
+{
+    if (m_moveBlack == AH::NoDimension) {
+        m_moveBlack = gGame->randomDimension();
+    }
+    if (m_moveWhite == AH::NoDimension) {
+        m_moveWhite = gGame->randomDimension();
+    }
+    if (m_gateField == AH::Common::FieldData::NO_NO_FIELD) {
+        m_gateField = gGame->randomLocation(true);
+    }
+    if (m_clueField == AH::Common::FieldData::NO_NO_FIELD) {
+        m_clueField = gGame->randomLocation(false);
+    }
+}
+
 bool MythosCardScript::verify(MythosCardScript *myth, QString *err)
 {
     QStringList errs;
     if (myth->m_name.isEmpty()) errs << "name must be set";
     if (myth->m_type == None) errs << "type must be set";
-    if (myth->m_clueField == AH::Common::FieldData::NO_NO_FIELD) errs << "clueField must be set";
-    if (myth->m_gateField == AH::Common::FieldData::NO_NO_FIELD) errs << "gateField must be set";
-    if (myth->m_moveBlack == AH::NoDimension) errs << "moveBlack must be set";
-    if (myth->m_moveWhite == AH::NoDimension) errs << "moveWhite must be set";
+    //if (myth->m_clueField == AH::Common::FieldData::NO_NO_FIELD) errs << "clueField must be set";
+    //if (myth->m_gateField == AH::Common::FieldData::NO_NO_FIELD) errs << "gateField must be set";
+    //if (myth->m_moveBlack == AH::NoDimension) errs << "moveBlack must be set";
+    //if (myth->m_moveWhite == AH::NoDimension) errs << "moveWhite must be set";
 
     if (err) *err = errs.join("\n");
     if (errs.isEmpty()) {

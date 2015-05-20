@@ -4,8 +4,10 @@
 #include "gate.h"
 #include "character.h"
 #include "../player.h"
+#include "game/phases/movement.h"
 
-MoveAction::MoveAction()
+MoveAction::MoveAction(Movement *m)
+    : m_movement(m)
 {
 }
 
@@ -40,6 +42,7 @@ bool MoveAction::moveArkham()
             && gGame->board()->validatePath(p)
             && p.length() <= speed)
     {
+        m_movement->characterMoved();
         gGame->notifier()->actionStart(this, QString("Moving from %1").arg(p.first()->name()));
         GameField *stopField = p.endField();
         for (int i = 1; i < p.size(); ++i) {
@@ -55,9 +58,6 @@ bool MoveAction::moveArkham()
         stopField->placeCharacter(gGame->context().player()->getCharacter());
         gGame->context().player()->getCharacter()->setMovementAmount(speed);
         gGame->notifier()->actionFinish(this, QString("Stopping at %1").arg(stopField->name()));
-
-        gGame->boardDirty();
-
         return true;
     }
     return false;

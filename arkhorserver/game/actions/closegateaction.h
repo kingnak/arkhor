@@ -29,7 +29,7 @@ class CloseGateOption : public GameOption
 {
 public:
     CloseGateOption()
-        : GameOption(&ca, AH::CannotContinue, AH::ChooseOptional, AH::ArkhamEncountery)
+        : GameOption(&ca, AH::CannotContinue, AH::ChooseSupplemental, AH::ArkhamEncountery)
     {}
 
     QString id() const { return "OP_CLOSE_GATE"; }
@@ -46,7 +46,7 @@ class SealGateOption : public GameOption
 {
 public:
     SealGateOption()
-        : GameOption(&ca, AH::CannotContinue, AH::ChooseOptional, AH::ArkhamEncountery)
+        : GameOption(&ca, AH::CannotContinue, AH::ChooseSupplemental, AH::ArkhamEncountery)
     {}
 
     QString name() const { return "Seal Gate"; }

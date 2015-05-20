@@ -13,6 +13,7 @@ Character::Character(Investigator *i)
 :   m_investigator(i),
     m_field(NULL),
     m_maxFocus(0),
+    m_dirty(false),
     /*
     m_maxStamina(0),
     m_curStamina(0),
@@ -24,6 +25,8 @@ Character::Character(Investigator *i)
     m_isDelayed(false),
     m_owPhase(AH::NoPhase)
     */
+    m_curDmgStamina(0),
+    m_curDmgSanity(0),
     m_explorededGate(NULL)
 {
     instantiateFromInvestigator();
@@ -193,25 +196,66 @@ bool Character::pay(const CostList &cost)
         }
     }
 
-    gGame->characterDirty(this);
-    // TODO: Verify Sanity and Stamina
+    bool res = commitDamage();
 
-    return true;
+    gGame->characterDirty(this);
+
+    return res;
+}
+
+void Character::losePossessions()
+{
+    m_clues = (m_clues+1)/2;
+    // TODO: Loose objects (let user decide)
+    gGame->characterDirty(this);
 }
 
 void Character::unconscious()
 {
-    // TODO
+    if (field()->type() == AH::Common::FieldData::OtherWorld) {
+        lostInSpaceAndTime();
+        return;
+    }
+
+    m_curStamina = 1;
+    losePossessions();
+    gGame->board()->field(AH::Common::FieldData::UT_StMarysHospital)->placeCharacter(this);
+    setSetout(true);
+    gGame->characterDirty(this);
+    //gGame->boardDirty();
 }
 
 void Character::insane()
 {
-    // TODO
+    if (field()->type() == AH::Common::FieldData::OtherWorld) {
+        lostInSpaceAndTime();
+        return;
+    }
+
+    m_curSanity = 1;
+    losePossessions();
+    gGame->board()->field(AH::Common::FieldData::DT_ArkhamAsylum)->placeCharacter(this);
+    setSetout(true);
+    gGame->characterDirty(this);
+    //gGame->boardDirty();
 }
 
 void Character::devour()
 {
+    // TODO: Check for anciant one fight
+    //if (gGame->context().phase() ==)
     // TODO
+}
+
+void Character::lostInSpaceAndTime()
+{
+    m_curSanity = qMax(1, m_curSanity);
+    m_curStamina = qMax(1, m_curStamina);
+    losePossessions();
+    setDelayed(this);
+    gGame->board()->field(AH::Common::FieldData::Sp_SpaceAndTime)->placeCharacter(this);
+    gGame->characterDirty(this);
+    //gGame->boardDirty();
 }
 
 void Character::instantiateFromInvestigator()
@@ -275,21 +319,41 @@ int Character::getAttributeValue(AH::Attribute attr) const
 
 void Character::damageStamina(int amount)
 {
-    m_curStamina = qMax(0, m_curStamina - amount);
-    if (m_curStamina == 0) {
-        unconscious();
-    }
+    m_curDmgStamina += amount;
 
-    gGame->characterDirty(this);
 }
 
 void Character::damageSanity(int amount)
 {
-    m_curSanity = qMax(0, m_curSanity - amount);
-    if (m_curSanity == 0)
+    m_curDmgSanity += amount;
+}
+
+bool Character::commitDamage()
+{
+    if (m_curDmgSanity == 0 && m_curDmgStamina == 0) {
+        return true;
+    }
+    m_curStamina = qMax(0, m_curStamina - m_curDmgStamina);
+    m_curSanity = qMax(0, m_curSanity - m_curDmgSanity);
+
+    m_curDmgSanity = m_curDmgStamina = 0;
+
+    if (m_curSanity == 0 && m_curStamina == 0) {
+        devour();
+        return false;
+    }
+
+    if (m_curSanity == 0) {
         insane();
+        return false;
+    }
+    if (m_curStamina == 0) {
+        unconscious();
+        return false;
+    }
 
     gGame->characterDirty(this);
+    return true;
 }
 
 void Character::addStamina(int amount)

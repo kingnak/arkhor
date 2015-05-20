@@ -11,6 +11,7 @@
 #include "gameobject.h"
 #include "arkhamencounter.h"
 #include "character.h"
+#include "monster.h"
 #include <QThread>
 #include <QDebug>
 
@@ -66,7 +67,7 @@ void Game::start()
     cleanupDeactivatedPlayers();
     //chooseAnciantOne();
     initDecks();
-    //initMonsters();
+    initMonsters();
 
     // This will set up main GUI in clients
     m_notifier->startGame();
@@ -79,7 +80,7 @@ void Game::start()
 
 void Game::play()
 {
-    sendBoard();
+    commitUpdates();
     mythos();
     m_notifier->firstPlayerChanged(getFirstPlayer());
     while (true) {
@@ -180,6 +181,13 @@ void Game::registerArkhamEnconutry(ArkhamEncounter *a)
     m_arkEnc[a->fieldId()] << a;
 }
 
+void Game::registerMonster(Monster *m, quint32 count)
+{
+    if (!m_registry->registerMonster(m, count)) {
+        qCritical() << "Error registering monster(s)";
+    }
+}
+
 void Game::registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId)
 {
     m_fieldOptionMap[fId] << opId;
@@ -240,15 +248,29 @@ GameNotifier *Game::notifier()
 
 void Game::boardDirty()
 {
-    // TODO: better...
-    sendBoard();
+    m_board->setDirty();
 }
 
 void Game::characterDirty(Character *c)
 {
-    Player *p = playerForCharacter(c);
-    if (p) {
-        p->sendCharacter(c);
+    c->setDirty(true);
+}
+
+void Game::commitUpdates()
+{
+    if (m_board->isDirty()) {
+        m_board->setDirty(false);
+        sendBoard();
+    }
+
+    foreach (Character *c, m_registry->allCharacters()) {
+        if (c->isDirty()) {
+            c->setDirty(false);
+            Player *p = playerForCharacter(c);
+            if (p) {
+                p->sendCharacter(c);
+            }
+        }
     }
 }
 
@@ -320,6 +342,7 @@ AH::Common::DescribeObjectsData Game::describeObjects(const AH::Common::RequestO
 // protected
 // TEST
 #include "gate.h"
+
 void Game::initBoard()
 {
     foreach (GameField *f, m_board->fields(AH::Common::FieldData::Location)) {
@@ -341,6 +364,16 @@ void Game::initDecks()
     }
 }
 
+void Game::initMonsters()
+{
+    foreach (Monster *m, m_registry->allMonsters())
+        m_monsterPool.addCard(m);
+
+    // TEST
+    Monster *m = m_monsterPool.draw();
+    m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m);
+}
+
 void Game::chooseInvestigators()
 {
     ChooseInvestigator ci(this);
@@ -352,6 +385,8 @@ void Game::initInvestigators()
     // FIXED POSSESSION
     foreach (Character *c, m_registry->allCharacters())
     {
+        // Will be dirty after all of this...
+        c->setDirty();
         foreach (QString tid, c->investigator()->fixedPossesionObjectIds())
         {
             GameObject *obj = NULL;
@@ -390,7 +425,8 @@ void Game::initInvestigators()
     {
         m_board->field(c->investigator()->startFieldId())->placeCharacter(c);
     }
-    sendBoard();
+
+    commitUpdates();
 
     // INITIAL FOCUS
     foreach (Player *p, m_registry->allPlayers())
@@ -461,14 +497,24 @@ void Game::playRound()
 {
     upkeep();
     cleanupDeactivatedPlayers();
+    commitUpdates();
+
     movement();
     cleanupDeactivatedPlayers();
+    commitUpdates();
+
     arkhamEncountery();
     cleanupDeactivatedPlayers();
+    commitUpdates();
+
     otherWorldEncountery();
     cleanupDeactivatedPlayers();
+    commitUpdates();
+
     mythos();
     cleanupDeactivatedPlayers();
+    commitUpdates();
+
     nextRound();
 }
 
@@ -488,6 +534,7 @@ void Game::nextRound()
 
     m_notifier->nextRound();
     m_notifier->firstPlayerChanged(getFirstPlayer());
+    commitUpdates();
 }
 
 void Game::cleanupDeactivatedPlayers()

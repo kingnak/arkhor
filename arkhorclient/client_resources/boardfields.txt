@@ -33,3 +33,11 @@ SS_Southside;Street;566,1273,160,85
 SS_MasBoardingHouse;Location;806,1199,150,140
 SS_SouthChurch;Location;745,1420,150,140
 SS_HistoricalSociety;Location;561,1460,150,160
+OW_AnotherDimension;OtherWorld;1020,1575,140,160
+OW_Abyss;OtherWorld;1020,1360,140,160
+OW_CityOfGreatRace;OtherWorld;1020,1140,140,160
+OW_Yuggoth;OtherWorld;1020,925,140,160
+OW_Celeano;OtherWorld;1020,706,140,160
+OW_TheDreamlands;OtherWorld;1020,486,140,160
+OW_PlateauOfLeng;OtherWorld;1020,270,140,160
+OW_R_lyeh;OtherWorld;1020,50,140,160

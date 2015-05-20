@@ -5,6 +5,7 @@
 #include "investigator.h"
 #include "character.h"
 #include "player.h"
+#include "monster.h"
 
 GameRegistry::GameRegistry()
 {
@@ -48,6 +49,21 @@ bool GameRegistry::registerPlayer(Player *p)
 bool GameRegistry::registerCharacter(Character *c)
 {
     return doRegisterItem(c, m_characters);
+}
+
+bool GameRegistry::registerMonster(Monster *m, int ct)
+{
+    if (!m) return false;
+    if (m->typeId().isEmpty()) return false;
+    if (!m_monsterTypes.contains(m->typeId()))
+        m_monsterTypes.insert(m->typeId(), m);
+
+    for (int i = 0; i < ct; ++i) {
+        Monster *im = m->clone();
+        im->setId(QString("%2:%1").arg(i).arg(im->typeId()));
+        m_monsters.insert(im->id(), im);
+    }
+    return true;
 }
 
 bool GameRegistry::removePlayer(Player *p)
@@ -112,6 +128,11 @@ QList<Player *> GameRegistry::allPlayers()
 QList<Character *> GameRegistry::allCharacters()
 {
     return m_characters.values();
+}
+
+QList<Monster *> GameRegistry::allMonsters()
+{
+    return m_monsters.values();
 }
 
 bool GameRegistry::resolveDependencies()

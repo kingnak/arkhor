@@ -15,6 +15,7 @@ class GameActionScript;
 class GameOptionScript;
 class GameObjectScript;
 class ArkhamEncounterScript;
+class MonsterScript;
 
 class GameScript : public QObject, public QScriptable
 {
@@ -43,6 +44,9 @@ public:
 
     Q_INVOKABLE ArkhamEncounterScript *createArkhamEncounter();
     Q_INVOKABLE QScriptValue registerArkhamEncounter(ArkhamEncounterScript *e);
+
+    Q_INVOKABLE MonsterScript *createMonster();
+    Q_INVOKABLE QScriptValue registerMonster(quint32 count, MonsterScript *m);
 
     static QStringList array2stringlist(QScriptValue ar);
     static QScriptValueList array2list(QScriptValue ar);

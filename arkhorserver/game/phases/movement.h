@@ -12,13 +12,18 @@ public:
     Movement(Game *game);
     ~Movement();
 
+    void characterMoved();
+
 protected:
     QList<GameOption *> getPhaseOptions();
     void enterPhase();
+    void finishPhase();
 
 private:
     MoveOption *m_move;
     FightPhase *m_fight;
+
+    FightPhase::FightOutcome m_outcome;
 };
 
 #endif // MOVEMENT_H

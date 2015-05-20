@@ -290,6 +290,17 @@ QScriptValue GameScript::registerArkhamEncounter(ArkhamEncounterScript *e)
     return m_engine->newQObject(e);
 }
 
+MonsterScript *GameScript::createMonster()
+{
+    return MonsterScript::createMonster(context(), engine());
+}
+
+QScriptValue GameScript::registerMonster(quint32 count, MonsterScript *m)
+{
+    m_game->registerMonster(m, count);
+    return m_engine->newQObject(m);
+}
+
 QStringList GameScript::array2stringlist(QScriptValue ar)
 {
     QStringList ret;

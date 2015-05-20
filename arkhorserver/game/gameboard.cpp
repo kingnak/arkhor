@@ -1,6 +1,7 @@
 #include "gameboard.h"
 
 GameBoard::GameBoard()
+    : m_dirty(false)
 {
 }
 

@@ -45,6 +45,7 @@ public:
     void registerOption(GameOption *o);
     void registerObject(GameObject *o, quint32 count = 1);
     void registerArkhamEnconutry(ArkhamEncounter *a);
+    void registerMonster(Monster *m, quint32 count = 1);
     bool resolveDependencies();
 
     void registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId);
@@ -92,6 +93,8 @@ public:
     void boardDirty();
     void characterDirty(Character *c);
 
+    void commitUpdates();
+
     Player *playerForCharacter(Character *c);
 
     AH::Common::DescribeObjectsData describeObjects(const AH::Common::RequestObjectsData &reqs) const;
@@ -99,6 +102,7 @@ public:
 protected:
     void initBoard();
     void initDecks();
+    void initMonsters();
     void chooseInvestigators();
     void initInvestigators();
 

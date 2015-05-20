@@ -14,6 +14,7 @@ AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, 
     m_type(type),
     m_monsters(NULL),
     m_characters(NULL),
+//    m_secondPhaseCharacters(NULL),
     m_fieldArea(NULL),
     m_clues(NULL),
     m_gate(NULL),
@@ -63,8 +64,9 @@ void AhFieldItem::initSubItems()
 
 void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
 {
+    //if (m_secondPhaseCharacters) m_secondPhaseCharacters->clear();
     if (m_characters) {
-        m_characters->clear();
+        m_characters->clear();        
         foreach (QString id, data.characterIds()) {
             m_characters->addItem(StackItem(QPixmap(":/test/client_resources/test/jenny_barnes_figure.png"), "", id));
         }
@@ -95,19 +97,32 @@ void AhFieldItem::initCharacterItem()
     QRectF bound = boundingRect();
     qreal stkSize;
     if (m_type == Location) stkSize = qMin(bound.height()/2., STACK_ITEM_SIZE);
-    else stkSize = qMin(bound.height(), STACK_ITEM_SIZE);
+    else if (m_type == Street) stkSize = qMin(bound.height(), STACK_ITEM_SIZE);
+    else if (m_type == OtherWorld) stkSize = qMin(bound.height(), STACK_ITEM_SIZE);
 
     prxChar->resize(stkSize, stkSize);
     prxChar->setPos(bound.topLeft());
 
-    ////////// TEST
-    //m_characters->addItem(StackItem(QPixmap(":/test/client_resources/test/jenny_barnes_figure.png"), "", "Jenny Barnes"));
-    //m_characters->addItem(StackItem(QPixmap(":/test/client_resources/test/sister_mary_figure.png"), "", "Sister Mary"));
-    ////////// TEST
+    /*
+    if (m_type == OtherWorld) {
+        m_secondPhaseCharacters = new ItemStacker;
+        m_secondPhaseCharacters->setPicSize(QSize(STACK_ITEM_SIZE,STACK_ITEM_SIZE));
+        m_secondPhaseCharacters->setAutoFillBackground(false);
+        m_secondPhaseCharacters->setAttribute(Qt::WA_TranslucentBackground);
+        connect(m_secondPhaseCharacters, SIGNAL(itemActivated(StackItem)), this, SLOT(characterClicked(StackItem)));
+        QGraphicsProxyWidget *prx2nd = new QGraphicsProxyWidget(this);
+        prx2nd->setWidget(m_secondPhaseCharacters);
+        prx2nd->resize(stkSize, stkSize);
+        prxChar->setPos(0,0);
+        prx2nd->setPos(bound.topLeft());
+    }
+    */
 }
 
 void AhFieldItem::initMonsterItem()
 {
+    if (m_type == OtherWorld) return;
+
     m_monsters = new ItemStacker;
     m_monsters->setPicSize(QSize(STACK_ITEM_SIZE,STACK_ITEM_SIZE));
     m_monsters->setAutoFillBackground(false);
@@ -123,17 +138,12 @@ void AhFieldItem::initMonsterItem()
 
     prxMonst->resize(stkSize, stkSize);
     prxMonst->setPos(bound.topRight().x()-prxMonst->size().width(), bound.topRight().y());
-
-
-    ////////// TEST
-    //m_monsters->addItem(StackItem(QPixmap(":/test/client_resources/test/Byakhee.png"), "", "Byakhee"));
-    //m_monsters->addItem(StackItem(QPixmap(":/test/client_resources/test/Cultist.png"), "", "Cultist"));
-    //m_monsters->addItem(StackItem(QPixmap(":/test/client_resources/test/Dhole.png"), "", "Dhole"));
-    ////////// TEST
 }
 
 void AhFieldItem::initSpecialItem()
 {
+    if (m_type == OtherWorld) return;
+
     m_specialMarker = new QGraphicsPixmapItem(this);
     if (m_type == Street)
         m_specialMarker->setPos(-SPECLIAL_ITEM_SIZE, -SPECLIAL_ITEM_SIZE/2);
@@ -149,12 +159,17 @@ void AhFieldItem::initThisCharacterItem()
         m_thisCharacter->setPos(-THIS_CHAR_ITEM_SIZE.width()/2, m_itemRect.bottom()-THIS_CHAR_ITEM_SIZE.height());
     else
         m_thisCharacter->setPos(0, -THIS_CHAR_ITEM_SIZE.height()/2);
+
+    // TODO
+
     //QPixmap p = QPixmap(":/test/client_resources/test/jenny_barnes_figure.png").scaled(THIS_CHAR_ITEM_SIZE.toSize());
     //m_thisCharacter->setPixmap(p);
 }
 
 void AhFieldItem::initClickAreaItem()
 {
+    if (m_type == OtherWorld) return;
+
     m_fieldArea = new ClickAreaItem(m_fieldRect, this);
     m_fieldArea->setZValue(-1);
     m_fieldArea->setActive(false);

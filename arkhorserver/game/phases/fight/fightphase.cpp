@@ -15,6 +15,8 @@ FightPhase::FightPhase()
     m_fight = new FightOption(this);
     m_horror = new HorrorOption(this);
     m_chooseWeapons = new ChooseWeaponsOption(this);
+    m_attack = new AttackOption(this);
+    m_endOption = new EndOption;
 }
 
 FightPhase::~FightPhase()
@@ -24,6 +26,7 @@ FightPhase::~FightPhase()
     delete m_horror;
     delete m_chooseWeapons;
     delete m_attack;
+    delete m_endOption;
 }
 
 bool FightPhase::isFightSituation() const
@@ -36,9 +39,17 @@ bool FightPhase::handleFight()
     AH::GamePhase returnPhase = gGame->context().phase();
     gGame->context().setPhase(AH::FightPhase);
     m_curPhase = FightEnter;
+    m_outcome = EndUnknown;
+
     execute();
+
     gGame->context().setPhase(returnPhase);
-    return true;
+
+    if (m_outcome == EndFlown) {
+        // Can continue phase
+        return true;
+    }
+    return false;
 }
 
 void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
@@ -49,6 +60,7 @@ void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
         m_curPhase = ChooseMonster;
         break;
     case EvadeFailed:
+        m_hadFailedEvade = true;
         damageStamina();
         m_curPhase = FightOrFlee;
         break;
@@ -78,8 +90,12 @@ void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
         m_curPhase = ChooseMonster;
     }
 
-    // TODO: Check character state here or elsewhere?
+    if (!gGame->context().player()->getCharacter()->commitDamage())
+    {
+        m_outcome = EndFailed;
+    }
 
+    gGame->commitUpdates();
 }
 
 /*void FightPhase::execute()
@@ -89,6 +105,12 @@ void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
 
 QList<GameOption *> FightPhase::getPhaseOptions()
 {
+    if (m_outcome == EndFailed) {
+        return QList<GameOption *>() << m_endOption->setName("Failed")->setDesc("You have lost the fight");
+    } else if (m_outcome == EndSuccess) {
+        return QList<GameOption *>() << m_endOption->setName("Success")->setDesc("You have won the fight");
+    }
+
     switch (m_curPhase) {
     case FightEnter:
         return fightEnterOptions();
@@ -99,7 +121,7 @@ QList<GameOption *> FightPhase::getPhaseOptions()
     case Horror:
         return horrorOptions();
     case FightOrFlee:
-        return fightOrEvadeOptions();
+        return fightOrFleeOptions();
     case ChooseWeapons:
         return chooseWeaponsOptions();
     }
@@ -156,16 +178,27 @@ QList<GameOption *> FightPhase::fightEnterOptions()
 {
     // TODO: Clear all state
     m_outcome = EndUnknown;
+    m_hadFailedEvade = false;
+    m_flownMonsters.clear();
     return chooseMonsterOptions();
 }
 
 QList<GameOption *> FightPhase::chooseMonsterOptions()
 {
     QList<Monster*> monsters = gGame->context().player()->getCharacter()->field()->monsters();
-    // TODO: remove evaded/flown monsters
+    // remove evaded/flown monsters
+    foreach (Monster *m, m_flownMonsters) {
+        monsters.removeAll(m);
+    }
+
     if (monsters.isEmpty()) {
-        m_outcome = EndSuccess;
-        return QList<GameOption*> ();
+        if (m_hadFailedEvade) {
+            m_outcome = EndSuccess;
+            return QList<GameOption*> () << m_endOption->setName("Success")->setDesc("You have defeated all monsters");
+        } else {
+            m_outcome = EndFlown;
+            return QList<GameOption*> () << m_endOption->setName("Success")->setDesc("You have flown from all monsters");
+        }
     }
 
     if (monsters.size() > 1) {
@@ -180,6 +213,15 @@ QList<GameOption *> FightPhase::chooseMonsterOptions()
 QList<GameOption *> FightPhase::fightOrEvadeOptions()
 {
     m_curPhase = FightOrEvade;
+    m_evade->setName("Evade");
+    return QList<GameOption *>()
+            << m_evade << m_fight;
+}
+
+QList<GameOption *> FightPhase::fightOrFleeOptions()
+{
+    m_curPhase = FightOrFlee;
+    m_evade->setName("Flee");
     return QList<GameOption *>()
             << m_evade << m_fight;
 }

@@ -23,6 +23,7 @@ void operator << (QVariant &data, const MonsterData &target)
 {
     QVariantMap map;
     map["id"] << target.id();
+    map["tid"] << target.typeId();
     map["name"] << target.name();
     map["desc"] << target.description();
     map["dimension"] << target.dimension();
@@ -42,6 +43,7 @@ void operator >> (const QVariant &data, MonsterData &target)
     QVariantMap map;
     data >> map;
     map["id"] >> target.m_id;
+    map["tid"] >> target.m_tid;
     map["name"] >> target.m_name;
     map["desc"] >> target.m_desc;
     map["dimension"] >> target.m_dimension;

@@ -36,6 +36,8 @@ bool FocusAction::executeOnPlayer(Player *p, int &focusAmount)
 
     focusAmount -= sum;
 
+    gGame->characterDirty(p->getCharacter());
+
     return true;
 }
 

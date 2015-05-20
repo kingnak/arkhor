@@ -54,6 +54,7 @@ void operator <<(QVariant &data, const DieRollTestData &target)
     map["targetValue"] << target.m_target;
     map["diceForClue"] << target.m_diceForClue;
     map["optionIds"] << target.m_optionIds;
+    map["clueBurnMods"] << target.m_clueBurnMods;
     data << map;
 }
 
@@ -66,6 +67,7 @@ void operator >>(const QVariant &data, DieRollTestData &target)
     map["targetValue"] >> target.m_target;
     map["diceForClue"] >> target.m_diceForClue;
     map["optionIds"] >> target.m_optionIds;
+    map["clueBurnMods"] >> target.m_clueBurnMods;
 }
 
 void operator <<(QVariant &data, const DieTestUpdateData &target)

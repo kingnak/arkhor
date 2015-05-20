@@ -99,10 +99,12 @@ namespace AH {
             int targetValue() const { return m_target; }
             int diceForClueBurn() const { return m_diceForClue; }
             QStringList dieRollOptionIds() const { return m_optionIds; }
+            ModifiedPropertyValueData clueBurnMods() const { return m_clueBurnMods; }
 
             void setRollData(const DieRollData &drd) { m_roller = drd; }
             void setDiceForClueBurn(int d4cb) { m_diceForClue = d4cb; }
             void setRollOptionIds(QStringList lst) { m_optionIds = lst; }
+            void setClueBurnMods(ModifiedPropertyValueData mods) { m_clueBurnMods = mods; }
 
         protected:
             TestType m_type;
@@ -110,6 +112,7 @@ namespace AH {
             int m_target;
             int m_diceForClue;
             QStringList m_optionIds;
+            ModifiedPropertyValueData m_clueBurnMods;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, DieRollTestData);
         };

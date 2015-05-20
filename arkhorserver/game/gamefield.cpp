@@ -16,12 +16,14 @@ GameField::GameField(AH::Common::FieldData::FieldID id, const QString &name, AH:
 void GameField::putClue(int amount)
 {
     m_clues += amount;
+    gGame->boardDirty();
 }
 
 int GameField::takeClues()
 {
     int ret = m_clues;
     m_clues = 0;
+    gGame->boardDirty();
     return ret;
 }
 
@@ -30,6 +32,7 @@ void GameField::addBackGate(Gate *p)
     Q_ASSERT_X(m_type == AH::Common::FieldData::OtherWorld, "Add Back Gate", "Can only add Back Gates to Other Worlds");
     Q_ASSERT_X(!m_backGates.contains(p), "Add Back Gate", "Already have that gate");
     m_backGates.append(p);
+    gGame->boardDirty();
 }
 
 void GameField::removeGate(Gate *p)
@@ -40,12 +43,13 @@ void GameField::removeGate(Gate *p)
     }
 
     m_backGates.removeAll(p);
+    gGame->boardDirty();
 }
 
 void GameField::setGate(Gate *p)
 {
     Q_ASSERT_X(m_gate == NULL || p == NULL, "Set Gate", "Already have gate");
-    Q_ASSERT_X(m_type == AH::Common::FieldData::Location, "Set Gate", "Can onlx add gate to Interior");
+    Q_ASSERT_X(m_type == AH::Common::FieldData::Location, "Set Gate", "Can only add gate to Interior");
     m_gate = p;
     if (p) {
         p->setField(this);
@@ -54,6 +58,7 @@ void GameField::setGate(Gate *p)
     } else {
         m_gateId = "";
     }
+    gGame->boardDirty();
 }
 
 bool GameField::isConnectedTo(GameField *other) const
@@ -70,6 +75,8 @@ void GameField::placeCharacter(Character *c)
 
         m_characters.append(c);
         c->setField(this);
+
+        gGame->boardDirty();
     }
 }
 
@@ -82,6 +89,8 @@ void GameField::placeMonster(Monster *m)
 
         m_monsters.append(m);
         m->setField(this);
+
+        gGame->boardDirty();
     }
 }
 
@@ -91,6 +100,8 @@ void GameField::removeCharacter(Character *c)
         if (c->field() == this) {
             m_characters.removeAll(c);
             c->setField(NULL);
+
+            gGame->boardDirty();
         }
     }
 }
@@ -101,6 +112,8 @@ void GameField::removeMonster(Monster *m)
         if (m->field() == this) {
             m_monsters.removeAll(m);
             m->setField(NULL);
+
+            gGame->boardDirty();
         }
     }
 }
@@ -112,6 +125,15 @@ QStringList GameField::characterIds() const
     QStringList ret;
     foreach (Character *c, m_characters) {
         ret << c->id();
+    }
+    return ret;
+}
+
+QStringList GameField::monsterIds() const
+{
+    QStringList ret;
+    foreach (Monster *m, m_monsters) {
+        ret << m->id();
     }
     return ret;
 }

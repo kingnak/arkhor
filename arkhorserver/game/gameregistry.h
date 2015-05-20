@@ -10,7 +10,7 @@ class GameObject;
 class Player;
 class Character;
 class Investigator;
-//class Monster;
+class Monster;
 //class AncientOne;
 
 class GameRegistry
@@ -24,6 +24,7 @@ public:
     bool registerInvestigator(Investigator *i);
     bool registerPlayer(Player *p);
     bool registerCharacter(Character *c);
+    bool registerMonster(Monster *m, int ct = 1);
 
     bool removePlayer(Player *p);
 
@@ -32,6 +33,7 @@ public:
     Investigator *findInvestigatorById(QString id);
     Player *findPlayerById(QString id);
     Character *findCharacterById(QString id);
+    Monster *findMonsterById(QString id);
 
     const GameObject *findObjectPrototypeByType(QString tid);
     GameObject *findObjectInstanceByType(QString tid);
@@ -41,6 +43,7 @@ public:
     QList<Investigator *> allInvestigators();
     QList<Player *> allPlayers();
     QList<Character *> allCharacters();
+    QList<Monster *> allMonsters();
 
     bool resolveDependencies();
 
@@ -56,6 +59,8 @@ private:
     QMap<QString, Character*> m_characters;
     QMap<QString, GameObject*> m_objects;
     QMap<QString, GameObject*> m_objectTypes;
+    QMap<QString, Monster*> m_monsters;
+    QMap<QString, Monster*> m_monsterTypes;
 };
 
 template <typename T>

@@ -53,6 +53,8 @@ namespace AH {
         qRegisterMetaType<QList<AH::Common::AttributeSliderData> >("QList<AH::Common::AttributeSliderData>");
         qRegisterMetaType<AH::Common::DieRollTestData>("AH::Common::DieRollTestData");
         qRegisterMetaType<AH::Common::DescribeObjectsData>("AH::Common::DescribeObjectsData");
+        qRegisterMetaType<QList<AH::Common::ModifiedPropertyValueData> >("QList<AH::Common::ModifiedPropertyValueData>");
+        qRegisterMetaType<AH::Common::CharacterData>("AH::Common::CharacterData");
     }
 
 }

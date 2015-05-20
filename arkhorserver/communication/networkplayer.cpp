@@ -276,8 +276,40 @@ MovementPath NetworkPlayer::chooseMovement(GameField *start, int movement)
 
 CostList NetworkPlayer::choosePayment(const Cost &c)
 {
-    Q_UNUSED(c);
+    QVariant m;
+    m << c;
+    m_conn->sendMessage(Message::S_CHOOSE_PAYMENT, m);
+
+    AH::Common::Message resp;
+    QList<Message::Type> l;
+    l << Message::C_SELECT_PAYMENT;
+    bool ok = awaitResponse(resp, l);
+    if (ok) {
+        qint32 i;
+        resp.payload >> i;
+        if (i >= 0 && i < c.getAlternatives().size()) {
+            return c.getAlternatives()[i];
+        }
+    }
     return CostList();
+}
+
+AH::Common::PropertyValueData::Property NetworkPlayer::chooseSkill(QList<ModifiedPropertyValueData> options)
+{
+    QVariant m;
+    m << options;
+    m_conn->sendMessage(Message::S_CHOOSE_SKILL, m);
+
+    AH::Common::Message resp;
+    QList<Message::Type> l;
+    l << Message::C_SELECT_SKILL;
+    bool ok = awaitResponse(resp, l);
+    if (ok) {
+        AH::Common::PropertyValueData::Property s;
+        resp.payload >> s;
+        return s;
+    }
+    return AH::Common::PropertyValueData::NoProperty;
 }
 
 void NetworkPlayer::handleMessage(Message msg)

@@ -24,7 +24,7 @@ void AhBoardfillerHelper::initBoard(AhBoardScene *scene, QGraphicsItem *parent)
         switch (type) {
         case AH::Common::FieldData::Street: fieldType = AhFieldItem::Street; break;
         case AH::Common::FieldData::Location: fieldType = AhFieldItem::Location; break;
-        //TODO: OtherWorld,
+        case AH::Common::FieldData::OtherWorld: fieldType = AhFieldItem::OtherWorld; break;
         default:
         //Sky
         //SpaceAndTime,

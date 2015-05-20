@@ -55,6 +55,7 @@ public:
     virtual MovementPath chooseMovement(GameField *start, int movement);
 
     virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c);
+    virtual AH::Common::PropertyValueData::Property chooseSkill(QList<AH::Common::ModifiedPropertyValueData> options);
 
     // interface to network
     void handleMessage(AH::Common::Message msg);

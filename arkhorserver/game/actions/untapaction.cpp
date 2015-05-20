@@ -24,5 +24,6 @@ bool UntapAction::execute()
         }
     }
     gGame->notifier()->actionFinish(this);
+    gGame->characterDirty(gGame->context().player()->getCharacter());
     return true;
 }

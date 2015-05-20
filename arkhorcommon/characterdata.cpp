@@ -23,6 +23,7 @@ void operator <<(QVariant &data, const CharacterData &c)
     QVariantMap map;
     map["id"] << c.id();
     map["investigatorId"] << c.investigatorId();
+    map["investigator"] << c.investigatorData();
     map["curStamina"] << c.curStamina();
     map["curSanity"] << c.curSanity();
     map["maxStamina"] << c.maxStamina();
@@ -48,6 +49,7 @@ void operator >>(const QVariant &data, CharacterData &c)
     data >> map;
     map["id"] >> c.m_id;
     map["investigatorId"] >> c.m_investigatorId;
+    map["investigator"] >> c.m_investigatorData;
     map["curStamina"] >> c.m_curStamina;
     map["curSanity"] >> c.m_curSanity;
     map["maxStamina"] >> c.m_maxStamina;

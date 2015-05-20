@@ -9,6 +9,7 @@
 EvadeAction::EvadeAction(FightPhase *fight)
     :  m_hasFailedAttempt(false), m_fight(fight)
 {
+    m_name = "Evade";
 }
 
 bool EvadeAction::execute()

@@ -36,6 +36,15 @@ public:
 
     void updatePhaseByResult(PhaseResult res);
 
+    enum FightOutcome {
+        EndUnknown,
+        EndSuccess,
+        EndFlown,
+        EndFailed
+    };
+
+    FightOutcome getOutcome() const { return m_outcome; }
+
 protected:
     //virtual void enterPhase();
     //virtual QList<GameAction *> getPhaseActions();
@@ -52,11 +61,7 @@ private:
         ChooseWeapons,
     } m_curPhase;
 
-    enum {
-        EndUnknown,
-        EndSuccess,
-        EndFailed
-    } m_outcome;
+    FightOutcome m_outcome;
 
     void damageStamina();
     void damageHorror();
@@ -66,18 +71,35 @@ private:
     QList<GameOption *> fightEnterOptions();
     QList<GameOption *> chooseMonsterOptions();
     QList<GameOption *> fightOrEvadeOptions();
+    QList<GameOption *> fightOrFleeOptions();
     QList<GameOption *> horrorOptions();
     QList<GameOption *> chooseWeaponsOptions();
 
 
 private:
     QList<Monster *> m_flownMonsters;
+    bool m_hadFailedEvade;
 
     EvadeOption *m_evade;
     FightOption *m_fight;
     HorrorOption *m_horror;
     ChooseWeaponsOption *m_chooseWeapons;
     AttackOption *m_attack;
+
+    struct EndOption : public GameOption {
+        EndOption() : GameOption(NULL, AH::CannotContinue, AH::ChooseMandatory) {}
+        QString id() const { return "OP_END_FIGHT"; }
+        bool isAvailable() { return true; }
+        bool execute() { return true; }
+        QString name() const { return m_name; }
+        QString description() const { return m_desc; }
+
+        EndOption *setName(QString n) { m_name = n; return this; }
+        EndOption *setDesc(QString d) { m_desc = d; return this; }
+
+        QString m_name;
+        QString m_desc;
+    } *m_endOption;
 
 };
 

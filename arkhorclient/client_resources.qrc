@@ -21,6 +21,8 @@
         <file alias="activity_1">client_resources/activity_marker_1.png</file>
         <file alias="clue">client_resources/clue.png</file>
         <file alias="gate_closed">client_resources/gate_closed.png</file>
+        <file alias="sanity">client_resources/Sanity.png</file>
+        <file alias="stamina">client_resources/Stamina.png</file>
     </qresource>
     <qresource prefix="/core/data">
         <file alias="boardfields">client_resources/boardfields.txt</file>

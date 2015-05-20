@@ -4,10 +4,12 @@
 #include "../gameaction.h"
 #include "../gameoption.h"
 
+class Movement;
+
 class MoveAction : public GameAction
 {
 public:
-    MoveAction();
+    MoveAction(Movement *m);
 
     QString id() const { return "AC_MOVE"; }
 
@@ -21,12 +23,14 @@ public:
 private:
     bool moveArkham();
     bool moveOtherWorld();
+
+    Movement *m_movement;
 };
 
 class MoveOption : public GameOption
 {
 public:
-    MoveOption() : GameOption(&ma, AH::CanContinue, AH::ChooseOptional, AH::Movement) {}
+    MoveOption(Movement *m) : GameOption(&ma, AH::CanContinue, AH::ChooseOptional, AH::Movement), ma(m) {}
 
     QString id() const { return "OP_MOVE"; }
 

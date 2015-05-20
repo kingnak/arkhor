@@ -13,131 +13,155 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0">
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
-    <widget class="AhGraphicsView" name="grvBoard"/>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="AhGraphicsView" name="grvBoard"/>
+     </item>
+     <item>
+      <widget class="QTabWidget" name="tabIntInfInv">
+       <property name="tabPosition">
+        <enum>QTabWidget::East</enum>
+       </property>
+       <property name="currentIndex">
+        <number>2</number>
+       </property>
+       <widget class="QWidget" name="tabInteraction">
+        <attribute name="icon">
+         <iconset resource="client_resources.qrc">
+          <normaloff>:/core/images/interaction</normaloff>:/core/images/interaction</iconset>
+        </attribute>
+        <attribute name="title">
+         <string/>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QStackedWidget" name="stkInteraction">
+           <property name="currentIndex">
+            <number>4</number>
+           </property>
+           <widget class="QWidget" name="pageEmptyInteraction">
+            <widget class="QLabel" name="label">
+             <property name="geometry">
+              <rect>
+               <x>210</x>
+               <y>50</y>
+               <width>46</width>
+               <height>13</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Empty</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="pageOptionChooser">
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>OPTION</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="OptionChooser" name="wgtOptionChooser" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageMovementChooser">
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>MOVE</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="MovementChooser" name="wgtMovmentChooser" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageFocusChooser">
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>FOCUS</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="FocusChooser" name="wgtFocusChooser" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageDieRoll">
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>DIE ROLL</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="DieRollWidget" name="wgtDieRoll" native="true"/>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tabInfo">
+        <attribute name="icon">
+         <iconset resource="client_resources.qrc">
+          <normaloff>:/core/images/info</normaloff>:/core/images/info</iconset>
+        </attribute>
+        <attribute name="title">
+         <string/>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tabInventory">
+        <attribute name="icon">
+         <iconset resource="client_resources.qrc">
+          <normaloff>:/core/images/inventory</normaloff>:/core/images/inventory</iconset>
+        </attribute>
+        <attribute name="title">
+         <string/>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QListWidget" name="lstInventory"/>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
-    <widget class="QTabWidget" name="tabIntInfInv">
-     <property name="tabPosition">
-      <enum>QTabWidget::East</enum>
-     </property>
-     <property name="currentIndex">
-      <number>2</number>
-     </property>
-     <widget class="QWidget" name="tabInteraction">
-      <attribute name="icon">
-       <iconset resource="client_resources.qrc">
-        <normaloff>:/core/images/interaction</normaloff>:/core/images/interaction</iconset>
-      </attribute>
-      <attribute name="title">
-       <string/>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QStackedWidget" name="stkInteraction">
-         <property name="currentIndex">
-          <number>4</number>
-         </property>
-         <widget class="QWidget" name="pageEmptyInteraction">
-          <widget class="QLabel" name="label">
-           <property name="geometry">
-            <rect>
-             <x>210</x>
-             <y>50</y>
-             <width>46</width>
-             <height>13</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Empty</string>
-           </property>
-          </widget>
-         </widget>
-         <widget class="QWidget" name="pageOptionChooser">
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>OPTION</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="OptionChooser" name="wgtOptionChooser" native="true"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="pageMovementChooser">
-          <layout class="QVBoxLayout" name="verticalLayout">
-           <item>
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>MOVE</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="MovementChooser" name="wgtMovmentChooser" native="true"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="pageFocusChooser">
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <widget class="QLabel" name="label_4">
-             <property name="text">
-              <string>FOCUS</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="FocusChooser" name="wgtFocusChooser" native="true"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="pageDieRoll">
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <item>
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>DIE ROLL</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="DieRollWidget" name="wgtDieRoll" native="true"/>
-           </item>
-          </layout>
-         </widget>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tabInfo">
-      <attribute name="icon">
-       <iconset resource="client_resources.qrc">
-        <normaloff>:/core/images/info</normaloff>:/core/images/info</iconset>
-      </attribute>
-      <attribute name="title">
-       <string/>
-      </attribute>
-     </widget>
-     <widget class="QWidget" name="tabInventory">
-      <attribute name="icon">
-       <iconset resource="client_resources.qrc">
-        <normaloff>:/core/images/inventory</normaloff>:/core/images/inventory</iconset>
-      </attribute>
-      <attribute name="title">
-       <string/>
-      </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QListWidget" name="lstInventory"/>
-       </item>
-      </layout>
-     </widget>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_7">
+     <item>
+      <widget class="CharacterWidget" name="wgtCharacter" native="true"/>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -169,6 +193,12 @@
    <class>DieRollWidget</class>
    <extends>QWidget</extends>
    <header>dierollwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CharacterWidget</class>
+   <extends>QWidget</extends>
+   <header>characterwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

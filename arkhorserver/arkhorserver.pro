@@ -67,7 +67,8 @@ HEADERS += \
     game/phases/fight/fightphase.h \
     game/phases/fight/horroraction.h \
     game/phases/fight/chooseweaponsaction.h \
-    game/phases/fight/attackaction.h
+    game/phases/fight/attackaction.h \
+    game/actions/chooseskillhelper.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -135,7 +136,8 @@ SOURCES += \
     game/phases/fight/fightphase.cpp \
     game/phases/fight/horroraction.cpp \
     game/phases/fight/chooseweaponsaction.cpp \
-    game/phases/fight/attackaction.cpp
+    game/phases/fight/attackaction.cpp \
+    game/actions/chooseskillhelper.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

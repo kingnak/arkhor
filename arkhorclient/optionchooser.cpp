@@ -2,11 +2,13 @@
 #include "ui_optionchooser.h"
 #include <QtGui>
 #include "flowlayout.h"
+#include "ahmaingui.h"
 
 using namespace AH::Common;
 
 static const char *OPTION_DESCRIPTION_PROPERTY = "DESCRIPTION";
 static const char *OPTION_ID_PROPERTY = "ID";
+static const char *OPTION_SKILL_PROPERTY = "SKILL";
 
 OptionChooser::OptionChooser(QWidget *parent) :
     QWidget(parent),
@@ -23,6 +25,7 @@ OptionChooser::~OptionChooser()
 
 void OptionChooser::setOptions(QList<AH::Common::GameOptionData> opts)
 {
+    m_type = ChooseOption;
     cleanupOptions();
 
     QSet<QChar> usedMnemonics;
@@ -52,6 +55,23 @@ void OptionChooser::setOptions(QList<AH::Common::GameOptionData> opts)
     //ui->wgtOptionsList->setLayout(l);
 }
 
+void OptionChooser::setSkills(QList<ModifiedPropertyValueData> opts)
+{
+    m_type = ChooseSkill;
+    cleanupOptions();
+
+    QLayout *l = ui->wgtOptionsList->layout();
+    foreach (ModifiedPropertyValueData v, opts) {
+        QString name = AhMainGui::stringForProperty(v.property().property());
+        int val = v.finalVal();
+        QPushButton *btn = new QPushButton(name);
+        btn->setProperty(OPTION_DESCRIPTION_PROPERTY, QString("Skill %1. Current Value: %2").arg(name).arg(val));
+        btn->setProperty(OPTION_SKILL_PROPERTY, QVariant::fromValue(static_cast<qint32>(v.property().property())));
+        connect(btn, SIGNAL(clicked()), this, SLOT(showOption()));
+        l->addWidget(btn);
+    }
+}
+
 void OptionChooser::cleanupOptions()
 {
     QLayout *l = ui->wgtOptionsList->layout();
@@ -75,12 +95,19 @@ void OptionChooser::showOption()
 {
     ui->lblOptionDescription->setText(sender()->property(OPTION_DESCRIPTION_PROPERTY).toString());
     ui->btnOptionActivate->setProperty(OPTION_ID_PROPERTY, sender()->property(OPTION_ID_PROPERTY));
+    ui->btnOptionActivate->setProperty(OPTION_SKILL_PROPERTY, sender()->property(OPTION_SKILL_PROPERTY));
     ui->btnOptionActivate->setEnabled(true);
 }
 
 void OptionChooser::on_btnOptionActivate_clicked()
 {
-    QString id = ui->btnOptionActivate->property(OPTION_ID_PROPERTY).toString();
     cleanupOptions();
-    emit optionChosen(id);
+
+    if (m_type == ChooseOption) {
+        QString id = ui->btnOptionActivate->property(OPTION_ID_PROPERTY).toString();
+        emit optionChosen(id);
+    } else if (m_type == ChooseSkill) {
+        AH::Common::PropertyValueData::Property p = static_cast<AH::Common::PropertyValueData::Property> (ui->btnOptionActivate->property(OPTION_SKILL_PROPERTY).toInt());
+        emit skillChosen(p);
+    }
 }

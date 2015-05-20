@@ -6,6 +6,7 @@
 #include <fielddata.h>
 #include <serializer.hpp>
 #include <QStringList>
+#include <investigatordata.h>
 
 namespace AH {
     namespace Common {
@@ -19,6 +20,7 @@ namespace AH {
 
             QString id() const { return m_id; }
             QString investigatorId() const { return m_investigatorId; }
+            virtual InvestigatorData investigatorData() const { return m_investigatorData; }
             int curStamina() const { return m_curStamina; }
             int curSanity() const { return m_curSanity; }
             int maxStamina() const { return m_maxStamina; }
@@ -42,6 +44,7 @@ namespace AH {
         protected:
             QString m_id;
             QString m_investigatorId;
+            InvestigatorData m_investigatorData;
             int m_curStamina;
             int m_curSanity;
             int m_maxStamina;

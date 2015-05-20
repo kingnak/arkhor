@@ -13,6 +13,10 @@ public:
     Monster() : m_field(NULL), m_isSpontaneous(false) {}
     virtual ~Monster() {}
 
+    virtual Monster *clone() = 0;
+
+    virtual void setId(QString id) { m_id = id; }
+
     virtual MonsterData *data();
 
     GameField *field() { return m_field; }

@@ -5,6 +5,7 @@
 #include "game/dietesthelper.h"
 #include "gate.h"
 #include "die/dierollevaluator.h"
+#include "chooseskillhelper.h"
 
 using namespace AH::Common;
 
@@ -15,8 +16,14 @@ CloseGateAction::CloseGateAction()
 
 bool CloseGateAction::execute()
 {
-    // TODO: Let user decide on skill!
-    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(gGame->context().player()->getCharacter(), AH::Skill_Fight, gGame->context().gate()->closeAdjustment());
+    // Let user decide on skill!
+    AH::Skill s = ChooseSkillHelper::chooseSkill(gGame->context().player(), QList<AH::Skill>() << AH::Skill_Fight << AH::Skill_Will);
+    if (s == AH::NoSkill) {
+        // User abort...
+        return true;
+    }
+
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(gGame->context().player()->getCharacter(), s, gGame->context().gate()->closeAdjustment());
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
     if (res.boolResult) {
         gGame->context().gate()->close(gGame->context().player()->getCharacter());

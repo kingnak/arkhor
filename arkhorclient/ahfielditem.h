@@ -17,7 +17,8 @@ class AhFieldItem : public QGraphicsObject
 public:
     enum FieldItemType {
         Location = QGraphicsItem::UserType + 1,
-        Street
+        Street,
+        OtherWorld
     };
 
     AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, QRectF rect, QGraphicsItem *parent = 0);
@@ -65,6 +66,8 @@ private:
     QRectF m_fieldRect;
     ItemStacker *m_monsters;
     ItemStacker *m_characters;
+
+    //ItemStacker *m_secondPhaseCharacters;
 
     ClickAreaItem *m_fieldArea;
     ClueAreaItem *m_clues;

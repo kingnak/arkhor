@@ -14,7 +14,8 @@ HEADERS += \
     focuschooser.h \
     optionchooser.h \
     dierollwidget.h \
-    objectregistry.h
+    objectregistry.h \
+    characterwidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -31,7 +32,8 @@ SOURCES += \
     focuschooser.cpp \
     optionchooser.cpp \
     dierollwidget.cpp \
-    objectregistry.cpp
+    objectregistry.cpp \
+    characterwidget.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -46,7 +48,8 @@ FORMS += \
     movementchooser.ui \
     focuschooser.ui \
     optionchooser.ui \
-    dierollwidget.ui
+    dierollwidget.ui \
+    characterwidget.ui
 
 RESOURCES += \
     client_resources.qrc

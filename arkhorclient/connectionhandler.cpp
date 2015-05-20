@@ -48,6 +48,13 @@ void ConnectionHandler::selectFocus(QList<int> positionDiffs)
     send(AH::Common::Message::C_SELECT_FOCUS, v);
 }
 
+void ConnectionHandler::selectSkill(AH::Common::PropertyValueData::Property prop)
+{
+    QVariant v;
+    v << prop;
+    send(AH::Common::Message::C_SELECT_SKILL, prop);
+}
+
 void ConnectionHandler::chooseDieRollUpdate(AH::Common::DieTestUpdateData upd)
 {
     QVariant v;
@@ -172,6 +179,14 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         m["focusAmount"] >> amnt;
         m["focusSliders"] >> sld;
         emit chooseFocus(sld, amnt);
+        break;
+    }
+
+    case AH::Common::Message::S_CHOOSE_SKILL:
+    {
+        QList<AH::Common::ModifiedPropertyValueData> opts;
+        msg.payload >> opts;
+        emit chooseSkill(opts);
         break;
     }
 

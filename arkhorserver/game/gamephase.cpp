@@ -18,6 +18,7 @@ GamePhase::~GamePhase()
 void GamePhase::execute()
 {
     enterPhase();
+    gGame->commitUpdates();
 
     Player *player = gGame->getCurrentPlayer();
 
@@ -25,12 +26,14 @@ void GamePhase::execute()
     foreach (GameAction *a, phaseActions) {
         a->execute();
     }
+    gGame->commitUpdates();
 
     QList<GameAction *> actions;
     actions << player->getCharacter()->getActions(gGame->context().phase());
     foreach (GameAction *a, actions) {
         a->execute();
     }
+    gGame->commitUpdates();
 
     // Option Loop
     bool success = false;
@@ -43,6 +46,7 @@ void GamePhase::execute()
         // Get mandatory and other options
         QList<GameOption *> mandatory;
         QList<GameOption *> opts;
+        QList<GameOption *> supp;
         int mandAvail = 0;
         foreach (GameOption *o, options) {
             switch (o->chooseType()) {
@@ -55,23 +59,28 @@ void GamePhase::execute()
                 opts << o;
                 break;
             case AH::ChooseSupplemental:
-                mandatory << o;
-                opts << o;
+                if (o->isAvailable())
+                    supp << o;
+                break;
             }
         }
 
         if (mandAvail > 0)
-            op = m_game->context().player()->chooseOption(mandatory);
+            op = m_game->context().player()->chooseOption(mandatory + supp);
         else
-            op = m_game->context().player()->chooseOption(opts);
+            op = m_game->context().player()->chooseOption(opts + supp);
 
         if (op && op->isAvailable()) {
             success = op->execute();
         } else {
             success = false;
         }
+        gGame->commitUpdates();
     } while (!success || op == NULL || (op && op->continueType() == AH::CanContinue));
     if (!success) {
         Q_ASSERT(false);
     }
+
+    finishPhase();
+    gGame->commitUpdates();
 }

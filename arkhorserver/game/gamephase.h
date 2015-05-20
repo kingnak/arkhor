@@ -19,6 +19,7 @@ protected:
     virtual void enterPhase() {}
     virtual QList<GameAction *> getPhaseActions() { return QList<GameAction* >(); }
     virtual QList<GameOption *> getPhaseOptions() { return QList<GameOption* >(); }
+    virtual void finishPhase() {}
 
 protected:
     Game *m_game;

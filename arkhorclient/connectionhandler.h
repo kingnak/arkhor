@@ -25,6 +25,7 @@ public:
     void selectOption(QString id);
     void selectMovementPath(QList<AH::Common::FieldData::FieldID> fieldIds);
     void selectFocus(QList<int> positionDiffs);
+    void selectSkill(AH::Common::PropertyValueData::Property prop);
     void chooseDieRollUpdate(AH::Common::DieTestUpdateData upd);
 
     void requestObjects(AH::Common::RequestObjectsData reqs);
@@ -47,6 +48,7 @@ signals:
     void chooseOption(QList<AH::Common::GameOptionData> o);
     void chooseMovement(AH::Common::FieldData::FieldID startId, int movementPoints);
     void chooseFocus(QList<AH::Common::AttributeSliderData> sliders, int focusAmount);
+    void chooseSkill(QList<AH::Common::ModifiedPropertyValueData> opts);
 
     void dieRollInfo(AH::Common::DieRollTestData data);
 

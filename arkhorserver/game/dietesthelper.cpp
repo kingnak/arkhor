@@ -36,7 +36,7 @@ DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(Character *c, Modif
     DieRollBoolEvaluator *ret = new DieRollCountBoolEvaluator(p, successes, target, DieRollBoolEvaluator::GREATER_EQUALS);
     spec.eval = ret;
 
-    AH::Common::DiePoolData poolData(ct, adjustment);
+    AH::Common::DiePoolData poolData(poolBase.toModifiedPropertyValueData(), adjustment);
 
     AH::Common::DieRollData rollData(AH::Common::DieRollData::Count);
     rollData.setPool(poolData);
@@ -45,6 +45,7 @@ DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(Character *c, Modif
     AH::Common::DieRollTestData test(AH::Common::DieRollTestData::Boolean, target);
     test.setRollData(rollData);
     test.setDiceForClueBurn(clueBurnMods.finalVal());
+    test.setClueBurnMods(clueBurnMods.toModifiedPropertyValueData());
 
     // Set die roll options
     spec.options = c->getOptions(AH::DieRoll);

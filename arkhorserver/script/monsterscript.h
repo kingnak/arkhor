@@ -15,7 +15,9 @@ class MonsterScript : public QObject, public Monster, public QScriptable
 public:
     explicit MonsterScript(QObject *parent = 0);
 
-    static QScriptValue createMonster(QScriptContext *ctx, QScriptEngine *eng);
+    Monster *clone();
+
+    static MonsterScript *createMonster(QScriptContext *ctx, QScriptEngine *eng);
 
     static void castFromValue(const QScriptValue &v, MonsterScript *&o) { o = qobject_cast<MonsterScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, MonsterScript * const &in) { return eng->newQObject(in); }
@@ -29,7 +31,7 @@ private:
     QScriptValue m_attrFunc;
     QScriptValue m_onDefeatFunc;
     QScriptValue m_specialMoveFunc;
-    QScriptValue m_this;
+    QScriptValue getThis();
 
 private:
     static bool verify(MonsterScript *m, QString *msg = NULL);

@@ -42,6 +42,7 @@ namespace AH {
             virtual MonsterData *data() { return this; }
 
             virtual QString id() const { return m_id; }
+            virtual QString typeId() const { return m_tid; }
             virtual QString name() const { return m_name; }
             virtual QString description() const { return m_desc; }
             virtual AH::Dimension dimension() const { return m_dimension; }
@@ -57,6 +58,7 @@ namespace AH {
 
         protected:
             QString m_id;
+            QString m_tid;
             QString m_name;
             QString m_desc;
             AH::Dimension m_dimension;

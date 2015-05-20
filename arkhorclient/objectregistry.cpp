@@ -2,10 +2,26 @@
 
 using namespace AH::Common;
 
-ObjectRegistry::ObjectRegistry(ConnectionHandler *c)
-    : m_conn(c)
+ObjectRegistry::ObjectRegistry()
+    : m_conn(NULL)
 {
+}
+
+ObjectRegistry *ObjectRegistry::instance()
+{
+    static ObjectRegistry s_inst;
+    return &s_inst;
+}
+
+void ObjectRegistry::init(ConnectionHandler *c)
+{
+    if (m_conn) {
+        qCritical("ObjectRegistry already initialized");
+        return;
+    }
+    m_conn = c;
     connect(m_conn, SIGNAL(objectDescriptions(AH::Common::DescribeObjectsData)), this, SLOT(receivedDescriptions(AH::Common::DescribeObjectsData)));
+    connect(m_conn, SIGNAL(characterUpdate(AH::Common::CharacterData)), this, SLOT(updateCharacter(AH::Common::CharacterData)));
 }
 
 DescribeObjectsData ObjectRegistry::getObjects(RequestObjectsData reqs)
@@ -77,10 +93,24 @@ void ObjectRegistry::receivedDescriptions(DescribeObjectsData descs)
             qWarning("Received Object Type has no Id");
         }
         emit objectDescribed(d);
+
+        if (d.first == RequestObjectsData::Character) {
+            CharacterData c;
+            d.second >> c;
+            updateCharacter(c);
+        }
         /*
         switch (d.first) {
 
         }
         */
+    }
+}
+
+void ObjectRegistry::updateCharacter(CharacterData character)
+{
+    if (character.id() == m_thisCharacterId) {
+        m_thisCharacter = character;
+        emit thisCharacterUpdated(m_thisCharacter);
     }
 }

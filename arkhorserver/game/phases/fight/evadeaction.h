@@ -16,7 +16,7 @@ public:
     virtual AH::GamePhases phases() const { return AH::Movement; }
     virtual bool execute();
 
-    virtual QString name() const { return "Evade"; }
+    //virtual QString name() const { return "Evade"; }
     virtual QString description() const { return ""; }
 
 private:
@@ -35,6 +35,9 @@ public:
     QString id() const { return "OP_EVADE"; }
 
     void reset() { sa.m_hasFailedAttempt = false; }
+    void setName(QString name) {
+        sa.m_name = name;
+    }
 
     virtual bool isAvailable();
 

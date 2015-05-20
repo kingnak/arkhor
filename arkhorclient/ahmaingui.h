@@ -27,8 +27,10 @@ public:
     ~AhMainGui();
 
     void initConnection(ConnectionHandler *conn);
-    void setThisPlayerId(QString id) { m_thisPlayerId = id; }
-    void setThisCharacterId(QString id) { m_thisCharacterId = id; }
+    void setThisPlayerId(QString id);
+    void setThisCharacterId(QString id);
+
+    static QString stringForProperty(AH::Common::PropertyValueData::Property p);
 
 public slots:
     void start();
@@ -53,6 +55,9 @@ private slots:
     void chooseFocus(QList<AH::Common::AttributeSliderData> sliders, int focusAmount);
     void focusChosen(QList<int> diffs);
 
+    void chooseSkill(QList<AH::Common::ModifiedPropertyValueData> options);
+    void skillChoosen(AH::Common::PropertyValueData::Property skill);
+
     void showDieRollInfo(AH::Common::DieRollTestData data);
     void dieUpdateChosen(AH::Common::DieTestUpdateData upd);
 
@@ -63,10 +68,7 @@ private:
     Ui::AhMainGui *ui;
     AhBoardScene *m_scene;
     ConnectionHandler *m_conn;
-    QString m_thisPlayerId;
-    QString m_thisCharacterId;
     ObjectRegistry *m_registry;
-    AH::Common::CharacterData m_thisCharacter;
 
     QString m_pendingDisplayId;
 };

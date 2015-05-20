@@ -49,6 +49,12 @@ namespace AH{
                 S_CHOOSE_OPTION,
                 C_SELECT_OPTION,
 
+                S_CHOOSE_SKILL,
+                C_SELECT_SKILL,
+
+                S_CHOOSE_PAYMENT,
+                C_SELECT_PAYMENT,
+
                 S_CHOOSE_MOVEMENT_PATH,
                 C_MOVE_PATH,
 

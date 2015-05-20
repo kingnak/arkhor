@@ -25,9 +25,11 @@ signals:
 private slots:
     void updateClueBurnAmount(int ct);
     void on_btnOk_clicked();
+    void modifierLinkClicked() {}
 
 private:
     void cleanDice();
+    void cleanModifiers();
 
 private:
     int m_clueBurnFactor;

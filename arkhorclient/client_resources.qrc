@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/core/images">
+        <file alias="terror_track">client_resources/terror_track.png</file>
+        <file alias="gameboard">client_resources/gameboard_v1.png</file>
+    </qresource>
+    <qresource prefix="/test">
+        <file>client_resources/test/Byakhee.png</file>
+        <file>client_resources/test/Chthonian.png</file>
+        <file>client_resources/test/Cultist.png</file>
+        <file>client_resources/test/DarkYoung.png</file>
+        <file>client_resources/test/Dhole.png</file>
+        <file>client_resources/test/ElderThing.png</file>
+        <file>client_resources/ah-lurker-monstergate.png</file>
+    </qresource>
+    <qresource prefix="/core/marker">
+        <file alias="activity_1">client_resources/activity_marker_1.png</file>
+        <file alias="clue">client_resources/clue.png</file>
+    </qresource>
+</RCC>

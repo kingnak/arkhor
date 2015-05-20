@@ -5,7 +5,7 @@
 #include <cost.h>
 #include <gameoptiondata.h>
 
-class Game;
+class GameRegistry;
 
 class GameOption : public AH::Common::GameOptionData
 {
@@ -31,7 +31,7 @@ public:
     QString name() const;
     QString description() const;
 
-    virtual bool resolveDependencies(const Game *game);
+    virtual bool resolveDependencies(GameRegistry *reg);
 
 //    virtual bool disposeAfterExecute() { return false; }
 

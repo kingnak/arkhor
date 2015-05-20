@@ -39,55 +39,60 @@
          <property name="currentIndex">
           <number>0</number>
          </property>
-         <widget class="QWidget" name="pageOptions">
+         <widget class="QWidget" name="pageEmptyInteraction">
+          <widget class="QLabel" name="label">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>50</y>
+             <width>46</width>
+             <height>13</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Empty</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="pageOptionChooser">
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
-             <item>
-              <widget class="QLabel" name="lblOptionDescription">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout">
-               <item>
-                <widget class="QPushButton" name="btnOptionActivate">
-                 <property name="text">
-                  <string>Ok</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="verticalSpacer">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-            </layout>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>OPTION</string>
+             </property>
+            </widget>
            </item>
            <item>
-            <widget class="QWidget" name="wgtOptionsList" native="true"/>
+            <widget class="OptionChooser" name="wgtOptionChooser" native="true"/>
            </item>
           </layout>
          </widget>
          <widget class="QWidget" name="pageMovementChooser">
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>MOVE</string>
+             </property>
+            </widget>
+           </item>
            <item>
             <widget class="MovementChooser" name="wgtMovmentChooser" native="true"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="pageFocusChooser">
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>FOCUS</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="FocusChooser" name="wgtFocusChooser" native="true"/>
            </item>
           </layout>
          </widget>
@@ -129,28 +134,23 @@
    <header>movementchooser.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>FocusChooser</class>
+   <extends>QWidget</extends>
+   <header>focuschooser.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OptionChooser</class>
+   <extends>QWidget</extends>
+   <header>optionchooser.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="client_resources.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>btnOptionActivate</sender>
-   <signal>clicked()</signal>
-   <receiver>AhMainGui</receiver>
-   <slot>chooseOption()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>596</x>
-     <y>438</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>672</x>
-     <y>411</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>chooseOption()</slot>
  </slots>

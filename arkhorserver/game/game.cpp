@@ -23,6 +23,7 @@ Game::Game()
     m_started(false)
 {
     Game::s_instance = this;
+    m_registry = new GameRegistry;
     m_notifier = new BroadcastNotifier;
     m_board = new GameBoard();
     m_board->init();
@@ -32,6 +33,7 @@ Game::~Game()
 {
     qDeleteAll(m_phases);
     delete m_board;
+    delete m_registry;
 }
 
 void Game::invoke(const char *method)
@@ -40,7 +42,7 @@ void Game::invoke(const char *method)
     QMetaObject::invokeMethod(this, method, type);
 }
 
-void Game::init()
+void Game::initPhases()
 {
     m_phases
         << new Upkeep(this)
@@ -60,13 +62,18 @@ void Game::start()
 
     // Game preparation:
     initBoard();
-    //initDecks();
     chooseInvestigators();
     cleanupDeactivatedPlayers();
     //chooseAnciantOne();
+    initDecks();
+    //initMonsters();
 
+    // This will set up main GUI in clients
     m_notifier->startGame();
-    init();
+
+    initInvestigators();
+
+    initPhases();
     play();
 }
 
@@ -88,64 +95,67 @@ Game *Game::instance()
 QList<Player *> Game::getPlayers()
 {
     QReadLocker l(&m_lock);
-    return m_player.values();
+    //return m_player.values();
+    return m_registry->allPlayers();
 }
 
 void Game::registerInvestigator(Investigator *i)
 {
     QWriteLocker l(&m_lock);
-    m_investigators[i->id()] = i;
+    //m_investigators[i->id()] = i;
+    if (!m_registry->registerInvestigator(i)) {
+        qCritical() << "Error registering investigator";
+    }
 }
 
 QList<Investigator *> Game::allInvestigators() const
 {
     QReadLocker l(&m_lock);
-    return m_investigators.values();
+    //return m_investigators.values();
+    return m_registry->allInvestigators();
 }
 
 void Game::registerCharacter(Character *c)
 {
-    m_characters.insert(c->id(), c);
+    //m_characters.insert(c->id(), c);
+    if (!m_registry->registerCharacter(c)) {
+        qCritical() << "Error registering character";
+    }
 }
 
 void Game::registerAction(GameAction *a)
 {
-    m_actions.insert(a->id(), a);
+    //m_actions.insert(a->id(), a);
+    if (!m_registry->registerAction(a)) {
+        qCritical() << "Error registering action";
+    }
 }
 
 void Game::registerOption(GameOption *o)
 {
-    m_options.insert(o->id(), o);
+    //m_options.insert(o->id(), o);
+    if (!m_registry->registerOption(o)) {
+        qCritical() << "Error registering option";
+    }
 }
 
 void Game::registerObject(GameObject *o, quint32 count)
 {
-    m_objects.insert(o->id(), o);
-    m_objectCounts.insert(o->id(), count);
-}
-
-void Game::registerArkhamEnconutry(ArkhamEncounter *a)
-{
-    m_arkEnc[a->fieldId()] << a;
+    //m_objects.insert(o->id(), o);
+    //m_objectCounts.insert(o->id(), count);
+    if (!m_registry->registerMultiObject(o, count)) {
+        qCritical() << "Error registering object(s)";
+    }
 }
 
 bool Game::resolveDependencies()
 {
-    bool ok = true;
-    // Resolve Actions for Options
-    foreach (GameOption *o, m_options.values()) {
-        ok &= o->resolveDependencies(this);
-    }
-
-    // Resolve Objects:
-    foreach (GameObject *o, m_objects.values()) {
-        ok &= o->resolveDependencies(this);
-    }
-
+    bool ok = m_registry->resolveDependencies();
+    if (!ok) return false;
     // Resolve Field Options
     foreach (AH::Common::FieldData::FieldID fid, m_fieldOptionMap.keys()) {
         foreach (QString opId, m_fieldOptionMap[fid]) {
-            GameOption *op = findOptionById(opId);
+            GameOption *op = m_registry->findOptionById(opId);
             if (op) {
                 m_board->field(fid)->addFieldOption(op);
             } else {
@@ -159,31 +169,20 @@ bool Game::resolveDependencies()
     typedef QList<ArkhamEncounter *> AEL;
     foreach (AEL lst, m_arkEnc.values()) {
         foreach (ArkhamEncounter *a, lst) {
-            ok &= a->resolveDependencies(this);
+            ok &= a->resolveDependencies(m_registry);
         }
     }
-
     return ok;
+}
+
+void Game::registerArkhamEnconutry(ArkhamEncounter *a)
+{
+    m_arkEnc[a->fieldId()] << a;
 }
 
 void Game::registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId)
 {
     m_fieldOptionMap[fId] << opId;
-}
-
-GameAction *Game::findActionById(const QString &id) const
-{
-    return m_actions.value(id);
-}
-
-GameOption *Game::findOptionById(const QString &id) const
-{
-    return m_options.value(id);
-}
-
-GameObject *Game::findObjectById(const QString &id) const
-{
-    return m_objects.value(id);
 }
 
 Player *Game::getFirstPlayer()
@@ -206,7 +205,8 @@ bool Game::addPlayer(Player *p)
 
     QString id = QString("PL_%1").arg(++m_nextPlayerId);
     p->setId(id);
-    m_player[id] = p;
+    //m_player[id] = p;
+    m_registry->registerPlayer(p);
     m_playerList << p;
     return true;
 }
@@ -247,10 +247,75 @@ void Game::initBoard()
     }
 }
 
+void Game::initDecks()
+{
+    foreach (GameObject *o, m_registry->allObjects()) {
+        m_objectDecks[o->type()].addCard(o);
+    }
+
+    foreach (AH::GameObjectType t, m_objectDecks.keys()) {
+        m_objectDecks[t].shuffle();
+    }
+}
+
 void Game::chooseInvestigators()
 {
     ChooseInvestigator ci(this);
     ci.execute();
+}
+
+void Game::initInvestigators()
+{
+    // FIXED POSSESSION
+    foreach (Character *c, m_registry->allCharacters())
+    {
+        foreach (QString tid, c->investigator()->fixedPossesionObjectIds())
+        {
+            GameObject *obj = NULL;
+            const GameObject *proto = m_registry->findObjectPrototypeByType(tid);
+            if (proto) {
+                obj = m_objectDecks[proto->type()].drawSpecificByTypeId(tid);
+                if (obj) {
+                    c->inventory().append(obj);
+                } else {
+                    qWarning() << "Cannot resolve fixed possession: No more objects of type" << tid;
+                }
+            } else {
+                qCritical() << "Cannot resolve fixed possession: Object type" << tid << "not registered";
+            }
+        }
+    }
+
+    // RANDOM POSSESSION
+    foreach (Character *c, m_registry->allCharacters())
+    {
+        foreach (AH::Common::InvestigatorData::ObjectTypeCount otc, c->investigator()->randomPossesions()) {
+            // TODO: MUST BE INTERACTION! IF THERE IS A SPECIAL ABILITY BY INVESTIGATOR,
+            // HE MIGHT CHOOSE FROM VARIOUS CARDS!
+            for (int i = 0; i < otc.amount; ++i) {
+                GameObject *obj = m_objectDecks[otc.type].draw();
+                if (obj)
+                    c->inventory().append(obj);
+                else
+                    qWarning() << "No more objects available for random possessions";
+            }
+        }
+    }
+
+    // START FIELD
+    foreach (Character *c, m_registry->allCharacters())
+    {
+        m_board->field(c->investigator()->startFieldId())->placeCharacter(c);
+    }
+    sendBoard();
+
+    // INITIAL FOCUS
+    foreach (Player *p, m_registry->allPlayers())
+    {
+        FocusAction fa;
+        int amount = 100;
+        fa.executeOnPlayer(p, amount);
+    }
 }
 
 //private below:
@@ -289,7 +354,7 @@ void Game::mythos()
 
 void Game::executePlayerPhase(int idx, AH::GamePhase phase)
 {
-    foreach (Player *p, m_player) {
+    foreach (Player *p, m_registry->allPlayers()) {
         m_notifier->currentPlayerChanged(p);
         m_context = GameContext(this, p, NULL, phase);
         m_phases[idx]->execute();
@@ -344,10 +409,12 @@ void Game::nextRound()
 
 void Game::cleanupDeactivatedPlayers()
 {
-    QList<Player *> lst = m_player.values();
+    //QList<Player *> lst = m_player.values();
+    QList<Player *> lst = m_registry->allPlayers();
     foreach (Player *p, lst) {
         if (!p->isActive()) {
-            m_player.remove(p->id());
+            //m_player.remove(p->id());
+            m_registry->removePlayer(p);
             m_playerList.removeAll(p);
             //p->removedFromGame();
             m_notifier->playerRemoved(p);

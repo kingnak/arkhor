@@ -93,6 +93,7 @@ AH::Common::FieldData::FieldID AhBoardfillerHelper::parseId(QString id)
     if (id== "Sp_Outskirts") return AH::Common::FieldData::Sp_Outskirts;
     if (id== "Sp_SpaceAndTime") return AH::Common::FieldData::Sp_SpaceAndTime;
     Q_ASSERT(false);
+    return AH::Common::FieldData::NO_NO_FIELD;
 }
 
 AH::Common::FieldData::FieldType AhBoardfillerHelper::parseType(QString type)
@@ -104,6 +105,7 @@ AH::Common::FieldData::FieldType AhBoardfillerHelper::parseType(QString type)
     if (type == "SpaceAndTime") return AH::Common::FieldData::SpaceAndTime;
     if (type == "Outskirts") return AH::Common::FieldData::Outskirts;
     Q_ASSERT(false);
+    return AH::Common::FieldData::Street;
 }
 
 QRect AhBoardfillerHelper::parseRect(QString r)

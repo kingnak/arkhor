@@ -2,6 +2,7 @@
 #include <QScriptContext>
 #include "gamescript.h"
 #include "game/game.h"
+#include "game/gameregistry.h"
 #include <QDebug>
 
 ArkhamEncounterScript::ArkhamEncounterScript(QObject *parent) :
@@ -14,12 +15,12 @@ QList<GameOption *> ArkhamEncounterScript::options() const
     return m_opts.values();
 }
 
-bool ArkhamEncounterScript::resolveDependencies(const Game *game)
+bool ArkhamEncounterScript::resolveDependencies(GameRegistry *reg)
 {
     bool ok = true;
     foreach (QString id, m_opts.keys()) {
         if (m_opts[id] == NULL) {
-            GameOption *op = game->findOptionById(id);
+            GameOption *op = reg->findOptionById(id);
             if (op) {
                 m_opts[id] = op;
             } else {

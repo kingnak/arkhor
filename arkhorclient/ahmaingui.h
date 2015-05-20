@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <gameoptiondata.h>
 #include <fielddata.h>
+#include <attributesliderdata.h>
 
 class ConnectionHandler;
 class AhBoardScene;
@@ -25,15 +26,16 @@ public:
 
 private slots:
     void displayItemInfo(const QString &id);
-    void setOptions(QList<AH::Common::GameOptionData> opts);
 
-    void cleanupOptions();
+    void chooseOption(QList<AH::Common::GameOptionData> opts);
+    void optionChosen(QString id);
 
-    void showOption();
-    void chooseOption();
     void chooseMove(AH::Common::FieldData::FieldID startId, int movementPoints);
     void movementChosen(QList<AH::Common::FieldData::FieldID> path);
     void movementCanceled();
+
+    void chooseFocus(QList<AH::Common::AttributeSliderData> sliders, int focusAmount);
+    void focusChosen(QList<int> diffs);
 
 private:
     Ui::AhMainGui *ui;

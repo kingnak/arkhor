@@ -16,7 +16,7 @@ public:
     virtual bool execute();
 
     virtual QString name() const { return "Move"; }
-    virtual QString description() const { return ""; }
+    virtual QString description() const { return "Move Character"; }
 
 private:
     bool moveArkham();

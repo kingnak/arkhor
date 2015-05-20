@@ -16,7 +16,10 @@ namespace AH {
             GameObjectData();
             virtual ~GameObjectData() {}
 
+            const GameObjectData *data() const { return this; }
+
             QString id() const { return m_id; }
+            QString typeId() const { return m_tid; }
             QString name() const { return m_name; }
             QString description() const { return m_description; }
             AH::GameObjectType type() const { return m_type; }
@@ -36,6 +39,7 @@ namespace AH {
 
         protected:
             QString m_id;
+            QString m_tid;
             QString m_name;
             QString m_description;
             AH::GameObjectType m_type;

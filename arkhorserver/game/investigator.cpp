@@ -15,18 +15,18 @@ Character *Investigator::instantiate()
     return c;
 }
 
-bool Investigator::resolveDependecies(const Game *game) const
+bool Investigator::resolveDependecies(GameRegistry *reg) const
 {
     bool ok = true;
     if (!m_uniqueAbilityId.isEmpty()) {
-        if (game->findObjectById(m_uniqueAbilityId) == NULL) {
+        if (reg->findObjectById(m_uniqueAbilityId) == NULL) {
             qWarning() << "Cannot resolve unique ability" << m_uniqueAbilityId << "for character" << id();
             ok = false;
         }
     }
 
     foreach (QString id, m_fixedPossesionObjectIds) {
-        if (game->findObjectById(id) == NULL) {
+        if (reg->findObjectById(id) == NULL) {
             qWarning() << "Cannot resolve fixed possession" << id << "for character" << this->id();
             ok = false;
         }

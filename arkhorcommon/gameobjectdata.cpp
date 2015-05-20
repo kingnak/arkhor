@@ -11,6 +11,7 @@ void operator <<(QVariant &data, const GameObjectData &target)
 {
     QVariantMap map;
     map["id"] << target.id();
+    map["tid"] << target.typeId();
     map["name"] << target.name();
     map["description"] << target.description();
     map["type"] << target.type();
@@ -28,6 +29,7 @@ void operator >>(const QVariant &data, GameObjectData &target)
     QVariantMap map;
     data >> map;
     map["id"] >> target.m_id;
+    map["tid"] >> target.m_tid;
     map["name"] >> target.m_name;
     map["description"] >> target.m_description;
     map["type"] >> target.m_type;

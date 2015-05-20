@@ -12,6 +12,8 @@
 #include <QMap>
 #include <QReadWriteLock>
 #include "gameboard.h"
+#include "gameregistry.h"
+#include "deck.hpp"
 
 class GamePhase;
 class GameBoard;
@@ -29,7 +31,7 @@ public:
 
     void invoke(const char *method);
 
-    void init();
+    void initPhases();
 
     static Game *instance();
     QList<Player *> getPlayers();
@@ -60,9 +62,13 @@ public:
     RegisteredType getGameItemType(const QString &id) const;
     */
 
+    /*
     GameAction *findActionById(const QString &id) const;
     GameOption *findOptionById(const QString &id) const;
     GameObject *findObjectById(const QString &id) const;
+    */
+
+    GameRegistry *registry();
 
     Player *getFirstPlayer();
     Player *getCurrentPlayer();
@@ -84,7 +90,9 @@ public:
 
 protected:
     void initBoard();
+    void initDecks();
     void chooseInvestigators();
+    void initInvestigators();
 
 private:
     Q_INVOKABLE void start();
@@ -115,33 +123,21 @@ private:
     };
 
 private:
-    // Registries:
-    QMap<QString, Investigator *> m_investigators;
-    QMap<QString, Character *> m_characters;
-    QMap<QString, GameAction *> m_actions;
-    QMap<QString, GameOption *> m_options;
-    QMap<QString, GameObject *> m_objects;
-    QMap<QString, int> m_objectCounts;
-
     // Mappings for registry resolving
     QMap<AH::Common::FieldData::FieldID, QStringList> m_fieldOptionMap;
-
-    // Mappings for decks???
+    // Mappings for
     QMap<AH::Common::FieldData::FieldID, QList<ArkhamEncounter *> > m_arkEnc;
 
-    //typedef QMap<QString, Player *> PlayerMap;
-    //PlayerMap m_player;
-    //PlayerMap::iterator m_firstPlayer;
-    QMap<QString, Player *> m_player;
+    QMap<AH::GameObjectType, Deck<GameObject> > m_objectDecks;
+
     QList<Player *> m_playerList;
     QVector<GamePhase *> m_phases;
     static Game *s_instance;
+
     GameContext m_context;
-
     GameBoard *m_board;
-
     GameNotifier *m_notifier;
-
+    GameRegistry *m_registry;
 
     int m_nextPlayerId;
     bool m_started;

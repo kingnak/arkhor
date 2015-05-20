@@ -205,8 +205,8 @@ void Character::instantiateFromInvestigator()
     AttributeSlider fw;
     foreach (AH::Common::InvestigatorData::AttributeValuePair p, m_investigator->attrFightWill()) {
         fw.addAttributePair(AttributePair(
-            AttributeValue(AH::Attr_Speed, p.first),
-            AttributeValue(AH::Attr_Sneak, p.second)
+            AttributeValue(AH::Attr_Fight, p.first),
+            AttributeValue(AH::Attr_Will, p.second)
             ));
     }
     m_sliders.append(fw);
@@ -214,20 +214,18 @@ void Character::instantiateFromInvestigator()
     AttributeSlider ll;
     foreach (AH::Common::InvestigatorData::AttributeValuePair p, m_investigator->attrLoreLuck()) {
         ll.addAttributePair(AttributePair(
-            AttributeValue(AH::Attr_Speed, p.first),
-            AttributeValue(AH::Attr_Sneak, p.second)
+            AttributeValue(AH::Attr_Lore, p.first),
+            AttributeValue(AH::Attr_Luck, p.second)
             ));
     }
     m_sliders.append(ll);
 
     m_fieldId = m_investigator->startFieldId();
 
-    // TODO Random and fixed possesion
     // TODO Unique ability
 
-
-    // TEST:
-    m_movementPoints = 5;
+    // TODO LATER:
+    // Random and fixed possesion
 }
 
 int Character::getAttributeValue(AH::Attribute attr) const

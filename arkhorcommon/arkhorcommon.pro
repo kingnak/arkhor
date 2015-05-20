@@ -22,7 +22,8 @@ HEADERS += \
     serializer.hpp \
     propertyvaluedata.h \
     arkhamencounterdata.h \
-    fielddata.h
+    fielddata.h \
+    attributesliderdata.h
 
 SOURCES += \
     communication/message.cpp \
@@ -39,4 +40,5 @@ SOURCES += \
     playerdata.cpp \
     propertyvaluedata.cpp \
     arkhamencounterdata.cpp \
-    fielddata.cpp
+    fielddata.cpp \
+    attributesliderdata.cpp

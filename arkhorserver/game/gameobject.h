@@ -7,11 +7,14 @@
 
 class GameAction;
 class GameOption;
-class Game;
+class GameRegistry;
 
 class GameObject : public AH::Common::GameObjectData, public PropertyModifier
 {
 public:
+    void setId(const QString &id) { m_id = id; }
+    virtual GameObject *clone() const = 0;
+
     GameObject() {}
     virtual ~GameObject() {}
 
@@ -24,7 +27,7 @@ public:
     virtual QStringList actionIds() const;
     virtual QStringList optionIds() const;
 
-    virtual bool resolveDependencies(const Game *game) = 0;
+    virtual bool resolveDependencies(GameRegistry *game) = 0;
 
     //virtual PropertyModificationList getModifications() const = 0;
 };

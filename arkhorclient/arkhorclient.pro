@@ -10,7 +10,9 @@ HEADERS += \
     ahgraphicsview.h \
     flowlayout.h \
     ahboardfillerhelper.h \
-    movementchooser.h
+    movementchooser.h \
+    focuschooser.h \
+    optionchooser.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -23,7 +25,9 @@ SOURCES += \
     ahgraphicsview.cpp \
     flowlayout.cpp \
     ahboardfillerhelper.cpp \
-    movementchooser.cpp
+    movementchooser.cpp \
+    focuschooser.cpp \
+    optionchooser.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -35,7 +39,9 @@ DEPENDPATH += $$PWD/../arkhorcommon
 FORMS += \
     form.ui \
     ahmaingui.ui \
-    movementchooser.ui
+    movementchooser.ui \
+    focuschooser.ui \
+    optionchooser.ui
 
 RESOURCES += \
     client_resources.qrc

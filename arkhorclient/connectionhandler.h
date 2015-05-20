@@ -7,6 +7,7 @@
 #include <playerdata.h>
 #include <investigatordata.h>
 #include <gameoptiondata.h>
+#include <attributesliderdata.h>
 
 class ConnectionHandler : public QObject
 {
@@ -20,6 +21,7 @@ public:
     void chooseInvestigator(AH::Common::InvestigatorData i);
     void selectOption(QString id);
     void selectMovementPath(QList<AH::Common::FieldData::FieldID> fieldIds);
+    void selectFocus(QList<int> positionDiffs);
 
 public slots:
     void startup();
@@ -38,6 +40,7 @@ signals:
 
     void chooseOption(QList<AH::Common::GameOptionData> o);
     void chooseMovement(AH::Common::FieldData::FieldID startId, int movementPoints);
+    void chooseFocus(QList<AH::Common::AttributeSliderData> sliders, int focusAmount);
 
     void boardContent(QVariantMap boardMap);
 

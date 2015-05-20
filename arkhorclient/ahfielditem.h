@@ -9,6 +9,7 @@ class ItemStacker;
 class StackItem;
 
 class ClueAreaItem;
+class ClickAreaItem;
 
 class AhFieldItem : public QGraphicsObject
 {

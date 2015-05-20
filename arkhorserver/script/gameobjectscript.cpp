@@ -11,8 +11,19 @@ GameObjectScript::GameObjectScript(QObject *parent) :
 {
 }
 
+GameObject *GameObjectScript::clone() const
+{
+    GameObjectScript *c = new GameObjectScript(parent());
+    c->GameObjectData::operator=(*data());
+    c->m_actMap = m_actMap;
+    c->m_optMap = m_optMap;
+    c->m_mods = m_mods;
+    return c;
+}
+
 GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScriptEngine *eng)
 {
+    Q_UNUSED(eng);
     if (ctx->argumentCount() != 1 || !ctx->argument(0).isObject()) {
         ctx->throwError(QScriptContext::TypeError, "createObject: Must call with 1 object");
         return NULL;
@@ -22,7 +33,7 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
 
     QScriptValue data = ctx->argument(0);
 
-    ret->m_id = data.property("id").toString();
+    ret->m_tid = data.property("id").toString();
     ret->m_name = data.property("name").toString();
     ret->m_description = data.property("description").toString();
     ret->m_type = static_cast<AH::GameObjectType> (data.property("type").toUInt32());
@@ -77,7 +88,7 @@ PropertyModificationList GameObjectScript::getModifications()
 bool GameObjectScript::verify(GameObjectScript *ob, QString *msg)
 {
     QStringList errs;
-    if (ob->id().isEmpty()) errs.append("id must be set");
+    if (ob->typeId().isEmpty()) errs.append("id must be set");
     if (ob->name().isEmpty()) errs.append("name must be set");
     if (ob->type() == AH::NoObject) errs.append("type must be set");
 
@@ -88,12 +99,12 @@ bool GameObjectScript::verify(GameObjectScript *ob, QString *msg)
     return false;
 }
 
-bool GameObjectScript::resolveDependencies(const Game *game)
+bool GameObjectScript::resolveDependencies(GameRegistry *reg)
 {
     bool ok = true;
     foreach (QString id, m_actMap.keys()) {
         if (!m_actMap[id]) {
-            GameAction *a = game->findActionById(id);
+            GameAction *a = reg->findActionById(id);
             if (a) {
                 m_actMap[id] = a;
             } else {
@@ -105,7 +116,7 @@ bool GameObjectScript::resolveDependencies(const Game *game)
 
     foreach (QString id, m_optMap.keys()) {
         if (!m_optMap[id]) {
-            GameOption *o = game->findOptionById(id);
+            GameOption *o = reg->findOptionById(id);
             if (o) {
                 m_optMap[id] = o;
             } else {

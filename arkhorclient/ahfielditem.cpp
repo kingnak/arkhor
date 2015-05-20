@@ -35,6 +35,9 @@ void AhFieldItem::setClickable(bool clickable)
 
 void AhFieldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(painter);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
     //painter->fillRect(m_itemRect,QColor(0,0,0,128));
 }
 
@@ -211,6 +214,7 @@ void ClickAreaItem::setActive(bool active)
 
 void ClickAreaItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    Q_UNUSED(event);
     m_mouseDown = true;
 }
 
@@ -225,12 +229,14 @@ void ClickAreaItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void ClickAreaItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
+    Q_UNUSED(event);
     m_mouseIn = true;
     updateColor();
 }
 
 void ClickAreaItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
+    Q_UNUSED(event);
     m_mouseIn = false;
     updateColor();
 }

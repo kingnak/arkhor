@@ -5,9 +5,6 @@
 #include "flowlayout.h"
 #include <QtGui>
 
-static const char *OPTION_DESCRIPTION_PROPERTY = "DESCRIPTION";
-static const char *OPTION_ID_PROPERTY = "ID";
-
 using namespace AH::Common;
 
 AhMainGui::AhMainGui(QWidget *parent) :
@@ -35,12 +32,21 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
 {
     m_conn = conn;
 
+    // BOARD
     connect(m_conn, SIGNAL(boardContent(QVariantMap)), m_scene, SLOT(updateBoardFromData(QVariantMap)));
-    connect(m_conn, SIGNAL(chooseOption(QList<AH::Common::GameOptionData>)), this, SLOT(setOptions(QList<AH::Common::GameOptionData>)));
-    connect(m_conn, SIGNAL(chooseMovement(AH::Common::FieldData::FieldID,int)), this, SLOT(chooseMove(AH::Common::FieldData::FieldID,int)));
 
+    // OPTION
+    connect(m_conn, SIGNAL(chooseOption(QList<AH::Common::GameOptionData>)), this, SLOT(chooseOption(QList<AH::Common::GameOptionData>)));
+    connect(ui->wgtOptionChooser, SIGNAL(optionChosen(QString)), this, SLOT(optionChosen(QString)));
+
+    // MOVE
+    connect(m_conn, SIGNAL(chooseMovement(AH::Common::FieldData::FieldID,int)), this, SLOT(chooseMove(AH::Common::FieldData::FieldID,int)));
     connect(ui->wgtMovmentChooser, SIGNAL(movementChosen(QList<AH::Common::FieldData::FieldID>)), this, SLOT(movementChosen(QList<AH::Common::FieldData::FieldID>)));
     connect(ui->wgtMovmentChooser, SIGNAL(movementCancelled()), this, SLOT(movementCanceled()));
+
+    // FOCUS
+    connect(m_conn, SIGNAL(chooseFocus(QList<AH::Common::AttributeSliderData>,int)), this, SLOT(chooseFocus(QList<AH::Common::AttributeSliderData>,int)));
+    connect(ui->wgtFocusChooser, SIGNAL(focusConfirmed(QList<int>)), this, SLOT(focusChosen(QList<int>)));
 }
 
 void AhMainGui::displayItemInfo(const QString &id)
@@ -48,55 +54,17 @@ void AhMainGui::displayItemInfo(const QString &id)
     QMessageBox::information(this, "Info", id);
 }
 
-void AhMainGui::setOptions(QList<AH::Common::GameOptionData> opts)
+void AhMainGui::chooseOption(QList<GameOptionData> opts)
 {
     ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
-    ui->stkInteraction->setCurrentWidget(ui->pageOptions);
-    cleanupOptions();
-
-    FlowLayout *l = new FlowLayout(ui->wgtOptionsList);
-    foreach (GameOptionData o, opts) {
-        QPushButton *b = new QPushButton(o.name());
-        b->setProperty(OPTION_DESCRIPTION_PROPERTY, o.description());
-        b->setProperty(OPTION_ID_PROPERTY, o.id());
-        connect(b, SIGNAL(clicked()), this, SLOT(showOption()));
-        l->addWidget(b);
-    }
-
-    //ui->wgtOptionsList->setLayout(l);
+    ui->stkInteraction->setCurrentWidget(ui->pageOptionChooser);
+    ui->wgtOptionChooser->setOptions(opts);
 }
 
-void AhMainGui::cleanupOptions()
+void AhMainGui::optionChosen(QString id)
 {
-    QLayout *l = ui->wgtOptionsList->layout();
-    if (l) {
-        QLayoutItem *child;
-        while ((child = l->takeAt(0)) != 0) {
-            delete child;
-        }
-        ui->wgtOptionsList->setLayout(NULL);
-        delete l;
-    }
-    foreach (QWidget *w, ui->wgtOptionsList->findChildren<QWidget*>()) {
-        delete w;
-    }
-
-    ui->lblOptionDescription->setText("");
-    ui->btnOptionActivate->setEnabled(false);
-}
-
-void AhMainGui::showOption()
-{
-    ui->lblOptionDescription->setText(sender()->property(OPTION_DESCRIPTION_PROPERTY).toString());
-    ui->btnOptionActivate->setProperty(OPTION_ID_PROPERTY, sender()->property(OPTION_ID_PROPERTY));
-    ui->btnOptionActivate->setEnabled(true);
-}
-
-void AhMainGui::chooseOption()
-{
-    QString id = ui->btnOptionActivate->property(OPTION_ID_PROPERTY).toString();
-    cleanupOptions();
     m_conn->selectOption(id);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
 }
 
 void AhMainGui::chooseMove(AH::Common::FieldData::FieldID startId, int movementPoints)
@@ -109,9 +77,24 @@ void AhMainGui::chooseMove(AH::Common::FieldData::FieldID startId, int movementP
 void AhMainGui::movementChosen(QList<FieldData::FieldID> path)
 {
     m_conn->selectMovementPath(path);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
 }
 
 void AhMainGui::movementCanceled()
 {
     m_conn->selectMovementPath(QList<FieldData::FieldID>());
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+}
+
+void AhMainGui::chooseFocus(QList<AttributeSliderData> sliders, int focusAmount)
+{
+    ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
+    ui->stkInteraction->setCurrentWidget(ui->pageFocusChooser);
+    ui->wgtFocusChooser->chooseFocus(sliders, focusAmount);
+}
+
+void AhMainGui::focusChosen(QList<int> diffs)
+{
+    m_conn->selectFocus(diffs);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
 }

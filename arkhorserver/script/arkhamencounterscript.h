@@ -5,6 +5,7 @@
 #include <QScriptEngine>
 #include "game/arkhamencounter.h"
 
+class GameRegistry;
 class QScriptContext;
 
 class ArkhamEncounterScript : public QObject, public ArkhamEncounter
@@ -17,7 +18,7 @@ public:
     static QScriptValue castToValue(QScriptEngine *eng, ArkhamEncounterScript * const &in) { return eng->newQObject(in); }
 
     virtual QList<GameOption *> options() const;
-    virtual bool resolveDependencies(const Game *game);
+    virtual bool resolveDependencies(GameRegistry *reg);
 
     static ArkhamEncounterScript *createEncounter(QScriptContext *ctx, QScriptEngine *eng);
 

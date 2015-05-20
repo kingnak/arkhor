@@ -1,34 +1,3 @@
-game.registerOption(game.createOption({
-  id: "OP_Dummy",
-  //name: "Dummy Option",
-  //phases: Constants.GamePhases.Upkeep,
-  actionId: game.registerAction(game.createAction({
-    id: "AC_Dummy",
-    name: "Dummy Action",
-    phases: Constants.GamePhases.Upkeep,
-    activate: function() {}
-  })).id,
-  costs:
-
-    [
-        [
-            {type: Constants.Costs.Money, amount: 5},
-            //{type: Constants.Costs.Clue, amount: 1}
-       // ],
-       // [
-            {type: Constants.Costs.GateTrophy, amount: 3}
-        ]
-    ]
-
-/*
-  [
-      {type: Constants.Costs.Money, amount: 5},
-      {type: Constants.Costs.Clue, amount: 1}
-  ]
-*/
-    //{type: Constants.Costs.Money, amount: 5}
-}));
-
 game.registerInvestigator(game.createInvestigator({
   id: "CH_Jenny_Barnes",
   name: "Jenny Barnes",
@@ -51,31 +20,31 @@ game.registerInvestigator(game.createInvestigator({
 
   )).id,
 
-  randomPossessions: Array(
+  randomPossessions: [
     {type: Constants.ObjectType.CommonItem, amount: 2},
     {type: Constants.ObjectType.UniqueItem, amount: 1},
     {type: Constants.ObjectType.Spell, amount: 1},
     {type: Constants.ObjectType.Skill, amount: 1}
-  ),
+  ],
   attributes: {
-    SpeedSneak: Array(
-      Array(5,4), // <- eig. 0/4!
-      Array(1,3),
-      Array(2,2),
-      Array(3,1)
-    ),
-    FightWill: Array(
-      Array(1,5),
-      Array(2,4),
-      Array(3,3),
-      Array(4,2)
-    ),
-    LoreLuck: Array(
-      Array(1,5),
-      Array(2,4),
-      Array(3,3),
-      Array(4,2)
-    )
+    SpeedSneak: [
+      [0,4],
+      [1,3],
+      [2,2],
+      [3,1]
+    ],
+    FightWill: [
+      [1,5],
+      [2,4],
+      [3,3],
+      [4,2]
+    ],
+    LoreLuck: [
+      [1,5],
+      [2,4],
+      [3,3],
+      [4,2]
+    ]
   }
 }));
 
@@ -88,34 +57,34 @@ game.registerInvestigator(game.createInvestigator({
   stamina: 3,
   money: 0,
   focus: 1,
-  fixedPossesionObjectIds: Array(
+  fixedPossesionObjectIds: [
     "BC_Blessing",
     "CI_Cross",
     "UI_Holy_Water"
-  ),
-  randomPossessions: Array(
+  ],
+  randomPossessions: [
     {type: Constants.ObjectType.Spell, amount: 2},
     {type: Constants.ObjectType.Skill, amount: 1}
-  ),
+  ],
   attributes: {
-    SpeedSneak: Array(
-      Array(1,4),
-      Array(2,3),
-      Array(3,2),
-      Array(4,1)
-    ),
-    FightWill: Array(
-      Array(0,4),
-      Array(1,3),
-      Array(2,2),
-      Array(3,1)
-    ),
-    LoreLuck: Array(
-      Array(1,6),
-      Array(2,5),
-      Array(3,4),
-      Array(4,3)
-    )
+    SpeedSneak: [
+      [1,4],
+      [2,3],
+      [3,2],
+      [4,1]
+    ],
+    FightWill: [
+      [0,4],
+      [1,3],
+      [2,2],
+      [3,1]
+    ],
+    LoreLuck: [
+      [1,6],
+      [2,5],
+      [3,4],
+      [4,3]
+    ]
   }
 }));
 

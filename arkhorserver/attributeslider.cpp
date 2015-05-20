@@ -1,8 +1,10 @@
 #include "attributeslider.h"
 
+using namespace AH::Common;
+
 AttributeSlider::AttributeSlider()
-:   m_curSetting(-1)
 {
+    m_curSettingPos = -1;
 }
 
 bool AttributeSlider::addAttributePair(AttributePair pair)
@@ -17,7 +19,7 @@ bool AttributeSlider::addAttributePair(AttributePair pair)
 
     if (m_attributeSettings.isEmpty()) {
         m_attributeSettings.append(pair);
-        m_curSetting = 0;
+        m_curSettingPos = 0;
         return true;
     } else {
         // Must have same settings
@@ -33,8 +35,8 @@ bool AttributeSlider::addAttributePair(AttributePair pair)
 
 bool AttributeSlider::shiftLeft()
 {
-    if (m_curSetting > 0) {
-        m_curSetting--;
+    if (m_curSettingPos > 0) {
+        m_curSettingPos--;
         return true;
     }
     return false;
@@ -42,8 +44,8 @@ bool AttributeSlider::shiftLeft()
 
 bool AttributeSlider::shiftRight()
 {
-    if (m_curSetting < m_attributeSettings.size()-1) {
-        m_curSetting++;
+    if (m_curSettingPos < m_attributeSettings.size()-1) {
+        m_curSettingPos++;
         return true;
     }
     return false;
@@ -66,7 +68,7 @@ bool AttributeSlider::shiftBy(int amount)
 
 const AttributePair AttributeSlider::currentSetting() const
 {
-    return m_attributeSettings.value(m_curSetting);
+    return m_attributeSettings.value(m_curSettingPos);
 }
 
 int AttributeSlider::distanceBetween(AttributePair p1, AttributePair p2) const

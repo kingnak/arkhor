@@ -14,29 +14,22 @@ public:
     void shuffle();
 
     T *draw()
-    { return m_deck.takeFirst(); }
-    T *drawSpecific(T *t);
+    { return m_deck.isEmpty() ? NULL : m_deck.takeFirst(); }
     T *drawSpecificById(QString id);
+    T *drawSpecificByTypeId(QString tid);
     T *peekTop()
-    { return m_deck.first(); }
+    { return m_deck.isEmpty() ? NULL : m_deck.first(); }
     T *peekBottom()
-    { return m_deck.last(); }
+    { return m_deck.isEmpty() ? NULL : m_deck.last(); }
     T *drawBottom()
-    { return m_deck.takeLast(); }
+    { return m_deck.isEmpty() ? NULL : m_deck.takeLast(); }
 
 private:
     QList<T *> m_deck;
 };
 
 template<typename T>
-T *Deck::drawSpecific(T *t)
-{
-    m_deck.removeAll(t);
-    return t;
-}
-
-template<typename T>
-T *Deck::drawSpecificById(QString id)
+T *Deck<T>::drawSpecificById(QString id)
 {
     T *ret = NULL;
     foreach (T *t, m_deck) {
@@ -46,11 +39,29 @@ T *Deck::drawSpecificById(QString id)
         }
     }
 
-    return drawSpecific(ret);
+    if (ret)
+        m_deck.removeAll(ret);
+    return ret;
 }
 
 template<typename T>
-void Deck::shuffle()
+T *Deck<T>::drawSpecificByTypeId(QString tid)
+{
+    T *ret = NULL;
+    foreach (T *t, m_deck) {
+        if (t->typeId() == tid) {
+            ret = t;
+            break;
+        }
+    }
+
+    if (ret)
+        m_deck.removeAll(ret);
+    return ret;
+}
+
+template<typename T>
+void Deck<T>::shuffle()
 {
     for (int i = m_deck.size()-1; i >= 0; --i) {
         int n = RandomSource::instance().nextUint(0, i);

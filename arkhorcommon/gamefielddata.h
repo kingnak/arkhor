@@ -44,10 +44,9 @@ namespace AH {
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, GameFieldData);
         };
-
-        Q_DECLARE_METATYPE(GameFieldData)
-        //Q_DECLARE_METATYPE(GameFieldData*)
     }
 }
+
+Q_DECLARE_METATYPE(AH::Common::GameFieldData)
 
 #endif // GAMEFIELDDATA_H

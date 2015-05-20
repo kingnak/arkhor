@@ -45,6 +45,9 @@ namespace AH{
                 S_CHOOSE_MOVEMENT_PATH,
                 C_MOVE_PATH,
 
+                S_CHOOSE_FOCUS,
+                C_SELECT_FOCUS,
+
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF
             } type;

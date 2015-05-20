@@ -57,8 +57,8 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
     ot.setProperty("Spell", AH::Obj_Spell, QScriptValue::ReadOnly);
     ot.setProperty("Skill", AH::Obj_Skill, QScriptValue::ReadOnly);
     ot.setProperty("Ally", AH::Obj_Ally, QScriptValue::ReadOnly);
-    ot.setProperty("Blessing", AH::Obj_Blessing, QScriptValue::ReadOnly);
-    ot.setProperty("Curse", AH::Obj_Curse, QScriptValue::ReadOnly);
+    ot.setProperty("Blessing_Curse", AH::Obj_Blessing_Curse, QScriptValue::ReadOnly);
+    ot.setProperty("Special", AH::Obj_Special, QScriptValue::ReadOnly);
     consts.setProperty("ObjectType", ot, QScriptValue::ReadOnly);
 
     // GamePhase

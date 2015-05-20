@@ -10,8 +10,16 @@ FocusAction::FocusAction()
 bool FocusAction::execute()
 {
     int focusAmount = gGame->context().getCurCharacterProperty(PropertyValue::Prop_Focus).finalVal();
-    QList<AttributeSlider> &attrs = gGame->context().player()->getCharacter()->getModifyableFocusAttributes();
-    QList<int> diffs = gGame->context().player()->chooseFocus(attrs, focusAmount);
+    bool ok = executeOnPlayer(gGame->context().player(), focusAmount);
+    if (ok)
+        gGame->context().player()->getCharacter()->setFocusAmount(focusAmount);
+    return ok;
+}
+
+bool FocusAction::executeOnPlayer(Player *p, int &focusAmount)
+{
+    QList<AttributeSlider> &attrs = p->getCharacter()->getModifyableFocusAttributes();
+    QList<int> diffs = p->chooseFocus(attrs, focusAmount);
 
     int sum = 0;
     foreach (int i, diffs) {
@@ -27,8 +35,6 @@ bool FocusAction::execute()
     }
 
     focusAmount -= sum;
-
-    gGame->context().player()->getCharacter()->setFocusAmount(focusAmount);
 
     return true;
 }

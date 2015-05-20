@@ -5,12 +5,15 @@
 #include "../gameoption.h"
 #include <QString>
 
+class Player;
+
 class FocusAction : public GameAction
 {
 public:
     FocusAction();
 
     bool execute();
+    bool executeOnPlayer(Player *p, int &focusAmount);
     AH::GamePhases phases() const { return AH::Upkeep; }
 
     QString id() const { return "AC_FOCUS"; }

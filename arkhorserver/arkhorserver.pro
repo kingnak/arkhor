@@ -60,7 +60,8 @@ HEADERS += \
     game/propertymodifier.h \
     script/propertymodificationscript.h \
     game/arkhamencounter.h \
-    script/arkhamencounterscript.h
+    script/arkhamencounterscript.h \
+    game/gameregistry.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -121,7 +122,8 @@ SOURCES += \
     game/propertymodifier.cpp \
     script/propertymodificationscript.cpp \
     game/arkhamencounter.cpp \
-    script/arkhamencounterscript.cpp
+    script/arkhamencounterscript.cpp \
+    game/gameregistry.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

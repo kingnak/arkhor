@@ -189,9 +189,27 @@ GameOption *NetworkPlayer::chooseOption(QList<GameOption *> options)
 
 QList<int> NetworkPlayer::chooseFocus(QList<AttributeSlider> sliders, int totalFocus)
 {
-    Q_UNUSED(sliders);
-    Q_UNUSED(totalFocus);
-    return QList<int>() << 1 << 1 << 1;
+    QVariantMap map;
+
+    // Must convert AttributeSlider list to AttributeSliderData list
+    QList<AttributeSliderData> dataList;
+    foreach (const AttributeSlider &s, sliders) {
+        dataList << *s.data();
+    }
+
+    map["focusAmount"] << totalFocus;
+    map["focusSliders"] << dataList;
+    m_conn->sendMessage(Message::S_CHOOSE_FOCUS, map);
+
+    AH::Common::Message resp;
+    QList<Message::Type> l;
+    l << Message::C_SELECT_FOCUS;
+    bool ok = awaitResponse(resp, l);
+    QList<int> diffs;
+    if (ok) {
+        resp.payload >> diffs;
+    }
+    return diffs;
 }
 
 MovementPath NetworkPlayer::chooseMovement(GameField *start, int movement)

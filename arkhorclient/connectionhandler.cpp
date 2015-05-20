@@ -41,6 +41,13 @@ void ConnectionHandler::selectMovementPath(QList<AH::Common::FieldData::FieldID>
     send(AH::Common::Message::C_MOVE_PATH, v);
 }
 
+void ConnectionHandler::selectFocus(QList<int> positionDiffs)
+{
+    QVariant v;
+    v << positionDiffs;
+    send(AH::Common::Message::C_SELECT_FOCUS, v);
+}
+
 void ConnectionHandler::startup()
 {
     QTcpSocket *sock = new QTcpSocket;
@@ -123,6 +130,19 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         m["startId"] >> sid;
         m["movementPoints"] >> mov;
         emit chooseMovement(sid, mov);
+        break;
+    }
+
+    case AH::Common::Message::S_CHOOSE_FOCUS:
+    {
+        QVariantMap m;
+        msg.payload >> m;
+        QList<AH::Common::AttributeSliderData> sld;
+        int amnt;
+        m["focusAmount"] >> amnt;
+        m["focusSliders"] >> sld;
+        emit chooseFocus(sld, amnt);
+        break;
     }
 
     default:

@@ -49,11 +49,11 @@ QString GameOption::description() const
     return m_description;
 }
 
-bool GameOption::resolveDependencies(const Game *game)
+bool GameOption::resolveDependencies(GameRegistry *reg)
 {
     if (m_action) return true;
     if (m_actionId.isEmpty()) return true; // ??
-    GameAction *a = game->findActionById(m_actionId);
+    GameAction *a = reg->findActionById(m_actionId);
     if (a) {
         m_action = a;
         return true;

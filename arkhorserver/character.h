@@ -28,6 +28,7 @@ public:
     QList<GameAction *> getActions(AH::GamePhase phase);
     QList<GameOption *> getOptions(AH::GamePhase phase);
     QList<GameObject *> &inventory();
+    Investigator *investigator() { return m_investigator; }
 
     // Attributes
     QList<AttributeSlider> getFocusAttributes() const;

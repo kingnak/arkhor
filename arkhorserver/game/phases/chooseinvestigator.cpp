@@ -19,7 +19,6 @@ void ChooseInvestigator::execute()
                 Character *c = sel->instantiate();
                 p->setCharacter(c);
                 gGame->registerCharacter(c);
-                gGame->board()->field(sel->startFieldId())->placeCharacter(c);
                 inv.removeAll(sel);
                 p->playerCharacterInstantiated(p);
             }

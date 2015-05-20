@@ -7,12 +7,15 @@
 #include <QScriptEngine>
 
 class QScriptContext;
+class GameRegistry;
 
 class GameObjectScript : public QObject, public GameObject
 {
     Q_OBJECT
 public:
     explicit GameObjectScript(QObject *parent = 0);
+
+    GameObject *clone() const;
 
     static void castFromValue(const QScriptValue &v, GameObjectScript *&o) { o = qobject_cast<GameObjectScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, GameObjectScript * const &in) { return eng->newQObject(in); }
@@ -23,7 +26,7 @@ public:
     virtual QList<GameOption *> getOptions() const { return m_optMap.values(); }
     virtual PropertyModificationList getModifications();
 
-    virtual bool resolveDependencies(const Game *game);
+    virtual bool resolveDependencies(GameRegistry *reg);
 
 signals:
 

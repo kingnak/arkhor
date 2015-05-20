@@ -32,6 +32,10 @@ bool MoveAction::moveArkham()
     int speed = gGame->context().getCurCharacterProperty(PropertyValue::Prop_Movement).finalVal();
     MovementPath p = gGame->context().player()->chooseMovement(gGame->context().player()->getCharacter()->field(), speed);
 
+    if (p.isEmpty()) {
+        return false;
+    }
+
     if (p.startField() == gGame->context().player()->getCharacter()->field()
             && gGame->board()->validatePath(p)
             && p.length() <= speed)

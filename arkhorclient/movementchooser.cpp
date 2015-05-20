@@ -45,6 +45,7 @@ void MovementChooser::resetMovement()
     disableAllFields();
     nextMoveStep(m_startId);
     m_curMove = m_maxMove;
+    ui->lblRemMovementPoints->setText(QString::number(m_curMove));
     m_path.clear();
     m_path << m_startId;
 }
@@ -59,10 +60,11 @@ void MovementChooser::cancelMovement()
 
 void MovementChooser::nextItemClicked(AH::Common::FieldData::FieldID id)
 {
+    m_curMove--;
+    m_path << id;
+    ui->lblRemMovementPoints->setText(QString::number(m_curMove));
     if (m_curMove > 0) {
         nextMoveStep(id);
-        m_curMove--;
-        m_path << id;
     } else {
         setNeighboursActive(m_curId, false);
         m_curId = id;

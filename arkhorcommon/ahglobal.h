@@ -53,8 +53,8 @@ namespace AH
         Obj_Spell,
         Obj_Skill,
         Obj_Ally,
-        Obj_Blessing,
-        Obj_Curse
+        Obj_Blessing_Curse,
+        Obj_Special
     };
 
     enum Dimension {

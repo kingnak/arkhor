@@ -7,11 +7,13 @@
 
 class QPushButton;
 class QToolButton;
+class ItemStacker;
 
 class StackItem
 {
 public:
-    StackItem() {}
+    StackItem() : m_stacker(NULL) {}
+    virtual ~StackItem() {}
     StackItem(const QString &desc)
         : m_desc(desc) {}
     StackItem(const QPixmap &pixmap, const QString &desc)
@@ -19,18 +21,22 @@ public:
     StackItem(const QPixmap &pixmap, const QString &desc, const QVariant &data)
         : m_desc(desc), m_pixmap(pixmap), m_data(data) {}
 
+    virtual void wasAdded() {}
     QString description() const { return m_desc; }
     QPixmap pixmap() const { return m_pixmap; }
     QVariant data() const { return m_data; }
 
     void setDescription(const QString &desc) { m_desc = desc; }
-    void setPixmap(const QString &pixmap) { m_pixmap = pixmap; }
+    void setPixmap(const QPixmap &pixmap);
     void setData(const QVariant &data) { m_data = data; }
 
-private:
+    void setStacker(ItemStacker *s) { m_stacker = s; }
+
+protected:
     QString m_desc;
     QPixmap m_pixmap;
     QVariant m_data;
+    ItemStacker *m_stacker;
 };
 
 class ItemStacker : public QWidget
@@ -38,10 +44,11 @@ class ItemStacker : public QWidget
     Q_OBJECT
 public:
     explicit ItemStacker(QWidget *parent = 0);
+    ~ItemStacker();
 
     int count() const { return m_items.size(); }
-    StackItem topItem() const;
-    QList<StackItem> items() const { return m_items; }
+    const StackItem *topItem() const;
+    QList<StackItem *> items() const { return m_items; }
 
     QSize sizeHint() const;
     QSize minimumSizeHint() const;
@@ -49,15 +56,16 @@ public:
     void setDisplayOffset(int off);
 
 signals:
-    void itemAdded(const StackItem &item);
+    void itemAdded(const StackItem *item);
     void itemRemoved();
-    void itemActivated(const StackItem &item);
+    void itemActivated(const StackItem *item);
 
 public slots:
-    void addItem(StackItem itm);
+    void addItem(StackItem *itm);
     void removeAt(int idx);
     void clear();
     void setPicSize(QSize s);
+    void itemUpdated(StackItem *itm);
 
 protected:
     void resizeEvent(QResizeEvent *ev);
@@ -79,7 +87,7 @@ private:
     QToolButton *m_next;
     QToolButton *m_prev;
     QPushButton *m_displays[DISPLAY_COUNT];
-    QList<StackItem> m_items;
+    QList<StackItem *> m_items;
     int m_cur;
 };
 

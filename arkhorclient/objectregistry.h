@@ -22,6 +22,7 @@ public:
     QString thisCharacterId() const { return m_thisCharacterId; }
     QString thisPlayerId() const { return m_thisPlayerId; }
 
+    bool hasObject(QString id);
     AH::Common::DescribeObjectsData getObjects(AH::Common::RequestObjectsData reqs);
     AH::Common::DescribeObjectsData::ObjectDescription getObject(QString id, AH::Common::RequestObjectsData::ObjectType type = AH::Common::RequestObjectsData::Unknown);
 

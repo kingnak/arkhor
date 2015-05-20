@@ -55,6 +55,8 @@ bool FightPhase::handleFight()
 void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
 {
     switch (res) {
+    case NoResult:
+        break;
     case CharacterFlown:
         m_flownMonsters.append(gGame->context().monster());
         m_curPhase = ChooseMonster;
@@ -72,6 +74,9 @@ void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
             // Goto Choose Weapons
             m_curPhase = ChooseWeapons;
         }
+        break;
+    case WeaponsChosen:
+        m_curPhase = ChooseWeapons;
         break;
     case HorrorFailed:
         damageHorror();
@@ -126,6 +131,8 @@ QList<GameOption *> FightPhase::getPhaseOptions()
         return chooseWeaponsOptions();
     }
 
+    Q_ASSERT_X(false, "FightPhase::getPhaseOptions", "Invalid fight phase detected");
+    return QList<GameOption *> ();
 }
 
 void FightPhase::damageStamina()

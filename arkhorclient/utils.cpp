@@ -30,7 +30,9 @@ QString Utils::stringForProperty(AH::Common::PropertyValueData::Property p)
     case PropertyValueData::Prop_Focus: return "Focus";
     case PropertyValueData::Prop_Movement: return "Movement";
     case PropertyValueData::Prop_MinSuccessDieRoll: return "Minimal Success Die Roll";
-    case PropertyValueData::Prop_HandCount: return "HandCount";
+    case PropertyValueData::Prop_HandCount: return "Hand Count";
+    case PropertyValueData::Prop_CastCost: return "Spell Cast Sanity Cost";
+    case PropertyValueData::Prop_CastAdjustment: return "Spell Cast Adjustment";
 
     case PropertyValueData::DieRoll_All: return "All";
     case PropertyValueData::DieRoll_Speed: return "Speed";
@@ -66,8 +68,9 @@ QString Utils::stringForDimension(AH::Dimension dim)
     case AH::Dim_Hexagon: return "Hexagon";
     case AH::Dim_Plus: return "Plus";
     case AH::Dim_Triangle: return "Triangle";
+    default:
+        return "";
     }
-    return "";
 }
 
 QString Utils::stringForMovement(MonsterData::MovementType m)
@@ -99,6 +102,9 @@ QString Utils::stringForMonsterAttribute(MonsterData::MonsterAttribute a)
     case AH::Common::MonsterData::Overwhelming_1: return "Overwhelming 1";
     case AH::Common::MonsterData::Overwhelming_2: return "Overwhelming 2";
     case AH::Common::MonsterData::Overwhelming_3: return "Overwhelming 3";
+
+    case AH::Common::MonsterData::MonsterAttribute_Max_Value_Sentinel:
+        return "";
     }
     return "";
 }

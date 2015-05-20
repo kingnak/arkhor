@@ -42,8 +42,8 @@ signals:
     void fieldClicked(AH::Common::FieldData::FieldID id);
 
 private slots:
-    void characterClicked(const StackItem &itm);
-    void monsterClicked(const StackItem &itm);
+    void characterClicked(const StackItem *itm);
+    void monsterClicked(const StackItem *itm);
 
 private:
     void initCharacterItem();

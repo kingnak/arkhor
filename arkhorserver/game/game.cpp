@@ -290,19 +290,26 @@ AH::Common::DescribeObjectsData Game::describeObjects(const AH::Common::RequestO
     AH::Common::DescribeObjectsData ret;
     foreach (AH::Common::RequestObjectsData::ObjectRequest r, reqs.getRequests()) {
         AH::Common::DescribeObjectsData::ObjectDescription d;
-        d.first = AH::Common::RequestObjectsData::Unknown;
+        d.type = AH::Common::RequestObjectsData::Unknown;
 
         switch (r.first) {
         case AH::Common::RequestObjectsData::Unknown:
         {
             GameObject *obj = m_registry->findObjectById(r.second);
             Character *c = m_registry->findCharacterById(r.second);
+            Monster *m = m_registry->findMonsterById(r.second);
             if (obj) {
-                d.second << *(obj->data());
-                d.first = AH::Common::RequestObjectsData::Object;
+                d.data << *(obj->data());
+                d.id = obj->id();
+                d.type = AH::Common::RequestObjectsData::Object;
             } else if (c) {
-                d.second << *(c->data());
-                d.first = AH::Common::RequestObjectsData::Character;
+                d.data << *(c->data());
+                d.id = c->id();
+                d.type = AH::Common::RequestObjectsData::Character;
+            } else if (m) {
+                d.data << *(m->data());
+                d.id = m->id();
+                d.type = AH::Common::RequestObjectsData::Monster;
             }
             // TODO: Extend
             break;
@@ -311,8 +318,9 @@ AH::Common::DescribeObjectsData Game::describeObjects(const AH::Common::RequestO
         {
             GameObject *obj = m_registry->findObjectById(r.second);
             if (obj) {
-                d.second << *(obj->data());
-                d.first = AH::Common::RequestObjectsData::Object;
+                d.data << *(obj->data());
+                d.id = obj->id();
+                d.type = AH::Common::RequestObjectsData::Object;
             }
             break;
         }
@@ -322,8 +330,9 @@ AH::Common::DescribeObjectsData Game::describeObjects(const AH::Common::RequestO
         {
             Character *c = m_registry->findCharacterById(r.second);
             if (c) {
-                d.second << *(c->data());
-                d.first = AH::Common::RequestObjectsData::Character;
+                d.data << *(c->data());
+                d.id = c->id();
+                d.type = AH::Common::RequestObjectsData::Character;
             }
             break;
         }

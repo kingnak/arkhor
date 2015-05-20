@@ -19,7 +19,8 @@ HEADERS += \
     weaponchooser.h \
     monsterwidget.h \
     resourcepool.h \
-    utils.h
+    utils.h \
+    registryobjectstackitem.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -41,7 +42,8 @@ SOURCES += \
     weaponchooser.cpp \
     monsterwidget.cpp \
     resourcepool.cpp \
-    utils.cpp
+    utils.cpp \
+    registryobjectstackitem.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

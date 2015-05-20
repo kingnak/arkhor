@@ -34,6 +34,8 @@ bool GameObject::isFightObject()
         case PropertyValue::Damage_Physical:
         case PropertyValue::Damage_Magical:
             return true;
+        default:
+            break;
         }
     }
     return false;

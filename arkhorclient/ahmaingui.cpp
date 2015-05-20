@@ -4,6 +4,7 @@
 #include "connectionhandler.h"
 #include "flowlayout.h"
 #include "objectregistry.h"
+#include "monsterdata.h"
 #include <QtGui>
 
 using namespace AH::Common;
@@ -87,12 +88,22 @@ void AhMainGui::start()
 
 void AhMainGui::displayItemInfo(const QString &id)
 {
-    QMessageBox::information(this, "Info", id);
     DescribeObjectsData::ObjectDescription d = m_registry->getObject(id);
-    if (d.first == RequestObjectsData::Unknown) {
+    if (d.type == RequestObjectsData::Unknown) {
         m_pendingDisplayId = id;
     } else {
         m_pendingDisplayId = QString::null;
+        switch (d.type) {
+        case AH::Common::RequestObjectsData::Monster:
+        {
+            AH::Common::MonsterData m;
+            d.data >> m;
+            displayMonsterDetails(&m);
+            break;
+        }
+        default:
+            QMessageBox::information(this, "Info", id);
+        }
     }
 }
 
@@ -102,6 +113,13 @@ void AhMainGui::displayInventoryData(QListWidgetItem *itm)
         QString id = itm->data(ObjectIdRole).toString();
         displayItemInfo(id);
     }
+}
+
+void AhMainGui::displayMonsterDetails(const MonsterData *m)
+{
+    ui->wgtInfoMonster->displayMonster(m);
+    ui->stkInfo->setCurrentWidget(ui->pageInfoMonster);
+    ui->tabIntInfInv->setCurrentWidget(ui->tabInfo);
 }
 
 void AhMainGui::chooseOption(QList<GameOptionData> opts)
@@ -177,6 +195,7 @@ void AhMainGui::dieUpdateChosen(DieTestUpdateData upd)
 
 void AhMainGui::updateObject(DescribeObjectsData::ObjectDescription desc)
 {
+    Q_UNUSED(desc)
     /*
     if (desc.first == RequestObjectsData::Character) {
         CharacterData c;

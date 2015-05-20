@@ -24,6 +24,11 @@ void ObjectRegistry::init(ConnectionHandler *c)
     connect(m_conn, SIGNAL(characterUpdate(AH::Common::CharacterData)), this, SLOT(updateCharacter(AH::Common::CharacterData)));
 }
 
+bool ObjectRegistry::hasObject(QString id)
+{
+    return m_registry.contains(id);
+}
+
 DescribeObjectsData ObjectRegistry::getObjects(RequestObjectsData reqs)
 {
     DescribeObjectsData descs;
@@ -60,7 +65,7 @@ DescribeObjectsData::ObjectDescription ObjectRegistry::getObject(QString id, AH:
     m_conn->requestObjects(reqs);
 
     DescribeObjectsData::ObjectDescription d;
-    d.first = RequestObjectsData::Unknown;
+    d.type = RequestObjectsData::Unknown;
     return d;
 }
 
@@ -80,11 +85,12 @@ DescribeObjectsData ObjectRegistry::getObjectsOfType(QStringList ids, RequestObj
 void ObjectRegistry::receivedDescriptions(DescribeObjectsData descs)
 {
     foreach (DescribeObjectsData::ObjectDescription d, descs.getDescriptions()) {
-        if (d.first == RequestObjectsData::Unknown) {
+        if (d.type == RequestObjectsData::Unknown) {
             qWarning("Unknown object received");
             continue;
         }
         // TODO:Verify
+        /*
         QVariantMap m;
         d.second >> m;
         if (m.contains("id")) {
@@ -92,11 +98,13 @@ void ObjectRegistry::receivedDescriptions(DescribeObjectsData descs)
         } else {
             qWarning("Received Object Type has no Id");
         }
+        */
+        m_registry[d.id] = d;
         emit objectDescribed(d);
 
-        if (d.first == RequestObjectsData::Character) {
+        if (d.type == RequestObjectsData::Character) {
             CharacterData c;
-            d.second >> c;
+            d.data >> c;
             updateCharacter(c);
         }
         /*

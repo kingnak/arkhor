@@ -1,6 +1,16 @@
 #include "itemstacker.h"
 #include <QtGui>
 
+void StackItem::setPixmap(const QPixmap &pixmap)
+{
+    m_pixmap = pixmap;
+    if (m_stacker) {
+        m_stacker->itemUpdated(this);
+    }
+}
+
+////////////////////////
+
 ItemStacker::ItemStacker(QWidget *parent) :
     QWidget(parent), m_displayOffset(4)
 {
@@ -23,7 +33,12 @@ ItemStacker::ItemStacker(QWidget *parent) :
     m_prev->setVisible(false);
 }
 
-StackItem ItemStacker::topItem() const
+ItemStacker::~ItemStacker()
+{
+    qDeleteAll(m_items);
+}
+
+const StackItem *ItemStacker::topItem() const
 {
     return m_items.value(m_cur);
 }
@@ -43,9 +58,11 @@ void ItemStacker::setDisplayOffset(int off)
     m_displayOffset = off;
 }
 
-void ItemStacker::addItem(StackItem itm)
+void ItemStacker::addItem(StackItem *itm)
 {
     m_items.prepend(itm);
+    itm->setStacker(this);
+    itm->wasAdded();
     if (m_cur == -1) {
         m_cur = 0;
     } else if (m_cur > 0) {
@@ -63,7 +80,7 @@ void ItemStacker::removeAt(int idx)
         return;
     }
 
-    m_items.removeAt(idx);
+    delete m_items.takeAt(idx);
     if (m_cur >= idx) {
         m_cur--;
         if (m_cur < 0)
@@ -77,6 +94,7 @@ void ItemStacker::removeAt(int idx)
 
 void ItemStacker::clear()
 {
+    qDeleteAll(m_items);
     m_items.clear();
     updateItemVisibility();
     emit itemRemoved();
@@ -85,6 +103,12 @@ void ItemStacker::clear()
 void ItemStacker::setPicSize(QSize s)
 {
     resize(s.width()+fixedWidth(), s.height());
+}
+
+void ItemStacker::itemUpdated(StackItem *itm)
+{
+    Q_UNUSED(itm)
+    updateItemPixmaps();
 }
 
 void ItemStacker::resizeEvent(QResizeEvent *ev)
@@ -174,7 +198,6 @@ void ItemStacker::updateItemPixmaps()
 
     for (int i = 0; i < m; ++i) {
         int idx = (i+m_cur) % m_items.size();
-        m_displays[i]->setIcon(m_items[idx].pixmap());
+        m_displays[i]->setIcon(m_items[idx]->pixmap());
     }
 }
-

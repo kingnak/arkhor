@@ -15,15 +15,13 @@ MonsterFrontWidget::~MonsterFrontWidget()
 
 }
 
-void MonsterFrontWidget::displayMonster(const AH::Common::MonsterData *m)
+QPixmap MonsterFrontWidget::drawMonster(const AH::Common::MonsterData *m, QSize s)
 {
-    QSize s = sizeHint();
-    m_cache = QPixmap(s);
-    m_cache.fill();
-
+    QPixmap ret(s);
+    ret.fill();
     if (m) {
         // Main image
-        QPainter p(&m_cache);
+        QPainter p(&ret);
         QPixmap img = ResourcePool::instance()->loadMonster(m->typeId()).scaled(s);
         p.drawPixmap(0, 0, img);
         QPixmap overlay = QPixmap(":/core/images/monster_overlay").scaled(s);
@@ -61,6 +59,13 @@ void MonsterFrontWidget::displayMonster(const AH::Common::MonsterData *m)
         p.setPen(QPen(MonsterWidget::getMovementTypeColor(m->movementType()), 8));
         p.drawRect(0, 0, s.width(), s.height());
     }
+    return ret;
+}
+
+void MonsterFrontWidget::displayMonster(const AH::Common::MonsterData *m)
+{
+    QSize s = sizeHint();
+    m_cache = MonsterFrontWidget::drawMonster(m, s);
     update();
 }
 
@@ -221,6 +226,7 @@ QSize MonsterBackWidget::minimumSizeHint() const
 
 void MonsterBackWidget::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event)
     QPainter p(this);
     p.drawPixmap(0, 0, m_cache);
 }

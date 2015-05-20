@@ -9,7 +9,7 @@ ResourcePool *ResourcePool::instance()
 
 QPixmap ResourcePool::loadMonster(QString id)
 {
-    //return QPixmap(":/core/images/unknown_monster");
+    if (id == "") return QPixmap(":/core/images/unknown_monster");
     return QPixmap(":/test/client_resources/test/Byakhee.png");
 }
 
@@ -34,8 +34,9 @@ QPixmap ResourcePool::loadDimensionSymbol(AH::Dimension dim)
     case AH::Dim_Hexagon: return QPixmap(":/core/images/dim_hexagon");
     case AH::Dim_Plus: return QPixmap(":/core/images/dim_plus");
     case AH::Dim_Triangle: return QPixmap(":/core/images/dim_triangle");
+    default:
+        return QPixmap();
     }
-    return QPixmap();
 }
 
 ResourcePool::ResourcePool()

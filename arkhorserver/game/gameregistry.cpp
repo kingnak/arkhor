@@ -110,6 +110,11 @@ Character *GameRegistry::findCharacterById(QString id)
     return m_characters.value(id);
 }
 
+Monster *GameRegistry::findMonsterById(QString id)
+{
+    return m_monsters.value(id);
+}
+
 QList<GameObject *> GameRegistry::allObjects()
 {
     return m_objects.values();

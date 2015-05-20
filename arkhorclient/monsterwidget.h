@@ -16,6 +16,8 @@ public:
     explicit MonsterFrontWidget(QWidget *parent = 0);
     ~MonsterFrontWidget();
 
+    static QPixmap drawMonster(const AH::Common::MonsterData *m, QSize s = QSize(200,200));
+
 public slots:
     void displayMonster(const AH::Common::MonsterData *m);
 

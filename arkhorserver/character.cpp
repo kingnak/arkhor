@@ -11,9 +11,9 @@ using namespace AH::Common;
 
 Character::Character(Investigator *i)
 :   m_investigator(i),
+    m_dirty(false),
     m_field(NULL),
     m_maxFocus(0),
-    m_dirty(false),
     /*
     m_maxStamina(0),
     m_curStamina(0),

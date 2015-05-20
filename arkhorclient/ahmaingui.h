@@ -9,6 +9,7 @@
 #include <characterdata.h>
 #include <objectdata.h>
 #include <gameobjectdata.h>
+#include <monsterdata.h>
 
 class ObjectRegistry;
 class ConnectionHandler;
@@ -43,6 +44,10 @@ private slots:
     void displayItemInfo(const QString &id);
 
     void displayInventoryData(QListWidgetItem *itm);
+
+    void displayMonsterDetails(const AH::Common::MonsterData *m);
+
+
 
     void chooseOption(QList<AH::Common::GameOptionData> opts);
     void optionChosen(QString id);

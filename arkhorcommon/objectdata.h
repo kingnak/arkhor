@@ -40,7 +40,13 @@ namespace AH {
         public:
             DescribeObjectsData() {}
 
-            typedef QPair<RequestObjectsData::ObjectType, QVariant> ObjectDescription;
+            //typedef QPair<RequestObjectsData::ObjectType, QVariant> ObjectDescription;
+            struct ObjectDescription {
+                RequestObjectsData::ObjectType type;
+                QString id;
+                QVariant data;
+            };
+
             typedef QList<ObjectDescription> ObjectDescriptions;
 
             ObjectDescriptions getDescriptions() const { return m_descs; }

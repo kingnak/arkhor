@@ -37,8 +37,9 @@ void operator >> (const QVariant &data, RequestObjectsData &target)
 void operator << (QVariant &data, const DescribeObjectsData::ObjectDescription &target)
 {
     QVariantMap map;
-    map["type"] << target.first;
-    map["description"] << target.second;
+    map["type"] << target.type;
+    map["id"] << target.id;
+    map["data"] << target.data;
     data << map;
 }
 
@@ -46,8 +47,9 @@ void operator >> (const QVariant &data, DescribeObjectsData::ObjectDescription &
 {
     QVariantMap map;
     data >> map;
-    map["type"] >> target.first;
-    map["description"] >> target.second;
+    map["type"] >> target.type;
+    map["id"] >> target.id;
+    map["data"] >> target.data;
 }
 
 void operator << (QVariant &data, const DescribeObjectsData &target)

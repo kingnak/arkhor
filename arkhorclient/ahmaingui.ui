@@ -25,7 +25,7 @@
         <enum>QTabWidget::East</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tabInteraction">
         <attribute name="icon">
@@ -147,6 +147,33 @@
         <attribute name="title">
          <string/>
         </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QStackedWidget" name="stkInfo">
+           <widget class="QWidget" name="pageInfoMonster">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="MonsterWidget" name="wgtInfoMonster" native="true"/>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="page_2"/>
+          </widget>
+         </item>
+        </layout>
        </widget>
        <widget class="QWidget" name="tabInventory">
         <attribute name="icon">
@@ -228,6 +255,12 @@
    <class>WeaponChooser</class>
    <extends>QWidget</extends>
    <header>weaponchooser.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MonsterWidget</class>
+   <extends>QWidget</extends>
+   <header>monsterwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

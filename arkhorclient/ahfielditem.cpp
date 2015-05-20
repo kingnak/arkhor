@@ -1,5 +1,6 @@
 #include "ahfielditem.h"
 #include "itemstacker.h"
+#include "registryobjectstackitem.h"
 #include <QtGui>
 
 static const double STACK_ITEM_SIZE = 75;
@@ -68,14 +69,15 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
     if (m_characters) {
         m_characters->clear();        
         foreach (QString id, data.characterIds()) {
-            m_characters->addItem(StackItem(QPixmap(":/test/client_resources/test/jenny_barnes_figure.png"), "", id));
+            m_characters->addItem(new StackItem(QPixmap(":/test/client_resources/test/jenny_barnes_figure.png"), "", id));
         }
     }
 
     if (m_monsters) {
         m_monsters->clear();
         foreach (QString id, data.monsterIds()) {
-            m_monsters->addItem(StackItem(QPixmap(":/test/client_resources/test/Cultist.png"), "", id));
+            //m_monsters->addItem(new StackItem(QPixmap(":/test/client_resources/test/Cultist.png"), "", id));
+            m_monsters->addItem(new MonsterStackItem(id));
         }
     }
 
@@ -90,7 +92,7 @@ void AhFieldItem::initCharacterItem()
     m_characters->setPicSize(QSize(STACK_ITEM_SIZE,STACK_ITEM_SIZE));
     m_characters->setAutoFillBackground(false);
     m_characters->setAttribute(Qt::WA_TranslucentBackground);
-    connect(m_characters, SIGNAL(itemActivated(StackItem)), this, SLOT(characterClicked(StackItem)));
+    connect(m_characters, SIGNAL(itemActivated(const StackItem*)), this, SLOT(characterClicked(const StackItem*)));
     QGraphicsProxyWidget *prxChar = new QGraphicsProxyWidget(this);
     prxChar->setWidget(m_characters);
 
@@ -127,7 +129,7 @@ void AhFieldItem::initMonsterItem()
     m_monsters->setPicSize(QSize(STACK_ITEM_SIZE,STACK_ITEM_SIZE));
     m_monsters->setAutoFillBackground(false);
     m_monsters->setAttribute(Qt::WA_TranslucentBackground);
-    connect(m_monsters, SIGNAL(itemActivated(StackItem)), this, SLOT(monsterClicked(StackItem)));
+    connect(m_monsters, SIGNAL(itemActivated(const StackItem*)), this, SLOT(monsterClicked(const StackItem*)));
     QGraphicsProxyWidget *prxMonst = new QGraphicsProxyWidget(this);
     prxMonst->setWidget(m_monsters);
 
@@ -203,14 +205,16 @@ void AhFieldItem::fieldAreaClicked()
     }
 }
 
-void AhFieldItem::characterClicked(const StackItem &itm)
+void AhFieldItem::characterClicked(const StackItem *itm)
 {
-    emit itemInfoRequested(itm.data().toString());
+    if (itm)
+        emit itemInfoRequested(itm->data().toString());
 }
 
-void AhFieldItem::monsterClicked(const StackItem &itm)
+void AhFieldItem::monsterClicked(const StackItem *itm)
 {
-    emit itemInfoRequested(itm.data().toString());
+    if (itm)
+        emit itemInfoRequested(itm->data().toString());
 }
 
 ////////////////////////////////

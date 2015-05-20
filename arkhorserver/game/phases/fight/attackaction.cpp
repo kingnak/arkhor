@@ -23,6 +23,11 @@ bool AttackAction::execute()
     PropertyModificationList mag = p->getCharacter()->getPropertyModifiers().filtered(PropertyValue::Damage_Magical);
     PropertyModificationList phy = p->getCharacter()->getPropertyModifiers().filtered(PropertyValue::Damage_Physical);
 
+    // Get only equipped
+    filterEquipped(gen);
+    filterEquipped(mag);
+    filterEquipped(phy);
+
     int dmgBase = base.finalVal();
     int dmgGen = gen.apply(0);
     int dmgMag = mag.apply(0);
@@ -59,4 +64,18 @@ bool AttackAction::execute()
         m_fight->updatePhaseByResult(FightPhase::AttackFailed);
     }
     return true;
+}
+
+void AttackAction::filterEquipped(PropertyModificationList &lst)
+{
+    for (PropertyModificationList::iterator it = lst.begin(); it != lst.end();) {
+        if (const GameObject * obj = dynamic_cast<const GameObject *> (it->getModifier())) {
+            if (!obj->isEquipped()) {
+                it = lst.erase(it);
+                continue;
+            }
+        }
+
+        ++it;
+    }
 }

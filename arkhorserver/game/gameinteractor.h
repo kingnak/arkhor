@@ -4,11 +4,14 @@
 #include <QList>
 #include "attributeslider.h"
 #include "movementpath.h"
+#include "propertyvalue.h"
 #include <cost.h>
 #include <diedata.h>
+#include "propertymodifier.h"
 
 class Game;
 class GameOption;
+class GameObject;
 class Investigator;
 class Player;
 
@@ -30,6 +33,8 @@ public:
     virtual MovementPath chooseMovement(GameField *start, int movement) = 0;
 
     virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c) = 0;
+
+    virtual bool chooseWeapons(QList<GameObject *> weapons, ModifiedPropertyValue hands, QStringList &selected) = 0;
 
     virtual AH::Common::PropertyValueData::Property chooseSkill(QList<AH::Common::ModifiedPropertyValueData> options) = 0;
 

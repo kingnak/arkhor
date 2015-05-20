@@ -66,10 +66,12 @@ namespace AH
         Dim_Square = 0x0001,
         Dim_Circle = 0x0002,
         Dim_Moon = 0x0004,
-        Dim_Bar = 0x0008,
+        Dim_Slash = 0x0008,
         Dim_Star = 0x0010,
         Dim_Diamond = 0x0020,
-        Dim_Octagon = 0x0040
+        Dim_Hexagon = 0x0040,
+        Dim_Plus = 0x0080,
+        Dim_Triangle = 0x0100,
     };
     Q_DECLARE_FLAGS(Dimensions, Dimension)
 

@@ -60,6 +60,15 @@ CharacterData *Character::data()
     return CharacterData::data();
 }
 
+PropertyModificationList Character::getPropertyModifiers() const
+{
+    PropertyModificationList ret;
+    foreach (GameObject *obj, m_inventory) {
+        ret.append(obj->getModifications());
+    }
+    return ret;
+}
+
 QList<GameAction *> Character::getActions(AH::GamePhase phase)
 {
     QList<GameAction *> acts;
@@ -298,10 +307,13 @@ void Character::instantiateFromInvestigator()
 
     m_fieldId = m_investigator->startFieldId();
 
-    // TODO Unique ability
+    // Unique ability
+    GameObject *ua = gGame->registry()->findObjectById(m_investigator->uniqueAbilityId());
+    if (ua) {
+        m_inventory.append(ua);
+    }
 
-    // TODO LATER:
-    // Random and fixed possesion
+    // Game will give Random and fixed possesion
 }
 
 int Character::getAttributeValue(AH::Attribute attr) const

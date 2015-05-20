@@ -25,7 +25,7 @@
         <enum>QTabWidget::East</enum>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tabInteraction">
         <attribute name="icon">
@@ -39,25 +39,34 @@
          <item>
           <widget class="QStackedWidget" name="stkInteraction">
            <property name="currentIndex">
-            <number>4</number>
+            <number>5</number>
            </property>
            <widget class="QWidget" name="pageEmptyInteraction">
-            <widget class="QLabel" name="label">
-             <property name="geometry">
-              <rect>
-               <x>210</x>
-               <y>50</y>
-               <width>46</width>
-               <height>13</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>Empty</string>
-             </property>
-            </widget>
+            <layout class="QVBoxLayout" name="verticalLayout_9">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Empty</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </widget>
            <widget class="QWidget" name="pageOptionChooser">
-            <layout class="QVBoxLayout" name="verticalLayout_4">
+            <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,1">
              <item>
               <widget class="QLabel" name="label_2">
                <property name="text">
@@ -71,7 +80,7 @@
             </layout>
            </widget>
            <widget class="QWidget" name="pageMovementChooser">
-            <layout class="QVBoxLayout" name="verticalLayout">
+            <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1">
              <item>
               <widget class="QLabel" name="label_3">
                <property name="text">
@@ -85,7 +94,7 @@
             </layout>
            </widget>
            <widget class="QWidget" name="pageFocusChooser">
-            <layout class="QVBoxLayout" name="verticalLayout_5">
+            <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,1">
              <item>
               <widget class="QLabel" name="label_4">
                <property name="text">
@@ -99,7 +108,7 @@
             </layout>
            </widget>
            <widget class="QWidget" name="pageDieRoll">
-            <layout class="QVBoxLayout" name="verticalLayout_6">
+            <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,1">
              <item>
               <widget class="QLabel" name="label_5">
                <property name="text">
@@ -109,6 +118,20 @@
              </item>
              <item>
               <widget class="DieRollWidget" name="wgtDieRoll" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageWeaponChooser">
+            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,1">
+             <item>
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>WEAPONS</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="WeaponChooser" name="wgtWeaponChooser" native="true"/>
              </item>
             </layout>
            </widget>
@@ -199,6 +222,12 @@
    <class>CharacterWidget</class>
    <extends>QWidget</extends>
    <header>characterwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WeaponChooser</class>
+   <extends>QWidget</extends>
+   <header>weaponchooser.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

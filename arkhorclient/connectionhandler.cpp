@@ -69,6 +69,18 @@ void ConnectionHandler::requestObjects(AH::Common::RequestObjectsData reqs)
     send(AH::Common::Message::C_REQUEST_OBJECTS, v);
 }
 
+void ConnectionHandler::cancelWeapons()
+{
+    send(AH::Common::Message::C_CANCEL_WEAPONS);
+}
+
+void ConnectionHandler::selectWeapons(QStringList weaponIds)
+{
+    QVariant v;
+    v << weaponIds;
+    send(AH::Common::Message::C_SELECT_WEAPONS, v);
+}
+
 void ConnectionHandler::startup()
 {
     QTcpSocket *sock = new QTcpSocket;
@@ -195,6 +207,18 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         AH::Common::DieRollTestData t;
         msg.payload >> t;
         emit dieRollInfo(t);
+        break;
+    }
+
+    case AH::Common::Message::S_CHOOSE_WEAPONS:
+    {
+        QVariantMap m;
+        msg.payload >> m;
+        AH::Common::ModifiedPropertyValueData hands;
+        QList<AH::Common::GameObjectData> weapons;
+        m["hands"] >> hands;
+        m["weapons"] >> weapons;
+        emit chooseWeapons(weapons, hands);
         break;
     }
 

@@ -114,6 +114,9 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
     mods.setProperty("Prop_Focus", AH::Common::PropertyValueData::Prop_Focus, QScriptValue::ReadOnly);
     mods.setProperty("Prop_Movement", AH::Common::PropertyValueData::Prop_Movement, QScriptValue::ReadOnly);
     mods.setProperty("Game_SealClueCost", AH::Common::PropertyValueData::Game_SealClueCost, QScriptValue::ReadOnly);
+    mods.setProperty("Damage_General", AH::Common::PropertyValueData::Damage_General, QScriptValue::ReadOnly);
+    mods.setProperty("Damage_Magical", AH::Common::PropertyValueData::Damage_Magical, QScriptValue::ReadOnly);
+    mods.setProperty("Damage_Physical", AH::Common::PropertyValueData::Damage_Physical, QScriptValue::ReadOnly);
     consts.setProperty("Mods", mods, QScriptValue::ReadOnly);
 
     // Dimensions
@@ -121,10 +124,12 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
     dims.setProperty("Square", AH::Dim_Square, QScriptValue::ReadOnly);
     dims.setProperty("Circle", AH::Dim_Circle, QScriptValue::ReadOnly);
     dims.setProperty("Moon", AH::Dim_Moon, QScriptValue::ReadOnly);
-    dims.setProperty("Bar", AH::Dim_Bar, QScriptValue::ReadOnly);
+    dims.setProperty("Slash", AH::Dim_Slash, QScriptValue::ReadOnly);
     dims.setProperty("Star", AH::Dim_Star, QScriptValue::ReadOnly);
     dims.setProperty("Diamond", AH::Dim_Diamond, QScriptValue::ReadOnly);
-    dims.setProperty("Octagon", AH::Dim_Octagon, QScriptValue::ReadOnly);
+    dims.setProperty("Hexagon", AH::Dim_Hexagon, QScriptValue::ReadOnly);
+    dims.setProperty("Plus", AH::Dim_Plus, QScriptValue::ReadOnly);
+    dims.setProperty("Triangle", AH::Dim_Triangle, QScriptValue::ReadOnly);
     consts.setProperty("Dimension", dims, QScriptValue::ReadOnly);
 
     // Monster Movements

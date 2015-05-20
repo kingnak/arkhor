@@ -25,7 +25,7 @@ public:
 
     CharacterData *data();
 
-    PropertyModificationList getPropertyModifiers() const { return PropertyModificationList(); }
+    PropertyModificationList getPropertyModifiers() const;
 
     QList<GameAction *> getActions(AH::GamePhase phase);
     QList<GameOption *> getOptions(AH::GamePhase phase);

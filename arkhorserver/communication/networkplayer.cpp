@@ -6,6 +6,7 @@
 #include "game/investigator.h"
 #include "character.h"
 #include "game/gameoption.h"
+#include "game/gameobject.h"
 #include <QEventLoop>
 #include <QThread>
 #include <QTimerEvent>
@@ -202,6 +203,30 @@ Investigator *NetworkPlayer::chooseInvestigator(QList<Investigator *> invs)
     }
 
     return NULL;
+}
+
+bool NetworkPlayer::chooseWeapons(QList<GameObject *> weapons, ModifiedPropertyValue hands, QStringList &selected)
+{
+    QVariantMap m;
+    m["hands"] << hands.toModifiedPropertyValueData();
+    m["weapons"] << weapons;
+    QVariant v;
+    v << m;
+    m_conn->sendMessage(Message::S_CHOOSE_WEAPONS, v);
+
+    AH::Common::Message resp;
+    QList<Message::Type> l;
+    l << Message::C_SELECT_WEAPONS << Message::C_CANCEL_WEAPONS;
+    bool ok = awaitResponse(resp, l);
+    if (ok) {
+        if (resp.type == Message::C_CANCEL_WEAPONS) {
+            return false;
+        }
+
+        selected = resp.payload.toStringList();
+        return true;
+    }
+    return false;
 }
 
 GameOption *NetworkPlayer::chooseOption(QList<GameOption *> options)

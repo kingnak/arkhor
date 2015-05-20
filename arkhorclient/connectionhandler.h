@@ -10,6 +10,7 @@
 #include <attributesliderdata.h>
 #include <diedata.h>
 #include <characterdata.h>
+#include <gameobjectdata.h>
 #include <objectdata.h>
 
 class ConnectionHandler : public QObject
@@ -30,6 +31,9 @@ public:
 
     void requestObjects(AH::Common::RequestObjectsData reqs);
 
+    void cancelWeapons();
+    void selectWeapons(QStringList weaponIds);
+
 public slots:
     void startup();
     void cleanup();
@@ -49,6 +53,7 @@ signals:
     void chooseMovement(AH::Common::FieldData::FieldID startId, int movementPoints);
     void chooseFocus(QList<AH::Common::AttributeSliderData> sliders, int focusAmount);
     void chooseSkill(QList<AH::Common::ModifiedPropertyValueData> opts);
+    void chooseWeapons(QList<AH::Common::GameObjectData> weapons, AH::Common::ModifiedPropertyValueData hands);
 
     void dieRollInfo(AH::Common::DieRollTestData data);
 

@@ -350,7 +350,7 @@ void Game::initBoard()
     }
 
     // TEST
-    m_board->field(AH::Common::FieldData::DT_ArkhamAsylum)->setGate(new Gate(AH::Dim_Bar, -2, m_board->field(AH::Common::FieldData::OW_Abyss)));
+    m_board->field(AH::Common::FieldData::DT_ArkhamAsylum)->setGate(new Gate(AH::Dim_Slash, -2, m_board->field(AH::Common::FieldData::OW_Abyss)));
 }
 
 void Game::initDecks()

@@ -6,7 +6,7 @@ var derringer = game.createObject({
     description: ".18 Derringer cannot be lost or stolen unless you choose to allow it.",
     hands: 1,
     price: 3,
-    modifications: { property: Constants.Mods.Skill_Combat, value: 2}
+    modifications: { property: Constants.Mods.Damage_Physical, value: 2}
 });
 
 game.registerMultiObject(2, derringer);

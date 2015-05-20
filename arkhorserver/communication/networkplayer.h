@@ -49,6 +49,8 @@ public:
 
     virtual Investigator *chooseInvestigator(QList<Investigator *> invs);
 
+    virtual bool chooseWeapons(QList<GameObject *> weapons, ModifiedPropertyValue hands, QStringList &selected);
+
     // Main Game
     virtual GameOption *chooseOption(QList<GameOption *> options);
     virtual QList<int> chooseFocus(QList<AttributeSlider> sliders, int totalFocus);

@@ -2,7 +2,7 @@
 #include "ui_optionchooser.h"
 #include <QtGui>
 #include "flowlayout.h"
-#include "ahmaingui.h"
+#include "utils.h"
 
 using namespace AH::Common;
 
@@ -62,7 +62,7 @@ void OptionChooser::setSkills(QList<ModifiedPropertyValueData> opts)
 
     QLayout *l = ui->wgtOptionsList->layout();
     foreach (ModifiedPropertyValueData v, opts) {
-        QString name = AhMainGui::stringForProperty(v.property().property());
+        QString name = Utils::stringForProperty(v.property().property());
         int val = v.finalVal();
         QPushButton *btn = new QPushButton(name);
         btn->setProperty(OPTION_DESCRIPTION_PROPERTY, QString("Skill %1. Current Value: %2").arg(name).arg(val));
@@ -80,8 +80,6 @@ void OptionChooser::cleanupOptions()
         while ((child = l->takeAt(0)) != 0) {
             delete child;
         }
-        //ui->wgtOptionsList->setLayout(NULL);
-        //delete l;
     }
     foreach (QWidget *w, ui->wgtOptionsList->findChildren<QWidget*>()) {
         delete w;

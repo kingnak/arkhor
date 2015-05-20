@@ -2,8 +2,8 @@
 #include "ui_dierollwidget.h"
 #include "flowlayout.h"
 #include <QtGui>
-#include "ahmaingui.h"
 #include "objectregistry.h"
+#include "utils.h"
 
 using namespace AH::Common;
 
@@ -31,7 +31,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     ui->lblAdjustment->setText(QString::number(data.rollData().pool().adjustment()));
     ui->lblDieCount->setText(QString::number(ct));
     if (data.rollData().pool().type() == DiePoolData::Property) {
-        ui->lblBaseSkill->setText(AhMainGui::stringForProperty(data.rollData().pool().property().property().property()));
+        ui->lblBaseSkill->setText(Utils::stringForProperty(data.rollData().pool().property().property().property()));
         mods = data.rollData().pool().property().modifications();
     } else {
         ui->lblBaseSkill->setText("Fixed");
@@ -90,6 +90,8 @@ void DieRollWidget::updateClueBurnAmount(int ct)
 void DieRollWidget::on_btnOk_clicked()
 {
     AH::Common::DieTestUpdateData upd(QString::null, ui->spnClueBurn->value());
+    cleanDice();
+    cleanModifiers();
     emit dieUpdateChosen(upd);
 }
 
@@ -102,8 +104,8 @@ void DieRollWidget::cleanDice()
             delete child;
         }
     }
-    foreach (QWidget *w, ui->wgtDice->findChildren<QWidget*>()) {
-        w->deleteLater();
+    foreach (QWidget *w, ui->wgtDice->findChildren<QLabel*>()) {
+        delete w;
     }
 }
 
@@ -116,7 +118,7 @@ void DieRollWidget::cleanModifiers()
             delete child;
         }
     }
-    foreach (QWidget *w, ui->scrlMods->findChildren<QWidget*>()) {
-        w->deleteLater();
+    foreach (QWidget *w, ui->scrlMods->findChildren<QLabel*>()) {
+        delete w;
     }
 }

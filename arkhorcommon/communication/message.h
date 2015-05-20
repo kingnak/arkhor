@@ -61,6 +61,10 @@ namespace AH{
                 S_CHOOSE_FOCUS,
                 C_SELECT_FOCUS,
 
+                S_CHOOSE_WEAPONS,
+                C_SELECT_WEAPONS,
+                C_CANCEL_WEAPONS,
+
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF
             } type;

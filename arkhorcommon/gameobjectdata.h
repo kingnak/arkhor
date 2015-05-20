@@ -33,6 +33,12 @@ namespace AH {
                 return false;
             }
 
+            virtual bool isEquipped() const { return m_isEquipped; }
+
+            virtual int castCost() const { return m_castCost; }
+            virtual int castAdjustment() const { return m_castAdjustment; }
+            virtual int castTarget() const { return m_castTarget; }
+
             virtual QStringList actionIds() const { return m_actionIds; }
             virtual QStringList optionIds() const { return m_optionIds; }
             //virtual PropertyModifyerList getModifiers();
@@ -49,7 +55,12 @@ namespace AH {
             bool m_bIsExhausted;
             QStringList m_actionIds;
             QStringList m_optionIds;
-            //PropertyM
+            bool m_isEquipped;
+
+            // For Spells
+            int m_castCost;
+            int m_castAdjustment;
+            int m_castTarget;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, GameObjectData);
         };

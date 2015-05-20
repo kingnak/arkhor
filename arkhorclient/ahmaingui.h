@@ -8,6 +8,7 @@
 #include <diedata.h>
 #include <characterdata.h>
 #include <objectdata.h>
+#include <gameobjectdata.h>
 
 class ObjectRegistry;
 class ConnectionHandler;
@@ -29,8 +30,6 @@ public:
     void initConnection(ConnectionHandler *conn);
     void setThisPlayerId(QString id);
     void setThisCharacterId(QString id);
-
-    static QString stringForProperty(AH::Common::PropertyValueData::Property p);
 
 public slots:
     void start();
@@ -63,6 +62,10 @@ private slots:
 
     void updateObject(AH::Common::DescribeObjectsData::ObjectDescription desc);
     void updateCharacter(AH::Common::CharacterData c);
+
+    void chooseWeapons(QList<AH::Common::GameObjectData> weapons, AH::Common::ModifiedPropertyValueData hands);
+    void weaponsCanceled();
+    void weaponsSelected(QStringList weaponIds);
 
 private:
     Ui::AhMainGui *ui;

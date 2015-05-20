@@ -28,6 +28,8 @@ public:
 
     virtual bool resolveDependencies(GameRegistry *reg);
 
+    virtual bool cast(Player *p);
+
 signals:
 
 public slots:
@@ -39,6 +41,7 @@ private:
     QMap<QString, GameAction *> m_actMap;
     QMap<QString, GameOption *> m_optMap;
     PropertyModificationList m_mods;
+    QScriptValue m_castFunc;
 };
 
 Q_DECLARE_METATYPE(GameObjectScript*)

@@ -36,6 +36,9 @@ namespace AH {
                 Overwhelming_1 = 0x1000,
                 Overwhelming_2 = 0x2000,
                 Overwhelming_3 = 0x4000,
+
+
+                MonsterAttribute_Max_Value_Sentinel
             };
             Q_DECLARE_FLAGS(MonsterAttributes, MonsterAttribute)
 
@@ -57,6 +60,7 @@ namespace AH {
             virtual AH::Common::FieldData::FieldID fieldId() const { return m_fieldId; }
 
         protected:
+        public:
             QString m_id;
             QString m_tid;
             QString m_name;

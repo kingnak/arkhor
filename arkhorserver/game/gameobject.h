@@ -8,6 +8,7 @@
 class GameAction;
 class GameOption;
 class GameRegistry;
+class Player;
 
 class GameObject : public AH::Common::GameObjectData, public PropertyModifier
 {
@@ -31,6 +32,12 @@ public:
 
     virtual bool resolveDependencies(GameRegistry *game) = 0;
     virtual bool isFightObject();
+
+    virtual bool equip(Player *p);
+    virtual bool unequip();
+
+    // For spells
+    virtual bool cast(Player *p) = 0;
 
     //virtual PropertyModificationList getModifications() const = 0;
 };

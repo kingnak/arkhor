@@ -5,6 +5,7 @@
 #include "game/gameoption.h"
 
 class FightPhase;
+class GameObject;
 
 class ChooseWeaponsAction : public GameAction
 {
@@ -20,6 +21,8 @@ public:
     virtual QString description() const { return ""; }
 
 private:
+    bool doEquip(QList<GameObject *> oldWeapons, QStringList newWeapons, int hands);
+
     FightPhase *m_fight;
     friend class ChooseWeaponsOption;
 };

@@ -8,6 +8,7 @@
 #include "attributesliderdata.h"
 #include "diedata.h"
 #include "objectdata.h"
+#include "gameobjectdata.h"
 
 namespace AH {
     Attribute attributeForSkillTest(Skill skill)
@@ -55,6 +56,8 @@ namespace AH {
         qRegisterMetaType<AH::Common::DescribeObjectsData>("AH::Common::DescribeObjectsData");
         qRegisterMetaType<QList<AH::Common::ModifiedPropertyValueData> >("QList<AH::Common::ModifiedPropertyValueData>");
         qRegisterMetaType<AH::Common::CharacterData>("AH::Common::CharacterData");
+        qRegisterMetaType<QList<AH::Common::GameObjectData> >("QList<AH::Common::GameObjectData>");
+        qRegisterMetaType<AH::Common::ModifiedPropertyValueData>("AH::Common::ModifiedPropertyValueData");
     }
 
 }

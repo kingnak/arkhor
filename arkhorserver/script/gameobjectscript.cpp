@@ -17,7 +17,11 @@ GameObject *GameObjectScript::clone()
     c->GameObjectData::operator=(*data());
     c->m_actMap = m_actMap;
     c->m_optMap = m_optMap;
-    c->m_mods = m_mods;
+    //c->m_mods = m_mods;
+    foreach (const PropertyModification &m, m_mods) {
+        c->m_mods.append(PropertyModification(c, m.affectedProperty(), m.modificationAmount()));
+    }
+
     return c;
 }
 
@@ -67,6 +71,10 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
         ret->m_mods = lst;
     }
 
+    ret->m_castCost = data.property("castCost").toInt32();
+    ret->m_castAdjustment = data.property("castAdjustment").toInt32();
+    ret->m_castFunc = data.property("cast");
+
     QString err;
     if (!verify(ret.data(), &err)) {
         ctx->throwError(QScriptContext::TypeError, "createObject: Invalid GameObject data. Errors:\n"+err);
@@ -91,6 +99,18 @@ bool GameObjectScript::verify(GameObjectScript *ob, QString *msg)
     if (ob->typeId().isEmpty()) errs.append("id must be set");
     if (ob->name().isEmpty()) errs.append("name must be set");
     if (ob->type() == AH::NoObject) errs.append("type must be set");
+    if (ob->type() == AH::Obj_Spell) {
+        bool hasMagDmg = false;
+        foreach (PropertyModification m, ob->m_mods) {
+            if (m.affectedProperty() == AH::Common::PropertyValueData::Damage_Magical)
+                hasMagDmg = true;
+            if (m.affectedProperty() == AH::Common::PropertyValueData::Damage_Physical)
+                errs.append("Spells cannot deal physical damage");
+        }
+
+        if ((!ob->m_castFunc.isValid() || !ob->m_castFunc.isFunction()) && !hasMagDmg)
+            errs.append("spells must have cast() function or deal magical damage");
+    }
 
     if (msg) *msg = errs.join("\n");
     if (errs.isEmpty()) {
@@ -129,5 +149,15 @@ bool GameObjectScript::resolveDependencies(GameRegistry *reg)
     // Options => Actions must be resolved already
 
     return ok;
+}
+
+bool GameObjectScript::cast(Player *p)
+{
+    if (!GameObject::cast(p)) {
+        return false;
+    }
+
+    m_castFunc.call();
+    return true;
 }
 

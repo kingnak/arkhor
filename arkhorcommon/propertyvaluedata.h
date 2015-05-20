@@ -48,6 +48,8 @@ namespace AH {
                 Prop_Movement,
                 Prop_MinSuccessDieRoll,
                 Prop_HandCount,
+                Prop_CastCost,
+                Prop_CastAdjustment,
 
                 DieRoll_All = DIEROLL_OFFSET | AH::NoSkill,
                 DieRoll_Speed = DIEROLL_OFFSET | AH::Skill_Speed,

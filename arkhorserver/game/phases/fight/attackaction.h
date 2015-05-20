@@ -5,6 +5,7 @@
 #include "game/gameoption.h"
 
 class FightPhase;
+class PropertyModificationList;
 
 class AttackAction : public GameAction
 {
@@ -20,6 +21,8 @@ public:
     virtual QString description() const { return ""; }
 
 private:
+    void filterEquipped(PropertyModificationList &lst);
+
     FightPhase *m_fight;
     friend class AttackOption;
 };

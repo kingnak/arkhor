@@ -5,6 +5,18 @@
         <file alias="interaction">client_resources/041-48x48-Import-Export_Manager.png</file>
         <file alias="info">client_resources/074-48x48-Info_ueber_asim.png</file>
         <file alias="inventory">client_resources/094-48x48-Berechtigungsgruppe.png</file>
+        <file alias="unknown_monster">client_resources/unknown_monster.png</file>
+        <file alias="monster_overlay">client_resources/monster_overlay.png</file>
+        <file alias="dim_circle">client_resources/dim_circle.png</file>
+        <file alias="dim_diamond">client_resources/dim_diamond.png</file>
+        <file alias="dim_hexagon">client_resources/dim_hexagon.png</file>
+        <file alias="dim_moon">client_resources/dim_moon.png</file>
+        <file alias="dim_plus">client_resources/dim_plus.png</file>
+        <file alias="dim_slash">client_resources/dim_slash.png</file>
+        <file alias="dim_square">client_resources/dim_square.png</file>
+        <file alias="dim_star">client_resources/dim_star.png</file>
+        <file alias="dim_triangle">client_resources/dim_triangle.png</file>
+        <file>client_resources/monster_overlay2.png</file>
     </qresource>
     <qresource prefix="/test">
         <file>client_resources/test/Byakhee.png</file>
@@ -23,8 +35,12 @@
         <file alias="gate_closed">client_resources/gate_closed.png</file>
         <file alias="sanity">client_resources/Sanity.png</file>
         <file alias="stamina">client_resources/Stamina.png</file>
+        <file alias="toughness">client_resources/Toughness.png</file>
     </qresource>
     <qresource prefix="/core/data">
         <file alias="boardfields">client_resources/boardfields.txt</file>
+        <file>client_resources/carbon.ttf</file>
+        <file>client_resources/carbon2.ttf</file>
+        <file alias="fontCarbon">client_resources/CarbonType3.ttf</file>
     </qresource>
 </RCC>

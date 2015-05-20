@@ -70,7 +70,7 @@ public:
     GameObject *findObjectById(const QString &id) const;
     */
 
-    GameRegistry *registry();
+    GameRegistry *registry() { return m_registry; }
 
     Player *getFirstPlayer();
     Player *getCurrentPlayer();

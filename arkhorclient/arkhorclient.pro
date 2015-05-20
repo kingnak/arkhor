@@ -15,7 +15,11 @@ HEADERS += \
     optionchooser.h \
     dierollwidget.h \
     objectregistry.h \
-    characterwidget.h
+    characterwidget.h \
+    weaponchooser.h \
+    monsterwidget.h \
+    resourcepool.h \
+    utils.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -33,7 +37,11 @@ SOURCES += \
     optionchooser.cpp \
     dierollwidget.cpp \
     objectregistry.cpp \
-    characterwidget.cpp
+    characterwidget.cpp \
+    weaponchooser.cpp \
+    monsterwidget.cpp \
+    resourcepool.cpp \
+    utils.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -49,7 +57,9 @@ FORMS += \
     focuschooser.ui \
     optionchooser.ui \
     dierollwidget.ui \
-    characterwidget.ui
+    characterwidget.ui \
+    weaponchooser.ui \
+    monsterwidget.ui
 
 RESOURCES += \
     client_resources.qrc

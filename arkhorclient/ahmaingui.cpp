@@ -63,6 +63,10 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(m_conn, SIGNAL(dieRollInfo(AH::Common::DieRollTestData)), this, SLOT(showDieRollInfo(AH::Common::DieRollTestData)));
     connect(ui->wgtDieRoll, SIGNAL(dieUpdateChosen(AH::Common::DieTestUpdateData)), this, SLOT(dieUpdateChosen(AH::Common::DieTestUpdateData)));
 
+    // WEAPONS
+    connect(m_conn, SIGNAL(chooseWeapons(QList<AH::Common::GameObjectData>,AH::Common::ModifiedPropertyValueData)), this, SLOT(chooseWeapons(QList<AH::Common::GameObjectData>,AH::Common::ModifiedPropertyValueData)));
+    connect(ui->wgtWeaponChooser, SIGNAL(weaponsCanceled()), this, SLOT(weaponsCanceled()));
+    connect(ui->wgtWeaponChooser, SIGNAL(weaponsSelected(QStringList)), this, SLOT(weaponsSelected(QStringList)));
 }
 
 void AhMainGui::setThisPlayerId(QString id)
@@ -73,57 +77,6 @@ void AhMainGui::setThisPlayerId(QString id)
 void AhMainGui::setThisCharacterId(QString id)
 {
     m_registry->setThisCharacterId(id);
-}
-
-QString AhMainGui::stringForProperty(PropertyValueData::Property p)
-{
-    switch (p) {
-    case PropertyValueData::NoProperty: return "";
-
-    case PropertyValueData::Attr_Speed: return "Speed";
-    case PropertyValueData::Attr_Sneak: return "Sneak";
-    case PropertyValueData::Attr_Fight: return "Fight";
-    case PropertyValueData::Attr_Will: return "Will";
-    case PropertyValueData::Attr_Lore: return "Lore";
-    case PropertyValueData::Attr_Luck: return "Luck";
-
-    case PropertyValueData::Skill_Speed: return "Speed";
-    case PropertyValueData::Skill_Sneak: return "Sneak";
-    case PropertyValueData::Skill_Fight: return "Fight";
-    case PropertyValueData::Skill_Will: return "Will";
-    case PropertyValueData::Skill_Lore: return "Lore";
-    case PropertyValueData::Skill_Luck: return "Luck";
-    case PropertyValueData::Skill_Evade: return "Evade";
-    case PropertyValueData::Skill_Combat: return "Combat";
-    case PropertyValueData::Skill_Horror: return "Horror";
-    case PropertyValueData::Skill_Spell: return "Spell";
-
-    case PropertyValueData::Prop_MaxStamina: return "Maximum Stamina";
-    case PropertyValueData::Prop_MaxSanity: return "Maximum Sanity";
-    case PropertyValueData::Prop_Focus: return "Focus";
-    case PropertyValueData::Prop_Movement: return "Movement";
-    case PropertyValueData::Prop_MinSuccessDieRoll: return "Minimal Success Die Roll";
-    case PropertyValueData::Prop_HandCount: return "HandCount";
-
-    case PropertyValueData::DieRoll_All: return "All";
-    case PropertyValueData::DieRoll_Speed: return "Speed";
-    case PropertyValueData::DieRoll_Sneak: return "Sneak";
-    case PropertyValueData::DieRoll_Fight: return "Fight";
-    case PropertyValueData::DieRoll_Will: return "Will";
-    case PropertyValueData::DieRoll_Lore: return "Lore";
-    case PropertyValueData::DieRoll_Luck: return "Luck";
-    case PropertyValueData::DieRoll_Evade: return "Evade";
-    case PropertyValueData::DieRoll_Combat: return "Combat";
-    case PropertyValueData::DieRoll_Horror: return "Horror";
-    case PropertyValueData::DieRoll_Spell: return "Spell";
-
-    case PropertyValueData::Game_SealClueCost: return "Seal Clue Cost";
-
-    case PropertyValueData::Damage_General: return "General Damage";
-    case PropertyValueData::Damage_Magical: return "Magical Damage";
-    case PropertyValueData::Damage_Physical: return "Physical Damage";
-    }
-    return "";
 }
 
 void AhMainGui::start()
@@ -252,4 +205,23 @@ void AhMainGui::updateCharacter(CharacterData c)
             ui->lstInventory->addItem(itm);
         }
     }
+}
+
+void AhMainGui::chooseWeapons(QList<GameObjectData> weapons, ModifiedPropertyValueData hands)
+{
+    ui->stkInteraction->setCurrentWidget(ui->pageWeaponChooser);
+    ui->tabIntInfInv->setCurrentWidget(ui->tabInteraction);
+    ui->wgtWeaponChooser->chooseWeapons(weapons, hands);
+}
+
+void AhMainGui::weaponsCanceled()
+{
+    m_conn->cancelWeapons();
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+}
+
+void AhMainGui::weaponsSelected(QStringList weaponIds)
+{
+    m_conn->selectWeapons(weaponIds);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
 }

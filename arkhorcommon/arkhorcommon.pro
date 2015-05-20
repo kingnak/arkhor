@@ -26,7 +26,8 @@ HEADERS += \
     diedata.h \
     objectdata.h \
     monsterdata.h \
-    encounterdata.h
+    encounterdata.h \
+    mythosdata.h
 
 SOURCES += \
     communication/message.cpp \
@@ -47,4 +48,5 @@ SOURCES += \
     diedata.cpp \
     objectdata.cpp \
     monsterdata.cpp \
-    encounterdata.cpp
+    encounterdata.cpp \
+    mythosdata.cpp

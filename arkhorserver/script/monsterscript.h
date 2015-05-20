@@ -24,7 +24,7 @@ public:
 
 
     MonsterAttributes attributes();
-    void move();
+    void move(AH::MovementDirection dir);
     void defeat(Character *byCharacter);
 
 private:

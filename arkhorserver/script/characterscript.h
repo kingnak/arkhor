@@ -28,6 +28,13 @@ public:
     Q_INVOKABLE void addClue(int amount) { Character::addClue(amount); }
     Q_INVOKABLE void addMoney(int amount) { Character::addMoney(amount); }
 
+    Q_INVOKABLE int getSkillValue(int skill);
+
+    Q_INVOKABLE bool returnToArkham() { return Character::returnToArkham(); }
+
+    Q_INVOKABLE void lostInSpaceAndTime() { Character::lostInSpaceAndTime(); }
+    Q_INVOKABLE void devour() { Character::devour(); }
+
     //Q_INVOKABLE bool canPay(AH::Common::Cost cost);
     //Q_INVOKABLE bool pay(AH::Common::Cost cost);
 

@@ -64,6 +64,12 @@ namespace AH {
                 DieRoll_Spell = DIEROLL_OFFSET | AH::Skill_Spell,
 
                 Game_SealClueCost = GAME_OFFSET,
+                Game_AllowMaskMonster,
+                Game_MaxGateCount,
+                Game_MaxBoardMonsterCount,
+                Game_MaxOutskirtsMonsterCount,
+                Game_TerrorLevel,
+                Game_MonsterCountFromGates,
 
                 Damage_General = DAMAGE_OFFSET,
                 Damage_Magical,

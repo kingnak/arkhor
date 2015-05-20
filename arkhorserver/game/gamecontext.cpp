@@ -119,12 +119,38 @@ ModifiedPropertyValue GameContext::getGameProperty(PropertyValue::Property prope
 {
     Q_ASSERT(PropertyValue::isGameProperty(property));
 
+    int playerCount = gGame->getPlayers().count();
     int base = 0;
     switch (property)
     {
     case PropertyValue::Game_SealClueCost:
         base = gGame->getGateSealClueCost();
         break;
+    case PropertyValue::Game_AllowMaskMonster:
+        base = 0;
+        break;
+    case PropertyValue::Game_MaxGateCount:
+        base = 8-(playerCount-1)/2;
+        break;
+    case PropertyValue::Game_MaxBoardMonsterCount:
+        if (getGameProperty(PropertyValue::Game_TerrorLevel).finalVal() >= 10) {
+            base = 10000;
+        } else {
+            base = playerCount+3;
+        }
+        break;
+    case PropertyValue::Game_MaxOutskirtsMonsterCount:
+        base = 8-playerCount;
+        break;
+    case PropertyValue::Game_TerrorLevel:
+        base = gGame->terrorLevel();
+        break;
+    case PropertyValue::Game_MonsterCountFromGates:
+        if (playerCount >= 5) {
+            base = 2;
+        } else {
+            base = 1;
+        }
     default:
         Q_ASSERT_X(false, "GameContext::getCharacterProperty", "Property not defined");
     }

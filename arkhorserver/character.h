@@ -58,6 +58,8 @@ public:
     void restoreStamina();
     void restoreSanity();
 
+    bool returnToArkham();
+
     // Items
     void addMonsterMarker(Monster *m) { m_monsterMarkers.append(m); gGame->characterDirty(this); }
     void addGateMarker(Gate *p) { m_gateMarkers.append(p); gGame->characterDirty(this); }

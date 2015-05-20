@@ -89,10 +89,10 @@ namespace AH {
             };
 
             DieRollTestData()
-                : m_type(None), m_target(0), m_succeeded(false) {}
+                : m_type(None), m_target(0), m_diceForClue(0), m_succeeded(false) {}
 
             DieRollTestData(TestType type, int target = 0)
-                : m_type(type), m_target(target), m_succeeded(false) {}
+                : m_type(type), m_target(target), m_diceForClue(0), m_succeeded(false) {}
 
             TestType type() const { return m_type; }
             QString description() const { return m_desc; }

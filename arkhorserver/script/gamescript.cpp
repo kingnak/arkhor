@@ -16,6 +16,7 @@
 #include "monsterscript.h"
 #include "gamecontextscript.h"
 #include "otherworldencounterscript.h"
+#include "mythoscardscript.h"
 
 GameScript::GameScript(Game *game, QObject *parent) :
     QObject(parent), m_game(game)
@@ -30,6 +31,7 @@ bool GameScript::init(const QString &scriptBaseDir)
     qScriptRegisterMetaType<GameOptionScript*>(m_engine, GameOptionScript::castToValue, GameOptionScript::castFromValue);
     qScriptRegisterMetaType<GameObjectScript*>(m_engine, GameObjectScript::castToValue, GameObjectScript::castFromValue);
     qScriptRegisterMetaType<ArkhamEncounterScript*>(m_engine, ArkhamEncounterScript::castToValue, ArkhamEncounterScript::castFromValue);
+    qScriptRegisterMetaType<OtherWorldEncounterScript*>(m_engine, OtherWorldEncounterScript::castToValue, OtherWorldEncounterScript::castFromValue);
     qScriptRegisterMetaType<CharacterScript*>(m_engine, CharacterScript::castToValue, CharacterScript::castFromValue);
     qScriptRegisterMetaType<MonsterScript*>(m_engine, MonsterScript::castToValue, MonsterScript::castFromValue);
 
@@ -69,129 +71,157 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
 {
 
     // Skills
-    QScriptValue sk = m_engine->newObject();
-    sk.setProperty("Speed", AH::Skill_Speed, QScriptValue::ReadOnly);
-    sk.setProperty("Sneak", AH::Skill_Sneak, QScriptValue::ReadOnly);
-    sk.setProperty("Fight", AH::Skill_Fight, QScriptValue::ReadOnly);
-    sk.setProperty("Will", AH::Skill_Will, QScriptValue::ReadOnly);
-    sk.setProperty("Lore", AH::Skill_Lore, QScriptValue::ReadOnly);
-    sk.setProperty("Luck", AH::Skill_Luck, QScriptValue::ReadOnly);
-    sk.setProperty("Evade", AH::Skill_Evade, QScriptValue::ReadOnly);
-    sk.setProperty("Combat", AH::Skill_Combat, QScriptValue::ReadOnly);
-    sk.setProperty("Horror", AH::Skill_Horror, QScriptValue::ReadOnly);
-    sk.setProperty("Spell", AH::Skill_Spell, QScriptValue::ReadOnly);
-    consts.setProperty("Skills", sk, QScriptValue::ReadOnly);
+    {
+        QScriptValue sk = m_engine->newObject();
+        sk.setProperty("Speed", AH::Skill_Speed, QScriptValue::ReadOnly);
+        sk.setProperty("Sneak", AH::Skill_Sneak, QScriptValue::ReadOnly);
+        sk.setProperty("Fight", AH::Skill_Fight, QScriptValue::ReadOnly);
+        sk.setProperty("Will", AH::Skill_Will, QScriptValue::ReadOnly);
+        sk.setProperty("Lore", AH::Skill_Lore, QScriptValue::ReadOnly);
+        sk.setProperty("Luck", AH::Skill_Luck, QScriptValue::ReadOnly);
+        sk.setProperty("Evade", AH::Skill_Evade, QScriptValue::ReadOnly);
+        sk.setProperty("Combat", AH::Skill_Combat, QScriptValue::ReadOnly);
+        sk.setProperty("Horror", AH::Skill_Horror, QScriptValue::ReadOnly);
+        sk.setProperty("Spell", AH::Skill_Spell, QScriptValue::ReadOnly);
+        consts.setProperty("Skills", sk, QScriptValue::ReadOnly);
+    }
 
     // ObjectType
-    QScriptValue ot = m_engine->newObject();
-    ot.setProperty("CommonItem", AH::Obj_CommonItem, QScriptValue::ReadOnly);
-    ot.setProperty("UniqueItem", AH::Obj_UniqueItem, QScriptValue::ReadOnly);
-    ot.setProperty("Spell", AH::Obj_Spell, QScriptValue::ReadOnly);
-    ot.setProperty("Skill", AH::Obj_Skill, QScriptValue::ReadOnly);
-    ot.setProperty("Ally", AH::Obj_Ally, QScriptValue::ReadOnly);
-    ot.setProperty("Blessing_Curse", AH::Obj_Blessing_Curse, QScriptValue::ReadOnly);
-    ot.setProperty("Special", AH::Obj_Special, QScriptValue::ReadOnly);
-    consts.setProperty("ObjectType", ot, QScriptValue::ReadOnly);
+    {
+        QScriptValue ot = m_engine->newObject();
+        ot.setProperty("CommonItem", AH::Obj_CommonItem, QScriptValue::ReadOnly);
+        ot.setProperty("UniqueItem", AH::Obj_UniqueItem, QScriptValue::ReadOnly);
+        ot.setProperty("Spell", AH::Obj_Spell, QScriptValue::ReadOnly);
+        ot.setProperty("Skill", AH::Obj_Skill, QScriptValue::ReadOnly);
+        ot.setProperty("Ally", AH::Obj_Ally, QScriptValue::ReadOnly);
+        ot.setProperty("Blessing_Curse", AH::Obj_Blessing_Curse, QScriptValue::ReadOnly);
+        ot.setProperty("Special", AH::Obj_Special, QScriptValue::ReadOnly);
+        consts.setProperty("ObjectType", ot, QScriptValue::ReadOnly);
+    }
 
     // GamePhase
-    QScriptValue gp = m_engine->newObject();
-    gp.setProperty("Upkeep", AH::Upkeep, QScriptValue::ReadOnly);
-    gp.setProperty("Movement", AH::Movement, QScriptValue::ReadOnly);
-    gp.setProperty("ArkhamEncountery", AH::ArkhamEncountery, QScriptValue::ReadOnly);
-    gp.setProperty("OtherWorldEncountery", AH::OtherWorldEncountery, QScriptValue::ReadOnly);
-    gp.setProperty("Mythos", AH::Mythos, QScriptValue::ReadOnly);
-    gp.setProperty("AllPhases", AH::AllPhases, QScriptValue::ReadOnly);
-    gp.setProperty("DieRollPhase", AH::DieRoll, QScriptValue::ReadOnly);
-    gp.setProperty("FightPhase", AH::FightPhase, QScriptValue::ReadOnly);
-    consts.setProperty("GamePhases", gp, QScriptValue::ReadOnly);
+    {
+        QScriptValue gp = m_engine->newObject();
+        gp.setProperty("Upkeep", AH::Upkeep, QScriptValue::ReadOnly);
+        gp.setProperty("Movement", AH::Movement, QScriptValue::ReadOnly);
+        gp.setProperty("ArkhamEncountery", AH::ArkhamEncountery, QScriptValue::ReadOnly);
+        gp.setProperty("OtherWorldEncountery", AH::OtherWorldEncountery, QScriptValue::ReadOnly);
+        gp.setProperty("Mythos", AH::Mythos, QScriptValue::ReadOnly);
+        gp.setProperty("AllPhases", AH::AllPhases, QScriptValue::ReadOnly);
+        gp.setProperty("DieRollPhase", AH::DieRoll, QScriptValue::ReadOnly);
+        gp.setProperty("FightPhase", AH::FightPhase, QScriptValue::ReadOnly);
+        consts.setProperty("GamePhases", gp, QScriptValue::ReadOnly);
+    }
+
+    // Mythos types
+    {
+        QScriptValue mt = m_engine->newObject();
+        mt.setProperty("Headline", AH::Common::MythosData::Headline, QScriptValue::ReadOnly);
+        mt.setProperty("Environment", AH::Common::MythosData::Environment, QScriptValue::ReadOnly);
+        mt.setProperty("Rumor", AH::Common::MythosData::Rumor, QScriptValue::ReadOnly);
+        consts.setProperty("Mythos", mt, QScriptValue::ReadOnly);
+        // TODO: set environment types
+    }
 
     // Payment Items
-    QScriptValue pay = m_engine->newObject();
-    pay.setProperty("None", AH::Common::CostItem::Pay_None, QScriptValue::ReadOnly);
-    pay.setProperty("Money", AH::Common::CostItem::Pay_Money, QScriptValue::ReadOnly);
-    pay.setProperty("Clue", AH::Common::CostItem::Pay_Clue, QScriptValue::ReadOnly);
-    pay.setProperty("Stamina", AH::Common::CostItem::Pay_Stamina, QScriptValue::ReadOnly);
-    pay.setProperty("Sanity", AH::Common::CostItem::Pay_Sanity, QScriptValue::ReadOnly);
-    pay.setProperty("Movement", AH::Common::CostItem::Pay_Movement, QScriptValue::ReadOnly);
-    pay.setProperty("GateTrophy", AH::Common::CostItem::Pay_GateTrophy, QScriptValue::ReadOnly);
-    pay.setProperty("MonsterTrophy", AH::Common::CostItem::Pay_MonsterTrophy, QScriptValue::ReadOnly);
-    pay.setProperty("MonsterToughness", AH::Common::CostItem::Pay_MonsterToughness, QScriptValue::ReadOnly);
-    consts.setProperty("Costs", pay, QScriptValue::ReadOnly);
+    {
+        QScriptValue pay = m_engine->newObject();
+        pay.setProperty("None", AH::Common::CostItem::Pay_None, QScriptValue::ReadOnly);
+        pay.setProperty("Money", AH::Common::CostItem::Pay_Money, QScriptValue::ReadOnly);
+        pay.setProperty("Clue", AH::Common::CostItem::Pay_Clue, QScriptValue::ReadOnly);
+        pay.setProperty("Stamina", AH::Common::CostItem::Pay_Stamina, QScriptValue::ReadOnly);
+        pay.setProperty("Sanity", AH::Common::CostItem::Pay_Sanity, QScriptValue::ReadOnly);
+        pay.setProperty("Movement", AH::Common::CostItem::Pay_Movement, QScriptValue::ReadOnly);
+        pay.setProperty("GateTrophy", AH::Common::CostItem::Pay_GateTrophy, QScriptValue::ReadOnly);
+        pay.setProperty("MonsterTrophy", AH::Common::CostItem::Pay_MonsterTrophy, QScriptValue::ReadOnly);
+        pay.setProperty("MonsterToughness", AH::Common::CostItem::Pay_MonsterToughness, QScriptValue::ReadOnly);
+        consts.setProperty("Costs", pay, QScriptValue::ReadOnly);
+    }
 
     // Property Modifications
-    QScriptValue mods = m_engine->newObject();
-    mods.setProperty("NoProperty", AH::Common::PropertyValueData::NoProperty, QScriptValue::ReadOnly);
-    mods.setProperty("Attr_Speed", AH::Common::PropertyValueData::Attr_Speed, QScriptValue::ReadOnly);
-    mods.setProperty("Attr_Sneak", AH::Common::PropertyValueData::Attr_Sneak, QScriptValue::ReadOnly);
-    mods.setProperty("Attr_Fight", AH::Common::PropertyValueData::Attr_Fight, QScriptValue::ReadOnly);
-    mods.setProperty("Attr_Will", AH::Common::PropertyValueData::Attr_Will, QScriptValue::ReadOnly);
-    mods.setProperty("Attr_Lore", AH::Common::PropertyValueData::Attr_Lore, QScriptValue::ReadOnly);
-    mods.setProperty("Attr_Luck", AH::Common::PropertyValueData::Attr_Luck, QScriptValue::ReadOnly);
-    mods.setProperty("Skill_Speed", AH::Common::PropertyValueData::Skill_Speed, QScriptValue::ReadOnly);
-    mods.setProperty("Skill_Sneak", AH::Common::PropertyValueData::Skill_Sneak, QScriptValue::ReadOnly);
-    mods.setProperty("Skill_Fight", AH::Common::PropertyValueData::Skill_Fight, QScriptValue::ReadOnly);
-    mods.setProperty("Skill_Will", AH::Common::PropertyValueData::Skill_Will, QScriptValue::ReadOnly);
-    mods.setProperty("Skill_Lore", AH::Common::PropertyValueData::Skill_Lore, QScriptValue::ReadOnly);
-    mods.setProperty("Skill_Luck", AH::Common::PropertyValueData::Skill_Luck, QScriptValue::ReadOnly);
-    mods.setProperty("Skill_Evade", AH::Common::PropertyValueData::Skill_Evade, QScriptValue::ReadOnly);
-    mods.setProperty("Skill_Combat", AH::Common::PropertyValueData::Skill_Combat, QScriptValue::ReadOnly);
-    mods.setProperty("Skill_Horror", AH::Common::PropertyValueData::Skill_Horror, QScriptValue::ReadOnly);
-    mods.setProperty("Skill_Spell", AH::Common::PropertyValueData::Skill_Spell, QScriptValue::ReadOnly);
-    mods.setProperty("Prop_MaxStamina", AH::Common::PropertyValueData::Prop_MaxStamina, QScriptValue::ReadOnly);
-    mods.setProperty("Prop_MaxSanity", AH::Common::PropertyValueData::Prop_MaxSanity, QScriptValue::ReadOnly);
-    mods.setProperty("Prop_Focus", AH::Common::PropertyValueData::Prop_Focus, QScriptValue::ReadOnly);
-    mods.setProperty("Prop_Movement", AH::Common::PropertyValueData::Prop_Movement, QScriptValue::ReadOnly);
-    mods.setProperty("Game_SealClueCost", AH::Common::PropertyValueData::Game_SealClueCost, QScriptValue::ReadOnly);
-    mods.setProperty("Damage_General", AH::Common::PropertyValueData::Damage_General, QScriptValue::ReadOnly);
-    mods.setProperty("Damage_Magical", AH::Common::PropertyValueData::Damage_Magical, QScriptValue::ReadOnly);
-    mods.setProperty("Damage_Physical", AH::Common::PropertyValueData::Damage_Physical, QScriptValue::ReadOnly);
-    consts.setProperty("Mods", mods, QScriptValue::ReadOnly);
+    {
+        QScriptValue mods = m_engine->newObject();
+        mods.setProperty("NoProperty", AH::Common::PropertyValueData::NoProperty, QScriptValue::ReadOnly);
+        mods.setProperty("Attr_Speed", AH::Common::PropertyValueData::Attr_Speed, QScriptValue::ReadOnly);
+        mods.setProperty("Attr_Sneak", AH::Common::PropertyValueData::Attr_Sneak, QScriptValue::ReadOnly);
+        mods.setProperty("Attr_Fight", AH::Common::PropertyValueData::Attr_Fight, QScriptValue::ReadOnly);
+        mods.setProperty("Attr_Will", AH::Common::PropertyValueData::Attr_Will, QScriptValue::ReadOnly);
+        mods.setProperty("Attr_Lore", AH::Common::PropertyValueData::Attr_Lore, QScriptValue::ReadOnly);
+        mods.setProperty("Attr_Luck", AH::Common::PropertyValueData::Attr_Luck, QScriptValue::ReadOnly);
+        mods.setProperty("Skill_Speed", AH::Common::PropertyValueData::Skill_Speed, QScriptValue::ReadOnly);
+        mods.setProperty("Skill_Sneak", AH::Common::PropertyValueData::Skill_Sneak, QScriptValue::ReadOnly);
+        mods.setProperty("Skill_Fight", AH::Common::PropertyValueData::Skill_Fight, QScriptValue::ReadOnly);
+        mods.setProperty("Skill_Will", AH::Common::PropertyValueData::Skill_Will, QScriptValue::ReadOnly);
+        mods.setProperty("Skill_Lore", AH::Common::PropertyValueData::Skill_Lore, QScriptValue::ReadOnly);
+        mods.setProperty("Skill_Luck", AH::Common::PropertyValueData::Skill_Luck, QScriptValue::ReadOnly);
+        mods.setProperty("Skill_Evade", AH::Common::PropertyValueData::Skill_Evade, QScriptValue::ReadOnly);
+        mods.setProperty("Skill_Combat", AH::Common::PropertyValueData::Skill_Combat, QScriptValue::ReadOnly);
+        mods.setProperty("Skill_Horror", AH::Common::PropertyValueData::Skill_Horror, QScriptValue::ReadOnly);
+        mods.setProperty("Skill_Spell", AH::Common::PropertyValueData::Skill_Spell, QScriptValue::ReadOnly);
+        mods.setProperty("Prop_MaxStamina", AH::Common::PropertyValueData::Prop_MaxStamina, QScriptValue::ReadOnly);
+        mods.setProperty("Prop_MaxSanity", AH::Common::PropertyValueData::Prop_MaxSanity, QScriptValue::ReadOnly);
+        mods.setProperty("Prop_Focus", AH::Common::PropertyValueData::Prop_Focus, QScriptValue::ReadOnly);
+        mods.setProperty("Prop_Movement", AH::Common::PropertyValueData::Prop_Movement, QScriptValue::ReadOnly);
+        mods.setProperty("Game_SealClueCost", AH::Common::PropertyValueData::Game_SealClueCost, QScriptValue::ReadOnly);
+        mods.setProperty("Damage_General", AH::Common::PropertyValueData::Damage_General, QScriptValue::ReadOnly);
+        mods.setProperty("Damage_Magical", AH::Common::PropertyValueData::Damage_Magical, QScriptValue::ReadOnly);
+        mods.setProperty("Damage_Physical", AH::Common::PropertyValueData::Damage_Physical, QScriptValue::ReadOnly);
+        consts.setProperty("Mods", mods, QScriptValue::ReadOnly);
+    }
 
     // Dimensions
-    QScriptValue dims = m_engine->newObject();
-    dims.setProperty("Square", AH::Dim_Square, QScriptValue::ReadOnly);
-    dims.setProperty("Circle", AH::Dim_Circle, QScriptValue::ReadOnly);
-    dims.setProperty("Moon", AH::Dim_Moon, QScriptValue::ReadOnly);
-    dims.setProperty("Slash", AH::Dim_Slash, QScriptValue::ReadOnly);
-    dims.setProperty("Star", AH::Dim_Star, QScriptValue::ReadOnly);
-    dims.setProperty("Diamond", AH::Dim_Diamond, QScriptValue::ReadOnly);
-    dims.setProperty("Hexagon", AH::Dim_Hexagon, QScriptValue::ReadOnly);
-    dims.setProperty("Plus", AH::Dim_Plus, QScriptValue::ReadOnly);
-    dims.setProperty("Triangle", AH::Dim_Triangle, QScriptValue::ReadOnly);
-    consts.setProperty("Dimension", dims, QScriptValue::ReadOnly);
+    {
+        QScriptValue dims = m_engine->newObject();
+        dims.setProperty("Square", AH::Dim_Square, QScriptValue::ReadOnly);
+        dims.setProperty("Circle", AH::Dim_Circle, QScriptValue::ReadOnly);
+        dims.setProperty("Moon", AH::Dim_Moon, QScriptValue::ReadOnly);
+        dims.setProperty("Slash", AH::Dim_Slash, QScriptValue::ReadOnly);
+        dims.setProperty("Star", AH::Dim_Star, QScriptValue::ReadOnly);
+        dims.setProperty("Diamond", AH::Dim_Diamond, QScriptValue::ReadOnly);
+        dims.setProperty("Hexagon", AH::Dim_Hexagon, QScriptValue::ReadOnly);
+        dims.setProperty("Plus", AH::Dim_Plus, QScriptValue::ReadOnly);
+        dims.setProperty("Triangle", AH::Dim_Triangle, QScriptValue::ReadOnly);
+        consts.setProperty("Dimension", dims, QScriptValue::ReadOnly);
+    }
 
     // Other World Colors
-    QScriptValue owc = m_engine->newObject();
-    owc.setProperty("Red", AH::OWC_Red, QScriptValue::ReadOnly);
-    owc.setProperty("Green", AH::OWC_Green, QScriptValue::ReadOnly);
-    owc.setProperty("Blue", AH::OWC_Blue, QScriptValue::ReadOnly);
-    owc.setProperty("Yellow", AH::OWC_Yellow, QScriptValue::ReadOnly);
-    consts.setProperty("OtherWorld", owc, QScriptValue::ReadOnly);
+    {
+        QScriptValue owc = m_engine->newObject();
+        owc.setProperty("Red", AH::OWC_Red, QScriptValue::ReadOnly);
+        owc.setProperty("Green", AH::OWC_Green, QScriptValue::ReadOnly);
+        owc.setProperty("Blue", AH::OWC_Blue, QScriptValue::ReadOnly);
+        owc.setProperty("Yellow", AH::OWC_Yellow, QScriptValue::ReadOnly);
+        consts.setProperty("OtherWorld", owc, QScriptValue::ReadOnly);
+    }
 
     // Monster Movements
-    QScriptValue movs = m_engine->newObject();
-    movs.setProperty("Normal", AH::Common::MonsterData::Normal, QScriptValue::ReadOnly);
-    movs.setProperty("Fast", AH::Common::MonsterData::Fast, QScriptValue::ReadOnly);
-    movs.setProperty("Stationary", AH::Common::MonsterData::Stationary, QScriptValue::ReadOnly);
-    movs.setProperty("Flying", AH::Common::MonsterData::Flying, QScriptValue::ReadOnly);
-    movs.setProperty("Special", AH::Common::MonsterData::Special, QScriptValue::ReadOnly);
-    consts.setProperty("Movement", movs, QScriptValue::ReadOnly);
+    {
+        QScriptValue movs = m_engine->newObject();
+        movs.setProperty("Normal", AH::Common::MonsterData::Normal, QScriptValue::ReadOnly);
+        movs.setProperty("Fast", AH::Common::MonsterData::Fast, QScriptValue::ReadOnly);
+        movs.setProperty("Stationary", AH::Common::MonsterData::Stationary, QScriptValue::ReadOnly);
+        movs.setProperty("Flying", AH::Common::MonsterData::Flying, QScriptValue::ReadOnly);
+        movs.setProperty("Special", AH::Common::MonsterData::Special, QScriptValue::ReadOnly);
+        consts.setProperty("Movement", movs, QScriptValue::ReadOnly);
+    }
 
     // Monster Attributes
-    QScriptValue monAtt = m_engine->newObject();
-    monAtt.setProperty("Ambush", AH::Common::MonsterData::Ambush, QScriptValue::ReadOnly);
-    monAtt.setProperty("Endless", AH::Common::MonsterData::Endless, QScriptValue::ReadOnly);
-    monAtt.setProperty("PhysicalResistance", AH::Common::MonsterData::PhysicalResistance, QScriptValue::ReadOnly);
-    monAtt.setProperty("MagicalResistance", AH::Common::MonsterData::MagicalResistance, QScriptValue::ReadOnly);
-    monAtt.setProperty("PhysicalImmunity", AH::Common::MonsterData::PhysicalImmunity, QScriptValue::ReadOnly);
-    monAtt.setProperty("MagicalImmunity", AH::Common::MonsterData::MagicalImmunity, QScriptValue::ReadOnly);
-    monAtt.setProperty("Nightmarish_1", AH::Common::MonsterData::Nightmarish_1, QScriptValue::ReadOnly);
-    monAtt.setProperty("Nightmarish_2", AH::Common::MonsterData::Nightmarish_2, QScriptValue::ReadOnly);
-    monAtt.setProperty("Nightmarish_3", AH::Common::MonsterData::Nightmarish_3, QScriptValue::ReadOnly);
-    monAtt.setProperty("Overwhelming_1", AH::Common::MonsterData::Overwhelming_1, QScriptValue::ReadOnly);
-    monAtt.setProperty("Overwhelming_2", AH::Common::MonsterData::Overwhelming_2, QScriptValue::ReadOnly);
-    monAtt.setProperty("Overwhelming_3", AH::Common::MonsterData::Overwhelming_3, QScriptValue::ReadOnly);
-    consts.setProperty("Monster", monAtt, QScriptValue::ReadOnly);
+    {
+        QScriptValue monAtt = m_engine->newObject();
+        monAtt.setProperty("Ambush", AH::Common::MonsterData::Ambush, QScriptValue::ReadOnly);
+        monAtt.setProperty("Endless", AH::Common::MonsterData::Endless, QScriptValue::ReadOnly);
+        monAtt.setProperty("PhysicalResistance", AH::Common::MonsterData::PhysicalResistance, QScriptValue::ReadOnly);
+        monAtt.setProperty("MagicalResistance", AH::Common::MonsterData::MagicalResistance, QScriptValue::ReadOnly);
+        monAtt.setProperty("PhysicalImmunity", AH::Common::MonsterData::PhysicalImmunity, QScriptValue::ReadOnly);
+        monAtt.setProperty("MagicalImmunity", AH::Common::MonsterData::MagicalImmunity, QScriptValue::ReadOnly);
+        monAtt.setProperty("Nightmarish_1", AH::Common::MonsterData::Nightmarish_1, QScriptValue::ReadOnly);
+        monAtt.setProperty("Nightmarish_2", AH::Common::MonsterData::Nightmarish_2, QScriptValue::ReadOnly);
+        monAtt.setProperty("Nightmarish_3", AH::Common::MonsterData::Nightmarish_3, QScriptValue::ReadOnly);
+        monAtt.setProperty("Overwhelming_1", AH::Common::MonsterData::Overwhelming_1, QScriptValue::ReadOnly);
+        monAtt.setProperty("Overwhelming_2", AH::Common::MonsterData::Overwhelming_2, QScriptValue::ReadOnly);
+        monAtt.setProperty("Overwhelming_3", AH::Common::MonsterData::Overwhelming_3, QScriptValue::ReadOnly);
+        consts.setProperty("Monster", monAtt, QScriptValue::ReadOnly);
+    }
 }
 
 void GameScript::initFieldConstants(QScriptValue &consts)
@@ -384,6 +414,17 @@ MonsterScript *GameScript::createMonster()
 QScriptValue GameScript::registerMonster(quint32 count, MonsterScript *m)
 {
     m_game->registerMonster(m, count);
+    return m_engine->newQObject(m);
+}
+
+MythosCardScript *GameScript::createMythosCard()
+{
+    return MythosCardScript::createMythosCard(context(), engine());
+}
+
+QScriptValue GameScript::registerMythosCard(MythosCardScript *m)
+{
+    m_game->registerMythos(m);
     return m_engine->newQObject(m);
 }
 

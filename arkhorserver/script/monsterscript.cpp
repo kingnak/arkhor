@@ -74,12 +74,12 @@ AH::Common::MonsterData::MonsterAttributes MonsterScript::attributes()
     return Monster::attributes();
 }
 
-void MonsterScript::move()
+void MonsterScript::move(AH::MovementDirection dir)
 {
     if (m_movement == Special) {
         m_specialMoveFunc.call(getThis());
     } else {
-        Monster::move();
+        Monster::move(dir);
     }
 }
 

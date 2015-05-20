@@ -18,7 +18,7 @@ public:
     ~FightPhase();
 
     bool isFightSituation() const;
-    bool handleFight();
+    bool handleFight(QList<Monster *> monsters);
 
     //void execute();
 
@@ -78,6 +78,7 @@ private:
 
 
 private:
+    QList<Monster *> m_monsters;
     QList<Monster *> m_flownMonsters;
     bool m_hasEnteredFight;
     //bool m_hadFailedEvade;

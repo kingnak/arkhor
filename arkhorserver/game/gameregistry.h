@@ -11,6 +11,9 @@ class Player;
 class Character;
 class Investigator;
 class Monster;
+class ArkhamEncounter;
+class OtherWorldEncounter;
+class MythosCard;
 //class AncientOne;
 
 class GameRegistry
@@ -25,6 +28,9 @@ public:
     bool registerPlayer(Player *p);
     bool registerCharacter(Character *c);
     bool registerMonster(Monster *m, int ct = 1);
+    bool registerArkhamEncounter(ArkhamEncounter *ae);
+    bool registerOtherWorldEncounter(OtherWorldEncounter *owe);
+    bool registerMythosCard(MythosCard *m);
 
     bool removePlayer(Player *p);
 
@@ -44,6 +50,9 @@ public:
     QList<Player *> allPlayers();
     QList<Character *> allCharacters();
     QList<Monster *> allMonsters();
+    QList<ArkhamEncounter *> allArkhamEncounters();
+    QList<OtherWorldEncounter *> allOtherWorldEncounters();
+    QList<MythosCard *> allMythosCards();
 
     bool resolveDependencies();
 
@@ -52,6 +61,7 @@ private:
     bool doRegisterItem(T *t, QMap<QString, T*> &m);
     int m_nextActionId;
     int m_nextOptionId;
+    int m_nextMythosId;
 
 private:
     QMap<QString, GameAction*> m_actions;
@@ -63,6 +73,9 @@ private:
     QMap<QString, GameObject*> m_objectTypes;
     QMap<QString, Monster*> m_monsters;
     QMap<QString, Monster*> m_monsterTypes;
+    QList<ArkhamEncounter *> m_arkEncounters;
+    QList<OtherWorldEncounter *> m_otherEncounters;
+    QMap<QString, MythosCard *> m_mythosCards;
 };
 
 template <typename T>

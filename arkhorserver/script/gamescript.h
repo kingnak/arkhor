@@ -19,6 +19,7 @@ class GameObjectScript;
 class ArkhamEncounterScript;
 class OtherWorldEncounterScript;
 class MonsterScript;
+class MythosCardScript;
 
 class GameScript : public QObject, public QScriptable
 {
@@ -58,6 +59,9 @@ public:
 
     Q_INVOKABLE MonsterScript *createMonster();
     Q_INVOKABLE QScriptValue registerMonster(quint32 count, MonsterScript *m);
+
+    Q_INVOKABLE MythosCardScript *createMythosCard();
+    Q_INVOKABLE QScriptValue registerMythosCard(MythosCardScript *m);
 
     static QStringList array2stringlist(QScriptValue ar);
     static QScriptValueList array2list(QScriptValue ar);

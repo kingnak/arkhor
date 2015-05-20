@@ -11,6 +11,7 @@ public:
     void addCard(T *t)
     { m_deck.append(t); }
 
+    int size() const { return m_deck.size(); }
     void shuffle();
 
     T *draw()
@@ -23,7 +24,8 @@ public:
     { return m_deck.isEmpty() ? NULL : m_deck.last(); }
     T *drawBottom()
     { return m_deck.isEmpty() ? NULL : m_deck.takeLast(); }
-    int size() const { return m_deck.size(); }
+    void returnToDeck(T *t)
+    { m_deck.append(t); }
 
 private:
     QList<T *> m_deck;

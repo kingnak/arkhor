@@ -26,10 +26,11 @@ bool CloseGateAction::execute()
     DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(name(), gGame->context().player()->getCharacter(), s, gGame->context().gate()->closeAdjustment());
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
     if (res.boolResult) {
-        gGame->context().gate()->close(gGame->context().player()->getCharacter());
+        GameField *f = gGame->context().gate()->field();
         if (m_bSeal) {
-            // TODO: Place ancient sign
+            f->setSealed(true);
         }
+        gGame->context().gate()->close(gGame->context().player()->getCharacter());
     }
     return true;
 }

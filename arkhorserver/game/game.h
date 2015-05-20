@@ -23,6 +23,7 @@ class Investigator;
 class Player;
 class ArkhamEncounter;
 class OtherWorldEncounter;
+class MythosCard;
 
 class Game : public QObject
 {
@@ -48,9 +49,14 @@ public:
     void registerArkhamEnconutry(ArkhamEncounter *a);
     void registerOtherWorldEncountery(OtherWorldEncounter *e);
     void registerMonster(Monster *m, quint32 count = 1);
+    void registerMythos(MythosCard *m);
     bool resolveDependencies();
 
     void registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId);
+
+    int terrorLevel() const { return m_terrorLevel; }
+    void increaseTerrorLevel(int amount = 1) { m_terrorLevel += amount; }
+    void setTerrorLevel(int val) { m_terrorLevel = val; }
 
     /*
     enum RegisteredType {
@@ -82,6 +88,14 @@ public:
     void removePlayer(Player *p);
 
     void returnMonster(Monster *m);
+    Monster *drawMonster();
+
+    MythosCard *drawMythos();
+    void returnMythos(MythosCard *m);
+
+    bool createGate(GameField *field);
+    bool createMonster(GameField *field);
+    bool putOutskirtsMonster(Monster *m);
 
     GameContext &context();
     GameBoard *board();
@@ -142,12 +156,13 @@ private:
 private:
     // Mappings for registry resolving
     QMap<AH::Common::FieldData::FieldID, QStringList> m_fieldOptionMap;
-    QMap<AH::Common::FieldData::FieldID, QList<ArkhamEncounter *> > m_arkEnc;
-    QList<OtherWorldEncounter *> m_owEnc;
+    //QMap<AH::Common::FieldData::FieldID, QList<ArkhamEncounter *> > m_arkEnc;
+    //QList<OtherWorldEncounter *> m_owEnc;
 
     QMap<AH::GameObjectType, Deck<GameObject> > m_objectDecks;
     QMap<AH::Common::FieldData::FieldID, Deck<ArkhamEncounter> > m_arkEncDecks;
     Deck<OtherWorldEncounter> m_owEncDeck;
+    Deck<MythosCard> m_mythosDeck;
 
     Deck<Monster> m_monsterPool;
 
@@ -162,6 +177,8 @@ private:
 
     int m_nextPlayerId;
     bool m_started;
+
+    int m_terrorLevel;
 
     mutable QReadWriteLock m_lock;
 };

@@ -1,7 +1,7 @@
 #include "gameboard.h"
 
 GameBoard::GameBoard()
-    : m_dirty(false)
+    : m_dirty(false), m_boardCacheDirty(false)
 {
 }
 
@@ -187,6 +187,39 @@ AH::OtherWorldColors GameBoard::colorsForOtherWorld(AH::Common::FieldData::Field
     case AH::Common::FieldData::OW_R_lyeh: return AH::OtherWorldColors(AH::OWC_Red | AH::OWC_Yellow);
     default:
         return AH::OtherWorldColors(AH::OWC_NoColor);
+    }
+}
+
+QList<Monster *> GameBoard::getBoardMonsters()
+{
+    if (m_boardCacheDirty) {
+        updateCaches();
+    }
+    return m_boardMonsterCache;
+}
+
+QList<Gate *> GameBoard::getGates()
+{
+    if (m_boardCacheDirty) {
+        updateCaches();
+    }
+    return m_gateCache;
+}
+
+void GameBoard::updateCaches()
+{
+    m_boardCacheDirty = false;
+
+    m_boardMonsterCache.clear();
+    m_gateCache.clear();
+    foreach (GameField *f, m_fields.values()) {
+        if (f->type() == AH::Common::FieldData::Location || f->type() == AH::Common::FieldData::Street) {
+            m_boardMonsterCache << f->monsters();
+        }
+
+        if (f->type() == AH::Common::FieldData::Location && f->gate()) {
+            m_gateCache << f->gate();
+        }
     }
 }
 

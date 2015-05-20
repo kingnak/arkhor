@@ -71,7 +71,10 @@ HEADERS += \
     game/actions/chooseskillhelper.h \
     script/gamecontextscript.h \
     script/otherworldencounterscript.h \
-    game/otherworldencounter.h
+    game/otherworldencounter.h \
+    game/phases/mythos.h \
+    game/mythoscard.h \
+    script/mythoscardscript.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -143,7 +146,10 @@ SOURCES += \
     game/actions/chooseskillhelper.cpp \
     script/gamecontextscript.cpp \
     game/otherworldencounter.cpp \
-    script/otherworldencounterscript.cpp
+    script/otherworldencounterscript.cpp \
+    game/phases/mythos.cpp \
+    game/mythoscard.cpp \
+    script/mythoscardscript.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -181,4 +187,5 @@ OTHER_FILES += \
     data/field/arkham/uptown/yeOldeMagickShoppe.js \
     data/field/arkham/downtown/arkhamAsylum.js \
     data/objects/common/weapons.js \
-    data/monsters/monsters.js
+    data/monsters/monsters.js \
+    data/field/otherworld/abyss.js

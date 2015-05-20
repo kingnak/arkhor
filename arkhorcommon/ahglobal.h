@@ -75,6 +75,11 @@ namespace AH
     };
     Q_DECLARE_FLAGS(Dimensions, Dimension)
 
+    enum MovementDirection {
+        MoveBlack,
+        MoveWhite
+    };
+
     enum OtherWorldPhase {
         NoPhase,
         OWP_FirstField,
@@ -110,6 +115,7 @@ namespace AH
     DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, AH::Skill);
     DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, AH::GameObjectType);
     DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, AH::Dimension);
+    DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, AH::Dimensions);
     DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, AH::OtherWorldPhase);
     DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, AH::ContinueType);
     DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, AH::ChooseType);

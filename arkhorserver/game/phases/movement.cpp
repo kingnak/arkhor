@@ -44,7 +44,8 @@ QList<GameOption *> Movement::getPhaseOptions()
     case AH::Common::FieldData::Location:
     case AH::Common::FieldData::Street:
         if (m_outcome != FightPhase::EndFlown && m_outcome != FightPhase::EndEvaded &&  m_fight->isFightSituation()) {
-            bool res = m_fight->handleFight();
+            QList<Monster *> monsters = gGame->context().player()->getCharacter()->field()->monsters();
+            bool res = m_fight->handleFight(monsters);
             m_outcome = m_fight->getOutcome();
             if (!res) {
                 return QList<GameOption *>() << getSkipOption();

@@ -4,6 +4,7 @@
 #include "phases/movement.h"
 #include "phases/arkhamencoutery.h"
 #include "phases/otherworldencountery.h"
+#include "phases/mythos.h"
 #include "gameboard.h"
 #include "player.h"
 #include "investigator.h"
@@ -13,6 +14,7 @@
 #include "otherworldencounter.h"
 #include "character.h"
 #include "monster.h"
+#include "gate.h"
 #include <QThread>
 #include <QDebug>
 
@@ -22,7 +24,8 @@ Game::Game()
 :   m_context(this, NULL, NULL, AH::NoGamePhase),
     m_board(NULL),
     m_nextPlayerId(0),
-    m_started(false)
+    m_started(false),
+    m_terrorLevel(1)
 {
     Game::s_instance = this;
     m_registry = new GameRegistry;
@@ -50,7 +53,8 @@ void Game::initPhases()
         << new Upkeep(this)
         << new Movement(this)
         << new ArkhamEncoutery(this)
-        << new OtherWorldEncountery(this);
+        << new OtherWorldEncountery(this)
+        << new Mythos(this);
 }
 
 void Game::start()
@@ -170,6 +174,7 @@ bool Game::resolveDependencies()
     }
 
     // Resolve encounteries
+    /*
     typedef QList<ArkhamEncounter *> AEL;
     foreach (AEL lst, m_arkEnc.values()) {
         foreach (ArkhamEncounter *a, lst) {
@@ -180,24 +185,38 @@ bool Game::resolveDependencies()
     foreach (OtherWorldEncounter *e, m_owEnc) {
         ok &= e->resolveDependencies(m_registry);
     }
+    */
 
     return ok;
 }
 
 void Game::registerArkhamEnconutry(ArkhamEncounter *a)
 {
-    m_arkEnc[a->fieldId()] << a;
+    //m_arkEnc[a->fieldId()] << a;
+    if (!m_registry->registerArkhamEncounter(a)) {
+        qCritical() << "Error registering Arkham Encounter";
+    }
 }
 
 void Game::registerOtherWorldEncountery(OtherWorldEncounter *e)
 {
-    m_owEnc << e;
+    //m_owEnc << e;
+    if (!m_registry->registerOtherWorldEncounter(e)) {
+        qCritical() << "Error registering Other World Encounter";
+    }
 }
 
 void Game::registerMonster(Monster *m, quint32 count)
 {
     if (!m_registry->registerMonster(m, count)) {
         qCritical() << "Error registering monster(s)";
+    }
+}
+
+void Game::registerMythos(MythosCard *m)
+{
+    if (!m_registry->registerMythosCard(m)) {
+        qCritical() << "Error registering mythos card";
     }
 }
 
@@ -241,7 +260,125 @@ void Game::removePlayer(Player *p)
 
 void Game::returnMonster(Monster *m)
 {
-    m_monsterPool.addCard(m);
+    if (!m) return;
+    if (m->field()) m->field()->removeMonster(m);
+    m_monsterPool.returnToDeck(m);
+}
+
+Monster *Game::drawMonster()
+{
+    m_monsterPool.shuffle();
+    return m_monsterPool.draw();
+}
+
+MythosCard *Game::drawMythos()
+{
+    return m_mythosDeck.draw();
+}
+
+void Game::returnMythos(MythosCard *m)
+{
+    m_mythosDeck.returnToDeck(m);
+}
+
+bool Game::createGate(GameField *field)
+{
+    if (field->isSealed()) {
+        return false;
+    }
+
+    if (field->gate() != NULL) {
+        // Create Monsters: max of gates and players
+        int playerCount = getPlayers().count();
+        int gateCount = m_board->getGates().count();
+        int monsterCount = qMax(playerCount, gateCount);
+        QList<Gate *> gates = m_board->getGates();
+
+        // Distribute over gate fields, start the current field
+        int idx = gates.indexOf(field->gate());
+        if (idx < 0) {
+            idx = 0;
+        }
+        for (int i = 0; i < monsterCount; ++i) {
+            GameField *f = gates[idx]->field();
+            createMonster(f);
+            idx++;
+            idx %= gates.count();
+        }
+
+        return false;
+    } else {
+        // TODO: place doom token
+
+        // Create gate
+        // TODO: This leaks. Create scripted gates instead?
+        int adj = RandomSource::instance().nextUint(0, 4)-2;
+        int dim = RandomSource::instance().nextUint(0, 9);
+        int dest = RandomSource::instance().nextUint(0, 7);
+        AH::Dimension d = static_cast<AH::Dimension> (1<<dim);
+        AH::Common::FieldData::FieldID fid = static_cast<AH::Common::FieldData::FieldID> (0x1000 + 0x0100*dest);
+        GameField *f = m_board->field(fid);
+        Gate *g = new Gate(d, adj, f);
+        f->setGate(g);
+
+        // remove clues
+        f->takeClues();
+
+        // Draw investigators
+        QList<Character *> characters = f->characters();
+        foreach (Character *c, characters) {
+            c->setDelayed(true);
+            g->enter(c);
+        }
+
+        // Create monsters
+        int monsterCount = context().getGameProperty(PropertyValue::Game_MonsterCountFromGates).finalVal();
+        for (int i = 0; i < monsterCount; ++i) {
+            createMonster(f);
+        }
+        return true;
+    }
+}
+
+bool Game::createMonster(GameField *field)
+{
+    Monster *m = drawMonster();
+    if (!m) {
+        return false;
+    }
+
+    int curMonsterCount = m_board->getBoardMonsters().count();
+    int maxMonsterCount = context().getGameProperty(PropertyValue::Game_MaxBoardMonsterCount).finalVal();
+    if (curMonsterCount >= maxMonsterCount) {
+        // Should be at most max!
+        // put on outskirts
+        putOutskirtsMonster(m);
+        return false;
+    }
+
+    field->placeMonster(m);
+    return true;
+}
+
+bool Game::putOutskirtsMonster(Monster *m)
+{
+    QList<Monster *> outskirtsMonsters = m_board->field(AH::Common::FieldData::Sp_Outskirts)->monsters();
+    int outskirtCount = outskirtsMonsters.count();
+    int maxOutskritsMonsters = context().getGameProperty(PropertyValue::Game_MaxOutskirtsMonsterCount).finalVal();
+
+    if (outskirtCount >= maxOutskritsMonsters) {
+        // remove from outskirts and increase terror track
+        returnMonster(m);
+        foreach (Monster *mm, outskirtsMonsters) {
+            returnMonster(mm);
+        }
+
+        increaseTerrorLevel();
+        return false;
+    }
+
+    m_board->field(AH::Common::FieldData::Sp_Outskirts)->placeMonster(m);
+    return true;
 }
 
 GameContext &Game::context()
@@ -264,7 +401,7 @@ ArkhamEncounter *Game::drawArkhamEncounter(AH::Common::FieldData::FieldID field)
     m_arkEncDecks[field].shuffle();
     ArkhamEncounter *enc = m_arkEncDecks[field].draw();
     if (enc) {
-        m_arkEncDecks[field].addCard(enc);
+        m_arkEncDecks[field].returnToDeck(enc);
     }
     return enc;
 }
@@ -282,7 +419,7 @@ OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldI
     do {
         ct--;
         e = m_owEncDeck.draw();
-        m_owEncDeck.addCard(e);
+        m_owEncDeck.returnToDeck(e);
         if (colors.testFlag(e->color())) {
             // Check if field matches (no field matches all)
             if (e->fieldId() != AH::Common::FieldData::NO_NO_FIELD) {
@@ -423,20 +560,24 @@ void Game::initDecks()
     foreach (GameObject *o, m_registry->allObjects()) {
         m_objectDecks[o->type()].addCard(o);
     }
-
     foreach (AH::GameObjectType t, m_objectDecks.keys()) {
         m_objectDecks[t].shuffle();
     }
 
-    foreach (AH::Common::FieldData::FieldID fId, m_arkEnc.keys()) {
-        foreach (ArkhamEncounter *ae, m_arkEnc[fId]) {
-            m_arkEncDecks[fId].addCard(ae);
-        }
+    // Shuffeled at each draw, so no need here
+    foreach (ArkhamEncounter *ae, m_registry->allArkhamEncounters()) {
+        m_arkEncDecks[ae->fieldId()].addCard(ae);
     }
 
-    foreach (OtherWorldEncounter *e, m_owEnc) {
+    foreach (OtherWorldEncounter *e, m_registry->allOtherWorldEncounters()) {
         m_owEncDeck.addCard(e);
     }
+    m_owEncDeck.shuffle();
+
+    foreach (MythosCard *m, m_registry->allMythosCards()) {
+        m_mythosDeck.addCard(m);
+    }
+    m_mythosDeck.shuffle();
 }
 
 void Game::initMonsters()
@@ -444,10 +585,10 @@ void Game::initMonsters()
     foreach (Monster *m, m_registry->allMonsters())
         m_monsterPool.addCard(m);
 
+    // Shuffeled at each draw, no need here
+
     // TEST
-    m_monsterPool.shuffle();
-    Monster *m = m_monsterPool.draw();
-    m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m);
+    //m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(drawMonster());
 }
 
 void Game::chooseInvestigators()
@@ -543,8 +684,8 @@ void Game::mythos()
 {
     m_notifier->gamePhaseChaned(AH::Mythos);
     // Not a player phase
-    //m_context = GameContext(m_player.first(), AH::Mythos);
-    //m_phases[MythosIndex]->execute();
+    m_context = GameContext(this, getFirstPlayer(), NULL, AH::Mythos);
+    m_phases[MythosIndex]->execute();
 }
 
 void Game::executePlayerPhase(int idx, AH::GamePhase phase)

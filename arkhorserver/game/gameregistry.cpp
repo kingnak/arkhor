@@ -6,10 +6,14 @@
 #include "character.h"
 #include "player.h"
 #include "monster.h"
+#include "arkhamencounter.h"
+#include "otherworldencounter.h"
+#include "mythoscard.h"
 
 GameRegistry::GameRegistry()
 :   m_nextActionId(0),
-    m_nextOptionId(0)
+    m_nextOptionId(0),
+    m_nextMythosId(0)
 {
 }
 
@@ -73,6 +77,30 @@ bool GameRegistry::registerMonster(Monster *m, int ct)
         im->setId(QString("%2:%1").arg(i).arg(im->typeId()));
         m_monsters.insert(im->id(), im);
     }
+    return true;
+}
+
+bool GameRegistry::registerArkhamEncounter(ArkhamEncounter *ae)
+{
+    m_arkEncounters << ae;
+    return true;
+}
+
+bool GameRegistry::registerOtherWorldEncounter(OtherWorldEncounter *owe)
+{
+    m_otherEncounters << owe;
+    return true;
+}
+
+bool GameRegistry::registerMythosCard(MythosCard *m)
+{
+    if (m->id().isEmpty()) {
+        m->setId(QString("MY_GEN_%1").arg(++m_nextMythosId));
+    }
+    if (m_mythosCards.contains(m->id())) {
+        return false;
+    }
+    m_mythosCards.insert(m->id(), m);
     return true;
 }
 
@@ -150,6 +178,21 @@ QList<Monster *> GameRegistry::allMonsters()
     return m_monsters.values();
 }
 
+QList<ArkhamEncounter *> GameRegistry::allArkhamEncounters()
+{
+    return m_arkEncounters;
+}
+
+QList<OtherWorldEncounter *> GameRegistry::allOtherWorldEncounters()
+{
+    return m_otherEncounters;
+}
+
+QList<MythosCard *> GameRegistry::allMythosCards()
+{
+    return m_mythosCards.values();
+}
+
 bool GameRegistry::resolveDependencies()
 {
     bool ok = true;
@@ -161,6 +204,15 @@ bool GameRegistry::resolveDependencies()
     // Resolve Objects:
     foreach (GameObject *o, m_objects.values()) {
         ok &= o->resolveDependencies(this);
+    }
+
+    // Resolve Encounters:
+    foreach (ArkhamEncounter *ae, m_arkEncounters) {
+        ok &= ae->resolveDependencies(this);
+    }
+
+    foreach (OtherWorldEncounter *owe, m_otherEncounters) {
+        ok &= owe->resolveDependencies(this);
     }
 
     return ok;

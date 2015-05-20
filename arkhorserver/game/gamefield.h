@@ -19,6 +19,7 @@ public:
     void putClue(int amount = 1);
     int takeClues();
 
+    bool hasCharacters() const { return !m_characters.isEmpty(); }
     QList<Character *> characters() { return m_characters; }
     bool hasMonsters() const { return !m_monsters.isEmpty(); }
     QList<Monster *> monsters() { return m_monsters; }

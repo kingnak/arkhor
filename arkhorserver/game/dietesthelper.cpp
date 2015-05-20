@@ -144,6 +144,7 @@ DieTestHelper::DieTestSpec DieTestHelper::createSkillCounter(QString desc, Chara
 {
     DieTestSpec spec;
     skillPool(spec, c, skill, adjustment);
+    clueBurnSkill(spec, c, skill);
     successCounter(spec, c);
     value(spec);
     finalize(spec);

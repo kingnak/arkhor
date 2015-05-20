@@ -415,3 +415,15 @@ void Character::restoreSanity()
     gGame->characterDirty(this);
 }
 
+bool Character::returnToArkham()
+{
+    if (!field()->backGates().isEmpty()) {
+        // TODO: Let choose gate
+        Gate *p = field()->backGates().at(0);
+        p->comeBack(this);
+        //gGame->notifier()->actionExecute(this, QString("Returned to %1").arg(p->field()->name()));
+        return true;
+    }
+    return false;
+}
+

@@ -23,6 +23,8 @@ class Character : public AH::Common::CharacterData
 public:
     Character(Investigator *i);
 
+    CharacterData *data();
+
     PropertyModificationList getPropertyModifiers() const { return PropertyModificationList(); }
 
     QList<GameAction *> getActions(AH::GamePhase phase);

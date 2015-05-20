@@ -24,7 +24,8 @@ HEADERS += \
     arkhamencounterdata.h \
     fielddata.h \
     attributesliderdata.h \
-    diedata.h
+    diedata.h \
+    objectdata.h
 
 SOURCES += \
     communication/message.cpp \
@@ -43,4 +44,5 @@ SOURCES += \
     arkhamencounterdata.cpp \
     fielddata.cpp \
     attributesliderdata.cpp \
-    diedata.cpp
+    diedata.cpp \
+    objectdata.cpp

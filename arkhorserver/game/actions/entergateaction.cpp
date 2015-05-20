@@ -18,5 +18,6 @@ bool EnterGateAction::execute()
 bool EnterGateOption::isAvailable()
 {
     Character *c = gGame->context().player()->getCharacter();
-    return c->getExploredGate() == NULL && c->field()->gate() != NULL;
+    Gate *g = c->field()->gate();
+    return c->getExploredGate() == NULL && g != NULL;
 }

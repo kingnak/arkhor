@@ -14,6 +14,7 @@ public:
     virtual void startGame();
 
     virtual void sendBoard(GameBoard *board);
+    virtual void sendCharacter(Character *c);
 
     virtual void playerRemoved(Player *p);
 

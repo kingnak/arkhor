@@ -239,6 +239,72 @@ void Game::boardDirty()
     sendBoard();
 }
 
+void Game::characterDirty(Character *c)
+{
+    Player *p = playerForCharacter(c);
+    if (p) {
+        p->sendCharacter(c);
+    }
+}
+
+Player *Game::playerForCharacter(Character *c)
+{
+    foreach (Player *p, m_playerList) {
+        if (p->getCharacter() == c) {
+            return p;
+        }
+    }
+
+    return NULL;
+}
+
+AH::Common::DescribeObjectsData Game::describeObjects(const AH::Common::RequestObjectsData &reqs) const
+{
+    AH::Common::DescribeObjectsData ret;
+    foreach (AH::Common::RequestObjectsData::ObjectRequest r, reqs.getRequests()) {
+        AH::Common::DescribeObjectsData::ObjectDescription d;
+        d.first = AH::Common::RequestObjectsData::Unknown;
+
+        if (r.first == AH::Common::RequestObjectsData::Unknown) {
+            // TODO: find correct type
+            qWarning("Cannot resolve unknown objects, yet");
+        }
+
+        switch (r.first) {
+        case AH::Common::RequestObjectsData::Unknown:
+            break;
+        case AH::Common::RequestObjectsData::Object:
+        {
+            const GameObject *obj = m_registry->findObjectById(r.second);
+            if (obj) {
+                d.second << *(obj->data());
+                d.first = AH::Common::RequestObjectsData::Object;
+            }
+            break;
+        }
+        case AH::Common::RequestObjectsData::Monster:
+            break;
+        case AH::Common::RequestObjectsData::Character:
+        {
+            Character *c = m_registry->findCharacterById(r.second);
+            if (c) {
+                d.second << *(c->data());
+                d.first = AH::Common::RequestObjectsData::Character;
+            }
+            break;
+        }
+        case AH::Common::RequestObjectsData::Gate:
+            break;
+        //case AH::Common::RequestObjectsData::Board:
+        //  break;
+        }
+
+        ret.addDescription(d);
+    }
+
+    return ret;
+}
+
 // protected
 // TEST
 #include "gate.h"

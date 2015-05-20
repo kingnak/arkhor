@@ -30,6 +30,7 @@ public:
     virtual void startGame();
 
     virtual void sendBoard(GameBoard *board);
+    virtual void sendCharacter(Character *c);
 
     virtual void nextRound();
     virtual void gamePhaseChaned(AH::GamePhase phase);

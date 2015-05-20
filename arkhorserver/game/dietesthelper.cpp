@@ -32,7 +32,7 @@ DieTestHelper::DieTestSpec DieTestHelper::createSkillTest(Character *c, AH::Skil
     DieRollBoolEvaluator *ret = new DieRollCountBoolEvaluator(p, successes, target, DieRollBoolEvaluator::GREATER_EQUALS);
     spec.eval = ret;
 
-    AH::Common::DiePoolData poolData(spec.baseVal, adjustment);
+    AH::Common::DiePoolData poolData(ct, adjustment);
 
     AH::Common::DieRollData rollData(AH::Common::DieRollData::Count);
     rollData.setPool(poolData);
@@ -80,7 +80,7 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
                 // Special Case: when there was a negative count, don't simply add!
                 int diceToAdd = dieAdds;
                 if (oldDieCount < 0) diceToAdd += oldDieCount; // oldDieCount is negative!
-                spec.eval->addDice(QList<StandardDieSpec>() << StandardDieSpec(DieFactory::D6, dieAdds));
+                spec.eval->addDice(QList<StandardDieSpec>() << StandardDieSpec(DieFactory::D6, diceToAdd));
             }
         }
 

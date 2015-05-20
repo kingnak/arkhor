@@ -9,6 +9,8 @@
 #include <gameoptiondata.h>
 #include <attributesliderdata.h>
 #include <diedata.h>
+#include <characterdata.h>
+#include <objectdata.h>
 
 class ConnectionHandler : public QObject
 {
@@ -24,6 +26,8 @@ public:
     void selectMovementPath(QList<AH::Common::FieldData::FieldID> fieldIds);
     void selectFocus(QList<int> positionDiffs);
     void chooseDieRollUpdate(AH::Common::DieTestUpdateData upd);
+
+    void requestObjects(AH::Common::RequestObjectsData reqs);
 
 public slots:
     void startup();
@@ -47,6 +51,9 @@ signals:
     void dieRollInfo(AH::Common::DieRollTestData data);
 
     void boardContent(QVariantMap boardMap);
+    void characterUpdate(AH::Common::CharacterData c);
+
+    void objectDescriptions(AH::Common::DescribeObjectsData descs);
 
     void playerCharacterInstantiated(QString playerId, QString investigatorId);
 

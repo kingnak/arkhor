@@ -21,6 +21,7 @@ CharacterData::CharacterData()
 void operator <<(QVariant &data, const CharacterData &c)
 {
     QVariantMap map;
+    map["id"] << c.id();
     map["investigatorId"] << c.investigatorId();
     map["curStamina"] << c.curStamina();
     map["curSanity"] << c.curSanity();
@@ -45,6 +46,7 @@ void operator >>(const QVariant &data, CharacterData &c)
 {
     QVariantMap map;
     data >> map;
+    map["id"] >> c.m_id;
     map["investigatorId"] >> c.m_investigatorId;
     map["curStamina"] >> c.m_curStamina;
     map["curSanity"] >> c.m_curSanity;

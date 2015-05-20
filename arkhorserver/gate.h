@@ -11,6 +11,7 @@ class Gate
 public:
     Gate(AH::Dimension dim, int closeAdjustment, GameField *dest);
 
+    QString id() const { return "GA_Dummy"; }
     AH::Dimension dimension() const { return m_dim; }
     int closeAdjustment() const { return m_closeAdjustment; }
 

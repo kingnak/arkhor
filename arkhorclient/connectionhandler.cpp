@@ -55,6 +55,13 @@ void ConnectionHandler::chooseDieRollUpdate(AH::Common::DieTestUpdateData upd)
     send(AH::Common::Message::C_DIE_ROLL_UPDATE, v);
 }
 
+void ConnectionHandler::requestObjects(AH::Common::RequestObjectsData reqs)
+{
+    QVariant v;
+    v << reqs;
+    send(AH::Common::Message::C_REQUEST_OBJECTS, v);
+}
+
 void ConnectionHandler::startup()
 {
     QTcpSocket *sock = new QTcpSocket;
@@ -113,6 +120,22 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         //QVariantMap m;
         //msg.payload >> m;
         emit boardContent(msg.payload.value<QVariantMap>());
+        break;
+    }
+
+    case AH::Common::Message::S_CHARACTER_DATA:
+    {
+        AH::Common::CharacterData c;
+        msg.payload >> c;
+        emit characterUpdate(c);
+        break;
+    }
+
+    case AH::Common::Message::S_DESCRIBE_OBJECTS:
+    {
+        AH::Common::DescribeObjectsData d;
+        msg.payload >> d;
+        emit objectDescriptions(d);
         break;
     }
 

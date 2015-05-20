@@ -13,7 +13,8 @@ HEADERS += \
     movementchooser.h \
     focuschooser.h \
     optionchooser.h \
-    dierollwidget.h
+    dierollwidget.h \
+    objectregistry.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -29,7 +30,8 @@ SOURCES += \
     movementchooser.cpp \
     focuschooser.cpp \
     optionchooser.cpp \
-    dierollwidget.cpp
+    dierollwidget.cpp \
+    objectregistry.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

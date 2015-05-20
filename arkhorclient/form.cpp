@@ -114,13 +114,15 @@ void Form::characterInstantiated(QString playerId, QString charaterId)
         int idx = ui->cmbInvestigators->findData(charaterId);
         if (idx >= 0) ui->cmbInvestigators->setCurrentIndex(idx);
         ui->cmbInvestigators->setEnabled(false);
+        m_mainGui->setThisCharacterId(charaterId);
+        m_mainGui->setThisPlayerId(playerId);
     }
     ui->btnSelectInv->setEnabled(false);
 }
 
 void Form::startGame()
 {
-    m_mainGui->show();
+    m_mainGui->start();
     this->close();
     //this->deleteLater();
 }

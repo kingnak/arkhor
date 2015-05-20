@@ -10,6 +10,7 @@ class Game;
 class GameAction;
 class GameOption;
 class GameBoard;
+class Character;
 
 class GameNotifier
 {
@@ -25,6 +26,7 @@ public:
     virtual void startGame() = 0;
 
     virtual void sendBoard(GameBoard *board) = 0;
+    virtual void sendCharacter(Character *c) = 0;
 
     virtual void nextRound() = 0;
     virtual void gamePhaseChaned(AH::GamePhase phase) = 0;

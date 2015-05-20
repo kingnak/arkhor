@@ -4,6 +4,8 @@
 #include "game/gameaction.h"
 #include "game/gameoption.h"
 #include "game/gameobject.h"
+#include "monster.h"
+#include "gate.h"
 
 using namespace AH::Common;
 
@@ -25,6 +27,34 @@ Character::Character(Investigator *i)
     m_explorededGate(NULL)
 {
     instantiateFromInvestigator();
+}
+
+CharacterData *Character::data()
+{
+    // Synchonize data with character
+    m_attrSettings.clear();
+    foreach (AttributeSlider s, m_sliders) {
+        m_attrSettings << s.currentSettingPos();
+    }
+
+    m_inventoryIds.clear();
+    foreach (const GameObject *obj, m_inventory) {
+        m_inventoryIds << obj->id();
+    }
+
+    m_monsterMarkerIds.clear();
+    foreach (const Monster *m, m_monsterMarkers) {
+        m_monsterMarkerIds << m->id();
+    }
+
+    m_gateMarkerIds.clear();
+    foreach (const Gate *g, m_gateMarkers) {
+        g->id();
+    }
+
+    m_fieldId = m_field->id();
+
+    return CharacterData::data();
 }
 
 QList<GameAction *> Character::getActions(AH::GamePhase phase)
@@ -163,6 +193,7 @@ bool Character::pay(const CostList &cost)
         }
     }
 
+    gGame->characterDirty(this);
     // TODO: Verify Sanity and Stamina
 
     return true;
@@ -248,6 +279,8 @@ void Character::damageStamina(int amount)
     if (m_curStamina == 0) {
         unconscious();
     }
+
+    gGame->characterDirty(this);
 }
 
 void Character::damageSanity(int amount)
@@ -255,11 +288,15 @@ void Character::damageSanity(int amount)
     m_curSanity = qMax(0, m_curSanity - amount);
     if (m_curSanity == 0)
         insane();
+
+    gGame->characterDirty(this);
 }
 
 void Character::addStamina(int amount)
 {
     int maxStamina = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxStamina).finalVal();
     m_curStamina = qMin(maxStamina, m_curStamina + amount);
+
+    gGame->characterDirty(this);
 }
 

@@ -52,9 +52,7 @@ bool CloseGateOption::isAvailable()
         return true;
     }
 
-    // TEST
-    //return false;
-    return true;
+    return false;
 }
 
 

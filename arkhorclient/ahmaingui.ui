@@ -23,7 +23,7 @@
       <enum>QTabWidget::East</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tabInteraction">
       <attribute name="icon">
@@ -131,6 +131,11 @@
       <attribute name="title">
        <string/>
       </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QListWidget" name="lstInventory"/>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
@@ -170,8 +175,26 @@
  <resources>
   <include location="client_resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>lstInventory</sender>
+   <signal>itemActivated(QListWidgetItem*)</signal>
+   <receiver>AhMainGui</receiver>
+   <slot>displayInventoryData(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>513</x>
+     <y>437</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>672</x>
+     <y>496</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <slots>
   <slot>chooseOption()</slot>
+  <slot>displayInventoryData(QListWidgetItem*)</slot>
  </slots>
 </ui>

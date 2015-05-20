@@ -19,6 +19,7 @@ protected:
 private:
     void handleRegisterPlayer();
     void handleStartGame();
+    void handleRequestObjects(const QVariant &reqsData);
 
 private:
     NetworkPlayer *m_player;

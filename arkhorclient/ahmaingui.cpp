@@ -3,6 +3,7 @@
 #include "ahboardscene.h"
 #include "connectionhandler.h"
 #include "flowlayout.h"
+#include "objectregistry.h"
 #include <QtGui>
 
 using namespace AH::Common;
@@ -10,7 +11,8 @@ using namespace AH::Common;
 AhMainGui::AhMainGui(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AhMainGui),
-    m_conn(NULL)
+    m_conn(NULL),
+    m_registry(NULL)
 {
     ui->setupUi(this);
 
@@ -31,6 +33,9 @@ AhMainGui::~AhMainGui()
 void AhMainGui::initConnection(ConnectionHandler *conn)
 {
     m_conn = conn;
+    m_registry = new ObjectRegistry(m_conn);
+
+    connect(m_registry, SIGNAL(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)), this, SLOT(updateObject(AH::Common::DescribeObjectsData::ObjectDescription)));
 
     // BOARD
     connect(m_conn, SIGNAL(boardContent(QVariantMap)), m_scene, SLOT(updateBoardFromData(QVariantMap)));
@@ -51,11 +56,32 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     // DIE ROLL
     connect(m_conn, SIGNAL(dieRollInfo(AH::Common::DieRollTestData)), this, SLOT(showDieRollInfo(AH::Common::DieRollTestData)));
     connect(ui->wgtDieRoll, SIGNAL(dieUpdateChosen(AH::Common::DieTestUpdateData)), this, SLOT(dieUpdateChosen(AH::Common::DieTestUpdateData)));
+
+}
+
+void AhMainGui::start()
+{
+    show();
+    m_registry->getObject(m_thisCharacterId, AH::Common::RequestObjectsData::Character);
 }
 
 void AhMainGui::displayItemInfo(const QString &id)
 {
     QMessageBox::information(this, "Info", id);
+    DescribeObjectsData::ObjectDescription d = m_registry->getObject(id);
+    if (d.first == RequestObjectsData::Unknown) {
+        m_pendingDisplayId = id;
+    } else {
+        m_pendingDisplayId = QString::null;
+    }
+}
+
+void AhMainGui::displayInventoryData(QListWidgetItem *itm)
+{
+    if (itm) {
+        QString id = itm->data(ObjectIdRole).toString();
+        displayItemInfo(id);
+    }
 }
 
 void AhMainGui::chooseOption(QList<GameOptionData> opts)
@@ -114,4 +140,33 @@ void AhMainGui::dieUpdateChosen(DieTestUpdateData upd)
 {
     m_conn->chooseDieRollUpdate(upd);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+}
+
+void AhMainGui::updateObject(DescribeObjectsData::ObjectDescription desc)
+{
+    if (desc.first == RequestObjectsData::Character) {
+        CharacterData c;
+        desc.second >> c;
+        updateCharacter(c);
+    }
+
+    if (!m_pendingDisplayId.isEmpty()) {
+        // TODO: Check if this is good this way...
+        displayItemInfo(m_pendingDisplayId);
+    }
+}
+
+void AhMainGui::updateCharacter(CharacterData c)
+{
+    if (c.id() == m_thisCharacterId) {
+        m_thisCharacter = c;
+        m_registry->getObjectsOfType(c.inventoryIds(), RequestObjectsData::Object);
+
+        ui->lstInventory->clear();
+        foreach (QString id, c.inventoryIds()) {
+            QListWidgetItem *itm = new QListWidgetItem(id);
+            itm->setData(ObjectIdRole, id);
+            ui->lstInventory->addItem(itm);
+        }
+    }
 }

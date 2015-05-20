@@ -1,6 +1,7 @@
 #include "clientconnection.h"
 #include "communication/networkplayer.h"
 #include "game/game.h"
+#include <objectdata.h>
 
 using namespace AH::Common;
 
@@ -29,6 +30,10 @@ void ClientConnection::receivedMessage(const Message &msg)
 
     case Message::C_START_GAME:
         handleStartGame();
+        break;
+
+    case Message::C_REQUEST_OBJECTS:
+        handleRequestObjects(msg.payload);
         break;
 
     default:
@@ -65,4 +70,15 @@ void ClientConnection::handleRegisterPlayer()
 void ClientConnection::handleStartGame()
 {
     gGame->invoke("start");
+}
+
+void ClientConnection::handleRequestObjects(const QVariant &reqsData)
+{
+    RequestObjectsData reqs;
+    reqsData >> reqs;
+
+    DescribeObjectsData descs = gGame->describeObjects(reqs);
+    QVariant v;
+    v << descs;
+    sendMessage(Message::S_DESCRIBE_OBJECTS, v);
 }

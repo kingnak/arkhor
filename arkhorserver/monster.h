@@ -11,6 +11,7 @@ public:
     Monster() : m_field(NULL) {}
     virtual ~Monster() {}
 
+    QString id() const { return "M_Dummy"; }
     QString name() const { return "Monster"; }
 
     GameField *field() { return m_field; }

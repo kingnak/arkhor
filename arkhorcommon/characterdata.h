@@ -15,6 +15,8 @@ namespace AH {
             CharacterData();
             virtual ~CharacterData() {}
 
+            virtual CharacterData *data() { return this; }
+
             QString id() const { return m_id; }
             QString investigatorId() const { return m_investigatorId; }
             int curStamina() const { return m_curStamina; }

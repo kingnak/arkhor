@@ -32,6 +32,10 @@ namespace AH{
                 S_GAME_STARTED,
 
                 S_BOARD_CONTENT,
+                S_CHARACTER_DATA,
+
+                C_REQUEST_OBJECTS,
+                S_DESCRIBE_OBJECTS,
 
                 S_CHOOSE_INVESTIGATOR,
                 C_SELECT_INVESTIGATOR,

@@ -14,6 +14,7 @@
 #include "gameboard.h"
 #include "gameregistry.h"
 #include "deck.hpp"
+#include <objectdata.h>
 
 class GamePhase;
 class GameBoard;
@@ -87,6 +88,11 @@ public:
     int getGateSealClueCost() const { return 5; }
 
     void boardDirty();
+    void characterDirty(Character *c);
+
+    Player *playerForCharacter(Character *c);
+
+    AH::Common::DescribeObjectsData describeObjects(const AH::Common::RequestObjectsData &reqs) const;
 
 protected:
     void initBoard();

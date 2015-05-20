@@ -32,6 +32,13 @@ void BroadcastNotifier::sendBoard(GameBoard *board)
     }
 }
 
+void BroadcastNotifier::sendCharacter(Character *c)
+{
+    foreach (Player *p, m_game->getPlayers()) {
+        p->sendCharacter(c);
+    }
+}
+
 void BroadcastNotifier::playerRemoved(Player *player)
 {
     foreach (Player *p, m_game->getPlayers()) {

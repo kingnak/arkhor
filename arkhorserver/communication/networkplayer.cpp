@@ -61,7 +61,7 @@ void NetworkPlayer::playerCharacterInstantiated(Player *p)
 {
     QVariantMap m;
     m["player"] << p->id();
-    m["character"] << p->getCharacter()->investigatorId();
+    m["character"] << p->getCharacter()->id();
     m_conn->sendMessage(Message::S_PLAYER_CHAR_INSTANTIATED, m);
 }
 
@@ -82,6 +82,13 @@ void NetworkPlayer::sendBoard(GameBoard *board)
         m[QString::number(f->id())] << *f->data();
     }
     m_conn->sendMessage(Message::S_BOARD_CONTENT, m);
+}
+
+void NetworkPlayer::sendCharacter(Character *c)
+{
+    QVariant v;
+    v << *(c->data());
+    m_conn->sendMessage(Message::S_CHARACTER_DATA, v);
 }
 
 void NetworkPlayer::nextRound()

@@ -18,6 +18,7 @@ public:
     void setField(GameField *f) { m_field = f; }
 
     Q_INVOKABLE void lockUntilNextRound();
+    Q_INVOKABLE bool hasMonsters() const { return m_field ? m_field->hasMonsters() : false; }
 
     Q_PROPERTY(quint32 type READ type)
     quint32 type() { return m_field ? m_field->type() : 0; }

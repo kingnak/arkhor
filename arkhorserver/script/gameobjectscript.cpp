@@ -89,6 +89,8 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
         }
     }
 
+    ret->m_attrs = GameScript::parseFlags<GameObjectData::ObjectAttributes>(data.property("attributes"), GameObjectData::None);
+
     ret->m_onAddFunc = data.property("onAddToInventory");
     ret->m_onRemoveFunc = data.property("onRemoveFromInventory");
 

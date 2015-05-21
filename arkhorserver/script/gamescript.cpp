@@ -155,6 +155,14 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         consts.setProperty("ObjectType", ot, QScriptValue::ReadOnly);
     }
 
+    // ObjectAttribute
+    {
+        QScriptValue oa = m_engine->newObject();
+        oa.setProperty("CannotBeLost", AH::Common::GameObjectData::CannotBeLost, QScriptValue::ReadOnly);
+        oa.setProperty("DiscardAfterAttack", AH::Common::GameObjectData::DiscardAfterAttack, QScriptValue::ReadOnly);
+        consts.setProperty("ObjectAttribute", oa, QScriptValue::ReadOnly);
+    }
+
     // Continue and Choose Type
     {
         QScriptValue ct = m_engine->newObject();

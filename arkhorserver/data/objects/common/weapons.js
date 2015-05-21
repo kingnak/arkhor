@@ -69,6 +69,18 @@ var cross = game.createObject({
 });
 game.registerMultiObject(2, cross);
 
+// Dynamite
+var dynamite = game.createObject({
+    tid: "CI_Dynamite",
+    name: "Dynamite",
+    type: Constants.ObjectType.CommonItem,
+    hands: 2,
+    price: 4,
+    modifications: { property: Constants.Mods.Damage_Physical, value: 8 },
+    attributes: Constants.ObjectAttribute.DiscardAfterAttack
+});
+game.registerMultiObject(2, dynamite);
+
 // Knife
 var knife = game.createObject({
 	tid: "CI_Knife",

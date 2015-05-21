@@ -36,18 +36,6 @@ var bullwhip = game.createObject({
 });
 game.registerMultiObject(2, bullwhip);
 
-// Dynamite
-var dynamite = game.createObject({
-	tid: "CI_Dynamite",
-	name: "Dynamite",
-	type: Constants.ObjectType.CommonItem,
-	hands: 2,
-	price: 4,
-	modifications: { property: Constants.Mods.Damage_Physical, value: 8 }
-	// TODO: discard after use
-});
-game.registerMultiObject(2, dynamite);
-
 // Lucky Cigarette Case
 var cigarette = game.createObject({
 	tid: "CI_Lucky_Cigarette_Case",

@@ -22,6 +22,7 @@ public:
 
 private:
     void filterEquipped(PropertyModificationList &lst);
+    void discardAfterAttack(PropertyModificationList &lst);
 
     FightPhase *m_fight;
     friend class AttackOption;

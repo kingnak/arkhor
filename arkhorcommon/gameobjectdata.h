@@ -19,7 +19,10 @@ namespace AH {
 
             enum ObjectAttribute {
                 None,
-                CannotBeLost = 0x0001
+                CannotBeLost = 0x0001,
+                DiscardAfterAttack = 0x0002,
+
+                ObjectAttribute_Max_Value_Sentinel
             };
             Q_DECLARE_FLAGS(ObjectAttributes, ObjectAttribute)
 

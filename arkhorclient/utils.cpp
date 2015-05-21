@@ -251,6 +251,29 @@ QString Utils::stringForObjectType(AH::GameObjectType t)
     return "";
 }
 
+QString Utils::stringForObjectAttribute(GameObjectData::ObjectAttribute a)
+{
+    switch (a)
+    {
+    case GameObjectData::None: return "";
+    case GameObjectData::CannotBeLost: return "Cannot be lost";
+    case GameObjectData::DiscardAfterAttack: return "Discard after attack";
+    }
+    return "";
+}
+
+QStringList Utils::stringsForObjectAttributes(GameObjectData::ObjectAttributes attrs)
+{
+    QStringList l;
+    for (int i = 1; i < GameObjectData::ObjectAttribute_Max_Value_Sentinel; i <<= 1) {
+        GameObjectData::ObjectAttribute a = static_cast<GameObjectData::ObjectAttribute> (i);
+        if (attrs.testFlag(a)) {
+            l << stringForObjectAttribute(a);
+        }
+    }
+    return l;
+}
+
 QString Utils::stringForPropertyModification(PropertyModificationData mod)
 {
     QString prop = stringForProperty(mod.affectedProperty());
@@ -286,15 +309,7 @@ QString Utils::stringForMythosType(MythosData::MythosType t, MythosData::Environ
     case MythosData::Rumor: return "Rumor";
     case MythosData::Environment:
     {
-        QString s;
-        switch (et) {
-        case MythosData::Env_Weather:
-            s = "Weather";
-            break;
-        case MythosData::Env_None:
-            break;
-        }
-
+        QString s = stringForMythosEnvironmentType(et);
         if (wrapSubType.isEmpty()) {
             wrapSubType = " (%1)";
         }
@@ -304,4 +319,15 @@ QString Utils::stringForMythosType(MythosData::MythosType t, MythosData::Environ
     default:
         return "";
     }
+}
+
+QString Utils::stringForMythosEnvironmentType(MythosData::EnvironmentType et)
+{
+    switch (et) {
+    case MythosData::Env_Weather:
+        return "Weather";
+    case MythosData::Env_None:
+        return "";
+    }
+    return "";
 }

@@ -50,7 +50,7 @@ void GameObjectWidget::displayGameObject(const AH::Common::GameObjectData *obj)
             l << Utils::stringForPropertyModification(mod);
         }
         ui->lblModifications->setText(l.join("\n"));
-        ui->lblAttributes->setText("");
+        ui->lblAttributes->setText(Utils::stringsForObjectAttributes(obj->getAttributes()).join("\n"));
         ui->lblPrice->setText(QString("$ %1").arg(obj->price()));
         ui->lblHands->setText(QString("%1 hands").arg(obj->handCount()));
         ui->lblImage->setPixmap(ResourcePool::instance()->loadObjectImage(obj->typeId(), obj->type()));

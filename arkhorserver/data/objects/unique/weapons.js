@@ -20,3 +20,16 @@ var encKnife = game.createObject({
 	modifications: { property: Constants.Mods.Damage_Magical, value: 3}
 });
 game.registerMultiObject(2, encKnife);
+
+// Holy Water
+var holyWater = game.createObject({
+    tid: "UI_Holy_Water",
+    name: "Holy Water",
+    description: "Discard after use",
+    type: Constants.ObjectType.UniqueItem,
+    hands: 2,
+    price: 4,
+    modifications: { property: Constants.Mods.Damage_Magical, value: 6},
+    attributes: Constants.ObjectAttribute.DiscardAfterAttack
+});
+game.registerMultiObject(4, holyWater);

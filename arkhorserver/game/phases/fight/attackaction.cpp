@@ -56,7 +56,12 @@ bool AttackAction::execute()
         m_fight->updatePhaseByResult(FightPhase::AttackFailed);
     }
 
-    // TODO: Call post-use methods for equipped objects
+    // TODO: Call post-use methods for equipped objects ==> Needed?
+
+    // Remove single use objects
+    discardAfterAttack(gen);
+    discardAfterAttack(mag);
+    discardAfterAttack(phy);
 
     return true;
 }
@@ -71,6 +76,32 @@ void AttackAction::filterEquipped(PropertyModificationList &lst)
             }
         }
         ++it;
+    }
+}
+
+void AttackAction::discardAfterAttack(PropertyModificationList &lst)
+{
+    // Collect which objects to discard
+    QList<const GameObject *> toDiscard;
+    foreach (PropertyModification p, lst) {
+        if (const GameObject *obj = dynamic_cast<const GameObject *> (p.getModifier())) {
+            if (obj->getAttributes().testFlag(GameObject::DiscardAfterAttack)) {
+                toDiscard << obj;
+            }
+        }
+    }
+
+    // Go through inventory and remove
+    foreach (const GameObject *obj, toDiscard) {
+        // Work on Inventory Copy
+        QList<GameObject *> inv = gGame->context().player()->getCharacter()->inventory();
+        inv.detach();
+        foreach (GameObject *iObj, inv) {
+            if (obj == iObj) {
+                // Remove it
+                gGame->returnObject(iObj);
+            }
+        }
     }
 }
 

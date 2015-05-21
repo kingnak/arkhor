@@ -76,6 +76,15 @@ QString Utils::stringForProperty(AH::Common::PropertyValueData::Property p)
     case PropertyValueData::Ignore_MonsterAttributes: return "Ignore Monster Attributes";
     case PropertyValueData::Ignore_PhysicalDamage: return "Ignore Physical Damage";
     case PropertyValueData::Ignore_MagicalDamage: return "Ignore Magical Damage";
+
+        // UNDEFINED VALUES:
+    case PropertyValueData::Game_CloseGeneralStoreTerrorLevel:
+    case PropertyValueData::Game_CloseCuriosityShoppeTerrorLevel:
+    case PropertyValueData::Game_CloseYeOldeMagickShoppeTerrorLevel:
+    case PropertyValueData::Game_OverrunArkhamTerrorLevel:
+    case PropertyValueData::Game_SealedGatesToWin:
+    case PropertyValueData::Game_GateTrophiesToWin:
+        break;
     }
     return "";
 }
@@ -197,8 +206,6 @@ QString Utils::stringForMonsterAttribute(MonsterData::MonsterAttribute a)
     case AH::Common::MonsterData::Overwhelming_3: return "Overwhelming 3";
 
     case AH::Common::MonsterData::MonsterAttribute_Max_Value_Sentinel:
-        return "";
-
     case AH::Common::MonsterData::Nightmarish_ALL:
     case AH::Common::MonsterData::Overwhelming_ALL:
         Q_ASSERT(false);
@@ -258,6 +265,9 @@ QString Utils::stringForObjectAttribute(GameObjectData::ObjectAttribute a)
     case GameObjectData::None: return "";
     case GameObjectData::CannotBeLost: return "Cannot be lost";
     case GameObjectData::DiscardAfterAttack: return "Discard after attack";
+
+    case GameObjectData::ObjectAttribute_Max_Value_Sentinel:
+        Q_ASSERT(false);
     }
     return "";
 }

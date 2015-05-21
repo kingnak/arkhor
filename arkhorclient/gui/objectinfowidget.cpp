@@ -11,15 +11,21 @@ using namespace AH::Common;
 ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
     QWidget(parent)
 {
-    m_stack = new QStackedWidget(this);
+    m_stack = new QStackedWidget;
     m_gate = new GateDataWidget;
     m_monster = new MonsterWidget;
     m_object = new GameObjectWidget;
 
-    m_stack->addWidget(new QWidget);
+    QWidget *nothing = new QWidget;
+    nothing->setMinimumSize(QSize(0,0));
+    nothing->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    m_stack->addWidget(nothing);
     m_stack->addWidget(m_gate);
     m_stack->addWidget(m_monster);
     m_stack->addWidget(m_object);
+
+    QHBoxLayout *l = new QHBoxLayout(this);
+    l->addWidget(m_stack);
 
     connect(ObjectRegistry::instance(), SIGNAL(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)), this, SLOT(receivedDescription(AH::Common::DescribeObjectsData::ObjectDescription)));
 }

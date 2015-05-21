@@ -31,8 +31,9 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_WIN
         baseDir = "D:\\priv\\proj\\ah.git\\arkhorserver\\data\\";
 #else
-        baseDir = "/home/kingnak/Projects/arkhor/arkhorserver/data/";
+        baseDir = "/home/kingnak/Projects/ah.git/arkhorserver/data/";
 #endif
+
     }
 #else
 #endif

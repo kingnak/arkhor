@@ -15,7 +15,20 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="GateWidget" name="wgtGate" native="true"/>
+    <widget class="GateWidget" name="wgtGate" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>160</width>
+       <height>160</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>160</width>
+       <height>160</height>
+      </size>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QFormLayout" name="formLayout">

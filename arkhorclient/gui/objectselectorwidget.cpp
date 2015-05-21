@@ -100,6 +100,9 @@ void ObjectSelectorWidget::describeItem(DescribeObjectsData::ObjectDescription d
         itm->setText(obj.name());
         break;
     }
+    default:
+        // Cannot select other types.
+        break;
     }
 }
 

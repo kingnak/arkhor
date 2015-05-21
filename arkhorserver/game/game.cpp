@@ -124,6 +124,8 @@ void Game::play()
     case GS_AwakeAncientOne:
         awakeAncientOne();
         break;
+    case GS_Continue:
+        Q_ASSERT_X(false, "Game::play()", "Should not be in continue state after main game");
     }
 }
 
@@ -1132,11 +1134,13 @@ Game::GameState Game::checkGameState()
 
 void Game::won(Game::GameState gs)
 {
+    Q_UNUSED(gs)
     m_notifier->notifyWon("You have won!");
 }
 
 void Game::lost(Game::GameState gs)
 {
+    Q_UNUSED(gs)
     m_notifier->notifyLost("You have lost!");
 }
 

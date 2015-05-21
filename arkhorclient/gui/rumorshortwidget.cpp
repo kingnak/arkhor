@@ -12,8 +12,10 @@ RumorShortWidget::RumorShortWidget(QWidget *parent) :
     m_name = new QLabel;
     m_name->setFont(ResourcePool::instance()->loadMainFont());
     m_name->setAlignment(Qt::AlignHCenter);
+    m_name->setWordWrap(true);
 
     m_shortDesc = new QLabel;
+    m_shortDesc->setWordWrap(true);
     m_dynProps = new QLabel;
 
     QVBoxLayout *l = new QVBoxLayout(this);

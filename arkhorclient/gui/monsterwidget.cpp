@@ -249,6 +249,7 @@ MonsterWidget::MonsterWidget(QWidget *parent) :
     ui(new Ui::MonsterWidget)
 {
     ui->setupUi(this);
+    displayMonster(NULL);
 }
 
 MonsterWidget::~MonsterWidget()

@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 #ifdef Q_OS_WIN
         baseDir = "D:/priv/proj/ah.git/res/";
 #else
-        baseDir = "/home/kingnak/Projects/arkhor/res/";
+        baseDir = "/home/kingnak/Projects/ah.git/res/";
 #endif
     }
 #endif

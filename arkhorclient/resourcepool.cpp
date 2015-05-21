@@ -157,6 +157,8 @@ QPixmap ResourcePool::loadObjectImage(QString id, AH::GameObjectType type)
             return QPixmap(":/core/images/blessing_card");
         else if (id.contains("CURSE"))
             return QPixmap(":/core/images/curse_card");
+    case AH::NoObject:
+        break;
     }
 
     return QPixmap();

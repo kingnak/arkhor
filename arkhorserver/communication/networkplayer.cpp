@@ -96,6 +96,13 @@ void NetworkPlayer::sendCharacter(Character *c)
     m_conn->sendMessage(Message::S_CHARACTER_DATA, v);
 }
 
+void NetworkPlayer::sendSetting(GameSettingData data)
+{
+    QVariant v;
+    v << data;
+    m_conn->sendMessage(Message::S_SETTING_DATA, v);
+}
+
 void NetworkPlayer::nextRound()
 {
     sendText("Next Round");

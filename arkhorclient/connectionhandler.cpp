@@ -172,6 +172,14 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         break;
     }
 
+    case AH::Common::Message::S_SETTING_DATA:
+    {
+        AH::Common::GameSettingData s;
+        msg.payload >> s;
+        emit settingUpdate(s);
+        break;
+    }
+
     case AH::Common::Message::S_CHARACTER_DATA:
     {
         AH::Common::CharacterData c;

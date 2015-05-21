@@ -14,6 +14,7 @@
 #include <encounterdata.h>
 #include <mythosdata.h>
 #include <choicedata.h>
+#include <gamesettingdata.h>
 #include <QListWidgetItem>
 #include "asyncobjectreceiver.h"
 
@@ -50,6 +51,8 @@ private slots:
     void displayItemInfo(const QString &id);
 
     void displayInventoryData(QListWidgetItem *itm);
+
+    void gameSettingUpdate(AH::Common::GameSettingData data);
 
     void chooseOption(QList<AH::Common::GameOptionData> opts);
     void optionChosen(QString id);

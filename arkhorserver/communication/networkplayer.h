@@ -31,6 +31,7 @@ public:
 
     virtual void sendBoard(GameBoard *board);
     virtual void sendCharacter(Character *c);
+    virtual void sendSetting(AH::Common::GameSettingData data);
 
     virtual void nextRound();
     virtual void gamePhaseChaned(AH::GamePhase phase);

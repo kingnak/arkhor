@@ -17,6 +17,7 @@
 #include "gate.h"
 #include "mythoscard.h"
 #include "ancientone.h"
+#include "gamesettingdata.h"
 #include <QThread>
 #include <QDebug>
 
@@ -30,7 +31,9 @@ Game::Game()
     m_ancientOne(NULL),
     m_nextPlayerId(0),
     m_started(false),
-    m_terrorLevel(1)
+    m_settingDirty(false),
+    m_terrorLevel(0),
+    m_nextSpecialActionNr(1)
 {
     Game::s_instance = this;
     m_registry = new GameRegistry;
@@ -289,8 +292,13 @@ bool Game::registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId)
 
 void Game::increaseTerrorLevel(int amount)
 {
-    m_terrorLevel += amount;
+    setTerrorLevel(m_terrorLevel + amount);
+}
 
+void Game::setTerrorLevel(int val)
+{
+    int amount = m_terrorLevel - val;
+    m_terrorLevel = val;
     int realTL = m_context.getGameProperty(PropertyValue::Game_TerrorLevel).finalVal();
 
     // Adjust so that real TL is never > 10
@@ -300,9 +308,7 @@ void Game::increaseTerrorLevel(int amount)
         realTL = m_context.getGameProperty(PropertyValue::Game_TerrorLevel).finalVal();
         Q_ASSERT(realTL == 10);
         int doomAdd = amount - diff;
-        for (int i = 0; i < doomAdd; ++i) {
-            // TODO: Increase doom
-        }
+        m_ancientOne->increaseDoomTrack(doomAdd);
     }
 
     if (realTL >= m_context.getGameProperty(PropertyValue::Game_CloseGeneralStoreTerrorLevel).finalVal()) {
@@ -336,6 +342,8 @@ void Game::increaseTerrorLevel(int amount)
     if (realTL >= m_context.getGameProperty(PropertyValue::Game_OverrunArkhamTerrorLevel).finalVal()) {
         overrunArkham();
     }
+
+    setSettingDirty();
 }
 
 Player *Game::getFirstPlayer()
@@ -650,6 +658,11 @@ void Game::commitUpdates()
         sendBoard();
     }
 
+    if (isSettingDirty()) {
+        setSettingDirty(false);
+        sendSetting();
+    }
+
     foreach (Character *c, m_registry->allCharacters()) {
         if (c->isDirty()) {
             c->setDirty(false);
@@ -708,6 +721,9 @@ AH::Common::DescribeObjectsData::ObjectDescription Game::describeObject(const AH
         Gate *g = m_registry->findGateById(r.second);
         if (g) return describeObject(qMakePair(AH::Common::RequestObjectsData::Gate, r.second));
 
+        MythosCard *mc = m_registry->findMythosById(r.second);
+        if (mc) return describeObject(qMakePair(AH::Common::RequestObjectsData::Mythos, r.second));
+
         // TODO: Extend
         break;
     }
@@ -751,6 +767,16 @@ AH::Common::DescribeObjectsData::ObjectDescription Game::describeObject(const AH
         }
         break;
     }
+    case AH::Common::RequestObjectsData::Mythos:
+    {
+        MythosCard *mc = m_registry->findMythosById(r.second);
+        if (mc) {
+            d.data << *(mc->data());
+            d.id = mc->id();
+            d.type = AH::Common::RequestObjectsData::Mythos;
+        }
+        break;
+    }
     //case AH::Common::RequestObjectsData::Board:
     //  break;
     }
@@ -784,6 +810,7 @@ bool Game::setRumor(MythosCard *r)
     if (r == NULL) {
         //returnMythos(m_rumor);
         m_rumor = NULL;
+        setSettingDirty();
         return true;
     }
     if (m_rumor) {
@@ -793,6 +820,7 @@ bool Game::setRumor(MythosCard *r)
         return false;
     }
     m_rumor = r;
+    setSettingDirty();
     return true;
 }
 
@@ -800,6 +828,7 @@ bool Game::setEnvironment(MythosCard *e)
 {
     if (m_environment) {
         returnMythos(m_environment);
+        setSettingDirty();
     }
     if (e) {
         if (e->type() != AH::Common::MythosData::Environment) {
@@ -807,7 +836,24 @@ bool Game::setEnvironment(MythosCard *e)
         }
     }
     m_environment = e;
+    setSettingDirty();
     return true;
+}
+
+int Game::getSpecialActionNumber()
+{
+    if (m_specialActionNrs.isEmpty()) {
+        m_specialActionNrs << m_nextSpecialActionNr++;
+    }
+    return m_specialActionNrs.takeFirst();
+}
+
+void Game::returnSpecialActionNumber(int nr)
+{
+    if (nr > 0) {
+        m_specialActionNrs << nr;
+        qSort(m_specialActionNrs);
+    }
 }
 
 // protected
@@ -1123,4 +1169,17 @@ void Game::cleanupDeactivatedPlayers()
 void Game::sendBoard()
 {
     m_notifier->sendBoard(m_board);
+}
+
+void Game::sendSetting()
+{
+    AH::Common::GameSettingData d;
+    d.setTerrorLevel(m_terrorLevel);
+    if (m_ancientOne)
+        d.setAncientOneId(m_ancientOne->id());
+    if (m_rumor)
+        d.setRumorId(m_rumor->id());
+    if (m_environment)
+        d.setEnvironmentId(m_environment->id());
+    m_notifier->sendSetting(d);
 }

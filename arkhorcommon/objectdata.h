@@ -17,6 +17,7 @@ namespace AH {
                 Monster,
                 Character,
                 Gate,
+                Mythos,
                 //Board
             };
 

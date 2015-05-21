@@ -22,11 +22,13 @@ void operator <<(QVariant &data, const MythosData &target)
     map["id"] << target.id();
     map["name"] << target.name();
     map["desc"] << target.description();
+    map["shortDesc"] << target.shortDescription();
     map["clueField"] << target.clueField();
     map["gateField"] << target.gateField();
     map["moveBlack"] << target.blackMovement();
     map["moveWhite"] << target.whiteMovement();
     map["properties"] << target.dynamicProperties();
+    map["modificaionts"] << target.getModificationData();
     data << map;
 }
 
@@ -39,10 +41,12 @@ void operator >>(const QVariant &data, MythosData &target)
     map["id"] >> target.m_id;
     map["name"] >> target.m_name;
     map["desc"] >> target.m_desc;
+    map["shortDesc"] >> target.m_shortDesc;
     map["clueField"] >> target.m_clueField;
     map["gateField"] >> target.m_gateField;
     map["moveBlack"] >> target.m_moveBlack;
     map["moveWhite"] >> target.m_moveWhite;
     map["properties"] >> target.m_dynProps;
+    map["modificaionts"] >> target.m_modsData;
 }
 }}

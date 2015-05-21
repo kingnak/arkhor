@@ -18,6 +18,7 @@ public:
 
     virtual void sendBoard(GameBoard *board);
     virtual void sendCharacter(Character *c);
+    virtual void sendSetting(AH::Common::GameSettingData data);
 
     virtual void playerRemoved(Player *p);
 

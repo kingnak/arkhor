@@ -82,7 +82,11 @@ bool MythosAction::execute()
     case AH::Common::MythosData::Rumor:
         if (gGame->setRumor(card)) {
             GameOption *opt = card->rumorFieldOption();
-            gGame->board()->field(card->rumorFieldId())->addFieldOption(opt);
+            if (opt) {
+                GameField *f = gGame->board()->field(card->rumorFieldId());
+                f->addFieldOption(opt);
+                f->setSpecialActionNr(gGame->getSpecialActionNumber());
+            }
             card->setupRumor();
         } else {
             gGame->returnMythos(card);

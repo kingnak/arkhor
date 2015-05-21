@@ -20,7 +20,8 @@ public:
     virtual void executeHeadline() = 0;
 
     // Environment
-    virtual PropertyModificationList getModifications() = 0;
+    virtual PropertyModificationList getModifications() const = 0;
+    virtual QList<AH::Common::PropertyModificationData> getModificationData() const;
 
     // Rumors
     virtual void onMythos() = 0;
@@ -45,6 +46,8 @@ protected:
     virtual void executeHeadline() = 0;
     */
 
+private:
+    void cleanup();
 };
 
 #endif // MYTHOSCARD_H

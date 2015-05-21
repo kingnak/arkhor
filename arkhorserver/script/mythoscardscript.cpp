@@ -27,6 +27,7 @@ MythosCardScript *MythosCardScript::createMythosCard(QScriptContext *ctx, QScrip
     ret->m_id = data.property("id").toString();
     ret->m_name = data.property("name").toString();
     ret->m_desc = data.property("description").toString();
+    ret->m_shortDesc = data.property("shortDescription").toString();
     ret->m_type = static_cast<MythosType> (data.property("type").toUInt32());
     ret->m_envType = static_cast<EnvironmentType> (data.property("environmentType").toUInt32());
     ret->m_clueField = static_cast<AH::Common::FieldData::FieldID> (data.property("clueField").toUInt32());
@@ -103,7 +104,7 @@ void MythosCardScript::executeHeadline()
     }
 }
 
-PropertyModificationList MythosCardScript::getModifications()
+PropertyModificationList MythosCardScript::getModifications() const
 {
     return PropertyModificationList();
 }
@@ -161,6 +162,11 @@ GameOption *MythosCardScript::rumorFieldOption()
 AH::Common::FieldData::FieldID MythosCardScript::rumorFieldId()
 {
     return m_rumorFieldId;
+}
+
+void MythosCardScript::dynamicPropertyChanged()
+{
+    gGame->invalidateObject(id());
 }
 
 bool MythosCardScript::verify(MythosCardScript *myth, QString *err)

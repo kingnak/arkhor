@@ -5,7 +5,8 @@ namespace AH { namespace Common {
 GameFieldData::GameFieldData()
 :   m_clues(0),
     m_sealed(false),
-    m_locked(false)
+    m_locked(false),
+    m_specialActionNr(0)
 {
 }
 
@@ -22,6 +23,7 @@ void operator <<(QVariant &data, const GameFieldData &target)
     map["characters"] << target.characterIds();
     map["monsters"] << target.monsterIds();
     map["gate"] << target.gateId();
+    map["specialActionNr"] << target.specialActionNumber();
     data << map;
 }
 
@@ -39,6 +41,7 @@ void operator >>(const QVariant &data, GameFieldData &target)
     map["characters"] >> target.m_characterIds;
     map["monsters"] >> target.m_monsterIds;
     map["gate"] >> target.m_gateId;
+    map["specialActionNr"] >> target.m_specialActionNr;
 }
 
 }}

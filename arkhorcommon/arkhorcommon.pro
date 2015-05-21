@@ -31,7 +31,8 @@ HEADERS += \
     gatedata.h \
     choicedata.h \
     dynamicpropertydata.h \
-    ancientonedata.h
+    ancientonedata.h \
+    gamesettingdata.h
 
 SOURCES += \
     communication/message.cpp \
@@ -57,4 +58,5 @@ SOURCES += \
     gatedata.cpp \
     choicedata.cpp \
     dynamicpropertydata.cpp \
-    ancientonedata.cpp
+    ancientonedata.cpp \
+    gamesettingdata.cpp

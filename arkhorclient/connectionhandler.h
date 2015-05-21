@@ -15,6 +15,7 @@
 #include <encounterdata.h>
 #include <mythosdata.h>
 #include <choicedata.h>
+#include <gamesettingdata.h>
 
 class ConnectionHandler : public QObject
 {
@@ -72,6 +73,7 @@ signals:
 
     void boardContent(QVariantMap boardMap);
     void characterUpdate(AH::Common::CharacterData c);
+    void settingUpdate(AH::Common::GameSettingData d);
 
     void objectDescriptions(AH::Common::DescribeObjectsData descs);
     void objectInvalidations(QStringList lst);

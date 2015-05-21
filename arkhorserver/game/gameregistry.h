@@ -45,6 +45,7 @@ public:
     Character *findCharacterById(QString id);
     Monster *findMonsterById(QString id);
     Gate *findGateById(QString id);
+    MythosCard *findMythosById(QString id);
 
     const GameObject *findObjectPrototypeByType(QString tid);
     GameObject *findObjectInstanceByType(QString tid);

@@ -30,6 +30,9 @@ namespace AH {
 
             int clueAmount() const { return m_clues; }
 
+            virtual bool hasSpecialAction() const { return m_specialActionNr != 0; }
+            virtual int specialActionNumber() const { return m_specialActionNr; }
+
         protected:
             FieldData::FieldID m_id;
             QString m_name;
@@ -37,6 +40,7 @@ namespace AH {
             int m_clues;
             bool m_sealed;
             bool m_locked;
+            int m_specialActionNr;
 
             QStringList m_characterIds;
             QStringList m_monsterIds;

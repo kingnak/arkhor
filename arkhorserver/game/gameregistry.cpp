@@ -209,6 +209,11 @@ Gate *GameRegistry::findGateById(QString id)
     return m_gates.value(id);
 }
 
+MythosCard *GameRegistry::findMythosById(QString id)
+{
+    return m_mythosCards.value(id);
+}
+
 QList<GameObject *> GameRegistry::allObjects()
 {
     return m_objects.values();

@@ -38,6 +38,7 @@ namespace AH{
 
                 S_BOARD_CONTENT,
                 S_CHARACTER_DATA,
+                S_SETTING_DATA,
 
                 C_REQUEST_OBJECTS,
                 S_DESCRIBE_OBJECTS,

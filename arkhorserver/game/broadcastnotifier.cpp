@@ -41,6 +41,13 @@ void BroadcastNotifier::sendCharacter(Character *c)
     }
 }
 
+void BroadcastNotifier::sendSetting(AH::Common::GameSettingData data)
+{
+    foreach (Player *p, m_game->getPlayers()) {
+        p->sendSetting(data);
+    }
+}
+
 void BroadcastNotifier::playerRemoved(Player *player)
 {
     foreach (Player *p, m_game->getPlayers()) {

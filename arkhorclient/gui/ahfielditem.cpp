@@ -100,6 +100,11 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
             m_specialMarker->setPixmap(QPixmap(":/core/marker/location_locked"));
             m_specialMarker->setVisible(true);
         }
+        if (data.hasSpecialAction()) {
+            // TODO: set marker according to number...
+            m_specialMarker->setPixmap(QPixmap(":/core/marker/activity_1").scaled(SPECLIAL_ITEM_SIZE, SPECLIAL_ITEM_SIZE));
+            m_specialMarker->setVisible(true);
+        }
     }
 }
 

@@ -5,6 +5,7 @@
 #include <QList>
 #include <QString>
 #include <QEvent>
+#include <gamesettingdata.h>
 
 class Player;
 class Game;
@@ -29,6 +30,7 @@ public:
 
     virtual void sendBoard(GameBoard *board) = 0;
     virtual void sendCharacter(Character *c) = 0;
+    virtual void sendSetting(AH::Common::GameSettingData data) = 0;
 
     virtual void nextRound() = 0;
     virtual void gamePhaseChaned(AH::GamePhase phase) = 0;

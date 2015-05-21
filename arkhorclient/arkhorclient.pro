@@ -35,7 +35,9 @@ HEADERS += \
     gui/choicewidget.h \
     gui/objectinfowidget.h \
     gui/paymentselectorwidget.h \
-    gui/stringchoiceselectorwidget.h
+    gui/stringchoiceselectorwidget.h \
+    gui/rumorshortwidget.h \
+    gui/environmentshortwidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -69,7 +71,9 @@ SOURCES += \
     gui/choicewidget.cpp \
     gui/objectinfowidget.cpp \
     gui/paymentselectorwidget.cpp \
-    gui/stringchoiceselectorwidget.cpp
+    gui/stringchoiceselectorwidget.cpp \
+    gui/rumorshortwidget.cpp \
+    gui/environmentshortwidget.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

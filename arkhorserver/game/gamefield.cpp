@@ -58,6 +58,14 @@ void GameField::setGate(Gate *p)
     gGame->boardDirty();
 }
 
+void GameField::setSealed(bool sealed)
+{
+    if (m_sealed != sealed) {
+        m_sealed = sealed;
+        gGame->boardDirty();
+    }
+}
+
 void GameField::lock(quint32 lockFlag)
 {
     if (lockFlag != 0 && (m_lockFlags & lockFlag) == 0) {
@@ -79,6 +87,23 @@ void GameField::unlock(quint32 lockFlag)
 bool GameField::isLocked() const
 {
     return m_lockFlags != 0;
+}
+
+void GameField::setSpecialActionNr(int nr)
+{
+    if (nr != m_specialActionNr) {
+        m_specialActionNr = nr;
+        gGame->boardDirty();
+    }
+}
+
+void GameField::unsetSpecialActionNr()
+{
+    if (m_specialActionNr) {
+        gGame->returnSpecialActionNumber(m_specialActionNr);
+        m_specialActionNr = 0;
+        gGame->boardDirty();
+    }
 }
 
 bool GameField::isConnectedTo(GameField *other) const

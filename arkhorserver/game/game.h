@@ -58,8 +58,10 @@ public:
 
     int terrorLevel() const { return m_terrorLevel; }
     void increaseTerrorLevel(int amount = 1);
-    void setTerrorLevel(int val) { m_terrorLevel = val; }
+    void setTerrorLevel(int val);
 
+    void setSettingDirty(bool dirty = true) { m_settingDirty = dirty; }
+    bool isSettingDirty() const { return m_settingDirty; }
     /*
     enum RegisteredType {
         RT_None,
@@ -141,6 +143,9 @@ public:
     bool setEnvironment(MythosCard *e);
     MythosCard *environment() { return m_environment; }
 
+    int getSpecialActionNumber();
+    void returnSpecialActionNumber(int nr);
+
 protected:
     void initBoard();
     void initDecks();
@@ -184,6 +189,7 @@ private:
     void cleanupDeactivatedPlayers();
 
     void sendBoard();
+    void sendSetting();
 
 private:
     enum {
@@ -228,7 +234,11 @@ private:
     int m_nextPlayerId;
     bool m_started;
 
+    bool m_settingDirty;
     int m_terrorLevel;
+
+    QList<int> m_specialActionNrs;
+    int m_nextSpecialActionNr;
 
     mutable QReadWriteLock m_lock;
 };

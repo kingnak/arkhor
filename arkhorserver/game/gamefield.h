@@ -33,7 +33,7 @@ public:
     void removeGate(Gate *p);
     void setGate(Gate *p);
 
-    void setSealed(bool sealed) { m_sealed = sealed; }
+    void setSealed(bool sealed);
 
     void lock(quint32 lockFlag);
     void unlock(quint32 lockFlag);
@@ -46,6 +46,9 @@ public:
     QList<GameOption *> getFieldOptions() { return m_options; }
     void addFieldOption(GameOption *o) { m_options.append(o); }
     void removeFieldOption(GameOption *o) { m_options.removeAll(o); }
+
+    void setSpecialActionNr(int nr);
+    void unsetSpecialActionNr();
 
     bool isConnectedTo(GameField *other) const;
     bool isConnectedTo(int other) const;

@@ -37,6 +37,9 @@ game.registerMythosCard(game.createMythosCard({
         "<b>Mythos Phase</b>, return this card to the box. Each player must lower either their "+
         "maximum Sanity or Stamina (their choice) by 1 for the rest of the game.",
 
+    shortDescription: "<b>Pass:</b> Spend 5 Clues at Ma's Boarding House\n"+
+                      "<b>Fail:</b> No Allies are remaining",
+
     //clueField: Constants.Fields.DT_ArkhamAsylum,
     //gateField: Constants.Fields.DT_IndependenceSquare,
     //moveBlack: Constants.Dimension.Square,
@@ -45,14 +48,11 @@ game.registerMythosCard(game.createMythosCard({
     rumorField: Constants.Fields.SS_MasBoardingHouse,
     rumorFieldOptionId: stranglerFieldOption.id,
     setupRumor: function() {
-        debugger;
         this.allyCount = game.cardsOnDeck(Constants.ObjectType.Ally);
     },
     teardownRumor: function() {
-        debugger;
     },
     onMythos: function() {
-        debugger;
         var ally = game.drawSingleObject(Constants.ObjectType.Ally);
         this.allyCount = game.cardsOnDeck(Constants.ObjectType.Ally);
         if (!ally) {

@@ -40,7 +40,7 @@ public:
     virtual void executeHeadline();
 
     // Environment
-    virtual PropertyModificationList getModifications();
+    virtual PropertyModificationList getModifications() const;
 
     // Rumors
     virtual void onMythos();
@@ -54,6 +54,9 @@ public:
 signals:
 
 public slots:
+
+protected:
+    virtual void dynamicPropertyChanged();
 
 private:
     static bool verify(MythosCardScript *myth, QString *err = NULL);

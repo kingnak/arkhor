@@ -26,6 +26,8 @@ AhMainGui::AhMainGui(QWidget *parent) :
 
     connect(m_scene, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtDieRoll, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
+    connect(ui->wgtRumor, SIGNAL(rumorInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
+    connect(ui->wgtEnvironment, SIGNAL(environmentInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
 }
 
 AhMainGui::~AhMainGui()
@@ -44,6 +46,9 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
 
     // BOARD
     connect(m_conn, SIGNAL(boardContent(QVariantMap)), m_scene, SLOT(updateBoardFromData(QVariantMap)));
+
+    // SETTING
+    connect(m_conn, SIGNAL(settingUpdate(AH::Common::GameSettingData)), this, SLOT(gameSettingUpdate(AH::Common::GameSettingData)));
 
     // OPTION
     connect(m_conn, SIGNAL(chooseOption(QList<AH::Common::GameOptionData>)), this, SLOT(chooseOption(QList<AH::Common::GameOptionData>)));
@@ -122,6 +127,13 @@ void AhMainGui::displayInventoryData(QListWidgetItem *itm)
         QString id = itm->data(ObjectIdRole).toString();
         displayItemInfo(id);
     }
+}
+
+void AhMainGui::gameSettingUpdate(GameSettingData data)
+{
+    // TODO: Display Terror Level and Ancient One
+    ui->wgtRumor->displayRumor(data.rumorId());
+    ui->wgtEnvironment->displayEnvironment(data.environmentId());
 }
 
 /*

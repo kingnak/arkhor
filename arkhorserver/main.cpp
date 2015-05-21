@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 //#error ok
     if (!QDir(baseDir).exists()) {
 #ifdef Q_OS_WIN
-        baseDir = "D:\\priv\\proj\\arkhor\\arkhor\\arkhorserver\\data\\";
+        baseDir = "D:\\priv\\proj\\ah.git\\arkhorserver\\data\\";
 #else
         baseDir = "/home/kingnak/Projects/arkhor/arkhorserver/data/";
 #endif

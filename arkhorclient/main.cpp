@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 #ifdef _DEBUG
     if (!QDir(baseDir).exists()) {
 #ifdef Q_OS_WIN
-        baseDir = "D:/priv/proj/arkhor/arkhor/res/";
+        baseDir = "D:/priv/proj/ah.git/res/";
 #else
         baseDir = "/home/kingnak/Projects/arkhor/res/";
 #endif

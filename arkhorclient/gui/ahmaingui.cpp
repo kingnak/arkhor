@@ -26,6 +26,7 @@ AhMainGui::AhMainGui(QWidget *parent) :
 
     connect(m_scene, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtDieRoll, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
+    connect(ui->wgtAncientOne, SIGNAL(ancientOneInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtRumor, SIGNAL(rumorInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtEnvironment, SIGNAL(environmentInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
 }
@@ -131,7 +132,8 @@ void AhMainGui::displayInventoryData(QListWidgetItem *itm)
 
 void AhMainGui::gameSettingUpdate(GameSettingData data)
 {
-    // TODO: Display Terror Level and Ancient One
+    // TODO: Display Terror Level
+    ui->wgtAncientOne->displayAncientOne(data.ancientOneId());
     ui->wgtRumor->displayRumor(data.rumorId());
     ui->wgtEnvironment->displayEnvironment(data.environmentId());
 }

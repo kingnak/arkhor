@@ -37,7 +37,8 @@ HEADERS += \
     gui/paymentselectorwidget.h \
     gui/stringchoiceselectorwidget.h \
     gui/rumorshortwidget.h \
-    gui/environmentshortwidget.h
+    gui/environmentshortwidget.h \
+    gui/ancientoneshortwidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -73,7 +74,8 @@ SOURCES += \
     gui/paymentselectorwidget.cpp \
     gui/stringchoiceselectorwidget.cpp \
     gui/rumorshortwidget.cpp \
-    gui/environmentshortwidget.cpp
+    gui/environmentshortwidget.cpp \
+    gui/ancientoneshortwidget.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -96,7 +98,8 @@ FORMS += \
     gui/gameobjectwidget.ui \
     gui/mythosdatawidget.ui \
     gui/objectselectorwidget.ui \
-    gui/choicewidget.ui
+    gui/choicewidget.ui \
+    gui/ancientoneshortwidget.ui
 
 RESOURCES += \
     client_resources.qrc

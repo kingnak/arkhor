@@ -214,6 +214,11 @@ MythosCard *GameRegistry::findMythosById(QString id)
     return m_mythosCards.value(id);
 }
 
+AncientOne *GameRegistry::findAncientOneById(QString id)
+{
+    return m_ancientOnes.value(id);
+}
+
 QList<GameObject *> GameRegistry::allObjects()
 {
     return m_objects.values();

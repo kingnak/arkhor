@@ -481,7 +481,8 @@ bool Game::createGate(GameField *field)
 
         return false;
     } else {
-        // TODO: place doom token
+        // Place doom token
+        m_ancientOne->increaseDoomTrack();
 
         // Create gate
         int adj = RandomSource::instance().nextUint(0, 4)-2;
@@ -665,6 +666,11 @@ void Game::commitUpdates()
         sendSetting();
     }
 
+    if (m_ancientOne->isDirty()) {
+        m_ancientOne->setDirty(false);
+        m_invalidatedObjects << m_ancientOne->id();
+    }
+
     foreach (Character *c, m_registry->allCharacters()) {
         if (c->isDirty()) {
             c->setDirty(false);
@@ -726,6 +732,9 @@ AH::Common::DescribeObjectsData::ObjectDescription Game::describeObject(const AH
         MythosCard *mc = m_registry->findMythosById(r.second);
         if (mc) return describeObject(qMakePair(AH::Common::RequestObjectsData::Mythos, r.second));
 
+        AncientOne *ao = m_registry->findAncientOneById(r.second);
+        if (ao) return describeObject(qMakePair(AH::Common::RequestObjectsData::AncientOne, r.second));
+
         // TODO: Extend
         break;
     }
@@ -776,6 +785,16 @@ AH::Common::DescribeObjectsData::ObjectDescription Game::describeObject(const AH
             d.data << *(mc->data());
             d.id = mc->id();
             d.type = AH::Common::RequestObjectsData::Mythos;
+        }
+        break;
+    }
+    case AH::Common::RequestObjectsData::AncientOne:
+    {
+        AncientOne *ao = m_registry->findAncientOneById(r.second);
+        if (ao) {
+            d.data << *(ao->data());
+            d.id = ao->id();
+            d.type = AH::Common::RequestObjectsData::AncientOne;
         }
         break;
     }
@@ -932,6 +951,7 @@ void Game::chooseAncientOne()
     // TODO: Let user decide?
     m_ancientOnePool.shuffle();
     m_ancientOne = m_ancientOnePool.draw();
+    setSettingDirty(true);
 }
 
 void Game::initInvestigators()

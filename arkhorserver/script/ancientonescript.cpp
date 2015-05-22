@@ -22,6 +22,7 @@ AncientOneScript *AncientOneScript::createAncientOne(QScriptContext *ctx, QScrip
     ret->m_name = data.property("name").toString();
     ret->m_combatAdjustment = data.property("combatAdjustment").toInt32();
     ret->m_worshippersText = data.property("worshippersText").toString();
+    ret->m_powerTitle = data.property("powerTitle").toString();
     ret->m_powerText = data.property("powerText").toString();
     ret->m_battleStartText = data.property("battleStartText").toString();
     ret->m_attackText = data.property("attackText").toString();

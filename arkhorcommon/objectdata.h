@@ -18,6 +18,7 @@ namespace AH {
                 Character,
                 Gate,
                 Mythos,
+                AncientOne,
                 //Board
             };
 

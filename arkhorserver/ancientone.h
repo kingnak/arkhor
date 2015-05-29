@@ -4,6 +4,8 @@
 #include <ancientonedata.h>
 #include "game/propertymodifier.h"
 
+class Character;
+
 class AncientOne : public AH::Common::AncientOneData
 {
 public:
@@ -22,10 +24,19 @@ public:
 
     virtual void awake();
 
+    virtual void attack() = 0;
+    virtual void newAttackRound();
+
+    void damage(int amount);
+
+    virtual void decreaseAttackAdjustment(int amount) { m_attackAdjustment -= amount; setDirty(); }
+
 protected:
     bool m_awake;
     bool m_dirty;
 
+    int m_damageThreshold;
+    int m_damage;
 };
 
 #endif // ANCIENTONE_H

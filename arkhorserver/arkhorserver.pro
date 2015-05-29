@@ -93,7 +93,9 @@ HEADERS += \
     game/actions/castspellaction.h \
     script/dynamicpropertyscript.h \
     ancientone.h \
-    script/ancientonescript.h
+    script/ancientonescript.h \
+    game/phases/ancientoneattack.h \
+    game/phases/attackancientonephase.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -180,7 +182,9 @@ SOURCES += \
     game/actions/castspellaction.cpp \
     script/dynamicpropertyscript.cpp \
     ancientone.cpp \
-    script/ancientonescript.cpp
+    script/ancientonescript.cpp \
+    game/phases/ancientoneattack.cpp \
+    game/phases/attackancientonephase.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
@@ -237,4 +241,5 @@ OTHER_FILES += \
     data/objects/unique/weapons.js \
     data/objects/test.js \
     data/mythos/rumor.js \
-    data/ancientone/azathoth.js
+    data/ancientone/azathoth.js \
+    data/ancientone/hastur.js

@@ -350,9 +350,17 @@ void Character::insane()
 
 void Character::devour()
 {
-    // TODO: Check for anciant one fight
-    //if (gGame->context().phase() ==)
-    // TODO
+    // Check for anciant one fight
+    if (gGame->context().phase() == AH::EndFightPhase) {
+        // KILL HIM!
+        gGame->killPlayer(gGame->context().player());
+        return;
+    }
+
+    // Simply replace investigator
+    gGame->returnInvestigator(investigator());
+    Investigator *newInv = gGame->drawInvestigator();
+    gGame->replacePlayerCharacter(gGame->playerForCharacter(this), newInv);
 }
 
 void Character::lostInSpaceAndTime()

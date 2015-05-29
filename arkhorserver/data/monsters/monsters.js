@@ -1,4 +1,29 @@
 
+// TEST
+var m = game.createMonster({
+  id: "MO_TEST",
+  name: "TEST",
+  description: "If you lose a Combat check against TEST, you are devoured",
+  //dimension: Constants.Dimension.Circle,
+  movementType: Constants.Movement.Stationary,
+  awareness: -2,
+  horrorAdjustment: -1,
+  horrorDamage: 1,
+  combatAdjustment: -2,
+  combatDamage: 2,
+  toughness: 1,
+  onDamage: function(type, chr) {
+      if (type == Constants.MonsterDamage.Combat) {
+        chr.devour();
+        return false;
+      }
+  }
+  //attributes:
+});
+game.registerMonster(3, m);
+
+
+
 // BYAKHEE
 var m = game.createMonster({
   id: "MO_BYAKHEE",

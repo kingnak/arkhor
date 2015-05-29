@@ -48,11 +48,14 @@ public slots:
     void refitGui();
 
 private slots:
+    void characterInstantiated(QString playerId, QString characterId);
+
     void displayItemInfo(const QString &id);
 
     void displayInventoryData(QListWidgetItem *itm);
 
     void gameSettingUpdate(AH::Common::GameSettingData data);
+
 
     void chooseOption(QList<AH::Common::GameOptionData> opts);
     void optionChosen(QString id);

@@ -14,6 +14,7 @@ public:
     bool isInstantiated() const { return m_isInstantiated; }
     virtual Character *instantiate();
     //void setInstantiated( bool instantiated ) { m_instantiated = instantiated; }
+    void reset() { m_isInstantiated = false; }
 
     bool resolveDependecies(GameRegistry *reg) const;
 

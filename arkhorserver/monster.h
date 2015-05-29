@@ -25,6 +25,7 @@ public:
     int baseCombatAdjustment() const { return m_combatAdjustment; }
     int baseCombatDamage() const { return m_combatDamage; }
     int baseToughness() const { return m_toughness; }
+    MovementType baseMovement() const { return m_movement; }
 
     virtual int awareness() const;
     virtual int horrorAdjustment() const;
@@ -32,6 +33,7 @@ public:
     virtual int combatAdjustment() const;
     virtual int combatDamage() const;
     virtual int toughness() const;
+    virtual MovementType movementType() const;
 
     void setDimension(AH::Dimension dim) { m_dimension = dim; }
 

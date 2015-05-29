@@ -5,6 +5,8 @@
 #include "phases/arkhamencoutery.h"
 #include "phases/otherworldencountery.h"
 #include "phases/mythos.h"
+#include "phases/ancientoneattack.h"
+#include "phases/attackancientonephase.h"
 #include "gameboard.h"
 #include "player.h"
 #include "investigator.h"
@@ -62,7 +64,9 @@ void Game::initPhases()
         << new Movement(this)
         << new ArkhamEncoutery(this)
         << new OtherWorldEncountery(this)
-        << new Mythos(this);
+        << new Mythos(this)
+        << new AttackAncientOnePhase(this)
+        << new AncientOneAttackPhase(this);
 }
 
 void Game::start()
@@ -149,6 +153,7 @@ bool Game::registerInvestigator(Investigator *i)
         qCritical() << "Error registering investigator";
         return false;
     }
+    m_investigators.addCard(i);
     return true;
 }
 
@@ -157,6 +162,23 @@ QList<Investigator *> Game::allInvestigators() const
     QReadLocker l(&m_lock);
     //return m_investigators.values();
     return m_registry->allInvestigators();
+}
+
+Investigator *Game::drawInvestigator()
+{
+    m_investigators.shuffle();
+    return m_investigators.draw();
+}
+
+Investigator *Game::drawSpecificInvestigator(QString id)
+{
+    return m_investigators.drawSpecificById(id);
+}
+
+void Game::returnInvestigator(Investigator *i)
+{
+    if (i) i->reset();
+    m_investigators.returnToDeck(i);
 }
 
 bool Game::registerCharacter(Character *c)
@@ -379,6 +401,12 @@ void Game::removePlayer(Player *p)
     if (p) {
         p->deactivate();
     }
+}
+
+void Game::killPlayer(Player *p)
+{
+    m_notifier->notifyDied(p);
+    removePlayer(p);
 }
 
 void Game::returnMonster(Monster *m)
@@ -934,7 +962,7 @@ void Game::initMonsters()
             m_board->field(AH::Common::FieldData::Sp_Outskirts)->placeMonster(m);
     }
     */
-    //m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_MANIAC"));
+    m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_TEST"));
 }
 
 void Game::chooseInvestigators()
@@ -959,39 +987,13 @@ void Game::initInvestigators()
     // FIXED POSSESSION
     foreach (Character *c, m_registry->allCharacters())
     {
-        // Will be dirty after all of this...
-        c->setDirty();
-        foreach (QString tid, c->investigator()->fixedPossesionObjectIds())
-        {
-            GameObject *obj = NULL;
-            const GameObject *proto = m_registry->findObjectPrototypeByType(tid);
-            if (proto) {
-                obj = m_objectDecks[proto->type()].drawSpecificByTypeId(tid);
-                if (obj) {
-                    c->addToInventory(obj);
-                } else {
-                    qWarning() << "Cannot resolve fixed possession: No more objects of type" << tid;
-                }
-            } else {
-                qCritical() << "Cannot resolve fixed possession: Object type" << tid << "not registered";
-            }
-        }
+        initCharacterFixedPossession(c);
     }
 
     // RANDOM POSSESSION
     foreach (Character *c, m_registry->allCharacters())
     {
-        foreach (AH::ObjectTypeCount otc, c->investigator()->randomPossesions()) {
-            // TODO: MUST BE INTERACTION! IF THERE IS A SPECIAL ABILITY BY INVESTIGATOR,
-            // HE MIGHT CHOOSE FROM VARIOUS CARDS!
-            for (int i = 0; i < otc.amount; ++i) {
-                GameObject *obj = m_objectDecks[otc.type].draw();
-                if (obj)
-                    c->addToInventory(obj);
-                else
-                    qWarning() << "No more objects available for random possessions";
-            }
-        }
+        initCharacterRandomPossession(c);
     }
 
     // START FIELD
@@ -1011,30 +1013,104 @@ void Game::initInvestigators()
     }
 }
 
+void Game::initCharacterFixedPossession(Character *c)
+{
+    // Will be dirty after all of this...
+    c->setDirty();
+
+    foreach (QString tid, c->investigator()->fixedPossesionObjectIds())
+    {
+        GameObject *obj = NULL;
+        const GameObject *proto = m_registry->findObjectPrototypeByType(tid);
+        if (proto) {
+            obj = m_objectDecks[proto->type()].drawSpecificByTypeId(tid);
+            if (obj) {
+                c->addToInventory(obj);
+            } else {
+                qWarning() << "Cannot resolve fixed possession: No more objects of type" << tid;
+            }
+        } else {
+            qCritical() << "Cannot resolve fixed possession: Object type" << tid << "not registered";
+        }
+    }
+}
+
+void Game::initCharacterRandomPossession(Character *c)
+{
+    // Will be dirty after all of this...
+    c->setDirty();
+
+    foreach (AH::ObjectTypeCount otc, c->investigator()->randomPossesions()) {
+        // TODO: MUST BE INTERACTION! IF THERE IS A SPECIAL ABILITY BY INVESTIGATOR,
+        // HE MIGHT CHOOSE FROM VARIOUS CARDS!
+        for (int i = 0; i < otc.amount; ++i) {
+            GameObject *obj = m_objectDecks[otc.type].draw();
+            if (obj)
+                c->addToInventory(obj);
+            else
+                qWarning() << "No more objects available for random possessions";
+        }
+    }
+}
+
+void Game::replacePlayerCharacter(Player *p, Investigator *i)
+{
+    Character *oldChar = p->getCharacter();
+
+    // Return everything character possesses
+    QList<GameObject *> inv = oldChar->inventory();
+    inv.detach();
+    foreach (GameObject *obj, inv) {
+        returnObject(obj);
+    }
+
+    // Instantiate new character and set it
+    Character *newChar = i->instantiate();
+    p->setCharacter(newChar);
+    registerCharacter(newChar);
+
+    // Remove old character
+    oldChar->field()->removeCharacter(oldChar);
+    m_registry->removeCharacter(oldChar);
+    delete oldChar;
+
+    // Initialize new character
+    initCharacterFixedPossession(newChar);
+    initCharacterRandomPossession(newChar);
+    m_board->field(newChar->investigator()->startFieldId())->placeCharacter(newChar);
+
+    p->playerCharacterInstantiated(p);
+
+    // Initial Focus again
+    FocusAction fa;
+    int amount = 100;
+    fa.executeOnPlayer(p, amount);
+}
+
 //private below:
 
 void Game::upkeep()
 {
     m_notifier->gamePhaseChaned(AH::Upkeep);
-    executePlayerPhase(UpkeepIndex, AH::Upkeep);
+    executePlayerPhase(m_phases[UpkeepIndex], AH::Upkeep);
 }
 
 void Game::movement()
 {
     m_notifier->gamePhaseChaned(AH::Movement);
-    executePlayerPhase(MovementIndex, AH::Movement);
+    executePlayerPhase(m_phases[MovementIndex], AH::Movement);
 }
 
 void Game::arkhamEncountery()
 {
     m_notifier->gamePhaseChaned(AH::ArkhamEncountery);
-    executePlayerPhase(ArkhamEncounteryIndex, AH::ArkhamEncountery);
+    executePlayerPhase(m_phases[ArkhamEncounteryIndex], AH::ArkhamEncountery);
 }
 
 void Game::otherWorldEncountery()
 {
     m_notifier->gamePhaseChaned(AH::OtherWorldEncountery);
-    executePlayerPhase(OtherWorldEncounteryIndex, AH::OtherWorldEncountery);
+    executePlayerPhase(m_phases[OtherWorldEncounteryIndex], AH::OtherWorldEncountery);
 }
 
 void Game::mythos()
@@ -1045,26 +1121,29 @@ void Game::mythos()
     m_phases[MythosIndex]->execute();
 }
 
-void Game::executePlayerPhase(int idx, AH::GamePhase phase)
+void Game::attackAncientOne()
+{
+    executePlayerPhase(m_phases[AttackAncientOneIndex], AH::EndFightPhase);
+}
+
+void Game::ancientOneAttack()
+{
+    // Not a player phase
+    foreach (Player *p, m_playerList) {
+        if (p->isActive()) {
+            m_context = GameContext(this, p, NULL, AH::EndFightPhase);
+            m_phases[AncientOneAttackIndex]->execute();
+        }
+    }
+}
+
+void Game::executePlayerPhase(GamePhase *ph, AH::GamePhase phase)
 {
     foreach (Player *p, m_registry->allPlayers()) {
         m_notifier->currentPlayerChanged(p);
         m_context = GameContext(this, p, NULL, phase);
-        m_phases[idx]->execute();
+        ph->execute();
     }
-    /*
-    PlayerMap::iterator it = m_firstPlayer;
-    do {
-        Player *p = it.value();
-        m_notifier->currentPlayerChanged(p);
-        m_context = GameContext(this, p, NULL, phase);
-        m_phases[idx]->execute();
-        ++it;
-        if (it == m_player.end()) {
-            it = m_player.begin();
-        }
-    } while (it != m_firstPlayer);
-    */
 }
 
 bool Game::playRound()
@@ -1085,7 +1164,9 @@ bool Game::playRound()
     if (!postRoundChecks()) return false;
 
     nextRound();
-    return true;
+    //TEST
+    //return true;
+    return false;
 }
 
 void Game::nextRound()
@@ -1116,6 +1197,10 @@ bool Game::postRoundChecks()
 
 Game::GameState Game::checkGameState()
 {
+    // TEST
+    return GS_AwakeAncientOne;
+
+
     if (m_context.phase() == AH::EndFightPhase) {
         // TODO
     } else {
@@ -1172,7 +1257,33 @@ void Game::awakeAncientOne()
 
 void Game::endFight()
 {
-    // TODO
+    // TODO: Remove all items that are to remove when AO awakes
+
+    // TODO: Place all characters at End Fight Field
+
+    upkeep();
+    nextRound();
+
+    // TODO: Trade
+
+
+
+    do {
+        // TODO: Investigators attack
+        attackAncientOne();
+        if (m_ancientOne->doomValue() <= 0) {
+            this->won(GS_Win_DefeatedAncientOne);
+            return;
+        }
+
+        // AncientOne attacks
+        ancientOneAttack();
+
+        // TODO: Check if any investigators are left
+
+
+        m_ancientOne->newAttackRound();
+    } while (true);
 }
 
 void Game::cleanupDeactivatedPlayers()

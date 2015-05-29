@@ -3,7 +3,7 @@
 namespace AH { namespace Common {
 
 AncientOneData::AncientOneData()
-    : m_defenses(0), m_doomTrack(0), m_doomValue(0), m_combatAdjustment(0)
+    : m_defenses(0), m_doomTrack(0), m_doomValue(0), m_combatAdjustment(0), m_attackAdjustment(0)
 {
 }
 
@@ -21,6 +21,7 @@ void operator <<(QVariant &data, const AncientOneData &target)
     map["doomTrack"] << target.doomTrack();
     map["doomValue"] << target.doomValue();
     map["combatAdjustment"] << target.combatAdjustment();
+    map["attackAdjustment"] << target.attackAdjustment();
     data << map;
 }
 
@@ -39,6 +40,7 @@ void operator >>(const QVariant &data, AncientOneData &target)
     map["doomTrack"] >> target.m_doomTrack;
     map["doomValue"] >> target.m_doomValue;
     map["combatAdjustment"] >> target.m_combatAdjustment;
+    map["attackAdjustment"] >> target.m_attackAdjustment;
 }
 
 }}

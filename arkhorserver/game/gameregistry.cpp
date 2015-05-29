@@ -157,6 +157,15 @@ bool GameRegistry::removePlayer(Player *p)
     return true;
 }
 
+bool GameRegistry::removeCharacter(Character *c)
+{
+    if (!c) return false;
+    if (c->id().isEmpty()) return false;
+    if (!m_characters.contains(c->id())) return false;
+    m_characters.remove(c->id());
+    return true;
+}
+
 bool GameRegistry::registerAncientOne(AncientOne *ao)
 {
     if (m_ancientOnes.contains(ao->id())) return false;

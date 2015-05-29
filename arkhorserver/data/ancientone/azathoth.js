@@ -14,5 +14,6 @@ game.registerAncientOne(game.createAncientOne({
 	],
 	onAwake: function() {
 		// TODO: Lose game
-	}
+    },
+    attack: function() {}
 }));

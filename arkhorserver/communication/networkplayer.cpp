@@ -191,6 +191,15 @@ void NetworkPlayer::notifyLost(QString msg)
     m_conn->sendMessage(AH::Common::Message::S_LOST, msg);
 }
 
+void NetworkPlayer::notifyDied(Player *p)
+{
+    if (p == this) {
+        m_conn->sendMessage(AH::Common::Message::S_DIED, "You are dead");
+    } else {
+        m_conn->sendMessage(AH::Common::Message::S_DIED, QString("%1 is dead").arg(p->id()));
+    }
+}
+
 DieTestUpdateData NetworkPlayer::dieRollStart(const DieRollTestData test)
 {
     // same as update...

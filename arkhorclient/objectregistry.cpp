@@ -25,6 +25,15 @@ void ObjectRegistry::init(ConnectionHandler *c)
     connect(m_conn, SIGNAL(characterUpdate(AH::Common::CharacterData)), this, SLOT(updateCharacter(AH::Common::CharacterData)));
 }
 
+void ObjectRegistry::setThisCharacterId(QString id)
+{
+    if (id != m_thisCharacterId) {
+        m_thisCharacterId = id;
+        m_registry.remove(id);
+        getObject(id);
+    }
+}
+
 bool ObjectRegistry::hasObject(QString id)
 {
     QReadLocker r(&m_lock);

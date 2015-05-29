@@ -260,6 +260,7 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         mods.setProperty("Monster_HorrorAdjustment", AH::Common::PropertyValueData::Monster_HorrorAdjustment, QScriptValue::ReadOnly);
         mods.setProperty("Monster_Awareness", AH::Common::PropertyValueData::Monster_Awareness, QScriptValue::ReadOnly);
         mods.setProperty("Monster_Toughness", AH::Common::PropertyValueData::Monster_Toughness, QScriptValue::ReadOnly);
+        mods.setProperty("Monster_Movement", AH::Common::PropertyValueData::Monster_Movement, QScriptValue::ReadOnly);
         mods.setProperty("Ignore_MonsterAttributes", AH::Common::PropertyValueData::Ignore_MonsterAttributes, QScriptValue::ReadOnly);
         consts.setProperty("Mods", mods, QScriptValue::ReadOnly);
     }

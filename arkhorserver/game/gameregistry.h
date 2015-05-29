@@ -35,8 +35,10 @@ public:
     bool registerOtherWorldEncounter(OtherWorldEncounter *owe);
     bool registerMythosCard(MythosCard *m);
     bool registerGate(Gate *g);
-    bool removePlayer(Player *p);
     bool registerAncientOne(AncientOne *ao);
+
+    bool removePlayer(Player *p);
+    bool removeCharacter(Character *c);
 
     GameAction *findActionById(QString id);
     GameOption *findOptionById(QString id);

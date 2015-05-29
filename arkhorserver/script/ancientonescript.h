@@ -22,11 +22,18 @@ public:
 
     Q_INVOKABLE void awake();
 
+    Q_INVOKABLE void increaseDoomTrack(int amount = 1) { AncientOne::increaseDoomTrack(amount); }
+    Q_INVOKABLE void decreaseDoomTrack(int amount = 1) { AncientOne::increaseDoomTrack(-amount); }
+    Q_INVOKABLE void setCombatAdjustment(int adjustment) { m_combatAdjustment = adjustment; }
+    Q_INVOKABLE void decreaseAttackAdjustment(int amount = 1) { AncientOne::decreaseAttackAdjustment(amount); }
+
     virtual QString modifierId() const { return m_id; }
     virtual PropertyModificationList getModifications() const;
 
     virtual PropertyModificationList getSlumberModifications() const { return m_slumberModifiations; }
     virtual PropertyModificationList getMonsterModifications(QString typeId) const;
+
+    virtual void attack();
 
 signals:
 
@@ -37,6 +44,8 @@ private:
 
 private:
     QScriptValue m_awakeFunc;
+    QScriptValue m_attackFunc;
+    QScriptValue m_this;
 
     PropertyModificationList m_slumberModifiations;
     QMap<QString, PropertyModificationList> m_monsterModifications;

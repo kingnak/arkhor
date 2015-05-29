@@ -45,6 +45,8 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     //connect(m_registry, SIGNAL(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)), this, SLOT(updateObject(AH::Common::DescribeObjectsData::ObjectDescription)));
     connect(m_registry, SIGNAL(thisCharacterUpdated(AH::Common::CharacterData)), this, SLOT(updateCharacter(AH::Common::CharacterData)));
 
+    connect(m_conn, SIGNAL(playerCharacterInstantiated(QString,QString)), this, SLOT(characterInstantiated(QString,QString)));
+
     // BOARD
     connect(m_conn, SIGNAL(boardContent(QVariantMap)), m_scene, SLOT(updateBoardFromData(QVariantMap)));
 
@@ -114,6 +116,13 @@ void AhMainGui::start()
 void AhMainGui::refitGui()
 {
     ui->tabIntInfInv->resize(ui->tabIntInfInv->minimumSizeHint());
+}
+
+void AhMainGui::characterInstantiated(QString playerId, QString characterId)
+{
+    if (playerId == m_registry->thisPlayerId()) {
+        setThisCharacterId(characterId);
+    }
 }
 
 void AhMainGui::displayItemInfo(const QString &id)

@@ -7,7 +7,6 @@ DynamicPropertyScript::DynamicPropertyScript()
 {
 }
 
-#include "gameobjectscript.h"
 void DynamicPropertyScript::setObject(QScriptValue v)
 {
     m_this = v;

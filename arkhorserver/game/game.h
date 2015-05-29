@@ -42,6 +42,9 @@ public:
 
     bool registerInvestigator(Investigator *i);
     QList<Investigator *> allInvestigators() const;
+    Investigator *drawInvestigator();
+    Investigator *drawSpecificInvestigator(QString id);
+    void returnInvestigator(Investigator *i);
 
     bool registerCharacter(Character *c);
     bool registerAction(GameAction *a);
@@ -92,6 +95,8 @@ public:
     bool addPlayer(Player *p);
 
     void removePlayer(Player *p);
+
+    void killPlayer(Player *p);
 
     void returnMonster(Monster *m);
     Monster *drawMonster();
@@ -146,6 +151,8 @@ public:
     int getSpecialActionNumber();
     void returnSpecialActionNumber(int nr);
 
+    void replacePlayerCharacter(Player *p, Investigator *i);
+
 protected:
     void initBoard();
     void initDecks();
@@ -153,6 +160,10 @@ protected:
     void chooseInvestigators();
     void chooseAncientOne();
     void initInvestigators();
+
+    void initCharacterFixedPossession(Character *c);
+    void initCharacterRandomPossession(Character *c);
+
 
 private:
     enum GameState {
@@ -173,8 +184,10 @@ private:
     void arkhamEncountery();
     void otherWorldEncountery();
     void mythos();
+    void attackAncientOne();
+    void ancientOneAttack();
 
-    void executePlayerPhase(int idx, AH::GamePhase phase);
+    void executePlayerPhase(GamePhase *ph, AH::GamePhase phase);
 
     bool playRound();
     void nextRound();
@@ -197,7 +210,9 @@ private:
         MovementIndex,
         ArkhamEncounteryIndex,
         OtherWorldEncounteryIndex,
-        MythosIndex
+        MythosIndex,
+        AttackAncientOneIndex,
+        AncientOneAttackIndex
     };
 
 private:
@@ -210,10 +225,9 @@ private:
     QMap<AH::Common::FieldData::FieldID, Deck<ArkhamEncounter> > m_arkEncDecks;
     Deck<OtherWorldEncounter> m_owEncDeck;
     Deck<MythosCard> m_mythosDeck;
-
     Deck<Monster> m_monsterPool;
-
     Deck<AncientOne> m_ancientOnePool;
+    Deck<Investigator> m_investigators;
 
     QList<Player *> m_playerList;
     QVector<GamePhase *> m_phases;

@@ -29,6 +29,7 @@ namespace AH {
             int doomTrack() const { return m_doomTrack; }
             int doomValue() const { return m_doomValue; }
             virtual int combatAdjustment() const { return m_combatAdjustment; }
+            virtual int attackAdjustment() const { return m_attackAdjustment; }
 
         protected:
             QString m_id;
@@ -42,6 +43,7 @@ namespace AH {
             int m_doomTrack;
             int m_doomValue;
             int m_combatAdjustment;
+            int m_attackAdjustment;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, AncientOneData);
         };

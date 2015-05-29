@@ -40,6 +40,11 @@ int Monster::toughness() const
     return gGame->context().getMonsterProperty(this, PropertyValue::Monster_Toughness).finalVal();
 }
 
+AH::Common::MonsterData::MovementType Monster::movementType() const
+{
+    return static_cast<AH::Common::MonsterData::MovementType> (gGame->context().getMonsterProperty(this, PropertyValue::Monster_Movement).finalVal());
+}
+
 void Monster::move(AH::MovementDirection dir)
 {
     // Don't move if not on board
@@ -53,7 +58,8 @@ void Monster::move(AH::MovementDirection dir)
     }
 
     GameField *curField = m_field;
-    switch (m_movement) {
+    MovementType movementType = this->movementType();
+    switch (movementType) {
     case Stationary:
         return;
     case Fast:

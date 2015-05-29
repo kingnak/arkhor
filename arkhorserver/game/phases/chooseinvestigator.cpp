@@ -16,6 +16,9 @@ void ChooseInvestigator::execute()
         Investigator *sel = p->chooseInvestigator(inv);
         if (sel) {
             if (p->isActive()) {
+                // Remove from game's pool
+                gGame->drawSpecificInvestigator(sel->id());
+
                 Character *c = sel->instantiate();
                 p->setCharacter(c);
                 gGame->registerCharacter(c);

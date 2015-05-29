@@ -17,7 +17,7 @@ public:
 
     void init(ConnectionHandler *c);
 
-    void setThisCharacterId(QString id) { m_thisCharacterId = id; }
+    void setThisCharacterId(QString id);
     void setThisPlayerId(QString id) { m_thisPlayerId = id; }
 
     AH::Common::CharacterData thisCharacter() const { return m_thisCharacter; }

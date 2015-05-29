@@ -90,6 +90,7 @@ namespace AH {
                 Monster_HorrorAdjustment,
                 Monster_Awareness,
                 Monster_Toughness,
+                Monster_Movement,
 
                 DrawCard_CommonItem = DRAWCARD_OFFSET | AH::Obj_CommonItem,
                 DrawCard_UniqueItem = DRAWCARD_OFFSET | AH::Obj_UniqueItem,

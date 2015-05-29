@@ -85,6 +85,7 @@ namespace AH{
 
                 S_WON,
                 S_LOST,
+                S_DIED,
 
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF

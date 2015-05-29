@@ -30,7 +30,8 @@ bool ChooseWeaponsAction::execute()
         }
     }
 
-    m_fight->updatePhaseByResult(FightPhase::WeaponsChosen);
+    if (m_fight)
+        m_fight->updatePhaseByResult(FightPhase::WeaponsChosen);
     return true;
 }
 

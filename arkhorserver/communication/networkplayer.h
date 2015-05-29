@@ -51,6 +51,7 @@ public:
 
     void notifyWon(QString msg);
     void notifyLost(QString msg);
+    void notifyDied(Player *p);
 
     ///////// INTERACTOR:
 

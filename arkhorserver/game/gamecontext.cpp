@@ -221,6 +221,9 @@ ModifiedPropertyValue GameContext::getMonsterProperty(const Monster *m, AH::Comm
     case PropertyValue::Monster_Toughness:
         base = m->baseToughness();
         break;
+    case PropertyValue::Monster_Movement:
+        base = m->baseMovement();
+        break;
     default:
         Q_ASSERT_X(false, "GameContext::getMonsterProperty", "Property not defined");
     }

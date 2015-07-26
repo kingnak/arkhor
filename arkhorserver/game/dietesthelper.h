@@ -29,6 +29,7 @@ public:
     };
 
     static DieTestSpec createClueBurnTest(QString desc, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target = 1);
+    static DieTestSpec createClueBurnCounter(QString desc, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment);
 
     static DieTestSpec createSkillTest(QString desc, Character *c, AH::Skill skill, int adjustment, int target = 1);
     //static DieTestSpec createAttributeTest(Character *c, AH::Attribute attr, int adjustment, int target = 1);

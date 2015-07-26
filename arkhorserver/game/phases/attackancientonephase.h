@@ -5,13 +5,20 @@
 #include "game/gameaction.h"
 #include "game/gameoption.h"
 #include "game/phases/fight/chooseweaponsaction.h"
+#include "game/phases/fight/attackaction.h"
 
-class AttackAncientOneAction : public GameAction
+class AttackAncientOneAction : public AttackAction
 {
 public:
-    AttackAncientOneAction() { setId("AC_ATTACK_ANCIENT_ONE"); }
+    AttackAncientOneAction() : AttackAction(NULL)
+    {
+        setId("AC_ATTACK_ANCIENT_ONE");
+    }
+
     virtual bool execute();
 };
+
+////////////////////////////
 
 class AttackAncientOneOption : public GameOption
 {
@@ -20,6 +27,8 @@ public:
 private:
     AttackAncientOneAction aaoa;
 };
+
+////////////////////////////
 
 class AttackAncientOnePhase : public GamePhase
 {

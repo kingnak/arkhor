@@ -20,7 +20,7 @@ public:
     virtual QString name() const { return "Attack"; }
     virtual QString description() const { return ""; }
 
-private:
+protected:
     void filterEquipped(PropertyModificationList &lst);
     void discardAfterAttack(PropertyModificationList &lst);
 

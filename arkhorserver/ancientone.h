@@ -6,7 +6,7 @@
 
 class Character;
 
-class AncientOne : public AH::Common::AncientOneData
+class AncientOne : public AH::Common::AncientOneData, public PropertyModifier
 {
 public:
     AncientOne();
@@ -17,6 +17,10 @@ public:
     bool isDirty() const { return m_dirty; }
     void setDirty(bool dirty = true) { m_dirty = dirty; }
 
+    virtual QString modifierId() const { return m_id; }
+    virtual PropertyModificationList getModifications() const;
+
+    virtual PropertyModificationList getCombatModifications() const;
     virtual PropertyModificationList getSlumberModifications() const { return PropertyModificationList(); }
     virtual PropertyModificationList getMonsterModifications(QString typeId) const { Q_UNUSED(typeId) return PropertyModificationList(); }
     /** Called at end of Mythos Phase */
@@ -26,6 +30,8 @@ public:
 
     virtual void attack() = 0;
     virtual void newAttackRound();
+
+    bool isDefeated() const;
 
     void damage(int amount);
 

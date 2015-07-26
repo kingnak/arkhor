@@ -24,6 +24,17 @@ DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(QString desc, Chara
     return spec;
 }
 
+DieTestHelper::DieTestSpec DieTestHelper::createClueBurnCounter(QString desc, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment)
+{
+    DieTestSpec spec;
+    propertyPool(spec, poolBase, adjustment);
+    clueBurnProperty(spec, clueBurnMods);
+    successCounter(spec, c);
+    value(spec);
+    finalize(spec, desc);
+    return spec;
+}
+
 DieTestHelper::DieTestSpec DieTestHelper::createSkillTest(QString desc, Character *c, AH::Skill skill, int adjustment, int target)
 {
     DieTestSpec spec;

@@ -962,7 +962,7 @@ void Game::initMonsters()
             m_board->field(AH::Common::FieldData::Sp_Outskirts)->placeMonster(m);
     }
     */
-    m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_TEST"));
+    //m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_TEST"));
 }
 
 void Game::chooseInvestigators()
@@ -1164,9 +1164,9 @@ bool Game::playRound()
     if (!postRoundChecks()) return false;
 
     nextRound();
+    return true;
     //TEST
-    //return true;
-    return false;
+    //return false;
 }
 
 void Game::nextRound()
@@ -1198,7 +1198,7 @@ bool Game::postRoundChecks()
 Game::GameState Game::checkGameState()
 {
     // TEST
-    return GS_AwakeAncientOne;
+    //return GS_AwakeAncientOne;
 
 
     if (m_context.phase() == AH::EndFightPhase) {
@@ -1269,9 +1269,9 @@ void Game::endFight()
 
 
     do {
-        // TODO: Investigators attack
+        // Investigators attack
         attackAncientOne();
-        if (m_ancientOne->doomValue() <= 0) {
+        if (m_ancientOne->isDefeated()) {
             this->won(GS_Win_DefeatedAncientOne);
             return;
         }
@@ -1279,8 +1279,11 @@ void Game::endFight()
         // AncientOne attacks
         ancientOneAttack();
 
-        // TODO: Check if any investigators are left
-
+        // Check if any investigators are left
+        if (countActivePlayers() == 0) {
+            this->lost(GS_Lost);
+            return;
+        }
 
         m_ancientOne->newAttackRound();
     } while (true);
@@ -1299,6 +1302,18 @@ void Game::cleanupDeactivatedPlayers()
             m_notifier->playerRemoved(p);
         }
     }
+}
+
+int Game::countActivePlayers() const
+{
+    int ct = 0;
+    QList<Player *> lst = m_registry->allPlayers();
+    foreach (Player *p, lst) {
+        if (p->isActive()) {
+            ct++;
+        }
+    }
+    return ct;
 }
 
 void Game::sendBoard()

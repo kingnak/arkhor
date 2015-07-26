@@ -44,7 +44,7 @@ AncientOneScript *AncientOneScript::createAncientOne(QScriptContext *ctx, QScrip
             ctx->throwError(QScriptContext::TypeError, "createAncientOne: Invalid Slumber Modification.");
             return NULL;
         }
-        ret->m_slumberModifiations = lst;
+        ret->m_slumberModifications = lst;
     }
 
     // Monster Modifications
@@ -81,14 +81,6 @@ void AncientOneScript::awake()
     if (m_awakeFunc.isFunction()) {
         m_awakeFunc.call(m_this);
     }
-}
-
-PropertyModificationList AncientOneScript::getModifications() const
-{
-    if (m_awake) {
-        return PropertyModificationList();
-    }
-    return getSlumberModifications();
 }
 
 PropertyModificationList AncientOneScript::getMonsterModifications(QString typeId) const

@@ -105,6 +105,7 @@ void AttackAction::discardAfterAttack(PropertyModificationList &lst)
     }
 }
 
+///////////////////////////////////////
 
 QString AttackOption::sourceId() const
 {

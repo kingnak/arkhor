@@ -200,6 +200,7 @@ private:
     void endFight();
 
     void cleanupDeactivatedPlayers();
+    int countActivePlayers() const;
 
     void sendBoard();
     void sendSetting();

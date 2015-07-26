@@ -320,6 +320,12 @@ void Character::arrest()
 
 void Character::unconscious()
 {
+    // Check for ancient one fight
+    if (gGame->context().phase() == AH::EndFightPhase) {
+        devour();
+        return;
+    }
+
     if (field()->type() == AH::Common::FieldData::OtherWorld) {
         lostInSpaceAndTime();
         return;
@@ -335,6 +341,12 @@ void Character::unconscious()
 
 void Character::insane()
 {
+    // Check for ancient one fight
+    if (gGame->context().phase() == AH::EndFightPhase) {
+        devour();
+        return;
+    }
+
     if (field()->type() == AH::Common::FieldData::OtherWorld) {
         lostInSpaceAndTime();
         return;
@@ -350,9 +362,10 @@ void Character::insane()
 
 void Character::devour()
 {
-    // Check for anciant one fight
+    // Check for ancient one fight
     if (gGame->context().phase() == AH::EndFightPhase) {
         // KILL HIM!
+        gGame->characterDirty(this);
         gGame->killPlayer(gGame->context().player());
         return;
     }
@@ -413,6 +426,8 @@ void Character::instantiateFromInvestigator()
     m_sliders.append(ll);
 
     m_fieldId = m_investigator->startFieldId();
+    // Prevent race condition when client asks for investigator, before it is placed
+    m_field = gGame->board()->field(m_fieldId);
 
     // Unique ability
     GameObject *ua = gGame->registry()->findObjectById(m_investigator->uniqueAbilityId());

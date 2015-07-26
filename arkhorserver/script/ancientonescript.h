@@ -9,7 +9,7 @@
 
 class QScriptContext;
 
-class AncientOneScript : public QObject, public AncientOne, public PropertyModifier
+class AncientOneScript : public QObject, public AncientOne
 {
     Q_OBJECT
 public:
@@ -20,6 +20,8 @@ public:
     static void castFromValue(const QScriptValue &v, AncientOneScript *&o) { o = qobject_cast<AncientOneScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, AncientOneScript * const &in) { return eng->newQObject(in); }
 
+    Q_PROPERTY(int attackAdjustment READ attackAdjustment)
+
     Q_INVOKABLE void awake();
 
     Q_INVOKABLE void increaseDoomTrack(int amount = 1) { AncientOne::increaseDoomTrack(amount); }
@@ -27,10 +29,7 @@ public:
     Q_INVOKABLE void setCombatAdjustment(int adjustment) { m_combatAdjustment = adjustment; }
     Q_INVOKABLE void decreaseAttackAdjustment(int amount = 1) { AncientOne::decreaseAttackAdjustment(amount); }
 
-    virtual QString modifierId() const { return m_id; }
-    virtual PropertyModificationList getModifications() const;
-
-    virtual PropertyModificationList getSlumberModifications() const { return m_slumberModifiations; }
+    virtual PropertyModificationList getSlumberModifications() const { return m_slumberModifications; }
     virtual PropertyModificationList getMonsterModifications(QString typeId) const;
 
     virtual void attack();
@@ -47,7 +46,7 @@ private:
     QScriptValue m_attackFunc;
     QScriptValue m_this;
 
-    PropertyModificationList m_slumberModifiations;
+    PropertyModificationList m_slumberModifications;
     QMap<QString, PropertyModificationList> m_monsterModifications;
 
 };

@@ -2,11 +2,13 @@ TEMPLATE = subdirs
 
 #CONFIG(debug):DEFINES += "_DEBUG=1"
 
+CONFIG += ordered
+
 SUBDIRS += \
     arkhorcommon \
     arkhorserver \
-	arkhorclient \
-	arkhorclientstaticres
+    arkhorclientstaticres \
+    arkhorclient
 
 #RESOURCES += \
 #    arkhorclientstaticres/client_resources.qrc

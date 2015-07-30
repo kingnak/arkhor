@@ -1,8 +1,11 @@
+#ifdef DEBUG_SCRIPT_BUILD
 #include <QApplication>
+#else
+#include <QCoreApplication>
+#endif
+
 #include "game/game.h"
 #include "game/gameboard.h"
-#include "game/simplegamenotifier.h"
-#include "game/simplegameinteractor.h"
 #include "character.h"
 #include "monster.h"
 #include "gate.h"
@@ -15,9 +18,12 @@
 
 int main(int argc, char *argv[])
 {
+#ifdef DEBUG_SCRIPT_BUILD
     QApplication app(argc, argv);
+#else
+    QCoreApplication app(argc, argv);
+#endif
 
-    //SimpleGameNotifier gn;
     Game g;
     GameScript *script = new GameScript(&g);
 

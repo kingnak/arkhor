@@ -1,11 +1,11 @@
 QT += network script scripttools
-
+QT -= gui
 unix:CONFIG(debug, debug|release): DEFINES += "_DEBUG=1"
 
 CONFIG += console
 CONFIG -= windows
 
-DEFINES += DEBUG_SCRIPT_BUILD
+#DEFINES += DEBUG_SCRIPT_BUILD
 
 HEADERS += \
     communication/clientconnection.h \
@@ -48,8 +48,8 @@ HEADERS += \
     game/movementpath.h \
     game/player.h \
     game/propertyvalue.h \
-    game/simplegameinteractor.h \
-    game/simplegamenotifier.h \
+#    game/simplegameinteractor.h \
+#    game/simplegamenotifier.h \
     script/characterscript.h \
     script/gameactionscript.h \
     script/gameobjectscript.h \
@@ -137,8 +137,8 @@ SOURCES += \
     game/movementpath.cpp \
     game/player.cpp \
     game/propertyvalue.cpp \
-    game/simplegameinteractor.cpp \
-    game/simplegamenotifier.cpp \
+#    game/simplegameinteractor.cpp \
+#    game/simplegamenotifier.cpp \
     script/characterscript.cpp \
     script/gameactionscript.cpp \
     script/gameobjectscript.cpp \

@@ -19,9 +19,13 @@ using namespace AH::Common;
 */
 #include "resourcepool.h"
 
+#include <arkhamhorrorstaticresources.h>
+
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+
+    ArkhamHorrorStaticResources::init();
 
     QString baseDir = "./res";
     if (app.arguments().length() > 1)

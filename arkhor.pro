@@ -5,8 +5,8 @@ TEMPLATE = subdirs
 SUBDIRS += \
     arkhorcommon \
     arkhorserver \
-    arkhorclient
+	arkhorclient \
+	arkhorclientstaticres
 
-RESOURCES += \
-    arkhorclient/gui/client_resources.qrc \
-    arkhorclient/gui/client_resources.qrc
+#RESOURCES += \
+#    arkhorclientstaticres/client_resources.qrc

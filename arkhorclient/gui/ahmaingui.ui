@@ -42,7 +42,7 @@
        </property>
        <widget class="QWidget" name="tabInteraction">
         <attribute name="icon">
-         <iconset resource="../client_resources.qrc">
+         <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
           <normaloff>:/core/images/interaction</normaloff>:/core/images/interaction</iconset>
         </attribute>
         <attribute name="title">
@@ -186,7 +186,7 @@
        </widget>
        <widget class="QWidget" name="tabInfo">
         <attribute name="icon">
-         <iconset resource="../client_resources.qrc">
+         <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
           <normaloff>:/core/images/info</normaloff>:/core/images/info</iconset>
         </attribute>
         <attribute name="title">
@@ -200,7 +200,7 @@
        </widget>
        <widget class="QWidget" name="tabInventory">
         <attribute name="icon">
-         <iconset resource="../client_resources.qrc">
+         <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
           <normaloff>:/core/images/inventory</normaloff>:/core/images/inventory</iconset>
         </attribute>
         <attribute name="title">
@@ -393,7 +393,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../client_resources.qrc"/>
+  <include location="../../arkhorclientstaticres/client_resources.qrc"/>
  </resources>
  <connections>
   <connection>

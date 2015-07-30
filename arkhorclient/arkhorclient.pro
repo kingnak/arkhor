@@ -84,6 +84,13 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../arkhorcommon/ -larkhorcommon
 INCLUDEPATH += $$PWD/../arkhorcommon
 DEPENDPATH += $$PWD/../arkhorcommon
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorclientstaticres/release/ -larkhorclientstaticres
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorclientstaticres/debug/ -larkhorclientstaticres
+else:unix:!macx: LIBS += -L$$OUT_PWD/../arkhorclientstaticres/ -larkhorclientstaticres
+
+INCLUDEPATH += $$PWD/../arkhorclientstaticres
+DEPENDPATH += $$PWD/../arkhorclientstaticres
+
 FORMS += \
     gui/ahmaingui.ui \
     gui/characterwidget.ui \
@@ -100,9 +107,6 @@ FORMS += \
     gui/objectselectorwidget.ui \
     gui/choicewidget.ui \
     gui/ancientoneshortwidget.ui
-
-RESOURCES += \
-    client_resources.qrc
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/release/ -lquazip
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/debug/ -lquazip

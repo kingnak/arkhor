@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>317</height>
+    <height>333</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -91,7 +91,7 @@
             <x>0</x>
             <y>0</y>
             <width>183</width>
-            <height>53</height>
+            <height>69</height>
            </rect>
           </property>
          </widget>
@@ -157,7 +157,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../client_resources.qrc">:/core/images/success</pixmap>
+          <pixmap resource="../../arkhorclientstaticres/client_resources.qrc">:/core/images/success</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -235,7 +235,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../client_resources.qrc"/>
+  <include location="../../arkhorclientstaticres/client_resources.qrc"/>
  </resources>
  <connections>
   <connection>

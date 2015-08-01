@@ -186,13 +186,6 @@ SOURCES += \
     game/phases/ancientoneattack.cpp \
     game/phases/attackancientonephase.cpp
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
-else:unix:!macx: LIBS += -L$$OUT_PWD/../arkhorcommon/ -larkhorcommon
-
-INCLUDEPATH += $$PWD/../arkhorcommon
-DEPENDPATH += $$PWD/../arkhorcommon
-
 OTHER_FILES += \
     data/characters/characters.js \
     data/field/arkham/downtown/bankOfArkham.js \
@@ -243,3 +236,17 @@ OTHER_FILES += \
     data/mythos/rumor.js \
     data/ancientone/azathoth.js \
     data/ancientone/hastur.js
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon
+else:unix:!macx: LIBS += -L$$OUT_PWD/../arkhorcommon/ -larkhorcommon
+
+INCLUDEPATH += $$PWD/../arkhorcommon
+DEPENDPATH += $$PWD/../arkhorcommon
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorscript/release/ -larkhorscript
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorscript/debug/ -larkhorscript
+else:unix: LIBS += -L$$OUT_PWD/../arkhorscript/ -larkhorscript
+
+INCLUDEPATH += $$PWD/../arkhorscript
+DEPENDPATH += $$PWD/../arkhorscript

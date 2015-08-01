@@ -16,8 +16,33 @@
 #include "communication/gameserver.h"
 //#include <vld.h>
 
+#include <arkhorscriptgenerator.h>
+
+
+
 int main(int argc, char *argv[])
-{
+{    
+    if (argc < 3) {
+        return(1);
+    }
+
+    QFile fi(argv[1]);
+    fi.open(QFile::ReadOnly);
+    QFile fo(argv[2]);
+    //if (fo.exists()) {
+    //    return(2);
+    //}
+    fo.open(QFile::WriteOnly);
+    AHS::ArkhorScriptGenerator p(&fi, &fo);
+    if (p.generate()) {
+        qDebug() << p.warning();
+        return(0);
+    }
+    qDebug() << p.warning();
+    qDebug() << p.error();
+    return(3);
+
+#if 0
 #ifdef DEBUG_SCRIPT_BUILD
     QApplication app(argc, argv);
 #else
@@ -53,6 +78,8 @@ int main(int argc, char *argv[])
     app.exec();
 
     return 0;
+#endif
+
 #if 0
     SimpleGameNotifier gn;
     //SimpleGameInteractor gi;

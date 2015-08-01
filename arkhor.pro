@@ -6,9 +6,10 @@ CONFIG += ordered
 
 SUBDIRS += \
     arkhorcommon \
+	arkhorscript \
     arkhorserver \
     arkhorclientstaticres \
-    arkhorclient
+	arkhorclient
 
 #RESOURCES += \
 #    arkhorclientstaticres/client_resources.qrc

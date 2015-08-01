@@ -1,0 +1,35 @@
+
+CommonItem Derringer : 2 {
+	name: ".18 Derringer";
+	hands: 1;
+	price: 3;
+	description: ".18 Derringer cannot be lost or stolen unless you choose to allow it.";
+	modifications: [ Damage_Physical +2 ];
+}
+
+CommonItem Cross : 2 {
+	description: "+3 Combat Damage against <b>Undead</b>";
+	hands: 1;
+	price: 3;
+	modifications: {{{
+		var m = game.context.monster;
+		var dmg = 0;
+		if (m) {
+			if (m.attriutes & Constants.Monster.Undead) {
+				dmg = 3;
+			}
+		}
+		return [
+			{ property: Constants.Mods.Damage_Magical, value: dmg},
+			{ property: Constants.Mods.Skill_Horror, value: 1}
+		];
+	}}};
+}
+
+Skill Fight : 2 {
+	description: "When you spend a Clue token to add to any <b>Fight check</b>, add one extra bonus die.";
+	modifications: [
+		Skill_Fight +1,
+		DieRoll_Fight +1
+	];
+}

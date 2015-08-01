@@ -17,7 +17,9 @@ SOURCES += arkhorscriptparser.cpp \
     classgenerator.cpp \
     commonitemgenerator.cpp \
     objectgenerator.cpp \
-    skillgenerator.cpp
+    skillgenerator.cpp \
+    uniqueitemgenerator.cpp \
+    spellgenerator.cpp
 
 HEADERS += arkhorscriptparser.h\
         arkhorscript_global.h \
@@ -26,7 +28,9 @@ HEADERS += arkhorscriptparser.h\
     classgenerator.h \
     commonitemgenerator.h \
     objectgenerator.h \
-    skillgenerator.h
+    skillgenerator.h \
+    uniqueitemgenerator.h \
+    spellgenerator.h
 
 unix {
     target.path = /usr/lib

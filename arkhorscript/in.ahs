@@ -3,8 +3,9 @@ CommonItem Derringer : 2 {
 	name: ".18 Derringer";
 	hands: 1;
 	price: 3;
-	description: ".18 Derringer cannot be lost or stolen unless you choose to allow it.";
+	description: ".18 Derringer cannot be lost or stolen "+'unless you choose to allow it.';
 	modifications: [ Damage_Physical +2 ];
+	attributes: CannotBeLost;
 }
 
 CommonItem Cross : 2 {
@@ -26,6 +27,10 @@ CommonItem Cross : 2 {
 	}}};
 }
 
+UniqueItem AncientTome : 2 {
+	
+}
+
 Skill Fight : 2 {
 	description: "When you spend a Clue token to add to any <b>Fight check</b>, add one extra bonus die.";
 	modifications: [
@@ -33,3 +38,23 @@ Skill Fight : 2 {
 		DieRoll_Fight +1
 	];
 }
+
+Spell FindGate : 4 {
+	exhaustable: true;
+	description: "<b>Movement: </b> Cast and exhaust to "+
+		"immediately return to Arkham from an Other World.";
+	castCost: 1;
+	castAdjustment: -1;
+	cast: <<<{
+        	cast: function() {
+            		this.owner.returnToArkham();
+        	},
+        	phases: Constants.GamePhases.Movement,
+        	isAvailable: function() {
+         	   	return game.context.character.field.type == Constants.FieldType.OtherWorld;
+        	}
+	}>>>;
+}
+
+
+

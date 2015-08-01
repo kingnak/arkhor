@@ -1,15 +1,14 @@
-#ifndef OBJECTGENERATOR_H
-#define OBJECTGENERATOR_H
+#ifndef SPELLGENERATOR_H
+#define SPELLGENERATOR_H
 
-#include "classgenerator.h"
+#include "objectgenerator.h"
 
 namespace AHS {
 
-class ObjectGenerator : public ClassGenerator
+class SpellGenerator : public ObjectGenerator
 {
 public:
-    ObjectGenerator(QTextStream &out);
-    bool generate(const ClassDef &cls);
+    SpellGenerator(QTextStream &out) : ObjectGenerator(out) {}
 
 protected:
     virtual QList<AttributeDesc> getAttributes();
@@ -19,4 +18,4 @@ protected:
 
 }
 
-#endif // OBJECTGENERATOR_H
+#endif // SPELLGENERATOR_H

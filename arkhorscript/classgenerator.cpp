@@ -43,6 +43,12 @@ QString ClassGenerator::idPrefixForClass(QString classType)
     if (classType == "Skill") {
         return "SK";
     }
+    if (classType == "UniqueItem") {
+        return "UI";
+    }
+    if (classType == "Spell") {
+        return "SP";
+    }
     setWarning("Unknown Class Type: " + classType);
     return "??";
 }
@@ -61,7 +67,11 @@ bool ClassGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, 
     case AttributeDesc::H_TID:
     case AttributeDesc::H_Special:
         return outputAttribute(cls, AttrDef(desc.name, AttrDef::Literal, cls.elemName), true);
+    default:
+        ;
     }
+    //return setError(QString("No default for attribute '%1'").arg(desc.name), cls);
+    Q_ASSERT_X(false, "Default Attribute", qPrintable(QString("No default for attribute '%1'").arg(desc.name)));
     return false;
 }
 
@@ -91,6 +101,10 @@ bool ClassGenerator::outputAttributes(const ClassDef &cls)
     // Check required
     foreach (AttributeDesc a, getAttributes()) {
         switch (a.reqType) {
+        case AttributeDesc::R_INVALID:
+            Q_ASSERT(false);
+        case AttributeDesc::R_Optional:
+            break;
         case AttributeDesc::R_Required:
             if (!handled.contains(a.name))
                 return setError(QString("Missing required Attribute '%1'").arg(a.name), cls);
@@ -137,6 +151,7 @@ bool ClassGenerator::outputAttribute(const ClassDef &cls, const AttrDef &attr, b
     m_out << "\t" << attr.name << ": ";
     switch (a.handleType) {
     case AttributeDesc::H_Simple:
+        Q_ASSERT_X(a.valTypes == AttributeDesc::V_Primitive, "Simple Attribute", "Simple Attributes must be primitive");
         m_out << attr.content;
         break;
     case AttributeDesc::H_TID:
@@ -148,6 +163,13 @@ bool ClassGenerator::outputAttribute(const ClassDef &cls, const AttrDef &attr, b
             m_out << '"' << generateName(cls.elemName) << '"';
         else
             m_out << attr.content;
+        break;
+    case AttributeDesc::H_IDRef:
+        if (a.valTypes.testFlag(AttributeDesc::V_Array)) {
+            return outputIDRefArray(attr, cls);
+        } else {
+            return outputIDRef(attr, cls);
+        }
         break;
     case AttributeDesc::H_Special:
         if (!outputSpecialAttribute(a, cls, attr))
@@ -191,6 +213,94 @@ bool ClassGenerator::outputModifications(QString mod)
     if (!first)
         m_out << " ]";
     return true;
+}
+
+bool ClassGenerator::outputIDRef(const AttrDef &attr, const ClassDef &cls)
+{
+    if (attr.type == AttrDef::Literal) {
+        m_out << attr.content;
+        return true;
+    } else if (attr.type == AttrDef::IDRef) {
+        return doOutputIDRef(attr.content);
+    } else {
+        return setError(QString("'%1' must be IDRef or Literal").arg(attr.name), cls);
+    }
+}
+
+bool ClassGenerator::outputIDRefArray(const AttrDef &attr, const ClassDef &cls)
+{
+    if (attr.type == AttrDef::IDRef || attr.type == AttrDef::Literal) {
+        return outputIDRef(attr, cls);
+    }
+    if (attr.type != AttrDef::Array) {
+        return setError(QString("'%1' must be IDRef or Literal or Array").arg(attr.name), cls);
+    }
+    bool first = true;
+    foreach (QString s, attr.array) {
+        if (first)
+            m_out << "[ ";
+        else
+            m_out << ", ";
+        first = false;
+        doOutputIDRef(s);
+    }
+    if (!first)
+        m_out << " ]";
+    return true;
+}
+
+bool ClassGenerator::doOutputIDRef(QString ref)
+{
+    QStringList l = ref.split('.');
+    m_out << '"' << idPrefixForClass(l.value(0)) << '_' << l.value(1) << '"';
+    return true;
+}
+
+bool ClassGenerator::outputEnumValue(QString prefix, const AttrDef &attr, const ClassDef &cls)
+{
+    if (attr.type == AttrDef::EnumValue)
+        m_out << prefix << '.' << attr.content;
+    else if (attr.type == AttrDef::Literal)
+        m_out << attr.content;
+    else
+        return setError(QString("'%1' must be EnumValue or Literal").arg(attr.name), cls);
+    return true;
+}
+
+bool ClassGenerator::outputEnumValueArray(QString prefix, const AttrDef &attr, const ClassDef &cls)
+{
+    if (attr.type == AttrDef::EnumValue || attr.type == AttrDef::Literal) {
+        return outputEnumValue(prefix, attr, cls);
+    }
+    if (!attr.type == AttrDef::Array) {
+        return setError(QString("'%1' must be EnumValue, Array or Literal").arg(attr.name), cls);
+    }
+    bool first = true;
+    foreach (QString s, attr.array) {
+        if (first)
+            m_out << "[ ";
+        else
+            m_out << ", ";
+        first = false;
+        m_out << prefix << '.' << s;
+    }
+    if (!first)
+        m_out << " ]";
+    return true;
+}
+
+bool ClassGenerator::outputFunction(const ClassGenerator::AttrDef &attr, const ClassGenerator::ClassDef &cls, QString params)
+{
+    switch (attr.type) {
+    case AttrDef::Function:
+        m_out << "function(" << params << ") {" << attr.content << "}";
+        return true;
+    case AttrDef::Literal:
+        m_out << attr.content;
+        return true;
+    default:
+        return setError(QString("'%1' must be a function or literal type").arg(attr.name), cls);
+    }
 }
 
 }

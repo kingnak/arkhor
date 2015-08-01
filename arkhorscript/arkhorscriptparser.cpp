@@ -119,11 +119,19 @@ bool ArkhorScriptParser::ElementAttribute()
 
         switch (m_lexer->currentSymbol().type) {
         case Symbol::String:
+            a.type = AttrDef::Primitive;
+            if (!String(a.content))
+                return false;
+            break;
         case Symbol::Number:
         case Symbol::True:
         case Symbol::False:
-        case Symbol::Literal:
             a.type = AttrDef::Primitive;
+            a.content = m_lexer->currentSymbol().image;
+            consumeToken(m_lexer->currentSymbol().type);
+            break;
+        case Symbol::Literal:
+            a.type = AttrDef::Literal;
             a.content = m_lexer->currentSymbol().image;
             consumeToken(m_lexer->currentSymbol().type);
             break;
@@ -227,6 +235,24 @@ bool ArkhorScriptParser::ArrayContent(ArkhorScriptParser::AttrDef &a)
     } while (m_lexer->currentSymbol().type == Symbol::Comma && consumeToken(Symbol::Comma));
 
     return true;
+}
+
+bool ArkhorScriptParser::String(QString &value)
+{
+    value = "";
+    forever {
+        if (m_lexer->currentSymbol().type != Symbol::String) {
+            return setError("Expected String");
+        }
+        value += m_lexer->currentSymbol().image;
+        consumeToken(Symbol::String);
+        if (m_lexer->currentSymbol().type == Symbol::Plus) {
+            value += "+\n\t\t";
+            consumeToken(Symbol::Plus);
+        } else {
+            return true;
+        }
+    }
 }
 
 bool ArkhorScriptParser::setError(QString err)

@@ -25,7 +25,7 @@ protected:
             R_INVALID, R_Required, R_Optional, R_Default, R_Predefined
         } reqType;
         enum HandleType {
-            H_Simple, H_Name, H_Special, H_TID, H_ID
+            H_Simple, H_Name, H_Special, H_TID, H_ID, H_IDRef, H_Enum
         } handleType;
         enum ValueType {
             V_Primitive =     0x0001,
@@ -61,9 +61,19 @@ protected:
     void outputRegisterObject(const ClassDef &cls);
 
     bool outputModifications(QString mod);
+    bool outputIDRef(const AttrDef &attr, const ClassDef &cls);
+    bool outputIDRefArray(const AttrDef &attr, const ClassDef &cls);
+    bool outputEnumValue(QString prefix, const AttrDef &attr, const ClassDef &cls);
+    bool outputEnumValueArray(QString prefix, const AttrDef &attr, const ClassDef &cls);
+
+    bool outputFunction(const AttrDef &attr, const ClassGenerator::ClassDef &cls, QString params = QString::null);
+
+private:
+    bool doOutputIDRef(QString ref);
 
 protected:
     QTextStream &m_out;
+
 private:
     QString m_err;
     QString m_warn;

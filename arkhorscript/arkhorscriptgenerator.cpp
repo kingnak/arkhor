@@ -3,7 +3,9 @@
 #include <QDebug>
 
 #include "commonitemgenerator.h"
+#include "uniqueitemgenerator.h"
 #include "skillgenerator.h"
+#include "spellgenerator.h"
 
 namespace AHS {
 
@@ -53,7 +55,8 @@ bool ArkhorScriptGenerator::generate()
 void ArkhorScriptGenerator::init()
 {
     m_generators["CommonItem"] = new CommonItemGenerator(m_out);
-    //m_generators["UniqueItem"] = &ArkhorScriptGenerator::generateUniqueItem;
+    m_generators["UniqueItem"] = new UniqueItemGenerator(m_out);
+    m_generators["Spell"] = new SpellGenerator(m_out);
     m_generators["Skill"] = new SkillGenerator(m_out);
 }
 

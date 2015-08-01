@@ -64,6 +64,7 @@ private:
     bool IDRefOrEnumValue(AttrDef &a);
     bool Array(AttrDef &a);
     bool ArrayContent(AttrDef &a);
+    bool String(QString &value);
 
     bool setError(QString err);
 

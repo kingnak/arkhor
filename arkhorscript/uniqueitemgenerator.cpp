@@ -1,8 +1,8 @@
-#include "commonitemgenerator.h"
+#include "uniqueitemgenerator.h"
 
 namespace AHS {
 
-QList<ClassGenerator::AttributeDesc> CommonItemGenerator::getAttributes()
+QList<ClassGenerator::AttributeDesc> UniqueItemGenerator::getAttributes()
 {
     return ObjectGenerator::getAttributes()
         << AttributeDesc("hands", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
@@ -11,3 +11,4 @@ QList<ClassGenerator::AttributeDesc> CommonItemGenerator::getAttributes()
 }
 
 }
+

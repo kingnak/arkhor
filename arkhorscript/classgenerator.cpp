@@ -49,6 +49,45 @@ QString ClassGenerator::idPrefixForClass(QString classType)
     if (classType == "Spell") {
         return "SP";
     }
+    if (classType == "Ally") {
+        return "AL";
+    }
+    if (classType == "Monster") {
+        return "MO";
+    }
+    if (classType == "SpecialObject") {
+        return "OBJ";
+    }
+    if (classType == "Option") {
+        return "OP";
+    }
+    if (classType == "Action") {
+        return "AC";
+    }
+    if (classType == "QuickOption") {
+        return "OP";
+    }
+    if (classType == "FieldOption") {
+        return "OP";
+    }
+    if (classType == "ArkhamEncounter") {
+        return "AE";
+    }
+    if (classType == "OtherWorldEncounter") {
+        return "OE";
+    }
+    if (classType == "Rumor") {
+        return "MY";
+    }
+    if (classType == "Headline") {
+        return "MY";
+    }
+    if (classType == "Investigator") {
+        return "IN";
+    }
+    if (classType == "AncientOne") {
+        return "AO";
+    }
     setWarning("Unknown Class Type: " + classType);
     return "??";
 }
@@ -80,9 +119,14 @@ void ClassGenerator::outputClassComment(const ClassDef &cls)
     m_out << "\n// Generated " << cls.elemType << " \"" << cls.elemName << "\"\n";
 }
 
-void ClassGenerator::outputCreateObjectStart(const ClassDef &cls)
+void ClassGenerator::outputCreateStart(QString type, const ClassDef &cls)
 {
-    m_out << "var gen_" << cls.elemName << " = game.createObject({\n";
+    m_out << "var " << getJSVariableName(cls) << " = game.create" << type << "({\n";
+}
+
+QString ClassGenerator::getJSVariableName(const ClassGenerator::ClassDef &cls)
+{
+    return QString("gen_%1_%2").arg(idPrefixForClass(cls.elemType), cls.elemName);
 }
 
 bool ClassGenerator::outputAttributes(const ClassDef &cls)
@@ -130,7 +174,8 @@ bool ClassGenerator::outputAttribute(const ClassDef &cls, const AttrDef &attr, b
 {
     // Find definition
     AttributeDesc a;
-    foreach (AttributeDesc x, this->getAttributes()) {
+    QList<AttributeDesc> attList = this->getAttributes();
+    foreach (AttributeDesc x, attList) {
         if (x.name == attr.name) {
             a = x;
             break;
@@ -151,8 +196,27 @@ bool ClassGenerator::outputAttribute(const ClassDef &cls, const AttrDef &attr, b
     m_out << "\t" << attr.name << ": ";
     switch (a.handleType) {
     case AttributeDesc::H_Simple:
-        Q_ASSERT_X(a.valTypes == AttributeDesc::V_Primitive, "Simple Attribute", "Simple Attributes must be primitive");
-        m_out << attr.content;
+        Q_ASSERT_X(a.valTypes & (AttributeDesc::V_Function | AttributeDesc::V_Primitive), "Simple Attribute", qPrintable(QString("Simple Attributes '%1' must be primitive or function").arg(a.name)));
+
+        switch (attr.type) {
+        case AttrDef::Function:
+            m_out << "function() {" << attr.content << "}";
+            break;
+        case AttrDef::Literal:
+        case AttrDef::Primitive:
+            m_out << attr.content;
+            break;
+        case AttrDef::IDRef:
+            if (!outputIDRef(attr, cls))
+                return false;
+            break;
+        case AttrDef::Complex:
+        case AttrDef::EnumValue:
+        case AttrDef::Array:
+        case AttrDef::None:
+            Q_ASSERT_X(false, "Simple attribute", qPrintable(QString("Simple Attribute '%1' must be Primitive, Literal, Function, or IDRef").arg(a.name)));
+        }
+
         break;
     case AttributeDesc::H_TID:
     case AttributeDesc::H_ID:
@@ -183,18 +247,41 @@ bool ClassGenerator::outputAttribute(const ClassDef &cls, const AttrDef &attr, b
     return true;
 }
 
-void ClassGenerator::outputCreateObjectEnd(const ClassDef &cls)
+void ClassGenerator::outputCreateEnd(const ClassDef &cls)
 {
     Q_UNUSED(cls)
     m_out << "});\n";
 }
 
-void ClassGenerator::outputRegisterObject(const ClassDef &cls)
+void ClassGenerator::outputRegisterMulti(QString type, const ClassDef &cls)
 {
-    m_out << "game.registerMultiObject(" << cls.elemMult << ", gen_" << cls.elemName << ");\n\n";
+    m_out << "game.register" << type << "(" << cls.elemMult << ", " << getJSVariableName(cls) << ");\n\n";
 }
 
-bool ClassGenerator::outputModifications(QString mod)
+
+void ClassGenerator::outputRegisterSingle(QString type, const ClassDef &cls)
+{
+    m_out << "game.register" << type << "(" << getJSVariableName(cls) << ");\n\n";
+}
+
+
+bool ClassGenerator::outputModifications(const AttrDef &attr, const ClassDef &cls)
+{
+    switch (attr.type) {
+    case AttrDef::Function:
+        m_out << "function() {" << attr.content << "}";
+        return true;
+    case AttrDef::Complex:
+        return doOutputModifications(attr.content);
+    case AttrDef::Literal:
+        m_out << attr.content;
+        return true;
+    default:
+        return setError(QString("'%1' must be a function, literal or complex type").arg(attr.name), cls);
+    }
+}
+
+bool ClassGenerator::doOutputModifications(QString mod)
 {
     QStringList mods = mod.split(',', QString::SkipEmptyParts);
     bool first = true;
@@ -212,6 +299,49 @@ bool ClassGenerator::outputModifications(QString mod)
     }
     if (!first)
         m_out << " ]";
+    return true;
+}
+
+bool ClassGenerator::outputCosts(const ClassGenerator::AttrDef &attr, const ClassGenerator::ClassDef &cls)
+{
+    switch (attr.type) {
+    case AttrDef::Complex:
+        return doOutputCosts(attr.content);
+    case AttrDef::Literal:
+        m_out << attr.content;
+        return true;
+    default:
+        return setError(QString("'%1' must be a literal or complex type").arg(attr.name), cls);
+    }
+}
+
+bool ClassGenerator::doOutputCosts(QString costs)
+{
+    QStringList lines = costs.split(',');
+    m_out << "[ ";
+    bool firstL = true;
+    foreach (QString line, lines) {
+        if (!firstL) m_out << ',';
+        firstL = false;
+        m_out << "\n\t\t";
+
+        QStringList parts = line.split('+');
+        m_out << "[ ";
+        bool firstI = true;
+        foreach (QString itm, parts) {
+            if (!firstI) m_out << ',';
+            firstI = false;
+            m_out << "\n\t\t\t";
+
+            QStringList parts = itm.trimmed().split(' ', QString::SkipEmptyParts);
+            QString n = parts.value(0);
+            parts.pop_front();
+            QString v = parts.join(" ");
+            m_out << "{ property: Constants.Costs." << n << ", amount: " << v << " }";
+        }
+        m_out << "\n\t\t]";
+    }
+    m_out << "\n\t]";
     return true;
 }
 

@@ -503,6 +503,8 @@ QScriptValue GameScript::quickOption()
     }
 
     QScriptValue data = context()->argument(0);
+    QString oid = data.property("id").toString();
+    data.setProperty("id", QScriptValue());
     GameActionScript *a = GameActionScript::createGameAction(data, context(), engine());
     if (!a) {
         if (!engine()->hasUncaughtException())
@@ -517,9 +519,9 @@ QScriptValue GameScript::quickOption()
     }
 
     data.setProperty("activate", QScriptValue());
-    QString aid = act.property("id").toString();
-    data.setProperty("actionId", aid);
-    data.setProperty("id", QScriptValue());
+    data.setProperty("id", oid);
+    data.setProperty("actionId", act.property("id"));
+
 
     GameOptionScript *o = GameOptionScript::createGameOption(data, context(), engine());
     if (!o) {

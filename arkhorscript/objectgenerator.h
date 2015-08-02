@@ -12,6 +12,10 @@ public:
     bool generate(const ClassDef &cls);
 
 protected:
+    void outputCreateObjectStart(const ClassDef &cls);
+    void outputRegisterMultiObject(const ClassDef &cls);
+    void outputRegisterSingleObject(const ClassDef &cls);
+
     virtual QList<AttributeDesc> getAttributes();
     virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
     virtual bool outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls);

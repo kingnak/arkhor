@@ -56,5 +56,227 @@ Spell FindGate : 4 {
 	}>>>;
 }
 
+Ally AnnaKaslow {
+	modifications: [ Skill_Luck +2 ];
+	onAddToInventory: {{{
+		c.addClue(2);
+	}}};
+	description: "Gain 2 Clue tokens when Anna Kaslow joins you.";
+}
 
+
+Monster Chthonian : 3 {
+	description: "Instead of moving, roll a die. On a 4-6, "+
+    "all investigators in Arkham lose 1 Stamina";
+	movementType: Special;
+	awareness: +1;
+	horrorAdjustment: -2;
+	horrorDamage: 2;
+	combatAdjustment: -3;
+	combatDamage: 3;
+	toughness: 3;
+	onMove: {{{
+		var list = game.context.allCharacters;
+    		for (var i = 0; i < list.length; ++i) {
+      			var c = list[i];
+      			if (c.field.type == Constants.FieldType.Location || c.field.type == Constants.FieldType.Street) {
+        			c.damageStamina(1);
+        			c.commitDamage();
+      			}
+    		}
+	}}};
+}
+
+QuickOption ReadTablet {
+	costs: [ Movement 3 ];
+	phases: Movement;
+	continueType: CanContinue;
+	chooseType: Supplemental;
+	activate: {{{
+		var res = game.context.genericDieRollCount("Read Tablet", 2);
+		for (var i = 0; i < res; i++) {
+            var obj = game.context.drawObject(Constants.ObjectType.Spell);
+			game.context.character.addToInventory(obj);
+		}
+		for (var i = 0; i < 2-res; i++) {
+			game.context.addClue(2);
+		}
+        this.discard();
+	}}};
+}
+
+UniqueItem AncientTablet {
+	exhaustable: true;
+	price: 8;
+	optionIds: Option.ReadTablet;
+	description: "<b>Movement:</b> Spend 3 movement points "+
+		"and discard Ancient Tablet to roll 2 dice. For "+
+		"every success rolled, draw 1 Spell. For every "+
+		"failure rolled, gain 2 Clue tokens.";
+}
+
+FieldOption PsychatricCareAll {
+	costs: [ Money 2 ];
+	phases: ArkhamEncountery;
+	activate: {{{ game.context.character.restoreSanity(); }}};
+	field: DT_ArkhamAsylum;
+}
+
+
+QuickOption ArkhamAsylumEncounter {
+	phases: ArkhamEncountery;
+	activate: {{{
+		var res = game.context.dieRollSkillCount("", Constants.Skills.Lore, 0);
+		switch (res) {
+		case 0:
+			game.context.character.addClue(1);
+			game.context.character.damageSanity(1);
+			break;
+		case 1:
+		case 2:
+			game.context.character.addClue(2);
+			break;
+		default:
+			game.context.character.addClue(3);
+		}
+	}}};
+}
+
+ArkhamEncounter ArkhamAsylumEncounter {
+	description:"In the Doctor's study, you find a book of "+
+		"helpful notes gathered from inmate interviews. "+
+		"Make a <b>Lore (+0) check</b> and consult the "+
+		"following chart:\n\n"+
+		"Successes:\n"+
+		"0) Their stories fill you with horror even "+
+			"as you learn a few bits of knowledge. Lose "+
+			"1 Sanity and gain 1 Clue token.\n"+
+		"1-2) You find several pieces of useful "+
+			"information. Gain 2 Clue tokens.\n"+
+		"3+) One of the interviews contains vital "+
+			"information. Gain 3 Clue tokens.";
+	field: DT_ArkhamAsylum;
+	options: Option.ArkhamAsylumEncounter;
+}
+
+QuickOption AbyssEncounter {
+	name: "Check light";
+	phases: OtherWorldEncountery;
+	activate: {{{
+                var res = game.context.skillTest("Check Light", Constants.Skills.Luck, -2, 1);
+		if (res) {
+			game.context.character.returnToArkham();
+		} else {
+			game.context.spontaneousMonsterFight();
+		}
+	}}};
+}
+
+OtherWorldEncounter AbyssEncounter {
+	color: Blue;
+	options: Option.AbyssEncounter;
+	description: "A glowing light ahead draws you towards it. "+
+		"Make a <b>Luck (-1) check</b>. If you pass, the glow "+
+		"is a way home. Return to Arkham. If you fail, the light "+
+		"is a trap set by one of the creatures that live here. "+
+		"A monster appears!";
+}
+
+Headline Test {
+	description: "";
+	executeHeadline: {{{}}};
+}
+
+Rumor SouthSideStrangler {
+	name: "The Southside Strangler Strikes";
+	description: "<b>Ongoing Effect: </b>Return one Ally from the Ally deck to the box "+
+	        "at random at the end of every <b>Mythos Phase</b> while this card is in play "+
+	        "(beginning the turn after it entered play). The Southside Strangler has struck again!\n\n"+
+	       "<b>Pass: </b>If a single player discards 5 Clue tokens while in Ma's Boarding House during "+
+	       "the <b>Arkham Encounters Phase</b>, return this card to the box. Each player receives a $5 reward from the police.\n\n"+
+	       "<b>Fail: </b>If there are no more Allies to return to the box at the end of the "+
+	       "<b>Mythos Phase</b>, return this card to the box. Each player must lower either their "+
+	       "maximum Sanity or Stamina (their choice) by 1 for the rest of the game.";
+	shortDescription: "<b>Pass:</b> Spend 5 Clues at Ma's Boarding House\n"+
+                      "<b>Fail:</b> No Allies are remaining";
+	rumorField: SS_MasBoardingHouse;
+	rumorFieldOptionId: Option.SouthSideStranglerField;
+	setupRumor: {{{ this.allyCount = game.cardsOnDeck(Constants.ObjectType.Ally); }}};
+	teardownRumor: {{{ }}};
+	onMythos: {{{
+	       var ally = game.drawSingleObject(Constants.ObjectType.Ally);
+	       this.allyCount = game.cardsOnDeck(Constants.ObjectType.Ally);
+	       if (!ally) {
+	           // No more allies => Fail
+	           this.fail();
+	       } else {
+	           ally.removeFromGame();
+	       }
+	}}};
+	onPass: {{{
+	       debugger;
+	       var list = game.context.allCharacters;
+	       for (var i = 0; i < list.length; ++i) {
+	           var c = list[i];
+	           c.addMoney(5);
+	       }
+	       this.removeFromGame();
+	}}};
+	onFail: {{{
+	       debugger;
+	       var sel = game.context.selectChoice("Select item to reduce Maximum value", ["Stamina", "Sanity"]);
+	       if (sel == "Stamina") {
+	           var itm = game.drawSpecificObject("OBJ_STRANGLER_DECREASE_STAMINA");
+	           game.context.character.addToInventory(itm);
+	       } else {
+	           var itm = game.drawSpecificObject("OBJ_STRANGLER_DECREASE_SANITY");
+	           game.context.character.addToInventory(itm);
+	       }
+
+	       /* TODO: Do on all characters!
+	       var list = game.context.allCharacters;
+	       for (var i = 0; i < list.length; ++i) {
+	       }
+	       */
+
+	       this.removeFromGame();
+	}}};
+	properties: <<<{
+		allyCount: { display: "Remaining Ally Cards" }
+	}>>>;
+}
+
+QuickOption SouthSideStranglerField {
+	costs: [ Clue 5 ];
+	name: "Catch Southside Strangler";
+	description: "Catch the Southside strangler to pass the Rumor";
+	phases: ArkhamEncountery;
+	continueType: CannotContinue;
+	activate: {{{ game.context.rumor.pass(); }}};
+}
+
+Investigator SisterMary {
+	occupation: "The Nun";
+	homeFieldId: SS_SouthChurch;
+	sanity: 4;
+	stamina: 3;
+	money: 0;
+	focus: 1;
+	fixedPossesionObjectIds: (
+		CommonItem.Cross, UniqueItem.HolyWater, SpecialObject.Blessing
+	);
+	randomPossessions: [
+		Spell 2, Skill 1
+	];
+	attributes: [
+		SpeedSneak {(1,4), (2,3), (3,4), (4,1)},
+		FightWill {(0,4), (1,3), (2,2), (3,1)},
+		LoreLuck {(1,6), (2,5), (3,4), (4,3)}
+	];
+}
+
+AncientOne Hastur {
+	doomTrack: 14;
+	monsterModifications: [ Cultist { Monster_CombatAdjustment -3, Monster_Movement =Flying } ];
+}
 

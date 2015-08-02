@@ -46,30 +46,36 @@ protected:
     bool setWarning(QString warn, const ClassDef &cls);
 
     virtual QList<AttributeDesc> getAttributes() = 0;
+    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr) = 0;
+    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
 
     QString idPrefixForClass(QString classType);
     QString generateName(QString clsName);
 
-    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr) = 0;
-    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
-
     void outputClassComment(const ClassDef &cls);
-    void outputCreateObjectStart(const ClassDef &cls);
+    void outputCreateStart(QString type, const ClassDef &cls);
     bool outputAttributes(const ClassDef &cls);
     bool outputAttribute(const ClassDef &cls, const AttrDef &attr, bool inPredefined);
-    void outputCreateObjectEnd(const ClassDef &cls);
-    void outputRegisterObject(const ClassDef &cls);
+    void outputCreateEnd(const ClassDef &cls);
+    void outputRegisterMulti(QString type, const ClassDef &cls);
+    void outputRegisterSingle(QString type, const ClassDef &cls);
 
-    bool outputModifications(QString mod);
     bool outputIDRef(const AttrDef &attr, const ClassDef &cls);
     bool outputIDRefArray(const AttrDef &attr, const ClassDef &cls);
     bool outputEnumValue(QString prefix, const AttrDef &attr, const ClassDef &cls);
     bool outputEnumValueArray(QString prefix, const AttrDef &attr, const ClassDef &cls);
 
+    bool outputModifications(const AttrDef &attr, const ClassDef &cls);
+    bool outputCosts(const AttrDef &attr, const ClassDef &cls);
+
     bool outputFunction(const AttrDef &attr, const ClassGenerator::ClassDef &cls, QString params = QString::null);
+
+    QString getJSVariableName(const ClassDef &cls);
 
 private:
     bool doOutputIDRef(QString ref);
+    bool doOutputModifications(QString mod);
+    bool doOutputCosts(QString costs);
 
 protected:
     QTextStream &m_out;

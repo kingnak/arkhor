@@ -15,9 +15,24 @@ bool ObjectGenerator::generate(const ClassGenerator::ClassDef &cls)
     outputClassComment(cls);
     outputCreateObjectStart(cls);
     if (!outputAttributes(cls)) return false;
-    outputCreateObjectEnd(cls);
-    outputRegisterObject(cls);
+    outputCreateEnd(cls);
+    outputRegisterMultiObject(cls);
     return true;
+}
+
+void ObjectGenerator::outputCreateObjectStart(const ClassGenerator::ClassDef &cls)
+{
+    outputCreateStart("Object", cls);
+}
+
+void ObjectGenerator::outputRegisterMultiObject(const ClassGenerator::ClassDef &cls)
+{
+    outputRegisterMulti("MultipleObject", cls);
+}
+
+void ObjectGenerator::outputRegisterSingleObject(const ClassGenerator::ClassDef &cls)
+{
+    outputRegisterSingle("SingleObject", cls);
 }
 
 QList<ClassGenerator::AttributeDesc> ObjectGenerator::getAttributes()
@@ -31,7 +46,9 @@ QList<ClassGenerator::AttributeDesc> ObjectGenerator::getAttributes()
             << AttributeDesc("exhaustable", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
             << AttributeDesc("onAddToInventory", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
             << AttributeDesc("onRemoveFromInventory", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
-            << AttributeDesc("optionIds", AttributeDesc::R_Optional, AttributeDesc::H_IDRef, AttributeDesc::V_Primitive | AttributeDesc::V_Array);
+            << AttributeDesc("optionIds", AttributeDesc::R_Optional, AttributeDesc::H_IDRef, AttributeDesc::V_Primitive | AttributeDesc::V_Array)
+            << AttributeDesc("properties", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
+               ;
 }
 
 bool ObjectGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
@@ -54,18 +71,7 @@ bool ObjectGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc desc,
         return true;
     }
     if (desc.name == "modifications") {
-        switch (attr.type) {
-        case AttrDef::Function:
-            m_out << "function() {" << attr.content << "}";
-            return true;
-        case AttrDef::Complex:
-            return outputModifications(attr.content);
-        case AttrDef::Literal:
-            m_out << attr.content;
-            return true;
-        default:
-            return setError("modifications must be a function or complex type", cls);
-        }
+        return outputModifications(attr, cls);
     }
 
     if (desc.name == "onAddToInventory") {
@@ -81,7 +87,7 @@ bool ObjectGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc desc,
         return outputEnumValueArray("Constants.ObjectAttribute", attr, cls);
     }
 
-    Q_ASSERT_X(false, "Special Attribute", "Special Attribute not handled by subclass");
+    Q_ASSERT_X(false, "Object Generator", qPrintable(QString("Special Attribute '%1' not handled").arg(desc.name)));
     return true;
 }
 

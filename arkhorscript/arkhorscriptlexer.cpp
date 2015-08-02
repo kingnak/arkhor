@@ -108,7 +108,7 @@ bool ArkhorScriptLexer::parse()
             pushBack(c);
             if (c == '<')
                 return parseBlock('<', '>', Symbol::Literal);
-            m_symbol = makeSymbol(Symbol::Operator, sLine, sPos, c);
+            m_symbol = makeSymbol(Symbol::Operator, sLine, sPos, "<");
             /*
         case '[':
             return parseBlock('[', ']', Symbol::Complex);
@@ -118,7 +118,7 @@ bool ArkhorScriptLexer::parse()
             pushBack(c);
             if (c == '{')
                 return parseBlock('{', '}', Symbol::Function);
-            m_symbol = makeSymbol(Symbol::BraceOpen, sLine, sPos, c);
+            m_symbol = makeSymbol(Symbol::BraceOpen, sLine, sPos, "{");
             return true;
         case '/':
             c = parseChar();
@@ -127,7 +127,7 @@ bool ArkhorScriptLexer::parse()
                 if (!parseComment())
                     return false;
             } else {
-                m_symbol = makeSymbol(Symbol::Operator, sLine, sPos, c);
+                m_symbol = makeSymbol(Symbol::Operator, sLine, sPos, "/");
                 return true;
             }
             break;

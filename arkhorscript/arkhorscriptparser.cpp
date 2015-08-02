@@ -156,6 +156,7 @@ bool ArkhorScriptParser::ElementAttribute()
         case Symbol::Plus:
             consumeToken(m_lexer->currentSymbol().type);
             a.content += m_lexer->currentSymbol().image;
+            a.type = AttrDef::Primitive;
             consumeToken(Symbol::Number);
             break;
         case Symbol::ParenOpen:

@@ -4,8 +4,20 @@
 
 #include "commonitemgenerator.h"
 #include "uniqueitemgenerator.h"
+#include "allygenerator.h"
 #include "skillgenerator.h"
 #include "spellgenerator.h"
+#include "specialobjectgenerator.h"
+#include "monstergenerator.h"
+#include "optiongenerator.h"
+#include "actiongenerator.h"
+#include "quickoptiongenerator.h"
+#include "fieldoptiongenerator.h"
+#include "arkhamencountergenerator.h"
+#include "otherworldencountergenerator.h"
+#include "mythosgenerator.h"
+#include "investigatorgenerator.h"
+#include "ancientonegenerator.h"
 
 namespace AHS {
 
@@ -56,8 +68,21 @@ void ArkhorScriptGenerator::init()
 {
     m_generators["CommonItem"] = new CommonItemGenerator(m_out);
     m_generators["UniqueItem"] = new UniqueItemGenerator(m_out);
+    m_generators["Ally"] = new AllyGenerator(m_out);
     m_generators["Spell"] = new SpellGenerator(m_out);
     m_generators["Skill"] = new SkillGenerator(m_out);
+    m_generators["SpecialObject"] = new SpecialObjectGenerator(m_out);
+    m_generators["Monster"] = new MonsterGenerator(m_out);
+    m_generators["Option"] = new OptionGenerator(m_out);
+    m_generators["Action"] = new ActionGenerator(m_out);
+    m_generators["QuickOption"] = new QuickOptionGenerator(m_out);
+    m_generators["FieldOption"] = new FieldOptionGenerator(m_out);
+    m_generators["ArkhamEncounter"] = new ArkhamEncounterGenerator(m_out);
+    m_generators["OtherWorldEncounter"] = new OtherWorldEncounterGenerator(m_out);
+    m_generators["Rumor"] = new RumorGenerator(m_out);
+    m_generators["Headline"] = new HeadlineGenerator(m_out);
+    m_generators["Investigator"] = new InvestigatorGenerator(m_out);
+    m_generators["AncientOne"] = new AncientOneGenerator(m_out);
 }
 
 bool ArkhorScriptGenerator::generateClass(const ClassDef &cls)

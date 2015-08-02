@@ -19,7 +19,19 @@ SOURCES += arkhorscriptparser.cpp \
     objectgenerator.cpp \
     skillgenerator.cpp \
     uniqueitemgenerator.cpp \
-    spellgenerator.cpp
+    spellgenerator.cpp \
+    allygenerator.cpp \
+    monstergenerator.cpp \
+    specialobjectgenerator.cpp \
+    optiongenerator.cpp \
+    actiongenerator.cpp \
+    quickoptiongenerator.cpp \
+    fieldoptiongenerator.cpp \
+    arkhamencountergenerator.cpp \
+    otherworldencountergenerator.cpp \
+    mythosgenerator.cpp \
+    investigatorgenerator.cpp \
+    ancientonegenerator.cpp
 
 HEADERS += arkhorscriptparser.h\
         arkhorscript_global.h \
@@ -30,7 +42,19 @@ HEADERS += arkhorscriptparser.h\
     objectgenerator.h \
     skillgenerator.h \
     uniqueitemgenerator.h \
-    spellgenerator.h
+    spellgenerator.h \
+    allygenerator.h \
+    monstergenerator.h \
+    specialobjectgenerator.h \
+    optiongenerator.h \
+    actiongenerator.h \
+    quickoptiongenerator.h \
+    fieldoptiongenerator.h \
+    arkhamencountergenerator.h \
+    otherworldencountergenerator.h \
+    mythosgenerator.h \
+    investigatorgenerator.h \
+    ancientonegenerator.h
 
 unix {
     target.path = /usr/lib

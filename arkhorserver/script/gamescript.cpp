@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
+#include <QBuffer>
 #include "game/gameboard.h"
 #include "game/game.h"
 #include <propertyvaluedata.h>
@@ -22,6 +23,7 @@
 #include "ancientonescript.h"
 #include "gatescript.h"
 #include "game/actions/dierollaction.h"
+#include <arkhorscriptgenerator.h>
 
 #ifdef DEBUG_SCRIPT_BUILD
 #include <QScriptEngineDebugger>
@@ -150,7 +152,7 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         ot.setProperty("Spell", AH::Obj_Spell, QScriptValue::ReadOnly);
         ot.setProperty("Skill", AH::Obj_Skill, QScriptValue::ReadOnly);
         ot.setProperty("Ally", AH::Obj_Ally, QScriptValue::ReadOnly);
-        ot.setProperty("Blessing_Curse", AH::Obj_Blessing_Curse, QScriptValue::ReadOnly);
+        ot.setProperty("BlessingCurse", AH::Obj_Blessing_Curse, QScriptValue::ReadOnly);
         ot.setProperty("Special", AH::Obj_Special, QScriptValue::ReadOnly);
         consts.setProperty("ObjectType", ot, QScriptValue::ReadOnly);
     }
@@ -877,19 +879,44 @@ void GameScript::castChoiceOptionFromValue(const QScriptValue &v, AH::Common::Ch
 
 bool GameScript::parseScripts(QDir base)
 {
-    QFileInfoList lst = base.entryInfoList(QStringList() << "*.txt" << "*.js", QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Files, QDir::Name);
+    QFileInfoList lst = base.entryInfoList(QStringList() << "*.ahs" << "*.js", QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Files, QDir::Name);
     foreach (QFileInfo fi, lst) {
         if (fi.isDir()) {
             if (!parseScripts(fi.absoluteFilePath()))
                 return false;
-        } else if (fi.fileName().endsWith(".js")){
-            QFile f(fi.absoluteFilePath());
-            if (!f.open(QIODevice::ReadOnly)) {
-                qCritical() << "Cannot open file: " << fi.absoluteFilePath();
-                return false;
+        } else {
+            QString src;
+            if (fi.fileName().endsWith(".js")) {
+                QFile f(fi.absoluteFilePath());
+                if (!f.open(QIODevice::ReadOnly)) {
+                    qCritical() << "Cannot open file: " << fi.absoluteFilePath();
+                    return false;
+                }
+                QTextStream ts(&f);
+                src = ts.readAll();
+            } else if (fi.fileName().endsWith(".ahs")) {
+                QFile f(fi.absoluteFilePath());
+                if (!f.open(QIODevice::ReadOnly)) {
+                    qCritical() << "Cannot open file: " << fi.absoluteFilePath();
+                    return false;
+                }
+
+                QByteArray ba;
+                { // Scope limit buf
+                    QBuffer buf(&ba);
+                    buf.open(QIODevice::WriteOnly);
+                    AHS::ArkhorScriptGenerator gen(&f, &buf);
+                    if (!gen.generate()) {
+                        qCritical() << "AH Script Error:" << gen.error();
+                        return false;
+                    }
+                    if (!gen.warning().isEmpty()) qWarning() << "AH Script Warning:" << gen.warning();
+                }
+
+                src = ba.data();
+            } else {
+                continue;
             }
-            QTextStream ts(&f);
-            QString src = ts.readAll();
 
 #ifdef DEBUG_SCRIPT_BUILD
             //QString fn = fi.absoluteFilePath();
@@ -900,7 +927,7 @@ bool GameScript::parseScripts(QDir base)
                 QString fn = fi.absoluteFilePath();
                 qDebug(qPrintable(fn));
 
-                src = QString("(function(){%1})();").arg(src);
+                src = QString("(function(){%1\n})();").arg(src);
 
                 QScriptValue v = m_engine->evaluate(src, fn, 1);
                 if (v.isError()) {

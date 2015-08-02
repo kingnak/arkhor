@@ -235,7 +235,8 @@ OTHER_FILES += \
     data/objects/test.js \
     data/mythos/rumor.js \
     data/ancientone/azathoth.js \
-    data/ancientone/hastur.js
+    data/ancientone/hastur.js \
+    data/objects/blessing_curse.ahs
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

@@ -88,14 +88,27 @@ QString ClassGenerator::idPrefixForClass(QString classType)
     if (classType == "AncientOne") {
         return "AO";
     }
+    if (classType == "BlessingCurse") {
+        return "BC";
+    }
     setWarning("Unknown Class Type: " + classType);
     return "??";
 }
 
 QString ClassGenerator::generateName(QString clsName)
 {
-    // TODO
-    return clsName;
+    QString name;
+    for (int i = 0; i < clsName.length(); ++i) {
+        if (clsName[i] == '_') {
+            name += ' ';
+            continue;
+        }
+        if (clsName[i].isUpper()) {
+            name += ' ';
+        }
+        name += clsName[i];
+    }
+    return name.trimmed();
 }
 
 bool ClassGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)

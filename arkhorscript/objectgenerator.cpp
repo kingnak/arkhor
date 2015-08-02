@@ -27,7 +27,7 @@ void ObjectGenerator::outputCreateObjectStart(const ClassGenerator::ClassDef &cl
 
 void ObjectGenerator::outputRegisterMultiObject(const ClassGenerator::ClassDef &cls)
 {
-    outputRegisterMulti("MultipleObject", cls);
+    outputRegisterMulti("MultiObject", cls);
 }
 
 void ObjectGenerator::outputRegisterSingleObject(const ClassGenerator::ClassDef &cls)

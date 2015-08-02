@@ -18,6 +18,7 @@
 #include "mythosgenerator.h"
 #include "investigatorgenerator.h"
 #include "ancientonegenerator.h"
+#include "blessingcursegenerator.h"
 
 namespace AHS {
 
@@ -83,6 +84,8 @@ void ArkhorScriptGenerator::init()
     m_generators["Headline"] = new HeadlineGenerator(m_out);
     m_generators["Investigator"] = new InvestigatorGenerator(m_out);
     m_generators["AncientOne"] = new AncientOneGenerator(m_out);
+    m_generators["BlessingCurse"] = new BlessingCurseGenerator(m_out);
+    //m_generators["Curse"] = new BlessingCurseGenerator(m_out);
 }
 
 bool ArkhorScriptGenerator::generateClass(const ClassDef &cls)

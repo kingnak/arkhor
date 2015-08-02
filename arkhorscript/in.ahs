@@ -280,3 +280,12 @@ AncientOne Hastur {
 	monsterModifications: [ Cultist { Monster_CombatAdjustment -3, Monster_Movement =Flying } ];
 }
 
+Blessing Blessing : 4 {
+	modifications: [ Prop_MinSuccessDieRoll -1 ];
+}
+
+Curse Curse: 4 {
+	modifications: [ Prop_MinSuccessDieRoll +1 ];
+}
+
+

@@ -153,6 +153,10 @@ bool ArkhorScriptLexer::parse()
             if (!parseIdentifier(img)) {
                 return false;
             }
+            if (img.isEmpty()) {
+                m_symbol = makeSymbol(Symbol::Error, m_lineCount, m_linePos, "Unexpected character");
+                return false;
+            }
             if (img == "true") {
                 m_symbol = makeSymbol(Symbol::True, m_lineCount, m_linePos, "true");
                 return true;

@@ -22,27 +22,7 @@
 
 int main(int argc, char *argv[])
 {    
-    if (argc < 3) {
-        return(1);
-    }
-
-    QFile fi(argv[1]);
-    fi.open(QFile::ReadOnly);
-    QFile fo(argv[2]);
-    //if (fo.exists()) {
-    //    return(2);
-    //}
-    fo.open(QFile::WriteOnly);
-    AHS::ArkhorScriptGenerator p(&fi, &fo);
-    if (p.generate()) {
-        qDebug() << p.warning();
-        return(0);
-    }
-    qDebug() << p.warning();
-    qDebug() << p.error();
-    return(3);
-
-#if 0
+#if 1
 #ifdef DEBUG_SCRIPT_BUILD
     QApplication app(argc, argv);
 #else
@@ -79,6 +59,30 @@ int main(int argc, char *argv[])
 
     return 0;
 #endif
+
+#if 0
+    // AHS COMPILER:
+    if (argc < 3) {
+        return(1);
+    }
+
+    QFile fi(argv[1]);
+    fi.open(QFile::ReadOnly);
+    QFile fo(argv[2]);
+    //if (fo.exists()) {
+    //    return(2);
+    //}
+    fo.open(QFile::WriteOnly);
+    AHS::ArkhorScriptGenerator p(&fi, &fo);
+    if (p.generate()) {
+        qDebug() << p.warning();
+        return(0);
+    }
+    qDebug() << p.warning();
+    qDebug() << p.error();
+    return(3);
+#endif
+
 
 #if 0
     SimpleGameNotifier gn;

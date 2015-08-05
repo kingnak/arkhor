@@ -12,7 +12,7 @@ game.registerAncientOne(game.createAncientOne({
                 "This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)",
     doomTrack: 13,
     monsterModifications: [
-        { id: "MO_CULTIST", mod: [
+        { id: "MO_Cultist", mod: [
             {property: Constants.Mods.Monster_CombatAdjustment, value: -3},
             {property: Constants.Mods.Monster_Movement, value: "="+Constants.Movement.Flying}
         ] }

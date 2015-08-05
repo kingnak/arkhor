@@ -1,0 +1,94 @@
+QuickOption CatchSouthsideStrangler {
+	phases: ArkhamEncountery;
+	description: "Catch the Southside strangler to pass the Rumor";
+	continueType: CannotContinue;
+	activate: {{{
+		game.context.rumor.pass();
+	}}};
+}
+
+Rumor SouthSideStrangler {
+	name: "The Southside Strangler Strikes";
+	description: "<b>Ongoing Effect: </b>Return one Ally from the Ally deck to the box "+
+		"at random at the end of every <b>Mythos Phase</b> while this card is in play "+
+		"(beginning the turn after it entered play). The Southside Strangler has struck again!<br/><br/>"+
+		"<b>Pass: </b>If a single player discards 5 Clue tokens while in Ma's Boarding House during "+
+		"the <b>Arkham Encounters Phase</b>, return this card to the box. Each player receives a $5 reward from the police.<br/><br/>"+
+		"<b>Fail: </b>If there are no more Allies to return to the box at the end of the "+
+		"<b>Mythos Phase</b>, return this card to the box. Each player must lower either their "+
+		"maximum Sanity or Stamina (their choice) by 1 for the rest of the game.";
+
+	shortDescription: "<b>Pass:</b> Spend 5 Clues at Ma's Boarding House<br/>"+
+					  "<b>Fail:</b> No Allies are remaining";
+
+	//clueField: DT_ArkhamAsylum;
+	//gateField: DT_IndependenceSquare;
+	//moveBlack: Square;
+	//moveWhite: Triangle;
+
+	rumorField: SS_MasBoardingHouse;
+	rumorFieldOptionId: Option.CatchSouthsideStrangler;
+
+	setupRumor: {{{
+		this.allyCount = game.cardsOnDeck(Constants.ObjectType.Ally);
+	}}};
+
+	teardownRumor: {{{}}};
+
+	onMythos: {{{
+		var ally = game.drawSingleObject(Constants.ObjectType.Ally);
+		this.allyCount = game.cardsOnDeck(Constants.ObjectType.Ally);
+		if (!ally) {
+			// No more allies => Fail
+			this.fail();
+		} else {
+			ally.removeFromGame();
+		}
+	}}};
+
+	onPass: {{{
+		var list = game.context.allCharacters;
+		for (var i = 0; i < list.length; ++i) {
+			var c = list[i];
+			c.addMoney(5);
+		}
+		this.removeFromGame();
+	}}};
+
+	onFail: {{{
+		debugger;
+		var sel = game.context.selectChoice("Select item to reduce Maximum value", ["Stamina", "Sanity"]);
+		if (sel == "Stamina") {
+			var itm = game.drawSpecificObject("OBJ_SS_DecMaxStam");
+			game.context.character.addToInventory(itm);
+		} else {
+			var itm = game.drawSpecificObject("OBJ_SS_DecMaxStam");
+			game.context.character.addToInventory(itm);
+		}
+
+		/* TODO: Do on all characters!
+		var list = game.context.allCharacters;
+		for (var i = 0; i < list.length; ++i) {
+		}
+		*/
+
+		this.removeFromGame();
+	}}};
+
+	properties: <<<{
+		allyCount: { display: "Remaining Ally Cards" }
+	}>>>;
+}
+
+// Special Objects for South Side Strangler
+SpecialObject SS_DecMaxSan {
+	name: "Southside Strangler Curse";
+	description: "You failed the Southside Strangler rumor.";
+	modifications: [ Prop_MaxSanity -1 ];
+}
+
+SpecialObject SS_DecMaxStam {
+	name: "Southside Strangler Curse";
+	description: "You failed the Southside Strangler rumor.";
+	modifications: [ Prop_MaxStamina -1 ];
+}

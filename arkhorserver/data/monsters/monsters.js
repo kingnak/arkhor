@@ -26,7 +26,7 @@ game.registerMonster(3, m);
 
 // BYAKHEE
 var m = game.createMonster({
-  id: "MO_BYAKHEE",
+  id: "MO_Byakhee",
   name: "Byakhee",
   mythText:
     "It shrieked and flapped its wings. "+
@@ -77,7 +77,7 @@ game.registerMonster(3, m);
 
 // CULTIST
 var m = game.createMonster({
-  id: "MO_CULTIST",
+  id: "MO_Cultist",
   name: "Cultist",
   mythText:
     "la! la! Cthulhu Fthagen! "+

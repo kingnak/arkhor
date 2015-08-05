@@ -1,3 +1,4 @@
+/*
 var stranglerFieldOption = game.quickOption({
     costs: { type: Constants.Costs.Clue, amount: 5},
     name: "Catch Southside Strangler",
@@ -86,7 +87,7 @@ game.registerMythosCard(game.createMythosCard({
         var list = game.context.allCharacters;
         for (var i = 0; i < list.length; ++i) {
         }
-        */
+        /
 
         this.removeFromGame();
     },
@@ -94,3 +95,4 @@ game.registerMythosCard(game.createMythosCard({
         allyCount: { display: "Remaining Ally Cards" }
     }
 }));
+*/

@@ -1,0 +1,10 @@
+
+Environment TheFestival {
+	description: "The Festival has begun! Cultists and Byakhee "+
+		"have their toughness increases by 1.";
+	environmentType: Urban;
+	monsterModifications: [
+		Cultist { Monster_Toughness +1 },
+		Byakhee { Monster_Toughness +1 }
+	];
+}

@@ -1,11 +1,11 @@
 QT += network script scripttools
-QT -= gui
+#QT -= gui
 unix:CONFIG(debug, debug|release): DEFINES += "_DEBUG=1"
 
 CONFIG += console
 CONFIG -= windows
 
-#DEFINES += DEBUG_SCRIPT_BUILD
+DEFINES += DEBUG_SCRIPT_BUILD
 
 HEADERS += \
     communication/clientconnection.h \
@@ -95,7 +95,9 @@ HEADERS += \
     ancientone.h \
     script/ancientonescript.h \
     game/phases/ancientoneattack.h \
-    game/phases/attackancientonephase.h
+    game/phases/attackancientonephase.h \
+    game/monstermodifier.h \
+    script/monstermodifierscript.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -184,10 +186,11 @@ SOURCES += \
     ancientone.cpp \
     script/ancientonescript.cpp \
     game/phases/ancientoneattack.cpp \
-    game/phases/attackancientonephase.cpp
+    game/phases/attackancientonephase.cpp \
+    game/monstermodifier.cpp \
+    script/monstermodifierscript.cpp
 
 OTHER_FILES += \
-    data/characters/characters.js \
     data/field/arkham/downtown/bankOfArkham.js \
     data/field/arkham/downtown/independenceSquare.js \
     data/field/arkham/easttown/hibbsRoadhouse.js \
@@ -236,7 +239,11 @@ OTHER_FILES += \
     data/mythos/rumor.js \
     data/ancientone/azathoth.js \
     data/ancientone/hastur.js \
-    data/objects/blessing_curse.ahs
+    data/objects/blessing_curse.ahs \
+    data/mythos/rumor.ahs \
+    data/characters/characters.ahs \
+    data/characters/characters.js \
+    data/mythos/env_urban.ahs
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

@@ -19,6 +19,8 @@ protected:
     virtual QList<AttributeDesc> getAttributes();
     virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
     virtual bool outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls);
+
+    virtual QString getObjectTypeName(const ClassDef &cls) const;
 };
 
 }

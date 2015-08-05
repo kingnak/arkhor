@@ -43,7 +43,6 @@ QList<ClassGenerator::AttributeDesc> ObjectGenerator::getAttributes()
             << AttributeDesc("name", AttributeDesc::R_Default, AttributeDesc::H_Name, AttributeDesc::V_Primitive)
             << AttributeDesc("description", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
             << AttributeDesc("modifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function | AttributeDesc::V_Complex)
-            << AttributeDesc("exhaustable", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
             << AttributeDesc("onAddToInventory", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
             << AttributeDesc("onRemoveFromInventory", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
             << AttributeDesc("optionIds", AttributeDesc::R_Optional, AttributeDesc::H_IDRef, AttributeDesc::V_Primitive | AttributeDesc::V_Array)
@@ -64,10 +63,15 @@ bool ObjectGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc,
     return ClassGenerator::outputDefaultAttribute(desc, cls);
 }
 
+QString ObjectGenerator::getObjectTypeName(const ClassGenerator::ClassDef &cls) const
+{
+    return cls.elemType;
+}
+
 bool ObjectGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls, const ClassGenerator::AttrDef &attr)
 {
     if (desc.name == "type") {
-        m_out << "Constants.ObjectType."+cls.elemType;
+        m_out << "Constants.ObjectType."+getObjectTypeName(cls);
         return true;
     }
     if (desc.name == "modifications") {

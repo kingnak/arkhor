@@ -1,6 +1,21 @@
 #include "specialobjectgenerator.h"
 
 namespace AHS {
+
+QList<ClassGenerator::AttributeDesc> SpecialObjectGenerator::getAttributes()
+{
+    return ObjectGenerator::getAttributes()
+            << AttributeDesc("exhaustable", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
+            << AttributeDesc("actionIds", AttributeDesc::R_Optional, AttributeDesc::H_IDRef, AttributeDesc::V_Array)
+               ;
+}
+
+QString SpecialObjectGenerator::getObjectTypeName(const ClassGenerator::ClassDef &cls) const
+{
+    Q_UNUSED(cls);
+    return "Special";
+}
+
 /*
 bool SpecialObjectGenerator::generate(const ClassGenerator::ClassDef &cls)
 {

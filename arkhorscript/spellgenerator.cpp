@@ -8,7 +8,8 @@ QList<ClassGenerator::AttributeDesc> SpellGenerator::getAttributes()
             << AttributeDesc("castTarget", AttributeDesc::R_Default, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
             << AttributeDesc("castCost", AttributeDesc::R_Required, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
             << AttributeDesc("castAdjustment", AttributeDesc::R_Required, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
-            << AttributeDesc("cast", AttributeDesc::R_Required, AttributeDesc::H_Special, AttributeDesc::V_Function);
+            << AttributeDesc("exhaustable", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
+            << AttributeDesc("cast", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function);
 }
 
 bool SpellGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr)

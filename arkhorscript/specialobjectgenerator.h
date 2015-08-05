@@ -12,7 +12,8 @@ public:
     //bool generate(const ClassGenerator::ClassDef &cls);
 
 protected:
-    //QList<AttributeDesc> getAttributes();
+    QList<AttributeDesc> getAttributes();
+    QString getObjectTypeName(const ClassDef &cls) const;
 
 };
 

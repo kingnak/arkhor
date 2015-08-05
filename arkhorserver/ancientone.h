@@ -3,10 +3,11 @@
 
 #include <ancientonedata.h>
 #include "game/propertymodifier.h"
+#include "game/monstermodifier.h"
 
 class Character;
 
-class AncientOne : public AH::Common::AncientOneData, public PropertyModifier
+class AncientOne : public AH::Common::AncientOneData, public PropertyModifier, protected MonsterModifier
 {
 public:
     AncientOne();
@@ -22,7 +23,15 @@ public:
 
     virtual PropertyModificationList getCombatModifications() const;
     virtual PropertyModificationList getSlumberModifications() const { return PropertyModificationList(); }
+    /*
     virtual PropertyModificationList getMonsterModifications(QString typeId) const { Q_UNUSED(typeId) return PropertyModificationList(); }
+    virtual PropertyModificationList getMonsterModifications(AH::Common::MonsterData::MonsterAttributes attrs, bool matchAll = false) const
+    { Q_UNUSED(attrs) Q_UNUSED(matchAll) return PropertyModificationList(); }
+    */
+
+    using MonsterModifier::getMonsterModifications;
+    using MonsterModifier::getMonsterMovementModifications;
+
     /** Called at end of Mythos Phase */
     virtual void mythosPower() {}
 
@@ -36,6 +45,9 @@ public:
     void damage(int amount);
 
     virtual void decreaseAttackAdjustment(int amount) { m_attackAdjustment -= amount; setDirty(); }
+
+protected:
+    const PropertyModifier *getMonsterMovementModifier() const { return this; }
 
 protected:
     bool m_awake;

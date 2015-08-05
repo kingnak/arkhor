@@ -30,7 +30,6 @@ public:
     Q_INVOKABLE void decreaseAttackAdjustment(int amount = 1) { AncientOne::decreaseAttackAdjustment(amount); }
 
     virtual PropertyModificationList getSlumberModifications() const { return m_slumberModifications; }
-    virtual PropertyModificationList getMonsterModifications(QString typeId) const;
 
     virtual void attack();
 
@@ -47,8 +46,6 @@ private:
     QScriptValue m_this;
 
     PropertyModificationList m_slumberModifications;
-    QMap<QString, PropertyModificationList> m_monsterModifications;
-
 };
 
 Q_DECLARE_METATYPE(AncientOneScript*)

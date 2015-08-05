@@ -1,6 +1,7 @@
 #include "ancientonescript.h"
 #include "gamescript.h"
 #include "propertymodificationscript.h"
+#include "monstermodifierscript.h"
 
 AncientOneScript::AncientOneScript(QObject *parent) :
     QObject(parent)
@@ -48,20 +49,7 @@ AncientOneScript *AncientOneScript::createAncientOne(QScriptContext *ctx, QScrip
     }
 
     // Monster Modifications
-    QScriptValue monsterMods = data.property("monsterModifications");
-    if (monsterMods.isValid() && !monsterMods.isUndefined()) {
-        QScriptValueList mmLst = GameScript::array2list(monsterMods);
-        foreach (QScriptValue mm, mmLst) {
-            QString id = mm.property("id").toString();
-            QScriptValue mods = mm.property("mod");
-            PropertyModificationList lst;
-            if (!PropertyModificationScript::parsePropertyModificationList(ret.data(), mods, lst)) {
-                ctx->throwError(QScriptContext::TypeError, "createAncientOne: Invalid Monster Modification.");
-                return NULL;
-            }
-            ret->m_monsterModifications[id] = lst;
-        }
-    }
+    MonsterModifierScript::parseMonsterModifications(data, *ret, ret.data());
 
     QString err;
     if (!verify(ret.data(), &err)) {
@@ -81,15 +69,6 @@ void AncientOneScript::awake()
     if (m_awakeFunc.isFunction()) {
         m_awakeFunc.call(m_this);
     }
-}
-
-PropertyModificationList AncientOneScript::getMonsterModifications(QString typeId) const
-{
-    PropertyModificationList lst = m_monsterModifications.value(typeId);
-    if (typeId != "*") {
-        lst << m_monsterModifications.value("*");
-    }
-    return lst;
 }
 
 void AncientOneScript::attack()

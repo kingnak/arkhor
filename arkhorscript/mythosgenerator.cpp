@@ -1,4 +1,5 @@
 ﻿#include "mythosgenerator.h"
+#include <QTextStream>
 
 namespace AHS
 {
@@ -35,8 +36,8 @@ QList<ClassGenerator::AttributeDesc> MythosGenerator::getAttributes()
                // Optional for random:
             << AttributeDesc("clueField", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
             << AttributeDesc("gateField", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
-            << AttributeDesc("moveBlack", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
-            << AttributeDesc("moveWhite", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
+            << AttributeDesc("moveBlack", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Array)
+            << AttributeDesc("moveWhite", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Array)
                ;
 }
 
@@ -74,6 +75,52 @@ bool HeadlineGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc des
 
 //////////////////////////////////////////////
 
+QList<ClassGenerator::AttributeDesc> EnvironmentGenerator::getAttributes()
+{
+    return MythosGenerator::getAttributes()
+            << AttributeDesc("environmentFieldOptionId", AttributeDesc::R_Optional, AttributeDesc::H_IDRef, AttributeDesc::V_Primitive)
+            << AttributeDesc("environmentField", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
+            << AttributeDesc("environmentType", AttributeDesc::R_Required, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
+            << AttributeDesc("environmentModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
+            << AttributeDesc("monsterModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
+            << AttributeDesc("monsterMoveModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
+               ;
+}
+
+bool EnvironmentGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls, const ClassGenerator::AttrDef &attr)
+{
+    if (desc.name == "environmentType") {
+        return outputEnumValue("Constants.EnvironmentType", attr, cls);
+    }
+    if (desc.name == "environmentField") {
+        return outputEnumValue("Constants.Fields", attr, cls);
+    }
+    if (desc.name == "environmentModifications") {
+        return outputModifications(attr, cls);
+    }
+    if (desc.name == "monsterModifications") {
+        if (attr.type == AttrDef::Literal) {
+            m_out << attr.content;
+            return true;
+        } else if (attr.type == AttrDef::Complex) {
+            return outputMonsterModifications(attr.content, cls);
+        } else {
+            return setError("monsterModifications must be Complex or Literal", cls);
+        }
+    }
+    return MythosGenerator::outputSpecialAttribute(desc, cls, attr);
+}
+
+bool EnvironmentGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+{
+    if (desc.name == "type") {
+        return outputAttribute(cls, AttrDef("type", AttrDef::EnumValue, "Environment"), true);
+    }
+    return MythosGenerator::outputDefaultAttribute(desc, cls);
+}
+
+//////////////////////////////////////////////
+
 QList<ClassGenerator::AttributeDesc> RumorGenerator::getAttributes()
 {
     return MythosGenerator::getAttributes()
@@ -102,5 +149,6 @@ bool RumorGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, 
     }
     return MythosGenerator::outputDefaultAttribute(desc, cls);
 }
+
 
 }

@@ -36,6 +36,19 @@ protected:
 
 /////////////////////////////////
 
+class EnvironmentGenerator : public MythosGenerator
+{
+public:
+    EnvironmentGenerator(QTextStream &out) : MythosGenerator(out) {}
+
+protected:
+    virtual QList<AttributeDesc> getAttributes();
+    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
+    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
+};
+
+/////////////////////////////////
+
 class RumorGenerator : public MythosGenerator
 {
 public:

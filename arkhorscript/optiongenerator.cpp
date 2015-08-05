@@ -15,12 +15,12 @@ bool OptionGenerator::generate(const ClassGenerator::ClassDef &cls)
 
 void OptionGenerator::outputCreateOptionStart(const ClassGenerator::ClassDef &cls)
 {
-    outputCreateStart("GameOption", cls);
+    outputCreateStart("Option", cls);
 }
 
 void OptionGenerator::outputRegisterOption(const ClassGenerator::ClassDef &cls)
 {
-    outputRegisterSingle("GameOption", cls);
+    outputRegisterSingle("Option", cls);
 }
 
 QList<ClassGenerator::AttributeDesc> OptionGenerator::getAttributes()

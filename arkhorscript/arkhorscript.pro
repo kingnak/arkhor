@@ -32,7 +32,8 @@ SOURCES += arkhorscriptparser.cpp \
     mythosgenerator.cpp \
     investigatorgenerator.cpp \
     ancientonegenerator.cpp \
-    blessingcursegenerator.cpp
+    blessingcursegenerator.cpp \
+    specialabilitygenerator.cpp
 
 HEADERS += arkhorscriptparser.h\
         arkhorscript_global.h \
@@ -56,7 +57,8 @@ HEADERS += arkhorscriptparser.h\
     mythosgenerator.h \
     investigatorgenerator.h \
     ancientonegenerator.h \
-    blessingcursegenerator.h
+    blessingcursegenerator.h \
+    specialabilitygenerator.h
 
 unix {
     target.path = /usr/lib

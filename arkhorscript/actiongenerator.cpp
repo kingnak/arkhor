@@ -15,12 +15,12 @@ bool ActionGenerator::generate(const ClassGenerator::ClassDef &cls)
 
 void ActionGenerator::outputCreateActionStart(const ClassGenerator::ClassDef &cls)
 {
-    outputCreateStart("GameAction", cls);
+    outputCreateStart("Action", cls);
 }
 
 void ActionGenerator::outputRegisterAction(const ClassGenerator::ClassDef &cls)
 {
-    outputRegisterSingle("GameAction", cls);
+    outputRegisterSingle("Action", cls);
 }
 
 QList<ClassGenerator::AttributeDesc> ActionGenerator::getAttributes()

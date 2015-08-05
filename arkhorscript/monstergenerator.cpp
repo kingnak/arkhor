@@ -25,6 +25,7 @@ void MonsterGenerator::outputRegisterMonster(const ClassGenerator::ClassDef &cls
 QList<ClassGenerator::AttributeDesc> MonsterGenerator::getAttributes()
 {
     return QList<AttributeDesc>()
+            << AttributeDesc("tid", AttributeDesc::R_Predefined, AttributeDesc::H_TID, AttributeDesc::V_Primitive)
             << AttributeDesc("name", AttributeDesc::R_Default, AttributeDesc::H_Name, AttributeDesc::V_Primitive)
             << AttributeDesc("description", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
             << AttributeDesc("mythText", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)

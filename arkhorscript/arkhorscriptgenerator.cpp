@@ -19,6 +19,7 @@
 #include "investigatorgenerator.h"
 #include "ancientonegenerator.h"
 #include "blessingcursegenerator.h"
+#include "specialabilitygenerator.h"
 
 namespace AHS {
 
@@ -82,10 +83,11 @@ void ArkhorScriptGenerator::init()
     m_generators["OtherWorldEncounter"] = new OtherWorldEncounterGenerator(m_out);
     m_generators["Rumor"] = new RumorGenerator(m_out);
     m_generators["Headline"] = new HeadlineGenerator(m_out);
+    m_generators["Environment"] = new EnvironmentGenerator(m_out);
     m_generators["Investigator"] = new InvestigatorGenerator(m_out);
     m_generators["AncientOne"] = new AncientOneGenerator(m_out);
     m_generators["BlessingCurse"] = new BlessingCurseGenerator(m_out);
-    //m_generators["Curse"] = new BlessingCurseGenerator(m_out);
+    m_generators["SpecialAbility"] = new SpecialAbilityGenerator(m_out);
 }
 
 bool ArkhorScriptGenerator::generateClass(const ClassDef &cls)

@@ -121,6 +121,10 @@ private:
     QScriptValue initConstants();
     void initGlobalConstants(QScriptValue &consts);
     void initFieldConstants(QScriptValue &consts);
+    void initGlobalMethods();
+
+    // Quick access
+    static QScriptValue quick_CurChar(QScriptContext *, QScriptEngine *);
 
     bool parseScripts(QDir base);
 

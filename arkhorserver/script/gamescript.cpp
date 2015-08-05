@@ -25,6 +25,8 @@
 #include "game/actions/dierollaction.h"
 #include <arkhorscriptgenerator.h>
 
+#define OUTPUT_COMPILED_AHS
+
 #ifdef DEBUG_SCRIPT_BUILD
 #include <QScriptEngineDebugger>
 #include <QMainWindow>
@@ -92,6 +94,8 @@ bool GameScript::init(const QString &scriptBaseDir)
     // Constants:
     QScriptValue c = initConstants();
     m_engine->globalObject().setProperty("Constants", c);
+
+    initGlobalMethods();
 
     bool ok = parseScripts(scriptBaseDir);
     if (!ok) return false;
@@ -199,7 +203,12 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         mt.setProperty("Environment", AH::Common::MythosData::Environment, QScriptValue::ReadOnly);
         mt.setProperty("Rumor", AH::Common::MythosData::Rumor, QScriptValue::ReadOnly);
         consts.setProperty("Mythos", mt, QScriptValue::ReadOnly);
-        // TODO: set environment types
+        // environment types
+        QScriptValue et = m_engine->newObject();
+        et.setProperty("Weather", AH::Common::MythosData::Env_Weather, QScriptValue::ReadOnly);
+        et.setProperty("Urban", AH::Common::MythosData::Env_Urban, QScriptValue::ReadOnly);
+        et.setProperty("Mystic", AH::Common::MythosData::Env_Mystic, QScriptValue::ReadOnly);
+        consts.setProperty("EnvironmentType", et, QScriptValue::ReadOnly);
     }
 
     // Payment Items
@@ -241,6 +250,7 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         mods.setProperty("Prop_MaxSanity", AH::Common::PropertyValueData::Prop_MaxSanity, QScriptValue::ReadOnly);
         mods.setProperty("Prop_Focus", AH::Common::PropertyValueData::Prop_Focus, QScriptValue::ReadOnly);
         mods.setProperty("Prop_Movement", AH::Common::PropertyValueData::Prop_Movement, QScriptValue::ReadOnly);
+        mods.setProperty("Prop_MinSuccessDieRoll", AH::Common::PropertyValueData::Prop_MinSuccessDieRoll, QScriptValue::ReadOnly);
         mods.setProperty("DieRoll_All", AH::Common::PropertyValueData::DieRoll_All, QScriptValue::ReadOnly);
         mods.setProperty("DieRoll_Speed", AH::Common::PropertyValueData::DieRoll_Speed, QScriptValue::ReadOnly);
         mods.setProperty("DieRoll_Sneak", AH::Common::PropertyValueData::DieRoll_Sneak, QScriptValue::ReadOnly);
@@ -416,6 +426,18 @@ void GameScript::initFieldConstants(QScriptValue &consts)
     fdt.setProperty("SpaceAndTime", AH::Common::FieldData::SpaceAndTime, QScriptValue::ReadOnly);
     fdt.setProperty("Outskirts", AH::Common::FieldData::Outskirts, QScriptValue::ReadOnly);
     consts.setProperty("FieldType", fdt, QScriptValue::ReadOnly);
+}
+
+
+void GameScript::initGlobalMethods()
+{
+    m_engine->globalObject().setProperty("CHAR", m_engine->newFunction(GameScript::quick_CurChar), QScriptValue::PropertyGetter);
+}
+
+QScriptValue GameScript::quick_CurChar(QScriptContext *, QScriptEngine *eng)
+{
+    CharacterScript *chr = gGameScript->getGameContext()->curCharacter();
+    return eng->toScriptValue(chr);
 }
 
 QScriptValue GameScript::registerInvestigator(InvestigatorScript *i)
@@ -914,6 +936,17 @@ bool GameScript::parseScripts(QDir base)
                 }
 
                 src = ba.data();
+
+
+#ifdef OUTPUT_COMPILED_AHS
+                QFile fo(fi.absoluteFilePath() + ".js.compiled");
+                if (fo.open(QFile::WriteOnly | QFile::Truncate)) {
+                    QTextStream fostr(&fo);
+                    fostr << src;
+                }
+                fo.close();
+#endif
+
             } else {
                 continue;
             }

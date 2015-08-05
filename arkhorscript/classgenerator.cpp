@@ -82,6 +82,9 @@ QString ClassGenerator::idPrefixForClass(QString classType)
     if (classType == "Headline") {
         return "MY";
     }
+    if (classType == "Environment") {
+        return "MY";
+    }
     if (classType == "Investigator") {
         return "IN";
     }
@@ -90,6 +93,9 @@ QString ClassGenerator::idPrefixForClass(QString classType)
     }
     if (classType == "BlessingCurse") {
         return "BC";
+    }
+    if (classType == "SpecialAbility") {
+        return "SA";
     }
     setWarning("Unknown Class Type: " + classType);
     return "??";
@@ -294,6 +300,38 @@ bool ClassGenerator::outputModifications(const AttrDef &attr, const ClassDef &cl
     }
 }
 
+bool ClassGenerator::outputMonsterModifications(QString v, const ClassDef &cls)
+{
+    m_out << '[';
+    bool first = true;
+
+    v = v.trimmed();
+    QRegExp rx("\\s*(\\S+)\\s+\\{([^\\}]+)\\}\\s*,?\\s*");
+    int pos = 0;
+    int lastPos = -1;
+    while ((pos = rx.indexIn(v, pos)) >= 0) {
+        QString mon = rx.cap(1);
+        QString mod = rx.cap(2);
+        pos += rx.matchedLength();
+
+        if (!first) m_out << ',';
+        m_out << "\n\t\t{ id: ";
+        outputIDRef(AttrDef("monsterId", AttrDef::IDRef, "Monster."+mon), cls);
+        m_out << ", mod: \n\t\t\t";
+        outputModifications(AttrDef("monsterAttributes", AttrDef::Complex, mod), cls);
+        m_out << "\n\t\t}";
+        lastPos = pos;
+        first = false;
+    }
+    if (lastPos < v.length()) {
+        return setError("Invalid monster modifications", cls);
+    }
+
+    m_out << "\n\t]";
+
+    return true;
+}
+
 bool ClassGenerator::doOutputModifications(QString mod)
 {
     QStringList mods = mod.split(',', QString::SkipEmptyParts);
@@ -372,8 +410,15 @@ bool ClassGenerator::outputIDRef(const AttrDef &attr, const ClassDef &cls)
 
 bool ClassGenerator::outputIDRefArray(const AttrDef &attr, const ClassDef &cls)
 {
-    if (attr.type == AttrDef::IDRef || attr.type == AttrDef::Literal) {
+    if (attr.type == AttrDef::Literal) {
         return outputIDRef(attr, cls);
+    }
+    if (attr.type == AttrDef::IDRef) {
+        // Must be array
+        m_out << '[';
+        doOutputIDRef(attr.content);
+        m_out << ']';
+        return true;
     }
     if (attr.type != AttrDef::Array) {
         return setError(QString("'%1' must be IDRef or Literal or Array").arg(attr.name), cls);
@@ -415,7 +460,7 @@ bool ClassGenerator::outputEnumValueArray(QString prefix, const AttrDef &attr, c
     if (attr.type == AttrDef::EnumValue || attr.type == AttrDef::Literal) {
         return outputEnumValue(prefix, attr, cls);
     }
-    if (!attr.type == AttrDef::Array) {
+    if (attr.type != AttrDef::Array) {
         return setError(QString("'%1' must be EnumValue, Array or Literal").arg(attr.name), cls);
     }
     bool first = true;

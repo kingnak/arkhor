@@ -19,8 +19,6 @@ protected:
     virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
     //virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
 
-private:
-    bool outputMonsterModifications(QString v, const ClassDef &cls);
 };
 
 }

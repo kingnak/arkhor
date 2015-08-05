@@ -43,6 +43,7 @@ QList<ClassGenerator::AttributeDesc> AncientOneGenerator::getAttributes()
             << AttributeDesc("attack", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
             << AttributeDesc("slumberModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Array)
             << AttributeDesc("monsterModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
+            << AttributeDesc("monsterMoveModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
                ;
 }
 
@@ -67,37 +68,6 @@ bool AncientOneGenerator::outputSpecialAttribute(AttributeDesc desc, const Class
 
     Q_ASSERT_X(false, "AncientOne Generator", qPrintable(QString("Special Attribute '%1' not handled").arg(desc.name)));
     return false;
-}
-
-bool AncientOneGenerator::outputMonsterModifications(QString v, const ClassDef &cls)
-{
-    m_out << '[';
-    bool first = true;
-
-    v = v.trimmed();
-    QRegExp rx("\\s*([\\.\\S]+)\\s+\\{([^\\)]+)\\}\\s*,?\\s*");
-    int pos = 0;
-    int lastPos = -1;
-    while ((pos = rx.indexIn(v, pos)) >= 0) {
-        QString mon = rx.cap(1);
-        QString mod = rx.cap(2);
-        pos += rx.matchedLength();
-
-        if (!first) m_out << ',';
-        m_out << "\n\t\t{ id: ";
-        outputIDRef(AttrDef("monsterId", AttrDef::IDRef, "Monster."+mon), cls);
-        m_out << ", mod: \n\t\t\t";
-        outputModifications(AttrDef("monsterAttributes", AttrDef::Complex, mod), cls);
-        m_out << "\n\t\t}";
-        lastPos = pos;
-    }
-    if (lastPos < v.length()) {
-        return setError("Invalid monster modifications", cls);
-    }
-
-    m_out << "\n\t]";
-
-    return true;
 }
 
 

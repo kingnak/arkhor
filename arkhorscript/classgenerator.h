@@ -66,6 +66,7 @@ protected:
     bool outputEnumValueArray(QString prefix, const AttrDef &attr, const ClassDef &cls);
 
     bool outputModifications(const AttrDef &attr, const ClassDef &cls);
+    bool outputMonsterModifications(QString v, const ClassDef &cls);
     bool outputCosts(const AttrDef &attr, const ClassDef &cls);
 
     bool outputFunction(const AttrDef &attr, const ClassGenerator::ClassDef &cls, QString params = QString::null);

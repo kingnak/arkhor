@@ -124,7 +124,7 @@ public:
     ArkhamEncounter *drawArkhamEncounter(AH::Common::FieldData::FieldID field);
     OtherWorldEncounter *drawOtherWorldEncounter(AH::Common::FieldData::FieldID field);
 
-    PropertyModificationList getGameModifiers() { return PropertyModificationList(); }
+    PropertyModificationList getGameModifiers();
 
     int getGateSealClueCost() const { return 5; }
 

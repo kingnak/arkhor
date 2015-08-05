@@ -1,10 +1,12 @@
 #include "mythoscardscript.h"
 #include "gamescript.h"
 #include "game/game.h"
+#include "propertymodificationscript.h"
+#include "monstermodifierscript.h"
 #include <QDebug>
 
 MythosCardScript::MythosCardScript(QObject *parent) :
-    DynamicScriptableObject(parent), m_rumorFieldOption(NULL)
+    DynamicScriptableObject(parent), m_rumorFieldOption(NULL), m_envFieldOption(NULL)
 {
 }
 
@@ -37,19 +39,40 @@ MythosCardScript *MythosCardScript::createMythosCard(QScriptContext *ctx, QScrip
 
     // Type specific:
     // Headline
-    ret->m_headlineFunc = data.property("executeHeadline");
+    if (ret->m_type == Headline) {
+        ret->m_headlineFunc = data.property("executeHeadline");
+    }
 
     // Environment
-    // TODO
+    if (ret->m_type == Environment) {
+        ret->m_envFieldOptionId = data.property("environmentFieldOptionId").toString();
+        ret->m_envFieldId = static_cast<AH::Common::FieldData::FieldID> (data.property("environmentField").toInt32());
+        ret->m_envType = static_cast<AH::Common::MythosData::EnvironmentType> (data.property("environmentType").toInt32());
+
+        QScriptValue envMods = data.property("environmentModifications");
+        if (envMods.isValid() && !envMods.isUndefined()) {
+            PropertyModificationList lst;
+            if (!PropertyModificationScript::parsePropertyModificationList(ret.data(), envMods, lst)) {
+                ctx->throwError(QScriptContext::TypeError, "createMythosCard: Invalid environment modifications");
+                return NULL;
+            }
+            ret->m_envMods = lst;
+        }
+
+        // Monster Modifications
+        MonsterModifierScript::parseMonsterModifications(data, *ret, ret.data());
+    }
 
     // Rumor
-    ret->m_rumorFieldOptionId = data.property("rumorFieldOptionId").toString();
-    ret->m_rumorFieldId = static_cast<AH::Common::FieldData::FieldID> (data.property("rumorField").toInt32());
-    ret->m_setupRumorFunc = data.property("setupRumor");
-    ret->m_teardownRumorFunc = data.property("teardownRumor");
-    ret->m_onMythosFunc = data.property("onMythos");
-    ret->m_passFunc = data.property("onPass");
-    ret->m_failFunc = data.property("onFail");
+    if (ret->m_type == Rumor) {
+        ret->m_rumorFieldOptionId = data.property("rumorFieldOptionId").toString();
+        ret->m_rumorFieldId = static_cast<AH::Common::FieldData::FieldID> (data.property("rumorField").toInt32());
+        ret->m_setupRumorFunc = data.property("setupRumor");
+        ret->m_teardownRumorFunc = data.property("teardownRumor");
+        ret->m_onMythosFunc = data.property("onMythos");
+        ret->m_passFunc = data.property("onPass");
+        ret->m_failFunc = data.property("onFail");
+    }
 
     DynamicPropertyScript::createDynamicProperties(data.property("properties"), ret.data());
 
@@ -75,6 +98,14 @@ bool MythosCardScript::resolveDependencies()
             return false;
         }
         m_rumorFieldOption = opt;
+    }
+    if (type() == Environment && !m_envFieldOptionId.isEmpty()) {
+        GameOption *opt = gGame->registry()->findOptionById(m_envFieldOptionId);
+        if (!opt) {
+            qCritical() << "Cannot resolve environment field option:" << m_envFieldOptionId;
+            return false;
+        }
+        m_envFieldOption = opt;
     }
     return true;
 }
@@ -106,7 +137,17 @@ void MythosCardScript::executeHeadline()
 
 PropertyModificationList MythosCardScript::getModifications() const
 {
-    return PropertyModificationList();
+    return m_envMods;
+}
+
+GameOption *MythosCardScript::environmentFieldOption()
+{
+    return m_envFieldOption;
+}
+
+AH::Common::FieldData::FieldID MythosCardScript::environmentFieldId()
+{
+    return m_envFieldId;
 }
 
 void MythosCardScript::onMythos()
@@ -182,7 +223,18 @@ bool MythosCardScript::verify(MythosCardScript *myth, QString *err)
     if (myth->m_type == Headline) {
         if (!myth->m_headlineFunc.isFunction()) errs << "executeHeadline must be a function";
     }
-    // TODO: Environment
+
+    if (myth->m_type == Environment) {
+        if (myth->m_envType == AH::Common::MythosData::Env_None) errs << "environmentType must be set";
+        if (myth->m_envFieldOptionId.isEmpty()) {
+            if (myth->m_envFieldId != AH::Common::FieldData::NO_NO_FIELD)
+                errs << "environmentOptionId must be set";
+        } else {
+            if (myth->m_envFieldId == AH::Common::FieldData::NO_NO_FIELD)
+                errs << "environmentField must be set";
+        }
+    }
+
     if (myth->m_type == Rumor) {
         if (myth->m_rumorFieldOptionId.isEmpty()) errs << "rumorFieldOptionId must be set";
         if (!gGame->board()->field(myth->m_rumorFieldId)) errs << "rumorField must be set";

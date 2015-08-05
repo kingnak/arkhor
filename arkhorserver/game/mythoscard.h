@@ -3,15 +3,18 @@
 
 #include <mythosdata.h>
 #include "propertymodifier.h"
+#include "monstermodifier.h"
 
 class GameOption;
 
-class MythosCard : public AH::Common::MythosData
+class MythosCard : public AH::Common::MythosData, public PropertyModifier, protected MonsterModifier
 {
 public:
     MythosCard();
 
     void setId(QString id) { m_id = id; }
+
+    virtual QString modifierId() const { return m_id; }
 
     virtual bool resolveDependencies() = 0;
     virtual void resolveDynamicAttributes() = 0;
@@ -22,6 +25,8 @@ public:
     // Environment
     virtual PropertyModificationList getModifications() const = 0;
     virtual QList<AH::Common::PropertyModificationData> getModificationData() const;
+    virtual GameOption *environmentFieldOption() = 0;
+    virtual AH::Common::FieldData::FieldID environmentFieldId() = 0;
 
     // Rumors
     virtual void onMythos() = 0;
@@ -35,6 +40,11 @@ public:
     virtual void pass();
     virtual void fail();
 
+    void cleanup();
+
+    using MonsterModifier::getMonsterModifications;
+    using MonsterModifier::getMonsterMovementModifications;
+
     /*
     void resolve();
 
@@ -46,8 +56,8 @@ protected:
     virtual void executeHeadline() = 0;
     */
 
-private:
-    void cleanup();
+protected:
+    const PropertyModifier *getMonsterMovementModifier() const { return this; }
 };
 
 #endif // MYTHOSCARD_H

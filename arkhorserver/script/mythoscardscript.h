@@ -41,6 +41,8 @@ public:
 
     // Environment
     virtual PropertyModificationList getModifications() const;
+    virtual GameOption *environmentFieldOption();
+    virtual AH::Common::FieldData::FieldID environmentFieldId();
 
     // Rumors
     virtual void onMythos();
@@ -67,12 +69,17 @@ private:
     QScriptValue m_object;
 
     QScriptValue m_headlineFunc;
+
+    GameOption *m_envFieldOption;
+    QString m_envFieldOptionId;
+    AH::Common::FieldData::FieldID m_envFieldId;
+    PropertyModificationList m_envMods;
+
     QScriptValue m_setupRumorFunc;
     QScriptValue m_teardownRumorFunc;
     QScriptValue m_onMythosFunc;
     QScriptValue m_passFunc;
     QScriptValue m_failFunc;
-
     GameOption *m_rumorFieldOption;
     QString m_rumorFieldOptionId;
     AH::Common::FieldData::FieldID m_rumorFieldId;

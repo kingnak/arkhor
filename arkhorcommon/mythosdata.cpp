@@ -28,7 +28,7 @@ void operator <<(QVariant &data, const MythosData &target)
     map["moveBlack"] << target.blackMovement();
     map["moveWhite"] << target.whiteMovement();
     map["properties"] << target.dynamicProperties();
-    map["modificaionts"] << target.getModificationData();
+    map["modifications"] << target.getModificationData();
     data << map;
 }
 
@@ -47,6 +47,6 @@ void operator >>(const QVariant &data, MythosData &target)
     map["moveBlack"] >> target.m_moveBlack;
     map["moveWhite"] >> target.m_moveWhite;
     map["properties"] >> target.m_dynProps;
-    map["modificaionts"] >> target.m_modsData;
+    map["modifications"] >> target.m_modsData;
 }
 }}

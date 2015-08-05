@@ -667,6 +667,14 @@ OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldI
     return e;
 }
 
+PropertyModificationList Game::getGameModifiers()
+{
+    if (m_environment) {
+        return m_environment->getModifications();
+    }
+    return PropertyModificationList();
+}
+
 void Game::boardDirty()
 {
     m_board->setDirty();
@@ -876,6 +884,7 @@ bool Game::setRumor(MythosCard *r)
 bool Game::setEnvironment(MythosCard *e)
 {
     if (m_environment) {
+        m_environment->cleanup();
         returnMythos(m_environment);
         setSettingDirty();
     }
@@ -962,7 +971,9 @@ void Game::initMonsters()
             m_board->field(AH::Common::FieldData::Sp_Outskirts)->placeMonster(m);
     }
     */
-    //m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_TEST"));
+    setEnvironment(m_mythosDeck.drawSpecificById("MY_TheFestival"));
+    m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_Cultist"));
+    m_board->field(AH::Common::FieldData::SS_Southside)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_Byakhee"));
 }
 
 void Game::chooseInvestigators()

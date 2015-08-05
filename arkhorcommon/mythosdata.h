@@ -26,6 +26,8 @@ namespace AH {
             enum EnvironmentType {
                 Env_None,
                 Env_Weather,
+                Env_Urban,
+                Env_Mystic
             };
 
             const MythosData *data() const { return this; }

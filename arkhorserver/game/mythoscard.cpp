@@ -28,13 +28,21 @@ void MythosCard::fail()
 
 void MythosCard::cleanup()
 {
-    teardownRumor();
-    GameField *f = gGame->board()->field(rumorFieldId());
-    if (f) {
-        f->removeFieldOption(this->rumorFieldOption());
-        f->unsetSpecialActionNr();
+    if (type() == Rumor) {
+        teardownRumor();
+        GameField *f = gGame->board()->field(rumorFieldId());
+        if (f) {
+            f->removeFieldOption(this->rumorFieldOption());
+            f->unsetSpecialActionNr();
+        }
+        //gGame->returnMythos(this);
+        gGame->setRumor(NULL);
+    } else if (type() == Environment) {
+        GameField *f = gGame->board()->field(environmentFieldId());
+        if (f) {
+            f->removeFieldOption(this->environmentFieldOption());
+            f->unsetSpecialActionNr();
+        }
+        gGame->setEnvironment(NULL);
     }
-    //gGame->returnMythos(this);
-    gGame->setRumor(NULL);
-
 }

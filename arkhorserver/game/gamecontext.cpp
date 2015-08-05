@@ -5,6 +5,7 @@
 #include "monster.h"
 #include "propertymodifier.h"
 #include "ancientone.h"
+#include "mythoscard.h"
 
 AncientOne *GameContext::ancientOne()
 {
@@ -230,8 +231,26 @@ ModifiedPropertyValue GameContext::getMonsterProperty(const Monster *m, AH::Comm
 
     PropertyModificationList mods = m->getModifications().filtered(property);
     mods += m_game->getGameModifiers().filtered(property);
-    // ANCIENT ONE!
-    mods += ancientOne()->getMonsterModifications(m->typeId()).filtered(property);
+
+    // ancient one + environment
+    mods += ancientOne()->getMonsterModifications(*m).filtered(property);
+    if (gGame->environment())
+        mods += gGame->environment()->getMonsterModifications(*m).filtered(property);
+
+
+    // Special case: Monster movement:
+    // Add Environment OR Ancient One Movement Mods
+    // Environment takes precedence
+    if (property == PropertyValue::Monster_Movement) {
+        PropertyModificationList movMods;
+        if (gGame->environment()) {
+            movMods = gGame->environment()->getMonsterMovementModifications(*m);
+        }
+        if (movMods.isEmpty()) {
+            movMods = ancientOne()->getMonsterMovementModifications(*m);
+        }
+        mods += movMods;
+    }
 
     int finalVal = mods.apply(base);
 

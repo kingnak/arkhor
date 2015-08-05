@@ -210,7 +210,9 @@ void DieTestHelper::successCounter(DieTestHelper::DieTestSpec &spec, Character *
 {
     spec.data.rollData().setType(DieRollData::Count);
     QList<quint32> successes;
-    for (int i = gGame->context().getCharacterProperty(c, PropertyValue::Prop_MinSuccessDieRoll).finalVal(); i <= 6; ++i) {
+    ModifiedPropertyValue successMin = gGame->context().getCharacterProperty(c, PropertyValue::Prop_MinSuccessDieRoll);
+    spec.data.addGeneralModifications(successMin.modifiers().toPropertyModificationDataList());
+    for (int i = successMin.finalVal(); i <= 6; ++i) {
         successes << i;
     }
     spec.data.rollData().setSuccessRolls(successes);

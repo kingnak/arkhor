@@ -106,6 +106,7 @@ namespace AH {
             QList<OptionDescription> dieRollOptions() const { return m_options; }
             ModifiedPropertyValueData clueBurnMods() const { return m_clueBurnMods; }
             bool isSucceeded() const { return m_succeeded; }
+            QList<PropertyModificationData> generalModifications() const { return m_generalMods; }
 
             void setType(TestType type) { m_type = type; }
             void setDescription(const QString &desc) { m_desc = desc; }
@@ -115,6 +116,7 @@ namespace AH {
             void setClueBurnMods(ModifiedPropertyValueData mods) { m_clueBurnMods = mods; }
             void setSucceeded(bool success) { m_succeeded = success; }
             void setTargetValue(int val) { m_target = val; }
+            void addGeneralModifications(QList<PropertyModificationData> mods) { m_generalMods << mods; }
 
         protected:
             TestType m_type;
@@ -123,6 +125,7 @@ namespace AH {
             int m_diceForClue;
             QList<OptionDescription> m_options;
             ModifiedPropertyValueData m_clueBurnMods;
+            QList<PropertyModificationData> m_generalMods;
             QString m_desc;
             bool m_succeeded;
 

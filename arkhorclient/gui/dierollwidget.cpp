@@ -30,7 +30,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
 {
     int ct = data.rollData().pool().dieCount()+data.rollData().pool().adjustment();
 
-    QList<PropertyModificationData> mods;
+    QList<PropertyModificationData> mods = data.generalModifications();
 
     // Setup labels
     ui->lblDescription->setText(data.description());
@@ -39,7 +39,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     ui->lblDieCount->setText(QString::number(ct));
     if (data.rollData().pool().type() == DiePoolData::Property) {
         ui->lblBaseSkill->setText(Utils::stringForProperty(data.rollData().pool().property().property().property()));
-        mods = data.rollData().pool().property().modifications();
+        mods += data.rollData().pool().property().modifications();
     } else {
         ui->lblBaseSkill->setText("Fixed");
     }

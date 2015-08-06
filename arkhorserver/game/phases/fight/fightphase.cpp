@@ -7,6 +7,7 @@
 #include "game/player.h"
 #include "character.h"
 #include "monster.h"
+#include "game/gameobject.h"
 
 FightPhase::FightPhase()
     : GamePhase(gGame)
@@ -114,7 +115,9 @@ void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
         m_curPhase = ChooseMonster;
         // Remove monster
         m_monsters.removeAll(gGame->context().monster());
-        // TODO: Unequip all spells
+        // Unequip all spells
+        unequipSpells();
+        break;
     }
 
     if (!gGame->context().player()->getCharacter()->commitDamage())
@@ -211,6 +214,20 @@ bool FightPhase::damageNightmarish()
         gGame->context().player()->getCharacter()->damageSanity(dmg);
     }
     return gGame->context().monster()->damage(gGame->context().player()->getCharacter(), Monster::Nightmare);
+}
+
+void FightPhase::unequipSpells()
+{
+    QList<GameObject *> lst = gGame->context().player()->getCharacter()->inventory();
+    foreach (GameObject *obj, lst) {
+        if (obj->isFightObject()) {
+            if (obj->type() == AH::Obj_Spell) {
+                if (obj->isEquipped()) {
+                    obj->unequip();
+                }
+            }
+        }
+    }
 }
 
 QList<GameOption *> FightPhase::fightEnterOptions()

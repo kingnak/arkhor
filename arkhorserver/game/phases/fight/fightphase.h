@@ -69,6 +69,8 @@ private:
     bool damageOverwhelming();
     bool damageNightmarish();
 
+    void unequipSpells();
+
     QList<GameOption *> fightEnterOptions();
     QList<GameOption *> chooseMonsterOptions();
     QList<GameOption *> fightOrEvadeOptions();

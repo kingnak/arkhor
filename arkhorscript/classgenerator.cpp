@@ -339,7 +339,7 @@ bool ClassGenerator::doOutputMonsterModifications(QString v, const ClassDef &cls
     bool first = true;
 
     v = v.trimmed();
-    QRegExp rx("\\s*((?:Attribute \\.)?\\S+)\\s+\\{([^\\}]+)\\}\\s*,?\\s*");
+    QRegExp rx("\\s*(\\*|(?:Attribute \\.)?\\S+)\\s*\\{([^\\}]+)\\}\\s*,?\\s*");
     int pos = 0;
     int lastPos = -1;
     while ((pos = rx.indexIn(v, pos)) >= 0) {
@@ -354,7 +354,11 @@ bool ClassGenerator::doOutputMonsterModifications(QString v, const ClassDef &cls
             outputEnumValue("Constants.Monster", AttrDef("attributes", AttrDef::EnumValue, mon), cls);
         } else {
             m_out << "\n\t\t{ id: ";
-            outputIDRef(AttrDef("monsterId", AttrDef::IDRef, "Monster."+mon), cls);
+            if (mon == "*") {
+                m_out << "\"*\"";
+            } else {
+                outputIDRef(AttrDef("monsterId", AttrDef::IDRef, "Monster."+mon), cls);
+            }
         }
         m_out << ", mod: \n\t\t\t";
         outputModifications(AttrDef("monsterAttributes", AttrDef::Complex, mod), cls);

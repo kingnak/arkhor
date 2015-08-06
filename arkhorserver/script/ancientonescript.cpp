@@ -53,7 +53,7 @@ AncientOneScript *AncientOneScript::createAncientOne(QScriptContext *ctx, QScrip
 
     QString err;
     if (!verify(ret.data(), &err)) {
-        ctx->throwError(QScriptContext::TypeError, "createAncientOne: Invalid Investigator data. Errors:\n"+err);
+        ctx->throwError(QScriptContext::TypeError, "createAncientOne: Invalid AncientOne data. Errors:\n"+err);
         return NULL;
     }
 

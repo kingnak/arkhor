@@ -210,18 +210,6 @@ bool Character::canPay(const CostList &cost) const
 
 bool Character::pay(const Cost &cost)
 {
-    /*
-    if (cost.getAlternatives().isEmpty()) {
-        return true;
-    }
-    if (cost.getAlternatives().size() == 1) {
-        return pay(cost.getAlternatives()[0]);
-    }
-
-    // Let user decide:
-    // TODO
-    return pay(cost.getAlternatives()[0]);
-    */
     AH::Common::CostList sel;
     bool ok = ChoiceHelper::choosePayment(this, cost, sel);
     if (ok) {

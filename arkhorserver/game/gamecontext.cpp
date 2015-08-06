@@ -12,6 +12,16 @@ AncientOne *GameContext::ancientOne()
     return gGame->ancientOne();
 }
 
+MythosCard *GameContext::environment()
+{
+    return gGame->environment();
+}
+
+MythosCard *GameContext::rumor()
+{
+    return gGame->rumor();
+}
+
 ModifiedPropertyValue GameContext::getCurCharacterProperty(PropertyValue::Property property)
 {
     return getCharacterProperty(m_player->getCharacter(), property);
@@ -234,17 +244,21 @@ ModifiedPropertyValue GameContext::getMonsterProperty(const Monster *m, AH::Comm
 
     // ancient one + environment
     mods += ancientOne()->getMonsterModifications(*m).filtered(property);
-    if (gGame->environment())
-        mods += gGame->environment()->getMonsterModifications(*m).filtered(property);
+    if (environment())
+        mods += environment()->getMonsterModifications(*m).filtered(property);
 
 
     // Special case: Monster movement:
     // Add Environment OR Ancient One Movement Mods
     // Environment takes precedence
+    // TODO: THIS IS WRONG!
+    // Find algorithm, so that if:
+    // (AO makes Cultils Flying) + (ENV makes Flying Stationary) => (Cultist = Stationary)
+    // How to resolve multiple modifications?
     if (property == PropertyValue::Monster_Movement) {
         PropertyModificationList movMods;
-        if (gGame->environment()) {
-            movMods = gGame->environment()->getMonsterMovementModifications(*m);
+        if (environment()) {
+            movMods = environment()->getMonsterMovementModifications(*m);
         }
         if (movMods.isEmpty()) {
             movMods = ancientOne()->getMonsterMovementModifications(*m);

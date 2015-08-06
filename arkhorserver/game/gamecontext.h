@@ -14,6 +14,7 @@ class Player;
 class Character;
 class Gate;
 class AncientOne;
+class MythosCard;
 
 class GameContext
 {
@@ -27,7 +28,8 @@ public:
     AH::GamePhase phase() { return m_phase; }
     DieTestHelper::DieTestSpec *dieRoll() { return m_dieRoll; }
     AncientOne *ancientOne();
-
+    MythosCard *environment();
+    MythosCard *rumor();
 
     void setMonster( Monster *m ) { m_monster = m; }
     void setGate( Gate *g ) { m_gate = g; }

@@ -33,6 +33,7 @@
         <file alias="unique_item_back">client_resources/unique_item-back.png</file>
         <file alias="blessing_card">client_resources/Blessing.png</file>
         <file alias="curse_card">client_resources/Curse.png</file>
+        <file alias="unknown_character">client_resources/unknown_character.png</file>
     </qresource>
     <qresource prefix="/core/marker">
         <file alias="activity_1">client_resources/activity_marker_1.png</file>

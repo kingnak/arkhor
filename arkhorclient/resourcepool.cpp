@@ -76,8 +76,11 @@ QPixmap ResourcePool::loadMonster(const QString &id)
         QRegExp rx("^(.*):(\\d+)$");
         if (rx.indexIn(id) >= 0) {
             rid = rx.cap(1);
+            // This converts instance counter to a number in
+            // multiple resources.
+            // TODO: Random instead?
             int n = rx.cap(2).toInt();
-            int ct = m_resPaths.value(id).count();
+            int ct = m_resPaths.value(rid).count();
             if (ct > 1) {
                 n %= ct;
                 sub = QString::number(n+1);
@@ -94,7 +97,7 @@ QPixmap ResourcePool::loadMonster(const QString &id)
 QPixmap ResourcePool::loadCharacterFigure(QString id)
 {
     QPixmap ret = intLoadPixmap(id, "figure");
-    //if (ret.isNull()) return QPixmap(":/core/images/unknown_monster");
+    if (ret.isNull()) return QPixmap(":/core/images/unknown_character");
     return ret;
 }
 
@@ -153,9 +156,9 @@ QPixmap ResourcePool::loadObjectImage(QString id, AH::GameObjectType type)
     //case AH::Obj_Special: return QPixmap(":/core/images/Special_back");
     case AH::Obj_Blessing_Curse:
         // TODO: Better
-        if (id.contains("BLESSING"))
+        if (id.toUpper().contains("BLESSING"))
             return QPixmap(":/core/images/blessing_card");
-        else if (id.contains("CURSE"))
+        else if (id.toUpper().contains("CURSE"))
             return QPixmap(":/core/images/curse_card");
     case AH::NoObject:
         break;

@@ -99,14 +99,10 @@ bool EnvironmentGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc 
         return outputModifications(attr, cls);
     }
     if (desc.name == "monsterModifications") {
-        if (attr.type == AttrDef::Literal) {
-            m_out << attr.content;
-            return true;
-        } else if (attr.type == AttrDef::Complex) {
-            return outputMonsterModifications(attr.content, cls);
-        } else {
-            return setError("monsterModifications must be Complex or Literal", cls);
-        }
+        return outputMonsterModifications(attr, cls);
+    }
+    if (desc.name == "monsterMoveModifications") {
+        return outputMonsterMoveModifications(attr, cls);
     }
     return MythosGenerator::outputSpecialAttribute(desc, cls, attr);
 }

@@ -56,14 +56,10 @@ bool AncientOneGenerator::outputSpecialAttribute(AttributeDesc desc, const Class
         return outputModifications(attr, cls);
     }
     if (desc.name == "monsterModifications") {
-        if (attr.type == AttrDef::Literal) {
-            m_out << attr.content;
-            return true;
-        } else if (attr.type == AttrDef::Complex) {
-            return outputMonsterModifications(attr.content, cls);
-        } else {
-            return setError("monsterModifications must be Complex or Literal", cls);
-        }
+        return outputMonsterModifications(attr, cls);
+    }
+    if (desc.name == "monsterMoveModifications") {
+        return outputMonsterMoveModifications(attr, cls);
     }
 
     Q_ASSERT_X(false, "AncientOne Generator", qPrintable(QString("Special Attribute '%1' not handled").arg(desc.name)));

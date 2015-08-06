@@ -300,38 +300,6 @@ bool ClassGenerator::outputModifications(const AttrDef &attr, const ClassDef &cl
     }
 }
 
-bool ClassGenerator::outputMonsterModifications(QString v, const ClassDef &cls)
-{
-    m_out << '[';
-    bool first = true;
-
-    v = v.trimmed();
-    QRegExp rx("\\s*(\\S+)\\s+\\{([^\\}]+)\\}\\s*,?\\s*");
-    int pos = 0;
-    int lastPos = -1;
-    while ((pos = rx.indexIn(v, pos)) >= 0) {
-        QString mon = rx.cap(1);
-        QString mod = rx.cap(2);
-        pos += rx.matchedLength();
-
-        if (!first) m_out << ',';
-        m_out << "\n\t\t{ id: ";
-        outputIDRef(AttrDef("monsterId", AttrDef::IDRef, "Monster."+mon), cls);
-        m_out << ", mod: \n\t\t\t";
-        outputModifications(AttrDef("monsterAttributes", AttrDef::Complex, mod), cls);
-        m_out << "\n\t\t}";
-        lastPos = pos;
-        first = false;
-    }
-    if (lastPos < v.length()) {
-        return setError("Invalid monster modifications", cls);
-    }
-
-    m_out << "\n\t]";
-
-    return true;
-}
-
 bool ClassGenerator::doOutputModifications(QString mod)
 {
     QStringList mods = mod.split(',', QString::SkipEmptyParts);
@@ -350,6 +318,106 @@ bool ClassGenerator::doOutputModifications(QString mod)
     }
     if (!first)
         m_out << " ]";
+    return true;
+}
+
+bool ClassGenerator::outputMonsterModifications(const AttrDef &attr, const ClassDef &cls)
+{
+    if (attr.type == AttrDef::Literal) {
+        m_out << attr.content;
+        return true;
+    } else if (attr.type == AttrDef::Complex) {
+        return doOutputMonsterModifications(attr.content, cls);
+    } else {
+        return setError("monsterModifications must be Complex or Literal", cls);
+    }
+}
+
+bool ClassGenerator::doOutputMonsterModifications(QString v, const ClassDef &cls)
+{
+    m_out << '[';
+    bool first = true;
+
+    v = v.trimmed();
+    QRegExp rx("\\s*((?:Attribute \\.)?\\S+)\\s+\\{([^\\}]+)\\}\\s*,?\\s*");
+    int pos = 0;
+    int lastPos = -1;
+    while ((pos = rx.indexIn(v, pos)) >= 0) {
+        QString mon = rx.cap(1);
+        QString mod = rx.cap(2);
+        pos += rx.matchedLength();
+
+        if (!first) m_out << ',';
+        if (mon.startsWith("Attribute .")) {
+            m_out << "\n\t\t{ attributes: ";
+            mon = mon.mid(11);
+            outputEnumValue("Constants.Monster", AttrDef("attributes", AttrDef::EnumValue, mon), cls);
+        } else {
+            m_out << "\n\t\t{ id: ";
+            outputIDRef(AttrDef("monsterId", AttrDef::IDRef, "Monster."+mon), cls);
+        }
+        m_out << ", mod: \n\t\t\t";
+        outputModifications(AttrDef("monsterAttributes", AttrDef::Complex, mod), cls);
+        m_out << "\n\t\t}";
+        lastPos = pos;
+        first = false;
+    }
+    if (lastPos < v.length()) {
+        return setError("Invalid monster modifications", cls);
+    }
+
+    m_out << "\n\t]";
+
+    return true;
+}
+
+bool ClassGenerator::outputMonsterMoveModifications(const ClassGenerator::AttrDef &attr, const ClassGenerator::ClassDef &cls)
+{
+    if (attr.type == AttrDef::Literal) {
+        m_out << attr.content;
+        return true;
+    } else if (attr.type == AttrDef::Complex) {
+        return doOutputMonsterMoveModifications(attr.content, cls);
+    } else {
+        return setError("monsterMoveModifications must be Complex or Literal", cls);
+    }
+}
+
+bool ClassGenerator::doOutputMonsterMoveModifications(QString v, const ClassDef &cls)
+{
+    m_out << '[';
+    bool first = true;
+
+    v = v.trimmed();
+    QRegExp rx("\\s*((?:Type \\.)?\\S+)\\s+([^,\\s]+)\\s*,?\\s*");
+    int pos = 0;
+    int lastPos = -1;
+    while ((pos = rx.indexIn(v, pos)) >= 0) {
+        QString mon = rx.cap(1);
+        QString mod = rx.cap(2);
+        pos += rx.matchedLength();
+
+        if (!first) m_out << ',';
+        if (mon.startsWith("Type .")) {
+            m_out << "\n\t\t{ type: ";
+            mon = mon.mid(6);
+            outputEnumValue("Constants.Movement", AttrDef("type", AttrDef::EnumValue, mon), cls);
+        } else {
+            m_out << "\n\t\t{ id: ";
+            outputIDRef(AttrDef("monsterId", AttrDef::IDRef, "Monster."+mon), cls);
+        }
+        m_out << ", moveAs: \n\t\t\t";
+        outputEnumValue("Constants.Movement", AttrDef("moveAs", AttrDef::EnumValue, mod), cls);
+        m_out << "\n\t\t}";
+        lastPos = pos;
+        first = false;
+    }
+    if (lastPos < v.length()) {
+        return setError("Invalid monster move modifications", cls);
+    }
+
+    m_out << "\n\t]";
+
     return true;
 }
 

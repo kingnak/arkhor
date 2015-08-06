@@ -66,7 +66,8 @@ protected:
     bool outputEnumValueArray(QString prefix, const AttrDef &attr, const ClassDef &cls);
 
     bool outputModifications(const AttrDef &attr, const ClassDef &cls);
-    bool outputMonsterModifications(QString v, const ClassDef &cls);
+    bool outputMonsterModifications(const AttrDef &attr, const ClassDef &cls);
+    bool outputMonsterMoveModifications(const AttrDef &attr, const ClassDef &cls);
     bool outputCosts(const AttrDef &attr, const ClassDef &cls);
 
     bool outputFunction(const AttrDef &attr, const ClassGenerator::ClassDef &cls, QString params = QString::null);
@@ -77,6 +78,8 @@ private:
     bool doOutputIDRef(QString ref);
     bool doOutputModifications(QString mod);
     bool doOutputCosts(QString costs);
+    bool doOutputMonsterModifications(QString v, const ClassDef &cls);
+    bool doOutputMonsterMoveModifications(QString v, const ClassDef &cls);
 
 protected:
     QTextStream &m_out;

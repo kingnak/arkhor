@@ -19,8 +19,9 @@ namespace AH {
 
             enum ObjectAttribute {
                 None,
-                CannotBeLost = 0x0001,
-                DiscardAfterAttack = 0x0002,
+                CannotBeLost            = 0x0001,
+                DiscardAfterAttack      = 0x0002,
+                DiscardOnEndFight       = 0x0004,
 
                 ObjectAttribute_Max_Value_Sentinel
             };

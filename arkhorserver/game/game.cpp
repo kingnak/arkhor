@@ -987,6 +987,7 @@ void Game::initMonsters()
     }
     */
     setEnvironment(m_mythosDeck.drawSpecificById("MY_TheFestival"));
+    m_monsterPool.shuffle();
     m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_Cultist"));
     m_board->field(AH::Common::FieldData::SS_Southside)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_Byakhee"));
 }
@@ -1283,9 +1284,20 @@ void Game::awakeAncientOne()
 
 void Game::endFight()
 {
-    // TODO: Remove all items that are to remove when AO awakes
+    // Remove all items that are to remove when AO awakes
+    foreach (Player *p, getPlayers()) {
+        if (p->isActive()) {
+            QList<GameObject *> lst = p->getCharacter()->inventory();
+            foreach (GameObject *obj, lst) {
+                if (obj->getAttributes().testFlag(GameObject::DiscardOnEndFight)) {
+                    p->getCharacter()->removeFromInventory(obj);
+                }
+            }
+        }
+    }
+    commitUpdates();
 
-    // TODO: Place all characters at End Fight Field
+    // TODO: Place all characters at End Fight Field (required for Trade)
 
     upkeep();
     nextRound();

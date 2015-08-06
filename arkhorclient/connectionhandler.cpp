@@ -204,6 +204,14 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         break;
     }
 
+    case AH::Common::Message::S_INVALIDATE_OBJECTS_BY_TYPE:
+    {
+        AH::Common::RequestObjectsData::ObjectType type;
+        msg.payload >> type;
+        emit objectTypeInvalidation(type);
+        break;
+    }
+
     case AH::Common::Message::S_GAME_START:
         emit gameStart();
         break;

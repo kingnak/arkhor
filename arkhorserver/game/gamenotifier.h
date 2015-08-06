@@ -6,6 +6,7 @@
 #include <QString>
 #include <QEvent>
 #include <gamesettingdata.h>
+#include <objectdata.h>
 
 class Player;
 class Game;
@@ -44,6 +45,7 @@ public:
     virtual void actionExecute(const GameAction *action, QString desc = QString::null) = 0;
 
     virtual void objectsInvalidated(QStringList id) = 0;
+    virtual void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type) = 0;
 
     virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer = NULL) = 0;
 

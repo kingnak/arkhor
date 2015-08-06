@@ -42,6 +42,7 @@ signals:
 private slots:
     void receivedDescriptions(AH::Common::DescribeObjectsData descs);
     void receivedInvalidations(QStringList lst);
+    void receivedTypeInvalidation(AH::Common::RequestObjectsData::ObjectType type);
     void updateCharacter(AH::Common::CharacterData character);
 
 private:

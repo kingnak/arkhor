@@ -20,6 +20,8 @@ public:
     virtual AH::Common::MonsterData::MovementType getMonsterMovementModifications(QString typeId, AH::Common::MonsterData::MovementType origMove) const;
     virtual AH::Common::MonsterData::MovementType getMonsterMovementModifications(AH::Common::MonsterData::MovementType move) const;
 
+    virtual bool hasMonsterModifications() const;
+
 protected:
     void addModifications(QString type, PropertyModificationList mods);
     void addModifications(AH::Common::MonsterData::MonsterAttributes attrs, PropertyModificationList mods);

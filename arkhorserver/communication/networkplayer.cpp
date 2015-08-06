@@ -166,6 +166,11 @@ void NetworkPlayer::objectsInvalidated(QStringList ids)
     m_conn->sendMessage(Message::S_INVALIDATE_OBJECTS, QVariant(ids));
 }
 
+void NetworkPlayer::objectTypeInvalidated(RequestObjectsData::ObjectType type)
+{
+    m_conn->sendMessage(Message::S_INVALIDATE_OBJECTS_BY_TYPE, QVariant(type));
+}
+
 bool NetworkPlayer::acknowledgeMythos(const MythosCard *m, QObject *observer)
 {
     QVariant v;

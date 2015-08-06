@@ -73,6 +73,14 @@ MonsterData::MovementType MonsterModifier::getMonsterMovementModifications(Monst
     return move;
 }
 
+bool MonsterModifier::hasMonsterModifications() const
+{
+    return !m_typeMods.isEmpty() ||
+            !m_attrMods.isEmpty() ||
+            !m_typeMov.isEmpty() ||
+            !m_moveMov.isEmpty();
+}
+
 void MonsterModifier::addModifications(QString type, PropertyModificationList mods)
 {
     m_typeMods[type] << mods;

@@ -118,6 +118,13 @@ void BroadcastNotifier::objectsInvalidated(QStringList ids)
     }
 }
 
+void BroadcastNotifier::objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type)
+{
+    foreach (Player *p, m_game->getPlayers()) {
+        p->objectTypeInvalidated(type);
+    }
+}
+
 bool BroadcastNotifier::acknowledgeMythos(const MythosCard *m, QObject *observer)
 {
     Q_ASSERT(observer == NULL);

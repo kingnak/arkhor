@@ -45,6 +45,7 @@ public:
     virtual void actionExecute(const GameAction *action, QString desc = QString::null);
 
     virtual void objectsInvalidated(QStringList id);
+    virtual void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type);
 
     virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer);
     virtual void abortAcknowledge();

@@ -22,6 +22,7 @@ void ObjectRegistry::init(ConnectionHandler *c)
     m_conn = c;
     connect(m_conn, SIGNAL(objectDescriptions(AH::Common::DescribeObjectsData)), this, SLOT(receivedDescriptions(AH::Common::DescribeObjectsData)));
     connect(m_conn, SIGNAL(objectInvalidations(QStringList)), this, SLOT(receivedInvalidations(QStringList)));
+    connect(m_conn, SIGNAL(objectTypeInvalidation(AH::Common::RequestObjectsData::ObjectType)), this, SLOT(receivedTypeInvalidation(AH::Common::RequestObjectsData::ObjectType)));
     connect(m_conn, SIGNAL(characterUpdate(AH::Common::CharacterData)), this, SLOT(updateCharacter(AH::Common::CharacterData)));
 }
 
@@ -256,11 +257,41 @@ void ObjectRegistry::receivedInvalidations(QStringList lst)
         }
     }
 
-    AH::Common::RequestObjectsData pendingRequests;
-    foreach (QString id, rerequests) {
-        pendingRequests.addRequest(AH::Common::RequestObjectsData::ObjectRequest(AH::Common::RequestObjectsData::Unknown, id));
+    if (!rerequests.isEmpty()) {
+        AH::Common::RequestObjectsData pendingRequests;
+        foreach (QString id, rerequests) {
+            pendingRequests.addRequest(AH::Common::RequestObjectsData::ObjectRequest(AH::Common::RequestObjectsData::Unknown, id));
+        }
+        m_conn->requestObjects(pendingRequests);
     }
-    m_conn->requestObjects(pendingRequests);
+}
+
+void ObjectRegistry::receivedTypeInvalidation(AH::Common::RequestObjectsData::ObjectType type)
+{
+    QSet<QString> rerequests;
+
+    {
+        QWriteLocker l(&m_lock);
+        QList<AH::Common::DescribeObjectsData::ObjectDescription> lst = m_registry.values();
+        lst.detach();
+        foreach (AH::Common::DescribeObjectsData::ObjectDescription obj, lst) {
+            if (obj.type == type) {
+                m_registry.remove(obj.id);
+
+                if (m_subscribedMap.contains(obj.id)) {
+                    rerequests << obj.id;
+                }
+            }
+        }
+    }
+
+    if (!rerequests.isEmpty()) {
+        AH::Common::RequestObjectsData pendingRequests;
+        foreach (QString id, rerequests) {
+            pendingRequests.addRequest(AH::Common::RequestObjectsData::ObjectRequest(AH::Common::RequestObjectsData::Unknown, id));
+        }
+        m_conn->requestObjects(pendingRequests);
+    }
 }
 
 void ObjectRegistry::updateCharacter(CharacterData character)

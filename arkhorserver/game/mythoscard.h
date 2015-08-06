@@ -7,7 +7,7 @@
 
 class GameOption;
 
-class MythosCard : public AH::Common::MythosData, public PropertyModifier, protected MonsterModifier
+class MythosCard : public AH::Common::MythosData, public PropertyModifier, public MonsterModifier
 {
 public:
     MythosCard();
@@ -41,9 +41,6 @@ public:
     virtual void fail();
 
     void cleanup();
-
-    using MonsterModifier::getMonsterModifications;
-    using MonsterModifier::getMonsterMovementModifications;
 
     /*
     void resolve();

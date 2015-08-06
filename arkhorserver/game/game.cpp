@@ -883,8 +883,15 @@ bool Game::setRumor(MythosCard *r)
 
 bool Game::setEnvironment(MythosCard *e)
 {
+    // If old or new environment has monster modifiers,
+    // client cached monsters must be invalidated...
+    bool invalidateMonsters = false;
+
     if (m_environment) {
         m_environment->cleanup();
+        if (m_environment->hasMonsterModifications()) {
+            invalidateMonsters = true;
+        }
         returnMythos(m_environment);
         setSettingDirty();
     }
@@ -894,7 +901,15 @@ bool Game::setEnvironment(MythosCard *e)
         }
     }
     m_environment = e;
+    if (m_environment && m_environment->hasMonsterModifications()) {
+        invalidateMonsters = true;
+    }
     setSettingDirty();
+
+    if (invalidateMonsters) {
+        m_notifier->objectTypeInvalidated(AH::Common::RequestObjectsData::Monster);
+    }
+
     return true;
 }
 

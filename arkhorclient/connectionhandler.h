@@ -77,6 +77,7 @@ signals:
 
     void objectDescriptions(AH::Common::DescribeObjectsData descs);
     void objectInvalidations(QStringList lst);
+    void objectTypeInvalidation(AH::Common::RequestObjectsData::ObjectType type);
 
     void playerCharacterInstantiated(QString playerId, QString investigatorId);
 

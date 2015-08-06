@@ -237,13 +237,13 @@ OTHER_FILES += \
     data/objects/unique/weapons.js \
     data/objects/test.js \
     data/mythos/rumor.js \
-    data/ancientone/azathoth.js \
-    data/ancientone/hastur.js \
     data/objects/blessing_curse.ahs \
     data/mythos/rumor.ahs \
-    data/characters/characters.ahs \
-    data/characters/characters.js \
-    data/mythos/env_urban.ahs
+    data/mythos/env_urban.ahs \
+    data/ancientone/azathoth.ahs \
+    data/ancientone/hastur.ahs \
+    data/characters/sister_mary.ahs \
+    data/characters/jenny_barnes.ahs
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

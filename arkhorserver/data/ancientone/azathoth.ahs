@@ -1,0 +1,24 @@
+
+AncientOne Azathoth {
+	worshippersText: "Since Azathoth promises nothing except destruction, "+
+		"only the insane worship him. However, their fanaticism gives them "+
+		"strength. <b>Maniacs</b> have their toughness increased by <b>1</b>.";
+
+	powerTitle: "Absolute Destruction";
+	powerText: "If Azathoth awakens, the game is over and the investigators lose.";
+	attackText: "The end is here! Azathoth destroys the world.";
+	doomTrack: 14;
+	monsterModifications: [
+		Maniac { Monster_Toughness +1 }
+	];
+	onAwake: {{{
+		// TODO: Lose game
+		// Test: Devour all characters
+		for (var c in game.context.allCharacters) {
+			c.devour();
+		}
+	}}};
+
+	// Attack is required
+	attack: {{{}}};
+}

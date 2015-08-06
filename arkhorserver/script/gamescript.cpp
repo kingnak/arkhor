@@ -166,6 +166,7 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         QScriptValue oa = m_engine->newObject();
         oa.setProperty("CannotBeLost", AH::Common::GameObjectData::CannotBeLost, QScriptValue::ReadOnly);
         oa.setProperty("DiscardAfterAttack", AH::Common::GameObjectData::DiscardAfterAttack, QScriptValue::ReadOnly);
+        oa.setProperty("DiscardOnEndFight", AH::Common::GameObjectData::DiscardOnEndFight, QScriptValue::ReadOnly);
         consts.setProperty("ObjectAttribute", oa, QScriptValue::ReadOnly);
     }
 
@@ -504,6 +505,50 @@ GameObjectScript *GameScript::drawSpecificObject(QString id)
         qWarning() << "Drawn object was not a script object. Id:" << id;
     }
     return os;
+}
+
+bool GameScript::returnMonstersFromField(quint32 fieldId)
+{
+    return returnMonstersFromFields(QList<quint32>() << fieldId);
+}
+
+bool GameScript::returnMonstersFromFieldType(quint32 type)
+{
+    QList<quint32> lst;
+    foreach (GameField *f, gGame->board()->fields(static_cast<AH::Common::FieldData::FieldType> (type))) {
+        lst << f->id();
+    }
+    return returnMonstersFromFields(lst);
+}
+
+bool GameScript::returnMonstersFromFields(QList<quint32> fieldIds)
+{
+    bool hasRemoved = false;
+    foreach (quint32 fId, fieldIds) {
+        AH::Common::FieldData::FieldID fieldId = static_cast<AH::Common::FieldData::FieldID>(fId);
+        GameField *field = gGame->board()->field(fieldId);
+        if (!field) continue;
+
+        QList<Monster *> monsters = field->monsters();
+        foreach (Monster *m, monsters) {
+            gGame->returnMonster(m);
+            hasRemoved = true;
+        }
+    }
+    return hasRemoved;
+}
+
+bool GameScript::returnMonsterTypeFromBoard(QString typeId)
+{
+    bool hasRemoved = false;
+    QList<Monster *> monsters = gGame->board()->getBoardMonsters();
+    foreach (Monster *m, monsters) {
+        if (m->typeId() == typeId) {
+            gGame->returnMonster(m);
+            hasRemoved = true;
+        }
+    }
+    return hasRemoved;
 }
 
 int GameScript::cardsOnDeck(qint32 type)
@@ -929,7 +974,7 @@ bool GameScript::parseScripts(QDir base)
                     buf.open(QIODevice::WriteOnly);
                     AHS::ArkhorScriptGenerator gen(&f, &buf);
                     if (!gen.generate()) {
-                        qCritical() << "AH Script Error:" << gen.error();
+                        qCritical() << fi.absoluteFilePath() << ": AH Script Error:" << gen.error();
                         return false;
                     }
                     if (!gen.warning().isEmpty()) qWarning() << "AH Script Warning:" << gen.warning();

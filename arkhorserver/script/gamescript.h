@@ -9,6 +9,7 @@
 #include <QMetaType>
 #include "gamecontextscript.h"
 #include <cost.h>
+#include <fielddata.h>
 
 class QScriptEngine;
 class QScriptContext;
@@ -42,6 +43,14 @@ public:
 
     Q_INVOKABLE GameObjectScript *drawSingleObject(qint32 type);
     Q_INVOKABLE GameObjectScript *drawSpecificObject(QString id);
+
+    /** fieldId must be a AH::Common::FieldData::FieldID */
+    Q_INVOKABLE bool returnMonstersFromField(quint32 fieldId);
+    /** type must be a AH::Common::FieldData::FieldType */
+    Q_INVOKABLE bool returnMonstersFromFieldType(quint32 type);
+    /** fieldIds must be a list of AH::Common::FieldData::FieldID */
+    Q_INVOKABLE bool returnMonstersFromFields(QList<quint32> fieldIds);
+    Q_INVOKABLE bool returnMonsterTypeFromBoard(QString typeId);
 
     Q_INVOKABLE int cardsOnDeck(qint32 type);
 

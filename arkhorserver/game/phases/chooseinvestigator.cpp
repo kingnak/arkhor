@@ -14,19 +14,19 @@ void ChooseInvestigator::execute()
     foreach (Player *p, gGame->getPlayers()) {
         if (!p->isActive()) continue;
         Investigator *sel = p->chooseInvestigator(inv);
-        if (sel) {
-            if (p->isActive()) {
+        if (p->isActive()) {
+            if (sel) {
                 // Remove from game's pool
                 gGame->drawSpecificInvestigator(sel->id());
-
-                Character *c = sel->instantiate();
-                p->setCharacter(c);
-                gGame->registerCharacter(c);
-                inv.removeAll(sel);
-                p->playerCharacterInstantiated(p);
+            } else {
+                // None chosen, use random
+                sel = gGame->drawInvestigator();
             }
-        } else {
-            // TODO: None chosen, use random
+            Character *c = sel->instantiate();
+            p->setCharacter(c);
+            gGame->registerCharacter(c);
+            inv.removeAll(sel);
+            p->playerCharacterInstantiated(p);
         }
     }
 }

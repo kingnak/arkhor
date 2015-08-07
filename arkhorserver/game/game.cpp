@@ -669,10 +669,12 @@ OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldI
 
 PropertyModificationList Game::getGameModifiers()
 {
+    PropertyModificationList ret;
     if (m_environment) {
-        return m_environment->getModifications();
+        ret = m_environment->getModifications();
     }
-    return PropertyModificationList();
+    ret += ancientOne()->getSlumberModifications();
+    return ret;
 }
 
 void Game::boardDirty()

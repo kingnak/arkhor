@@ -8,6 +8,7 @@ bool MonsterGenerator::generate(const ClassGenerator::ClassDef &cls)
     outputCreateMonsterStart(cls);
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
+    outputRegisterConstant(cls);
     outputRegisterMonster(cls);
     return true;
 }
@@ -40,7 +41,7 @@ QList<ClassGenerator::AttributeDesc> MonsterGenerator::getAttributes()
             << AttributeDesc("onMove", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
             << AttributeDesc("attributes", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive | AttributeDesc::V_Array)
             << AttributeDesc("dimension", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
-            << AttributeDesc("modifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Array | AttributeDesc::V_Function)
+            << AttributeDesc("modifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex | AttributeDesc::V_Function)
             << AttributeDesc("onDefeat", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
                ;
 }

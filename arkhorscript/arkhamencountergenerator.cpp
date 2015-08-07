@@ -9,6 +9,7 @@ bool ArkhamEncounterGenerator::generate(const ClassDef &cls)
     outputCreateArkhamEncounterStart(cls);
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
+    outputRegisterConstant(cls);
     outputRegisterAkhamEncounter(cls);
     return true;
 }

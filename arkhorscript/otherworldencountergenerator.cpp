@@ -9,6 +9,7 @@ bool OtherWorldEncounterGenerator::generate(const ClassDef &cls)
     outputCreateOtherWorldEncounterStart(cls);
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
+    outputRegisterConstant(cls);
     outputRegisterOtherWorldEncounter(cls);
     return true;
 }

@@ -16,6 +16,7 @@ bool ObjectGenerator::generate(const ClassGenerator::ClassDef &cls)
     outputCreateObjectStart(cls);
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
+    outputRegisterConstant(cls);
     outputRegisterMultiObject(cls);
     return true;
 }

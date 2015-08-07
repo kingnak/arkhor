@@ -8,6 +8,7 @@ bool AllyGenerator::generate(const ClassDef &cls)
     outputCreateObjectStart(cls);
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
+    outputRegisterConstant(cls);
     outputRegisterSingleObject(cls);
     return true;
 }

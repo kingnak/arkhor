@@ -58,6 +58,8 @@ public:
 
 
     ////////// SETUP
+    Q_INVOKABLE bool registerConstant(QString scope, QString name, QString value);
+
     Q_INVOKABLE QScriptValue registerInvestigator(InvestigatorScript *i);
     Q_INVOKABLE QScriptValue createInvestigator();
 

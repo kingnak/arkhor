@@ -59,6 +59,7 @@ protected:
     void outputCreateEnd(const ClassDef &cls);
     void outputRegisterMulti(QString type, const ClassDef &cls);
     void outputRegisterSingle(QString type, const ClassDef &cls);
+    void outputRegisterConstant(const ClassDef &cls, QString scopeOverride = QString::null);
 
     bool outputIDRef(const AttrDef &attr, const ClassDef &cls);
     bool outputIDRefArray(const AttrDef &attr, const ClassDef &cls);

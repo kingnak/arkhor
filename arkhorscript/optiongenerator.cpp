@@ -9,6 +9,7 @@ bool OptionGenerator::generate(const ClassGenerator::ClassDef &cls)
     outputCreateOptionStart(cls);
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
+    outputRegisterConstant(cls);
     outputRegisterOption(cls);
     return true;
 }

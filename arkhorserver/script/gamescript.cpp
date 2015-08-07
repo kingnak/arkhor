@@ -437,6 +437,10 @@ void GameScript::initGlobalMethods()
 
 QScriptValue GameScript::quick_CurChar(QScriptContext *, QScriptEngine *eng)
 {
+#ifdef DEBUG_SCRIPT_BUILD
+    if (!gGameScript || !gGameScript->getGameContext() || !gGameScript->getGameContext()->curCharacter())
+        return QScriptValue();
+#endif
     CharacterScript *chr = gGameScript->getGameContext()->curCharacter();
     return eng->toScriptValue(chr);
 }
@@ -563,6 +567,24 @@ void GameScript::createGate(qint32 fld)
     GameField *field = gGame->board()->field(fid);
     if (field)
         gGame->createGate(field);
+}
+
+bool GameScript::registerConstant(QString scope, QString name, QString value)
+{
+    QScriptValue sc = m_engine->globalObject().property(scope);
+    if (!sc.isValid()) {
+        sc = m_engine->newObject();
+        m_engine->globalObject().setProperty(scope, sc, QScriptValue::ReadOnly);
+    }
+
+    QScriptValue el = sc.property(name);
+    if (el.isValid()) {
+        context()->throwError(QScriptContext::TypeError, QString("%1 is already defined in %2").arg(name, scope));
+        return false;
+    }
+
+    sc.setProperty(name, value, QScriptValue::ReadOnly);
+    return true;
 }
 
 QScriptValue GameScript::quickOption()

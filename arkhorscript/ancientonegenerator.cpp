@@ -11,6 +11,7 @@ bool AncientOneGenerator::generate(const ClassGenerator::ClassDef &cls)
     outputCreateAncientOneStart(cls);
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
+    outputRegisterConstant(cls);
     outputRegisterAncientOne(cls);
     return true;
 }

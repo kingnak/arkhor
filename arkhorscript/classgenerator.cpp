@@ -283,6 +283,12 @@ void ClassGenerator::outputRegisterSingle(QString type, const ClassDef &cls)
     m_out << "game.register" << type << "(" << getJSVariableName(cls) << ");\n\n";
 }
 
+void ClassGenerator::outputRegisterConstant(const ClassGenerator::ClassDef &cls, QString scopeOverride)
+{
+    QString scope = scopeOverride.isEmpty() ? cls.elemType : scopeOverride;
+    m_out << "game.registerConstant('" << scope << "', '" << cls.elemName << "', '" << idPrefixForClass(cls.elemType) << '_' << cls.elemName << "');\n";
+}
+
 
 bool ClassGenerator::outputModifications(const AttrDef &attr, const ClassDef &cls)
 {

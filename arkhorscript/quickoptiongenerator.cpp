@@ -11,6 +11,8 @@ bool QuickOptionGenerator::generate(const ClassGenerator::ClassDef &cls)
     m_out << "var " << getJSVariableName(cls) << " = game.quickOption({\n";
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
+    outputRegisterConstant(cls, "Option");
+    // game.quickOption automatically registers the option, no need for this:
     //outputRegisterOption(cls);
     return true;
 }

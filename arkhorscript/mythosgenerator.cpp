@@ -10,6 +10,7 @@ bool MythosGenerator::generate(const ClassGenerator::ClassDef &cls)
     outputCreateMythosStart(cls);
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
+    outputRegisterConstant(cls, "Mythos");
     outputRegisterMythos(cls);
     return true;
 }
@@ -81,7 +82,7 @@ QList<ClassGenerator::AttributeDesc> EnvironmentGenerator::getAttributes()
             << AttributeDesc("environmentFieldOptionId", AttributeDesc::R_Optional, AttributeDesc::H_IDRef, AttributeDesc::V_Primitive)
             << AttributeDesc("environmentField", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
             << AttributeDesc("environmentType", AttributeDesc::R_Required, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
-            << AttributeDesc("environmentModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
+            << AttributeDesc("environmentModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
             << AttributeDesc("monsterModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
             << AttributeDesc("monsterMoveModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
                ;

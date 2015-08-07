@@ -18,6 +18,9 @@ GameContextScript::GameContextScript(QObject *parent) :
 
 CharacterScript *GameContextScript::curCharacter()
 {
+#ifdef DEBUG_SCRIPT_BUILD
+    if (!gGame->context().player()) return NULL;
+#endif
     Character *c = gGame->context().player()->getCharacter();
     CharacterScript *cs = dynamic_cast<CharacterScript *> (c);
     return cs;

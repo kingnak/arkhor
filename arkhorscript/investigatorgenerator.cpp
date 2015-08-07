@@ -12,6 +12,7 @@ bool InvestigatorGenerator::generate(const ClassGenerator::ClassDef &cls)
     outputCreateInvestigatorStart(cls);
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
+    outputRegisterConstant(cls);
     outputRegisterInvestigator(cls);
     return true;
 }

@@ -9,6 +9,7 @@ bool ActionGenerator::generate(const ClassGenerator::ClassDef &cls)
     outputCreateActionStart(cls);
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
+    outputRegisterConstant(cls);
     outputRegisterAction(cls);
     return true;
 }

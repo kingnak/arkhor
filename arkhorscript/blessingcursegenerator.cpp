@@ -9,6 +9,7 @@ bool BlessingCurseGenerator::generate(const AHS::ClassGenerator::ClassDef &cls)
     outputCreateObjectStart(cls);
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
+    outputRegisterConstant(cls);
     outputRegisterMultiObject(cls);
     return true;
 

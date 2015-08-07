@@ -237,6 +237,7 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         mods.setProperty("Attr_Will", AH::Common::PropertyValueData::Attr_Will, QScriptValue::ReadOnly);
         mods.setProperty("Attr_Lore", AH::Common::PropertyValueData::Attr_Lore, QScriptValue::ReadOnly);
         mods.setProperty("Attr_Luck", AH::Common::PropertyValueData::Attr_Luck, QScriptValue::ReadOnly);
+
         mods.setProperty("Skill_Speed", AH::Common::PropertyValueData::Skill_Speed, QScriptValue::ReadOnly);
         mods.setProperty("Skill_Sneak", AH::Common::PropertyValueData::Skill_Sneak, QScriptValue::ReadOnly);
         mods.setProperty("Skill_Fight", AH::Common::PropertyValueData::Skill_Fight, QScriptValue::ReadOnly);
@@ -247,11 +248,16 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         mods.setProperty("Skill_Combat", AH::Common::PropertyValueData::Skill_Combat, QScriptValue::ReadOnly);
         mods.setProperty("Skill_Horror", AH::Common::PropertyValueData::Skill_Horror, QScriptValue::ReadOnly);
         mods.setProperty("Skill_Spell", AH::Common::PropertyValueData::Skill_Spell, QScriptValue::ReadOnly);
+
         mods.setProperty("Prop_MaxStamina", AH::Common::PropertyValueData::Prop_MaxStamina, QScriptValue::ReadOnly);
         mods.setProperty("Prop_MaxSanity", AH::Common::PropertyValueData::Prop_MaxSanity, QScriptValue::ReadOnly);
         mods.setProperty("Prop_Focus", AH::Common::PropertyValueData::Prop_Focus, QScriptValue::ReadOnly);
         mods.setProperty("Prop_Movement", AH::Common::PropertyValueData::Prop_Movement, QScriptValue::ReadOnly);
         mods.setProperty("Prop_MinSuccessDieRoll", AH::Common::PropertyValueData::Prop_MinSuccessDieRoll, QScriptValue::ReadOnly);
+        mods.setProperty("Prop_HandCount", AH::Common::PropertyValueData::Prop_HandCount, QScriptValue::ReadOnly);
+        mods.setProperty("Prop_CastCost", AH::Common::PropertyValueData::Prop_CastCost, QScriptValue::ReadOnly);
+        mods.setProperty("Prop_CastAdjustment", AH::Common::PropertyValueData::Prop_CastAdjustment, QScriptValue::ReadOnly);
+
         mods.setProperty("DieRoll_All", AH::Common::PropertyValueData::DieRoll_All, QScriptValue::ReadOnly);
         mods.setProperty("DieRoll_Speed", AH::Common::PropertyValueData::DieRoll_Speed, QScriptValue::ReadOnly);
         mods.setProperty("DieRoll_Sneak", AH::Common::PropertyValueData::DieRoll_Sneak, QScriptValue::ReadOnly);
@@ -263,18 +269,45 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         mods.setProperty("DieRoll_Combat", AH::Common::PropertyValueData::DieRoll_Combat, QScriptValue::ReadOnly);
         mods.setProperty("DieRoll_Horror", AH::Common::PropertyValueData::DieRoll_Horror, QScriptValue::ReadOnly);
         mods.setProperty("DieRoll_Spell", AH::Common::PropertyValueData::DieRoll_Spell, QScriptValue::ReadOnly);
+
         mods.setProperty("Game_SealClueCost", AH::Common::PropertyValueData::Game_SealClueCost, QScriptValue::ReadOnly);
+        mods.setProperty("Game_AllowMaskMonster", AH::Common::PropertyValueData::Game_AllowMaskMonster, QScriptValue::ReadOnly);
+        mods.setProperty("Game_MaxGateCount", AH::Common::PropertyValueData::Game_MaxGateCount, QScriptValue::ReadOnly);
+        mods.setProperty("Game_MaxBoardMonsterCount", AH::Common::PropertyValueData::Game_MaxBoardMonsterCount, QScriptValue::ReadOnly);
+        mods.setProperty("Game_MaxOutskirtsMonsterCount", AH::Common::PropertyValueData::Game_MaxOutskirtsMonsterCount, QScriptValue::ReadOnly);
+        mods.setProperty("Game_TerrorLevel", AH::Common::PropertyValueData::Game_TerrorLevel, QScriptValue::ReadOnly);
+        mods.setProperty("Game_MonsterCountFromGates", AH::Common::PropertyValueData::Game_MonsterCountFromGates, QScriptValue::ReadOnly);
+        mods.setProperty("Game_CloseGeneralStoreTerrorLevel", AH::Common::PropertyValueData::Game_CloseGeneralStoreTerrorLevel, QScriptValue::ReadOnly);
+        mods.setProperty("Game_CloseCuriosityShoppeTerrorLevel", AH::Common::PropertyValueData::Game_CloseCuriosityShoppeTerrorLevel, QScriptValue::ReadOnly);
+        mods.setProperty("Game_CloseYeOldeMagickShoppeTerrorLevel", AH::Common::PropertyValueData::Game_CloseYeOldeMagickShoppeTerrorLevel, QScriptValue::ReadOnly);
+        mods.setProperty("Game_OverrunArkhamTerrorLevel", AH::Common::PropertyValueData::Game_OverrunArkhamTerrorLevel, QScriptValue::ReadOnly);
+        mods.setProperty("Game_SealedGatesToWin", AH::Common::PropertyValueData::Game_SealedGatesToWin, QScriptValue::ReadOnly);
+        mods.setProperty("Game_GateTrophiesToWin", AH::Common::PropertyValueData::Game_GateTrophiesToWin, QScriptValue::ReadOnly);
+
         mods.setProperty("Damage_General", AH::Common::PropertyValueData::Damage_General, QScriptValue::ReadOnly);
         mods.setProperty("Damage_Magical", AH::Common::PropertyValueData::Damage_Magical, QScriptValue::ReadOnly);
         mods.setProperty("Damage_Physical", AH::Common::PropertyValueData::Damage_Physical, QScriptValue::ReadOnly);
+
         mods.setProperty("Monster_CombatDamage", AH::Common::PropertyValueData::Monster_CombatDamage, QScriptValue::ReadOnly);
         mods.setProperty("Monster_CombatAdjustment", AH::Common::PropertyValueData::Monster_CombatAdjustment, QScriptValue::ReadOnly);
         mods.setProperty("Monster_HorrorDamage", AH::Common::PropertyValueData::Monster_HorrorDamage, QScriptValue::ReadOnly);
         mods.setProperty("Monster_HorrorAdjustment", AH::Common::PropertyValueData::Monster_HorrorAdjustment, QScriptValue::ReadOnly);
         mods.setProperty("Monster_Awareness", AH::Common::PropertyValueData::Monster_Awareness, QScriptValue::ReadOnly);
         mods.setProperty("Monster_Toughness", AH::Common::PropertyValueData::Monster_Toughness, QScriptValue::ReadOnly);
-        mods.setProperty("Monster_Movement", AH::Common::PropertyValueData::Monster_Movement, QScriptValue::ReadOnly);
+        // Now done with MonsterMovement below
+        //mods.setProperty("Monster_Movement", AH::Common::PropertyValueData::Monster_Movement, QScriptValue::ReadOnly);
+
+        mods.setProperty("DrawCard_CommonItem", AH::Common::PropertyValueData::DrawCard_CommonItem, QScriptValue::ReadOnly);
+        mods.setProperty("DrawCard_UniqueItem", AH::Common::PropertyValueData::DrawCard_UniqueItem, QScriptValue::ReadOnly);
+        mods.setProperty("DrawCard_Spell", AH::Common::PropertyValueData::DrawCard_Spell, QScriptValue::ReadOnly);
+        mods.setProperty("DrawCard_Skill", AH::Common::PropertyValueData::DrawCard_Skill, QScriptValue::ReadOnly);
+        mods.setProperty("DrawCard_Ally", AH::Common::PropertyValueData::DrawCard_Ally, QScriptValue::ReadOnly);
+        mods.setProperty("DrawCard_ArkhamEncountery", AH::Common::PropertyValueData::DrawCard_ArkhamEncountery, QScriptValue::ReadOnly);
+        mods.setProperty("DrawCard_OtherWorldEncountery", AH::Common::PropertyValueData::DrawCard_OtherWorldEncountery, QScriptValue::ReadOnly);
+
         mods.setProperty("Ignore_MonsterAttributes", AH::Common::PropertyValueData::Ignore_MonsterAttributes, QScriptValue::ReadOnly);
+        mods.setProperty("Ignore_PhysicalDamage", AH::Common::PropertyValueData::Ignore_PhysicalDamage, QScriptValue::ReadOnly);
+        mods.setProperty("Ignore_MagicalDamage", AH::Common::PropertyValueData::Ignore_MagicalDamage, QScriptValue::ReadOnly);
         consts.setProperty("Mods", mods, QScriptValue::ReadOnly);
     }
 

@@ -9,6 +9,8 @@
 #include "game/drawcardhelper.h"
 #include "gamescript.h"
 #include "mythoscardscript.h"
+#include "monsterscript.h"
+#include "ancientonescript.h"
 #include <QDebug>
 
 GameContextScript::GameContextScript(QObject *parent) :
@@ -61,6 +63,20 @@ MythosCardScript *GameContextScript::activeRumor()
     MythosCard *r = gGame->rumor();
     MythosCardScript *rs = dynamic_cast<MythosCardScript *> (r);
     return rs;
+}
+
+MonsterScript *GameContextScript::curMonster()
+{
+    Monster *m = gGame->context().monster();
+    MonsterScript *ms = dynamic_cast<MonsterScript *> (m);
+    return ms;
+}
+
+AncientOneScript *GameContextScript::curAncientOne()
+{
+    AncientOne *ao = gGame->context().ancientOne();
+    AncientOneScript *aos = dynamic_cast<AncientOneScript *> (ao);
+    return aos;
 }
 
 int GameContextScript::genericDieRollSum(QString desc, int dieCount)

@@ -11,6 +11,8 @@ class CharacterScript;
 class GateScript;
 class GameObjectScript;
 class MythosCardScript;
+class MonsterScript;
+class AncientOneScript;
 
 class GameContextScript : public QObject
 {
@@ -26,12 +28,16 @@ public:
     Q_PROPERTY(GateScript* gate READ curGate)
     Q_PROPERTY(int terrorLevel READ getTerrorLevel)
     Q_PROPERTY(MythosCardScript* rumor READ activeRumor)
+    Q_PROPERTY(MonsterScript* monster READ curMonster)
+    Q_PROPERTY(AncientOneScript *ancientOne READ curAncientOne)
 
     CharacterScript *curCharacter();
     QObjectList getAllCharacters();
     GateScript *curGate();
     int getTerrorLevel();
     MythosCardScript *activeRumor();
+    MonsterScript *curMonster();
+    AncientOneScript *curAncientOne();
 
     Q_INVOKABLE int genericDieRollSum(QString desc, int dieCount);
     Q_INVOKABLE bool genericDieRollTest(QString desc, int dieCount, int target);

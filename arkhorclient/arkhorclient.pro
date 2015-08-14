@@ -36,9 +36,10 @@ HEADERS += \
     gui/objectinfowidget.h \
     gui/paymentselectorwidget.h \
     gui/stringchoiceselectorwidget.h \
-    gui/rumorshortwidget.h \
-    gui/environmentshortwidget.h \
-    gui/ancientoneshortwidget.h
+    gui/ancientoneshortwidget.h \
+    gui/mythoscardwidget.h \
+    gui/environmentwidget.h \
+    gui/rumorwidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -73,9 +74,10 @@ SOURCES += \
     gui/objectinfowidget.cpp \
     gui/paymentselectorwidget.cpp \
     gui/stringchoiceselectorwidget.cpp \
-    gui/rumorshortwidget.cpp \
-    gui/environmentshortwidget.cpp \
-    gui/ancientoneshortwidget.cpp
+    gui/ancientoneshortwidget.cpp \
+    gui/mythoscardwidget.cpp \
+    gui/environmentwidget.cpp \
+    gui/rumorwidget.cpp
 
 FORMS += \
     gui/ahmaingui.ui \
@@ -92,7 +94,8 @@ FORMS += \
     gui/mythosdatawidget.ui \
     gui/objectselectorwidget.ui \
     gui/choicewidget.ui \
-    gui/ancientoneshortwidget.ui
+    gui/ancientoneshortwidget.ui \
+    gui/mythoscardwidget.ui
 
 # Link to arkhorcommon
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon

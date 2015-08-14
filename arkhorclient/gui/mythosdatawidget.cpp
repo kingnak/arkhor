@@ -19,7 +19,7 @@ void MythosDataWidget::displayMythos(const AH::Common::MythosData *m)
 {
     if (m) {
         ui->lblName->setText(m->name());
-        QString type = Utils::stringForMythosType(m->type(), m->environmenType(), "\n<em>%1</em>");
+        QString type = Utils::stringForMythosType(m->type(), m->environmenType(), "<br/><em>%1</em>");
         ui->lblType->setText(type);
         ui->lblClue->setText(Utils::stringForField(m->clueField()));
         ui->lblGate->setText(Utils::stringForField(m->gateField()));
@@ -28,6 +28,7 @@ void MythosDataWidget::displayMythos(const AH::Common::MythosData *m)
         QStringList w = Utils::stringsForDimensions(m->whiteMovement());
         ui->lblMoveWhite->setText(w.join(", "));
         ui->lblDesc->setText(m->description());
+        ui->lblMythosCard->setVisible(true);
     } else {
         ui->lblName->setText("");
         ui->lblType->setText("");
@@ -36,5 +37,6 @@ void MythosDataWidget::displayMythos(const AH::Common::MythosData *m)
         ui->lblMoveBlack->setText("");
         ui->lblMoveBlack->setText("");
         ui->lblDesc->setText("");
+        ui->lblMythosCard->setVisible(false);
     }
 }

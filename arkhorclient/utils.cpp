@@ -336,6 +336,10 @@ QString Utils::stringForMythosEnvironmentType(MythosData::EnvironmentType et)
     switch (et) {
     case MythosData::Env_Weather:
         return "Weather";
+    case MythosData::Env_Mystic:
+        return "Mystic";
+    case MythosData::Env_Urban:
+        return "Urban";
     case MythosData::Env_None:
         return "";
     }

@@ -5,6 +5,7 @@
 #include "gatedatawidget.h"
 #include "monsterwidget.h"
 #include "gameobjectwidget.h"
+#include "mythoscardwidget.h"
 
 using namespace AH::Common;
 
@@ -15,6 +16,7 @@ ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
     m_gate = new GateDataWidget;
     m_monster = new MonsterWidget;
     m_object = new GameObjectWidget;
+    m_mythos = new MythosCardWidget;
 
     QWidget *nothing = new QWidget;
     nothing->setMinimumSize(QSize(0,0));
@@ -23,6 +25,7 @@ ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
     m_stack->addWidget(m_gate);
     m_stack->addWidget(m_monster);
     m_stack->addWidget(m_object);
+    m_stack->addWidget(m_mythos);
 
     QHBoxLayout *l = new QHBoxLayout(this);
     l->addWidget(m_stack);
@@ -58,6 +61,13 @@ void ObjectInfoWidget::displayItemInfo(const QString &id)
             AH::Common::GameObjectData o;
             d.data >> o;
             displayObjectDetails(&o);
+            break;
+        }
+        case AH::Common::RequestObjectsData::Mythos:
+        {
+            AH::Common::MythosData m;
+            d.data >> m;
+            displayMythosDetails(&m);
             break;
         }
         default:
@@ -97,5 +107,11 @@ void ObjectInfoWidget::displayObjectDetails(const AH::Common::GameObjectData *o)
 {
     m_object->displayGameObject(o);
     m_stack->setCurrentWidget(m_object);
+}
+
+void ObjectInfoWidget::displayMythosDetails(const MythosData *m)
+{
+    m_mythos->displayMythosCard(m);
+    m_stack->setCurrentWidget(m_mythos);
 }
 

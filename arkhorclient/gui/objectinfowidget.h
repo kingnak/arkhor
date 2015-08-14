@@ -6,11 +6,13 @@
 #include <monsterdata.h>
 #include <gatedata.h>
 #include <gameobjectdata.h>
+#include <mythosdata.h>
 
 class QStackedWidget;
 class GateDataWidget;
 class MonsterWidget;
 class GameObjectWidget;
+class MythosCardWidget;
 
 class ObjectInfoWidget : public QWidget
 {
@@ -31,6 +33,7 @@ private:
     void displayMonsterDetails(const AH::Common::MonsterData *m);
     void displayGateDetails(const AH::Common::GateData *g);
     void displayObjectDetails(const AH::Common::GameObjectData *o);
+    void displayMythosDetails(const AH::Common::MythosData *m);
 
 private:
     QString m_pendingDisplayId;
@@ -39,6 +42,7 @@ private:
     GateDataWidget *m_gate;
     MonsterWidget *m_monster;
     GameObjectWidget *m_object;
+    MythosCardWidget *m_mythos;
 };
 
 #endif // OBJECTINFOWIDGET_H

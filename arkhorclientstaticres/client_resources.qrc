@@ -34,6 +34,7 @@
         <file alias="blessing_card">client_resources/Blessing.png</file>
         <file alias="curse_card">client_resources/Curse.png</file>
         <file alias="unknown_character">client_resources/unknown_character.png</file>
+        <file alias="mythos_back">client_resources/MythosBack.png</file>
     </qresource>
     <qresource prefix="/core/marker">
         <file alias="activity_1">client_resources/activity_marker_1.png</file>

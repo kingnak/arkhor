@@ -245,7 +245,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="EnvironmentShortWidget" name="wgtEnvironment" native="true"/>
+           <widget class="EnvironmentWidget" name="wgtEnvironment" native="true"/>
           </item>
          </layout>
         </widget>
@@ -289,7 +289,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="RumorShortWidget" name="wgtRumor" native="true"/>
+           <widget class="RumorWidget" name="wgtRumor" native="true"/>
           </item>
          </layout>
         </widget>
@@ -374,15 +374,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>RumorShortWidget</class>
+   <class>RumorWidget</class>
    <extends>QWidget</extends>
-   <header>gui/rumorshortwidget.h</header>
+   <header>gui/rumorwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>EnvironmentShortWidget</class>
+   <class>EnvironmentWidget</class>
    <extends>QWidget</extends>
-   <header>gui/environmentshortwidget.h</header>
+   <header>gui/environmentwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

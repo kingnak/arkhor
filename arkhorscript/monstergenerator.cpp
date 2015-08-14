@@ -42,7 +42,9 @@ QList<ClassGenerator::AttributeDesc> MonsterGenerator::getAttributes()
             << AttributeDesc("attributes", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive | AttributeDesc::V_Array)
             << AttributeDesc("dimension", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
             << AttributeDesc("modifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex | AttributeDesc::V_Function)
-            << AttributeDesc("onDefeat", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
+            << AttributeDesc("onDefeat", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
+            << AttributeDesc("onEvade", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
+            << AttributeDesc("onFlee", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
                ;
 }
 
@@ -53,6 +55,9 @@ bool MonsterGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef
     }
     if (desc.name == "onDamage") {
         return outputFunction(attr, cls, "type, chr");
+    }
+    if (desc.name == "onDefeat" || desc.name == "onEvade" || desc.name == "onFlee") {
+        return outputFunction(attr, cls, "chr");
     }
     if (desc.name == "attributes") {
         return outputEnumValueArray("Constants.Monster", attr, cls);

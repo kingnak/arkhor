@@ -9,13 +9,25 @@ QList<ClassGenerator::AttributeDesc> SpellGenerator::getAttributes()
             << AttributeDesc("castCost", AttributeDesc::R_Required, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
             << AttributeDesc("castAdjustment", AttributeDesc::R_Required, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
             << AttributeDesc("exhaustable", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
-            << AttributeDesc("cast", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function);
+            << AttributeDesc("cast", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
+            << AttributeDesc("castIsAvailable", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
+            << AttributeDesc("castChooseType", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
+            << AttributeDesc("castContinueType", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
+               ;
 }
 
 bool SpellGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr)
 {
+    /*
     if (desc.name == "cast") {
         return outputFunction(attr, cls);
+    }
+    */
+    if (desc.name == "castChooseType") {
+        return outputEnumValue("Constants.Option", attr, cls);
+    }
+    if (desc.name == "castContinueType") {
+        return outputEnumValue("Constants.Option", attr, cls);
     }
     return ObjectGenerator::outputSpecialAttribute(desc, cls, attr);
 }

@@ -108,7 +108,10 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
         if (ret->m_castFunc.isFunction()) {
             // Default cast option
             castOption = eng->newObject();
-            phases = AH::AllPhases;
+            phases = GameScript::parseFlags<AH::GamePhases> (data.property("castPhases"), AH::AllPhases);
+            castOption.setProperty("isAvailable", data.property("castIsAvailable"));
+            castOption.setProperty("chooseType", data.property("castChooseType"));
+            castOption.setProperty("continueType", data.property("castContinueType"));
         } else if (ret->m_castFunc.isObject()) {
             // extract Real function
             castOption = ret->m_castFunc;

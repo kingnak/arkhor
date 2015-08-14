@@ -1,0 +1,43 @@
+AHS = {ElementDefinition};
+
+ElementDefinition = ElementClass, ElementID, [ElementMultiplicity], ElementBlock
+
+ElementID = identifier;
+
+ElementMultiplicity = ":", number;
+
+ElementBlock = "{", ElementAttributes, "}";
+
+ElementAttributes = {ElementAttribute};
+
+ElementAttribute = AttributeName, ":", AttributeValue, ";"
+
+AttributeName = identifier;
+
+AttributeValue = Primitive | Complex | IDRefOrEnumValue | Array | SignedNumber;
+SignedNumber = ["-"|"+"], number;
+IDRefOrEnumValue = IDRef | EnumValue;
+
+Array = "(", ArrayContent, ")";
+ArrayContent = ArrayValue {",",ArrayContent};
+ArrayValue = IDRef | EnumValue;
+
+Primitive = string | boolean | number | literal | function;
+
+IDRef = IDScope, ".", IDValue;
+
+Function = "{", functionBody, "}";
+
+Complex = "[", (any - "]"), "]";
+
+IDScope = ElementClass;
+EnumValue = identifier;
+
+IDValue = identifier;
+ElementClass = identifier;
+(*
+ElementClass = 	"AncientOne" | "Investigator" | "ArkhamEncounter" | "OtherWorldEncounter" |
+				"Monster" | "Mythos" | "Ally" | "CommonItem" | "Skill" | "Spell" | "UniqueItem" |
+				"Action" | "Option" | "ActionOption" | "SpecialObject";
+*)
+(* Fields? *)

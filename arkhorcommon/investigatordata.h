@@ -41,6 +41,11 @@ namespace AH {
             QStringList fixedPossesionObjectIds() const { return m_fixedPossesionObjectIds; }
             QList<ObjectTypeCount> randomPossesions() const { return m_randomPossessions; }
 
+            // For pre-game display
+            virtual QString uniqueAbilityName() const { return m_uniqueAbilityName; }
+            virtual QString uniqueAbilityDescription() const { return m_uniqueAbilityDesc; }
+            virtual QStringList fixedPossessionNames() const { return m_fixedPossNames; }
+
         protected:
             QString m_id;
             QString m_name;
@@ -58,6 +63,11 @@ namespace AH {
             QString m_uniqueAbilityId;
             QStringList m_fixedPossesionObjectIds;
             QList<ObjectTypeCount> m_randomPossessions;
+
+            // For pre-game display
+            QString m_uniqueAbilityName;
+            QString m_uniqueAbilityDesc;
+            QStringList m_fixedPossNames;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, InvestigatorData);
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, InvestigatorData::AttributeValuePair);

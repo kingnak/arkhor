@@ -115,20 +115,26 @@ void InvestigatorWidget::displayInvestigator(AH::Common::InvestigatorData inv)
     drawFixedLineHeightText(&p, rndPoss.join(", "), rndRect, 26);
 
     // Fixed Possessions
-    // TODO: MORE FROM SERVER
     QStringList fixPoss;
     if (inv.money() > 0)
-        fixPoss << QString("$%1").arg(inv.money());
+        fixPoss << QString("<b>$</b>%1").arg(inv.money());
     if (inv.clues() > 0)
         fixPoss << QString("%1 Clues").arg(inv.clues());
-    foreach (QString oid, inv.fixedPossesionObjectIds()) {
+    foreach (QString oid, inv.fixedPossessionNames()) {
         fixPoss << oid;
     }
     QRect fixRect(50,700,426,90);
     drawFixedLineHeightText(&p, fixPoss.join(", "), fixRect, 26);
 
     // Special ability
-    // TODO: GET FROM SERVER
+    QRect saNameRect(500,604,510,40);
+    f.setPixelSize(36);
+    p.setFont(f);
+    p.drawText(saNameRect, Qt::AlignHCenter, inv.uniqueAbilityName());
+
+    QRect saDescRect(500,644,510,350);
+    p.setFont(ft);
+    drawFixedLineHeightText(&p, inv.uniqueAbilityDescription(), saDescRect, 26);
 
     m_img = ret.scaled(512, 720);
     update();

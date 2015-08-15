@@ -29,6 +29,9 @@ void operator <<(QVariant &data, const InvestigatorData &c) {
     map["uniqueAbilityId"] << c.m_uniqueAbilityId;
     map["fixedPossesionObjectIds"] << c.m_fixedPossesionObjectIds;
     map["randomPossesions"] << c.m_randomPossessions;
+    map["uniqueAbilityName"] << c.uniqueAbilityName();
+    map["uniqueAbilityDesc"] << c.uniqueAbilityDescription();
+    map["fixedPossessionNames"] << c.fixedPossessionNames();
     data << map;
 }
 
@@ -50,6 +53,9 @@ void operator >>(const QVariant &data, InvestigatorData &c) {
     map["uniqueAbilityId"] >> c.m_uniqueAbilityId;
     map["fixedPossesionObjectIds"] >> c.m_fixedPossesionObjectIds;
     map["randomPossesions"] >> c.m_randomPossessions;
+    map["uniqueAbilityName"] >> c.m_uniqueAbilityName;
+    map["uniqueAbilityDesc"] >> c.m_uniqueAbilityDesc;
+    map["fixedPossessionNames"] >> c.m_fixedPossNames;
 }
 
 void operator <<(QVariant &data, const InvestigatorData::AttributeValuePair &c) {

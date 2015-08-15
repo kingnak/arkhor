@@ -6,7 +6,7 @@
 #include <QDebug>
 
 MythosCardScript::MythosCardScript(QObject *parent) :
-    DynamicScriptableObject(parent), m_rumorFieldOption(NULL), m_envFieldOption(NULL)
+    DynamicScriptableObject(parent), m_envFieldOption(NULL), m_rumorFieldOption(NULL)
 {
 }
 

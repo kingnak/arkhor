@@ -69,6 +69,31 @@ QScriptValue InvestigatorScript::createInvestigator(QScriptContext *ctx, QScript
     return object;
 }
 
+QString InvestigatorScript::uniqueAbilityName() const
+{
+    GameObject *ua = gGame->registry()->findObjectById(uniqueAbilityId());
+    if (ua) return ua->name();
+    return "";
+}
+
+QString InvestigatorScript::uniqueAbilityDescription() const
+{
+    GameObject *ua = gGame->registry()->findObjectById(uniqueAbilityId());
+    if (ua) return ua->description();
+    return "";
+}
+
+QStringList InvestigatorScript::fixedPossessionNames() const
+{
+    QStringList ret;
+    foreach (QString id, fixedPossesionObjectIds()) {
+        const GameObject *obj = gGame->registry()->findObjectPrototypeByType(id);
+        if (obj) ret << obj->name();
+        else ret << id;
+    }
+    return ret;
+}
+
 bool InvestigatorScript::parseAttributeList(QScriptValue v, QList<AttributeValuePair> &ret)
 {
     if (!v.isArray()) return false;

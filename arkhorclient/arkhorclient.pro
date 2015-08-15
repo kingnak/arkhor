@@ -39,7 +39,8 @@ HEADERS += \
     gui/ancientoneshortwidget.h \
     gui/mythoscardwidget.h \
     gui/environmentwidget.h \
-    gui/rumorwidget.h
+    gui/rumorwidget.h \
+    gui/investigatorwidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -77,7 +78,8 @@ SOURCES += \
     gui/ancientoneshortwidget.cpp \
     gui/mythoscardwidget.cpp \
     gui/environmentwidget.cpp \
-    gui/rumorwidget.cpp
+    gui/rumorwidget.cpp \
+    gui/investigatorwidget.cpp
 
 FORMS += \
     gui/ahmaingui.ui \

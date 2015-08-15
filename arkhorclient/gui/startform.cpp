@@ -61,7 +61,8 @@ void StartForm::on_cmbInvestigators_currentIndexChanged(int)
     QVariant v = ui->cmbInvestigators->itemData(ui->cmbInvestigators->currentIndex());
     AH::Common::InvestigatorData d;
     v >> d;
-    ui->txtInvDetail->setText(v.toString());
+    //ui->txtInvDetail->setText(v.toString());
+    ui->wgtInvestigator->displayInvestigator(d);
 }
 
 void StartForm::on_btnSelectInv_clicked()
@@ -113,6 +114,7 @@ void StartForm::setInvestigatorList(QList<AH::Common::InvestigatorData> l)
 {
     ui->grpInvestigator->setEnabled(true);
     ui->cmbInvestigators->clear();
+    ui->cmbInvestigators->addItem(QString::null, QVariant());
     foreach (AH::Common::InvestigatorData i, l) {
         QVariant v;
         v << i;
@@ -138,3 +140,4 @@ void StartForm::startGame()
     this->close();
     //this->deleteLater();
 }
+

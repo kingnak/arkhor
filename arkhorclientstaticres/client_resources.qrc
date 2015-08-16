@@ -36,6 +36,7 @@
         <file alias="unknown_character">client_resources/unknown_character.png</file>
         <file alias="mythos_back">client_resources/MythosBack.png</file>
         <file alias="inv_template">client_resources/inv_template.png</file>
+        <file alias="ao_template">client_resources/ao_tmpl.png</file>
     </qresource>
     <qresource prefix="/core/marker">
         <file alias="activity_1">client_resources/activity_marker_1.png</file>
@@ -47,6 +48,8 @@
         <file alias="elder_sign">client_resources/elder_sign.png</file>
         <file alias="monster_marker_icon">client_resources/monster_marker_icon.png</file>
         <file alias="location_locked">client_resources/location_locked.png</file>
+        <file alias="doom_token">client_resources/doom_token.png</file>
+        <file alias="doom_token_red">client_resources/doom_token_red.png</file>
     </qresource>
     <qresource prefix="/core/data">
         <file alias="boardfields">client_resources/boardfields.txt</file>

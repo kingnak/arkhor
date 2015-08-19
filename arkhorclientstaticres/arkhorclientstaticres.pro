@@ -1,15 +1,20 @@
 TEMPLATE = lib
-
-
-DEFINES += ARKHOR_CLIENTSTATICRES_DLL
-QMAKE_RESOURCE_FLAGS += -threshold 0 -compress 9
+CONFIG += static
 
 RESOURCES += \
-    client_resources.qrc
+	client_resources.qrc
 
-HEADERS += \
-    arkhorclientstaticres_global.h \
-    arkhamhorrorstaticresources.h
+CONFIG -= resources
 
-SOURCES += \
-    arkhamhorrorstaticresources.cpp
+buildrcc.target = .buildrcc
+win32:CONFIG(debug, debug|release): buildrcc.commands = "$$PWD\\compile_rcc.bat" "$$PWD" "debug"
+else:win32:CONFIG(release, debug|release):  buildrcc.commands = "$$PWD\\compile_rcc.bat" "$$PWD" "release"
+else:unix:CONFIG(debug, debug|release): buildrcc.commands = "$$PWD/compile_rcc.sh" "$$PWD" "debug"
+else:unix:CONFIG(release, debug|release):  buildrcc.commands = "$$PWD/compile_rcc.sh" "$$PWD" "release"
+
+QMAKE_EXTRA_TARGETS += buildrcc
+PRE_TARGETDEPS += .buildrcc
+
+OTHER_FILES += \
+	compile_rcc.bat \
+    compile_rcc.sh

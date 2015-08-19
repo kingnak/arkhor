@@ -2,8 +2,6 @@ QT += network
 
 unix:CONFIG(debug, debug|release): DEFINES += "_DEBUG=1"
 
-CONFIG += console
-
 HEADERS += \
     connectionhandler.h \
     ahboardscene.h \
@@ -106,14 +104,6 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../arkhorcommon/ -larkhorcommon
 
 INCLUDEPATH += $$PWD/../arkhorcommon
 DEPENDPATH += $$PWD/../arkhorcommon
-
-# Link to arkhorclientstaticres
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorclientstaticres/release/ -larkhorclientstaticres
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorclientstaticres/debug/ -larkhorclientstaticres
-else:unix:!macx: LIBS += -L$$OUT_PWD/../arkhorclientstaticres/ -larkhorclientstaticres
-
-INCLUDEPATH += $$PWD/../arkhorclientstaticres
-DEPENDPATH += $$PWD/../arkhorclientstaticres
 
 # Link to quazip
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/release/ -lquazip

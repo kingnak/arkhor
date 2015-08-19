@@ -17,15 +17,23 @@ using namespace AH::Common;
 #include "gatewidget.h"
 using namespace AH::Common;
 */
+#include <QResource>
 #include "resourcepool.h"
-
-#include <arkhamhorrorstaticresources.h>
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
-    ArkhamHorrorStaticResources::init();
+#ifdef _DEBUG
+    QDir d = QDir::current();
+#else
+    QDir d = QDir(QCoreApplication::applicationDirPath());
+#endif
+    QString rccFile = d.absoluteFilePath("client_resources.rcc");
+    if (!QResource::registerResource(rccFile)) {
+        qCritical(qPrintable(QString("Cannot open %1").arg(rccFile)));
+        return 1;
+    }
 
     QString baseDir = "./res";
     if (app.arguments().length() > 1)

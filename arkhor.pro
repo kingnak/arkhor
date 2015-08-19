@@ -10,6 +10,3 @@ SUBDIRS += \
     arkhorserver \
     arkhorclientstaticres \
 	arkhorclient
-
-#RESOURCES += \
-#    arkhorclientstaticres/client_resources.qrc

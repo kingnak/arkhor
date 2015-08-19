@@ -9,9 +9,9 @@ FocusChooser::FocusChooser(QWidget *parent) :
     ui(new Ui::FocusChooser)
 {
     ui->setupUi(this);
-    ui->wgtSpeedSneak->setLayout(new QHBoxLayout);
-    ui->wgtFightWill->setLayout(new QHBoxLayout);
-    ui->wgtLoreLuck->setLayout(new QHBoxLayout);
+    ui->wgtSpeedSneak->setLayout(new QVBoxLayout);
+    ui->wgtFightWill->setLayout(new QVBoxLayout);
+    ui->wgtLoreLuck->setLayout(new QVBoxLayout);
 }
 
 FocusChooser::~FocusChooser()

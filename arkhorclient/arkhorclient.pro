@@ -80,7 +80,6 @@ SOURCES += \
     gui/ancientonewidget.cpp
 
 FORMS += \
-    gui/ahmaingui.ui \
     gui/characterwidget.ui \
     gui/dierollwidget.ui \
     gui/focuschooser.ui \
@@ -95,7 +94,9 @@ FORMS += \
     gui/objectselectorwidget.ui \
     gui/choicewidget.ui \
     gui/mythoscardwidget.ui \
-    gui/ancientonewidget.ui
+    gui/ancientonewidget.ui \
+    gui/_ahmaingui.ui \
+    gui/ahmaingui.ui
 
 # Link to arkhorcommon
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon

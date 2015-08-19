@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AhMainGui</class>
+ <widget class="QWidget" name="AhMainGui">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>708</width>
+    <height>551</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,0">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0">
+     <item>
+      <widget class="AhGraphicsView" name="grvBoard">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>200</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTabWidget" name="tabIntInfInv">
+       <property name="tabPosition">
+        <enum>QTabWidget::East</enum>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tabInteraction">
+        <attribute name="icon">
+         <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
+          <normaloff>:/core/images/interaction</normaloff>:/core/images/interaction</iconset>
+        </attribute>
+        <attribute name="title">
+         <string/>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QStackedWidget" name="stkInteraction">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="pageEmptyInteraction">
+            <layout class="QVBoxLayout" name="verticalLayout_9">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Empty</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageOptionChooser">
+            <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,1">
+             <item>
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>OPTION</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="OptionChooser" name="wgtOptionChooser" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageMovementChooser">
+            <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1">
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>MOVE</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="MovementChooser" name="wgtMovmentChooser" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageFocusChooser">
+            <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,1">
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>FOCUS</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="FocusChooser" name="wgtFocusChooser" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageDieRoll">
+            <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,1">
+             <item>
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>DIE ROLL</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="DieRollWidget" name="wgtDieRoll" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageWeaponChooser">
+            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,1">
+             <item>
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>WEAPONS</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="WeaponChooser" name="wgtWeaponChooser" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageMythos">
+            <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0">
+             <item>
+              <widget class="MythosDataWidget" name="wgtMythos" native="true"/>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_10">
+               <item>
+                <widget class="QPushButton" name="btnAcknowledeMythos">
+                 <property name="text">
+                  <string>&amp;Ok</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="ChoiceWidget" name="pageChoice"/>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tabInfo">
+        <attribute name="icon">
+         <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
+          <normaloff>:/core/images/info</normaloff>:/core/images/info</iconset>
+        </attribute>
+        <attribute name="title">
+         <string/>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="ObjectInfoWidget" name="wgtInfo" native="true"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tabInventory">
+        <attribute name="icon">
+         <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
+          <normaloff>:/core/images/inventory</normaloff>:/core/images/inventory</iconset>
+        </attribute>
+        <attribute name="title">
+         <string/>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QListWidget" name="lstInventory"/>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tabCharacter">
+      <attribute name="title">
+       <string>Character</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_11">
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Character</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <widget class="CharacterWidget" name="wgtCharacter" native="true"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="title">
+          <string>Environment</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="EnvironmentWidget" name="wgtEnvironment" native="true"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabAncientOne">
+      <attribute name="title">
+       <string>Ancient One</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_12">
+       <item>
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
+          <string>Ancient One</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="AncientOneWidget" name="wgtAncientOne" native="true"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Rumor</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="RumorWidget" name="wgtRumor" native="true"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>408</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>AhGraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>gui/ahgraphicsview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MovementChooser</class>
+   <extends>QWidget</extends>
+   <header>gui/movementchooser.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FocusChooser</class>
+   <extends>QWidget</extends>
+   <header>gui/focuschooser.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OptionChooser</class>
+   <extends>QWidget</extends>
+   <header>gui/optionchooser.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DieRollWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/dierollwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CharacterWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/characterwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WeaponChooser</class>
+   <extends>QWidget</extends>
+   <header>gui/weaponchooser.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MythosDataWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/mythosdatawidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ChoiceWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/choicewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ObjectInfoWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/objectinfowidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RumorWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/rumorwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>EnvironmentWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/environmentwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AncientOneWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/ancientonewidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../arkhorclientstaticres/client_resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>lstInventory</sender>
+   <signal>itemActivated(QListWidgetItem*)</signal>
+   <receiver>AhMainGui</receiver>
+   <slot>displayInventoryData(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>513</x>
+     <y>437</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>672</x>
+     <y>496</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>chooseOption()</slot>
+  <slot>displayInventoryData(QListWidgetItem*)</slot>
+ </slots>
+</ui>

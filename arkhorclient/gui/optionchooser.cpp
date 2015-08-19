@@ -1,7 +1,7 @@
 #include "optionchooser.h"
 #include "ui_optionchooser.h"
 #include <QtGui>
-#include "flowlayout.h"
+//#include "flowlayout.h"
 #include "utils.h"
 #include "objectregistry.h"
 #include "monsterwidget.h"
@@ -25,7 +25,8 @@ OptionChooser::OptionChooser(QWidget *parent) :
     m_moreWgt(NULL)
 {
     ui->setupUi(this);
-    ui->wgtOptionsList->setLayout(new FlowLayout);
+    //ui->wgtOptionsList->setLayout(new FlowLayout);
+    ui->wgtOptionsList->setLayout(new QVBoxLayout);
 }
 
 OptionChooser::~OptionChooser()
@@ -270,11 +271,13 @@ QString OptionChooser::displayCosts(const Cost &costs)
 
 void OptionChooser::setMoreWidget(QWidget *w)
 {
+#if 0
     Q_ASSERT_X(ui->wgtMoreDescription->layout()->count() == 1, "OptionChooser::setMoreWidget", "Layout must only contain the spacer");
     QLayoutItem *itm = ui->wgtMoreDescription->layout()->takeAt(0);
     ui->wgtMoreDescription->layout()->addWidget(w);
     ui->wgtMoreDescription->layout()->addItem(itm);
     m_moreWgt = w;
+#endif
 }
 
 

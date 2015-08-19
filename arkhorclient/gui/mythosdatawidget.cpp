@@ -40,3 +40,8 @@ void MythosDataWidget::displayMythos(const AH::Common::MythosData *m)
         ui->lblMythosCard->setVisible(false);
     }
 }
+
+void MythosDataWidget::on_btnAcknowledgeMythos_clicked()
+{
+    emit acknowledgeMythos();
+}

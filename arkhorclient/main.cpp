@@ -54,6 +54,7 @@ int main(int argc, char **argv)
         ResourcePool::instance()->addZip(baseDir);
 
     StartForm f;
+    //AhMainGui f;
     f.show();
 
     /*

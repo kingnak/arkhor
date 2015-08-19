@@ -16,8 +16,14 @@ public:
     explicit MythosDataWidget(QWidget *parent = 0);
     ~MythosDataWidget();
 
+signals:
+    void acknowledgeMythos();
+
 public slots:
     void displayMythos(const AH::Common::MythosData *m);
+
+private slots:
+    void on_btnAcknowledgeMythos_clicked();
 
 private:
     Ui::MythosDataWidget *ui;

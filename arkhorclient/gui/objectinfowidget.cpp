@@ -1,11 +1,12 @@
 #include "objectinfowidget.h"
 #include <QtGui>
-#include <objectdata.h>
 #include "objectregistry.h"
 #include "gatedatawidget.h"
 #include "monsterwidget.h"
 #include "gameobjectwidget.h"
 #include "mythoscardwidget.h"
+#include "ancientonewidget.h"
+#include "characterwidget.h"
 
 using namespace AH::Common;
 
@@ -17,6 +18,8 @@ ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
     m_monster = new MonsterWidget;
     m_object = new GameObjectWidget;
     m_mythos = new MythosCardWidget;
+    m_ancientOne = new AncientOneWidget;
+    m_character = new CharacterWidget;
 
     QWidget *nothing = new QWidget;
     nothing->setMinimumSize(QSize(0,0));
@@ -26,6 +29,8 @@ ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
     m_stack->addWidget(m_monster);
     m_stack->addWidget(m_object);
     m_stack->addWidget(m_mythos);
+    m_stack->addWidget(m_ancientOne);
+    m_stack->addWidget(m_character);
 
     QHBoxLayout *l = new QHBoxLayout(this);
     l->addWidget(m_stack);
@@ -68,6 +73,20 @@ void ObjectInfoWidget::displayItemInfo(const QString &id)
             AH::Common::MythosData m;
             d.data >> m;
             displayMythosDetails(&m);
+            break;
+        }
+        case AH::Common::RequestObjectsData::AncientOne:
+        {
+            AH::Common::AncientOneData ao;
+            d.data >> ao;
+            displayAncientOneDetails(&ao);
+            break;
+        }
+        case AH::Common::RequestObjectsData::Character:
+        {
+            AH::Common::CharacterData c;
+            d.data >> c;
+            displayCharacterDetails(&c);
             break;
         }
         default:
@@ -113,5 +132,19 @@ void ObjectInfoWidget::displayMythosDetails(const MythosData *m)
 {
     m_mythos->displayMythosCard(m);
     m_stack->setCurrentWidget(m_mythos);
+}
+
+void ObjectInfoWidget::displayAncientOneDetails(const AncientOneData *ao)
+{
+    m_ancientOne->displayAncientOne(ao);
+    m_stack->setCurrentWidget(m_ancientOne);
+}
+
+void ObjectInfoWidget::displayCharacterDetails(const CharacterData *c)
+{
+    if (c) {
+        m_character->updateCharacterData(*c);
+        m_stack->setCurrentWidget(m_character);
+    }
 }
 

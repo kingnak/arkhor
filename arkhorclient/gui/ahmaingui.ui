@@ -277,7 +277,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
-           <widget class="AncientOneShortWidget" name="wgtAncientOne" native="true"/>
+           <widget class="AncientOneWidget" name="wgtAncientOne" native="true"/>
           </item>
          </layout>
         </widget>
@@ -386,9 +386,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>AncientOneShortWidget</class>
+   <class>AncientOneWidget</class>
    <extends>QWidget</extends>
-   <header>gui/ancientoneshortwidget.h</header>
+   <header>gui/ancientonewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

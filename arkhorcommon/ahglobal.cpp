@@ -76,6 +76,7 @@ namespace AH {
         qRegisterMetaType<AH::Common::MythosData>("AH::Common::MythosData");
         qRegisterMetaType<AH::Common::ChoiceData>("AH::Common::ChoiceData");
         qRegisterMetaType<AH::Common::GameSettingData>("AH::Common::GameSettingData");
+        qRegisterMetaType<AH::Common::RequestObjectsData::ObjectType>("AH::Common::RequestObjectsData::ObjectType");
     }
 
     void operator <<(QVariant &data, const ObjectTypeCount &c) {

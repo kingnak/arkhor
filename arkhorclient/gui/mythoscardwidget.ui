@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>291</width>
+    <height>431</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,38 +15,72 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
    <item>
-    <widget class="QLabel" name="lblMythosCard">
-     <property name="minimumSize">
-      <size>
-       <width>130</width>
-       <height>200</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>130</width>
-       <height>200</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="../../arkhorclientstaticres/client_resources.qrc">:/core/images/mythos_back</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="lblMythosCard">
+       <property name="minimumSize">
+        <size>
+         <width>130</width>
+         <height>200</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>130</width>
+         <height>200</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../arkhorclientstaticres/client_resources.qrc">:/core/images/mythos_back</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
-    <widget class="QStackedWidget" name="stkMythosCards">
-     <property name="currentIndex">
-      <number>0</number>
-     </property>
-     <widget class="RumorWidget" name="pageRumor"/>
-     <widget class="EnvironmentWidget" name="pageEnvironment"/>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QStackedWidget" name="stkMythosCards">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="RumorWidget" name="pageRumor"/>
+       <widget class="EnvironmentWidget" name="pageEnvironment"/>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

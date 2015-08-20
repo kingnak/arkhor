@@ -201,8 +201,6 @@ void OptionChooser::showOption()
             MonsterData m;
             desc.data >> m;
             w->displayMonster(&m);
-            // TODO: detect what to show
-            w->showBoth();
             setMoreWidget(w);
         }
         return;
@@ -271,13 +269,11 @@ QString OptionChooser::displayCosts(const Cost &costs)
 
 void OptionChooser::setMoreWidget(QWidget *w)
 {
-#if 0
     Q_ASSERT_X(ui->wgtMoreDescription->layout()->count() == 1, "OptionChooser::setMoreWidget", "Layout must only contain the spacer");
     QLayoutItem *itm = ui->wgtMoreDescription->layout()->takeAt(0);
     ui->wgtMoreDescription->layout()->addWidget(w);
     ui->wgtMoreDescription->layout()->addItem(itm);
     m_moreWgt = w;
-#endif
 }
 
 

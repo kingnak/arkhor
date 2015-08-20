@@ -43,7 +43,7 @@ public:
     ~MonsterBackWidget();
 
 public slots:
-    void displayMonster(const AH::Common::MonsterData *m);
+    void displayMonster(const AH::Common::MonsterData *m, bool minimal = false);
 
 public:
     QSize sizeHint() const;
@@ -69,11 +69,16 @@ public:
 public slots:
     void displayMonster(const AH::Common::MonsterData *m);
 
+    /*
     void showFront();
     void showBack();
     void showBoth();
+    */
 
     static QColor getMovementTypeColor(AH::Common::MonsterData::MovementType type);
+
+private slots:
+    void turn();
 
 private:
     Ui::MonsterWidget *ui;

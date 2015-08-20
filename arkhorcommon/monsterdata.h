@@ -15,6 +15,12 @@ namespace AH {
             MonsterData();
             virtual ~MonsterData() {}
 
+            enum DisplayType {
+                OnlyFront,
+                MinimalBack,
+                FullBack
+            };
+
             enum MovementType {
                 Normal,
                 Fast,
@@ -54,6 +60,7 @@ namespace AH {
             virtual QString name() const { return m_name; }
             virtual QString description() const { return m_desc; }
             virtual QString mythText() const { return m_mythText; }
+            virtual DisplayType displayType() const { return m_displayType; }
             virtual AH::Dimension dimension() const { return m_dimension; }
             virtual MovementType movementType() const { return m_movement; }
             virtual int awareness() const { return m_awareness; }
@@ -71,6 +78,7 @@ namespace AH {
             QString m_name;
             QString m_desc;
             QString m_mythText;
+            DisplayType m_displayType;
             AH::Dimension m_dimension;
             MovementType m_movement;
             int m_awareness;
@@ -88,6 +96,7 @@ namespace AH {
         DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, MonsterData::MovementType);
         DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, MonsterData::MonsterAttribute);
         DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, MonsterData::MonsterAttributes);
+        DECLARE_ENUM_SERIALIZER_EXPORT(ARKHOR_COMMON_EXPORTS, MonsterData::DisplayType);
 
     }
 

@@ -101,7 +101,7 @@ MonsterBackWidget::~MonsterBackWidget()
 
 }
 
-void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m)
+void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m, bool minimal)
 {
     QSize s = sizeHint();
     m_cache = QPixmap(s);
@@ -125,19 +125,23 @@ void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m)
             QPixmap sanity = QPixmap(":/core/marker/sanity").scaled(30,30, Qt::KeepAspectRatio);
             QPainterPath pathAdj;
 
-            if (m->horrorDamage() == 0) {
-                pathAdj.addText(8, 165, f, "-");
+            if (minimal) {
+                pathAdj.addText(8, 165, f, "?");
             } else {
-                pathAdj.addText(8, 165, f, Utils::fullNumberString(m->horrorAdjustment()));
+                if (m->horrorDamage() == 0) {
+                    pathAdj.addText(8, 165, f, "-");
+                } else {
+                    pathAdj.addText(8, 165, f, Utils::fullNumberString(m->horrorAdjustment()));
 
-                p.drawPixmap(8, 175, sanity);
-                QPainterPath pathDmg;
-                pathDmg.addText(16, 190, f, QString::number(m->horrorDamage()));
-                p.fillPath(pathDmg, QColor(0x3672AE));
-                QPainterPathStroker strDmg;
-                pathDmg = strDmg.createStroke(pathDmg);
-                //p.setPen(Qt::white);
-                p.drawPath(pathDmg);
+                    p.drawPixmap(8, 175, sanity);
+                    QPainterPath pathDmg;
+                    pathDmg.addText(16, 190, f, QString::number(m->horrorDamage()));
+                    p.fillPath(pathDmg, QColor(0x3672AE));
+                    QPainterPathStroker strDmg;
+                    pathDmg = strDmg.createStroke(pathDmg);
+                    //p.setPen(Qt::white);
+                    p.drawPath(pathDmg);
+                }
             }
             p.fillPath(pathAdj, QColor(0x3672AE));
             QPainterPathStroker strAdj;
@@ -149,17 +153,23 @@ void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m)
         // Combat
         {
             QPixmap combat = QPixmap(":/core/marker/stamina").scaled(30,30, Qt::KeepAspectRatio);
-            p.drawPixmap(162, 170, combat);
-            QPainterPath pathDmg;
-            pathDmg.addText(170, 190, f, QString::number(m->combatDamage()));
-            p.fillPath(pathDmg, QColor(0xD2363A));
-            QPainterPathStroker strDmg;
-            pathDmg = strDmg.createStroke(pathDmg);
-            //p.setPen(Qt::white);
-            p.drawPath(pathDmg);
-
             QPainterPath pathAdj;
-            pathAdj.addText(160, 165, f, Utils::fullNumberString(m->combatAdjustment()));
+
+            if (minimal) {
+                pathAdj.addText(160, 165, f, "?");
+            } else {
+                QPainterPath pathDmg;
+                p.drawPixmap(162, 170, combat);
+                pathDmg.addText(170, 190, f, QString::number(m->combatDamage()));
+                p.fillPath(pathDmg, QColor(0xD2363A));
+                QPainterPathStroker strDmg;
+                pathDmg = strDmg.createStroke(pathDmg);
+                //p.setPen(Qt::white);
+                p.drawPath(pathDmg);
+
+                pathAdj.addText(160, 165, f, Utils::fullNumberString(m->combatAdjustment()));
+            }
+
             p.fillPath(pathAdj, QColor(0xD2363A));
             QPainterPathStroker strAdj;
             pathAdj = strAdj.createStroke(pathAdj);
@@ -169,10 +179,14 @@ void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m)
 
         // Toughness
         {
-            QPixmap tough = QPixmap(":/core/marker/toughness").scaled(25,25, Qt::KeepAspectRatio);
-            p.drawPixmap(75, 170, tough);
             QPainterPath path;
-            path.addText(100, 190, f, QString::number(m->toughness()));
+            if (minimal) {
+                path.addText(100, 190, f, "?");
+            } else {
+                QPixmap tough = QPixmap(":/core/marker/toughness").scaled(25,25, Qt::KeepAspectRatio);
+                p.drawPixmap(75, 170, tough);
+                path.addText(100, 190, f, QString::number(m->toughness()));
+            }
             p.fillPath(path, QColor(0xD2363A));
             QPainterPathStroker str;
             path = str.createStroke(path);
@@ -184,7 +198,8 @@ void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m)
         QRect textClip(10, 10, 180, 128);
         p.setClipRect(textClip);
 
-        QStringList l = Utils::stringsForMonsterAttributes(m->attributes());
+        QStringList l;
+        if (!minimal) l = Utils::stringsForMonsterAttributes(m->attributes());
         QString str = l.join("\n");
         QFont ftxt("Times New Roman", 8);
         p.setFont(ftxt);
@@ -259,8 +274,9 @@ MonsterWidget::~MonsterWidget()
 
 void MonsterWidget::displayMonster(const AH::Common::MonsterData *m)
 {
-    ui->wgtBackImg->displayMonster(m);
-    ui->wgtFrontImg->displayMonster(m);
+    ui->wgtBackImg->setVisible(false);
+    ui->wgtBackText->setVisible(false);
+    ui->wgtFrontImg->setVisible(true);
 
     if (m) {
         ui->lblName->setText(m->name());
@@ -276,7 +292,30 @@ void MonsterWidget::displayMonster(const AH::Common::MonsterData *m)
         ui->lblToughness->setText(QString::number(m->toughness()));
         QStringList l = Utils::stringsForMonsterAttributes(m->attributes());
         ui->lblAttributes->setText(l.join("\n"));
+
+        ui->wgtFrontImg->displayMonster(m);
+
+        AH::Common::MonsterData::DisplayType d = m->displayType();
+        //TEST: d = AH::Common::MonsterData::FullBack;
+        switch (d) {
+        case AH::Common::MonsterData::OnlyFront:
+            ui->btnTurn->setVisible(false);
+            ui->wgtBackImg->displayMonster(NULL);
+            break;
+        case AH::Common::MonsterData::MinimalBack:
+            ui->btnTurn->setVisible(true);
+            ui->wgtBackImg->displayMonster(m, true);
+            break;
+        case AH::Common::MonsterData::FullBack:
+            ui->btnTurn->setVisible(true);
+            ui->wgtBackImg->displayMonster(m, false);
+            ui->wgtBackText->setVisible(true);
+            break;
+        }
     } else {
+        ui->wgtFrontImg->displayMonster(NULL);
+        ui->wgtBackImg->displayMonster(NULL);
+        ui->btnTurn->setVisible(false);
         ui->lblName->setText("");
         ui->lblDimension->setText("");
         ui->lblAwareness->setText("");
@@ -287,7 +326,7 @@ void MonsterWidget::displayMonster(const AH::Common::MonsterData *m)
         ui->lblAttributes->setText("");
     }
 }
-
+/*
 void MonsterWidget::showFront()
 {
     ui->wgtBackImg->setVisible(false);
@@ -307,6 +346,18 @@ void MonsterWidget::showBoth()
     ui->wgtBackImg->setVisible(true);
     ui->wgtBackText->setVisible(true);
     ui->wgtFrontImg->setVisible(true);
+}
+*/
+
+void MonsterWidget::turn()
+{
+    if (ui->wgtFrontImg->isVisible()) {
+        ui->wgtFrontImg->setVisible(false);
+        ui->wgtBackImg->setVisible(true);
+    } else {
+        ui->wgtBackImg->setVisible(false);
+        ui->wgtFrontImg->setVisible(true);
+    }
 }
 
 QColor MonsterWidget::getMovementTypeColor(AH::Common::MonsterData::MovementType type)

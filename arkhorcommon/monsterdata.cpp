@@ -5,9 +5,11 @@ namespace AH { namespace Common {
 DEFINE_ENUM_SERIALIZER(MonsterData::MovementType)
 DEFINE_ENUM_SERIALIZER(MonsterData::MonsterAttribute)
 DEFINE_ENUM_SERIALIZER(MonsterData::MonsterAttributes)
+DEFINE_ENUM_SERIALIZER(MonsterData::DisplayType)
 
 MonsterData::MonsterData()
-:   m_dimension(AH::NoDimension),
+:   m_displayType(OnlyFront),
+    m_dimension(AH::NoDimension),
     m_movement(Normal),
     m_awareness(0),
     m_horrorAdjustment(0),
@@ -27,6 +29,7 @@ void operator << (QVariant &data, const MonsterData &target)
     map["name"] << target.name();
     map["desc"] << target.description();
     map["mythText"] << target.mythText();
+    map["displayType"] << target.displayType();
     map["dimension"] << target.dimension();
     map["movement"] << target.movementType();
     map["awareness"] << target.awareness();
@@ -48,6 +51,7 @@ void operator >> (const QVariant &data, MonsterData &target)
     map["name"] >> target.m_name;
     map["desc"] >> target.m_desc;
     map["mythText"] >> target.m_mythText;
+    map["displayType"] << target.m_displayType;
     map["dimension"] >> target.m_dimension;
     map["movement"] >> target.m_movement;
     map["awareness"] >> target.m_awareness;

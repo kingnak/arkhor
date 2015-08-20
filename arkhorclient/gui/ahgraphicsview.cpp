@@ -32,6 +32,12 @@ void AhGraphicsView::wheelEvent(QWheelEvent *event)
     }
 }
 
+void AhGraphicsView::mousePressEvent(QMouseEvent *event)
+{
+    emit receivedFocus();
+    QGraphicsView::mousePressEvent(event);
+}
+
 void AhGraphicsView::scaleView(qreal scaleFactor)
 {
 

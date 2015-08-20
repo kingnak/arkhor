@@ -13,6 +13,7 @@ public:
     QSize sizeHint() const;
 
 signals:
+    void receivedFocus();
 
 public slots:
     void zoomIn();
@@ -20,6 +21,7 @@ public slots:
 
 protected:
     void wheelEvent(QWheelEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     void scaleView(qreal scaleFactor);

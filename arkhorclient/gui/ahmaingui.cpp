@@ -8,6 +8,8 @@
 #include "resourcepool.h"
 #include <QtGui>
 
+#define MAXIMUM_WIDGET_WIDTH 16777215
+
 using namespace AH::Common;
 
 AhMainGui::AhMainGui(QWidget *parent) :
@@ -17,12 +19,20 @@ AhMainGui::AhMainGui(QWidget *parent) :
     m_registry(NULL)
 {
     ui->setupUi(this);
+    addAction(ui->actionDismissInfo);
+
+    m_dismissTimer = new QTimer(this);
+    m_dismissTimer->setInterval(150);
+    m_dismissTimer->setSingleShot(true);
 
     ui->wgtObjectInfo->setVisible(false);
 
     m_scene = new AhBoardScene(this);
     ui->grvBoard->setScene(m_scene);
     m_scene->initBoard();
+
+    connect(ui->grvBoard, SIGNAL(receivedFocus()), this, SLOT(dismissInfoPane()));
+    connect(m_dismissTimer, SIGNAL(timeout()), this, SLOT(doDismissInfoPane()));
 
     ui->wgtMovmentChooser->setBoard(m_scene, ui->grvBoard);
 
@@ -129,6 +139,29 @@ void AhMainGui::refitGui()
     //ui->tabIntInfInv->resize(ui->tabIntInfInv->minimumSizeHint());
 }
 
+void AhMainGui::dismissInfoPane()
+{
+    m_dismissTimer->start();
+}
+
+void AhMainGui::doDismissInfoPane()
+{
+    if (ui->wgtObjectInfo->isVisible()) {
+        QSize s = ui->wgtObjectInfo->size();
+        QSequentialAnimationGroup *grp = new QSequentialAnimationGroup;
+        QPropertyAnimation *anim = new QPropertyAnimation(ui->wgtObjectInfo, "maximumWidth");
+        anim->setStartValue(s.width());
+        anim->setEndValue(0);
+        anim->setDuration(150);
+        grp->addAnimation(anim);
+
+        VisibilityAnimation *v = new VisibilityAnimation(ui->wgtObjectInfo, false);
+        grp->addAnimation(v);
+        grp->start(QAbstractAnimation::DeleteWhenStopped);
+    }
+    //ui->wgtObjectInfo->setVisible(false);
+}
+
 void AhMainGui::characterInstantiated(QString playerId, QString characterId)
 {
     if (playerId == m_registry->thisPlayerId()) {
@@ -138,6 +171,32 @@ void AhMainGui::characterInstantiated(QString playerId, QString characterId)
 
 void AhMainGui::displayItemInfo(const QString &id)
 {
+    m_dismissTimer->stop();
+    ui->wgtObjectInfo->displayItemInfo(id);
+    if (!ui->wgtObjectInfo->isVisible()) {
+        ui->wgtObjectInfo->setMaximumWidth(MAXIMUM_WIDGET_WIDTH);
+        ui->wgtObjectInfo->setAttribute(Qt::WA_DontShowOnScreen);
+        ui->wgtObjectInfo->setVisible(true);
+        QSize s = ui->wgtObjectInfo->size();
+        ui->wgtObjectInfo->setVisible(false);
+        ui->wgtObjectInfo->setAttribute(Qt::WA_DontShowOnScreen, false);
+
+        QSequentialAnimationGroup *grp = new QSequentialAnimationGroup;
+        QPropertyAnimation *anim = new QPropertyAnimation(ui->wgtObjectInfo, "maximumWidth");
+        anim->setStartValue(0);
+        anim->setEndValue(s.width());
+        anim->setDuration(150);
+        grp->addAnimation(anim);
+        anim = new QPropertyAnimation(ui->wgtObjectInfo, "maximumWidth");
+        anim->setStartValue(s.width());
+        anim->setEndValue(MAXIMUM_WIDGET_WIDTH);
+        anim->setDuration(0);
+        grp->addAnimation(anim);
+
+        ui->wgtObjectInfo->setMaximumWidth(0);
+        ui->wgtObjectInfo->setVisible(true);
+        grp->start(QAbstractAnimation::DeleteWhenStopped);
+    }
     //ui->wgtInfo->displayItemInfo(id);
     //ui->tabIntInfInv->setCurrentWidget(ui->tabInfo);
 }
@@ -157,29 +216,6 @@ void AhMainGui::gameSettingUpdate(GameSettingData data)
     ui->wgtRumor->displayRumor(data.rumorId());
     ui->wgtEnvironment->displayEnvironment(data.environmentId());
 }
-
-/*
-void AhMainGui::displayMonsterDetails(const MonsterData *m)
-{
-    ui->wgtInfoMonster->displayMonster(m);
-    ui->stkInfo->setCurrentWidget(ui->pageInfoMonster);
-    ui->tabIntInfInv->setCurrentWidget(ui->tabInfo);
-}
-
-void AhMainGui::displayGateDetails(const GateData *g)
-{
-    ui->wgtInfoGate->displayGate(g);
-    ui->stkInfo->setCurrentWidget(ui->pageInfoGate);
-    ui->tabIntInfInv->setCurrentWidget(ui->tabInfo);
-}
-
-void AhMainGui::displayObjectDetails(const GameObjectData *o)
-{
-    ui->wgtInfoObject->displayGameObject(o);
-    ui->stkInfo->setCurrentWidget(ui->pageInfoObject);
-    ui->tabIntInfInv->setCurrentWidget(ui->tabInfo);
-}
-*/
 
 void AhMainGui::chooseOption(QList<GameOptionData> opts)
 {

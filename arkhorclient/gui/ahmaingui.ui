@@ -80,7 +80,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabInteraction">
       <attribute name="icon">
@@ -262,6 +262,14 @@
     </widget>
    </item>
   </layout>
+  <action name="actionDismissInfo">
+   <property name="text">
+    <string>DismissInfo</string>
+   </property>
+   <property name="shortcut">
+    <string>Esc</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -345,5 +353,43 @@
  <resources>
   <include location="../../arkhorclientstaticres/client_resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>lstInventory</sender>
+   <signal>currentItemChanged(QListWidgetItem*,QListWidgetItem*)</signal>
+   <receiver>AhMainGui</receiver>
+   <slot>displayInventoryData(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>521</x>
+     <y>332</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>366</x>
+     <y>-8</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDismissInfo</sender>
+   <signal>triggered()</signal>
+   <receiver>AhMainGui</receiver>
+   <slot>doDismissInfoPane()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>348</x>
+     <y>297</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>displayInventoryData(QListWidgetItem*)</slot>
+  <slot>dismissInfoPane()</slot>
+  <slot>doDismissInfoPane()</slot>
+ </slots>
 </ui>

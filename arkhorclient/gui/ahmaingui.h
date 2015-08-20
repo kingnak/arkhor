@@ -46,8 +46,11 @@ public:
 public slots:
     void start();
     void refitGui();
+    void dismissInfoPane();
 
 private slots:
+    void doDismissInfoPane();
+
     void characterInstantiated(QString playerId, QString characterId);
 
     void displayItemInfo(const QString &id);
@@ -99,6 +102,7 @@ private:
     AhBoardScene *m_scene;
     ConnectionHandler *m_conn;
     ObjectRegistry *m_registry;
+    QTimer *m_dismissTimer;
 
     //QString m_pendingDisplayId;
 };
@@ -109,6 +113,28 @@ public:
     explicit InventoryListItem(QString objectId);
 
     virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+};
+
+#include <QAbstractAnimation>
+class VisibilityAnimation : public QAbstractAnimation {
+public:
+    VisibilityAnimation(QWidget *target, bool vis, QObject *parent = 0)
+        : QAbstractAnimation(parent), m_target(target), m_vis(vis) {}
+
+    int duration() const { return 0; }
+
+protected:
+    void updateCurrentTime(int currentTime) {
+        Q_UNUSED(currentTime)
+        if (this->direction() == Backward)
+            m_target->setVisible(!m_vis);
+        else
+            m_target->setVisible(m_vis);
+    }
+
+private:
+    QWidget *m_target;
+    bool m_vis;
 };
 
 #endif // AHMAINGUI_H

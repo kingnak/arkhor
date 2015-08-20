@@ -22,6 +22,42 @@ MythosCard *GameContext::rumor()
     return gGame->rumor();
 }
 
+void GameContext::setMonster(Monster *m)
+{
+    if (m_monster) {
+        if (m && m->typeId() != m_monster->typeId()) {
+            // Change of monster type. Remove from temp lists
+            m_tempDisplayUpdates[m_player].remove(m_monster->typeId());
+        }
+    }
+    m_monster = m;
+}
+
+void GameContext::updateCurMonsterVisibilityType(AH::Common::MonsterData::DisplayType dt)
+{
+    static const bool permanentMonsterDisplayUpdates = false;
+
+    if (m_monster) {
+        m_tempDisplayUpdates[m_player][m_monster->typeId()] = qMax(dt, m_tempDisplayUpdates[m_player][m_monster->typeId()]);
+        if (permanentMonsterDisplayUpdates)
+            m_permanentDisplayUpdates[m_player][m_monster->typeId()] = qMax(dt, m_permanentDisplayUpdates[m_player][m_monster->typeId()]);
+
+        gGame->invalidateObject(m_monster->id());
+    }
+
+}
+
+AH::Common::MonsterData::DisplayType GameContext::getMonsterDisplayType(const Monster *m)
+{
+    int v = AH::Common::MonsterData::OnlyFront;
+    if (m) {
+        int v = m->baseDisplayType();
+        v = qMax(v, (int) m_permanentDisplayUpdates.value(m_player).value(m->typeId()));
+        v = qMax(v, (int) m_tempDisplayUpdates.value(m_player).value(m->typeId()));
+    }
+    return static_cast<AH::Common::MonsterData::DisplayType> (v);
+}
+
 ModifiedPropertyValue GameContext::getCurCharacterProperty(PropertyValue::Property property)
 {
     return getCharacterProperty(m_player->getCharacter(), property);

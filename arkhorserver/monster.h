@@ -25,6 +25,7 @@ public:
     int baseCombatAdjustment() const { return m_combatAdjustment; }
     int baseCombatDamage() const { return m_combatDamage; }
     int baseToughness() const { return m_toughness; }
+    DisplayType baseDisplayType() const;
     MovementType baseMovement() const { return m_movement; }
 
     virtual int awareness() const;
@@ -33,6 +34,7 @@ public:
     virtual int combatAdjustment() const;
     virtual int combatDamage() const;
     virtual int toughness() const;
+    virtual DisplayType displayType() const;
     virtual MovementType movementType() const;
 
     void setDimension(AH::Dimension dim) { m_dimension = dim; }

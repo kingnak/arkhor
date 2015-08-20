@@ -10,6 +10,13 @@ AH::Common::MonsterData *Monster::data()
     return AH::Common::MonsterData::data();
 }
 
+AH::Common::MonsterData::DisplayType Monster::baseDisplayType() const
+{
+    if (movementType() == Special)
+        return MinimalBack;
+    return OnlyFront;
+}
+
 int Monster::awareness() const
 {
     return gGame->context().getMonsterProperty(this, PropertyValue::Monster_Awareness).finalVal();
@@ -38,6 +45,11 @@ int Monster::combatDamage() const
 int Monster::toughness() const
 {
     return gGame->context().getMonsterProperty(this, PropertyValue::Monster_Toughness).finalVal();
+}
+
+AH::Common::MonsterData::DisplayType Monster::displayType() const
+{
+    return gGame->context().getMonsterDisplayType(this);
 }
 
 AH::Common::MonsterData::MovementType Monster::movementType() const

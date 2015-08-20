@@ -31,10 +31,14 @@ public:
     MythosCard *environment();
     MythosCard *rumor();
 
-    void setMonster( Monster *m ) { m_monster = m; }
+    void setMonster( Monster *m );
     void setGate( Gate *g ) { m_gate = g; }
     void setPhase( AH::GamePhase phase ) { m_phase = phase; }
     void setDieRoll( DieTestHelper::DieTestSpec * spec ) { m_dieRoll = spec; }
+
+    void updateCurMonsterVisibilityType(AH::Common::MonsterData::DisplayType dt);
+
+    AH::Common::MonsterData::DisplayType getMonsterDisplayType(const Monster *m);
 
     ModifiedPropertyValue getCurCharacterProperty(PropertyValue::Property property);
     ModifiedPropertyValue getCurCharacterSkill(AH::Skill skill);
@@ -65,6 +69,11 @@ private:
     Gate *m_gate;
     AH::GamePhase m_phase;
     DieTestHelper::DieTestSpec *m_dieRoll;
+
+    typedef QMap<QString, AH::Common::MonsterData::DisplayType> MonsterDisplayUpdates;
+    typedef QMap<Player *, MonsterDisplayUpdates> PlayerMonsterDisplayUpdates;
+    PlayerMonsterDisplayUpdates m_permanentDisplayUpdates;
+    PlayerMonsterDisplayUpdates m_tempDisplayUpdates;
 
     friend class Game;
 };

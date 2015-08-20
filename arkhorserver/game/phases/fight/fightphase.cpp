@@ -87,6 +87,7 @@ void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
         m_curPhase = FightOrFlee;
         break;
     case FightChosen:
+        gGame->context().updateCurMonsterVisibilityType(AH::Common::MonsterData::FullBack);
         if (m_curPhase == FightOrEvade) {
             // Goto Horror
             m_curPhase = Horror;

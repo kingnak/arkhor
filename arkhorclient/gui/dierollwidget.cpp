@@ -1,6 +1,6 @@
 #include "dierollwidget.h"
 #include "ui_dierollwidget.h"
-#include "flowlayout.h"
+//#include "flowlayout.h"
 #include <QtGui>
 #include "objectregistry.h"
 #include "utils.h"
@@ -16,9 +16,9 @@ DieRollWidget::DieRollWidget(QWidget *parent) :
     ui(new Ui::DieRollWidget)
 {
     ui->setupUi(this);
-    ui->wgtDice->setLayout(new FlowLayout);
+    ui->wgtDice->setLayout(new QGridLayout);
     ui->scrlMods->setLayout(new QVBoxLayout);
-    ui->wgtDieRollOpts->setLayout(new QHBoxLayout);
+    ui->wgtDieRollOpts->setLayout(new QVBoxLayout);
 }
 
 DieRollWidget::~DieRollWidget()
@@ -84,12 +84,13 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
 
     cleanDice();
 
-    QLayout *l = ui->wgtDice->layout();
+    QGridLayout *l = static_cast<QGridLayout *> (ui->wgtDice->layout());
     for (int i = 0; i < totCt; ++i) {
         //QLabel *lbl = new QLabel(QString::number(vals.value(i)), this);
         DieWidget *w = new DieWidget(this);
         w->setDieValue(vals.value(i));
-        l->addWidget(w);
+        l->addWidget(w, i/2, i%2);
+        //l->setAlignment(w, Qt::AlignRight);
     }
 
     m_clueBurnFactor = data.diceForClueBurn();
@@ -161,6 +162,11 @@ void DieRollWidget::cleanDice()
     foreach (QWidget *w, ui->wgtDice->findChildren<DieWidget*>()) {
         delete w;
     }
+    delete ui->wgtDice->layout();
+    QGridLayout *g = new QGridLayout;
+    ui->wgtDice->setLayout(g);
+    //g->addWidget(new QWidget, 0, 0);
+    //g->setColumnStretch(0,1);
 }
 
 void DieRollWidget::cleanModifiers()

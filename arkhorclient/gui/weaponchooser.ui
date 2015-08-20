@@ -13,58 +13,41 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QWidget" name="wgtWeapons" native="true"/>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
      <item>
-      <widget class="QPushButton" name="btnOk">
+      <widget class="QLabel" name="label">
        <property name="text">
-        <string>&amp;Ok</string>
+        <string>Remaining Hands:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btnCancel">
+      <widget class="QLabel" name="lblHands">
        <property name="text">
-        <string>&amp;Cancel</string>
+        <string/>
        </property>
       </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Remaining Hands:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="lblHands">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QListWidget" name="lstWeapons"/>
+   </item>
+   <item>
+    <widget class="QPushButton" name="btnCancel">
+     <property name="text">
+      <string>&amp;Cancel</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="btnOk">
+     <property name="text">
+      <string>&amp;Ok</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

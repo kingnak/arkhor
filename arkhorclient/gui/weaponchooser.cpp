@@ -1,10 +1,8 @@
 #include "weaponchooser.h"
 #include "ui_weaponchooser.h"
-#include "flowlayout.h"
+#include "objectregistry.h"
+#include "resourcepool.h"
 #include <QtGui>
-
-#define PROPERTY_OBJECT_ID "OBJECT_ID"
-#define PROPERTY_HAND_COUNT "HAND_COUNT"
 
 WeaponChooser::WeaponChooser(QWidget *parent) :
     QWidget(parent),
@@ -12,7 +10,7 @@ WeaponChooser::WeaponChooser(QWidget *parent) :
     m_totHands(0)
 {
     ui->setupUi(this);
-    ui->wgtWeapons->setLayout(new FlowLayout);
+    connect(ui->lstWeapons, SIGNAL(itemChanged(QListWidgetItem*)), this, SLOT(updateHandCount()));
 }
 
 WeaponChooser::~WeaponChooser()
@@ -26,17 +24,37 @@ void WeaponChooser::chooseWeapons(QList<AH::Common::GameObjectData> weapons, AH:
 
     m_totHands = hands.finalVal();
 
-    QLayout *l = ui->wgtWeapons->layout();
     foreach (AH::Common::GameObjectData obj, weapons) {
-        QString txt = QString("%2 (%1)").arg(obj.handCount()).arg(obj.id());
-        QCheckBox *chk = new QCheckBox(txt);
-        if (obj.isEquipped()) {
-            chk->setChecked(true);
+
+        QListWidgetItem *itm = new QListWidgetItem;
+        bool hasData = false;
+        if (ObjectRegistry::instance()->hasObject(obj.id())) {
+            AH::Common::DescribeObjectsData::ObjectDescription data = ObjectRegistry::instance()->getObject(obj.id());
+            if (data.type == AH::Common::RequestObjectsData::Object) {
+                hasData = true;
+                AH::Common::GameObjectData od;
+                data.data >> od;
+                QString txt = QString("%2 (%1)").arg(obj.handCount()).arg(od.name());
+                itm->setText(txt);
+                itm->setIcon(ResourcePool::instance()->loadObjectImage(obj.id(), obj.type()));
+            }
         }
-        chk->setProperty(PROPERTY_OBJECT_ID, obj.id());
-        chk->setProperty(PROPERTY_HAND_COUNT, obj.handCount());
-        connect(chk, SIGNAL(toggled(bool)), this, SLOT(updateHandCount()));
-        l->addWidget(chk);
+        if (!hasData) {
+            // Backup if it's not in the object registry (how?)
+            QString txt = QString("%2 (%1)").arg(obj.handCount()).arg(obj.id());
+            itm->setText(txt);
+        }
+
+        itm->setFlags(itm->flags() | Qt::ItemIsUserCheckable);
+        if (obj.isEquipped()) {
+            itm->setCheckState(Qt::Checked);
+        } else {
+            itm->setCheckState(Qt::Unchecked);
+        }
+        itm->setData(IDRole, obj.id());
+        itm->setData(HandsRole, obj.handCount());
+        //connect(chk, SIGNAL(toggled(bool)), this, SLOT(updateHandCount()));
+        ui->lstWeapons->addItem(itm);
     }
 
     updateHandCount();
@@ -46,9 +64,10 @@ void WeaponChooser::updateHandCount()
 {
     int ct = m_totHands;
 
-    foreach (QCheckBox *b, ui->wgtWeapons->findChildren<QCheckBox*>()) {
-        if (b->isChecked()) {
-            ct -= b->property(PROPERTY_HAND_COUNT).toInt();
+    for (int i = 0; i < ui->lstWeapons->count(); ++i) {
+        QListWidgetItem *w = ui->lstWeapons->item(i);
+        if (w->checkState() == Qt::Checked) {
+            ct -= w->data(HandsRole).toInt();
         }
     }
 
@@ -63,9 +82,10 @@ void WeaponChooser::updateHandCount()
 void WeaponChooser::on_btnOk_clicked()
 {
     QStringList lst;
-    foreach (QCheckBox *b, ui->wgtWeapons->findChildren<QCheckBox*>()) {
-        if (b->isChecked()) {
-            lst << b->property(PROPERTY_OBJECT_ID).toString();
+    for (int i = 0; i < ui->lstWeapons->count(); ++i) {
+        QListWidgetItem *w = ui->lstWeapons->item(i);
+        if (w->checkState() == Qt::Checked) {
+            lst << w->data(IDRole).toString();
         }
     }
 
@@ -81,14 +101,5 @@ void WeaponChooser::on_btnCancel_clicked()
 
 void WeaponChooser::cleanWeapons()
 {
-    QLayout *l = ui->wgtWeapons->layout();
-    if (l) {
-        QLayoutItem *child;
-        while ((child = l->takeAt(0)) != 0) {
-            delete child;
-        }
-    }
-    foreach (QWidget *w, ui->wgtWeapons->findChildren<QWidget*>()) {
-        delete w;
-    }
+    ui->lstWeapons->clear();
 }

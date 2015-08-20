@@ -1,5 +1,5 @@
 #include "paymentselectorwidget.h"
-#include "flowlayout.h"
+//#include "flowlayout.h"
 #include "../utils.h"
 #include <QtGui>
 
@@ -12,7 +12,7 @@ PaymentSelectorWidget::PaymentSelectorWidget(QWidget *parent) :
     m_display = new QLabel;
     m_optionsWidget = new QWidget;
 
-    m_optionsWidget->setLayout(new FlowLayout);
+    m_optionsWidget->setLayout(new QVBoxLayout);
 
     QVBoxLayout *l = new QVBoxLayout(this);
     l->addWidget(m_display, 1);
@@ -57,6 +57,7 @@ void PaymentSelectorWidget::displayPayments(AH::Common::Cost costs)
 
 void PaymentSelectorWidget::clearPayments()
 {
+    emit choiceOk(false);
     QLayout *l = m_optionsWidget->layout();
     if (l) {
         QLayoutItem *child;
@@ -78,4 +79,5 @@ void PaymentSelectorWidget::alternativeSelected()
     m_selIdx = sender()->property(PROPERTY_COST_INDEX).toInt();
     QString desc = sender()->property(PROPERTY_COST_DESCRIPTION).toString();
     m_display->setText(desc);
+    emit choiceOk(true);
 }

@@ -1,6 +1,6 @@
 #include "stringchoiceselectorwidget.h"
 #include <QtGui>
-#include "flowlayout.h"
+//#include "flowlayout.h"
 #include "../utils.h"
 
 #define PROPERTY_CHOICE_INDEX "CHOICE_INDEX"
@@ -12,7 +12,7 @@ StringChoiceSelectorWidget::StringChoiceSelectorWidget(QWidget *parent) :
     m_display = new QLabel;
     m_optionsWidget = new QWidget;
 
-    m_optionsWidget->setLayout(new FlowLayout);
+    m_optionsWidget->setLayout(new QVBoxLayout);
 
     QVBoxLayout *l = new QVBoxLayout(this);
     l->addWidget(m_description);
@@ -46,6 +46,7 @@ void StringChoiceSelectorWidget::displayChoices(QString desc, QList<AH::Common::
 
 void StringChoiceSelectorWidget::clearChoices()
 {
+    emit choiceOk(false);
     QLayout *l = m_optionsWidget->layout();
     if (l) {
         QLayoutItem *child;
@@ -68,4 +69,5 @@ void StringChoiceSelectorWidget::choiceSelected()
     m_selIdx = sender()->property(PROPERTY_CHOICE_INDEX).toInt();
     QString desc = m_options[m_selIdx].description;
     m_display->setText(desc);
+    emit choiceOk(true);
 }

@@ -19,6 +19,9 @@ public slots:
     void displayChoices(QString desc, QList<AH::Common::ChoiceData::OptionData> opts);
     void clearChoices();
 
+signals:
+    void choiceOk(bool ok);
+
 private slots:
     void choiceSelected();
 

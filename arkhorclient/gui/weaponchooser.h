@@ -33,6 +33,11 @@ private slots:
 private:
     void cleanWeapons();
 
+    enum {
+        IDRole = Qt::UserRole,
+        HandsRole
+    };
+
 private:
     Ui::WeaponChooser *ui;
 

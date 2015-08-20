@@ -73,6 +73,12 @@
    </item>
    <item>
     <widget class="QTabWidget" name="tabInteract">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -88,7 +94,7 @@
        <item>
         <widget class="QStackedWidget" name="stkInteraction">
          <property name="currentIndex">
-          <number>4</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="pageEmptyInteraction">
           <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -142,6 +148,27 @@
            </item>
           </layout>
          </widget>
+         <widget class="QWidget" name="pageDieRoll">
+          <layout class="QVBoxLayout" name="verticalLayout_12">
+           <item>
+            <widget class="DieRollWidget" name="wgtDieRoll" native="true"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="pageWeaponChooser">
+          <layout class="QVBoxLayout" name="verticalLayout_13">
+           <item>
+            <widget class="WeaponChooser" name="wgtWeaponChooser" native="true"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="pageChoice">
+          <layout class="QVBoxLayout" name="verticalLayout_15">
+           <item>
+            <widget class="ChoiceWidget" name="wgtChoice" native="true"/>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -157,6 +184,16 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <widget class="CharacterWidget" name="wgtCharacter" native="true"/>
+       </item>
+       <item>
+        <widget class="QListWidget" name="lstInventory">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -284,6 +321,24 @@
    <class>AncientOneWidget</class>
    <extends>QWidget</extends>
    <header>gui/ancientonewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DieRollWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/dierollwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WeaponChooser</class>
+   <extends>QWidget</extends>
+   <header>gui/weaponchooser.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ChoiceWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/choicewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

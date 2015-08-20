@@ -6,73 +6,83 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>703</width>
+    <width>228</width>
     <height>362</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Available:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QListWidget" name="lstAvailable"/>
+   </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QListWidget" name="lstAvailable"/>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnSelect">
-         <property name="text">
-          <string>&gt;&gt;</string>
-         </property>
-         <property name="shortcut">
-          <string>Ctrl+Right</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnDeselect">
-         <property name="text">
-          <string>&lt;&lt;</string>
-         </property>
-         <property name="shortcut">
-          <string>Ctrl+Left</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+      <widget class="QPushButton" name="btnDeselect">
+       <property name="text">
+        <string notr="true">^</string>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+Left</string>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="lstSelected"/>
+      <widget class="QPushButton" name="btnSelect">
+       <property name="text">
+        <string notr="true">v</string>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+Right</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Selected:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QListWidget" name="lstSelected"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">

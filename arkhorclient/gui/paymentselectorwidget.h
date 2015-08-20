@@ -21,6 +21,9 @@ public slots:
     void displayPayments(AH::Common::Cost costs);
     void clearPayments();
 
+signals:
+    void choiceOk(bool ok);
+
 private slots:
     void alternativeSelected();
 

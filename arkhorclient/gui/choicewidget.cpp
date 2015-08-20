@@ -9,6 +9,7 @@ ChoiceWidget::ChoiceWidget(QWidget *parent) :
     m_type(ChoiceData::None)
 {
     ui->setupUi(this);
+    ui->wgtInfo->setVisible(false);
     connect(ui->wgtObjSelection, SIGNAL(requestObjectInfo(QString)), this, SLOT(displayInfo(QString)));
 }
 
@@ -20,6 +21,7 @@ ChoiceWidget::~ChoiceWidget()
 void ChoiceWidget::offerChoice(ChoiceData choice)
 {
     ui->lblTitle->setText(choice.description());
+    ui->btnCancel->setVisible(choice.canCancel());
     switch (choice.type()) {
     case ChoiceData::ChooseObjects:
         selectFromObjectList(choice.getObjectIds(), choice.getMin(), choice.getMax());
@@ -47,14 +49,14 @@ void ChoiceWidget::selectFromObjectList(QStringList objectIds, int min, int max)
 void ChoiceWidget::selectPayment(Cost cost)
 {
     m_type = ChoiceData::ChoosePayment;
-    ui->pagePaymentSelector->displayPayments(cost);
+    ui->wgtPayment->displayPayments(cost);
     ui->stkChoices->setCurrentWidget(ui->pagePaymentSelector);
 }
 
 void ChoiceWidget::selectString(QString desc, QList<ChoiceData::OptionData> options)
 {
     m_type = ChoiceData::ChooseString;
-    ui->pageStrings->displayChoices(desc, options);
+    ui->wgtStrings->displayChoices(desc, options);
     ui->stkChoices->setCurrentWidget(ui->pageStrings);
 }
 
@@ -70,14 +72,14 @@ void ChoiceWidget::on_btnOk_clicked()
 
     case ChoiceData::ChoosePayment:
     {
-        int sels = ui->pagePaymentSelector->getSelectedPaymentIndex();
+        int sels = ui->wgtPayment->getSelectedPaymentIndex();
         emit choiceSelected(sels);
         break;
     }
 
     case ChoiceData::ChooseString:
     {
-        QString selId = ui->pageStrings->getSelectedChoiceId();
+        QString selId = ui->wgtStrings->getSelectedChoiceId();
         emit choiceSelected(selId);
         break;
     }
@@ -90,7 +92,7 @@ void ChoiceWidget::on_btnOk_clicked()
 void ChoiceWidget::on_btnCancel_clicked()
 {
     ui->wgtObjSelection->clearItems();
-    ui->pagePaymentSelector->clearPayments();
+    ui->wgtPayment->clearPayments();
     emit choiceCanceled();
 }
 

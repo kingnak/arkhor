@@ -52,7 +52,7 @@
          <item>
           <widget class="QStackedWidget" name="stkInteraction">
            <property name="currentIndex">
-            <number>0</number>
+            <number>4</number>
            </property>
            <widget class="QWidget" name="pageEmptyInteraction">
             <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -338,33 +338,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>DieRollWidget</class>
-   <extends>QWidget</extends>
-   <header>gui/dierollwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>CharacterWidget</class>
    <extends>QWidget</extends>
    <header>gui/characterwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>WeaponChooser</class>
-   <extends>QWidget</extends>
-   <header>gui/weaponchooser.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>MythosDataWidget</class>
    <extends>QWidget</extends>
    <header>gui/mythosdatawidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ChoiceWidget</class>
-   <extends>QWidget</extends>
-   <header>gui/choicewidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
@@ -389,6 +371,24 @@
    <class>AncientOneWidget</class>
    <extends>QWidget</extends>
    <header>gui/ancientonewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DieRollWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/dierollwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WeaponChooser</class>
+   <extends>QWidget</extends>
+   <header>gui/weaponchooser.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ChoiceWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/choicewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

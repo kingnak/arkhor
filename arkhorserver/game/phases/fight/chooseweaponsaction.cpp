@@ -17,7 +17,12 @@ bool ChooseWeaponsAction::execute()
     QList<GameObject *> fightObjects;
     foreach (GameObject *o, lst) {
         if (o->isFightObject()) {
-            fightObjects << o;
+            if (o->isExhausted()) {
+                // Unequip for security...
+                o->unequip();
+            } else {
+                fightObjects << o;
+            }
         }
     }
 

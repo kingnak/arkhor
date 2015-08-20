@@ -26,6 +26,7 @@ bool ChoiceHelper::choosePayment(Character *c, AH::Common::Cost options, AH::Com
     // Choose:
     AH::Common::ChoiceData choice;
     choice.setSelectPayment(realOptions);
+    choice.setCanCancel(true);
     Player *p = gGame->playerForCharacter(c);
     AH::Common::ChoiceResponseData resp = p->offerChoice(choice);
     if (resp.isValid()) {

@@ -121,9 +121,15 @@ int GameContextScript::dieRollSkillCount(QString desc, int skill, int adjust)
 
 QString GameContextScript::selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options)
 {
+    return selectChoice(desc, options, false);
+}
+
+QString GameContextScript::selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
+{
     AH::Common::ChoiceData ch;
     ch.setSelectStrings(options);
     ch.setDescription(desc);
+    ch.setCanCancel(canCancel);
     AH::Common::ChoiceResponseData res = gGame->context().player()->offerChoice(ch);
     return res.toString();
 }

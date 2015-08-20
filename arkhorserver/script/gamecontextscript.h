@@ -46,6 +46,7 @@ public:
     Q_INVOKABLE int dieRollSkillCount(QString desc, int skill, int adjust);
 
     Q_INVOKABLE QString selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options);
+    Q_INVOKABLE QString selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel);
 
     Q_INVOKABLE bool spontaneousMonsterFight();
 

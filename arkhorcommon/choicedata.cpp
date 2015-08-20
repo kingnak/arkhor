@@ -29,6 +29,7 @@ void operator <<(QVariant &data, const ChoiceData &target)
     QVariantMap map;
     map["type"] << target.m_type;
     map["description"] << target.m_desc;
+    map["canCancel"] << target.m_canCancel;
     map["min"] << target.m_min;
     map["max"] << target.m_max;
     map["objectIds"] << target.m_objectIds;
@@ -43,6 +44,7 @@ void operator >>(const QVariant &data, ChoiceData &target)
     data >> map;
     map["type"] >> target.m_type;
     map["description"] >> target.m_desc;
+    map["canCancel"] >> target.m_canCancel;
     map["min"] >> target.m_min;
     map["max"] >> target.m_max;
     map["objectIds"] >> target.m_objectIds;

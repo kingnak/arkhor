@@ -1,6 +1,31 @@
 #include "minsizetab.h"
 #include <QtGui>
 
+class TabFrame : public QWidget
+{
+public:
+    TabFrame(QWidget *p = NULL) : QWidget(p) {}
+protected:
+    void paintEvent(QPaintEvent *event) {
+        QStylePainter p(this);
+        QStyleOptionTabWidgetFrameV2 opt;
+        opt.initFrom(this);
+        opt.lineWidth = style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, this);
+        opt.rect = rect();
+#ifdef Q_OS_WIN
+        // Assume that on WinXP or higher, the user won't change theme to old style...
+        if (dynamic_cast<QWindowsXPStyle*> (qApp->style()))
+            opt.rect.adjust(0,-opt.lineWidth,2,0);
+        else
+#endif
+            // hide top border
+            opt.rect.adjust(0,-opt.lineWidth,0,0);
+
+        p.drawPrimitive(QStyle::PE_FrameTabWidget, opt);
+        Q_UNUSED(event);
+    }
+};
+
 MinSizeStack::MinSizeStack(QWidget *p) : QWidget(p), m_cur(0)
 {
 }
@@ -63,10 +88,14 @@ MinSizeTab::MinSizeTab(QWidget *parent) :
 {
     QVBoxLayout *l = new QVBoxLayout(this);
     l->setContentsMargins(0,0,0,0);
+    l->setSpacing(0);
     m_bar = new QTabBar;
     m_stack = new MinSizeStack;
+    TabFrame *f = new TabFrame;
+    QHBoxLayout *h = new QHBoxLayout(f);
+    h->addWidget(m_stack);
     l->addWidget(m_bar);
-    l->addWidget(m_stack, 1);
+    l->addWidget(f, 1);
 
     connect(m_bar, SIGNAL(currentChanged(int)), this, SLOT(setCurrentIndex(int)));
 }

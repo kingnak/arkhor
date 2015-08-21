@@ -7,13 +7,15 @@
 #include "mythoscardwidget.h"
 #include "ancientonewidget.h"
 #include "characterwidget.h"
+#include "minsizetab.h"
 
 using namespace AH::Common;
 
 ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
     QWidget(parent)
 {
-    m_stack = new QStackedWidget;
+    m_stack = new MinSizeStack;
+    m_stack->setOrientation(Qt::Horizontal);
     m_gate = new GateDataWidget;
     m_monster = new MonsterWidget;
     m_object = new GameObjectWidget;

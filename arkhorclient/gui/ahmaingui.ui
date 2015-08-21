@@ -72,194 +72,201 @@
     <widget class="ObjectInfoWidget" name="wgtObjectInfo" native="true"/>
    </item>
    <item>
-    <widget class="QTabWidget" name="tabInteract">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="currentIndex">
-      <number>1</number>
-     </property>
-     <widget class="QWidget" name="tabInteraction">
-      <attribute name="icon">
-       <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
-        <normaloff>:/core/images/interaction</normaloff>:/core/images/interaction</iconset>
-      </attribute>
-      <attribute name="title">
-       <string/>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_8">
-       <item>
-        <widget class="QStackedWidget" name="stkInteraction">
-         <property name="currentIndex">
-          <number>0</number>
-         </property>
-         <widget class="QWidget" name="pageEmptyInteraction">
-          <layout class="QVBoxLayout" name="verticalLayout_9">
-           <item>
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>EMPTY</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="pageOptionChooser">
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
-           <item>
-            <widget class="OptionChooser" name="wgtOptionChooser" native="true"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="pageFocusChooser">
-          <layout class="QVBoxLayout" name="verticalLayout_10">
-           <item>
-            <widget class="FocusChooser" name="wgtFocusChooser" native="true"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="pageMovementChooser">
-          <layout class="QVBoxLayout" name="verticalLayout_14">
-           <item>
-            <widget class="MovementChooser" name="wgtMovmentChooser" native="true"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="pageMythos">
-          <layout class="QVBoxLayout" name="verticalLayout_11">
-           <item>
-            <widget class="MythosDataWidget" name="wgtMythos" native="true"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="pageDieRoll">
-          <layout class="QVBoxLayout" name="verticalLayout_12">
-           <item>
-            <widget class="DieRollWidget" name="wgtDieRoll" native="true"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="pageWeaponChooser">
-          <layout class="QVBoxLayout" name="verticalLayout_13">
-           <item>
-            <widget class="WeaponChooser" name="wgtWeaponChooser" native="true"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="pageChoice">
-          <layout class="QVBoxLayout" name="verticalLayout_15">
-           <item>
-            <widget class="ChoiceWidget" name="wgtChoice" native="true"/>
-           </item>
-          </layout>
-         </widget>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tabCharacter">
-      <attribute name="icon">
-       <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
-        <normaloff>:/core/images/inventory</normaloff>:/core/images/inventory</iconset>
-      </attribute>
-      <attribute name="title">
-       <string/>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <widget class="CharacterWidget" name="wgtCharacter" native="true"/>
-       </item>
-       <item>
-        <widget class="QListWidget" name="lstInventory">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tabAncientOne">
-      <attribute name="icon">
-       <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
-        <normaloff>:/core/marker/monster_marker_icon</normaloff>:/core/marker/monster_marker_icon</iconset>
-      </attribute>
-      <attribute name="title">
-       <string/>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <item>
-        <widget class="AncientOneWidget" name="wgtAncientOne" native="true"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tabSetting">
-      <attribute name="icon">
-       <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
-        <normaloff>:/core/images/info</normaloff>:/core/images/info</iconset>
-      </attribute>
-      <attribute name="title">
-       <string/>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_7">
-       <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="title">
-          <string>Rumor</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="RumorWidget" name="wgtRumor" native="true"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_2">
-         <property name="title">
-          <string>Environment</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <item>
-           <widget class="EnvironmentWidget" name="wgtEnvironment" native="true"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_16">
+     <item>
+      <widget class="QTabWidget" name="tabInteract_base">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tabInteraction">
+        <attribute name="icon">
+         <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
+          <normaloff>:/core/images/interaction</normaloff>:/core/images/interaction</iconset>
+        </attribute>
+        <attribute name="title">
+         <string/>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_8">
+         <item>
+          <widget class="QStackedWidget" name="stkInteraction">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="pageEmptyInteraction">
+            <layout class="QVBoxLayout" name="verticalLayout_9">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>EMPTY</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageOptionChooser">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="OptionChooser" name="wgtOptionChooser" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageFocusChooser">
+            <layout class="QVBoxLayout" name="verticalLayout_10">
+             <item>
+              <widget class="FocusChooser" name="wgtFocusChooser" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageMovementChooser">
+            <layout class="QVBoxLayout" name="verticalLayout_14">
+             <item>
+              <widget class="MovementChooser" name="wgtMovmentChooser" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageMythos">
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <item>
+              <widget class="MythosDataWidget" name="wgtMythos" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageDieRoll">
+            <layout class="QVBoxLayout" name="verticalLayout_12">
+             <item>
+              <widget class="DieRollWidget" name="wgtDieRoll" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageWeaponChooser">
+            <layout class="QVBoxLayout" name="verticalLayout_13">
+             <item>
+              <widget class="WeaponChooser" name="wgtWeaponChooser" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageChoice">
+            <layout class="QVBoxLayout" name="verticalLayout_15">
+             <item>
+              <widget class="ChoiceWidget" name="wgtChoice" native="true"/>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tabCharacter">
+        <attribute name="icon">
+         <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
+          <normaloff>:/core/images/inventory</normaloff>:/core/images/inventory</iconset>
+        </attribute>
+        <attribute name="title">
+         <string/>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="CharacterWidget" name="wgtCharacter" native="true"/>
+         </item>
+         <item>
+          <widget class="QListWidget" name="lstInventory">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tabAncientOne">
+        <attribute name="icon">
+         <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
+          <normaloff>:/core/marker/monster_marker_icon</normaloff>:/core/marker/monster_marker_icon</iconset>
+        </attribute>
+        <attribute name="title">
+         <string/>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="AncientOneWidget" name="wgtAncientOne" native="true"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tabSetting">
+        <attribute name="icon">
+         <iconset resource="../../arkhorclientstaticres/client_resources.qrc">
+          <normaloff>:/core/images/info</normaloff>:/core/images/info</iconset>
+        </attribute>
+        <attribute name="title">
+         <string/>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string>Rumor</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <widget class="RumorWidget" name="wgtRumor" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="title">
+            <string>Environment</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="EnvironmentWidget" name="wgtEnvironment" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="MinSizeTab" name="tabInteract" native="true"/>
+     </item>
+    </layout>
    </item>
   </layout>
   <action name="actionDismissInfo">
@@ -349,27 +356,17 @@
    <header>gui/choicewidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>MinSizeTab</class>
+   <extends>QWidget</extends>
+   <header>gui/minsizetab.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../../arkhorclientstaticres/client_resources.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>lstInventory</sender>
-   <signal>currentItemChanged(QListWidgetItem*,QListWidgetItem*)</signal>
-   <receiver>AhMainGui</receiver>
-   <slot>displayInventoryData(QListWidgetItem*)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>521</x>
-     <y>332</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>366</x>
-     <y>-8</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>actionDismissInfo</sender>
    <signal>triggered()</signal>
@@ -383,6 +380,22 @@
     <hint type="destinationlabel">
      <x>348</x>
      <y>297</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lstInventory</sender>
+   <signal>currentItemChanged(QListWidgetItem*,QListWidgetItem*)</signal>
+   <receiver>AhMainGui</receiver>
+   <slot>displayInventoryData(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>521</x>
+     <y>332</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>366</x>
+     <y>-8</y>
     </hint>
    </hints>
   </connection>

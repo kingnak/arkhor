@@ -38,7 +38,8 @@ HEADERS += \
     gui/environmentwidget.h \
     gui/rumorwidget.h \
     gui/investigatorwidget.h \
-    gui/ancientonewidget.h
+    gui/ancientonewidget.h \
+    gui/minsizetab.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -77,7 +78,8 @@ SOURCES += \
     gui/environmentwidget.cpp \
     gui/rumorwidget.cpp \
     gui/investigatorwidget.cpp \
-    gui/ancientonewidget.cpp
+    gui/ancientonewidget.cpp \
+    gui/minsizetab.cpp
 
 FORMS += \
     gui/characterwidget.ui \

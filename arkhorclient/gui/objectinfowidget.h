@@ -21,6 +21,8 @@ class MythosCardWidget;
 class AncientOneWidget;
 class CharacterWidget;
 
+class MinSizeStack;
+
 class ObjectInfoWidget : public QWidget
 {
     Q_OBJECT
@@ -47,7 +49,7 @@ private:
 private:
     QString m_pendingDisplayId;
 
-    QStackedWidget *m_stack;
+    MinSizeStack *m_stack;
     GateDataWidget *m_gate;
     MonsterWidget *m_monster;
     GameObjectWidget *m_object;

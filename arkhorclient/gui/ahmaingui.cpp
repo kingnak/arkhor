@@ -19,6 +19,8 @@ AhMainGui::AhMainGui(QWidget *parent) :
     m_registry(NULL)
 {
     ui->setupUi(this);
+    ui->tabInteract->setOrientation(Qt::Horizontal);
+    ui->tabInteract->buildFromTab(ui->tabInteract_base);
     addAction(ui->actionDismissInfo);
 
     m_dismissTimer = new QTimer(this);

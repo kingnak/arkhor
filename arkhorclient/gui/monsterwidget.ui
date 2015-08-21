@@ -6,15 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>347</width>
-    <height>572</height>
+    <width>159</width>
+    <height>453</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -206,10 +200,24 @@
     </widget>
    </item>
    <item>
-    <widget class="MonsterBackWidget" name="wgtBackImg" native="true"/>
+    <widget class="MonsterBackWidget" name="wgtBackImg" native="true">
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
    </item>
    <item>
-    <widget class="MonsterFrontWidget" name="wgtFrontImg" native="true"/>
+    <widget class="MonsterFrontWidget" name="wgtFrontImg" native="true">
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

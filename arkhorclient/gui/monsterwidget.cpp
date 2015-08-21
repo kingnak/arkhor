@@ -296,7 +296,8 @@ void MonsterWidget::displayMonster(const AH::Common::MonsterData *m)
         ui->wgtFrontImg->displayMonster(m);
 
         AH::Common::MonsterData::DisplayType d = m->displayType();
-        //TEST: d = AH::Common::MonsterData::FullBack;
+        // TODO: Remove when server correclty handles that
+        d = AH::Common::MonsterData::FullBack;
         switch (d) {
         case AH::Common::MonsterData::OnlyFront:
             ui->btnTurn->setVisible(false);

@@ -31,14 +31,13 @@ public:
     MythosCard *environment();
     MythosCard *rumor();
 
-    void setMonster( Monster *m );
+    void setMonster( Monster *m ) { m_monster = m; }
     void setGate( Gate *g ) { m_gate = g; }
     void setPhase( AH::GamePhase phase ) { m_phase = phase; }
     void setDieRoll( DieTestHelper::DieTestSpec * spec ) { m_dieRoll = spec; }
 
-    void updateCurMonsterVisibilityType(AH::Common::MonsterData::DisplayType dt);
-
-    AH::Common::MonsterData::DisplayType getMonsterDisplayType(const Monster *m);
+    //void updateCurMonsterVisibilityType(AH::Common::MonsterData::DisplayType dt);
+    //AH::Common::MonsterData::DisplayType getMonsterDisplayType(const Monster *m);
 
     ModifiedPropertyValue getCurCharacterProperty(PropertyValue::Property property);
     ModifiedPropertyValue getCurCharacterSkill(AH::Skill skill);

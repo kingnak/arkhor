@@ -22,6 +22,7 @@ MythosCard *GameContext::rumor()
     return gGame->rumor();
 }
 
+/*
 void GameContext::setMonster(Monster *m)
 {
     if (m_monster) {
@@ -57,6 +58,7 @@ AH::Common::MonsterData::DisplayType GameContext::getMonsterDisplayType(const Mo
     }
     return static_cast<AH::Common::MonsterData::DisplayType> (v);
 }
+*/
 
 ModifiedPropertyValue GameContext::getCurCharacterProperty(PropertyValue::Property property)
 {

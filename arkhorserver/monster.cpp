@@ -49,7 +49,8 @@ int Monster::toughness() const
 
 AH::Common::MonsterData::DisplayType Monster::displayType() const
 {
-    return gGame->context().getMonsterDisplayType(this);
+    //return gGame->context().getMonsterDisplayType(this);
+    return baseDisplayType();
 }
 
 AH::Common::MonsterData::MovementType Monster::movementType() const

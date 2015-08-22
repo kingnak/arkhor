@@ -52,7 +52,8 @@ public:
     Q_INVOKABLE void lostInSpaceAndTime() { Character::lostInSpaceAndTime(); }
     Q_INVOKABLE void devour() { Character::devour(); }
 
-    //Q_INVOKABLE void setOut() { Character::setSetout(true); }
+    Q_INVOKABLE void delay() { Character::setDelayed(true); }
+    Q_INVOKABLE void setOut() { Character::setSetout(true); }
 
     Q_INVOKABLE bool canPay(AH::Common::Cost cost) { return Character::canPay(cost); }
     Q_INVOKABLE bool pay(AH::Common::Cost cost) { return Character::pay(cost); }

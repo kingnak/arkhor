@@ -16,9 +16,21 @@ bool FieldOptionGenerator::generate(const ClassGenerator::ClassDef &cls)
 
 QList<ClassGenerator::AttributeDesc> FieldOptionGenerator::getAttributes()
 {
-    return QuickOptionGenerator::getAttributes()
-            << AttributeDesc("field", AttributeDesc::R_Required, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
+    QList<ClassGenerator::AttributeDesc> ret = QuickOptionGenerator::getAttributes();
+
+    // Filter out id and phases Attribute!
+    QList<AttributeDesc>::iterator it = ret.begin();
+    while (it != ret.end()) {
+        if (it->name == "phases") {
+            it = ret.erase(it);
+        } else {
+            ++it;
+        }
+    }
+    ret << AttributeDesc("field", AttributeDesc::R_Required, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
+        << AttributeDesc("phases", AttributeDesc::R_Predefined, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
                ;
+    return ret;
 }
 
 bool FieldOptionGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr)
@@ -28,6 +40,14 @@ bool FieldOptionGenerator::outputSpecialAttribute(AttributeDesc desc, const Clas
         return outputEnumValue("Constants.Fields", attr, cls);
     }
     return QuickOptionGenerator::outputSpecialAttribute(desc, cls, attr);
+}
+
+bool FieldOptionGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+{
+    if (desc.name == "phases") {
+        return outputAttribute(cls, AttrDef("phases", AttrDef::EnumValue, "ArkhamEncountery"), true);
+    }
+    return QuickOptionGenerator::outputDefaultAttribute(desc, cls);
 }
 
 

@@ -11,8 +11,8 @@ using namespace AH::Common;
 GameOptionData *GameOption::data()
 {
     //m_id = id();
-    //m_name = name();
-    //m_description = description();
+    m_name = name();
+    m_description = description();
     //m_isAvailable = isAvailable();
     //m_costs = costs();
     m_canPay = gGame->context().player()->getCharacter()->canPay(costs());

@@ -1,0 +1,30 @@
+
+Investigator AmandaSharpe {
+    occupation: "The Student";
+    homeFieldId: DT_BankOfArkham;
+    sanity: 5;
+    stamina: 5;
+    money: 1;
+    clues: 1;
+    uniqueAbilityId: SpecialAbility.Studious;
+    fixedPossesionObjectIds: <<<[]>>>;
+    randomPossessions: [
+            CommonItem 1,
+            UniqueItem 1,
+            Spell 1,
+            Skill 2
+    ];
+    focus: 3;
+    attributes: [
+            SpeedSneak {(1,4),(2,3),(3,2),(4,1)},
+            FightWill {(1,4),(2,3),(3,2),(4,1)},
+            LoreLuck {(1,4),(2,3),(3,2),(4,1)}
+    ];
+}
+
+SpecialAbility Studious {
+    description: "Whenever Amanda draws one or more cards "+
+                "from the Skill deck, she draws one extra card "+
+                "and then discards one of the cards.";
+    modifications: [ DrawCard_Skill +1 ];
+}

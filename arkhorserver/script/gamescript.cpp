@@ -95,6 +95,8 @@ bool GameScript::init(const QString &scriptBaseDir)
     QScriptValue c = initConstants();
     m_engine->globalObject().setProperty("Constants", c);
 
+    // Global SKIP option
+    registerConstant("Option", "SKIP", "OP_SKIP");
     initGlobalMethods();
 
     bool ok = parseScripts(scriptBaseDir);

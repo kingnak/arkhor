@@ -1,0 +1,85 @@
+
+FieldOption Asylum_PsychatricCare_One {
+    name: "Psychatric Care (One)";
+    description: "Instead of having an encounter here, "+
+        "you may recover Sanity by receiving psychiatric "+
+        "care. You regain 1 Sanity for free";
+    activate: {{{ CHAR.addSanity(1); }}};
+    field: DT_ArkhamAsylum;
+}
+
+FieldOption Asylum_PsychatricCare_All {
+    name: "Psychatric Care (All)";
+    description: "Instead of having an encounter here, "+
+        "you may recover Sanity by receiving psychiatric "+
+        "care. Pay $2 to restore your Sanity to its maximum value";
+    costs: [ Money 2 ];
+    activate: {{{ CHAR.restoreSanity(); }}};
+    field: DT_ArkhamAsylum;
+}
+
+ArkhamEncounter Asylum_Enc1 {
+    field: DT_ArkhamAsylum;
+    description: "In the Doctor's study, you find a book of "+
+                "helpful notes gathered from inmate interviews. "+
+                "Make a <b>Lore (+0) check</b> and consult the "+
+                "following chart:<br/><br/>"+
+                "Successes:<br/>"+
+                "0) Their stories fill you with horror even "+
+                        "as you learn a few bits of knowledge. Lose "+
+                        "1 Sanity and gain 1 Clue token.<br/>"+
+                "1-2) You find several pieces of useful "+
+                        "information. Gain 2 Clue tokens.<br/>"+
+                "3+) One of the interviews contains vital "+
+                        "information. Gain 3 Clue tokens.";
+    options: Option.Asylum_Enc1;
+}
+QuickOption Asylum_Enc1 {
+    phases: ArkhamEncountery;
+    name: "Read Book";
+    activate: {{{
+        var res = game.context.dieRollSkillCount("Read Book", Constants.Skills.Lore, 0);
+        switch (res) {
+        case 0:
+            CHAR.addClue(1);
+            CHAR.damageSanity(1);
+            break;
+        case 1:
+        case 2:
+            CHAR.addClue(2);
+            break;
+        default:
+            CHAR.addClue(3);
+        }
+    }}};
+}
+
+ArkhamEncounter Asylum_Enc2 {
+    field: DT_ArkhamAsylum;
+    description: "Nurse Heather accidentally injects "+
+        "you with a sleeping draught. You may make a "+
+        "<b>Fight (-2) check</b> to resist.<br/>If you fail "+
+        "or choose not to resist, lose your next turn and "+
+        "gain 2 Sanity from the prolonged rest. If you pass, "+
+        "nothing happens.";
+    options: (Option.Asylum_Enc2_Resist, Option.Asylum_Enc2_DontResist);
+}
+QuickOption Asylum_Enc2_Resist {
+    phases: ArkhamEncountery;
+    name: "Try to resist";
+    activate: {{{
+        var res = game.context.skillTest("Resist Nurse Heather", Constants.Skills.Fight, -2, 1);
+        if (res) {
+            CHAR.addSanity(2);
+            CHAR.setOut();
+        }
+    }}};
+}
+QuickOption Asylum_Enc2_DontResist {
+    phases: ArkhamEncountery;
+    name: "Let it happen";
+    activate: {{{
+        CHAR.addSanity(2);
+        CHAR.setOut();
+    }}};
+}

@@ -12,7 +12,7 @@ game.registerMythosCard(game.createMythosCard({
       "maximum Sanity or Stamina (their choice) by 1 for the rest of the game.",
 
 	clueField: Constants.Fields.DT_ArkhamAsylum,
-    gateField: Constants.Fields.DT_ArkhamAsylum,
+    //gateField: Constants.Fields.DT_ArkhamAsylum,
 	moveBlack: Constants.Dimension.Square,
     moveWhite: Constants.Dimension.Triangle,
 

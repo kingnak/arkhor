@@ -466,7 +466,7 @@ bool ClassGenerator::doOutputCosts(QString costs)
             QString n = parts.value(0);
             parts.pop_front();
             QString v = parts.join(" ");
-            m_out << "{ property: Constants.Costs." << n << ", amount: " << v << " }";
+            m_out << "{ type: Constants.Costs." << n << ", amount: " << v << " }";
         }
         m_out << "\n\t\t]";
     }

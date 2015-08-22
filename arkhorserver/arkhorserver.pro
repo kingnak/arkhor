@@ -1,11 +1,11 @@
 QT += network script scripttools
-#QT -= gui
+QT -= gui
 unix:CONFIG(debug, debug|release): DEFINES += "_DEBUG=1"
 
 CONFIG += console
 CONFIG -= windows
 
-DEFINES += DEBUG_SCRIPT_BUILD
+#DEFINES += DEBUG_SCRIPT_BUILD
 
 HEADERS += \
     communication/clientconnection.h \
@@ -243,7 +243,10 @@ OTHER_FILES += \
     data/ancientone/azathoth.ahs \
     data/ancientone/hastur.ahs \
     data/characters/sister_mary.ahs \
-    data/characters/jenny_barnes.ahs
+    data/characters/jenny_barnes.ahs \
+    data/characters/amanda_sharpe.ahs \
+    data/characters/ashcan_pete.ahs \
+    data/field/arkham/downtown/arkhamAsylum.ahs
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

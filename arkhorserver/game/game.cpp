@@ -646,9 +646,9 @@ OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldI
         ct--;
         e = m_owEncDeck.draw();
         m_owEncDeck.returnToDeck(e);
-        // TEST: Allow multi colored cards
-        //if (colors.testFlag(e->color())) {
-        if ((colors & e->color()) != 0) {
+        // TEST: This would allow multi colored cards
+        //if ((colors & e->color()) != 0) {
+        if (colors.testFlag(e->color())) {
             // Check if field matches (no field matches all)
             if (e->fieldId() != AH::Common::FieldData::NO_NO_FIELD) {
                 if (e->fieldId() != field) {
@@ -773,7 +773,6 @@ AH::Common::DescribeObjectsData::ObjectDescription Game::describeObject(const AH
         AncientOne *ao = m_registry->findAncientOneById(r.second);
         if (ao) return describeObject(qMakePair(AH::Common::RequestObjectsData::AncientOne, r.second));
 
-        // TODO: Extend
         break;
     }
     case AH::Common::RequestObjectsData::Object:
@@ -845,7 +844,7 @@ AH::Common::DescribeObjectsData::ObjectDescription Game::describeObject(const AH
 
 AH::Dimension Game::randomDimension() const
 {
-    int dim = RandomSource::instance().nextUint(0, 9);
+    int dim = RandomSource::instance().nextUint(0, 8);
     return static_cast<AH::Dimension> (1<<dim);
 }
 
@@ -857,6 +856,8 @@ AH::Common::FieldData::FieldID Game::randomLocation(bool onlyStable) const
     if (id == 0x0703) {
         return randomLocation(onlyStable);
     }
+
+    // TODO: Check if stable...
 
     AH::Common::FieldData::FieldID ret = static_cast<AH::Common::FieldData::FieldID> (id);
     Q_ASSERT(m_board->field(ret) != NULL);
@@ -988,10 +989,12 @@ void Game::initMonsters()
             m_board->field(AH::Common::FieldData::Sp_Outskirts)->placeMonster(m);
     }
     */
+    /*
     setEnvironment(m_mythosDeck.drawSpecificById("MY_TheFestival"));
     m_monsterPool.shuffle();
     m_board->field(AH::Common::FieldData::DT_Downtown)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_Cultist"));
     m_board->field(AH::Common::FieldData::SS_Southside)->placeMonster(m_monsterPool.drawSpecificByTypeId("MO_Byakhee"));
+    */
 }
 
 void Game::chooseInvestigators()
@@ -1231,7 +1234,7 @@ Game::GameState Game::checkGameState()
 
 
     if (m_context.phase() == AH::EndFightPhase) {
-        // TODO
+        // TODO: nothing? (all handled in endFight())
     } else {
         // Count sealed gates and open gates
         int ctSealed = 0;

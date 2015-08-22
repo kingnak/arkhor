@@ -15,6 +15,7 @@ public:
 protected:
     virtual QList<AttributeDesc> getAttributes();
     virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
+    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
 
 private:
     QString m_field;

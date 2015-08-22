@@ -1,30 +1,6 @@
-var asylumOption1 = game.quickOption({
-	name: "Psychatric Care (One)",
-	description: "Instead of having an encounter here, "+
-		"you may recover Sanity by receiving psychiatric "+
-		"care. You regain 1 Sanity for free",
-	phases: Constants.GamePhases.ArkhamEncountery,
-	activate: function() {
-		game.context.character.addSanity(1);
-	}
-});
-
-var asylumOption2 = game.quickOption({
-	costs: { type: Constants.Costs.Money, amount: 2},
-	name: "Psychatric Care (All)",
-	description: "Instead of having an encounter here, "+
-		"you may recover Sanity by receiving psychiatric "+
-		"care. Pay $2 to restore your Sanity to its maximum value.",
-	phases: Constants.GamePhases.ArkhamEncountery,
-	activate: function() {
-		game.context.character.restoreSanity();
-	}
-});
-
-game.addFieldOption(Constants.Fields.DT_ArkhamAsylum, asylumOption1.id);
-game.addFieldOption(Constants.Fields.DT_ArkhamAsylum, asylumOption2.id);
 
 // Encounters
+/*
 var as_enc1 = game.createArkhamEncounter({
 	field: Constants.Fields.DT_ArkhamAsylum,
     description:"In the Doctor's study, you find a book of "+
@@ -62,7 +38,8 @@ var as_enc1 = game.createArkhamEncounter({
 	]
 });
 game.registerArkhamEncounter(as_enc1);
-
+*/
+/*
 var as_enc2 = game.createArkhamEncounter({
 	field: Constants.Fields.DT_ArkhamAsylum,
 	description: "Nurse Heather accidentally injects "+
@@ -96,3 +73,4 @@ var as_enc2 = game.createArkhamEncounter({
 	]
 });
 game.registerArkhamEncounter(as_enc2);
+*/

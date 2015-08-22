@@ -1,0 +1,36 @@
+
+Investigator AshcanPete {
+    name: '"Ashcan" Pete';
+    occupation: "The Drifter";
+    homeFieldId: MD_RiverDocks;
+    sanity: 4;
+    stamina: 6;
+    money: 1;
+    clues: 3;
+    uniqueAbilityId: SpecialAbility.Scrounge;
+    fixedPossesionObjectIds: Ally.Duke;
+    randomPossessions: [
+            CommonItem 1,
+            UniqueItem 1,
+            Skill 1
+    ];
+    focus: 1;
+    attributes: [
+            SpeedSneak {(0,6),(1,5),(2,4),(3,3)},
+            FightWill {(2,5),(3,4),(4,3),(5,2)},
+            LoreLuck {(0,3),(1,2),(2,1),(3,0)}
+    ];
+}
+
+SpecialAbility Scrounge {
+    description: "When Pete draws from the <b>Common item</b>, <b>Unique item</b>, "+
+                "or <b>Spell</b> deck, he may draw from either the top or the "+
+                "bottom of that deck, his choice. Pete may look at the "+
+                "bottom card of those decks at any time.";
+    // Ok, this is not 100% correct, but will do....
+    modifications: [
+        DrawCard_CommonItem +1,
+        DrawCard_UniqueItem +1,
+        DrawCard_Spell +1
+    ];
+}

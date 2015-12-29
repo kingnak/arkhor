@@ -12,8 +12,8 @@ public:
     }
 
     virtual QString id() const { return "OP_SKIP"; }
-    virtual QString name() const { return "Skip"; }
-    virtual QString description() const { return "Finish this round."; }
+    virtual QString name() const { return "Finish"; }
+    virtual QString description() const { return "Finish your turn."; }
 
     virtual bool isAvailable() const { return true; }
 

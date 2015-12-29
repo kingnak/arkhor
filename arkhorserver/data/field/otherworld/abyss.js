@@ -1,27 +1,38 @@
-game.registerOtherWorldEncounter(game.createOtherWorldEncounter({
+var testEncounterOption = game.quickOption({
+    name: "Check Light",
+    //description: "",
+    phases: Constants.GamePhases.OtherWorldEncountery,
+    activate: function() {
+        var res = game.context.skillTest("Check Light", Constants.Skills.Luck, -2, 1);
+        if (res) {
+            game.context.character.returnToArkham();
+        } else {
+            game.context.spontaneousMonsterFight();
+        }
+    }
+});
+var testEncounter = {
     //field: Constants.Fields.OW_Abyss,
-    color: Constants.OtherWorld.Blue | Constants.OtherWorld.Red|Constants.OtherWorld.Yellow|Constants.OtherWorld.Green,
-	description: "A glowing light ahead draws you towards it. "+
-		"Make a <b>Luck (-1) check</b>. If you pass, the glow "+
-		"is a way home. Return to Arkham. If you fail, the light "+
-		"is a trap set by one of the creatures that live here. "+
-		"A monster appears!",
-	options: [
-		game.quickOption({
-			name: "Check Light",
-			//description: "",
-			phases: Constants.GamePhases.OtherWorldEncountery,
-			activate: function() {
-                var res = game.context.skillTest("Check Light", Constants.Skills.Luck, -2, 1);
-				if (res) {
-					game.context.character.returnToArkham();
-				} else {
-					game.context.spontaneousMonsterFight();
-				}
-			}
-		}).id
-	]
-}));
+    color: Constants.OtherWorld.Blue,
+    description: "A glowing light ahead draws you towards it. "+
+        "Make a <b>Luck (-1) check</b>. If you pass, the glow "+
+        "is a way home. Return to Arkham. If you fail, the light "+
+        "is a trap set by one of the creatures that live here. "+
+        "A monster appears!",
+    options: [
+        testEncounterOption.id
+    ]
+};
+
+game.registerOtherWorldEncounter(game.createOtherWorldEncounter(testEncounter));
+testEncounter.color = Constants.OtherWorld.Red;
+game.registerOtherWorldEncounter(game.createOtherWorldEncounter(testEncounter));
+testEncounter.color = Constants.OtherWorld.Yellow;
+game.registerOtherWorldEncounter(game.createOtherWorldEncounter(testEncounter));
+testEncounter.color = Constants.OtherWorld.Green;
+game.registerOtherWorldEncounter(game.createOtherWorldEncounter(testEncounter));
+
+
 /*
 game.registerOtherWorldEncounter(game.createOtherWorldEncounter({
 	field: Constants.Fields.OW_Abyss,

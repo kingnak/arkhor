@@ -28,6 +28,7 @@ protected:
 
 MinSizeStack::MinSizeStack(QWidget *p) : QWidget(p), m_cur(0)
 {
+    setMinimumSize(QSize(0,0));
 }
 
 void MinSizeStack::setOrientation(Qt::Orientation orient)
@@ -54,7 +55,7 @@ const QWidget *MinSizeStack::currentWidget() const {
 
 QSize MinSizeStack::sizeHint() const
 {
-    return currentWidget()->minimumSize();
+    return currentWidget()->minimumSize().expandedTo(QSize(250,250));
 }
 
 int MinSizeStack::indexOf(QWidget *w) const

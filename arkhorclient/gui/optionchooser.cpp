@@ -55,6 +55,7 @@ void OptionChooser::setOptions(QList<AH::Common::GameOptionData> opts)
         }
 
         QPushButton *b = new QPushButton(name);
+        b->setCheckable(true);
         b->setProperty(OPTION_DESCRIPTION_PROPERTY, o.description());
         b->setProperty(OPTION_COST_PROPERTY, displayCosts(o.costs()));
         b->setProperty(OPTION_ID_PROPERTY, o.id());
@@ -83,6 +84,7 @@ void OptionChooser::setSkills(QList<ModifiedPropertyValueData> opts)
         QString name = Utils::stringForProperty(v.property().property());
         int val = v.finalVal();
         QPushButton *btn = new QPushButton(name);
+        btn->setCheckable(true);
         btn->setProperty(OPTION_DESCRIPTION_PROPERTY, QString("Skill %1. Current Value: %2").arg(name).arg(val));
         btn->setProperty(OPTION_SKILL_PROPERTY, QVariant::fromValue(static_cast<qint32>(v.property().property())));
         connect(btn, SIGNAL(clicked()), this, SLOT(showOption()));
@@ -113,6 +115,7 @@ void OptionChooser::setEncounter(EncounterData enc)
             }
 
             QPushButton *b = new QPushButton(name);
+            b->setCheckable(true);
             b->setProperty(OPTION_DESCRIPTION_PROPERTY, baseDesc + "\n\n" + o.description());
             b->setProperty(OPTION_COST_PROPERTY, displayCosts(o.costs()));
             b->setProperty(OPTION_ID_PROPERTY, o.id());
@@ -175,6 +178,12 @@ void OptionChooser::cleanupMore()
 
 void OptionChooser::showOption()
 {
+    QList<QPushButton*> btns = ui->wgtOptionsList->findChildren<QPushButton*>();
+    foreach (QPushButton *b, btns) {
+        b->setChecked(false);
+    }
+    qobject_cast<QPushButton*> (sender())->setChecked(true);
+
     QString s = sender()->property(OPTION_DESCRIPTION_PROPERTY).toString() + sender()->property(OPTION_COST_PROPERTY).toString();
     ui->lblOptionDescription->setText(s);
     ui->btnOptionActivate->setProperty(OPTION_ID_PROPERTY, sender()->property(OPTION_ID_PROPERTY));

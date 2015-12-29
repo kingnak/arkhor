@@ -26,10 +26,10 @@ void MovementChooser::chooseMovement(AH::Common::FieldData::FieldID startId, int
 {
     m_curId = AH::Common::FieldData::NO_NO_FIELD;
     setEnabled(true);
-    connect(m_scene, SIGNAL(fieldClicked(AH::Common::FieldData::FieldID)), this, SLOT(nextItemClicked(AH::Common::FieldData::FieldID)));
     m_startId = startId;
     m_maxMove = movementPoints;
     resetMovement();
+    connect(m_scene, SIGNAL(fieldClicked(AH::Common::FieldData::FieldID)), this, SLOT(nextItemClicked(AH::Common::FieldData::FieldID)));
 }
 
 void MovementChooser::finishedMovement()
@@ -43,6 +43,7 @@ void MovementChooser::finishedMovement()
 void MovementChooser::resetMovement()
 {
     disableAllFields();
+    disconnect(m_scene, SIGNAL(fieldClicked(AH::Common::FieldData::FieldID)), this, SLOT(nextItemClicked(AH::Common::FieldData::FieldID)));
     nextMoveStep(m_startId);
     m_curMove = m_maxMove;
     ui->lblRemMovementPoints->setText(QString::number(m_curMove));

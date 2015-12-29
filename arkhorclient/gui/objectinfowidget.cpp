@@ -40,6 +40,11 @@ ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
     connect(ObjectRegistry::instance(), SIGNAL(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)), this, SLOT(receivedDescription(AH::Common::DescribeObjectsData::ObjectDescription)));
 }
 
+QSize ObjectInfoWidget::sizeHint() const
+{
+    return m_stack->sizeHint().expandedTo(QSize(250,250));
+}
+
 void ObjectInfoWidget::displayItemInfo(const QString &id)
 {
     displayNothing();

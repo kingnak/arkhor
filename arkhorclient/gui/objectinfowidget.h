@@ -29,6 +29,8 @@ class ObjectInfoWidget : public QWidget
 public:
     explicit ObjectInfoWidget(QWidget *parent = 0);
 
+    QSize sizeHint() const;
+
 signals:
 
 public slots:

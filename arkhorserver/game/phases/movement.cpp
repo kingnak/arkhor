@@ -47,8 +47,19 @@ void Movement::finishPhase()
 
 QList<GameOption *> Movement::getPhaseOptions()
 {
-    if (m_undelay->isAvailable())
-        return QList<GameOption*>() << m_undelay;
+    if (m_undelay->isAvailable()) {
+        if (m_fight->isFightSituation()) {
+            // Special case: There are monsters
+            // First undelay, as character might be delayed by fight outcome
+            gGame->context().player()->getCharacter()->setDelayed(false);
+            QList<Monster *> monsters = gGame->context().player()->getCharacter()->field()->monsters();
+            m_fight->handleFight(monsters);
+            // outcome ignored, can never continue. Just skip
+            return QList<GameOption*>() << getSkipOption();
+        } else {
+            return QList<GameOption*>() << m_undelay;
+        }
+    }
 
     switch (gGame->context().player()->getCharacter()->field()->type()) {
     case AH::Common::FieldData::Location:

@@ -43,6 +43,7 @@ var healingStone = game.createObject({
 	description: "<b>Upkeep:</b> You may gain 1 Stamina or 1 Sanity.\n"+
 		"Discard Healing Stone if the Ancient One awakens.",
 	price: 8,
+    exhaustable: true,
 	optionIds: [
 		game.quickOption({
 			name: "Heal Stamina (Healing Stone)",

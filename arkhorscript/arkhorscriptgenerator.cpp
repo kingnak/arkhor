@@ -88,6 +88,8 @@ void ArkhorScriptGenerator::init()
     m_generators["AncientOne"] = new AncientOneGenerator(m_out);
     m_generators["BlessingCurse"] = new BlessingCurseGenerator(m_out);
     m_generators["SpecialAbility"] = new SpecialAbilityGenerator(m_out);
+    m_generators["AEOption"] = new ArkhamEncounterOptionGenerator(m_out);
+    m_generators["OWEOption"] = new OtherWorldEncounterOptionGenerator(m_out);
 }
 
 bool ArkhorScriptGenerator::generateClass(const ClassDef &cls)

@@ -45,5 +45,57 @@ bool QuickOptionGenerator::outputSpecialAttribute(AttributeDesc desc, const Clas
     return OptionGenerator::outputSpecialAttribute(desc, cls, attr);
 }
 
+///////////////////////////////////////////////////////
+
+QList<ClassGenerator::AttributeDesc> ArkhamEncounterOptionGenerator::getAttributes()
+{
+    QList<AttributeDesc> ret = QuickOptionGenerator::getAttributes();
+    // make phase predefined
+    QList<AttributeDesc>::iterator it = ret.begin();
+    while (it != ret.end()) {
+        if (it->name == "phases") {
+            it->reqType = AttributeDesc::R_Predefined;
+            break;
+        } else {
+            ++it;
+        }
+    }
+    return ret;
+}
+
+bool ArkhamEncounterOptionGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+{
+    if (desc.name == "phases") {
+        return outputAttribute(cls, AttrDef("phases", AttrDef::EnumValue, "ArkhamEncountery"), true);
+    }
+    return QuickOptionGenerator::outputDefaultAttribute(desc, cls);
+}
+
+///////////////////////////////////////////////////////
+
+QList<ClassGenerator::AttributeDesc> OtherWorldEncounterOptionGenerator::getAttributes()
+{
+    QList<AttributeDesc> ret = QuickOptionGenerator::getAttributes();
+    // make phase predefined
+    QList<AttributeDesc>::iterator it = ret.begin();
+    while (it != ret.end()) {
+        if (it->name == "phases") {
+            it->reqType = AttributeDesc::R_Predefined;
+            break;
+        } else {
+            ++it;
+        }
+    }
+    return ret;
+}
+
+bool OtherWorldEncounterOptionGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+{
+    if (desc.name == "phases") {
+        return outputAttribute(cls, AttrDef("phases", AttrDef::EnumValue, "OtherWorldEncountery"), true);
+    }
+    return QuickOptionGenerator::outputDefaultAttribute(desc, cls);
+}
+
 
 }

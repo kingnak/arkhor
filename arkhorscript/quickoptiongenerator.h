@@ -16,6 +16,27 @@ protected:
     virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
 };
 
+///////////////////////////////////////////////////////
+
+// Helper
+class ArkhamEncounterOptionGenerator : public QuickOptionGenerator
+{
+public:
+    ArkhamEncounterOptionGenerator(QTextStream &out) : QuickOptionGenerator(out) {}
+protected:
+    virtual QList<AttributeDesc> getAttributes();
+    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
+};
+
+class OtherWorldEncounterOptionGenerator : public QuickOptionGenerator
+{
+public:
+    OtherWorldEncounterOptionGenerator(QTextStream &out) : QuickOptionGenerator(out) {}
+protected:
+    virtual QList<AttributeDesc> getAttributes();
+    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
+};
+
 }
 
 #endif // QUICKOPTIONGENERATOR_H

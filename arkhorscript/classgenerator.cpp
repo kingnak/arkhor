@@ -67,6 +67,12 @@ QString ClassGenerator::idPrefixForClass(QString classType)
     if (classType == "QuickOption") {
         return "OP";
     }
+    if (classType == "AEOption") {
+        return "OP";
+    }
+    if (classType == "OWEOption") {
+        return "OP";
+    }
     if (classType == "FieldOption") {
         return "OP";
     }

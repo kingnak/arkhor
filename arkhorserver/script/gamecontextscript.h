@@ -49,6 +49,7 @@ public:
     Q_INVOKABLE QString selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel);
 
     Q_INVOKABLE bool spontaneousMonsterFight();
+    Q_INVOKABLE bool createGateAtCharacterField();
 
     Q_INVOKABLE GameObjectScript *drawObject(qint32 type);
     Q_INVOKABLE GameObjectScript *drawObject(qint32 type, QString desc);

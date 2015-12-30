@@ -148,6 +148,11 @@ bool GameContextScript::spontaneousMonsterFight()
     return true;
 }
 
+bool GameContextScript::createGateAtCharacterField()
+{
+    return gGame->createGate(gGame->context().player()->getCharacter()->field());
+}
+
 GameObjectScript *GameContextScript::drawObject(qint32 type)
 {
     return drawObject(type, "Select Object");

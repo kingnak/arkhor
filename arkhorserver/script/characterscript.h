@@ -52,6 +52,7 @@ public:
     Q_INVOKABLE void lostInSpaceAndTime() { Character::lostInSpaceAndTime(); }
     Q_INVOKABLE void devour() { Character::devour(); }
 
+    Q_INVOKABLE void arrest() { Character::arrest(); }
     Q_INVOKABLE void delay() { Character::setDelayed(true); }
     Q_INVOKABLE void setOut() { Character::setSetout(true); }
 

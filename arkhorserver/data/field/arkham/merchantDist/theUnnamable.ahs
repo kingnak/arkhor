@@ -1,0 +1,32 @@
+ArkhamEncounter Unname_Enc1 {
+	field: MD_TheUnnamable;
+	description: "A monster and a gate appear!";
+	options: Option.GateAndMonsterAppears;
+}
+
+ArkhamEncounter Unname_Enc2 {
+	field: MD_TheUnnamable;
+	description: "In a dusty and decaying roll-top desk, "+
+		"you find a mysterious manuscript. If you read it, "+
+		"make a <b>Lore (-1) check</b>. If you pass, draw "+
+		"1 Spell. If you fail, the manuscript is nothing "+
+		"but the insane babbling of a previous renter. "+
+		"Stay here next turn reading it, but gain 2 Clue "+
+		"tokens.";
+	options: ( Option.Unname_Enc2, Option.SKIP );
+}
+QuickOption Unname_Enc2 {
+	phases: ArkhamEncountery;
+	name: "Read manuscript";
+	activate: {{{
+		var res = game.context.skillTest("Read manuscript", Constants.Skills.Lore, -1, 1);
+		if (res) {
+			var ob = game.context.drawObject(Constants.ObjectType.Spell);
+			CHAR.addToInventory(ob);
+		} else {
+			CHAR.addClue(2);
+			// TODO Set Out or Delay? Or Both?
+			CHAR.setOut();
+		}
+	}}};
+}

@@ -3,3 +3,9 @@ QuickOption MonsterAppearsARK {
 	phases: ArkhamEncountery;
 	activate: {{{ game.context.spontaneousMonsterFight(); }}};
 }
+
+QuickOption GateAndMonsterAppears {
+	name: "Gate and Monster Appears";
+	phases: ArkhamEncountery;
+	activate: {{{ game.context.createGateAtCharacterField(); }}};
+}

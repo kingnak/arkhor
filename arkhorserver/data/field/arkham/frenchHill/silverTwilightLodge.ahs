@@ -1,0 +1,49 @@
+ArkhamEncounter Lodge_Enc1 {
+	field: FH_SilverTwilightLodge;
+	description: "\"Care to join the Order?\" Carl Sanford "+
+		"and several of his henchmen ask. If you accept, "+
+		"pay $3 and take a Silver Twilight Membership. "+
+		"If you decline, pass a <b>Will (-1) check</b> or lose "+
+		"3 Stamina as the henchmen assist you out the door. "+
+		"Whether you pass or not, move to the street.";
+	options: ( Option.Lodge_Enc1_Accept, Option.Lodge_Enc1_Decline );
+}
+QuickOption Lodge_Enc1_Accept {
+	phases: ArkhamEncountery;
+	name: "Accept (Not implemented)";
+	costs: [ Money 3 ];
+	activate: {{{
+		// TODO
+	}}}
+}
+QuickOption Lodge_Enc1_Decline {
+	phases: ArkhamEncountery;
+	name: "Decline";
+	activate: {{{
+		var res = game.context.skillTest("Go out camly", Constants.Skills.Will, -1, 1);
+		if (!res) {
+			CHAR.damageStamina(3);
+		}
+		CHAR.placeOnField(Constants.Fields.FH_FrenchHill);
+	}}}
+}
+
+ArkhamEncounter Lodge_Enc2 {
+	field: FH_SilverTwilightLodge;
+	description: "Brushing up against a strange object "+
+		"in the hall, you feel stretched and thin, like "+
+		"your skin is too tight. Pass a <b>Luck (-1) check</b> "+
+		"or you are <em>Cursed</em>.";
+	options: Option.Lodge_Enc2;
+}
+QuickOption Lodge_Enc2 {
+	phases: ArkhamEncountery;
+	name: "Resist curse";
+	activate: {{{
+		var res = game.context.skillTest("Resist Curse", Constants.Skills.Luck, -1, 1);
+		if (!res) {
+			var ob = game.drawSpecificObject("BC_CURSE");
+			CHAR.addToInventory(ob);
+		}
+	}}}
+}

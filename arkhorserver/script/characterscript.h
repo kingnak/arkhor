@@ -38,6 +38,7 @@ public:
     Q_INVOKABLE void addClue(int amount) { Character::addClue(amount); }
     Q_INVOKABLE void addMoney(int amount) { Character::addMoney(amount); }
     Q_INVOKABLE void loseMoney(int amount) { Character::loseMoney(amount); }
+    Q_INVOKABLE void loseHalfMoney() { Character::loseMoney(money()/2); }
 
     Q_INVOKABLE int getSkillValue(int skill);
 

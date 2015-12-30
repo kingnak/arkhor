@@ -712,6 +712,9 @@ void Game::commitUpdates()
     foreach (Character *c, m_registry->allCharacters()) {
         if (c->isDirty()) {
             c->setDirty(false);
+            m_invalidatedObjects << c->id();
+
+            // Force Update character for player
             Player *p = playerForCharacter(c);
             if (p) {
                 p->sendCharacter(c);

@@ -191,11 +191,6 @@ SOURCES += \
     script/monstermodifierscript.cpp
 
 OTHER_FILES += \
-    data/field/arkham/downtown/bankOfArkham.js \
-    data/field/arkham/downtown/independenceSquare.js \
-    data/field/arkham/easttown/hibbsRoadhouse.js \
-    data/field/arkham/easttown/policeStation.js \
-    data/field/arkham/easttown/velmasDiner.js \
     data/field/arkham/frenchHill/silverTwilightLodge.js \
     data/field/arkham/frenchHill/theWitchhouse.js \
     data/field/arkham/merchantDist/riverDocks.js \
@@ -216,7 +211,6 @@ OTHER_FILES += \
     data/field/arkham/uptown/stMarysHospital.js \
     data/field/arkham/uptown/woods.js \
     data/field/arkham/uptown/yeOldeMagickShoppe.js \
-    data/field/arkham/downtown/arkhamAsylum.js \
     data/objects/common/weapons.js \
     data/monsters/monsters.js \
     data/field/otherworld/abyss.js \
@@ -246,7 +240,13 @@ OTHER_FILES += \
     data/characters/jenny_barnes.ahs \
     data/characters/amanda_sharpe.ahs \
     data/characters/ashcan_pete.ahs \
-    data/field/arkham/downtown/arkhamAsylum.ahs
+    data/field/arkham/downtown/arkhamAsylum.ahs \
+    data/field/arkham/downtown/bankOfArkham.ahs \
+    data/field/arkham/downtown/independenceSquare.ahs \
+    data/field/arkham/easttown/hibbsRoadhouse.ahs \
+    data/1global/common.ahs \
+    data/field/arkham/easttown/policeStation.ahs \
+    data/field/arkham/easttown/velmasDiner.ahs
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

@@ -1,0 +1,5 @@
+QuickOption MonsterAppearsARK {
+	name: "Monster Appears";
+	phases: ArkhamEncountery;
+	activate: {{{ game.context.spontaneousMonsterFight(); }}};
+}

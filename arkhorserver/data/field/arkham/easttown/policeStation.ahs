@@ -1,0 +1,55 @@
+FieldOption Police_Deputize {
+	name: "Deputized";
+	description: "Instead of having an encounter here, "+
+		"you may spend 10 toughness worth of monster trophies, "+
+		"2 gate trophies, or 5 toughness worth of monster trophies "+
+		"and 1 gate trophy to become the Deputy of Arkham. "+
+		"Take the Deputy of Arkham card.";
+	field: ET_PoliceStation;
+	costs: [ MonsterToughness 10, GateTrophy 2, MonsterToughness 5 + GateTrophy 1 ];
+	activate: {{{
+		var dep = game.drawSpecificObject("OB_DEPUTY_OF_ARKHAM");
+		if (dep) {
+			CHAR.addToInventory(dep);
+		}
+	}}};
+}
+
+ArkhamEncounter Police_Enc1 {
+	field: ET_PoliceStation;
+	description: "Deputy Dingby accidently drops a case "+
+		"file as he makes his way past you. Pass a "+
+		"<b>Sneak (+0) check</b> to search the Common Item "+
+		"deck for a Research Materials card and take it.";
+	options: Option.Police_Enc1;
+}
+QuickOption Police_Enc1 {
+	phases: ArkhamEncountery;
+	name: "Take case file";
+	activate: {{{
+		var res = game.context.skillTest("Take case file", Constants.Skills.Sneak, 0, 1);
+		if (res) {
+			var ob = game.drawSpecificObject("OBJ_RESEARCH_MATERIAL");
+			CHAR.addToInventory(ob);
+		}
+	}}};
+}
+
+ArkhamEncounter Police_Enc2 {
+	field: ET_PoliceStation;
+	description: "Deputy Dingby, excitedly cleaning his "+
+		"gun, fires a bullet from the chamber in your "+
+		"direction. Pass a <b>Luck (-1) check</b> to avoid "+
+		"getting shot. If you fail, lose 2 Stamina.";
+	options: Option.Police_Enc2;
+}
+QuickOption Police_Enc2 {
+	phases: ArkhamEncountery;
+	name: "Dodge the bullet";
+	activate: {{{
+		var res = game.context.skillTest("Dodge the bullet", Constants.Skills.Luck, -1, 1);
+		if (!res) {
+			CHAR.damageStamina(2);
+		}
+	}}};
+}

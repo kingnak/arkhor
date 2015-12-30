@@ -3,18 +3,18 @@ Investigator JennyBarnes {
         homeFieldId: NS_TrainStation;
 	sanity: 6;
 	stamina: 4;
-	money: 10;
+	money: 4;
 	focus: 1;
-        clues: 0;
+	clues: 0;
 	uniqueAbilityId: SpecialAbility.TrustFund;
-        fixedPossesionObjectIds: <<<[]>>>;
+	fixedPossesionObjectIds: <<<[]>>>;
 	randomPossessions: [
 		CommonItem 2,
 		UniqueItem 1,
 		Spell 1,
 		Skill 1
 	];
-        attributes: [
+	attributes: [
 		SpeedSneak {(0,4),(1,3),(2,2),(3,1)},
 		FightWill {(1,5),(2,4),(3,3),(4,2)},
 		LoreLuck {(1,5),(2,4),(3,3),(4,2)}
@@ -23,7 +23,7 @@ Investigator JennyBarnes {
 
 SpecialAbility TrustFund {
 	actionIds: Action.TrustFund;
-        description: "<b>Upkeep:</b> Jenny gains <b>$</b>1.";
+	description: "<b>Upkeep:</b> Jenny gains <b>$</b>1.";
 }
 
 Action TrustFund {

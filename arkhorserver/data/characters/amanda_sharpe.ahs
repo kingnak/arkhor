@@ -7,6 +7,8 @@ Investigator AmandaSharpe {
     money: 1;
     clues: 1;
     uniqueAbilityId: SpecialAbility.Studious;
+	// Fixed Possessions is required, but empty list doesn't work...
+	// Use a literal empty array
     fixedPossesionObjectIds: <<<[]>>>;
     randomPossessions: [
             CommonItem 1,

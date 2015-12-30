@@ -9,9 +9,10 @@ public:
     SkipOption()
         : GameOption(NULL, AH::CannotContinue, AH::ChooseOptional, AH::AllPhases)
     {
+        m_id = "OP_SKIP";
     }
 
-    virtual QString id() const { return "OP_SKIP"; }
+    //virtual QString id() const { return "OP_SKIP"; }
     virtual QString name() const { return "Finish"; }
     virtual QString description() const { return "Finish your turn."; }
 

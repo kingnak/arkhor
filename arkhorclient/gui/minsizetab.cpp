@@ -124,7 +124,9 @@ void MinSizeTab::setCurrentWidget(QWidget *w)
 
 void MinSizeTab::setCurrentIndex(int idx)
 {
-    if (idx >= 0 && idx < m_stack->count())
+    if (idx >= 0 && idx < m_stack->count()) {
         m_stack->setCurrentIndex(idx);
+        m_bar->setCurrentIndex(idx);
+    }
 }
 

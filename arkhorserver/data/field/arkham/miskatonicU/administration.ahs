@@ -21,9 +21,7 @@ ArkhamEncounter Admin_Enc1 {
 		"arrested and taken to the Police Station.";
 	options: ( Option.Admin_Enc1, Option.SKIP );
 }
-QuickOption Admin_Enc1 {
-	phases: ArkhamEncountery;
-	name: "Carry on";
+AEOption Admin_Enc1 {
 	activate: {{{
 		var res = game.context.skillTest("Carry on deception", Constants.Skills.Will, -2, 1);
 		if (res) {
@@ -42,9 +40,7 @@ ArkhamEncounter Admin_Enc2 {
 		"and gain $5.";
 	options: Option.Admin_Enc2;
 }
-QuickOption Admin_Enc2 {
-	phases: ArkhamEncountery;
-	name: "Discuss";
+AEOption Admin_Enc2 {
 	activate: {{{
 		var res = game.context.skillTest("Discuss", Constants.Skills.Lore, -1, 1);
 		if (res) {

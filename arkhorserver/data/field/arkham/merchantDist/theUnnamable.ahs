@@ -15,9 +15,7 @@ ArkhamEncounter Unname_Enc2 {
 		"tokens.";
 	options: ( Option.Unname_Enc2, Option.SKIP );
 }
-QuickOption Unname_Enc2 {
-	phases: ArkhamEncountery;
-	name: "Read manuscript";
+AEOption Unname_Enc2 {
 	activate: {{{
 		var res = game.context.skillTest("Read manuscript", Constants.Skills.Lore, -1, 1);
 		if (res) {

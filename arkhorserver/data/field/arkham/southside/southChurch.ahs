@@ -1,0 +1,46 @@
+FieldOption Church_Blessing {
+	field: SS_SouthChurch;
+	name: "Blessing";
+	description: "Instead of having an encounter here, "+
+		"you may spend 5 toughness worth of monster trophies "+
+		"or 1 gate trophy to have any investigator you "+
+		"choose be Blessed.";
+	costs: [ MonsterToughness 5, GateTrophy 1 ];
+	activate: {{{
+		var blessing = game.drawSpecificObject("BC_BLESSING");
+		CHAR.addToInventory(blessing);
+	}}};
+}
+
+ArkhamEncounter Church_Enc1 {
+	field: SS_SouthChurch;
+	description: "Father Michael convinces you that there "+
+		"are members of his congregation in greater need "+
+		"than you. Donate either half your money (rounded up) "+
+		"or half your items (your choice, rounded up) to "+
+		"the poor.";
+	options: Option.Church_Enc1;
+}
+AEOption Church_Enc1 {
+	activate: {{{
+		var type = game.context.selectChoice("Donate Money or Items?",  ["Money", "Items"]);
+		if (type == "Items") {
+			CHAR.loseHalfPossessions();
+		} else {
+			CHAR.loseHalfMoney();
+		}
+	}}};
+}
+
+ArkhamEncounter Church_Enc2 {
+	field: SS_SouthChurch;
+	description: "Knowing that you are engaged in God's "+
+		"work, Father Michael <em>Blesses</em> you.";
+	options: Option.Church_Enc2;
+}
+AEOption Church_Enc2 {
+	activate: {{{
+		var blessing = game.drawSpecificObject("BC_BLESSING");
+		CHAR.addToInventory(blessing);
+	}}};
+}

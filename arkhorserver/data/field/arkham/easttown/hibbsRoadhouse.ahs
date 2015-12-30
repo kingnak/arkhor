@@ -9,9 +9,7 @@ ArkhamEncounter Hibbs_Enc1 {
 		"items instead. Draw 2 Common Items.";
 	options: (Option.Hibbs_Enc1, Option.SKIP);
 }
-QuickOption Hibbs_Enc1 {
-	name: "Join with Ryan";
-	phases: ArkhamEncountery;
+AEOption Hibbs_Enc1 {
 	costs: [ Clue 3 ];
 	activate: {{{
 		var ryan = game.context.drawSpecificObject("AL_Ryan_Dean");

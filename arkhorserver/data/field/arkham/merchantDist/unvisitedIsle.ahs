@@ -6,9 +6,7 @@ ArkhamEncounter Isle_Enc1 {
 		"what they have to say. Gain 2 Clue tokens.";
 	options: Option.Isle_Enc1;
 }
-QuickOption Isle_Enc1 {
-	phases: ArkhamEncountery;
-	name: "Eavesdrop";
+AEOption Isle_Enc1 {
 	activate: {{{
 		var res = game.context.skillTest("Eavesdrop", Constants.Skills.Sneak, -1, 1);
 		if (res) {
@@ -26,9 +24,7 @@ ArkhamEncounter Isle_Enc2 {
 		"<b>Will (-1) check</b> or lose 1 Sanity as well.";
 	options: Option.Isle_Enc2;
 }
-QuickOption Isle_Enc2 {
-	phases: ArkhamEncountery;
-	name: "Resist";
+AEOption Isle_Enc2 {
 	activate: {{{
 		CHAR.damageStamina(1);
 		var res = game.context.skillTest("Resist", Constants.Skills.Will, -1, 1);

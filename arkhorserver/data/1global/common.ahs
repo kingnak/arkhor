@@ -1,11 +1,9 @@
-QuickOption MonsterAppearsARK {
+AEOption MonsterAppearsARK {
 	name: "Monster Appears";
-	phases: ArkhamEncountery;
 	activate: {{{ game.context.spontaneousMonsterFight(); }}};
 }
 
-QuickOption GateAndMonsterAppears {
+AEOption GateAndMonsterAppears {
 	name: "Gate and Monster Appears";
-	phases: ArkhamEncountery;
 	activate: {{{ game.context.createGateAtCharacterField(); }}};
 }

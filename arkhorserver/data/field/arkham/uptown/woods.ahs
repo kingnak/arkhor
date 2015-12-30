@@ -1,0 +1,22 @@
+ArkhamEncounter Woods_Enc1 {
+	field: UT_Woods;
+	description: "A gate and a monster appear!";
+	options: Option.GateAndMonsterAppears;
+}
+
+ArkhamEncounter Woods_Enc2 {
+	field: UT_Woods;
+	description: "You are bushwhacked by the Sheldon Gang. "+
+		"Pass a <b>Luck (-1) check</b> to avoid their trap. "+
+		"If you fail, lose 2 items of your choice and 2 Stamina.";
+	options: Option.Woods_Enc2;
+}
+AEOption Woods_Enc2 {
+	activate: {{{
+		var res = game.context.skillTest("Avoid trap", Constants.Skills.Luck, -1, 1);
+		if (!res) {
+			CHAR.losePossessions(2);
+			CHAR.damageStamina(2);
+		}
+	}}};
+}

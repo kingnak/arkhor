@@ -19,9 +19,7 @@ ArkhamEncounter Bank_Enc1 {
 		"If you fail, lose all of your money.";
 	options: Option.Bank_Enc1;
 }
-QuickOption Bank_Enc1 {
-	name: "Bank Robbery";
-	phases: ArkhamEncountery;
+AEOption Bank_Enc1 {
 	activate: {{{
 		var res = game.context.skillTest("Drive off", Constants.Skills.Combat, -1, 1);
 		if (!res) {
@@ -37,8 +35,6 @@ ArkhamEncounter Bank_Enc2 {
 		"to deposit. Lose 1 Sanity.";
 	options: Option.Bank_Enc2;
 }
-QuickOption Bank_Enc2 {
-	name: "Go Crazy";
-	phases: ArkhamEncountery;
+AEOption Bank_Enc2 {
 	activate: {{{ CHAR.damageSanity(1); }}};
 }

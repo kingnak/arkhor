@@ -8,16 +8,14 @@ ArkhamEncounter Lodge_Enc1 {
 		"Whether you pass or not, move to the street.";
 	options: ( Option.Lodge_Enc1_Accept, Option.Lodge_Enc1_Decline );
 }
-QuickOption Lodge_Enc1_Accept {
-	phases: ArkhamEncountery;
+AEOption Lodge_Enc1_Accept {
 	name: "Accept (Not implemented)";
 	costs: [ Money 3 ];
 	activate: {{{
 		// TODO
 	}}}
 }
-QuickOption Lodge_Enc1_Decline {
-	phases: ArkhamEncountery;
+AEOption Lodge_Enc1_Decline {
 	name: "Decline";
 	activate: {{{
 		var res = game.context.skillTest("Go out camly", Constants.Skills.Will, -1, 1);
@@ -36,9 +34,7 @@ ArkhamEncounter Lodge_Enc2 {
 		"or you are <em>Cursed</em>.";
 	options: Option.Lodge_Enc2;
 }
-QuickOption Lodge_Enc2 {
-	phases: ArkhamEncountery;
-	name: "Resist curse";
+AEOption Lodge_Enc2 {
 	activate: {{{
 		var res = game.context.skillTest("Resist Curse", Constants.Skills.Luck, -1, 1);
 		if (!res) {

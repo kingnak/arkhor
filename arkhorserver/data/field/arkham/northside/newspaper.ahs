@@ -1,0 +1,22 @@
+ArkhamEncounter News_Enc1 {
+	field: NS_Newspaper;
+	description: "Earn $5 for a story.";
+	options: Option.News_Enc1;
+}
+AEOption News_Enc1 {
+	activate: {{{ CHAR.addMoney(5); }}};
+}
+
+ArkhamEncounter News_Enc2 {
+	field: NS_Newspaper;
+	description: "Editor Doyle Jefferies offers you a "+
+		"Retainer in return for your fascinating stories. "+
+		"Take a Retainer card.";
+	options: Option.News_Enc2;
+}
+AEOption News_Enc2 {
+	activate: {{{
+		var ob = game.drawSpecificObject("OBJ_RETAINER");
+		CHAR.addToInventory(ob);
+	}}};
+}

@@ -1,0 +1,69 @@
+FieldOption Shoppe_Shop {
+	field: NS_CuriositieShoppe;
+	name: "Shop";
+	description: "Instead of having an encounter here, "+
+		"you may draw 3 Unique Items and purchase one of "+
+		"them for its list price. Discard the other two "+
+		"items.";
+	activate: {{{
+		var res = game.context.drawMultipleObjects(Constants.ObjectType.UniqueItem, "Buy items", 3, 0, 1);
+		if (res.length > 0) {
+			var item = res[0];
+			var costs = { type: Constants.Costs.Money, amount: item.price };
+			if (CHAR.pay(costs)) {
+				CHAR.addToInventory(item);
+			} else {
+				item.returnToDeck();
+			}
+		}
+	}}};
+}
+
+ArkhamEncounter Shoppe_Enc1 {
+	field: NS_CuriositieShoppe;
+	description: "A pulsing void gapes behind a bookshelf, "+
+		"sending out waves of heat. Pass a <b>Fight (-1) check</b> "+
+		"or it sucks you in, hurling you into the Abyss. "+
+		"Have one encounter there, then immediately return."
+		+"<br/>Not implemented";
+	options: Option.Shoppe_Enc1;
+}
+AEOption Shoppe_Enc1 {
+	activate: {{{
+		var res = game.context.skillTest("Resist", Constants.Skills.Fight, -1, 1);
+		if (!res) {
+			// TODO
+		}
+	}}}
+}
+
+ArkhamEncounter Shoppe_Enc2 {
+	field: NS_CuriositieShoppe;
+	description:"A sale takes place. All players may "+
+		"participate. Turn over the top 3 Common Item cards "+
+		"and the top Unique Item card. Any player may buy "+
+		"one or more of these cards for their list price. "+
+		"If there is a disagreement over who gets to buy a "+
+		"certain card, you decide. Any items not sold are "+
+		"discarded.";
+	options: Option.Shoppe_Enc2
+}
+AEOption Shoppe_Enc2 {
+	// TODO: Let other players participate!
+	activate: {{{
+		var types = [
+			{type: Constants.ObjectType.CommonItem, amount: 3},
+			{type: Constants.ObjectType.UniqueItem, amount: 1},
+		];
+		var sels = game.context.drawMixedObjects("Buy Items", types, 0, 1000);
+		for (var i = 0; i < sels.length; ++i) {
+			var item = sels[i];
+			var costs = { type: Constants.Costs.Money, amount: item.price};
+			if (CHAR.pay(costs)) {
+				CHAR.addToInventory(item);
+			} else {
+				item.returnToDeck();
+			}
+		}
+	}}};
+}

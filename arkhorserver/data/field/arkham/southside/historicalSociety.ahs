@@ -1,0 +1,47 @@
+ArkhamEncounter Hist_Enc1 {
+	field: SS_HistoricalSociety;
+	description: "Pass a <b>Luck (-1)[2] check</b> to "+
+		"gain insight into a skill while studying the old "+
+		"volumes of books. Draw 1 Skill, but stay here "+
+		"next turn.";
+	options: Option.Hist_Enc1;
+}
+AEOption Hist_Enc1 {
+	activate: {{{
+		var res = game.context.skillTest("Read books", Constants.Skills.Luck, -1, 2);
+		if (res) {
+			var ob = game.context.drawObject(Constants.ObjectType.Skill);
+			CHAR.addToInventory(ob);
+			CHAR.delay();
+		}
+	}}};
+}
+
+ArkhamEncounter Hist_Enc2 {
+	field: SS_HistoricalSociety;
+		description: "Pay $3 fee to gain access to the "+
+		"private library. If you refuse, move to the "+
+		"street. If you pay, make a <b>Luck (-1) check</b>. "+
+		"If you pass, you learn an ancient spell from a "+
+		"dusty ledger. Draw 1 Spell. If you fail, you "+
+		"doze off and enter The Dreamlands. Have an "+
+		"encounter there, then immediately return here.";
+	options: ( Option.Hist_Enc2_Pay, Option.Hist_Enc2_Refuse );
+}
+AEOption Hist_Enc2_Pay {
+	costs: [ Money 3 ];
+	activate: {{{
+		var res = game.context.skillTest("Read ledger", Constants.Skills.Luck, -1, 1);
+		if (res) {
+			var ob = game.context.drawObject(Constants.ObjectType.Spell);
+			game.context.character.addToInventory(ob);
+		} else {
+			// TODO
+		}
+	}}};
+}
+AEOption Hist_Enc2_Refuse {
+	activate: {{{
+		CHAR.placeOnField(Constants.Fields.SS_SouthSide);
+	}}};
+}

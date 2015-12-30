@@ -24,9 +24,7 @@ ArkhamEncounter Docks_Enc1 {
 		"Draw 1 Unique Item.";
 	options: Option.Docks_Enc1;
 }
-QuickOption Docks_Enc1 {
-	phases: ArkhamEncountery;
-	name: "Withstand stench";
+AEOption Docks_Enc1 {
 	activate: {{{
 		var res = game.context.skillTest("Withstand stench", Constants.Skills.Will, -1, 1);
 		if (res) {
@@ -50,9 +48,7 @@ ArkhamEncounter Docks_Enc2 {
 		"check</b> or you are <em>Lost in time and space</em>.";
 	options: Option.Docks_Enc2;
 }
-QuickOption Docks_Enc2 {
-	phases: ArkhamEncountery;
-	name: "Withstand urge";
+AEOption Docks_Enc2 {
 	activate: {{{
 		var res = game.context.skillTest("Withstand urge", Constants.Skills.Will, +1, 1);
 		if (!res) {

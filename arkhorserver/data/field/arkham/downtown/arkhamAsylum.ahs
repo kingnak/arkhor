@@ -34,9 +34,7 @@ ArkhamEncounter Asylum_Enc1 {
                         "information. Gain 3 Clue tokens.";
     options: Option.Asylum_Enc1;
 }
-QuickOption Asylum_Enc1 {
-    phases: ArkhamEncountery;
-    name: "Read Book";
+AEOption Asylum_Enc1 {
     activate: {{{
         var res = game.context.dieRollSkillCount("Read Book", Constants.Skills.Lore, 0);
         switch (res) {
@@ -64,8 +62,7 @@ ArkhamEncounter Asylum_Enc2 {
         "nothing happens.";
     options: (Option.Asylum_Enc2_Resist, Option.Asylum_Enc2_DontResist);
 }
-QuickOption Asylum_Enc2_Resist {
-    phases: ArkhamEncountery;
+AEOption Asylum_Enc2_Resist {
     name: "Try to resist";
     activate: {{{
         var res = game.context.skillTest("Resist Nurse Heather", Constants.Skills.Fight, -2, 1);
@@ -75,8 +72,7 @@ QuickOption Asylum_Enc2_Resist {
         }
     }}};
 }
-QuickOption Asylum_Enc2_DontResist {
-    phases: ArkhamEncountery;
+AEOption Asylum_Enc2_DontResist {
     name: "Let it happen";
     activate: {{{
         CHAR.addSanity(2);

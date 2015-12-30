@@ -4,9 +4,7 @@ ArkhamEncounter Square_Enc1 {
 		"their lunch with you. Gain 1 Stamina.";
 	options: Option.Square_Enc1;
 }
-QuickOption Square_Enc1 {
-	name: "Go picnick";
-	phases: ArkhamEncountery;
+AEOption Square_Enc1 {
 	activate: {{{ CHAR.addStamina(1); }}};
 }
 
@@ -18,9 +16,7 @@ ArkhamEncounter Square_Enc2 {
 		"1 Stamina and 1 Sanity.";
 	options: Option.Square_Enc2;
 }
-QuickOption Square_Enc2 {
-	name: "Withstand shadow";
-	phases: ArkhamEncountery;
+AEOption Square_Enc2 {
 	activate: {{{
 		var res = game.context.skillTest("Withstand Shadow", Constants.Skills.Will, -1, 1);
 		if (!res) {

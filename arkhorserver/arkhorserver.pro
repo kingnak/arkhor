@@ -191,26 +191,8 @@ SOURCES += \
     script/monstermodifierscript.cpp
 
 OTHER_FILES += \
-    data/field/arkham/frenchHill/silverTwilightLodge.js \
     data/field/arkham/frenchHill/theWitchhouse.js \
-    data/field/arkham/merchantDist/riverDocks.js \
-    data/field/arkham/merchantDist/theUnnamable.js \
-    data/field/arkham/merchantDist/univistedIsle.js \
     data/field/arkham/miskatonicU/administration.js \
-    data/field/arkham/miskatonicU/library.js \
-    data/field/arkham/miskatonicU/scienceBuilding.js \
-    data/field/arkham/northside/curiosityShoppe.js \
-    data/field/arkham/northside/newspaper.js \
-    data/field/arkham/northside/trainstation.js \
-    data/field/arkham/rivertown/blackCave.js \
-    data/field/arkham/rivertown/generalStore.js \
-    data/field/arkham/rivertown/graveyard.js \
-    data/field/arkham/southside/historicalSociety.js \
-    data/field/arkham/southside/masBoardingHouse.js \
-    data/field/arkham/southside/southCurch.js \
-    data/field/arkham/uptown/stMarysHospital.js \
-    data/field/arkham/uptown/woods.js \
-    data/field/arkham/uptown/yeOldeMagickShoppe.js \
     data/objects/common/weapons.js \
     data/monsters/monsters.js \
     data/field/otherworld/abyss.js \
@@ -246,7 +228,27 @@ OTHER_FILES += \
     data/field/arkham/easttown/hibbsRoadhouse.ahs \
     data/1global/common.ahs \
     data/field/arkham/easttown/policeStation.ahs \
-    data/field/arkham/easttown/velmasDiner.ahs
+    data/field/arkham/easttown/velmasDiner.ahs \
+    data/field/arkham/frenchHill/silverTwilightLodge.ahs \
+    data/field/arkham/frenchHill/theWitchhouse.ahs \
+    data/field/arkham/merchantDist/riverDocks.ahs \
+    data/field/arkham/merchantDist/theUnnamable.ahs \
+    data/field/arkham/merchantDist/unvisitedIsle.ahs \
+    data/field/arkham/miskatonicU/administration.ahs \
+    data/field/arkham/miskatonicU/library.ahs \
+    data/field/arkham/miskatonicU/scienceBuilding.ahs \
+    data/field/arkham/northside/curiosityShoppe.ahs \
+    data/field/arkham/northside/newspaper.ahs \
+    data/field/arkham/northside/trainstation.ahs \
+    data/field/arkham/rivertown/blackCave.ahs \
+    data/field/arkham/rivertown/generalStore.ahs \
+    data/field/arkham/rivertown/graveyard.ahs \
+    data/field/arkham/southside/historicalSociety.ahs \
+    data/field/arkham/southside/masBoardingHouse.ahs \
+    data/field/arkham/uptown/stMarysHospital.ahs \
+    data/field/arkham/uptown/woods.ahs \
+    data/field/arkham/uptown/yeOldeMagickShoppe.ahs \
+    data/field/arkham/southside/southChurch.ahs
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

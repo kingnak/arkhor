@@ -1,0 +1,44 @@
+FieldOption Magick_Lessons {
+	field: UT_YeOldeMagickShoppe;
+	name: "Magic Lessons";
+	description: "Instead of having an encounter here, you "+
+		"may pay $5 to draw 2 Spells. Keep one of them and "+
+		"discard the other.";
+	costs: [ Money 5 ];
+	activate: {{{
+		var res = game.context.drawMultipleObjects(Constants.ObjectType.Spell, "Select spell", 2, 1, 1);
+		if (res.length > 0) {
+			var item = res[0];
+			CHAR.addToInventory(item);
+		}
+	}}};
+}
+
+ArkhamEncounter Magick_Enc1 {
+	field: UT_YeOldeMagickShoppe;
+	description: "Looking closely at a mummified head in "+
+		"the shop, you are horrified to find it looking back "+
+		"at you! Lose 1 Sanity.";
+	options: Option.Magick_Enc1;
+}
+AEOption Magick_Enc1 {
+	activate: {{{
+		CHAR.damageSanity(1);
+	}}};
+}
+
+ArkhamEncounter Magick_Enc2 {
+	field: UT_YeOldeMagickShoppe;
+	description: "Looking into a glass ball, you receive "+
+		"a vision of things to come. Turn the top card of "+
+		"one location deck of your choice face up. The "+
+		"next investigator to have an encounter at that "+
+		"location draws that encounter card.";
+	options: ( Option.Magick_Enc2, Option.SKIP );
+}
+AEOption Magick_Enc2 {
+	name: "Look (not implemented)";
+	activate: {{{
+		// TODO
+	}}};
+}

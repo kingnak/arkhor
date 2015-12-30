@@ -12,9 +12,7 @@ ArkhamEncounter Witchhouse_Enc1 {
 		"fail, nothing happens.";
 	options: Option.Witchhouse_Enc1;
 }
-QuickOption Witchhouse_Enc1 {
-	phases: ArkhamEncountery;
-	name: "Check symbol";
+AEOption Witchhouse_Enc1 {
 	activate: {{{
 		var res = game.context.skillTest("Check symbol", Constants.Skills.Lore, -1, 1);
 		if (res) {

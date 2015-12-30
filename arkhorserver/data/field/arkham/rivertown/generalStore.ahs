@@ -1,0 +1,54 @@
+FieldOption Store_Shop {
+	field: RT_GeneralStore;
+	name: "Shop";
+	description: "Instead of having an encounter here, "+
+		"you may draw 3 Common Items and purchase one of "+
+		"them for its list price. Discard the other two "+
+		"items.";
+	activate: {{{
+		var res = game.context.drawMultipleObjects(Constants.ObjectType.CommonItem, "Buy items", 3, 0, 1);
+		if (res.length > 0) {
+			var item = res[0];
+			var costs = { type: Constants.Costs.Money, amount: item.price };
+			if (CHAR.pay(costs)) {
+				CHAR.addToInventory(item);
+			} else {
+				item.returnToDeck();
+			}
+		}
+	}}};
+}
+
+ArkhamEncounter Store_Enc1 {
+	field: RT_GeneralStore;
+	description: "\"Hey, you dropped this!\" A young "+
+		"street urchin hands you an item and then scampers "+
+		"off. You don't recognize the item, but the boy "+
+		"is already gone. Draw 1 Common Item.";
+	options: Option.Store_Enc1;
+}
+AEOption Store_Enc1 {
+	activate: {{{
+		var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
+		CHAR.addToInventory(ob);
+	}}};
+}
+
+ArkhamEncounter Store_Enc2 {
+	field: RT_GeneralStore;
+	description: "A jar on the counter bears a sign "+
+		"proclaiming, \"Guess how many marbles are in the "+
+		"jar and win a prize! $1 entry fee.\" If you want, "+
+		"you may pay $1 to make a <b>Lore (-2) check</b>. "+
+		"If you pass, you gain $5. If you fail, nothing happens.";
+	options: ( Option.Store_Enc2, Option.SKIP );
+}
+AEOption Store_Enc2 {
+	name: "Guess";
+	activate: {{{
+		var res = game.context.skillTest("Guess", Constants.Skills.Lore, -2, 1);
+		if (res) {
+			CHAR.addMoney(5);
+		}
+	}}};
+}

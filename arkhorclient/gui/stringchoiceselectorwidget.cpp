@@ -37,6 +37,7 @@ void StringChoiceSelectorWidget::displayChoices(QString desc, QList<AH::Common::
     int i = 0;
     foreach (AH::Common::ChoiceData::OptionData o, m_options) {
         QPushButton *btn = new QPushButton(o.name);
+        btn->setCheckable(true);
         btn->setProperty(PROPERTY_CHOICE_INDEX, i);
         connect(btn, SIGNAL(clicked()), this, SLOT(choiceSelected()));
         m_optionsWidget->layout()->addWidget(btn);
@@ -66,6 +67,12 @@ void StringChoiceSelectorWidget::clearChoices()
 
 void StringChoiceSelectorWidget::choiceSelected()
 {
+    QList<QPushButton*> btns = m_optionsWidget->findChildren<QPushButton*>();
+    foreach (QPushButton *b, btns) {
+        b->setChecked(false);
+    }
+    qobject_cast<QPushButton*> (sender())->setChecked(true);
+
     m_selIdx = sender()->property(PROPERTY_CHOICE_INDEX).toInt();
     QString desc = m_options[m_selIdx].description;
     m_display->setText(desc);

@@ -47,6 +47,7 @@ void PaymentSelectorWidget::displayPayments(AH::Common::Cost costs)
             desc << s;
         }
         QPushButton *btn = new QPushButton(QString("Alternative %1").arg(i+1));
+        btn->setCheckable(true);
         btn->setProperty(PROPERTY_COST_DESCRIPTION, desc.join("\nAND\n"));
         btn->setProperty(PROPERTY_COST_INDEX, i);
         connect(btn, SIGNAL(clicked()), this, SLOT(alternativeSelected()));
@@ -76,6 +77,12 @@ void PaymentSelectorWidget::clearPayments()
 
 void PaymentSelectorWidget::alternativeSelected()
 {
+    QList<QPushButton*> btns = m_optionsWidget->findChildren<QPushButton*>();
+    foreach (QPushButton *b, btns) {
+        b->setChecked(false);
+    }
+    qobject_cast<QPushButton*> (sender())->setChecked(true);
+
     m_selIdx = sender()->property(PROPERTY_COST_INDEX).toInt();
     QString desc = sender()->property(PROPERTY_COST_DESCRIPTION).toString();
     m_display->setText(desc);

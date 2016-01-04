@@ -37,7 +37,7 @@ MonsterScript *MonsterScript::createMonster(QScriptContext *ctx, QScriptEngine *
     QScopedPointer<MonsterScript> ret(new MonsterScript);
 
     QScriptValue data = ctx->argument(0);
-    ret->m_tid = data.property("id").toString();
+    ret->m_tid = data.property("tid").toString();
     ret->m_name = data.property("name").toString();
     ret->m_desc = data.property("description").toString();
     ret->m_mythText = data.property("mythText").toString();

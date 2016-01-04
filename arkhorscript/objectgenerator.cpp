@@ -46,7 +46,7 @@ QList<ClassGenerator::AttributeDesc> ObjectGenerator::getAttributes()
             << AttributeDesc("modifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function | AttributeDesc::V_Complex)
             << AttributeDesc("onAddToInventory", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
             << AttributeDesc("onRemoveFromInventory", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
-            << AttributeDesc("optionIds", AttributeDesc::R_Optional, AttributeDesc::H_IDRef, AttributeDesc::V_Primitive | AttributeDesc::V_Array)
+            << AttributeDesc("options", AttributeDesc::R_Optional, AttributeDesc::H_IDRef, AttributeDesc::V_Primitive | AttributeDesc::V_Array)
             << AttributeDesc("properties", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
                ;
 }

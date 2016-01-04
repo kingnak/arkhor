@@ -1,0 +1,131 @@
+CommonItem AncientTome : 2 {
+	description: "<b>Movement:</b> Exhaust and spend 2 movement points "+
+		"to make a <b>Lore (-1) check</b>. "+
+		"If you pass, draw 1 Spell and discard Ancient Tome. "+
+		"If you fail, nothing happens.";
+	exhaustable: true;
+	price: 4;
+	options: Option.ReadTome;
+}
+QuickOption ReadTome {
+	name: "Read Ancient Tome";
+	phases: Movement;
+	continueType: CanContinue;
+	chooseType: Supplemental;
+	activate: {{{
+		this.exhaust();
+		var res = game.context.skillTest("Read Ancient Tome", Constants.Skills.Lore, -1, 1);
+		if (res) {
+			var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
+			owner.addToInventory(ob);
+			this.discard();
+		}
+	}}};
+}
+
+CommonItem DarkCloak : 2 {
+	price: 2;
+	modifications: [ Skill_Evade +1 ];
+}
+
+CommonItem Food : 2 {
+	description: "<b>Any:</b> Discard Food to reduce any Stamina loss by 1.";
+	price: 1;
+	options: Option.EatFood;
+}
+QuickOption EatFood {
+	phases: Any;
+	activate: {{{
+		owner.preventDamageStamina(1);
+		this.discard();
+	}}};
+}
+
+CommonItem Lantern : 2 {
+	price: 3;
+	modifications: [ Skill_Luck +1 ];
+	/*
+	 * NOTE: This is corrected lantern from Dunwich Horror.
+	 * Original lantern had:
+	 * Any Phase: Exhaust to re-roll 1 die after making a Luck check.
+	 * And cost $2
+	 */
+}
+
+
+CommonItem Map_ofArkham : 2 {
+	description: "<b>Movement:</b> Exhaust to get 1 extra movement point.";
+	exhaustable: true;
+	price: 2;
+	options: Option.ReadMap;
+}
+QuickOption ReadMap {
+	phases: Movement;
+	activate: {{{
+		owner.addMovementPoint(1);
+		this.exhaust();
+	}}};
+}
+
+CommonItem Motorcycle : 2 {
+	description: "<b>Movement:</b> Exhaust to get 2 extra movement points.";
+	exhaustable: true;
+	price: 4;
+	options: Option.UseMotorcycle;
+}
+QuickOption UseMotorcycle {
+	phases: Movement;
+	activate: {{{
+		owner.addMovementPoint(2);
+		this.exhaust();
+	}}};
+}
+
+CommonItem OldJournal : 2 {
+	description: "<b>Movement:</b> Exhaust and spend 1 movement point "+
+		"to make a <b>Lore (-1) check</b>. "+
+		"If you pass, gain 3 Clue tokens and discard Old Journal. "+
+		"If you fail, nothing happens.";
+	exhaustable: true;
+	price: 1;
+	options: Option.ReadOldJournal;
+}
+QuickOption ReadOldJournal {
+	phases: Movement;
+	activate: {{{
+		this.exhaust();
+		var res = game.context.skillTest("Read Old Journal", Constants.Skills.Lore, -1, 1);
+		if (res) {
+			owner.addClue(3);
+			this.discard();
+		}
+	}}}
+}
+
+CommonItem ResearchMaterials : 2 {
+	description: "<b>Any:</b> Discard Research Materials to gain 1 Clue token.";
+		//ORIGINAL: "<b>Any:</b> Discard Research Materials instead of spending 1 Clue token.";
+	price: 1;
+	exhaustable: true;
+	options: Option.UseResearchMaterials;
+}
+QuickOption UseResearchMaterials {
+	phases: Any;
+	activate: {{{
+		owner.addClue(1);
+		this.discard();
+	}}}
+}
+
+CommonItem Whiskey : 2 {
+	description: "<b>Any:</b> Discard Whiskey to reduce any Sanity loss by 1.";
+	price: 1;
+	options: Option.DrinkWhiskey;
+}
+QuickOption DrinkWhiskey {
+	phases: Any;
+	activate: {{{
+		owner.preventDamageSanity(1);
+		this.discard();
+	}}};
+}

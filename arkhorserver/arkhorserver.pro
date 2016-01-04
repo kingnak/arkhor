@@ -248,7 +248,10 @@ OTHER_FILES += \
     data/field/arkham/uptown/stMarysHospital.ahs \
     data/field/arkham/uptown/woods.ahs \
     data/field/arkham/uptown/yeOldeMagickShoppe.ahs \
-    data/field/arkham/southside/southChurch.ahs
+    data/field/arkham/southside/southChurch.ahs \
+    data/monsters/monsters.ahs \
+    data/objects/allies/allies.ahs \
+    data/objects/common/other.ahs
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/debug/ -larkhorcommon

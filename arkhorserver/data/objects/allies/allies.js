@@ -1,3 +1,4 @@
+/*
 // Anna Kaslow
 var annaKaslow = game.createObject({
 	tid: "AL_Anna_Kaslow",
@@ -10,7 +11,7 @@ var annaKaslow = game.createObject({
 	}
 });
 game.registerSingleObject(annaKaslow);
- 
+
 // Duke
 var duke = game.createObject({
 	tid: "AL_Duke",
@@ -113,4 +114,4 @@ var thomMalone = game.createObject({
 	}
 });
 game.registerSingleObject(thomMalone);
-
+*/

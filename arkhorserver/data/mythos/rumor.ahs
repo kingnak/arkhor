@@ -62,7 +62,7 @@ Rumor SouthSideStrangler {
 			var itm = game.drawSpecificObject("OBJ_SS_DecMaxStam");
 			game.context.character.addToInventory(itm);
 		} else {
-			var itm = game.drawSpecificObject("OBJ_SS_DecMaxStam");
+			var itm = game.drawSpecificObject("OBJ_SS_DecMaxSan");
 			game.context.character.addToInventory(itm);
 		}
 

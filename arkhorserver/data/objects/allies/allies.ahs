@@ -1,0 +1,69 @@
+Ally AnnaKaslow {
+	description: "Gain 2 Clue tokens when Anna Kaslow joins you.";
+	modifications: [ Skill_Luck +2 ];
+	onAddToInventory: {{{
+		c.addClue(2);
+	}}};
+}
+
+Ally Duke {
+	description: "Discard to immediately restore your Sanity to its maximum.";
+	modifications: [ Prop_MaxSanity +1 ];
+	options: Option.DiscardDuke;
+}
+QuickOption DiscardDuke {
+	phases: Any;
+	activate: {{{
+		owner.restoreSanity();
+		this.discard();
+	}}};
+}
+
+Ally EricColt {
+	description: "You take no Sanity loss from the Nightmarish ability.";
+	modifications: [
+		Skill_Speed +2,
+		Ignore_MonsterAttributes |"+Constants.Monster.DamageNightmarish+"
+	];
+}
+
+Ally RubyStandish {
+	description: "Draw 1 Unique item when Ruby Standish joins you.";
+	modifications: [ Skill_Sneak +2 ];
+	onAddToInventory: {{{
+		var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
+		c.addToInventory(ob);
+	}}}
+}
+
+Ally RyanDean {
+	description: "Draw 1 Common item when Ryan Dean joins you.";
+	modifications: [ Skill_Sneak +1, Skill_Will +1 ];
+	onAddToInventory: {{{
+		var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
+		c.addToInventory(ob);
+	}}}
+}
+
+Ally SirWilliamBrinton {
+	description: "Discard to immediately restore your Stamina to its maximum.";
+	modifications: [ Prop_MaxStamina +1 ];
+	options: Option.DiscardSirWilliamBrinton;
+}
+QuickOption DiscardSirWilliamBrinton {
+	phases: Any;
+	activate: {{{
+		owner.restoreStamina();
+		this.discard();
+	}}};
+}
+
+Ally ThomasFMalone {
+	name: "Thomas F. Malone";
+	description: "Draw 1 Spell when Thomas F. Malone joins you.";
+	modifications: [ Skill_Fight +1, Skill_Lore +1 ];
+	onAddToInventory: {{{
+		var ob = game.context.drawObject(Constants.ObjectType.Spell);
+		c.addToInventory(ob);
+	}}};
+}

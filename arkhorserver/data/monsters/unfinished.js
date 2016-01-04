@@ -2,7 +2,7 @@
 
 // ELDER THING
 var m = game.createMonster({
-  id: "MO_ELDER_THING",
+  tid: "MO_ELDER_THING",
   name: "Elder Thing",
   description:
     "When you fail a Combat Check against "+
@@ -22,7 +22,7 @@ game.registerMonster(2, m);
 
 // HAUNTER OF THE DARK
 var m = game.createMonster({
-  id: "MO_HAUNTER_OF_THE_DARK",
+  tid: "MO_HAUNTER_OF_THE_DARK",
   name: "Haunter of the Dark",
   description: "If the Blackest Night card is "+
     "in play, Haunter of the Dark's fighting "+
@@ -44,7 +44,7 @@ game.registerMonster(1, m);
 
 // HOUND OF TINDALOS
 var m = game.createMonster({
-  id: "MO_HOUND_OF_TINDALOS",
+  tid: "MO_HOUND_OF_TINDALOS",
   name: "Hound of Tindalos",
   description: "When it moves, the Hound of "+
     "Tindalos moves directly to the nearest "+
@@ -70,7 +70,7 @@ game.registerMonster(2, m);
 
 // NIGHTGAUNT
 var m = game.createMonster({
-  id: "MO_NIGHTGAUNT",
+  tid: "MO_NIGHTGAUNT",
   name: "Nightgaunt",
   description: "When you fail a Combat "+
     "check against Nightgaunt, you are drawn "+
@@ -95,7 +95,7 @@ game.registerMonster(2, m);
 
 // THE BLACK MAN
 var m = game.createMonster({
-  id: "MO_THE_BLACK_MAN",
+  tid: "MO_THE_BLACK_MAN",
   name: "The Black Man",
   description: "Before making a Horror Check, "+
     "pass a Luck (-1) check or be devoured. "+
@@ -118,7 +118,7 @@ game.registerMonster(1, m);
 
 // THE BLOATED WOMAN
 var m = game.createMonster({
-  id: "MO_THE_BLOATED_WOMAN",
+  tid: "MO_THE_BLOATED_WOMAN",
   name: "The Bloated Woman",
   description: "Before making a Horror "+
     "check, pass a Will (-2) check or "+
@@ -141,7 +141,7 @@ game.registerMonster(1, m);
 
 // THE DARK PHAROAH
 var m = game.createMonster({
-  id: "MO_THE_DARK_PHAROAH",
+  tid: "MO_THE_DARK_PHAROAH",
   name: "The Dark Pharoah",
   description: "Use Lore in combat with the "+
     "Dark Pharoah instead of Fight.",

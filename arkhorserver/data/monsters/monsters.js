@@ -1,7 +1,7 @@
 
 // TEST
 var m = game.createMonster({
-  id: "MO_TEST",
+  tid: "MO_TEST",
   name: "TEST",
   description: "If you lose a Combat check against TEST, you are devoured",
   //dimension: Constants.Dimension.Circle,
@@ -23,7 +23,7 @@ var m = game.createMonster({
 game.registerMonster(3, m);
 
 
-
+/*
 // BYAKHEE
 var m = game.createMonster({
   id: "MO_Byakhee",
@@ -45,6 +45,7 @@ var m = game.createMonster({
   //attributes: 
 });
 game.registerMonster(3, m);
+
 
 // CHTHONIAN
 var m = game.createMonster({
@@ -522,3 +523,4 @@ var m = game.createMonster({
   ]
 });
 game.registerMonster(3, m);
+*/

@@ -65,6 +65,9 @@ bool MonsterGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef
     if (desc.name == "modifications") {
         return outputModifications(attr, cls);
     }
+    if (desc.name == "dimension") {
+        return outputEnumValue("Constants.Dimension", attr, cls);
+    }
     Q_ASSERT_X(false, "Monster Generator", qPrintable(QString("Special Attribute '%1' not handled").arg(desc.name)));
     return true;
 }

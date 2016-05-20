@@ -79,12 +79,18 @@ QString NotificationFormatter::getBasicActionString(const GameAction *action, co
 
 QString NotificationFormatter::formatBasic(QString str, const QString &desc)
 {
-    str.replace("{P}", gGame->context().player()->id());
-    str.replace("{C}", gGame->context().player()->getCharacter()->investigator()->name());
+    if (gGame->context().player()) {
+        str.replace("{P}", gGame->context().player()->id());
+        if (gGame->context().player()->getCharacter()) {
+            QString f = gGame->context().player()->getCharacter()->field() ? gGame->context().player()->getCharacter()->field()->name() : "";
+            str.replace("{F}", f);
+            if (gGame->context().player()->getCharacter()->investigator()) {
+              str.replace("{C}", gGame->context().player()->getCharacter()->investigator()->name());
+            }
+        }
+    }
     str.replace("{D}", desc);
     QString m = gGame->context().monster() ? gGame->context().monster()->name() : "";
     str.replace("{M}", m);
-    QString f = gGame->context().player()->getCharacter()->field() ? gGame->context().player()->getCharacter()->field()->name() : "";
-    str.replace("{F}", f);
     return str;
 }

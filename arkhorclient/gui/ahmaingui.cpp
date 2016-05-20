@@ -70,6 +70,8 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
 
     connect(m_conn, SIGNAL(playerCharacterInstantiated(QString,QString)), this, SLOT(characterInstantiated(QString,QString)));
 
+    connect(m_conn, SIGNAL(textMessage(QString)), this, SLOT(textMessage(QString)));
+
     // BOARD
     connect(m_conn, SIGNAL(boardContent(QVariantMap)), m_scene, SLOT(updateBoardFromData(QVariantMap)));
 
@@ -217,6 +219,11 @@ void AhMainGui::gameSettingUpdate(GameSettingData data)
     ui->wgtAncientOne->displayAncientOne(data.ancientOneId());
     ui->wgtRumor->displayRumor(data.rumorId());
     ui->wgtEnvironment->displayEnvironment(data.environmentId());
+}
+
+void AhMainGui::textMessage(const QString &msg)
+{
+    ui->txtLog->append(msg);
 }
 
 void AhMainGui::chooseOption(QList<GameOptionData> opts)

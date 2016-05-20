@@ -111,6 +111,13 @@ void BroadcastNotifier::actionExecute(const GameAction *action, QString desc)
     }
 }
 
+void BroadcastNotifier::notifySimple(const QString &str, const QString &desc)
+{
+    foreach (Player *p, m_game->getPlayers()) {
+        p->notifySimple(str, desc);
+    }
+}
+
 void BroadcastNotifier::objectsInvalidated(QStringList ids)
 {
     foreach (Player *p, m_game->getPlayers()) {
@@ -199,4 +206,4 @@ bool BroadcastNotifier::event(QEvent *eve)
     return false;
 }
 
-QEvent::Type AcknowledgeEvent::s_type = static_cast<QEvent::Type> (QEvent::registerEventType());
+const QEvent::Type AcknowledgeEvent::s_type = static_cast<QEvent::Type> (QEvent::registerEventType());

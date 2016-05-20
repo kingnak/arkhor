@@ -129,6 +129,14 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         break;
     }
 
+    case AH::Common::Message::S_TEXT_MESSAGE:
+    {
+        QString d;
+        msg.payload >> d;
+        emit textMessage(d);
+        break;
+    }
+
     case AH::Common::Message::S_PROMPT_ACTIVE:
         emit promptActive();
         break;

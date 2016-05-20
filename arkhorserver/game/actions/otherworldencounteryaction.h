@@ -14,6 +14,7 @@ public:
     virtual AH::GamePhases phases() const { return AH::OtherWorldEncountery; }
 
     virtual bool execute();
+    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
 
     virtual QString name() const { return "Other World Encoutnery"; }
     virtual QString description() const { return ""; }

@@ -14,6 +14,7 @@ public:
     ~MythosAction() {}
 
     bool execute();
+    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
 
     QString id() const { return "AC_MYTHOS"; }
 };

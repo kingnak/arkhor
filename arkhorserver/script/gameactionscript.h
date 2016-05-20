@@ -24,6 +24,7 @@ public:
 
     virtual bool execute();
     virtual bool executeOnObject(QScriptValue obj);
+    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
 
 signals:
 

@@ -30,9 +30,17 @@ bool CloseGateAction::execute()
         if (m_bSeal) {
             f->setSealed(true);
         }
+        gGame->notifier()->actionExecute(this);
         gGame->closeGate(gGame->context().gate(), gGame->context().player()->getCharacter());
     }
     return true;
+}
+
+QString CloseGateAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
+{
+    Q_UNUSED(desc);
+    Q_ASSERT(part == Execute);
+    return QString("{C} ") + (m_bSeal ? "sealed" : "closed") + " gate at {F}";
 }
 
 QString CloseGateAction::name() const

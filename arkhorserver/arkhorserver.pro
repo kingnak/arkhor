@@ -97,7 +97,8 @@ HEADERS += \
     game/phases/ancientoneattack.h \
     game/phases/attackancientonephase.h \
     game/monstermodifier.h \
-    script/monstermodifierscript.h
+    script/monstermodifierscript.h \
+    communication/notificationformatter.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -188,7 +189,8 @@ SOURCES += \
     game/phases/ancientoneattack.cpp \
     game/phases/attackancientonephase.cpp \
     game/monstermodifier.cpp \
-    script/monstermodifierscript.cpp
+    script/monstermodifierscript.cpp \
+    communication/notificationformatter.cpp
 
 OTHER_FILES += \
     data/field/arkham/frenchHill/theWitchhouse.js \

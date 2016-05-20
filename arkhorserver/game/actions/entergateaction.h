@@ -14,6 +14,7 @@ public:
     virtual AH::GamePhases phases() const { return AH::ArkhamEncountery; }
 
     virtual bool execute();
+    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
 
     virtual QString name() const { return "Enter Gate"; }
     virtual QString description() const { return ""; }

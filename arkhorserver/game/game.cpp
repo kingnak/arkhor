@@ -1022,19 +1022,25 @@ void Game::initInvestigators()
     // FIXED POSSESSION
     foreach (Character *c, m_registry->allCharacters())
     {
+        m_context.m_player = playerForCharacter(c);
         initCharacterFixedPossession(c);
+        m_context.m_player = NULL;
     }
 
     // RANDOM POSSESSION
     foreach (Character *c, m_registry->allCharacters())
     {
+        m_context.m_player = playerForCharacter(c);
         initCharacterRandomPossession(c);
+        m_context.m_player = NULL;
     }
 
     // START FIELD
     foreach (Character *c, m_registry->allCharacters())
     {
+        m_context.m_player = playerForCharacter(c);
         m_board->field(c->investigator()->startFieldId())->placeCharacter(c);
+        m_context.m_player = NULL;
     }
 
     commitUpdates();
@@ -1044,7 +1050,9 @@ void Game::initInvestigators()
     {
         FocusAction fa;
         int amount = 100;
+        m_context.m_player = p;
         fa.executeOnPlayer(p, amount);
+        m_context.m_player = NULL;
     }
 }
 

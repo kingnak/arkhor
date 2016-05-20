@@ -43,6 +43,7 @@ public:
     virtual void actionUpdate(const GameAction *action, QString desc = QString::null) = 0;
     virtual void actionFinish(const GameAction *action, QString desc = QString::null) = 0;
     virtual void actionExecute(const GameAction *action, QString desc = QString::null) = 0;
+    virtual void notifySimple(const QString &str, const QString &desc = QString::null) = 0;
 
     virtual void objectsInvalidated(QStringList id) = 0;
     virtual void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type) = 0;
@@ -65,13 +66,13 @@ public:
 
 private:
     Player *m_player;
-
+/*
     static QEvent::Type s_gettype() {
-        int generatedType = QEvent::registerEventType();
+        static int generatedType = QEvent::registerEventType();
         return static_cast<QEvent::Type>(generatedType);
     }
-
-    static QEvent::Type s_type;
+*/
+    static const QEvent::Type s_type;
 };
 
 

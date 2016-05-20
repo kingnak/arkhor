@@ -10,6 +10,7 @@
 #include "game/gameobject.h"
 #include "game/arkhamencounter.h"
 #include "game/mythoscard.h"
+#include "notificationformatter.h"
 #include <QEventLoop>
 #include <QThread>
 #include <QTimerEvent>
@@ -19,7 +20,8 @@ using namespace AH::Common;
 NetworkPlayer::NetworkPlayer()
 :   m_game(NULL),
     m_conn(NULL),
-    m_ackReceiver(NULL)
+    m_ackReceiver(NULL),
+    m_formatter(new NotificationFormatter)
 {
     m_promptTimer = new QTimer(this);
     m_promptTimer->setSingleShot(true);
@@ -34,7 +36,7 @@ NetworkPlayer::NetworkPlayer()
 
 NetworkPlayer::~NetworkPlayer()
 {
-
+    delete m_formatter;
 }
 
 void NetworkPlayer::setConnection(ClientConnection *conn)
@@ -143,22 +145,27 @@ void NetworkPlayer::currentPlayerChanged(const Player *player)
 
 void NetworkPlayer::actionStart(const GameAction *action, QString desc)
 {
-    sendText(QString("Starting action %1: %2").arg(action->name(), desc));
+    sendText(m_formatter->formatActionStart(action, desc));
 }
 
 void NetworkPlayer::actionUpdate(const GameAction *action, QString desc)
 {
-    sendText(QString("Updating action %1: %2").arg(action->name(), desc));
+    sendText(m_formatter->formatActionUpdate(action, desc));
 }
 
 void NetworkPlayer::actionFinish(const GameAction *action, QString desc)
 {
-    sendText(QString("Finishing action %1: %2").arg(action->name(), desc));
+    sendText(m_formatter->formatActionFinish(action, desc));
 }
 
 void NetworkPlayer::actionExecute(const GameAction *action, QString desc)
 {
-    sendText(QString("Executing action %1: %2").arg(action->name(), desc));
+    sendText(m_formatter->formatActionExecute(action, desc));
+}
+
+void NetworkPlayer::notifySimple(const QString &str, const QString &desc)
+{
+    sendText(m_formatter->formatSimple(str, desc));
 }
 
 void NetworkPlayer::objectsInvalidated(QStringList ids)
@@ -468,7 +475,8 @@ void NetworkPlayer::doHandleMessage(Message msg)
 
 void NetworkPlayer::sendText(QString txt)
 {
-    m_conn->sendMessage(AH::Common::Message::S_TEXT_MESSAGE, txt);
+    if (!txt.isEmpty())
+        m_conn->sendMessage(AH::Common::Message::S_TEXT_MESSAGE, txt);
 }
 
 bool NetworkPlayer::awaitResponse(Message &outMsg, QList<Message::Type> acceptTypes)

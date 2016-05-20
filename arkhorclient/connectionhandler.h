@@ -54,6 +54,7 @@ signals:
     void disconnected();
 
     void versionMismatch(quint32 thisVersion, quint32 serverVersion);
+    void textMessage(const QString &text);
 
     void promptActive();
 

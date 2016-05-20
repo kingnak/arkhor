@@ -19,6 +19,8 @@ bool AttackAction::execute()
     Monster *m = gGame->context().monster();
     Player *p = gGame->context().player();
 
+    gGame->notifier()->actionStart(this);
+
     // Get base damage + weapon damages
     ModifiedPropertyValue base = gGame->context().getCurCharacterSkill(AH::Skill_Combat);
     PropertyModificationList gen = p->getCharacter()->getPropertyModifiers().filtered(PropertyValue::Damage_General);
@@ -63,7 +65,22 @@ bool AttackAction::execute()
     discardAfterAttack(mag);
     discardAfterAttack(phy);
 
+    gGame->notifier()->actionFinish(this);
+
     return true;
+}
+
+QString AttackAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
+{
+    Q_UNUSED(desc);
+    switch (part) {
+    case Start:
+        return "{C} enters fight with {M}";
+    case Finish:
+        return "Fight ended";
+    default:
+        return QString::null;
+    }
 }
 
 void AttackAction::filterEquipped(PropertyModificationList &lst)

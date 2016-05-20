@@ -313,6 +313,11 @@ bool GameObjectScriptProxyAction::execute()
     return m_act->executeOnObject(obj);
 }
 
+QString GameObjectScriptProxyAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
+{
+    return m_act->notificationString(part, desc);
+}
+
 ////////////////////
 
 GameObjectScriptProxyOption::GameObjectScriptProxyOption(GameObjectScript *obj, GameOptionScript *opt)
@@ -363,5 +368,13 @@ bool CastSpellAction::executeOnObject(QScriptValue obj)
 {
     GameObjectScript *spell = qscriptvalue_cast<GameObjectScript *> (obj);
     Q_ASSERT(spell && spell->type() == AH::Obj_Spell);
+    gGame->notifier()->actionExecute(this, spell->name());
     return spell->cast(gGame->context().player());
+}
+
+QString CastSpellAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
+{
+    Q_UNUSED(desc);
+    Q_ASSERT(part == Execute);
+    return "{C} casts {D}";
 }

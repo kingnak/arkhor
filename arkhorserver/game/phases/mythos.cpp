@@ -43,6 +43,8 @@ bool MythosAction::execute()
 {
     MythosCard *card = gGame->drawMythos();
 
+    gGame->notifier()->actionStart(this, card->name());
+
     gGame->notifier()->acknowledgeMythos(card);
 
     // 1. Gate
@@ -101,5 +103,16 @@ bool MythosAction::execute()
         break;
     }
 
+    gGame->notifier()->actionFinish(this, card->name());
+
     return true;
+}
+
+QString MythosAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
+{
+    Q_UNUSED(desc);
+    if (part == Start) {
+        return "Mythos {D}";
+    }
+    return QString::null;
 }

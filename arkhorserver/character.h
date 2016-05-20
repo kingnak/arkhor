@@ -48,12 +48,12 @@ public:
 
     // Fixed values
     int getMaximumFocus() const { return m_maxFocus; }
-    void addClue(int amount) { m_clues += amount; gGame->characterDirty(this); }
-    void addMoney(int amount) { m_money += amount; gGame->characterDirty(this); }
+    void addClue(int amount);
+    void addMoney(int amount);
     void setMovementAmount(int amount) { m_movementPoints = amount; gGame->characterDirty(this); }
     void addMovementPoint(int amount) { m_movementPoints += amount; gGame->characterDirty(this); }
     void setFocusAmount(int amount) { m_curFocus = amount; gGame->characterDirty(this); }
-    void loseMoney(int amount) { m_money = qMax(m_money-amount,0); gGame->characterDirty(this); }
+    void loseMoney(int amount);
 
     void damageStamina(int amount);
     void damageSanity(int amount);
@@ -67,15 +67,15 @@ public:
 
 
     // Items
-    void addMonsterTrophy(Monster *m) { if (!m) return; m_monsterMarkers.append(m); gGame->characterDirty(this); }
-    void addGateTrophy(Gate *p) { if (!p) return; m_gateMarkers.append(p); gGame->characterDirty(this); }
+    void addMonsterTrophy(Monster *m);
+    void addGateTrophy(Gate *p);
 
     // Game state
     const Gate *getExploredGate() const { return m_explorededGate; }
-    void setExploredGate(const Gate *p) { m_explorededGate = p; gGame->characterDirty(this); }
+    void setExploredGate(const Gate *p);
 
-    void setDelayed(bool delay) { m_delayed = delay; gGame->characterDirty(this); }
-    void setSetout(bool setout) { m_isSetOut = setout; gGame->characterDirty(this); }
+    void setDelayed(bool delay);
+    void setSetout(bool setout);
     void setOtherWoldPhase(AH::OtherWorldPhase owP) { m_owPhase = owP; gGame->characterDirty(this); }
 
     GameField *field() { return m_field; }

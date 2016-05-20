@@ -13,6 +13,12 @@ public:
 
     virtual bool execute() = 0;
 
+    enum NotificationPart {
+        Start, Finish, Execute
+    };
+
+    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const = 0;
+
     void setId(QString id) { m_id = id; }
 };
 

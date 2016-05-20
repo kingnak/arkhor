@@ -16,6 +16,8 @@ bool OtherWorldEncounteryAction::execute()
         return false;
     }
 
+    gGame->notifier()->actionExecute(this);
+
     GameOption *opt = NULL;
     QString id = p->chooseEncounterOption(enc);
     foreach (GameOption *i, enc->options()) {
@@ -31,6 +33,12 @@ bool OtherWorldEncounteryAction::execute()
     return opt->execute();
 }
 
+QString OtherWorldEncounteryAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
+{
+    Q_UNUSED(desc);
+    Q_ASSERT(part == Execute);
+    return "{C} has an encounter at {F}";
+}
 
 bool OtherWorldEncounteryOption::isAvailable() const
 {

@@ -9,6 +9,7 @@ public:
     UntapAction();
     virtual AH::GamePhases phases() const;
     virtual bool execute();
+    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
 
     QString id() const { return "AC_UNTAP"; }
     virtual QString name() const { return "Untap"; }

@@ -5,6 +5,7 @@
 #include "game/game.h"
 #include "game/player.h"
 #include "character.h"
+#include "script/gameobjectscript.h"
 #include <QDebug>
 
 GameActionScript::GameActionScript(QObject *parent) :
@@ -57,16 +58,42 @@ bool GameActionScript::execute()
 
 bool GameActionScript::executeOnObject(QScriptValue obj)
 {
+    GameObjectScript *gobj = qscriptvalue_cast<GameObjectScript *> (obj);
+    if (gobj)
+        gGame->notifier()->actionStart(this, gobj->name());
+    else
+        gGame->notifier()->actionStart(this);
+
     QScriptValue res = m_function.call(obj);
     if (res.isError()) {
         QString s = res.toString();
         qWarning() << "Script Action Error: " << s;
+        gGame->notifier()->actionFinish(this, "Error");
         return false;
     }
     gGame->context().player()->getCharacter()->commitDamage();
+
+    gGame->notifier()->actionFinish(this);
     if (res.isBool())
         return res.toBool();
     return true;
+}
+
+QString GameActionScript::notificationString(GameAction::NotificationPart part, const QString &desc) const
+{
+    if (part == Start) {
+        if (desc.isEmpty()) {
+            return "{C} activates ?";
+        } else {
+            return "{C} uses {D}";
+        }
+    }
+    if (part == Finish) {
+        if (desc == "Error") {
+            return "ERROR";
+        }
+    }
+    return QString::null;
 }
 
 bool GameActionScript::verify(GameActionScript *act, QString *err)

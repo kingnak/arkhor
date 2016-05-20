@@ -8,6 +8,7 @@
 class QEventLoop;
 
 class ClientConnection;
+class NotificationFormatter;
 
 class NetworkPlayer : public QObject, public Player
 {
@@ -43,6 +44,7 @@ public:
     virtual void actionUpdate(const GameAction *action, QString desc = QString::null);
     virtual void actionFinish(const GameAction *action, QString desc = QString::null);
     virtual void actionExecute(const GameAction *action, QString desc = QString::null);
+    virtual void notifySimple(const QString &str, const QString &desc = QString::null);
 
     virtual void objectsInvalidated(QStringList id);
     virtual void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type);
@@ -110,6 +112,8 @@ private:
     QTimer *m_killTimer;
 
     QObject *m_ackReceiver;
+
+    NotificationFormatter *m_formatter;
 
     static const int PROMPT_TIMEOUT = 60*1000;
     static const int KILL_TIMEOUT = 15*1000;

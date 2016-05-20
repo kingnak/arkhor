@@ -115,6 +115,7 @@ void Character::addToInventory(GameObject *obj)
         obj->setOwner(this);
         m_inventory << obj;
         gGame->characterDirty(this);
+        gGame->notifier()->notifySimple("{C} drew {D}", obj->name());
     } else if (obj->owner() != this) {
         Q_ASSERT(false);
     }
@@ -131,6 +132,7 @@ void Character::removeFromInventory(GameObject *obj)
         m_inventory.removeAll(obj);
         obj->setOwner(NULL);
         gGame->characterDirty(this);
+        gGame->notifier()->notifySimple("{C} lost {D}", obj->name());
     } else if (obj->owner() != NULL) {
         Q_ASSERT(false);
     }
@@ -222,30 +224,37 @@ bool Character::pay(const CostList &cost)
 {
     if (!canPay(cost)) return false;
 
+    QStringList pays;
     foreach (CostItem i, cost) {
         switch (i.type) {
         case CostItem::Pay_None:
             break;
         case CostItem::Pay_Money:
             m_money -= i.amount;
+            pays << QString("%1$").arg(i.amount);
             break;
         case CostItem::Pay_Clue:
             m_clues -= i.amount;
+            pays << QString("%1 clues").arg(i.amount);
             break;
         case CostItem::Pay_Stamina:
             damageStamina(i.amount);
+            pays << QString("%1 stamina").arg(i.amount);
             break;
         case CostItem::Pay_Sanity:
             damageSanity(i.amount);
+            pays << QString("%1 sanity").arg(i.amount);
             break;
         case CostItem::Pay_Movement:
             m_movementPoints -=  i.amount;
+            pays << QString("%1 movement points").arg(i.amount);
             break;
         case CostItem::Pay_GateTrophy:
             for (int j = 0; j < i.amount; ++j) {
                 // TODO: Return to stash?
                 m_gateMarkers.removeFirst();
             }
+            pays << QString("%1 gate trophies").arg(i.amount);
             break;
         case CostItem::Pay_MonsterTrophy:
             // TODO: Let user choose?
@@ -253,18 +262,22 @@ bool Character::pay(const CostList &cost)
                 gGame->returnMonster(m_monsterMarkers.first());
                 m_monsterMarkers.removeFirst();
             }
+            pays << QString("%1 monster trophies").arg(i.amount);
             break;
         case CostItem::Pay_MonsterToughness:
         {
             // TODO: Better algorithm
             // TODO: Let user choose?
             int sum = 0;
+            int ct = 0;
             for (int j = 0; sum < i.amount && m_monsterMarkers.size() > 0; ++j) {
                 Monster *m = m_monsterMarkers.first();
                 sum += m->toughness();
                 gGame->returnMonster(m);
                 m_monsterMarkers.removeFirst();
+                ct++;
             }
+            pays << QString("%2 monster trophies for %1 toughness").arg(i.amount).arg(ct);
             break;
         }
 
@@ -277,14 +290,20 @@ bool Character::pay(const CostList &cost)
     bool res = commitDamage();
 
     gGame->characterDirty(this);
+    if (!pays.isEmpty())
+    {
+        gGame->notifier()->notifySimple("{C} payed {D}", pays.join(", "));
+    }
 
     return res;
 }
 
 void Character::loseClues()
 {
+    int cluesOld = m_clues;
     m_clues = (m_clues+1)/2;
     gGame->characterDirty(this);
+    gGame->notifier()->notifySimple("{C} lost {D}", QString("%1 clues").arg(cluesOld - m_clues));
 }
 
 void Character::loseHalfPossessions()
@@ -319,6 +338,7 @@ void Character::unconscious()
         return;
     }
 
+    gGame->notifier()->notifySimple("{C} is unconscious");
     m_curStamina = 1;
     loseHalfPossessions();
     gGame->board()->field(AH::Common::FieldData::UT_StMarysHospital)->placeCharacter(this);
@@ -340,6 +360,7 @@ void Character::insane()
         return;
     }
 
+    gGame->notifier()->notifySimple("{C} is insane");
     m_curSanity = 1;
     loseHalfPossessions();
     gGame->board()->field(AH::Common::FieldData::DT_ArkhamAsylum)->placeCharacter(this);
@@ -358,6 +379,7 @@ void Character::devour()
         return;
     }
 
+    gGame->notifier()->notifySimple("{C} was devoured");
     // Simply replace investigator
     gGame->returnInvestigator(investigator());
     Investigator *newInv = gGame->drawInvestigator();
@@ -368,6 +390,7 @@ void Character::lostInSpaceAndTime()
 {
     m_curSanity = qMax(1, m_curSanity);
     m_curStamina = qMax(1, m_curStamina);
+    gGame->notifier()->notifySimple("{C} is lost in space and time");
     loseHalfPossessions();
     setDelayed(true);
     gGame->board()->field(AH::Common::FieldData::Sp_SpaceAndTime)->placeCharacter(this);
@@ -441,6 +464,28 @@ int Character::getAttributeValue(AH::Attribute attr) const
     return 0;
 }
 
+void Character::addClue(int amount)
+{
+    m_clues += amount;
+    gGame->characterDirty(this);
+    gGame->notifier()->notifySimple("{C} gained {D}", QString("%1 clues").arg(amount));
+}
+
+void Character::addMoney(int amount)
+{
+    m_money += amount;
+    gGame->characterDirty(this);
+    gGame->notifier()->notifySimple("{C} gained {D}", QString("%1$").arg(amount));
+}
+
+void Character::loseMoney(int amount)
+{
+    int moneyOld = m_money;
+    m_money = qMax(m_money-amount,0);
+    gGame->characterDirty(this);
+    gGame->notifier()->notifySimple("{C} lost {D}", QString("%1$").arg(moneyOld-m_money));
+}
+
 void Character::damageStamina(int amount)
 {
     m_curDmgStamina += amount;
@@ -459,6 +504,15 @@ bool Character::commitDamage()
     }
     m_curStamina = qMax(0, m_curStamina - m_curDmgStamina);
     m_curSanity = qMax(0, m_curSanity - m_curDmgSanity);
+
+    QStringList notify;
+    if (m_curDmgStamina > 0) {
+        notify << QString("%1 stamina").arg(m_curDmgStamina);
+    }
+    if (m_curDmgSanity > 0) {
+        notify << QString("%1 sanity").arg(m_curDmgSanity);
+    }
+    gGame->notifier()->notifySimple("{C} was damaged {D}", notify.join(" and "));
 
     m_curDmgSanity = m_curDmgStamina = 0;
 
@@ -485,6 +539,7 @@ void Character::addStamina(int amount)
     if (m_curDmgStamina > 0) {
         int newAmount = amount - m_curDmgStamina;
         m_curDmgStamina = qMax(0, m_curDmgStamina - amount);
+        if (newAmount - amount > 0) gGame->notifier()->notifySimple("{C} prevented {D} stamina damage", QString::number(newAmount - amount));
         amount = qMax(0, newAmount);
     }
     int maxStamina = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxStamina).finalVal();
@@ -494,6 +549,7 @@ void Character::addStamina(int amount)
 
     m_curStamina = newStamina;
     gGame->characterDirty(this);
+    if (amount > 0) gGame->notifier()->notifySimple("{C} healed {D} stamina", QString::number(amount));
 }
 
 void Character::addSanity(int amount)
@@ -501,6 +557,7 @@ void Character::addSanity(int amount)
     if (m_curDmgSanity > 0) {
         int newAmount = amount - m_curDmgSanity;
         m_curDmgSanity = qMax(0, m_curDmgSanity - amount);
+        if (newAmount - amount > 0) gGame->notifier()->notifySimple("{C} prevented {D} sanity damage", QString::number(newAmount - amount));
         amount = qMax(0, newAmount);
     }
     int maxSanity = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxSanity).finalVal();
@@ -510,6 +567,7 @@ void Character::addSanity(int amount)
 
     m_curSanity = newSanity;
     gGame->characterDirty(this);
+    if (amount > 0) gGame->notifier()->notifySimple("{C} healed {D} sanity", QString::number(amount));
 }
 
 void Character::restoreStamina()
@@ -522,6 +580,7 @@ void Character::restoreStamina()
 
     m_curStamina = maxStamina;
     gGame->characterDirty(this);
+    gGame->notifier()->notifySimple("{C} restored stamina");
 }
 
 void Character::restoreSanity()
@@ -534,6 +593,7 @@ void Character::restoreSanity()
 
     m_curSanity = maxSanity;
     gGame->characterDirty(this);
+    gGame->notifier()->notifySimple("{C} restored sanity");
 }
 
 void Character::preventDamageStamina(int amount)
@@ -546,6 +606,44 @@ void Character::preventDamageSanity(int amount)
 {
     // TODO: Is this right?
     m_curDmgSanity = qMax(m_curDmgSanity - amount, 0);
+}
+
+void Character::addMonsterTrophy(Monster *m)
+{
+    if (!m) return;
+    m_monsterMarkers.append(m);
+    gGame->characterDirty(this);
+    gGame->notifier()->notifySimple("{C} received a monster tropy");
+}
+
+void Character::addGateTrophy(Gate *p)
+{
+    if (!p) return;
+    m_gateMarkers.append(p);
+    gGame->characterDirty(this);
+    gGame->notifier()->notifySimple("{C} received a gate tropy");
+}
+
+void Character::setExploredGate(const Gate *p)
+{
+    m_explorededGate = p;
+    gGame->characterDirty(this);
+}
+
+void Character::setDelayed(bool delay)
+{
+    if (m_delayed == delay) return;
+    m_delayed = delay;
+    gGame->characterDirty(this);
+    gGame->notifier()->notifySimple("{C} is {D}delayed", delay ? "":"no longer ");
+}
+
+void Character::setSetout(bool setout)
+{
+    if (m_isSetOut == setout) return;
+    m_isSetOut = setout;
+    gGame->characterDirty(this);
+    gGame->notifier()->notifySimple("{C} is {D}set out", setout ? "":"no longer ");
 }
 
 bool Character::returnToArkham()

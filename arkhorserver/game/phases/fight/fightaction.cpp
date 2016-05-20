@@ -34,6 +34,13 @@ bool FightAction::execute()
     return true;
 }
 
+QString FightAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
+{
+    Q_UNUSED(desc);
+    Q_UNUSED(part);
+    return QString::null;
+}
+
 
 QString FightOption::sourceId() const
 {

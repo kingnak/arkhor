@@ -29,6 +29,29 @@ bool MoveAction::execute()
     return false;
 }
 
+QString MoveAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
+{
+    switch (gGame->context().player()->getCharacter()->field()->type()) {
+    case AH::Common::FieldData::Location:
+    case AH::Common::FieldData::Street:
+        switch (part) {
+        case Finish: return "{C} moved to {F} via {B}";
+        }
+        break;
+    case AH::Common::FieldData::OtherWorld:
+        if (part == Execute) {
+            if (desc == "second") {
+                return "{C} moves to second {F} field";
+            } else {
+                return "{C} returns to {D}";
+            }
+        }
+    default:
+        Q_ASSERT_X(false, "Movement", "Unsupported Field Type");
+    }
+    return QString::null;
+}
+
 bool MoveAction::moveArkham()
 {
     int speed = gGame->context().getCurCharacterProperty(PropertyValue::Prop_Movement).finalVal();
@@ -43,10 +66,10 @@ bool MoveAction::moveArkham()
             && p.length() <= speed)
     {
         m_movement->characterMoved();
-        gGame->notifier()->actionStart(this, QString("Moving from %1").arg(p.first()->name()));
+        gGame->notifier()->actionStart(this, p.first()->name());
         GameField *stopField = p.endField();
         for (int i = 1; i < p.size(); ++i) {
-            gGame->notifier()->actionUpdate(this, QString("via %1").arg(p[i]->name()));
+            gGame->notifier()->actionUpdate(this, p[i]->name());
             speed--;
             if (p[i]->hasMonsters()) {
                 // STOP HERE!
@@ -57,7 +80,7 @@ bool MoveAction::moveArkham()
 
         stopField->placeCharacter(gGame->context().player()->getCharacter());
         gGame->context().player()->getCharacter()->setMovementAmount(speed);
-        gGame->notifier()->actionFinish(this, QString("Stopping at %1").arg(stopField->name()));
+        gGame->notifier()->actionFinish(this, stopField->name());
         return true;
     }
     return false;
@@ -69,14 +92,14 @@ bool MoveAction::moveOtherWorld()
     switch (c->otherWorldPhase()) {
     case AH::OWP_FirstField:
         c->setOtherWoldPhase(AH::OWP_SecondField);
-        gGame->notifier()->actionExecute(this, "Moved to second field");
+        gGame->notifier()->actionExecute(this, "second");
         return true;
     case AH::OWP_SecondField:
         if (!c->field()->backGates().isEmpty()) {
             // TODO: Let choose gate
             Gate *p = c->field()->backGates().at(0);
             p->comeBack(c);
-            gGame->notifier()->actionExecute(this, QString("Returned to %1").arg(p->sourceField()->name()));
+            gGame->notifier()->actionExecute(this, p->sourceField()->name());
         }
         return true;
     default:

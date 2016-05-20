@@ -15,6 +15,7 @@ public:
 
     virtual AH::GamePhases phases() const { return AH::Movement; }
     virtual bool execute();
+    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
 
     //virtual QString name() const { return "Evade"; }
     virtual QString description() const { return ""; }

@@ -32,6 +32,7 @@ public:
     virtual void actionUpdate(const GameAction *action, QString desc = QString::null);
     virtual void actionFinish(const GameAction *action, QString desc = QString::null);
     virtual void actionExecute(const GameAction *action, QString desc = QString::null);
+    virtual void notifySimple(const QString &str, const QString &desc = QString::null);
 
     virtual void objectsInvalidated(QStringList ids);
     virtual void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type);

@@ -13,6 +13,8 @@ ChooseWeaponsAction::ChooseWeaponsAction(FightPhase *fight)
 
 bool ChooseWeaponsAction::execute()
 {
+    gGame->notifier()->actionStart(this);
+
     QList<GameObject *> lst = gGame->context().player()->getCharacter()->inventory();
     QList<GameObject *> fightObjects;
     foreach (GameObject *o, lst) {
@@ -37,7 +39,19 @@ bool ChooseWeaponsAction::execute()
 
     if (m_fight)
         m_fight->updatePhaseByResult(FightPhase::WeaponsChosen);
+
+    gGame->notifier()->actionFinish(this);
+
     return true;
+}
+
+QString ChooseWeaponsAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
+{
+    Q_UNUSED(desc);
+    if (part == Finish) {
+        return "{C} equipped: {B}";
+    }
+    return QString::null;
 }
 
 bool ChooseWeaponsAction::doEquip(QList<GameObject *> oldWeapons, QStringList newWeapons, int hands)
@@ -62,7 +76,11 @@ bool ChooseWeaponsAction::doEquip(QList<GameObject *> oldWeapons, QStringList ne
                 continue;
             }
 
-            ok &= obj->equip(gGame->context().player());
+            bool update = obj->equip(gGame->context().player());
+            ok &= update;
+            if (update) {
+                gGame->notifier()->actionUpdate(this, "+"+obj->name());
+            }
 
         } else {
             // Should not be equipped
@@ -71,6 +89,7 @@ bool ChooseWeaponsAction::doEquip(QList<GameObject *> oldWeapons, QStringList ne
             }
 
             obj->unequip();
+            gGame->notifier()->actionUpdate(this, "-"+obj->name());
         }
     }
 

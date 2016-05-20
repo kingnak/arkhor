@@ -62,6 +62,30 @@
            </property>
           </widget>
          </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_17">
+           <item>
+            <widget class="QToolButton" name="btnClearLog">
+             <property name="text">
+              <string notr="true">C</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
         </layout>
        </widget>
       </widget>
@@ -390,12 +414,28 @@
    <slot>displayInventoryData(QListWidgetItem*)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>521</x>
-     <y>332</y>
+     <x>500</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
      <x>366</x>
      <y>-8</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnClearLog</sender>
+   <signal>clicked()</signal>
+   <receiver>txtLog</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>358</x>
+     <y>389</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>302</x>
+     <y>413</y>
     </hint>
    </hints>
   </connection>

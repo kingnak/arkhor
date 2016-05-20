@@ -11,6 +11,8 @@ bool AttackAncientOneAction::execute()
     AncientOne *ao = gGame->ancientOne();
     Player *p = gGame->context().player();
 
+    gGame->notifier()->actionStart(this);
+
     // Get base damage + weapon damages
     ModifiedPropertyValue base = gGame->context().getCurCharacterSkill(AH::Skill_Combat);
     PropertyModificationList gen = p->getCharacter()->getPropertyModifiers().filtered(PropertyValue::Damage_General);
@@ -52,6 +54,8 @@ bool AttackAncientOneAction::execute()
     discardAfterAttack(gen);
     discardAfterAttack(mag);
     discardAfterAttack(phy);
+
+    gGame->notifier()->actionFinish(this);
 
     return true;
 }

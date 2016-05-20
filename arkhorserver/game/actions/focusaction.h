@@ -13,6 +13,8 @@ public:
     FocusAction();
 
     bool execute();
+    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+
     bool executeOnPlayer(Player *p, int &focusAmount);
     AH::GamePhases phases() const { return AH::Upkeep; }
 

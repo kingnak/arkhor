@@ -59,6 +59,7 @@ private slots:
 
     void gameSettingUpdate(AH::Common::GameSettingData data);
 
+    void textMessage(const QString &msg);
 
     void chooseOption(QList<AH::Common::GameOptionData> opts);
     void optionChosen(QString id);

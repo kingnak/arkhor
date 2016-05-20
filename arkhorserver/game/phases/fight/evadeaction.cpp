@@ -17,14 +17,29 @@ bool EvadeAction::execute()
     Monster *m = gGame->context().monster();
     Player *p = gGame->context().player();
 
+    gGame->notifier()->actionStart(this);
     DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest(name() + " from monster", p->getCharacter(), AH::Skill_Evade, m->awareness());
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
     if (res.boolResult) {
+        gGame->notifier()->actionUpdate(this, "succeded");
         m_fight->updatePhaseByResult(FightPhase::CharacterFlown);
     } else {
+        gGame->notifier()->actionUpdate(this, "failed");
         m_fight->updatePhaseByResult(FightPhase::EvadeFailed);
     }
+    gGame->notifier()->actionFinish(this);
     return true;
+}
+
+QString EvadeAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
+{
+    Q_UNUSED(desc);
+    switch (part) {
+    case Start: return "{C} tries to evade {M}";
+    case Finish: return "Evade {B}";
+    default:
+        return QString::null;
+    }
 }
 
 bool EvadeOption::isAvailable() const

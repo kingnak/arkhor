@@ -31,3 +31,11 @@ bool UntapAction::execute()
         gGame->characterDirty(gGame->context().player()->getCharacter());
     return true;
 }
+
+QString UntapAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
+{
+    switch (part) {
+    case Finish: if (!desc.isEmpty()) return "{C} untapped {B}";
+    }
+    return QString::null;
+}

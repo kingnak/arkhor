@@ -90,6 +90,7 @@ public:
     virtual QString sourceId() const { return m_obj->id(); }
     virtual AH::GamePhases phases() const { return m_act->phases(); }
     virtual bool execute();
+    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
 
 private:
     GameObjectScript *m_obj;
@@ -140,6 +141,7 @@ public:
     //virtual QString description() const { return m_spell->description(); }
 
     virtual bool executeOnObject(QScriptValue obj);
+    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
 
     void setPhases(AH::GamePhases ph) { m_phases = ph; }
     void setName(QString name) { m_name = name; }

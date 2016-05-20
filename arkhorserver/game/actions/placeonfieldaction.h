@@ -13,6 +13,7 @@ public:
     PlaceOnFieldAction();
 
     bool execute();
+    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
 
     AH::GamePhases phases() const { return AH::Movement; }
 

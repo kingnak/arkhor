@@ -2,6 +2,7 @@
 #include <QTimerEvent>
 #include <QtEndian>
 #include <QThread>
+#include <QDataStream>
 
 namespace AH { namespace Common {
 

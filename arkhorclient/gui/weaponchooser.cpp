@@ -2,7 +2,7 @@
 #include "ui_weaponchooser.h"
 #include "objectregistry.h"
 #include "resourcepool.h"
-#include <QtGui>
+#include <QtWidgets>
 
 WeaponChooser::WeaponChooser(QWidget *parent) :
     QWidget(parent),

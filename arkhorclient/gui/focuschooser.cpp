@@ -1,6 +1,6 @@
 #include "focuschooser.h"
 #include "ui_focuschooser.h"
-#include <QtGui>
+#include <QtWidgets>
 
 static const char *FOCUS_DIFF_PROPERTY = "FOCUS_DIFF";
 

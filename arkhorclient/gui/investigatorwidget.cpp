@@ -1,7 +1,7 @@
 #include "investigatorwidget.h"
 #include "resourcepool.h"
 #include "utils.h"
-#include <QtGui>
+#include <QtWidgets>
 
 InvestigatorWidget::InvestigatorWidget(QWidget *parent) :
     QWidget(parent)

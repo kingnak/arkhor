@@ -1,5 +1,5 @@
 #include "rumorwidget.h"
-#include <QtGui>
+#include <QtWidgets>
 #include "resourcepool.h"
 #include "utils.h"
 #include "objectregistry.h"

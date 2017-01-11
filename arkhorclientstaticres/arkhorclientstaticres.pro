@@ -1,5 +1,6 @@
 TEMPLATE = lib
 CONFIG += static
+CONFIG += resources_big
 
 RESOURCES += \
 	client_resources.qrc

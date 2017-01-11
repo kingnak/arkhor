@@ -1,6 +1,6 @@
 #include "optionchooser.h"
 #include "ui_optionchooser.h"
-#include <QtGui>
+#include <QtWidgets>
 //#include "flowlayout.h"
 #include "utils.h"
 #include "objectregistry.h"

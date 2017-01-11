@@ -1,5 +1,5 @@
 #include "itemstacker.h"
-#include <QtGui>
+#include <QtWidgets>
 
 void StackItem::setPixmap(const QPixmap &pixmap)
 {

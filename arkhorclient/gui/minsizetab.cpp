@@ -1,5 +1,5 @@
 #include "minsizetab.h"
-#include <QtGui>
+#include <QtWidgets>
 
 class TabFrame : public QWidget
 {
@@ -12,19 +12,19 @@ protected:
         opt.initFrom(this);
         opt.lineWidth = style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, this);
         opt.rect = rect();
-#ifdef Q_OS_WIN
-        // Assume that on WinXP or higher, the user won't change theme to old style...
-        if (dynamic_cast<QWindowsXPStyle*> (qApp->style()))
-            opt.rect.adjust(0,-opt.lineWidth,2,0);
-        else
-#endif
-            // hide top border
-            opt.rect.adjust(0,-opt.lineWidth,0,0);
+
+        adjustOptions(opt);
 
         p.drawPrimitive(QStyle::PE_FrameTabWidget, opt);
         Q_UNUSED(event);
     }
+
+private:
+    void adjustOptions(QStyleOptionTabWidgetFrameV2 &opt);
 };
+
+////////////////////////////////
+
 
 MinSizeStack::MinSizeStack(QWidget *p) : QWidget(p), m_cur(0)
 {
@@ -130,3 +130,55 @@ void MinSizeTab::setCurrentIndex(int idx)
     }
 }
 
+
+#ifdef Q_OS_WIN
+#include <Windows.h>
+static bool IsAppThemed()
+{
+    static bool tried = false;
+    static bool isThemed = false;
+    if (tried)
+        return isThemed;
+
+    tried = true;
+
+    QVarLengthArray<wchar_t, MAX_PATH> fullPath;
+
+    UINT retLen = ::GetSystemDirectory(fullPath.data(), MAX_PATH);
+    if (retLen > MAX_PATH) {
+        fullPath.resize(retLen);
+        retLen = ::GetSystemDirectory(fullPath.data(), retLen);
+    }
+    // in some rare cases retLen might be 0
+    QString dll = QString::fromWCharArray(fullPath.constData(), int(retLen));
+    if (!dll.endsWith("\\")) dll += "\\";
+    dll += "uxtheme.dll";
+
+    HINSTANCE inst = ::LoadLibrary((const wchar_t *)dll.utf16());
+    if (!inst)
+        return false;
+
+    typedef bool(*PtrIsAppThemed)();
+    PtrIsAppThemed pIsAppThemed = (PtrIsAppThemed) ::GetProcAddress(inst, "IsAppThemed");
+
+    if (!pIsAppThemed)
+        return false;
+
+    isThemed = pIsAppThemed();
+    return isThemed;
+}
+
+void TabFrame::adjustOptions(QStyleOptionTabWidgetFrameV2 &opt)
+{
+    if (IsAppThemed())
+        opt.rect.adjust(0,-opt.lineWidth,2,0);
+    else
+        opt.rect.adjust(0,-opt.lineWidth,0,0);
+}
+
+#else
+void TabFrame::adjustOptions(QStyleOptionTabWidgetFrameV2 &opt)
+{
+    opt.rect.adjust(0,-opt.lineWidth,0,0);
+}
+#endif

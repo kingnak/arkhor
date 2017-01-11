@@ -5,6 +5,7 @@
 #include "objectregistry.h"
 #include "gatewidget.h"
 #include <QtGui>
+#include <QtWidgets>
 
 static const double STACK_ITEM_SIZE = 75;
 static const double SPECLIAL_ITEM_SIZE = 25;
@@ -171,7 +172,8 @@ void AhFieldItem::initMonsterItem()
 
     prxMonst->resize(200,200);
     double fact = stkSize/200.;
-    prxMonst->scale(fact, fact);
+    //prxMonst->scale(fact, fact);
+    prxMonst->setScale(fact);
 
     prxMonst->setPos(bound.topRight().x()-stkSize, bound.topRight().y());
 }

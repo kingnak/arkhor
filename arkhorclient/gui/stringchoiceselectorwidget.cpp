@@ -1,5 +1,5 @@
 #include "stringchoiceselectorwidget.h"
-#include <QtGui>
+#include <QtWidgets>
 //#include "flowlayout.h"
 #include "../utils.h"
 

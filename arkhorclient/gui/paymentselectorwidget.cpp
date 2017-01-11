@@ -1,7 +1,7 @@
 #include "paymentselectorwidget.h"
 //#include "flowlayout.h"
 #include "../utils.h"
-#include <QtGui>
+#include <QtWidgets>
 
 #define PROPERTY_COST_DESCRIPTION "COST_DESCRIPTION"
 #define PROPERTY_COST_INDEX "COST_INDEX"

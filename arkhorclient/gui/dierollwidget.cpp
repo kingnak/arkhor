@@ -1,7 +1,7 @@
 #include "dierollwidget.h"
 #include "ui_dierollwidget.h"
 //#include "flowlayout.h"
-#include <QtGui>
+#include <QtWidgets>
 #include "objectregistry.h"
 #include "utils.h"
 #include "diewidget.h"

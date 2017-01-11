@@ -2,7 +2,7 @@
 #include "ui_monsterwidget.h"
 #include "resourcepool.h"
 #include "utils.h"
-#include <QtGui>
+#include <QtWidgets>
 
 MonsterFrontWidget::MonsterFrontWidget(QWidget *parent) :
     QWidget(parent)

@@ -1,4 +1,4 @@
-QT += network
+QT += network widgets
 
 unix:CONFIG(debug, debug|release): DEFINES += "_DEBUG=1"
 

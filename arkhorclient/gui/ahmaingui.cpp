@@ -6,7 +6,7 @@
 #include "monsterdata.h"
 #include "gatedata.h"
 #include "resourcepool.h"
-#include <QtGui>
+#include <QtWidgets>
 
 #define MAXIMUM_WIDGET_WIDTH 16777215
 

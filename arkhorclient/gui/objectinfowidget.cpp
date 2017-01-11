@@ -1,5 +1,5 @@
 #include "objectinfowidget.h"
-#include <QtGui>
+#include <QtWidgets>
 #include "objectregistry.h"
 #include "gatedatawidget.h"
 #include "monsterwidget.h"

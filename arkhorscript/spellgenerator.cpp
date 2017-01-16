@@ -13,6 +13,8 @@ QList<ClassGenerator::AttributeDesc> SpellGenerator::getAttributes()
             << AttributeDesc("castIsAvailable", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
             << AttributeDesc("castChooseType", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
             << AttributeDesc("castContinueType", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
+            << AttributeDesc("castPhases", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Array | AttributeDesc::V_Primitive)
+            << AttributeDesc("hands", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
                ;
 }
 
@@ -28,6 +30,9 @@ bool SpellGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &
     }
     if (desc.name == "castContinueType") {
         return outputEnumValue("Constants.Option", attr, cls);
+    }
+    if (desc.name == "castPhases") {
+        return outputEnumValueArray("Constants.GamePhases", attr, cls);
     }
     return ObjectGenerator::outputSpecialAttribute(desc, cls, attr);
 }

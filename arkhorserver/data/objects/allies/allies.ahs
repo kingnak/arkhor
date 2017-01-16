@@ -33,7 +33,7 @@ Ally RubyStandish {
 	onAddToInventory: {{{
 		var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
 		c.addToInventory(ob);
-	}}}
+	}}};
 }
 
 Ally RyanDean {
@@ -42,7 +42,7 @@ Ally RyanDean {
 	onAddToInventory: {{{
 		var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
 		c.addToInventory(ob);
-	}}}
+	}}};
 }
 
 Ally SirWilliamBrinton {
@@ -66,4 +66,38 @@ Ally ThomasFMalone {
 		var ob = game.context.drawObject(Constants.ObjectType.Spell);
 		c.addToInventory(ob);
 	}}};
+}
+
+Ally JohnLegrasse {
+	description: "You can claim monsters with the Endless ability as trophies.";
+	modifications: [ 
+		Skill_Will +2, 
+		Ignore_MonsterAttributes |"+Constants.Monster.Endless+"
+	];
+}
+
+Ally ProfessorArmitage {
+	description: "Your attacks are not affected by Magical Resistance.";
+	modifications: [
+		Skill_Lore +2,
+		Ignore_MonsterAttributes |"+Constants.Monster.MagicalResistance+"
+	];
+}
+
+Ally RichardUptonPickman {
+	description: "Your attacks are not affected by Physical Resistance.";
+	modifications: [
+		Skill_Luck +1,
+		Skill_Speed +1,
+		Ignore_MonsterAttributes |"+Constants.Monster.PhysicalResistance+"
+	];
+}
+
+Ally TomMurphy {
+	name: 'Tom "Mountain" Murphy';
+	description: "You take no Stamina loss from the Overwhelming ability.";
+	modifications: [
+		Skill_Fight +2,
+		Ignore_MonsterAttributes |"+Constants.Monster.DamageOverwhelming+"
+	];
 }

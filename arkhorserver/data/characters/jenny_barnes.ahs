@@ -1,9 +1,9 @@
 Investigator JennyBarnes {
 	occupation: "The Dilittante";
-        homeFieldId: NS_TrainStation;
+	homeFieldId: NS_TrainStation;
 	sanity: 6;
 	stamina: 4;
-	money: 4;
+	money: 10;
 	focus: 1;
 	clues: 0;
 	uniqueAbilityId: SpecialAbility.TrustFund;

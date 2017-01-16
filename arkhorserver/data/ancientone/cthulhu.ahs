@@ -1,0 +1,27 @@
+AncientOne Cthulhu {
+	combatAdjustment: -6;
+	worshippersText: "Cthulhu's worshippers often have the Innsmouth Look, a sign "+
+		"of monstrous ancestors. <b>Cultists</b> have a horror rating of <b>-2</b> "+
+		"and a horror damage of <b>2</b> Sanity";
+
+	powerTitle: "Dreams of Madness";
+	powerText: "While Cthulhu stirs in his slumber, investigators have their maximum Sanity and maximum Stamina reduced by 1.";
+	attackText: "Each investigator lowers either his maximum Sanity or Maximum Stamina by 1 "+
+		"(his choice). After Cthulhu attacks 1 doom token is placed back on Cthulhu's doom track "+
+		"if it isn't already full.";
+	doomTrack: 13;
+	monsterModifications: [
+		Cultist { Monster_HorrorAdjustment -2, Monster_HorrorDamage +1 }
+	];
+	
+	slumberModifications: [
+		// TODO:
+	];
+
+	// Not needed...
+	attackAdjustment: 0;
+
+	attack: {{{
+		// TODO
+	}}}
+}

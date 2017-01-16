@@ -36,7 +36,8 @@ CommonItem Food : 2 {
 QuickOption EatFood {
 	phases: Any;
 	activate: {{{
-		owner.preventDamageStamina(1);
+		// TODO: Does this work?
+		this.owner.preventDamageStamina(1);
 		this.discard();
 	}}};
 }
@@ -62,7 +63,7 @@ CommonItem Map_ofArkham : 2 {
 QuickOption ReadMap {
 	phases: Movement;
 	activate: {{{
-		owner.addMovementPoint(1);
+		this.owner.addMovementPoint(1);
 		this.exhaust();
 	}}};
 }
@@ -76,7 +77,7 @@ CommonItem Motorcycle : 2 {
 QuickOption UseMotorcycle {
 	phases: Movement;
 	activate: {{{
-		owner.addMovementPoint(2);
+		this.owner.addMovementPoint(2);
 		this.exhaust();
 	}}};
 }
@@ -96,7 +97,7 @@ QuickOption ReadOldJournal {
 		this.exhaust();
 		var res = game.context.skillTest("Read Old Journal", Constants.Skills.Lore, -1, 1);
 		if (res) {
-			owner.addClue(3);
+			this.owner.addClue(3);
 			this.discard();
 		}
 	}}}
@@ -112,7 +113,7 @@ CommonItem ResearchMaterials : 2 {
 QuickOption UseResearchMaterials {
 	phases: Any;
 	activate: {{{
-		owner.addClue(1);
+		this.owner.addClue(1);
 		this.discard();
 	}}}
 }
@@ -125,7 +126,26 @@ CommonItem Whiskey : 2 {
 QuickOption DrinkWhiskey {
 	phases: Any;
 	activate: {{{
-		owner.preventDamageSanity(1);
+		// TODO: Does this work?
+		this.owner.preventDamageSanity(1);
 		this.discard();
 	}}};
+}
+
+CommonItem LuckyCigaretteCase : 2 {
+	description: "<b>Any:</b> Discard Lucky Cigarette Case to re-roll "+
+		"any one Skill Check.";
+	price: 1;
+	options: <<< game.getDieRollOption({type: Constants.Reroll.OneFailed, skills: [
+		Constants.Skills.Speed,
+		Constants.Skills.Sneak,
+		Constants.Skills.Fight,
+		Constants.Skills.Will,
+		Constants.Skills.Lore,
+		Constants.Skills.Luck,
+		Constants.Skills.Evade,
+		Constants.Skills.Combat,
+		Constants.Skills.Horror,
+		Constants.Skills.Spell
+	]}) >>>;
 }

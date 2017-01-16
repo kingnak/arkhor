@@ -1,43 +1,4 @@
 
-// ALIEN STATE
-var useStatue = game.quickOption({
-	//id: "CI_USE_STATUE",
-	name: "Use Alien Statue",
-	costs: [[
-		{ type: Constants.Costs.Movement, amount: 2},
-		{ type: Constants.Costs.Sanity, amount: 1},
-	]],
-	phases: Constants.GamePhases.Movement,
-	continueType: Constants.Option.CanContinue,
-	chooseType: Constants.Option.Supplemental,
-	activate: function() {
-		this.exhaust();
-		var res = game.context.genericDieRollTest("Use Statue", 1, 1);
-		if (res) {
-			// TODO: Let user decide
-            //var obj = game.context.drawObject(Constants.ObjectType.Spell);
-			//game.context.character.addToInventory(obj);
-			game.context.character.addClue(3);
-		} else {
-			game.context.damageStamina(2);
-		}
-	}
-});
-var alienStatue = game.createObject({
-	tid: "UI_Alien_Statue",
-	name: "Alien Statue",
-	type: Constants.ObjectType.UniqueItem,
-	exhaustable: true,
-	description: "<b>Movement:</b> Exhaust and spend 2 "+
-		"movement points and 1 Sanity to roll a die. If "+
-		"the die is a success, draw 1 Spell or gain 3 "+
-		"Clue tokens. If it is a failure, lose 2 Stamina.",
-	price: 5,
-	optionIds: [useStatue.id]
-});
-game.registerMultiObject(1, alienStatue); 
-
-
 // BLUE WATCHER OF THE PYRAMID
 var useBlueWatcher = game.quickOption({
 	//id: "CI_USE_BLUE_WATCHER",
@@ -133,17 +94,8 @@ game.registerMultiObject(1, flute);
 
 ////////////////////////
 /* TODOS:
- * Enchanted Jewelry
- * Gate Box
- * Lamp of Alhazred
- * Nameless Cults
- * Necronomicon
- * Obsidian Statue
- * Pallid Mask
- * Powder of Ibn-Ghazi
- * Ruby of R'lyeh
- * Silver Key
- * Sword of Glory
- * The King in Yellow
- * Warding Statue 
+ * Gate Box x 1: $4 Any Phase: When you return to Arkham from an Other World, you can return to any location with an open gate, not just those leading to the Other World you were in.
+ * Obsidian Statue x 1: $4 Any Phase: Discard Obsidian Statue to cancel all Stamina or Sanity loss being dealt to you from one source. 
+ * Silver Key x 1: $4 Any Phase: Put 1 Stamina token from the bank on Silver Key before making an Evade check to automatically pass it. Discard Silver Key after using it if there are 3 Stamina tokens on it. 
+ * Warding Statue x 1: $6 Any Phase: Discard Warding Statue after failing a Combat check to reduce the monster's combat damage to 0 Stamina. This can also be used to cancel an Ancient One's entire attack for 1 turn. 
  */

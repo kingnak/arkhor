@@ -7,6 +7,7 @@ Investigator SisterMary {
 	money: 0;
 	focus: 1;
 	clues: 0;
+	uniqueAbilityId: SpecialAbility.GuardianAngel;
 	fixedPossesionObjectIds: (
 		BlessingCurse.Blessing,
 		CommonItem.Cross,
@@ -21,4 +22,11 @@ Investigator SisterMary {
 		FightWill {(0,4),(1,3),(2,2),(3,1)},
 		LoreLuck {(1,6),(2,5),(3,4),(4,3)}
 	];
+}
+
+SpecialAbility GuardianAngel {
+	// TODO
+	description: "<b>Any Phase:</b> Sister Mary is never Lost in Time and Space. Instead, if "+
+		"her Sanity is 0, she returns to Arkham Asylum. If her Stamina is 0, she returns to "+
+		"St. Mary's Hospital. If neither her Sanity or her Stamina are 0, she returns to South Church. (not implemented)";
 }

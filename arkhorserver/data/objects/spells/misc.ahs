@@ -1,0 +1,25 @@
+Spell FindGate : 4 {
+	description: "<b>Movement: </b> Cast and exhaust to "+
+		"immediately return to Arkham from an Other World.";
+	exhaustable: true;
+	castCost: 1;
+	castAdjustment: -1;
+	/*
+	cast: {{{
+		this.owner.returnToArkham();
+	}}};
+	castIsAvailable: {{{
+		this.owner.field.type == Constants.FieldType.OtherWorld;
+	}}};
+	castPhases: Movement;
+	*/
+	cast: <<<{
+		cast: function() {
+			this.owner.returnToArkham();
+		},
+		phases: Constants.GamePhases.Movement,
+        isAvailable: function() {
+            this.owner.field.type == Constants.FieldType.OtherWorld;
+        }
+	}>>>;
+}

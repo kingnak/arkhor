@@ -1,0 +1,4 @@
+Headline TEST {
+	description: "For keeping the game going...";
+	executeHeadline: {{{}}};
+}

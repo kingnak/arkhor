@@ -1,3 +1,39 @@
+Monster BlackMan : 1 {
+	name: "The Black Man";
+	description: "Before making a Horror Check, "+
+		"pass a <b>Luck (-1) check</b> or be devoured. "+
+		"If you pass, gain 2 Clue tokens. In either "+
+		"case, return the black Man to the cup. (not implemented)";
+	//dimension: Moon;
+	movementType: Normal;
+	awareness: -3;
+	horrorAdjustment: 0;
+	horrorDamage: 0;
+	combatAdjustment: 0;
+	combatDamage: 0;
+	toughness: 1;
+	attributes: ( Mask, Endless );
+	// TODO
+}
+
+Monster BloatedWoman : 1 {
+	name: "The Bloated Woman";
+	description: "Before making a Horror "+
+		"check, pass a <b>Will (-2) check</b> or "+
+		"automatically fail the Horror check "+
+		"and the Combat check. (not implemented)";
+	//dimension: Hexagon;
+	movementType: Normal;
+	awareness: -1;
+	horrorAdjustment: -1;
+	horrorDamage: 2;
+	combatAdjustment: -2;
+	combatDamage: 2;
+	toughness: 2;
+	attributes: ( Mask, Endless );
+	// TODO
+}
+
 Monster Byakhee : 3 {
 	mythText: "It shrieked and flapped its wings. "+
 		"I thought of the empty shell of a beetle, "+
@@ -36,13 +72,14 @@ Monster Chthonian : 3 {
 				c.commitDamage();
 			}
 		}
-	}}}
+	}}};
 }
 
 Monster Cultist : 6 {
 	mythText: "la! la! Cthulhu Fthagen! "+
 		"Ph'nglui mglw'nfah Cthulhu "+
 		"R'lyeh ywah'nagl fhtagn!";
+	//dimension: Moon;
 	movementType: Normal;
 	awareness: -3;
 	horrorAdjustment: 0;
@@ -50,6 +87,22 @@ Monster Cultist : 6 {
 	combatAdjustment: +1;
 	combatDamage: 1;
 	toughness: 1;
+}
+
+Monster DarkPharao : 1 {
+	name: "The Dark Pharao";
+	description: "Use Lore in combat with the "+
+		"Dark Pharoah instead of Fight. (not implemented)";
+	//dimension: Slash;
+	movementType: Normal;
+	awareness: -1;
+	horrorAdjustment: -1;
+	horrorDamage: 1;
+	combatAdjustment: -3;
+	combatDamage: 3;
+	toughness: 2;
+	attributes: ( Mask, Endless );
+	// TODO
 }
 
 Monster DarkYoung : 3 {
@@ -69,6 +122,7 @@ Monster DarkYoung : 3 {
 }
 
 Monster Dhole : 1 {
+	//dimension: Circle;
 	movementType: Normal;
 	awareness: -1;
 	horrorAdjustment: -1;
@@ -101,7 +155,28 @@ Monster DimensionalShambler : 2 {
 			chr.lostInSpaceAndTime();
 			return false;
 		}
-	}}}
+	}}};
+}
+
+Monster ElderThing : 2 {
+	description:
+		"When you fail a Combat Check against "+
+		"Elder Thing, you must discard 1 of your "+
+		"Weapons or Spells (your choice), if able.";
+	//dimension: Diamond;
+	movementType: Normal;
+	awareness: -2;
+	horrorAdjustment: -3;
+	horrorDamage: 2;
+	combatAdjustment: 0;
+	combatDamage: 1;
+	toughness: 2;
+	onDamage: {{{
+		if (type == Constants.MonsterDamage.Combat) {
+			// TODO: This is not 100% correct. It lets choose any object
+			chr.losePossessions(1);
+		}
+	}}};
 }
 
 Monster FireVampire : 2 {
@@ -213,10 +288,47 @@ Monster Gug : 2 {
 	attributes: Overwhelming_1;
 }
 
+Monster HaunterOfTheDark : 1 {
+	name: "Haunter of the Dark";
+	description: "If the Blackest Night card is "+
+		"in play, Haunter of the Dark's fighting "+
+		"rating increases to -5.";
+		// TODO: This must be done in that mythos card...
+	//dimension: Square;
+	movementType: Flying;
+	awareness: -3;
+	horrorAdjustment: -2;
+	horrorDamage: 2;
+	combatAdjustment: -2;
+	combatDamage: 2;
+	toughness: 2;
+	attributes: ( Mask, Endless );
+}
+
+Monster HoundOfTindalos : 2{
+	name: "Hound of Tindalos";
+	description: "When it moves, the Hound of "+
+		"Tindalos moves directly to the nearest "+
+		"investigator inside a location in Arkham "+
+		"Other than the Hospital or Asylum). (not implemented)";
+	//dimension: Square;
+	movementType: Special;
+	awareness: -1;
+	horrorAdjustment: -2;
+	horrorDamage: 4;
+	combatAdjustment: -1;
+	combatDamage: 3;
+	toughness: 2;
+	attributes: ( PhysicalImunity );
+	onMove:{{{
+		// TODO
+	}}};
+}
+
 Monster HighPriest : 1 {
-	mythText: "\"We will not cease our struggle,\" "+
-		"intoned the robed figure, \"Until we have "+
-		"built Carcosa upon this land of ruined Reason.\"";
+	mythText: '"We will not cease our struggle," '+
+		'intoned the robed figure, "Until we have '+
+		'built Carcosa upon this land of ruined Reason."';
 	//dimension: Plus;
 	movementType: Normal;
 	awareness: -2;
@@ -258,7 +370,7 @@ Monster Maniac : 3 {
 			];
 		}
 		return null;
-	}}}
+	}}};
 }
 
 Monster MiGo : 3 {
@@ -278,13 +390,39 @@ Monster MiGo : 3 {
 		  var obj = game.context.drawObject(Constants.ObjectType.UniqueItem);
 		  CHAR.addToInventory(obj);
 		  return false;
-	}}}
+	}}};
+}
+
+Monster NightGaunt : 2 {
+	description: "When you fail a Combat "+
+		"check against Nightgaunt, you are drawn "+
+		"through the nearest open gate. If two or "+
+		"more gates are the same distance from you, "+
+		"you choose which gate you are drawn through.";
+		/* NOTE: If in Other World, nearest gate is 
+		 * back to Arkham.
+		 * NOTE: If no gate open, fight ends with no effect.
+		 * NOTE: Also drawn through when failing evade check.
+		 */ 
+	//dimension: Slash;
+	movementType: Flying;
+	awareness: -2;
+	horrorAdjustment: -1;
+	horrorDamage: 1;
+	combatAdjustment: -2;
+	combatDamage: 0;
+	toughness: 2;
+	onDamage: {{{
+		if (type == Contants.MonsterDamage.Combat) {
+			// TODO
+		}
+	}}};
 }
 
 Monster Shoggoth : 2 {
 	mythText: "The stench was unbearale, and "+
 		"rising to the surface came a terrible cry. "+
-		"\"Tekeli-li! Tekeli-li!\"";
+		'"Tekeli-li! Tekeli-li!"';
 	//dimension: Diamond;
 	movementType: Fast;
 	awareness: -1;
@@ -297,10 +435,10 @@ Monster Shoggoth : 2 {
 }
 
 Monster StarSpawn : 2 {
-	mythText: "The bosun was the only one "+
-		"left alive. We dragged him screaming "+
-		"from the cargo hold. \"That thing!\" "+
-		"he wept, \"Not a whale... not an island...\"";
+	mythText: 'The bosun was the only one '+
+		'left alive. We dragged him screaming '+
+		'from the cargo hold. \"That thing!" '+
+		'he wept, "Not a whale... not an island..."';
 	//dimension: Plus;
 	movementType: Normal;
 	awareness: -1;
@@ -347,10 +485,10 @@ Monster Warlock : 2 {
 }
 
 Monster Witch : 2 {
-	mythText: "She was lovely and terrible all "+
-		"at once. A strange light shone in her "+
-		"eyes as she changed, \"Iä! Iä! Shub-Niggurath! "+
-		"The Goat with a Thousand Young!\"";
+	mythText: 'She was lovely and terrible all '+
+		'at once. A strange light shone in her '+
+		'eyes as she changed, "Iä! Iä! Shub-Niggurath! '+
+		'The Goat with a Thousand Young!"';
 	//dimension: Circle;
 	movementType: Normal;
 	awareness: -1;

@@ -1,0 +1,30 @@
+
+Investigator GloriaGoldberg {
+	occupation: "The Author";
+	homeFieldId: ET_VelmasDiner;
+	sanity: 6;
+	stamina: 4;
+	money: 7;
+	focus: 2;
+	clues: 2;
+	uniqueAbilityId: SpecialAbility.PsychicSensitivity;
+	fixedPossesionObjectIds: <<<[]>>>;
+	randomPossessions: [
+		CommonItem 2,
+		Spell 2,
+		Skill 1
+	];
+	attributes: [
+		SpeedSneak {(1,3),(2,2),(3,1),(4,0)},
+		FightWill {(0,5),(1,4),(2,3),(3,2)},
+		LoreLuck {(1,5),(2,4),(3,3),(4,2)}
+	];
+}
+
+SpecialAbility PsychicSensitivity {
+	description: '<b>Other World Encounter:</b> When drawing gate encounters in Other Worlds, '+
+		"Gloria draws two cards that match the color of one of the Other World's encounter symbols, "+
+		"then chooses whichever one of the two she wants. This ability does not work when drawing "+
+		"location encounters in Arkham.";
+	modifications: [ DrawCard_OtherWorldEncountery +1 ];
+}

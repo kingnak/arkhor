@@ -1,0 +1,102 @@
+CommonItem Derringer : 2 {
+	name: ".18 Derringer";
+	description: ".18 Derringer cannot be lost or stolen unless you choose to allow it.";
+	hands: 1;
+	price: 3;
+	modifications: [ Damage_Physical +2 ];
+	attributes: CannotBeLost;
+}
+
+CommonItem Revolver : 2 {
+	name: ".38 Revolver";
+	hands: 1;
+	price: 4;
+	modifications: [ Damage_Physical +3 ];
+}
+
+CommonItem Automatic : 2 {
+	name: ".45 Automatic";
+	hands: 1;
+	price: 5;
+	modifications: [ Damage_Phsyical +4 ];
+}
+
+CommonItem CavalrySaber : 2 {
+	hands: 1;
+	price: 3;
+	modifications: [ Damage_Physical +2 ];
+}
+
+CommonItem Cross : 2 {
+	description: "+3 Combat Damage against <b>Undead</b>";
+	hands: 1;
+	price: 3;
+	modifications: {{{
+		debugger;
+		var m = game.context.monster;
+		var dmg = 0;
+		if (m) {
+			if (m.attributes & Constants.Monster.Undead) {
+				dmg = 3;
+			}
+		}
+		return [
+			{ property: Constants.Mods.Damage_Magical, value: dmg },
+			{ property: Constants.Mods.Skill_Horror, value: 1}
+		];
+	}}};
+}
+
+CommonItem Dynamite : 2 {
+	hands: 2;
+	price: 4;
+	modifications: [ Damage_Physical +8 ];
+	attributes: DiscardAfterAttack;
+}
+
+CommonItem Knife : 2 {
+	hands: 1;
+	price: 2;
+	modifications: [ Damage_Physical +1 ];
+}
+
+CommonItem Rifle : 2 {
+	hands: 2;
+	price: 6;
+	modifications: [ Damage_Physical +5 ];
+}
+
+CommonItem TommyGun : 2 {
+	hands: 2;
+	price: 7;
+	modifications: [ Damage_Physical +6 ];
+}
+
+CommonItem Axe : 2 {
+	hands: 1;
+	price: 3;
+	description: "+3 instead if your other hand is empty";
+	modifications: {{{
+		// TODO: Check if other hand is free. If so => Damage +3
+		var dmg = 2;
+		return [ {property: Constants.Mods.Damage_Physical, value: dmg} ];
+	}}};
+}
+
+CommonItem Bullwhip : 2 {
+	description: "<b>Any:</b> Exhaust to re-roll 1 die after "+
+		"making a Combat check.";
+	hands: 1;
+	price: 2;
+	modifications: [ Damage_Physical +1 ];
+	options: <<< [game.getDieRollOption({type: Constants.Reroll.OneFailed, skills: [Constants.Skills.Combat]})] >>>;	
+}
+
+CommonItem Shotgun : 2 {
+	// TODO
+	description: "<b>Any:</b> When using Shotgun in Combat, all 6's rolled count as 2 successes. (Not implemented!)";
+	hands: 2;
+	price: 6;
+	modifications: [ Damage_Physical +4 ];
+}
+

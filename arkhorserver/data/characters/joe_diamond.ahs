@@ -1,0 +1,26 @@
+
+Investigator JoeDiamond {
+	occupation: "The Private Eye";
+	homeFieldId: ET_PoliceStation;
+	sanity: 4;
+	stamina: 6;
+	money: 8;
+	focus: 3;
+	clues: 3;
+	uniqueAbilityId: SpecialAbility.Hunches;
+	fixedPossesionObjectIds: CommonItem.Automatic;
+	randomPossessions: [
+		CommonItem 2,
+		Skill 1
+	];
+	attributes: [
+		SpeedSneak {(3,4),(4,3),(5,2),(6,1)},
+		FightWill {(2,3),(3,2),(4,1),(5,0)},
+		LoreLuck {(0,3),(1,2),(2,1),(3,0)}
+	];
+}
+
+SpecialAbility Hunches {
+	description: "<b>Any Phase:</b> Joe rolls one extra bonus die when he spends a Clue token to add to a roll.";
+	modifications: [ DieRoll_All +1 ];
+}

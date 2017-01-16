@@ -1,0 +1,27 @@
+
+Investigator MontereyJack {
+	occupation: "The Archaeologist";
+	homeFieldId: NS_CuriositieShoppe;
+	sanity: 3;
+	stamina: 7;
+	money: 7;
+	focus: 2;
+	clues: 1;
+	uniqueAbilityId: SpecialAbility.Archaeology;
+	fixedPossesionObjectIds: (CommonItem.Bullwhip, CommonItem.Revolver);
+	randomPossessions: [
+		UniqueItem 2,
+		Skill 1
+	];
+	attributes: [
+		SpeedSneak {(1,3),(2,2),(3,1),(4,0)},
+		FightWill {(2,3),(3,2),(4,1),(5,0)},
+		LoreLuck {(1,5),(2,4),(3,3),(4,2)}
+	];
+}
+
+SpecialAbility Archaeology {
+	description: "<b>Any Phase:</b> Whenever Monterey draws one or more cards from the "+
+		"Unique item deck, he draws one extra card and then discards one of the cards.";
+	modifications: [ DrawCard_UniqueItem +1 ];
+}

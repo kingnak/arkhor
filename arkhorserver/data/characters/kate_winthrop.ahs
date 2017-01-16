@@ -1,0 +1,31 @@
+
+Investigator KateWinthrop {
+	occupation: "The Scientist";
+	homeFieldId: MU_ScienceBuilding;
+	sanity: 6;
+	stamina: 4;
+	money: 7;
+	focus: 1;
+	clues: 2;
+	// TODO: Do not place clue in science building at start...
+	uniqueAbilityId: SpecialAbility.Science;
+	fixedPossesionObjectIds: <<<[]>>>;
+	randomPossessions: [
+		CommonItem 1,
+		UniqueItem 1,
+		Spell 2,
+		Skill 1
+	];
+	attributes: [
+		SpeedSneak {(1,5),(2,4),(3,3),(4,2)},
+		FightWill {(1,3),(2,2),(3,1),(4,0)},
+		LoreLuck {(2,4),(3,3),(4,2),(5,1)}
+	];
+}
+
+SpecialAbility Science {
+	// TODO
+	description: "<b>Any Phase:</b> Gates and monsters cannot appear in Kate's location due to "+
+		"her flux stabilizer. Monsters and gates do not disappear if she enters their location, "+
+		"however, and monsters can move into her location as usual. (not implemented)";
+}

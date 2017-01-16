@@ -1,0 +1,29 @@
+
+Investigator DarrellSimmons {
+	occupation: "The Photographer";
+	homeFieldId: NS_Newspaper;
+	sanity: 4;
+	stamina: 6;
+	money: 4;
+	focus: 2;
+	clues: 1;
+	uniqueAbilityId: SpecialAbility.HometownAdvantage;
+	fixedPossesionObjectIds: SpecialObject.Retainer;
+	randomPossessions: [
+		CommonItem 1,
+		UniqueItem 2,
+		Skill 1
+	];
+	attributes: [
+		SpeedSneak {(2,3),(3,2),(4,1),(5,0)},
+		FightWill {(2,4),(3,3),(4,2),(5,1)},
+		LoreLuck {(0,4),(1,3),(2,2),(3,1)}
+	];
+}
+
+SpecialAbility HometownAdvantage {
+	description: "<b>Town Encounter:</b> When drawing location encounters in Arkham, Darrell "+
+		"draws two cards and may choose whichever one of the two he wants. This ability does "+
+		"not work when drawing gate encounters in Other Worlds.";
+	modifications: [ DrawCard_ArkhamEncountery +1 ];
+}

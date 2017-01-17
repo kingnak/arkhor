@@ -27,6 +27,11 @@ public:
 
     PropertyModificationList getPropertyModifiers() const;
 
+    virtual int maxStamina() const;
+    virtual int maxSanity() const;
+    int baseMaxStamina() const { return m_maxStamina; }
+    int baseMaxSanity() const { return m_maxSanity; }
+
     QList<GameAction *> getActions(AH::GamePhase phase);
     QList<GameOption *> getOptions(AH::GamePhase phase);
     QList<GameObject *> &inventory();

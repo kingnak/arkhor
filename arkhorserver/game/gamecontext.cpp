@@ -105,10 +105,10 @@ ModifiedPropertyValue GameContext::getCharacterProperty(const Character *c, Prop
     switch (property)
     {
     case PropertyValue::Prop_MaxStamina:
-        base = c->maxStamina();
+        base = c->baseMaxStamina();
         break;
     case PropertyValue::Prop_MaxSanity:
-        base = c->maxSanity();
+        base = c->baseMaxSanity();
         break;
     case PropertyValue::Prop_Focus:
         base = c->curFocus();

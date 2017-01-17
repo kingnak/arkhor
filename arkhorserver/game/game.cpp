@@ -710,6 +710,7 @@ void Game::commitUpdates()
     }
 
     foreach (Character *c, m_registry->allCharacters()) {
+        c->commitDamage();
         if (c->isDirty()) {
             c->setDirty(false);
             m_invalidatedObjects << c->id();

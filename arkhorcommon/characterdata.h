@@ -23,8 +23,8 @@ namespace AH {
             virtual InvestigatorData investigatorData() const { return m_investigatorData; }
             int curStamina() const { return m_curStamina; }
             int curSanity() const { return m_curSanity; }
-            int maxStamina() const { return m_maxStamina; }
-            int maxSanity() const { return m_maxSanity; }
+            virtual int maxStamina() const { return m_maxStamina; }
+            virtual int maxSanity() const { return m_maxSanity; }
             int money() const { return m_money; }
             int curFocus() const { return m_curFocus; }
             int movementPoints() const { return m_movementPoints; }

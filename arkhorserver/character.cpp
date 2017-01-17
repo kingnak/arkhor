@@ -73,6 +73,16 @@ PropertyModificationList Character::getPropertyModifiers() const
     return ret;
 }
 
+int Character::maxStamina() const
+{
+    return gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxStamina).finalVal();
+}
+
+int Character::maxSanity() const
+{
+    return gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxSanity).finalVal();
+}
+
 QList<GameAction *> Character::getActions(AH::GamePhase phase)
 {
     QList<GameAction *> acts;
@@ -339,7 +349,11 @@ void Character::unconscious()
     }
 
     gGame->notifier()->notifySimple("{C} is unconscious");
-    m_curStamina = 1;
+    m_curStamina = qMin(1, maxStamina());
+    if (m_curStamina == 0) {
+        devour();
+        return;
+    }
     loseHalfPossessions();
     gGame->board()->field(AH::Common::FieldData::UT_StMarysHospital)->placeCharacter(this);
     setSetout(true);
@@ -361,7 +375,11 @@ void Character::insane()
     }
 
     gGame->notifier()->notifySimple("{C} is insane");
-    m_curSanity = 1;
+    m_curSanity = qMin(1, maxSanity());
+    if (m_curSanity == 0) {
+        devour();
+        return;
+    }
     loseHalfPossessions();
     gGame->board()->field(AH::Common::FieldData::DT_ArkhamAsylum)->placeCharacter(this);
     setSetout(true);
@@ -499,6 +517,24 @@ void Character::damageSanity(int amount)
 
 bool Character::commitDamage()
 {
+    bool maxIsZero = false;
+    if (m_curSanity > maxSanity()) {
+        m_curSanity = maxSanity();
+        setDirty();
+        if (m_curSanity == 0) maxIsZero = true;
+    }
+    if (m_curStamina > maxStamina()) {
+        m_curStamina = maxStamina();
+        setDirty();
+        if (m_curStamina == 0) maxIsZero = true;
+    }
+
+    if (maxIsZero) {
+        m_curDmgSanity = m_curDmgStamina = 0;
+        devour();
+        return false;
+    }
+
     if (m_curDmgSanity == 0 && m_curDmgStamina == 0) {
         return true;
     }

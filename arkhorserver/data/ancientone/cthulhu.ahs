@@ -15,13 +15,47 @@ AncientOne Cthulhu {
 	];
 	
 	slumberModifications: [
-		// TODO:
+		Prop_MaxSanity -1,
+		Prop_MaxStamina -1
 	];
 
 	// Not needed...
 	attackAdjustment: 0;
 
 	attack: {{{
-		// TODO
+		var options = [];
+		if (CHAR.canPay({ type: Constants.Payment.Stamina, amount: 1})) {
+			options.push(["STA", "Stamina", "Reduce maximum Stamina by 1"]);
+		}
+		if (CHAR.canPay({ type: Constants.Payment.Sanity, amount: 1})) {
+			options.push(["SAN", "Sanity", "Reduce maximum Sanity by 1"]);
+		}
+		if (options.length == 0) {
+			CHAR.devour();
+			return;
+		}
+
+		var choice = game.selectChoice(options);
+		if (choice == "STA") {
+			var obj = game.drawSpecificObject(Object.CthulhuDamageSanity);
+			CHAR.addToInventory(obj);
+		} else {
+			var obj = game.drawSpecificObject(Object.CthulhuDamageSanity);
+			CHAR.addToInventory(obj);
+		}
+
+		if (!CHAR.commitDamage()) {
+			CHAR.devour();
+		}
 	}}}
+}
+
+SpecialObject CthulhuDamageSanity : 80 {
+	name: "Cthulhu Damage (Sanity)";
+	modifications: [ Prop_MaxSanity -1 ];
+}
+
+SpecialObject CthulhuDamageStamina : 80 {
+	name: "Cthulhu Damage (Stamina)";
+	modifications: [ Prop_MaxStamina -1 ];
 }

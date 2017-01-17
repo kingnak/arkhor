@@ -22,7 +22,7 @@ Investigator JennyBarnes {
 }
 
 SpecialAbility TrustFund {
-	actionIds: Action.TrustFund;
+	actions: Action.TrustFund;
 	description: "<b>Upkeep:</b> Jenny gains <b>$</b>1.";
 }
 

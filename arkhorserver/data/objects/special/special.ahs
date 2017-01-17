@@ -1,10 +1,10 @@
-SpecialObject BankLoan {
+SpecialObject BankLoan : 8 {
 	description: "Gain $10 when you take this card.\n\n"+
 		"<bUpkeep:</b> Roll a die. On a 1-3, pay $1 or discard all of your items along with "+
 		"this card. You cannot get another Bank Loan this game.\n\n"+
 		"<b>Any Phase:</b> Pay $10 to pay off your Bank Loan and discard this card. "+
 		"You may choose to take out a new Bank Loan later on during this game.";
-	actionIds: Action.BankLoanCheck;
+	actions: Action.BankLoanCheck;
 	options: Option.BankLoanPayback;
 	onAddToInventory: {{{
 		// TODO: Check if player can have another bankloan... maybe through dummy blocker object?
@@ -41,10 +41,10 @@ QuickOption BankLoanPayback {
 	}}};
 }
 
-SpecialObject DeputyOfArkham {
+SpecialObject DeputyOfArkham : 1 {
 	description: "When you gain this card, take the Deputy's Revolver and the Patrol Wagon (not implemented) as well.\n"+
 		"<b>Upkeep:</b> Gain $1";
-	actionIds: Action.DeputyUpkeep;
+	actions: Action.DeputyUpkeep;
 	onAddToInventory: {{{
 		var rev = game.drawSpecificObject(SpecialObject.DeputysRevolver);
 		this.owner.addToInventory(rev);
@@ -59,7 +59,7 @@ Action DeputyUpkeep {
 	}}};
 }
 
-SpecialObject DeputysRevolver {
+SpecialObject DeputysRevolver : 1 {
 	name: "Deputy's Revolver";
 	description: "Deputy's Revolver cannot be lost or stolen unless you choose to allow it.";
 	hands: 1;
@@ -67,7 +67,7 @@ SpecialObject DeputysRevolver {
 	attributes: CannotBeLost;
 }
 /*
-SpecialObject PatrolWagon {
+SpecialObject PatrolWagon : 1 {
 	// TODO
 	description: "<b>Movement:</b> If you are in Arkham, you may move to any street area or "+
 		"location in Arkham instead of your normal movement.\n"+
@@ -76,9 +76,9 @@ SpecialObject PatrolWagon {
 }
 */
 
-SpecialObject Retiner {
+SpecialObject Retiner : 8 {
 	description: "<b>Upkeep:</b> Gain $2, then roll a die. Discard this card on a 1.";
-	actionIds: Action.Retainer;
+	actions: Action.Retainer;
 }
 Action Retainer {
 	phases: Upkeep;
@@ -92,7 +92,7 @@ Action Retainer {
 }
 
 /*
-SpecialObject LodgeMembership {
+SpecialObject LodgeMembership : 8 {
 	// TODO
 	name: "Silver Twilight Lodge Membership";
 	description: "<b>Any Phase:</b> Whenever you have an encounter at the Silver Twilight Lodge, "+

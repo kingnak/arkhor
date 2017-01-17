@@ -163,7 +163,7 @@ UniqueItem NamelessCults : 2 {
 	price: 3;
 	options: Option.ReadNamelessCults;
 }
-QuickOption ReadNamlessCults {
+QuickOption ReadNamelessCults {
 	phases: Movement;
 	costs: [ Movement 1 ];
 	continueType: CanContinue;

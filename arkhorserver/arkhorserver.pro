@@ -268,3 +268,28 @@ else:unix: LIBS += -L$$OUT_PWD/../arkhorscript/ -larkhorscript
 
 INCLUDEPATH += $$PWD/../arkhorscript
 DEPENDPATH += $$PWD/../arkhorscript
+
+DISTFILES += \
+    data/ancientone/cthulhu.ahs \
+    data/characters/bob_jenkins.ahs \
+    data/characters/carolyn_fern.ahs \
+    data/characters/darrell_simmons.ahs \
+    data/characters/dexter_drake.ahs \
+    data/characters/gloria_goldberg.ahs \
+    data/characters/harvey_walters.ahs \
+    data/characters/joe_diamond.ahs \
+    data/characters/kate_winthrop.ahs \
+    data/characters/mandy_thompson.ahs \
+    data/characters/michael_mcglen.ahs \
+    data/characters/monterey_jack.ahs \
+    data/characters/vincent_lee.ahs \
+    data/mythos/ru_southside_strangler.ahs \
+    data/mythos/test.ahs \
+    data/objects/common/weapons.ahs \
+    data/objects/skills/skills.ahs \
+    data/objects/special/special.ahs \
+    data/objects/spells/misc.ahs \
+    data/objects/spells/weapons.ahs \
+    data/objects/unique/misc.ahs \
+    data/objects/unique/tomes.ahs \
+    data/objects/unique/weapons.ahs

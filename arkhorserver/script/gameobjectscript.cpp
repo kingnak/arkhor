@@ -65,8 +65,8 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
     ret->m_hands = data.property("hands").toUInt32();
     ret->m_price = data.property("price").toUInt32();
 
-    ret->m_actionIds = GameScript::array2stringlist(data.property("actionIds"));
-    ret->m_optionIds = GameScript::array2stringlist(data.property("optionIds"));
+    ret->m_actionIds = GameScript::array2stringlist(data.property("actions"));
+    ret->m_optionIds = GameScript::array2stringlist(data.property("options"));
 
     foreach (QString id, ret->m_actionIds) {
         ret->m_actMap[id] = NULL;

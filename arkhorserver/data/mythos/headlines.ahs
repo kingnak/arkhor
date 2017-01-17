@@ -1,0 +1,142 @@
+Headline AllQuiet_inArkham {
+	name: "All Quiet in Arkham!";
+	description: "Each player may pass a <b>Luck (-1) check</b> to be <i>Blessed</i>.";
+	//clueField: SS_HistoricalSociety;
+	//moveWhite: Hexagon;
+	//moveBlack: (Slash,Star,Triangle);
+	//gateField: UT_Woods;
+	executeHeadline: {{{
+		// TODO: All characters
+		var res = game.context.skillTest("Get Blessed", Constants.Skills.Luck, -1, 1);
+		if (res) {
+			var obj = game.drawSpecificObject(BlessingCurse.Blessing);
+			CHAR.addToInventory(obj);
+		}
+	}}};
+}
+
+Headline BigStormSweepsArkham {
+	name: "Big Storm Sweeps Arkham!";
+	description: "All monsters in the Sky and Outskirts are returned to the cup.";
+	//clueField: MD_TheUnnamable;
+	//moveWhite: Moon;
+	//moveBlack: Cross;
+	//gateField: DT_IndependenceSquare;
+	executeHeadline: {{{
+		game.returnMonstersFromFields( [
+			Constants.Fields.Sp_Sky,
+			Constants.Fields.Sp_Outskirts
+		] );
+	}}};
+}
+
+Headline BizarreDreamsPlagueCitizens {
+	name: "Bizarre Dreams Plague Citizens!";
+	description: "All Gugs and Nightgaunts in Arkham are returned to the cup. "+
+		"If at least one monster returns to the cup, raise the terror level by 1.";
+	//clueField: FH_TheWitchHouse;
+	//moveWhite: Hexagon;
+	//moveBlack: (Slash,Diamond,Triangle);
+	//gateField: MU_ScienceBuilding;
+	executeHeadline: {{{
+		var res = game.returnMonsterTypeFromBoard(Monster.Gug);
+		res &= game.returnMonsterTypeFromBoard(Monster.Nightgaunt);
+		if (res) {
+			game.context.increaseTerrorLevel();
+		}
+	}}};
+}
+
+Headline CampusSecurityIncreased {
+	name: "Campus Security Increased!";
+	description: "All monsters in the Miskatonic U. Streets or Locations are returned to the cup.";
+	//clueField: MD_TheUnnamable;
+	//moveWhite: Circle;
+	//moveBlack: (Diamond,Sqare);
+	//gateField: DT_IndependenceSquare;
+	executeHeadline: {{{
+		game.returnMonstersFromFields( [
+			Constants.Fields.MU_MiskatonicU,
+			Constants.Fields.MU_ScienceBuilding,
+			Constants.Fields.MU_Administration,
+			Constants.Fields.MU_Library
+		] );
+	}}};
+}
+
+Headline ChurchGroupReclaimsSouthside {
+	name: "Church Group Reclaims Southside!";
+	description: "All monsters in the Southside streets or locations are returned to the cup.";
+	//clueField: ET_HibbsRoadhouse;
+	//moveWhite: Hexagon;
+	//moveBlack: (Slash,Star,Triangle);
+	//gateField: RT_BlackCave;
+	executeHeadline: {{{
+		game.returnMonstersFromFields( [
+			Constants.Fields.SS_Southside,
+			Constants.Fields.SS_MasBoardingHouse,
+			Constants.Fields.SS_SouthChurch,
+			Constants.Fields.SS_HistoricalSociety
+		] );
+	}}};
+}
+
+Headline FamilyFoundButchered {
+	name: "Family Found Butchered!";
+	description: "The terror level increases by 1 in light of this tragic news.";
+	//clueField: MD_UnvisitedIsle;
+	//moveWhite: Circle;
+	//moveBlack: Cross;
+	//gateField: RT_Graveyard;
+	executeHeadline: {{{
+		game.context.increaseTerrorLevel();
+	}}};
+}
+
+Headline FedsRaidArkham {
+	name: "Feds Raid Arkham!";
+	description: "All monsters in the streets are returned to the cup.";
+	//clueField: ET_HibbsRoadhouse;
+	//moveWhite: Circle;
+	//moveBlack: Cross;
+	//gateField: RT_BlackCave;
+	executeHeadline: {{{
+		game.returnMonstersFromFieldType(Constants.FieldType.Street);
+	}}};
+}
+
+Headline GangsCleanUpEasttown {
+	name: "Gangs Clean Up Easttown!";
+	description: "All monsters in the Easttown streets or locations are returned to the cup.";
+	//clueField: RT_BlackCave;
+	//moveWhite: Circle;
+	//moveBlack: (Diamond,Square);
+	//gateField: FH_TheWitchHouse;
+	executeHeadline: {{{
+		game.returnMonstersFromFields( [
+			Constants.Fields.ET_Easttown,
+			Constants.Fields.ET_HibbsRoadhouse,
+			Constants.Fields.ET_VelmasDiner,
+			Constants.Fields.ET_PoliceStation
+		] );
+	}}};
+}
+
+Headline GhostShip {
+	name: "Ghost Ship Docks by Itself!";
+	description: "An ancient ghost ship arrives in Arkham, releasing 2 monsters into the Merchant Dist. streets.";
+	//clueField: UT_Woods;
+	//moveWhite: Moon;
+	//moveBlack: Cross;
+	//gateField: MD_TheUnnamable;
+	executeHeadline: {{{
+		game.createMonster(Constants.Fields.MD_MerchantDist);
+		game.createMonster(Constants.Fields.MD_MerchantDist);
+	}}};
+}
+/*
+TODOS:
+Blue Flu!
+City Gripped by Blackouts!
+Fourth of July Parade!
+*/

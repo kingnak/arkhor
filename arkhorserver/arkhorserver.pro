@@ -292,4 +292,12 @@ DISTFILES += \
     data/objects/spells/weapons.ahs \
     data/objects/unique/misc.ahs \
     data/objects/unique/tomes.ahs \
-    data/objects/unique/weapons.ahs
+    data/objects/unique/weapons.ahs \
+    data/ancientone/ithaqua.ahs \
+    data/ancientone/nyarlathotep.ahs \
+    data/ancientone/shub_niggurath.ahs \
+    data/ancientone/yig.ahs \
+    data/ancientone/yog_sothoth.ahs \
+    data/mythos/env_mystic.ahs \
+    data/mythos/headlines.ahs \
+    data/mythos/env_weather.ahs

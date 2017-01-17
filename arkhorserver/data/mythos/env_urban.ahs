@@ -1,10 +1,37 @@
+Environment AlienTechnology {
+	description: "Mi-Go have their toughness increased by 2. If an investigator passes a Combat check against a Mi-Go, he draws 1 extra Unique Item.";
+	environmentType: Urban;
+	//clueField: MU_ScienceBuilding;
+	//moveWhite: (Diamond,Square);
+	//moveBlack: Circle;
+	//gateField: MD_UnvisitedIsle;
+	monsterModifications: [
+		MiGo { Monster_Toughness +2 }
+	];
+	// TODO
+}
+
 
 Environment TheFestival {
 	description: "The Festival has begun! Cultists and Byakhee "+
 		"have their toughness increases by 1.";
 	environmentType: Urban;
+	//clueField: SS_HistoricalSociety;
+	//moveWhite: Cross;
+	//moveBlack: Moon;
+	//gateField: UT_Woods;
 	monsterModifications: [
 		Cultist { Monster_Toughness +1 },
 		Byakhee { Monster_Toughness +1 }
 	];
 }
+
+/*
+TODOS:
+Curfew Enforced
+Darke's Carnival Arrives
+Egyptian Exhibit Visits Miskatonic U.
+Estate Sale
+Happy Days are Here Again
+
+*/

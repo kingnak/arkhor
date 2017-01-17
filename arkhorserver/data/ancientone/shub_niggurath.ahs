@@ -1,0 +1,43 @@
+AncientOne ShubNiggurath {
+	name: "Shub-Niggurath";
+	combatAdjustment: -5;
+	worshippersText: "Shub-Niggurath's young are numberless. <b>Dark Young</b> "+
+		"have the <b><i>Endless</i></b> ability";
+
+	powerTitle: "Black Goat of the Woods";
+	powerText: "While Shub-Niggurath stirs in her slumber, all monsters have their "+
+		"toughness increased by 1.";
+		
+	battleStartText: "Any investigator with no monster trophies is <b>devoured</b>.";
+	attackText: "Each investigator must pass a <b>Sneak (+1) check</b> or lose 1 monster trophy. "+
+		"Any investigator with no monster trophies left is <b>devoured</b>. "+
+		"This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)";
+		
+	doomTrack: 12;
+	defenses: PhysicalImmunity;
+	monsterModifications: [
+		DarkYount { Monster_Attributes |"+Constants.Monster.Endless+" },
+		* { Monster_Toughness +1 }
+	];
+	
+	attackAdjustment: 1;
+
+	onAwake: {{{
+		for (var c in game.context.allCharacters) {
+			if (!c.canPay({type: Constants.Costs.MonsterTrophy, amount: 1})) {
+				c.devour();
+			}
+		}
+	}}};
+	
+	attack: {{{
+		var res = game.context.skillTest("Shub-Niggurath attacks", Constants.Skills.Sneak, this.attackAdjustment, 1);
+		if (!res) {
+			res = CHAR.pay({type: Constants.Costs.MonsterTrophy, amount: 1});
+			if (!res) {
+				CHAR.devour();
+			}
+		}
+	}}};
+}
+

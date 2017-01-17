@@ -1,0 +1,88 @@
+Environment Sunny_andClear {
+	description: "Sneak checks in Arkham are made at a -1 penalty.\n"+
+		"Will checks in Arkham are made at a +1 bonus.\n";
+		//+"If the Hunter in Darkness is in play, return it to the cup."
+		//+"If the Hunter in Darkness enters play, return it to the cup and draw a different monster.";
+		// TODO
+	environmentType: Weather;
+	//clueField: ET_HibbsRoadhouse;
+	//moveWhite: Cross;
+	//moveBlack: Moon;
+	//gateField: RT_BlackCave;
+	environmentModifications: [
+		Skill_Sneak -1,
+		Skill_Will +1
+	];
+}
+
+Environment RainingCats_andDogs {
+	description: "Speed checks in Arkham are made at a -1 penalty, and players receive one less movement point during the Movement Phase.\n"+
+		"Sneak checks in Arkham are made at a +1 bonus.\n";
+		//+"Return any Fire Vampires in play to the cup."
+		//+"If a Fire Vampire enters play, return it to the cup and draw a different monster.";
+		// TODO
+	environmentType: Weather;
+	//clueField: DT_IndependenceSquare;
+	//moveWhite: Cross;
+	//moveBlack: Moon;
+	//gateField: ET_HibbsRoadhouse;
+	environmentModifications: [
+		Skill_Speed -1,
+		Prop_Movement -1,
+		Skill_Sneak +1
+	];
+}
+
+Environment IcyConditions {
+	description: "Investigators receive 1 less movement point during the Movement Phase. "+
+		"Fast Monsters move like normal monsters.";
+	environmentType: Weather;
+	//clueField: FH_SilverTwilightLodge;
+	//moveWhite: Cross;
+	//moveBlack: Moon;
+	//gateField: SS_HistoricalSociety;
+	environmentModifications: [
+		Prop_Movement -1
+	];
+	monsterMoveModifications: [
+		Type.Fast Normal
+	];
+}
+
+Environment HeatWave {
+	description: "Fight checks in Arkham are made at a -1 penalty. "+
+		"Lore checks in Arkham are made at a +1 bonus. "+
+		"Fire Vampires have their toughness increased by 1.";
+	environmentType: Weather;
+	//clueField: DT_IndependenceSquare;
+	//moveWhite: (Diamond,Square);
+	//moveBlack: Circle;
+	//gateField: UT_Woods;
+	environmentModifications: [
+		// Not 100% correct... Only in Arkham
+		Skill_Fight -1,
+		Skill_Lore +1
+	];
+	monsterModifications: [
+		FireVampire { Monster_Toughness +1 }
+	];
+}
+
+Environment AnEvilFog {
+	description: "Will checks in Arkham are made at a -1 penalty. "+
+		"Sneak checks in Arkham are made at a +1 bonus. "+
+		"Fliers do not move. ";
+	environmentType: Weather;
+	//clueField: MD_UnvisitedIsle;
+	//moveWhite: Cross;
+	//moveBlack: Moon;
+	//gateField: RT_Graveyard;
+	environmentModifications: [
+		// Not 100% correct... Only in Arkham
+		Skill_Will -1,
+		Skill_Sneak +1
+	];
+	monsterMoveModifications: [
+		Type.Flying Stationary
+	];
+}

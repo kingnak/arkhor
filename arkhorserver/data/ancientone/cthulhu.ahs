@@ -19,15 +19,15 @@ AncientOne Cthulhu {
 		Prop_MaxStamina -1
 	];
 
-	// Not needed...
+	// Not needed... but required
 	attackAdjustment: 0;
 
 	attack: {{{
 		var options = [];
-		if (CHAR.canPay({ type: Constants.Payment.Stamina, amount: 1})) {
+		if (CHAR.canPay({ type: Constants.Costs.Stamina, amount: 1})) {
 			options.push(["STA", "Stamina", "Reduce maximum Stamina by 1"]);
 		}
-		if (CHAR.canPay({ type: Constants.Payment.Sanity, amount: 1})) {
+		if (CHAR.canPay({ type: Constants.Costs.Sanity, amount: 1})) {
 			options.push(["SAN", "Sanity", "Reduce maximum Sanity by 1"]);
 		}
 		if (options.length == 0) {
@@ -37,7 +37,7 @@ AncientOne Cthulhu {
 
 		var choice = game.selectChoice(options);
 		if (choice == "STA") {
-			var obj = game.drawSpecificObject(Object.CthulhuDamageSanity);
+			var obj = game.drawSpecificObject(Object.CthulhuDamageStamina);
 			CHAR.addToInventory(obj);
 		} else {
 			var obj = game.drawSpecificObject(Object.CthulhuDamageSanity);
@@ -47,7 +47,13 @@ AncientOne Cthulhu {
 		if (!CHAR.commitDamage()) {
 			CHAR.devour();
 		}
-	}}}
+	}}};
+
+	postAttack: {{{
+		if (this.doomTrack < this.maxDoomTrack) {
+			increaseDoomTrack();
+		}
+	}}};
 }
 
 SpecialObject CthulhuDamageSanity : 80 {

@@ -17,7 +17,7 @@ Action BankLoanCheck {
 		var res = game.context.genericDieRollSum("Bank Loan check", 1);
 		if (res < 4) {
 			var options = [["ITEMS", "Lose all items", "You lose all your items and this bank loan"]];
-			if (this.owner.canPay({type: Constants.Pay.Money, amount: 1})) {
+			if (this.owner.canPay({type: Constants.Costs.Money, amount: 1})) {
 				options.push(["MONEY", "$1", "Pay $1 instead"]);
 			}
 			res = game.selectChoice(options);

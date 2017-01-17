@@ -42,7 +42,7 @@ bool GameObject::onAddToInventory(Character *c)
                     return false;
                 } else {
                     // Other type. Remove it and don't add
-                    c->removeFromInventory(o);
+                    o->returnToDeck();
                     return false;
                 }
             }

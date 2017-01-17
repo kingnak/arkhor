@@ -119,6 +119,11 @@ int GameContextScript::dieRollSkillCount(QString desc, int skill, int adjust)
     return res.intResult;
 }
 
+void GameContextScript::increaseTerrorLevel(int amount)
+{
+    gGame->increaseTerrorLevel(amount);
+}
+
 QString GameContextScript::selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options)
 {
     return selectChoice(desc, options, false);

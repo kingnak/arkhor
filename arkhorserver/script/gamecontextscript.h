@@ -45,6 +45,9 @@ public:
     Q_INVOKABLE bool skillTest(QString desc, int skill, int adjust, int target);
     Q_INVOKABLE int dieRollSkillCount(QString desc, int skill, int adjust);
 
+    Q_INVOKABLE void increaseTerrorLevel(int amount = 1);
+    Q_INVOKABLE void decreaseTerrorLevel(int amount = 1) { increaseTerrorLevel(-amount); }
+
     Q_INVOKABLE QString selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options);
     Q_INVOKABLE QString selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel);
 

@@ -30,6 +30,7 @@ AncientOneScript *AncientOneScript::createAncientOne(QScriptContext *ctx, QScrip
     ret->m_defenses = static_cast<AH::Common::MonsterData::MonsterAttributes> (data.property("defenses").toUInt32());
     ret->m_doomTrack = data.property("doomTrack").toInt32();
     ret->m_awakeFunc = data.property("onAwake");
+    ret->m_postAttackFunc = data.property("postAttack");
 
     // Dynamic attack adjustment
     ret->m_attackAdjustment = data.property("attackAdjustment").toInt32();
@@ -76,6 +77,20 @@ void AncientOneScript::attack()
     m_attackFunc.call(m_this);
 }
 
+bool AncientOneScript::postAttack()
+{
+    if (m_postAttackFunc.isFunction()) {
+        QScriptValue res = m_postAttackFunc.call(m_this);
+        if (res.isValid() && !res.isUndefined()) {
+            if (res.isBool() && !res.toBool()) {
+                // False returned
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 bool AncientOneScript::verify(AncientOneScript *m, QString *msg)
 {
     QStringList errs;
@@ -85,6 +100,7 @@ bool AncientOneScript::verify(AncientOneScript *m, QString *msg)
     if (m->m_doomTrack <= 0) errs.append("doomTrack must be greater than 0");
     if (m->m_awakeFunc.isValid() && !m->m_awakeFunc.isFunction()) errs.append("onAwake must be a function");
     if (!m->m_attackFunc.isValid() || !m->m_attackFunc.isFunction()) errs.append("attack must be a function");
+    if (m->m_postAttackFunc.isValid() && !m->m_postAttackFunc.isFunction()) errs.append("postAttack must be a function");
 
     if (msg) *msg = errs.join("\n");
     if (errs.isEmpty()) {

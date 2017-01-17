@@ -29,6 +29,7 @@ public:
     { Q_UNUSED(attrs) Q_UNUSED(matchAll) return PropertyModificationList(); }
     */
 
+
     using MonsterModifier::getMonsterModifications;
     using MonsterModifier::getMonsterMovementModifications;
 
@@ -38,6 +39,7 @@ public:
     virtual void awake();
 
     virtual void attack() = 0;
+    virtual bool postAttack() { return true; }
     virtual void newAttackRound();
 
     bool isDefeated() const;

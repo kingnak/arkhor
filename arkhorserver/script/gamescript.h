@@ -52,6 +52,9 @@ public:
     Q_INVOKABLE bool returnMonstersFromFields(QList<quint32> fieldIds);
     Q_INVOKABLE bool returnMonsterTypeFromBoard(QString typeId);
 
+    /** fId must be a AH::Common::FieldData::FieldID */
+    Q_INVOKABLE bool spawnMonster(quint32 fId);
+
     Q_INVOKABLE int cardsOnDeck(qint32 type);
 
     Q_INVOKABLE void createGate(qint32 fld);

@@ -1340,6 +1340,10 @@ void Game::endFight()
             return;
         }
 
+        if (!m_ancientOne->postAttack()) {
+            this->lost(GS_Lost);
+            return;
+        }
         m_ancientOne->newAttackRound();
     } while (true);
 }

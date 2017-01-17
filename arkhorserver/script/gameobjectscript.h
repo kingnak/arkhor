@@ -25,6 +25,7 @@ public:
     Q_PROPERTY(QString typeId READ typeId)
     Q_PROPERTY(CharacterScript* owner READ csOwner)
     Q_PROPERTY(int price READ price)
+    Q_PROPERTY(qint32 type READ type)
 
     Q_INVOKABLE void exhaust() { GameObject::exhaust(); }
     Q_INVOKABLE void returnToDeck() { GameObject::returnToDeck(); }

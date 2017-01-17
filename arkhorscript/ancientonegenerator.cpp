@@ -45,6 +45,7 @@ QList<ClassGenerator::AttributeDesc> AncientOneGenerator::getAttributes()
             << AttributeDesc("slumberModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Array)
             << AttributeDesc("monsterModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
             << AttributeDesc("monsterMoveModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
+            << AttributeDesc("postAttack", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
                ;
 }
 

@@ -590,6 +590,14 @@ bool GameScript::returnMonsterTypeFromBoard(QString typeId)
     return hasRemoved;
 }
 
+bool GameScript::spawnMonster(quint32 fId)
+{
+    AH::Common::FieldData::FieldID fieldId = static_cast<AH::Common::FieldData::FieldID>(fId);
+    GameField *field = gGame->board()->field(fieldId);
+    if (!field) return false;
+    return gGame->createMonster(field);
+}
+
 int GameScript::cardsOnDeck(qint32 type)
 {
     AH::GameObjectType t = static_cast<AH::GameObjectType> (type);

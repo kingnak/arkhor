@@ -44,6 +44,8 @@ public:
     void setDirty(bool dirty = true) { m_dirty = dirty; }
     bool isDirty() const { return m_dirty; }
 
+    GameObject *getObjectFromInventory(const QString &typeId) const;
+
     // Attributes
     QList<AttributeSlider> getFocusAttributes() const;
     QList<AttributeSlider> &getModifyableFocusAttributes();

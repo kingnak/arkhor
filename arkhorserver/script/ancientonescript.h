@@ -21,6 +21,8 @@ public:
     static QScriptValue castToValue(QScriptEngine *eng, AncientOneScript * const &in) { return eng->newQObject(in); }
 
     Q_PROPERTY(int attackAdjustment READ attackAdjustment)
+    Q_PROPERTY(int doomTrack READ doomValue)
+    Q_PROPERTY(int maxDoomTrack READ doomTrack)
 
     Q_INVOKABLE void awake();
 
@@ -32,6 +34,7 @@ public:
     virtual PropertyModificationList getSlumberModifications() const { return m_slumberModifications; }
 
     virtual void attack();
+    virtual bool postAttack();
 
 signals:
 
@@ -43,6 +46,7 @@ private:
 private:
     QScriptValue m_awakeFunc;
     QScriptValue m_attackFunc;
+    QScriptValue m_postAttackFunc;
     QScriptValue m_this;
 
     PropertyModificationList m_slumberModifications;

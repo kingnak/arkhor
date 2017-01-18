@@ -41,23 +41,19 @@ public:
     Q_PROPERTY(GameContextScript* context READ getGameContext SCRIPTABLE true)
     GameContextScript *getGameContext();
 
-    Q_INVOKABLE GameObjectScript *drawSingleObject(qint32 type);
+    Q_INVOKABLE GameObjectScript *drawSingleObject(AH::GameObjectType type);
     Q_INVOKABLE GameObjectScript *drawSpecificObject(QString id);
 
-    /** fieldId must be a AH::Common::FieldData::FieldID */
-    Q_INVOKABLE bool returnMonstersFromField(quint32 fieldId);
-    /** type must be a AH::Common::FieldData::FieldType */
-    Q_INVOKABLE bool returnMonstersFromFieldType(quint32 type);
-    /** fieldIds must be a list of AH::Common::FieldData::FieldID */
-    Q_INVOKABLE bool returnMonstersFromFields(QList<quint32> fieldIds);
+    Q_INVOKABLE bool returnMonstersFromField(AH::Common::FieldData::FieldID fieldId);
+    Q_INVOKABLE bool returnMonstersFromFieldType(AH::Common::FieldData::FieldType type);
+    Q_INVOKABLE bool returnMonstersFromFields(QList<AH::Common::FieldData::FieldID> fieldIds);
     Q_INVOKABLE bool returnMonsterTypeFromBoard(QString typeId);
 
-    /** fId must be a AH::Common::FieldData::FieldID */
-    Q_INVOKABLE bool spawnMonster(quint32 fId);
+    Q_INVOKABLE bool spawnMonster(AH::Common::FieldData::FieldID fieldId);
 
-    Q_INVOKABLE int cardsOnDeck(qint32 type);
+    Q_INVOKABLE int cardsOnDeck(AH::GameObjectType type);
 
-    Q_INVOKABLE void createGate(qint32 fld);
+    Q_INVOKABLE void createGate(AH::Common::FieldData::FieldID fieldId);
 
 
     ////////// SETUP
@@ -77,10 +73,10 @@ public:
 
     Q_INVOKABLE QScriptValue registerSingleObject(GameObjectScript *o);
     Q_INVOKABLE QScriptValue registerObject(GameObjectScript *o);
-    Q_INVOKABLE QScriptValue registerMultiObject(quint32 count, GameObjectScript *o);
+    Q_INVOKABLE QScriptValue registerMultiObject(qint32 count, GameObjectScript *o);
     Q_INVOKABLE GameObjectScript *createObject();
 
-    Q_INVOKABLE QScriptValue addFieldOption(int fieldId, QString optionId);
+    Q_INVOKABLE QScriptValue addFieldOption(AH::Common::FieldData::FieldID fieldId, QString optionId);
 
     Q_INVOKABLE ArkhamEncounterScript *createArkhamEncounter();
     Q_INVOKABLE QScriptValue registerArkhamEncounter(ArkhamEncounterScript *e);
@@ -121,6 +117,11 @@ public:
 
     static QScriptValue castChoiceOptionToValue(QScriptEngine *eng, AH::Common::ChoiceData::OptionData const &in);
     static void castChoiceOptionFromValue(const QScriptValue &v, AH::Common::ChoiceData::OptionData &o);
+
+    template<typename T>
+    static QScriptValue castEnumToValue(QScriptEngine *eng, T const &in);
+    template<typename T>
+    static void castEnumFromValue(const QScriptValue &v, T &o);
 
     template<typename T>
     static QScriptValue castListToValue(QScriptEngine *eng, QList<T> const &in);
@@ -174,6 +175,19 @@ T GameScript::parseFlags(QScriptValue v, T defVal)
     }
 }
 
+template<typename T>
+QScriptValue GameScript::castEnumToValue(QScriptEngine *eng, T const &in)
+{
+    Q_UNUSED(eng);
+    return QScriptValue(static_cast<qint32>(in));
+}
+
+template<typename T>
+void GameScript::castEnumFromValue(const QScriptValue &v, T &o)
+{
+    qint32 vvv = qscriptvalue_cast<qint32> (v);
+    o = static_cast<T> (vvv);
+}
 
 template<typename T>
 QScriptValue GameScript::castListToValue(QScriptEngine *eng, QList<T> const &in)

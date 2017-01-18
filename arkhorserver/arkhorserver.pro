@@ -1,11 +1,15 @@
+CONFIG += DEBUG_SCRIPT
+
 QT += network script scripttools
-QT -= gui
+DEBUG_SCRIPT {
+	QT += widgets
+	DEFINES += DEBUG_SCRIPT_BUILD
+} else {
+	QT -= gui widgets
+	CONFIG += console
+	CONFIG -= windows
+}
 unix:CONFIG(debug, debug|release): DEFINES += "_DEBUG=1"
-
-CONFIG += console
-CONFIG -= windows
-
-#DEFINES += DEBUG_SCRIPT_BUILD
 
 HEADERS += \
     communication/clientconnection.h \

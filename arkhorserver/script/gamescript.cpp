@@ -29,12 +29,18 @@
 
 #ifdef DEBUG_SCRIPT_BUILD
 #include <QScriptEngineDebugger>
-#include <QMainWindow>
-#include <QAction>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QAction>
 
 Q_DECLARE_METATYPE(QList<AH::Common::GameOptionData>)
 
 #endif
+
+Q_DECLARE_METATYPE(AH::Common::FieldData::FieldID)
+Q_DECLARE_METATYPE(QList<AH::Common::FieldData::FieldID>)
+Q_DECLARE_METATYPE(AH::Common::FieldData::FieldType)
+Q_DECLARE_METATYPE(AH::GameObjectType)
+Q_DECLARE_METATYPE(AH::Skill)
 
 GameScript *GameScript::s_instance = NULL;
 
@@ -82,6 +88,15 @@ bool GameScript::init(const QString &scriptBaseDir)
     qScriptRegisterMetaType<AH::Common::ChoiceData::OptionData>(m_engine, GameScript::castChoiceOptionToValue, GameScript::castChoiceOptionFromValue);
     qScriptRegisterMetaType<QList<AH::Common::ChoiceData::OptionData> >(m_engine, GameScript::castListToValue<AH::Common::ChoiceData::OptionData>, GameScript::castListFromValue<AH::Common::ChoiceData::OptionData>);
 
+    qScriptRegisterMetaType<AH::Common::FieldData::FieldID> (m_engine, GameScript::castEnumToValue<AH::Common::FieldData::FieldID>, GameScript::castEnumFromValue<AH::Common::FieldData::FieldID>);
+    qScriptRegisterMetaType<QList<AH::Common::FieldData::FieldID> >(m_engine, GameScript::castListToValue<AH::Common::FieldData::FieldID>, GameScript::castListFromValue<AH::Common::FieldData::FieldID>);
+
+    qScriptRegisterMetaType<AH::Common::FieldData::FieldType> (m_engine, GameScript::castEnumToValue<AH::Common::FieldData::FieldType>, GameScript::castEnumFromValue<AH::Common::FieldData::FieldType>);
+
+    qScriptRegisterMetaType<AH::GameObjectType> (m_engine, GameScript::castEnumToValue<AH::GameObjectType>, GameScript::castEnumFromValue<AH::GameObjectType>);
+
+    qScriptRegisterMetaType<AH::Skill> (m_engine, GameScript::castEnumToValue<AH::Skill>, GameScript::castEnumFromValue<AH::Skill>);
+
     qRegisterMetaType<GameContextScript*>();
     qRegisterMetaType<CharacterScript*>();
     qRegisterMetaType<QList<CharacterScript*> >();
@@ -90,6 +105,7 @@ bool GameScript::init(const QString &scriptBaseDir)
     // Main Game Script
     QScriptValue obj = m_engine->newQObject(this);
     m_engine->globalObject().setProperty("game", obj);
+    obj.setProperty("utility", m_engine->newObject());
 
     // Constants:
     QScriptValue c = initConstants();
@@ -109,11 +125,9 @@ GameContextScript *GameScript::getGameContext()
     return m_ctx;
 }
 
-GameObjectScript *GameScript::drawSingleObject(qint32 type)
+GameObjectScript *GameScript::drawSingleObject(AH::GameObjectType type)
 {
-    AH::GameObjectType t = static_cast<AH::GameObjectType> (type);
-
-    GameObject *o = gGame->drawObject(t);
+    GameObject *o = gGame->drawObject(type);
     if (!o) return NULL;
     GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
     if (!os) {
@@ -546,25 +560,24 @@ GameObjectScript *GameScript::drawSpecificObject(QString id)
     return os;
 }
 
-bool GameScript::returnMonstersFromField(quint32 fieldId)
+bool GameScript::returnMonstersFromField(AH::Common::FieldData::FieldID fieldId)
 {
-    return returnMonstersFromFields(QList<quint32>() << fieldId);
+    return returnMonstersFromFields(QList<AH::Common::FieldData::FieldID>() << fieldId);
 }
 
-bool GameScript::returnMonstersFromFieldType(quint32 type)
+bool GameScript::returnMonstersFromFieldType(AH::Common::FieldData::FieldType type)
 {
-    QList<quint32> lst;
-    foreach (GameField *f, gGame->board()->fields(static_cast<AH::Common::FieldData::FieldType> (type))) {
+    QList<AH::Common::FieldData::FieldID> lst;
+    foreach (GameField *f, gGame->board()->fields(type)) {
         lst << f->id();
     }
     return returnMonstersFromFields(lst);
 }
 
-bool GameScript::returnMonstersFromFields(QList<quint32> fieldIds)
+bool GameScript::returnMonstersFromFields(QList<AH::Common::FieldData::FieldID> fieldIds)
 {
     bool hasRemoved = false;
-    foreach (quint32 fId, fieldIds) {
-        AH::Common::FieldData::FieldID fieldId = static_cast<AH::Common::FieldData::FieldID>(fId);
+    foreach (AH::Common::FieldData::FieldID fieldId, fieldIds) {
         GameField *field = gGame->board()->field(fieldId);
         if (!field) continue;
 
@@ -590,24 +603,21 @@ bool GameScript::returnMonsterTypeFromBoard(QString typeId)
     return hasRemoved;
 }
 
-bool GameScript::spawnMonster(quint32 fId)
+bool GameScript::spawnMonster(AH::Common::FieldData::FieldID fieldId)
 {
-    AH::Common::FieldData::FieldID fieldId = static_cast<AH::Common::FieldData::FieldID>(fId);
     GameField *field = gGame->board()->field(fieldId);
     if (!field) return false;
     return gGame->createMonster(field);
 }
 
-int GameScript::cardsOnDeck(qint32 type)
+int GameScript::cardsOnDeck(AH::GameObjectType type)
 {
-    AH::GameObjectType t = static_cast<AH::GameObjectType> (type);
-    return gGame->drawableObjectCount(t);
+    return gGame->drawableObjectCount(type);
 }
 
-void GameScript::createGate(qint32 fld)
+void GameScript::createGate(AH::Common::FieldData::FieldID fieldld)
 {
-    AH::Common::FieldData::FieldID fid = static_cast<AH::Common::FieldData::FieldID> (fld);
-    GameField *field = gGame->board()->field(fid);
+    GameField *field = gGame->board()->field(fieldld);
     if (field)
         gGame->createGate(field);
 }
@@ -714,7 +724,7 @@ QScriptValue GameScript::registerObject(GameObjectScript *o)
     return m_engine->newQObject(o);
 }
 
-QScriptValue GameScript::registerMultiObject(quint32 count, GameObjectScript *o)
+QScriptValue GameScript::registerMultiObject(qint32 count, GameObjectScript *o)
 {
     if (!m_game->registerObject(o, count)) {
         return m_engine->currentContext()->throwError("Error registering Multiple Objects");
@@ -727,10 +737,9 @@ GameObjectScript *GameScript::createObject()
     return GameObjectScript::createGameObject(context(), engine());
 }
 
-QScriptValue GameScript::addFieldOption(int fieldId, QString optionId)
+QScriptValue GameScript::addFieldOption(AH::Common::FieldData::FieldID fieldId, QString optionId)
 {
-    AH::Common::FieldData::FieldID fid = static_cast<AH::Common::FieldData::FieldID> (fieldId);
-    GameField *f = m_game->board()->field(fid);
+    GameField *f = m_game->board()->field(fieldId);
     if (!f) {
         return context()->throwError(QScriptContext::ReferenceError, "Unknown field id");
     }
@@ -738,7 +747,7 @@ QScriptValue GameScript::addFieldOption(int fieldId, QString optionId)
         return context()->throwError(QScriptContext::ReferenceError, "Option id not set");
     }
 
-    m_game->registerFieldOption(fid, optionId);
+    m_game->registerFieldOption(fieldId, optionId);
     return QScriptValue();
 }
 

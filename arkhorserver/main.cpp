@@ -1,5 +1,5 @@
 #ifdef DEBUG_SCRIPT_BUILD
-#include <QApplication>
+#include <QtWidgets/QApplication>
 #else
 #include <QCoreApplication>
 #endif

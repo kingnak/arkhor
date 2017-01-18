@@ -17,7 +17,7 @@ public:
 
     void unlockFields(quint32 unlockFlags);
 
-    GameField *field(AH::Common::FieldData::FieldID id) { return m_fields[id]; }
+    GameField *field(AH::Common::FieldData::FieldID id) { return m_fields.value(id); }
 
     QList<GameField *> fields(AH::Common::FieldData::FieldType type);
     QList<GameField *> allFields();

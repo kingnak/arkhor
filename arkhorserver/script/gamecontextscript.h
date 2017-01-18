@@ -42,8 +42,8 @@ public:
     Q_INVOKABLE int genericDieRollSum(QString desc, int dieCount);
     Q_INVOKABLE bool genericDieRollTest(QString desc, int dieCount, int target);
     Q_INVOKABLE int genericDieRollCount(QString desc, int dieCount);
-    Q_INVOKABLE bool skillTest(QString desc, int skill, int adjust, int target);
-    Q_INVOKABLE int dieRollSkillCount(QString desc, int skill, int adjust);
+    Q_INVOKABLE bool skillTest(QString desc, AH::Skill skill, int adjust, int target);
+    Q_INVOKABLE int dieRollSkillCount(QString desc, AH::Skill skill, int adjust);
 
     Q_INVOKABLE void increaseTerrorLevel(int amount = 1);
     Q_INVOKABLE void decreaseTerrorLevel(int amount = 1) { increaseTerrorLevel(-amount); }
@@ -54,10 +54,10 @@ public:
     Q_INVOKABLE bool spontaneousMonsterFight();
     Q_INVOKABLE bool createGateAtCharacterField();
 
-    Q_INVOKABLE GameObjectScript *drawObject(qint32 type);
-    Q_INVOKABLE GameObjectScript *drawObject(qint32 type, QString desc);
+    Q_INVOKABLE GameObjectScript *drawObject(AH::GameObjectType type);
+    Q_INVOKABLE GameObjectScript *drawObject(AH::GameObjectType type, QString desc);
 
-    Q_INVOKABLE QList<GameObjectScript *> drawMultipleObjects(qint32 type, QString desc, int count, int min, int max);
+    Q_INVOKABLE QList<GameObjectScript *> drawMultipleObjects(AH::GameObjectType type, QString desc, int count, int min, int max);
     Q_INVOKABLE QList<GameObjectScript *> drawMixedObjects(QString desc, QList<AH::ObjectTypeCount> types, int min, int max);
 
 signals:

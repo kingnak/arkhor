@@ -49,7 +49,7 @@ public:
     bool registerCharacter(Character *c);
     bool registerAction(GameAction *a);
     bool registerOption(GameOption *o);
-    bool registerObject(GameObject *o, quint32 count = 1);
+    bool registerObject(GameObject *o, qint32 count = 1);
     bool registerArkhamEnconutry(ArkhamEncounter *a);
     bool registerOtherWorldEncountery(OtherWorldEncounter *e);
     bool registerMonster(Monster *m, quint32 count = 1);

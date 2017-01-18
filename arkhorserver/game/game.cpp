@@ -211,7 +211,7 @@ bool Game::registerOption(GameOption *o)
     return true;
 }
 
-bool Game::registerObject(GameObject *o, quint32 count)
+bool Game::registerObject(GameObject *o, qint32 count)
 {
     if (count == 0) {
         if (!m_registry->registerSingleObject(o)) {
@@ -493,8 +493,11 @@ void Game::returnObject(GameObject *o)
         o->owner()->removeFromInventory(o);
         o->setOwner(NULL);
     }
-    if (!o->isInfinite()) {
-        // Infinite objects are never taken out of deck
+    if (o->isInfinite()) {
+        // Infinite objects are never taken out of deck. No longer used
+        if (QObject *qo = dynamic_cast<QObject*> (o)) qo->deleteLater();
+        else delete o;
+    } else {
         m_objectDecks[o->type()].returnToDeck(o);
     }
 }

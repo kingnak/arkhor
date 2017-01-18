@@ -43,12 +43,12 @@ public:
     Q_INVOKABLE void loseMoney(int amount) { Character::loseMoney(amount); }
     Q_INVOKABLE void loseHalfMoney() { Character::loseMoney(money()/2); }
 
-    Q_INVOKABLE int getSkillValue(int skill);
+    Q_INVOKABLE int getSkillValue(AH::Skill skill);
 
     Q_PROPERTY(GameFieldScript* field READ fieldScript)
     GameFieldScript *fieldScript();
     Q_INVOKABLE bool returnToArkham() { return Character::returnToArkham(); }
-    Q_INVOKABLE bool placeOnField(int fld);
+    Q_INVOKABLE bool placeOnField(AH::Common::FieldData::FieldID fieldId);
     Q_INVOKABLE void addMovementPoint(int amount) { Character::addMovementPoint(amount); }
 
     Q_INVOKABLE bool canCloseGate();

@@ -23,16 +23,14 @@ GameFieldScript *CharacterScript::fieldScript()
     return m_fieldBridge;
 }
 
-int CharacterScript::getSkillValue(int skill)
+int CharacterScript::getSkillValue(AH::Skill skill)
 {
-    AH::Skill sk = static_cast<AH::Skill> (skill);
-    return gGame->context().getCharacterSkill(this, sk).finalVal();
+    return gGame->context().getCharacterSkill(this, skill).finalVal();
 }
 
-bool CharacterScript::placeOnField(int fld)
+bool CharacterScript::placeOnField(AH::Common::FieldData::FieldID fieldId)
 {
-    AH::Common::FieldData::FieldID fid = static_cast<AH::Common::FieldData::FieldID>(fld);
-    GameField *field = gGame->board()->field(fid);
+    GameField *field = gGame->board()->field(fieldId);
     if (field) {
         field->placeCharacter(this);
         return true;

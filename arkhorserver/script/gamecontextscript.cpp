@@ -103,18 +103,16 @@ int GameContextScript::genericDieRollCount(QString desc, int dieCount)
     return res.intResult;
 }
 
-bool GameContextScript::skillTest(QString desc, int skill, int adjust, int target)
+bool GameContextScript::skillTest(QString desc, AH::Skill skill, int adjust, int target)
 {
-    AH::Skill sk = static_cast<AH::Skill> (skill);
-    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(desc, gGame->context().player()->getCharacter(), sk, adjust, target);
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(desc, gGame->context().player()->getCharacter(), skill, adjust, target);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
     return res.boolResult;
 }
 
-int GameContextScript::dieRollSkillCount(QString desc, int skill, int adjust)
+int GameContextScript::dieRollSkillCount(QString desc, AH::Skill skill, int adjust)
 {
-    AH::Skill sk = static_cast<AH::Skill> (skill);
-    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillCounter(desc, gGame->context().player()->getCharacter(), sk, adjust);
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillCounter(desc, gGame->context().player()->getCharacter(), skill, adjust);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
     return res.intResult;
 }
@@ -158,20 +156,18 @@ bool GameContextScript::createGateAtCharacterField()
     return gGame->createGate(gGame->context().player()->getCharacter()->field());
 }
 
-GameObjectScript *GameContextScript::drawObject(qint32 type)
+GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type)
 {
     return drawObject(type, "Select Object");
 }
 
-GameObjectScript *GameContextScript::drawObject(qint32 type, QString desc)
+GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type, QString desc)
 {
-    AH::GameObjectType t = static_cast<AH::GameObjectType> (type);
-
-    ModifiedPropertyValue val = gGame->context().getCurCharacterDrawObject(t);
+    ModifiedPropertyValue val = gGame->context().getCurCharacterDrawObject(type);
     int ct = val.finalVal();
 
     DrawCardHelper hlp;
-    QList<GameObject *> objs = hlp.drawObjects(gGame->context().player(), desc, t, ct, 1, 1);
+    QList<GameObject *> objs = hlp.drawObjects(gGame->context().player(), desc, type, ct, 1, 1);
 
     GameObject *o = objs.value(0);
     if (!o) return NULL;
@@ -183,15 +179,13 @@ GameObjectScript *GameContextScript::drawObject(qint32 type, QString desc)
     return os;
 }
 
-QList<GameObjectScript *> GameContextScript::drawMultipleObjects(qint32 type, QString desc, int count, int min, int max)
+QList<GameObjectScript *> GameContextScript::drawMultipleObjects(AH::GameObjectType type, QString desc, int count, int min, int max)
 {
-    AH::GameObjectType t = static_cast<AH::GameObjectType> (type);
-
-    ModifiedPropertyValue val = gGame->context().getCurCharacterDrawObject(t);
+    ModifiedPropertyValue val = gGame->context().getCurCharacterDrawObject(type);
     int ct = val.modifiers().apply(count);
 
     DrawCardHelper hlp;
-    QList<GameObject *> objs = hlp.drawObjects(gGame->context().player(), desc, t, ct, min, max);
+    QList<GameObject *> objs = hlp.drawObjects(gGame->context().player(), desc, type, ct, min, max);
 
     QList<GameObjectScript *> ret;
     foreach (GameObject *o, objs) {

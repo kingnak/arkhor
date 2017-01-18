@@ -55,7 +55,7 @@ bool GameRegistry::registerOption(GameOption *o)
     return doRegisterItem(o, m_options);
 }
 
-bool GameRegistry::registerMultiObject(GameObject *o, int ct)
+bool GameRegistry::registerMultiObject(GameObject *o, qint32 ct)
 {
     if (!o) return false;
     if (o->typeId().isEmpty()) return false;

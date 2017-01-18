@@ -20,7 +20,7 @@ AncientOne Yig {
 	attackAdjustment: 1;
 	onAwake: {{{
 		for (var c in game.context.allCharacters) {
-			if (c.hasObject(BlessingCurse.Curse)) {
+			if (game.utility.isCharacterCursed(c)) {
 				c.devour();
 			} else {
 				// TODO: Force curse?

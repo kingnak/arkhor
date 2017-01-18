@@ -7,8 +7,7 @@ FieldOption Church_Blessing {
 		"choose be Blessed.";
 	costs: [ MonsterToughness 5, GateTrophy 1 ];
 	activate: {{{
-		var blessing = game.drawSpecificObject("BC_BLESSING");
-		CHAR.addToInventory(blessing);
+		game.utility.blessCharacter(CHAR);
 	}}};
 }
 
@@ -40,7 +39,6 @@ ArkhamEncounter Church_Enc2 {
 }
 AEOption Church_Enc2 {
 	activate: {{{
-		var blessing = game.drawSpecificObject("BC_BLESSING");
-		CHAR.addToInventory(blessing);
+		game.utility.blessCharacter(CHAR);
 	}}};
 }

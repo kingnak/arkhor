@@ -23,12 +23,8 @@ AncientOne Yig {
 			if (c.hasObject(BlessingCurse.Curse)) {
 				c.devour();
 			} else {
-				c.addToInventory(game.drawSpecificObject(BlessingCurse.Curse));
-				
-				// What with blessed characters? => Curse twice
-				if (!c.hasObject(BlessingCurse.Curse)) {
-					c.addToInventory(game.drawSpecificObject(BlessingCurse.Curse));
-				}
+				// TODO: Force curse?
+				game.utility.curseCharacter(c);
 			}
 		}
 	}}};

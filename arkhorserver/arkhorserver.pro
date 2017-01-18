@@ -300,4 +300,5 @@ DISTFILES += \
     data/ancientone/yog_sothoth.ahs \
     data/mythos/env_mystic.ahs \
     data/mythos/headlines.ahs \
-    data/mythos/env_weather.ahs
+    data/mythos/env_weather.ahs \
+    data/1global/utility.js

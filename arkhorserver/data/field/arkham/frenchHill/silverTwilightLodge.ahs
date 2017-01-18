@@ -38,8 +38,7 @@ AEOption Lodge_Enc2 {
 	activate: {{{
 		var res = game.context.skillTest("Resist Curse", Constants.Skills.Luck, -1, 1);
 		if (!res) {
-			var ob = game.drawSpecificObject("BC_CURSE");
-			CHAR.addToInventory(ob);
+			game.utility.curseCharacter(CHAR);
 		}
 	}}}
 }

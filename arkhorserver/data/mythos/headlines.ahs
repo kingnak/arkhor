@@ -9,8 +9,7 @@ Headline AllQuiet_inArkham {
 		// TODO: All characters
 		var res = game.context.skillTest("Get Blessed", Constants.Skills.Luck, -1, 1);
 		if (res) {
-			var obj = game.drawSpecificObject(BlessingCurse.Blessing);
-			CHAR.addToInventory(obj);
+			game.utility.blessCharacter(CHAR);
 		}
 	}}};
 }
@@ -134,6 +133,51 @@ Headline GhostShip {
 		game.createMonster(Constants.Fields.MD_MerchantDist);
 	}}};
 }
+
+Headline Goat_likeCreatureSpotted_inWoods {
+	name: "Goat-like Creature Spotted in Woods!";
+	description: "All Dark Young in Arkham are returned to the cup. If at least one monster returns to the cup, raise the terror level by 1.";
+	//clueField: MD_TheUnnamable;
+	//moveWhite: Hexagon;
+	//moveBlack: (Slash,Star,Triangle);
+	//gateField: DT_IndependenceSquare;
+	executeHeadline: {{{
+		var res = game.returnMonsterTypeFromBoard(Monster.DarkYoung);
+		if (res) {
+			game.context.increaseTerrorLevel();
+		}
+	}}};
+}
+
+Headline Horror_atGroundbreaking {
+	name: "Horror at Groundbreaking!";
+	description: "An ancient stone is disturbed by the construction, releasing 2 monsters into the Miskatonic U. streets.";
+	//clueField: FH_SilverTwilightLodge;
+	//moveWhite: Moon;
+	//moveBlack: Cross;
+	//gateField: SS_HistoricalSociety;
+	executeHeadline: {{{
+		game.createMonster(Constants.Fields.MU_MiskatonicU);
+		game.createMonster(Constants.Fields.MU_MiskatonicU);
+	}}};
+}
+
+
+Headline IllWindGripsArkham {
+	name: "Ill Wind Grips Arkham!";
+	description: "The first player must pass a <b>Luck (-1) check</b> or be <i>Cursed</i>";
+	//clueField: MD_UnvisitedIsle;
+	//moveWhite: Hexagon;
+	//moveBlack: (Slash,Star,Triangle);
+	//gateField: RT_Graveyard;
+	executeHeadline: {{{
+		var res = game.context.skillTest("Resist Ill Wind", Constants.Skills.Luck, -1, 1);
+		if (!res) {
+			game.utility.curseCharacter(CHAR);
+		}
+	}}};
+}
+
 /*
 TODOS:
 Blue Flu!

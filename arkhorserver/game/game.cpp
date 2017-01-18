@@ -453,17 +453,36 @@ GameObject *Game::drawObject(AH::GameObjectType t)
     if (!m_objectDecks.contains(t)) {
         return NULL;
     }
-    return m_objectDecks[t].draw();
+    GameObject *ret = m_objectDecks[t].draw();
+    if (ret->isInfinite()) {
+        GameObject *copy = ret->clone();
+        m_objectDecks[t].returnToDeck(ret);
+        ret = copy;
+    }
+    return ret;
 }
 
 GameObject *Game::drawSpecificObject(QString id)
 {
     foreach (AH::GameObjectType t, m_objectDecks.keys()) {
-        GameObject *o = m_objectDecks[t].drawSpecificByTypeId(id);
-        if (o) {
-            return o;
-        }
+        GameObject *o = drawSpecificObject(id, t);
+        if (o) return o;
     }
+    return NULL;
+}
+
+GameObject *Game::drawSpecificObject(QString id, AH::GameObjectType t)
+{
+    GameObject *o = m_objectDecks[t].drawSpecificByTypeId(id);
+    if (o) {
+        if (o->isInfinite()) {
+            GameObject *copy = o->clone();
+            m_objectDecks[t].returnToDeck(o);
+            return copy;
+        }
+        return o;
+    }
+
     return NULL;
 }
 
@@ -474,7 +493,10 @@ void Game::returnObject(GameObject *o)
         o->owner()->removeFromInventory(o);
         o->setOwner(NULL);
     }
-    m_objectDecks[o->type()].returnToDeck(o);
+    if (!o->isInfinite()) {
+        // Infinite objects are never taken out of deck
+        m_objectDecks[o->type()].returnToDeck(o);
+    }
 }
 
 int Game::drawableObjectCount(AH::GameObjectType t)
@@ -1067,7 +1089,7 @@ void Game::initCharacterFixedPossession(Character *c)
         GameObject *obj = NULL;
         const GameObject *proto = m_registry->findObjectPrototypeByType(tid);
         if (proto) {
-            obj = m_objectDecks[proto->type()].drawSpecificByTypeId(tid);
+            obj = this->drawSpecificObject(tid, proto->type());
             if (obj) {
                 c->addToInventory(obj);
             } else {
@@ -1088,7 +1110,7 @@ void Game::initCharacterRandomPossession(Character *c)
         // TODO: MUST BE INTERACTION! IF THERE IS A SPECIAL ABILITY BY INVESTIGATOR,
         // HE MIGHT CHOOSE FROM VARIOUS CARDS!
         for (int i = 0; i < otc.amount; ++i) {
-            GameObject *obj = m_objectDecks[otc.type].draw();
+            GameObject *obj = this->drawObject(otc.type);
             if (obj)
                 c->addToInventory(obj);
             else

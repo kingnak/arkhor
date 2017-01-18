@@ -18,17 +18,12 @@ QString SpecialObjectGenerator::getObjectTypeName(const ClassGenerator::ClassDef
     return "Special";
 }
 
-/*
 bool SpecialObjectGenerator::generate(const ClassGenerator::ClassDef &cls)
 {
-    outputClassComment(cls);
-    outputCreateObjectStart(cls);
-    if (!outputAttributes(cls)) return false;
-    outputCreateEnd(cls);
-    outputRegisterMultiObject(cls);
-    return true;
+    ClassGenerator::ClassDef copy(cls);
+    if (!copy.hasElemMult) copy.elemMult = -1;
+    return ObjectGenerator::generate(copy);
 }
-*/
 
 
 }

@@ -62,10 +62,19 @@ bool GameRegistry::registerMultiObject(GameObject *o, int ct)
     if (m_objectTypes.contains(o->typeId())) return false;
     m_objectTypes.insert(o->typeId(), o);
 
-    for (int i = 0; i < ct; ++i) {
-        GameObject *io = o->clone();
-        io->setId(QString("%2:%1").arg(i).arg(io->typeId()));
-        m_objects.insert(io->id(), io);
+    if (ct < 0) {
+        // Infinite. Allow BlessingCurse and SpecialObject only!
+        if (o->type() != AH::GameObjectType::Obj_Blessing_Curse && o->type() != AH::GameObjectType::Obj_Special) {
+            return false;
+        }
+        o->makeInfinite();
+        m_objects.insert(o->id(), o);
+    } else {
+        for (int i = 0; i < ct; ++i) {
+            GameObject *io = o->clone();
+            io->setId(QString("%2:%1").arg(i).arg(io->typeId()));
+            m_objects.insert(io->id(), io);
+        }
     }
     return true;
 }

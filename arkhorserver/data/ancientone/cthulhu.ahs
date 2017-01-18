@@ -56,12 +56,12 @@ AncientOne Cthulhu {
 	}}};
 }
 
-SpecialObject CthulhuDamageSanity : 80 {
+SpecialObject CthulhuDamageSanity {
 	name: "Cthulhu Damage (Sanity)";
 	modifications: [ Prop_MaxSanity -1 ];
 }
 
-SpecialObject CthulhuDamageStamina : 80 {
+SpecialObject CthulhuDamageStamina {
 	name: "Cthulhu Damage (Stamina)";
 	modifications: [ Prop_MaxStamina -1 ];
 }

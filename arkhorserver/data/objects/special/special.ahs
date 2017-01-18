@@ -1,4 +1,4 @@
-SpecialObject BankLoan : 8 {
+SpecialObject BankLoan {
 	description: "Gain $10 when you take this card.\n\n"+
 		"<bUpkeep:</b> Roll a die. On a 1-3, pay $1 or discard all of your items along with "+
 		"this card. You cannot get another Bank Loan this game.\n\n"+
@@ -76,7 +76,7 @@ SpecialObject PatrolWagon : 1 {
 }
 */
 
-SpecialObject Retiner : 8 {
+SpecialObject Retiner {
 	description: "<b>Upkeep:</b> Gain $2, then roll a die. Discard this card on a 1.";
 	actions: Action.Retainer;
 }
@@ -92,7 +92,7 @@ Action Retainer {
 }
 
 /*
-SpecialObject LodgeMembership : 8 {
+SpecialObject LodgeMembership {
 	// TODO
 	name: "Silver Twilight Lodge Membership";
 	description: "<b>Any Phase:</b> Whenever you have an encounter at the Silver Twilight Lodge, "+

@@ -143,6 +143,14 @@ QList<AH::Common::PropertyModificationData> GameObject::getModificationData() co
     return ret;
 }
 
+void GameObject::makeInfinite()
+{
+    m_isInfinite = true;
+    if (m_id.isEmpty()) {
+        setId(m_tid);
+    }
+}
+
 bool GameObject::cast(Player *p)
 {
     if (m_type != AH::Obj_Spell) {

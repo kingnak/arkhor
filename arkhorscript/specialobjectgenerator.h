@@ -9,7 +9,7 @@ class SpecialObjectGenerator : public ObjectGenerator
 {
 public:
     SpecialObjectGenerator(QTextStream &out) : ObjectGenerator(out) {}
-    //bool generate(const ClassGenerator::ClassDef &cls);
+    bool generate(const ClassGenerator::ClassDef &cls);
 
 protected:
     QList<AttributeDesc> getAttributes();

@@ -17,7 +17,7 @@ public:
     void setId(const QString &id) { m_id = id; }
     virtual GameObject *clone() = 0;
 
-    GameObject() : m_owner(NULL) {}
+    GameObject() : m_owner(NULL), m_isInfinite(false) {}
     virtual ~GameObject() {}
 
     Character *owner() const { return m_owner; }
@@ -52,8 +52,12 @@ public:
 
     //virtual PropertyModificationList getModifications() const = 0;
 
+    bool isInfinite() const { return m_isInfinite; }
+    void makeInfinite();
+
 protected:
     Character *m_owner;
+    bool m_isInfinite;
 };
 
 /*

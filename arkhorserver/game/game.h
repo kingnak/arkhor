@@ -106,6 +106,7 @@ public:
 
     GameObject *drawObject(AH::GameObjectType t);
     GameObject *drawSpecificObject(QString id);
+    GameObject *drawSpecificObject(QString id, AH::GameObjectType t);
     void returnObject(GameObject *o);
     int drawableObjectCount(AH::GameObjectType t);
 

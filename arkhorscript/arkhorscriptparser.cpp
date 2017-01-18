@@ -77,6 +77,7 @@ bool ArkhorScriptParser::ElementMultiplicity()
         Symbol s = m_lexer->currentSymbol();
         if (s.type == Symbol::Number) {
             m_curClass.elemMult = s.image.toInt();
+            m_curClass.hasElemMult = true;
             consumeToken(Symbol::Number);
             return true;
         }

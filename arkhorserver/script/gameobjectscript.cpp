@@ -259,6 +259,8 @@ bool GameObjectScript::cast(Player *p)
 
 bool GameObjectScript::onAddToInventory(Character *c)
 {
+    if (!GameObject::onAddToInventory(c)) return false;
+
     if (m_onAddFunc.isFunction()) {
         CharacterScript *cs = dynamic_cast<CharacterScript *> (c);
         QScriptValue res = m_onAddFunc.call(m_this, gGameScript->engine()->toScriptValue(cs));
@@ -274,6 +276,8 @@ bool GameObjectScript::onAddToInventory(Character *c)
 
 bool GameObjectScript::onRemoveFromInventory(Character *c)
 {
+    if (!GameObject::onRemoveFromInventory(c)) return false;
+
     if (m_onRemoveFunc.isFunction()) {
         CharacterScript *cs = dynamic_cast<CharacterScript *> (c);
         QScriptValue res = m_onRemoveFunc.call(m_this, gGameScript->engine()->toScriptValue(cs));

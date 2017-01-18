@@ -1,7 +1,7 @@
-BlessingCurse Blessing : 4 {
+BlessingCurse Blessing {
 	modifications: [ Prop_MinSuccessDieRoll -1 ];
 }
 
-BlessingCurse Curse : 4 {
+BlessingCurse Curse {
 	modifications: [ Prop_MinSuccessDieRoll +1 ];
 }

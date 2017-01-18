@@ -41,7 +41,8 @@ public:
         QString elemType;
         QString elemName;
         int elemMult;
-        ClassDef() : elemMult(1) {}
+        bool hasElemMult;
+        ClassDef() : elemMult(1), hasElemMult(false) {}
         QList<AttrDef> attrs;
     };
 

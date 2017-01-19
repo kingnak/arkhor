@@ -1,4 +1,4 @@
-CONFIG += DEBUG_SCRIPT
+#CONFIG += DEBUG_SCRIPT
 
 QT += network script scripttools
 DEBUG_SCRIPT {

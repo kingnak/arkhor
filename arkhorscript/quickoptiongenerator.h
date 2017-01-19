@@ -12,6 +12,8 @@ public:
     virtual bool generate(const ClassDef &cls);
 
 protected:
+    virtual bool allowNested(const ClassDef &cls) const { Q_UNUSED(cls); return true; }
+
     virtual QList<AttributeDesc> getAttributes();
     virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
 };

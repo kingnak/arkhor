@@ -11,7 +11,7 @@ bool QuickOptionGenerator::generate(const ClassGenerator::ClassDef &cls)
     m_out << "var " << getJSVariableName(cls) << " = game.quickOption({\n";
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
-    outputRegisterConstant(cls, "Option");
+    outputRegisterConstant(cls);
     // game.quickOption automatically registers the option, no need for this:
     //outputRegisterOption(cls);
     return true;
@@ -66,7 +66,7 @@ QList<ClassGenerator::AttributeDesc> ArkhamEncounterOptionGenerator::getAttribut
 bool ArkhamEncounterOptionGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "phases") {
-        return outputAttribute(cls, AttrDef("phases", AttrDef::EnumValue, "ArkhamEncountery"), true);
+        return outputAttribute(cls, AttrDef("phases", ArkhorScriptParser::EnumValue, "ArkhamEncountery"), true);
     }
     return QuickOptionGenerator::outputDefaultAttribute(desc, cls);
 }
@@ -92,7 +92,7 @@ QList<ClassGenerator::AttributeDesc> OtherWorldEncounterOptionGenerator::getAttr
 bool OtherWorldEncounterOptionGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "phases") {
-        return outputAttribute(cls, AttrDef("phases", AttrDef::EnumValue, "OtherWorldEncountery"), true);
+        return outputAttribute(cls, AttrDef("phases", ArkhorScriptParser::EnumValue, "OtherWorldEncountery"), true);
     }
     return QuickOptionGenerator::outputDefaultAttribute(desc, cls);
 }

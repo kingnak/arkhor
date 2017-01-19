@@ -52,21 +52,21 @@ bool InvestigatorGenerator::outputSpecialAttribute(AttributeDesc desc, const Cla
         return outputEnumValue("Constants.Fields", attr, cls);
     }
     if (desc.name == "randomPossessions") {
-        if (attr.type == AttrDef::Literal) {
-            m_out << attr.content;
+        if (attr.type == ArkhorScriptParser::Literal) {
+            m_out << attr.content.first;
             return true;
-        } else if (attr.type == AttrDef::Complex) {
-            return outputRandomPossesions(attr.content);
+        } else if (attr.type == ArkhorScriptParser::Complex) {
+            return outputRandomPossesions(attr.content.first);
         } else {
             return setError("randomPossesions must be Complex or Literal", cls);
         }
     }
     if (desc.name == "attributes") {
-        if (attr.type == AttrDef::Literal) {
-            m_out << attr.content;
+        if (attr.type == ArkhorScriptParser::Literal) {
+            m_out << attr.content.first;
             return true;
-        } else if (attr.type == AttrDef::Complex) {
-            return outputInvAttributes(attr.content, cls);
+        } else if (attr.type == ArkhorScriptParser::Complex) {
+            return outputInvAttributes(attr.content.first, cls);
         } else {
             return setError("attributes must be Complex or Literal", cls);
         }

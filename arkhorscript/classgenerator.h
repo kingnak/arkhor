@@ -11,6 +11,8 @@ class ClassGenerator
 public:
     typedef ArkhorScriptParser::ClassDef ClassDef;
     typedef ArkhorScriptParser::AttrDef AttrDef;
+    typedef ArkhorScriptParser::AttributeValue AttributeValue;
+    typedef ArkhorScriptParser::AttributeArrayElem AttributeArrayElem;
 
     ClassGenerator(QTextStream &out);
     virtual ~ClassGenerator() {}
@@ -19,6 +21,8 @@ public:
     QString warning() const { return m_warn; }
 
     bool fixClass(ClassDef &cls);
+    static QString idPrefixForClass(const QString &classType);
+    static QString constantScopeForClass(const QString &classType);
 
     static const int INFINITE_MULT = -1;
 
@@ -44,8 +48,9 @@ protected:
         AttributeDesc() : reqType(R_INVALID) {}
     };
 
-    virtual bool allowInfinite() const { return false; }
-    virtual bool allowAnonymous() const { return false; }
+    virtual bool allowInfinite(const ClassDef &cls) const { Q_UNUSED(cls); return false; }
+    virtual bool allowAnonymous(const ClassDef &cls) const { return cls.isNested; }
+    virtual bool allowNested(const ClassDef &cls) const { Q_UNUSED(cls); return false; }
 
     bool setError(QString err);
     bool setError(QString err, const ClassDef &cls);
@@ -56,7 +61,6 @@ protected:
     virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr) = 0;
     virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
 
-    QString idPrefixForClass(QString classType);
     QString generateName(QString clsName);
 
     void outputClassComment(const ClassDef &cls);
@@ -66,7 +70,7 @@ protected:
     void outputCreateEnd(const ClassDef &cls);
     void outputRegisterMulti(QString type, const ClassDef &cls);
     void outputRegisterSingle(QString type, const ClassDef &cls);
-    void outputRegisterConstant(const ClassDef &cls, QString scopeOverride = QString::null);
+    void outputRegisterConstant(const ClassDef &cls);
 
     bool outputIDRef(const AttrDef &attr, const ClassDef &cls);
     bool outputIDRefArray(const AttrDef &attr, const ClassDef &cls);
@@ -83,7 +87,7 @@ protected:
     QString getJSVariableName(const ClassDef &cls);
 
 private:
-    bool doOutputIDRef(QString ref);
+    bool doOutputIDRef(AttributeValue ref);
     bool doOutputModifications(QString mod);
     bool doOutputCosts(QString costs);
     bool doOutputMonsterModifications(QString v, const ClassDef &cls);

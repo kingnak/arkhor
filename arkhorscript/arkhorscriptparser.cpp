@@ -5,6 +5,7 @@
 namespace AHS {
 
 ArkhorScriptParser::ArkhorScriptParser(QIODevice *input)
+    : m_curClass(NULL)
 {
     m_lexer = new ArkhorScriptLexer(input);
 }
@@ -33,12 +34,13 @@ bool ArkhorScriptParser::AHS()
 
 bool ArkhorScriptParser::ElementDefinition()
 {
-    m_curClass = ClassDef();
+    ClassDef curClass;
+    m_curClass = &curClass;
     if (!ElementClass()) {
         return setError("Expected Class Type");
     }
     if (!ElementID()) {
-        m_curClass.isAnonymous = true;
+        m_curClass->isAnonymous = true;
     }
     if (!ElementMultiplicity()) {
         return setError("Invalid Multiplicity");
@@ -46,14 +48,15 @@ bool ArkhorScriptParser::ElementDefinition()
     if (!ElementBlock()) {
         return setError("Expected Class Definition");
     }
-    m_allClasses << m_curClass;
+    m_curClass = NULL;
+    m_allClasses << curClass;
     return true;
 }
 
 bool ArkhorScriptParser::ElementClass()
 {
     if (m_lexer->currentSymbol().type == Symbol::Identifier) {
-        m_curClass.elemType = m_lexer->currentSymbol().image;
+        m_curClass->elemType = m_lexer->currentSymbol().image;
         consumeToken(Symbol::Identifier);
         return true;
     }
@@ -63,7 +66,7 @@ bool ArkhorScriptParser::ElementClass()
 bool ArkhorScriptParser::ElementID()
 {
     if (m_lexer->currentSymbol().type == Symbol::Identifier) {
-        m_curClass.elemName = m_lexer->currentSymbol().image;
+        m_curClass->elemName = m_lexer->currentSymbol().image;
         consumeToken(Symbol::Identifier);
         return true;
     }
@@ -76,8 +79,8 @@ bool ArkhorScriptParser::ElementMultiplicity()
         consumeToken(Symbol::Colon);
         Symbol s = m_lexer->currentSymbol();
         if (s.type == Symbol::Number) {
-            m_curClass.elemMult = s.image.toInt();
-            m_curClass.hasElemMult = true;
+            m_curClass->elemMult = s.image.toInt();
+            m_curClass->hasElemMult = true;
             consumeToken(Symbol::Number);
             return true;
         }
@@ -91,7 +94,9 @@ bool ArkhorScriptParser::ElementBlock()
     if (!consumeToken(Symbol::BraceOpen)) {
         return false;
     }
-    ElementAttributes();
+    if (!ElementAttributes()) {
+        return false;
+    }
     if (!consumeToken(Symbol::BraceClose)) {
         return false;
     }
@@ -120,20 +125,20 @@ bool ArkhorScriptParser::ElementAttribute()
 
         switch (m_lexer->currentSymbol().type) {
         case Symbol::String:
-            a.type = AttrDef::Primitive;
-            if (!String(a.content))
+            a.type = AttributeType::Primitive;
+            if (!String(a.content.first))
                 return false;
             break;
         case Symbol::Number:
         case Symbol::True:
         case Symbol::False:
-            a.type = AttrDef::Primitive;
-            a.content = m_lexer->currentSymbol().image;
+            a.type = AttributeType::Primitive;
+            a.content.first = m_lexer->currentSymbol().image;
             consumeToken(m_lexer->currentSymbol().type);
             break;
         case Symbol::Literal:
-            a.type = AttrDef::Literal;
-            a.content = m_lexer->currentSymbol().image;
+            a.type = AttributeType::Literal;
+            a.content.first = m_lexer->currentSymbol().image;
             consumeToken(m_lexer->currentSymbol().type);
             break;
         case Symbol::Identifier:
@@ -142,34 +147,71 @@ bool ArkhorScriptParser::ElementAttribute()
             }
             break;
         case Symbol::Function:
-            a.type = AttrDef::Function;
-            a.content = m_lexer->currentSymbol().image;
+            a.type = AttributeType::Function;
+            a.content.first = m_lexer->currentSymbol().image;
             consumeToken(m_lexer->currentSymbol().type);
             break;
         case Symbol::BracketOpen:
-            if (!ComplexAttribute(a.content)) {
+            if (!ComplexAttribute(a.content.first)) {
                 return setError("Error in complex attribute");
             }
-            a.type = AttrDef::Complex;
+            a.type = AttributeType::Complex;
             break;
         case Symbol::Minus:
-            a.content = "-";
+            a.content.first = "-";
         case Symbol::Plus:
             consumeToken(m_lexer->currentSymbol().type);
-            a.content += m_lexer->currentSymbol().image;
-            a.type = AttrDef::Primitive;
-            consumeToken(Symbol::Number);
+            a.content.first += m_lexer->currentSymbol().image;
+            a.type = AttributeType::Primitive;
+            if (!consumeToken(Symbol::Number)) {
+                return setError("Expected number");
+            }
             break;
         case Symbol::ParenOpen:
-            Array(a);
-            a.type = AttrDef::Array;
+            if (!Array(a)) {
+                return false;
+            }
+            a.type = AttributeType::ArrayValues;
+            break;
+        case Symbol::BraceOpen:
+            if (!NestedElement(a.content)) {
+                return false;
+            }
+            a.type = AttributeType::NestedObject;
             break;
         default:
             return setError("Expected Attribute Value");
         }
     }
-    m_curClass.attrs << a;
+    m_curClass->attrs << a;
     return consumeToken(Symbol::EndExpr);
+}
+
+bool ArkhorScriptParser::NestedElement(ArkhorScriptParser::AttributeValue &elem)
+{
+    if (!consumeToken(Symbol::BraceOpen)) {
+        return setError("Expected {");
+    }
+
+    elem.second.reset(new ClassDef);
+    ClassDef *oldClass = m_curClass;
+    m_curClass = elem.second.data();
+
+    m_curClass->isNested = true;
+    if (!ElementClass()) {
+        return setError("Expected Class Type");
+    }
+    m_curClass->isAnonymous = true;
+    if (!ElementBlock()) {
+        return setError("Expected Class Definition");
+    }
+    m_curClass = oldClass;
+
+    if (!consumeToken(Symbol::BraceClose)) {
+        return setError("Expected }");
+    }
+
+    return true;
 }
 
 bool ArkhorScriptParser::ComplexAttribute(QString &value)
@@ -198,14 +240,14 @@ bool ArkhorScriptParser::IDRefOrEnumValue(AttrDef &a)
     if (m_lexer->currentSymbol().type != Symbol::Identifier) {
         return setError("Expected Identifier");
     }
-    a.content = m_lexer->currentSymbol().image;
-    a.type = AttrDef::EnumValue;
+    a.content.first = m_lexer->currentSymbol().image;
+    a.type = AttributeType::EnumValue;
     consumeToken(Symbol::Identifier);
     if (m_lexer->currentSymbol().type == Symbol::Dot) {
         consumeToken(Symbol::Dot);
         if (m_lexer->currentSymbol().type == Symbol::Identifier) {
-            a.type = AttrDef::IDRef;
-            a.content += QString(".%1").arg(m_lexer->currentSymbol().image);
+            a.type = AttributeType::IDRef;
+            a.content.first += QString(".%1").arg(m_lexer->currentSymbol().image);
             consumeToken(Symbol::Identifier);
         } else {
             return setError("Expected Identifier");
@@ -232,8 +274,16 @@ bool ArkhorScriptParser::ArrayContent(ArkhorScriptParser::AttrDef &a)
 {
     do {
         AttrDef tmp;
-        if (!IDRefOrEnumValue(tmp)) return false;
-        a.array << tmp.content;
+
+        if (m_lexer->currentSymbol().type == Symbol::Identifier) {
+            if (!IDRefOrEnumValue(tmp)) return false;
+            a.array << qMakePair(tmp.type, tmp.content);
+        } else if (m_lexer->currentSymbol().type == Symbol::BraceOpen) {
+            if (!NestedElement(tmp.content)) return false;
+            a.array << qMakePair(AttributeType::NestedObject, tmp.content);
+        } else {
+            return setError("Expected Enum, IDRef or nested Object");
+        }
     } while (m_lexer->currentSymbol().type == Symbol::Comma && consumeToken(Symbol::Comma));
 
     return true;

@@ -21,7 +21,7 @@
 
 
 int main(int argc, char *argv[])
-{    
+{
 #if 1
 #ifdef DEBUG_SCRIPT_BUILD
     QApplication app(argc, argv);

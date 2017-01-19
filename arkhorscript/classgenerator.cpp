@@ -14,14 +14,19 @@ ClassGenerator::ClassGenerator(QTextStream &out)
 
 bool ClassGenerator::fixClass(ClassGenerator::ClassDef &cls)
 {
+    if (cls.isNested) {
+        if (!this->allowNested(cls)) {
+            return setError(cls.elemName + " cannot be nested");
+        }
+    }
     if (cls.isAnonymous) {
-        if (this->allowAnonymous()) {
+        if (this->allowAnonymous(cls)) {
             cls.elemName = QString("%2_anonymous_%1").arg(++s_anonymousCounts[cls.elemType]).arg(cls.elemType);
         } else {
             return setError("Anonymous class not allowed for Type " + cls.elemType);
         }
     }
-    if (!cls.hasElemMult && this->allowInfinite()) {
+    if (!cls.hasElemMult && this->allowInfinite(cls)) {
         cls.elemMult = INFINITE_MULT;
     }
     return true;
@@ -51,7 +56,7 @@ bool ClassGenerator::setWarning(QString warn, const ClassDef &cls)
     return false;
 }
 
-QString ClassGenerator::idPrefixForClass(QString classType)
+QString ClassGenerator::idPrefixForClass(const QString &classType)
 {
     if (classType == "CommonItem") {
         return "CI";
@@ -119,8 +124,19 @@ QString ClassGenerator::idPrefixForClass(QString classType)
     if (classType == "SpecialAbility") {
         return "SA";
     }
-    setWarning("Unknown Class Type: " + classType);
+    //setWarning("Unknown Class Type: " + classType);
     return "??";
+}
+
+QString ClassGenerator::constantScopeForClass(const QString &classType)
+{
+    if (classType == "Rumor" || classType == "Environment" || classType == "Headline") {
+        return "Mythos";
+    }
+    if (classType == "QuickOption") {
+        return "Option";
+    }
+    return classType;
 }
 
 QString ClassGenerator::generateName(QString clsName)
@@ -146,7 +162,7 @@ bool ClassGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, 
     case AttributeDesc::H_Name:
     case AttributeDesc::H_TID:
     case AttributeDesc::H_Special:
-        return outputAttribute(cls, AttrDef(desc.name, AttrDef::Literal, cls.elemName), true);
+        return outputAttribute(cls, AttrDef(desc.name, ArkhorScriptParser::Literal, cls.elemName), true);
     default:
         ;
     }
@@ -240,21 +256,21 @@ bool ClassGenerator::outputAttribute(const ClassDef &cls, const AttrDef &attr, b
         Q_ASSERT_X(a.valTypes & (AttributeDesc::V_Function | AttributeDesc::V_Primitive), "Simple Attribute", qPrintable(QString("Simple Attributes '%1' must be primitive or function").arg(a.name)));
 
         switch (attr.type) {
-        case AttrDef::Function:
-            m_out << "function() {" << attr.content << "}";
+        case ArkhorScriptParser::Function:
+            m_out << "function() {" << attr.content.first << "}";
             break;
-        case AttrDef::Literal:
-        case AttrDef::Primitive:
-            m_out << attr.content;
+        case ArkhorScriptParser::Literal:
+        case ArkhorScriptParser::Primitive:
+            m_out << attr.content.first;
             break;
-        case AttrDef::IDRef:
+        case ArkhorScriptParser::IDRef:
             if (!outputIDRef(attr, cls))
                 return false;
             break;
-        case AttrDef::Complex:
-        case AttrDef::EnumValue:
-        case AttrDef::Array:
-        case AttrDef::None:
+        case ArkhorScriptParser::Complex:
+        case ArkhorScriptParser::EnumValue:
+        case ArkhorScriptParser::ArrayValues:
+        case ArkhorScriptParser::None:
             Q_ASSERT_X(false, "Simple attribute", qPrintable(QString("Simple Attribute '%1' must be Primitive, Literal, Function, or IDRef").arg(a.name)));
         }
 
@@ -267,7 +283,7 @@ bool ClassGenerator::outputAttribute(const ClassDef &cls, const AttrDef &attr, b
         if (inPredefined)
             m_out << '"' << generateName(cls.elemName) << '"';
         else
-            m_out << attr.content;
+            m_out << attr.content.first;
         break;
     case AttributeDesc::H_IDRef:
         if (a.valTypes.testFlag(AttributeDesc::V_Array)) {
@@ -305,10 +321,10 @@ void ClassGenerator::outputRegisterSingle(QString type, const ClassDef &cls)
     m_out << "game.register" << type << "(" << getJSVariableName(cls) << ");\n\n";
 }
 
-void ClassGenerator::outputRegisterConstant(const ClassGenerator::ClassDef &cls, QString scopeOverride)
+void ClassGenerator::outputRegisterConstant(const ClassGenerator::ClassDef &cls)
 {
     if (cls.isAnonymous) return;
-    QString scope = scopeOverride.isEmpty() ? cls.elemType : scopeOverride;
+    QString scope = constantScopeForClass(cls.elemType);
     m_out << "game.registerConstant('" << scope << "', '" << cls.elemName << "', '" << idPrefixForClass(cls.elemType) << '_' << cls.elemName << "');\n";
 }
 
@@ -316,13 +332,13 @@ void ClassGenerator::outputRegisterConstant(const ClassGenerator::ClassDef &cls,
 bool ClassGenerator::outputModifications(const AttrDef &attr, const ClassDef &cls)
 {
     switch (attr.type) {
-    case AttrDef::Function:
-        m_out << "function() {" << attr.content << "}";
+    case ArkhorScriptParser::Function:
+        m_out << "function() {" << attr.content.first << "}";
         return true;
-    case AttrDef::Complex:
-        return doOutputModifications(attr.content);
-    case AttrDef::Literal:
-        m_out << attr.content;
+    case ArkhorScriptParser::Complex:
+        return doOutputModifications(attr.content.first);
+    case ArkhorScriptParser::Literal:
+        m_out << attr.content.first;
         return true;
     default:
         return setError(QString("'%1' must be a function, literal or complex type").arg(attr.name), cls);
@@ -352,11 +368,11 @@ bool ClassGenerator::doOutputModifications(QString mod)
 
 bool ClassGenerator::outputMonsterModifications(const AttrDef &attr, const ClassDef &cls)
 {
-    if (attr.type == AttrDef::Literal) {
-        m_out << attr.content;
+    if (attr.type == ArkhorScriptParser::Literal) {
+        m_out << attr.content.first;
         return true;
-    } else if (attr.type == AttrDef::Complex) {
-        return doOutputMonsterModifications(attr.content, cls);
+    } else if (attr.type == ArkhorScriptParser::Complex) {
+        return doOutputMonsterModifications(attr.content.first, cls);
     } else {
         return setError("monsterModifications must be Complex or Literal", cls);
     }
@@ -380,17 +396,17 @@ bool ClassGenerator::doOutputMonsterModifications(QString v, const ClassDef &cls
         if (mon.startsWith("Attribute .")) {
             m_out << "\n\t\t{ attributes: ";
             mon = mon.mid(11);
-            outputEnumValue("Constants.Monster", AttrDef("attributes", AttrDef::EnumValue, mon), cls);
+            outputEnumValue("Constants.Monster", AttrDef("attributes", ArkhorScriptParser::EnumValue, mon), cls);
         } else {
             m_out << "\n\t\t{ id: ";
             if (mon == "*") {
                 m_out << "\"*\"";
             } else {
-                outputIDRef(AttrDef("monsterId", AttrDef::IDRef, "Monster."+mon), cls);
+                outputIDRef(AttrDef("monsterId", ArkhorScriptParser::IDRef, "Monster."+mon), cls);
             }
         }
         m_out << ", mod: \n\t\t\t";
-        outputModifications(AttrDef("monsterAttributes", AttrDef::Complex, mod), cls);
+        outputModifications(AttrDef("monsterAttributes", ArkhorScriptParser::Complex, mod), cls);
         m_out << "\n\t\t}";
         lastPos = pos;
         first = false;
@@ -406,11 +422,11 @@ bool ClassGenerator::doOutputMonsterModifications(QString v, const ClassDef &cls
 
 bool ClassGenerator::outputMonsterMoveModifications(const ClassGenerator::AttrDef &attr, const ClassGenerator::ClassDef &cls)
 {
-    if (attr.type == AttrDef::Literal) {
-        m_out << attr.content;
+    if (attr.type == ArkhorScriptParser::Literal) {
+        m_out << attr.content.first;
         return true;
-    } else if (attr.type == AttrDef::Complex) {
-        return doOutputMonsterMoveModifications(attr.content, cls);
+    } else if (attr.type == ArkhorScriptParser::Complex) {
+        return doOutputMonsterMoveModifications(attr.content.first, cls);
     } else {
         return setError("monsterMoveModifications must be Complex or Literal", cls);
     }
@@ -434,13 +450,13 @@ bool ClassGenerator::doOutputMonsterMoveModifications(QString v, const ClassDef 
         if (mon.startsWith("Type .")) {
             m_out << "\n\t\t{ type: ";
             mon = mon.mid(6);
-            outputEnumValue("Constants.Movement", AttrDef("type", AttrDef::EnumValue, mon), cls);
+            outputEnumValue("Constants.Movement", AttrDef("type", ArkhorScriptParser::EnumValue, mon), cls);
         } else {
             m_out << "\n\t\t{ id: ";
-            outputIDRef(AttrDef("monsterId", AttrDef::IDRef, "Monster."+mon), cls);
+            outputIDRef(AttrDef("monsterId", ArkhorScriptParser::IDRef, "Monster."+mon), cls);
         }
         m_out << ", moveAs: \n\t\t\t";
-        outputEnumValue("Constants.Movement", AttrDef("moveAs", AttrDef::EnumValue, mod), cls);
+        outputEnumValue("Constants.Movement", AttrDef("moveAs", ArkhorScriptParser::EnumValue, mod), cls);
         m_out << "\n\t\t}";
         lastPos = pos;
         first = false;
@@ -457,10 +473,10 @@ bool ClassGenerator::doOutputMonsterMoveModifications(QString v, const ClassDef 
 bool ClassGenerator::outputCosts(const ClassGenerator::AttrDef &attr, const ClassGenerator::ClassDef &cls)
 {
     switch (attr.type) {
-    case AttrDef::Complex:
-        return doOutputCosts(attr.content);
-    case AttrDef::Literal:
-        m_out << attr.content;
+    case ArkhorScriptParser::Complex:
+        return doOutputCosts(attr.content.first);
+    case ArkhorScriptParser::Literal:
+        m_out << attr.content.first;
         return true;
     default:
         return setError(QString("'%1' must be a literal or complex type").arg(attr.name), cls);
@@ -499,10 +515,10 @@ bool ClassGenerator::doOutputCosts(QString costs)
 
 bool ClassGenerator::outputIDRef(const AttrDef &attr, const ClassDef &cls)
 {
-    if (attr.type == AttrDef::Literal) {
-        m_out << attr.content;
+    if (attr.type == ArkhorScriptParser::Literal) {
+        m_out << attr.content.first;
         return true;
-    } else if (attr.type == AttrDef::IDRef) {
+    } else if (attr.type == ArkhorScriptParser::IDRef) {
         return doOutputIDRef(attr.content);
     } else {
         return setError(QString("'%1' must be IDRef or Literal").arg(attr.name), cls);
@@ -511,46 +527,50 @@ bool ClassGenerator::outputIDRef(const AttrDef &attr, const ClassDef &cls)
 
 bool ClassGenerator::outputIDRefArray(const AttrDef &attr, const ClassDef &cls)
 {
-    if (attr.type == AttrDef::Literal) {
+    if (attr.type == ArkhorScriptParser::Literal) {
         return outputIDRef(attr, cls);
     }
-    if (attr.type == AttrDef::IDRef) {
+    if (attr.type == ArkhorScriptParser::IDRef) {
         // Must be array
         m_out << '[';
         doOutputIDRef(attr.content);
         m_out << ']';
         return true;
     }
-    if (attr.type != AttrDef::Array) {
+    if (attr.type != ArkhorScriptParser::ArrayValues) {
         return setError(QString("'%1' must be IDRef or Literal or Array").arg(attr.name), cls);
     }
     bool first = true;
-    foreach (QString s, attr.array) {
+    foreach (AttributeArrayElem s, attr.array) {
+        if (s.first != ArkhorScriptParser::IDRef) {
+            return setError(QString("Array values must be IDRefs for '%1'").arg(attr.name), cls);
+        }
+
         if (first)
             m_out << "[ ";
         else
             m_out << ", ";
         first = false;
-        doOutputIDRef(s);
+        doOutputIDRef(s.second);
     }
     if (!first)
         m_out << " ]";
     return true;
 }
 
-bool ClassGenerator::doOutputIDRef(QString ref)
+bool ClassGenerator::doOutputIDRef(AttributeValue ref)
 {
-    QStringList l = ref.split('.');
+    QStringList l = ref.first.split('.');
     m_out << '"' << idPrefixForClass(l.value(0)) << '_' << l.value(1) << '"';
     return true;
 }
 
 bool ClassGenerator::outputEnumValue(QString prefix, const AttrDef &attr, const ClassDef &cls)
 {
-    if (attr.type == AttrDef::EnumValue)
-        m_out << prefix << '.' << attr.content;
-    else if (attr.type == AttrDef::Literal)
-        m_out << attr.content;
+    if (attr.type == ArkhorScriptParser::EnumValue)
+        m_out << prefix << '.' << attr.content.first;
+    else if (attr.type == ArkhorScriptParser::Literal)
+        m_out << attr.content.first;
     else
         return setError(QString("'%1' must be EnumValue or Literal").arg(attr.name), cls);
     return true;
@@ -558,20 +578,24 @@ bool ClassGenerator::outputEnumValue(QString prefix, const AttrDef &attr, const 
 
 bool ClassGenerator::outputEnumValueArray(QString prefix, const AttrDef &attr, const ClassDef &cls)
 {
-    if (attr.type == AttrDef::EnumValue || attr.type == AttrDef::Literal) {
+    if (attr.type == ArkhorScriptParser::EnumValue || attr.type == ArkhorScriptParser::Literal) {
         return outputEnumValue(prefix, attr, cls);
     }
-    if (attr.type != AttrDef::Array) {
+    if (attr.type != ArkhorScriptParser::ArrayValues) {
         return setError(QString("'%1' must be EnumValue, Array or Literal").arg(attr.name), cls);
     }
     bool first = true;
-    foreach (QString s, attr.array) {
+    foreach (AttributeArrayElem s, attr.array) {
+        if (s.first != ArkhorScriptParser::EnumValue) {
+            return setError(QString("Array element must be EnumValue in '%1'").arg(attr.name), cls);
+        }
+
         if (first)
             m_out << "[ ";
         else
             m_out << ", ";
         first = false;
-        m_out << prefix << '.' << s;
+        m_out << prefix << '.' << s.second.first;
     }
     if (!first)
         m_out << " ]";
@@ -581,11 +605,11 @@ bool ClassGenerator::outputEnumValueArray(QString prefix, const AttrDef &attr, c
 bool ClassGenerator::outputFunction(const ClassGenerator::AttrDef &attr, const ClassGenerator::ClassDef &cls, QString params)
 {
     switch (attr.type) {
-    case AttrDef::Function:
-        m_out << "function(" << params << ") {" << attr.content << "}";
+    case ArkhorScriptParser::Function:
+        m_out << "function(" << params << ") {" << attr.content.first << "}";
         return true;
-    case AttrDef::Literal:
-        m_out << attr.content;
+    case ArkhorScriptParser::Literal:
+        m_out << attr.content.first;
         return true;
     default:
         return setError(QString("'%1' must be a function or literal type").arg(attr.name), cls);

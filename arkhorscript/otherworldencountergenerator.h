@@ -12,9 +12,9 @@ public:
 
     virtual bool generate(const ClassDef &cls);
 
-    bool allowAnonymous() const { return true; }
-
 protected:
+    bool allowAnonymous(const ClassDef &cls) const { Q_UNUSED(cls); return true; }
+
     void outputCreateOtherWorldEncounterStart(const ClassDef &cls);
     void outputRegisterOtherWorldEncounter(const ClassDef &cls);
 

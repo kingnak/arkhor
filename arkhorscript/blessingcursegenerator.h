@@ -11,7 +11,7 @@ public:
     BlessingCurseGenerator(QTextStream &out) : ObjectGenerator(out) {}
     bool generate(const ClassGenerator::ClassDef &cls);
 
-    bool allowInfinite() const { return true; }
+    bool allowInfinite(const ClassDef &cls) const { Q_UNUSED(cls); return true; }
 };
 
 }

@@ -7,6 +7,7 @@ class QIODevice;
 class QTextStream;
 #include <QList>
 #include <QStringList>
+#include <QSharedPointer>
 
 namespace AHS {
 
@@ -19,22 +20,38 @@ public:
     bool parse();
     QString error() const { return m_error; }
 
+    struct ClassDef;
+
+    enum AttributeType {
+        Function,
+        Literal,
+        Complex,
+        Primitive,
+        EnumValue,
+        IDRef,
+        NestedObject,
+        ArrayValues,
+        None
+    };
+
+    typedef QPair<QString, QSharedPointer<ClassDef> > AttributeValue;
+    typedef QPair<AttributeType, AttributeValue> AttributeArrayElem;
+    typedef QList<AttributeArrayElem> AttributeValueArray;
+
     struct AttrDef {
+        typedef AttributeType Type;
         QString name;
-        enum Type {
-            Function,
-            Literal,
-            Complex,
-            Primitive,
-            EnumValue,
-            IDRef,
-            Array,
-            None
-        } type;
-        QString content;
-        QStringList array;
+        Type type;
+
+        AttributeValue content;
+        AttributeValueArray array;
         AttrDef() : type(None) {}
-        AttrDef(QString n, Type t, QString c, QStringList a = QStringList()) : name(n), type(t), content(c), array(a) {}
+        AttrDef(QString n, Type t, AttributeValue c, AttributeValueArray a = AttributeValueArray()) : name(n), type(t), content(c), array(a) {}
+        AttrDef(QString n, Type t, QString c, AttributeValueArray a = AttributeValueArray()) : name(n), type(t), content(qMakePair(c, static_cast<ClassDef*>(NULL))), array(a) {}
+
+        static AttrDef forArrayElement(const AttributeArrayElem &e) {
+            return AttrDef("", e.first, e.second);
+        }
     };
 
     struct ClassDef {
@@ -43,7 +60,8 @@ public:
         int elemMult;
         bool hasElemMult;
         bool isAnonymous;
-        ClassDef() : elemMult(1), hasElemMult(false), isAnonymous(false) {}
+        bool isNested;
+        ClassDef() : elemMult(1), hasElemMult(false), isAnonymous(false), isNested(false) {}
         QList<AttrDef> attrs;
     };
 
@@ -62,6 +80,8 @@ private:
     bool ElementAttributes();
     bool ElementAttribute();
 
+    bool NestedElement(AttributeValue &elem);
+
     bool ComplexAttribute(QString &value);
     bool IDRefOrEnumValue(AttrDef &a);
     bool Array(AttrDef &a);
@@ -77,7 +97,7 @@ private:
 private:
     ArkhorScriptLexer *m_lexer;
     QString m_error;
-    ClassDef m_curClass;
+    ClassDef *m_curClass;
     QList<ClassDef> m_allClasses;
 };
 }

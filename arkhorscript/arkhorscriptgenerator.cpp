@@ -94,6 +94,9 @@ void ArkhorScriptGenerator::init()
 
 bool ArkhorScriptGenerator::generateClass(ClassDef &cls)
 {
+    // Generate nested objects and replace by ID
+    generateNestedClasses(cls);
+
     if (m_generators.contains(cls.elemType)) {
         if (!m_generators[cls.elemType]->fixClass(cls)) return false;
         return m_generators[cls.elemType]->generate(cls);
@@ -108,5 +111,38 @@ bool ArkhorScriptGenerator::setError(QString err)
     return false;
 }
 
+bool ArkhorScriptGenerator::generateNestedClasses(ClassDef &cls)
+{
+    //foreach (ArkhorScriptParser::AttrDef &a, cls.attrs) {
+    for (auto it = cls.attrs.begin(); it != cls.attrs.end(); ++it) {
+        if (it->type == ArkhorScriptParser::NestedObject) {
+            if (!doGenerateNestedClass(*it)) {
+                return false;
+            }
+        } else if (it->type == ArkhorScriptParser::ArrayValues) {
+            for (auto jt = it->array.begin(); jt != it->array.end(); ++jt) {
+                if (jt->first == ArkhorScriptParser::NestedObject) {
+                    AttrDef tmp = AttrDef::forArrayElement(*jt);
+                    if (!doGenerateNestedClass(tmp)) {
+                        return false;
+                    }
+                    jt->second = tmp.content;
+                    jt->first = tmp.type;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+bool ArkhorScriptGenerator::doGenerateNestedClass(AttrDef &attr)
+{
+    if (!generateClass(*attr.content.second)) {
+        return false;
+    }
+    attr.content.first = ClassGenerator::constantScopeForClass(attr.content.second->elemType) + "." + attr.content.second->elemName;
+    attr.type = ArkhorScriptParser::IDRef;
+    return true;
+}
 
 }

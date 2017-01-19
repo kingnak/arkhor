@@ -56,7 +56,7 @@ bool ObjectGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc,
     /*
     // activated by some
     if (desc.name == "hands") {
-        outputAttribute(cls, AttrDef("hands", AttrDef::Literal, "1"), false);
+        outputAttribute(cls, AttrDef("hands", ArkhorScriptParser::Literal, "1"), false);
         return true;
     }
     */

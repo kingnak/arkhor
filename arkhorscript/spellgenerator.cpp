@@ -40,7 +40,7 @@ bool SpellGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &
 bool SpellGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "castTarget") {
-        return outputAttribute(cls, AttrDef("castTarget", AttrDef::Primitive, "1"), false);
+        return outputAttribute(cls, AttrDef("castTarget", ArkhorScriptParser::Primitive, "1"), false);
     }
     return ObjectGenerator::outputDefaultAttribute(desc, cls);
 }

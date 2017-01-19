@@ -10,7 +10,7 @@ bool MythosGenerator::generate(const ClassGenerator::ClassDef &cls)
     outputCreateMythosStart(cls);
     if (!outputAttributes(cls)) return false;
     outputCreateEnd(cls);
-    outputRegisterConstant(cls, "Mythos");
+    outputRegisterConstant(cls);
     outputRegisterMythos(cls);
     return true;
 }
@@ -69,7 +69,7 @@ QList<ClassGenerator::AttributeDesc> HeadlineGenerator::getAttributes()
 bool HeadlineGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "type") {
-        return outputAttribute(cls, AttrDef("type", AttrDef::EnumValue, "Headline"), true);
+        return outputAttribute(cls, AttrDef("type", ArkhorScriptParser::EnumValue, "Headline"), true);
     }
     return MythosGenerator::outputDefaultAttribute(desc, cls);
 }
@@ -111,7 +111,7 @@ bool EnvironmentGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc 
 bool EnvironmentGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "type") {
-        return outputAttribute(cls, AttrDef("type", AttrDef::EnumValue, "Environment"), true);
+        return outputAttribute(cls, AttrDef("type", ArkhorScriptParser::EnumValue, "Environment"), true);
     }
     return MythosGenerator::outputDefaultAttribute(desc, cls);
 }
@@ -142,7 +142,7 @@ bool RumorGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc desc, 
 bool RumorGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "type") {
-        return outputAttribute(cls, AttrDef("type", AttrDef::EnumValue, "Rumor"), true);
+        return outputAttribute(cls, AttrDef("type", ArkhorScriptParser::EnumValue, "Rumor"), true);
     }
     return MythosGenerator::outputDefaultAttribute(desc, cls);
 }

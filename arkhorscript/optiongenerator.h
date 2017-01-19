@@ -13,6 +13,8 @@ public:
     virtual bool generate(const ClassDef &cls);
 
 protected:
+    //virtual bool allowNested(const ClassDef &cls) const { Q_UNUSED(cls); return true; }
+
     void outputCreateOptionStart(const ClassDef &cls);
     void outputRegisterOption(const ClassDef &cls);
 

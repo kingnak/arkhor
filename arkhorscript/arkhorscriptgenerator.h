@@ -29,6 +29,9 @@ private:
     bool generateClass(ClassDef &cls);
     bool setError(QString err);
 
+    bool generateNestedClasses(ClassDef &cls);
+    bool doGenerateNestedClass(AttrDef &attr);
+
 private:
     QMap<QString, ClassGenerator*> m_generators;
 

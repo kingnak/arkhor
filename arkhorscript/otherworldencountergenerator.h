@@ -12,6 +12,8 @@ public:
 
     virtual bool generate(const ClassDef &cls);
 
+    bool allowAnonymous() const { return true; }
+
 protected:
     void outputCreateOtherWorldEncounterStart(const ClassDef &cls);
     void outputRegisterOtherWorldEncounter(const ClassDef &cls);

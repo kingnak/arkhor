@@ -12,6 +12,8 @@ public:
 
     virtual bool generate(const ClassDef &cls);
 
+    bool allowAnonymous() const { return true; }
+
 protected:
     void outputCreateArkhamEncounterStart(const ClassDef &cls);
     void outputRegisterAkhamEncounter(const ClassDef &cls);

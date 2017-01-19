@@ -42,7 +42,8 @@ public:
         QString elemName;
         int elemMult;
         bool hasElemMult;
-        ClassDef() : elemMult(1), hasElemMult(false) {}
+        bool isAnonymous;
+        ClassDef() : elemMult(1), hasElemMult(false), isAnonymous(false) {}
         QList<AttrDef> attrs;
     };
 

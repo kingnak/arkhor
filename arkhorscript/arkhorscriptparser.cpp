@@ -38,7 +38,7 @@ bool ArkhorScriptParser::ElementDefinition()
         return setError("Expected Class Type");
     }
     if (!ElementID()) {
-        return setError("Expected Class Name");
+        m_curClass.isAnonymous = true;
     }
     if (!ElementMultiplicity()) {
         return setError("Invalid Multiplicity");

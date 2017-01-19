@@ -9,7 +9,8 @@ class SpecialObjectGenerator : public ObjectGenerator
 {
 public:
     SpecialObjectGenerator(QTextStream &out) : ObjectGenerator(out) {}
-    bool generate(const ClassGenerator::ClassDef &cls);
+
+    bool allowInfinite() const { return true; }
 
 protected:
     QList<AttributeDesc> getAttributes();

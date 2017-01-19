@@ -92,9 +92,10 @@ void ArkhorScriptGenerator::init()
     m_generators["OWEOption"] = new OtherWorldEncounterOptionGenerator(m_out);
 }
 
-bool ArkhorScriptGenerator::generateClass(const ClassDef &cls)
+bool ArkhorScriptGenerator::generateClass(ClassDef &cls)
 {
     if (m_generators.contains(cls.elemType)) {
+        if (!m_generators[cls.elemType]->fixClass(cls)) return false;
         return m_generators[cls.elemType]->generate(cls);
     }
 

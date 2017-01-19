@@ -18,6 +18,10 @@ public:
     QString error() const { return m_err; }
     QString warning() const { return m_warn; }
 
+    bool fixClass(ClassDef &cls);
+
+    static const int INFINITE_MULT = -1;
+
 protected:
     struct AttributeDesc {
         QString name;
@@ -39,6 +43,9 @@ protected:
             : name(n), reqType(r), handleType(h), valTypes(ValueTypes(v)) {}
         AttributeDesc() : reqType(R_INVALID) {}
     };
+
+    virtual bool allowInfinite() const { return false; }
+    virtual bool allowAnonymous() const { return false; }
 
     bool setError(QString err);
     bool setError(QString err, const ClassDef &cls);
@@ -88,6 +95,8 @@ protected:
 private:
     QString m_err;
     QString m_warn;
+
+    static QMap<QString, quint32> s_anonymousCounts;
 };
 }
 

@@ -18,12 +18,6 @@ QString SpecialObjectGenerator::getObjectTypeName(const ClassGenerator::ClassDef
     return "Special";
 }
 
-bool SpecialObjectGenerator::generate(const ClassGenerator::ClassDef &cls)
-{
-    ClassGenerator::ClassDef copy(cls);
-    if (!copy.hasElemMult) copy.elemMult = -1;
-    return ObjectGenerator::generate(copy);
-}
 
 
 }

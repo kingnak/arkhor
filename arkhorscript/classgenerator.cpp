@@ -5,10 +5,26 @@
 
 namespace AHS {
 
+QMap<QString, quint32> ClassGenerator::s_anonymousCounts;
 
 ClassGenerator::ClassGenerator(QTextStream &out)
     : m_out(out)
 {
+}
+
+bool ClassGenerator::fixClass(ClassGenerator::ClassDef &cls)
+{
+    if (cls.isAnonymous) {
+        if (this->allowAnonymous()) {
+            cls.elemName = QString("%2_anonymous_%1").arg(++s_anonymousCounts[cls.elemType]).arg(cls.elemType);
+        } else {
+            return setError("Anonymous class not allowed for Type " + cls.elemType);
+        }
+    }
+    if (!cls.hasElemMult && this->allowInfinite()) {
+        cls.elemMult = INFINITE_MULT;
+    }
+    return true;
 }
 
 bool ClassGenerator::setError(QString err)
@@ -291,6 +307,7 @@ void ClassGenerator::outputRegisterSingle(QString type, const ClassDef &cls)
 
 void ClassGenerator::outputRegisterConstant(const ClassGenerator::ClassDef &cls, QString scopeOverride)
 {
+    if (cls.isAnonymous) return;
     QString scope = scopeOverride.isEmpty() ? cls.elemType : scopeOverride;
     m_out << "game.registerConstant('" << scope << "', '" << cls.elemName << "', '" << idPrefixForClass(cls.elemType) << '_' << cls.elemName << "');\n";
 }

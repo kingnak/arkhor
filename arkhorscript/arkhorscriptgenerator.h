@@ -26,7 +26,7 @@ private:
     typedef ArkhorScriptParser::ClassDef ClassDef;
     typedef ArkhorScriptParser::AttrDef AttrDef;
 
-    bool generateClass(const ClassDef &cls);
+    bool generateClass(ClassDef &cls);
     bool setError(QString err);
 
 private:

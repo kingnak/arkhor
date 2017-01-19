@@ -4,7 +4,7 @@ FieldOption Hosp_HealOne {
 	description: "Instead of having an encounter here, "+
 		"you may recover Stamina by receiving medical care. "+
 		"You regain 1 Stamina for free.";
-	activate: {{{ CHAR.addStamina(1); }}}
+	activate: {{{ CHAR.addStamina(1); }}};
 }
 
 FieldOption Hosp_HealAll {
@@ -14,7 +14,7 @@ FieldOption Hosp_HealAll {
 		"you may recover Stamina by receiving medical care. "+
 		"Pay $2 to restore your Stamina to its maximum value.";
 	costs: [ Money 2 ];
-	activate: {{{ CHAR.restoreStamina(); }}}
+	activate: {{{ CHAR.restoreStamina(); }}};
 }
 
 ArkhamEncounter Hosp_Enc1 {

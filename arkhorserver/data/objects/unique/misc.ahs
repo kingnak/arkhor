@@ -42,7 +42,7 @@ QuickOption HS_HealStamina {
 	activate: {{{
 		this.owner.addStamina(1);
 		this.exhaust();
-	}}}
+	}}};
 }
 QuickOption HS_HealSanity {
 	name: "Heal Sanity (Healing Stone)";
@@ -52,7 +52,7 @@ QuickOption HS_HealSanity {
 	activate: {{{
 		this.owner.addSanity(1);
 		this.exhaust();
-	}}}
+	}}};
 }
 
 UniqueItem EnchantedJewelry : 1 {

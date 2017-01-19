@@ -29,5 +29,5 @@ AEOption Witchhouse_Enc1 {
 ArkhamEncounter Witchhouse_Enc2 {
 	field: FH_TheWitchHouse;
 	description: "A gate and a monster appear!";
-	options: Option.GateAndMonsterAppears
+	options: Option.GateAndMonsterAppears;
 }

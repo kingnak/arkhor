@@ -1,7 +1,7 @@
 ArkhamEncounter Cave_Enc1 {
 	field: RT_BlackCave;
 	description: "A monster appears!";
-	options: Option.MonsterAppearsARK
+	options: Option.MonsterAppearsARK;
 }
 
 ArkhamEncounter Cave_Enc2 {
@@ -17,7 +17,7 @@ ArkhamEncounter Cave_Enc2 {
 		"by a powerful monster. Lose 1 Sanity.<br/>"+
 		"2+) Searching the body you find something "+
 		"intersting. Draw 1 Common Item.";
-	options: Option.Cave_Enc2
+	options: Option.Cave_Enc2;
 }
 AEOption Cave_Enc2 {
 	activate: {{{

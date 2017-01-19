@@ -100,7 +100,7 @@ QuickOption ReadOldJournal {
 			this.owner.addClue(3);
 			this.discard();
 		}
-	}}}
+	}}};
 }
 
 CommonItem ResearchMaterials : 2 {
@@ -115,7 +115,7 @@ QuickOption UseResearchMaterials {
 	activate: {{{
 		this.owner.addClue(1);
 		this.discard();
-	}}}
+	}}};
 }
 
 CommonItem Whiskey : 2 {

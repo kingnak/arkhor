@@ -7,7 +7,7 @@ ArkhamEncounter Train_Enc1 {
 		"and gives it to you. Draw 1 Unique Item. If you "+
 		"fail, he pulls a poisoned blade out of his cloak "+
 		"and stabs you. Roll a die and lose that much Stamina.";
-	options: Option.Train_Enc1
+	options: Option.Train_Enc1;
 }
 AEOption Train_Enc1 {
 	activate: {{{
@@ -35,7 +35,7 @@ ArkhamEncounter Train_Enc2 {
 		"paper. Gain 1 Spell. If you fail, he is "+
 		"obliterated before your eyes. Roll a die and "+
 		"lose that much Sanity.";
-	options: Option.Train_Enc2
+	options: Option.Train_Enc2;
 }
 AEOption Train_Enc2 {
 	activate: {{{

@@ -34,7 +34,7 @@ AEOption Shoppe_Enc1 {
 		if (!res) {
 			// TODO
 		}
-	}}}
+	}}};
 }
 
 ArkhamEncounter Shoppe_Enc2 {
@@ -46,7 +46,7 @@ ArkhamEncounter Shoppe_Enc2 {
 		"If there is a disagreement over who gets to buy a "+
 		"certain card, you decide. Any items not sold are "+
 		"discarded.";
-	options: Option.Shoppe_Enc2
+	options: Option.Shoppe_Enc2;
 }
 AEOption Shoppe_Enc2 {
 	// TODO: Let other players participate!

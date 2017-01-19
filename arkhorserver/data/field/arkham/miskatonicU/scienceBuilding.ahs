@@ -5,7 +5,7 @@ FieldOption Science_Dissection {
 		"you may spend 5 toughness worth of monster trophies "+
 		"or 1 gate trophy to gain 2 Clue tokens.";
 	costs: [ MonsterToughness 5, GateTrophy 1 ];
-	activate: {{{ CHAR.addClue(2); }}}
+	activate: {{{ CHAR.addClue(2); }}};
 }
 
 ArkhamEncounter Science_Enc1 {

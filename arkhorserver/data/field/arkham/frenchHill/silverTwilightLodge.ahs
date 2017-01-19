@@ -13,7 +13,7 @@ AEOption Lodge_Enc1_Accept {
 	costs: [ Money 3 ];
 	activate: {{{
 		// TODO
-	}}}
+	}}};
 }
 AEOption Lodge_Enc1_Decline {
 	name: "Decline";
@@ -23,7 +23,7 @@ AEOption Lodge_Enc1_Decline {
 			CHAR.damageStamina(3);
 		}
 		CHAR.placeOnField(Constants.Fields.FH_FrenchHill);
-	}}}
+	}}};
 }
 
 ArkhamEncounter Lodge_Enc2 {
@@ -40,5 +40,5 @@ AEOption Lodge_Enc2 {
 		if (!res) {
 			game.utility.curseCharacter(CHAR);
 		}
-	}}}
+	}}};
 }

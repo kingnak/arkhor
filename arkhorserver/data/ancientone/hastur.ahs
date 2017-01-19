@@ -33,5 +33,5 @@ AncientOne Hastur {
 		if (!res) {
 			CHAR.damageSanity(2);
 		}
-	}}}
+	}}};
 }

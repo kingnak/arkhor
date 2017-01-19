@@ -481,7 +481,7 @@ Monster Warlock : 2 {
 	onDefeat: {{{
 		chr.addClue(2);
 		return false;
-	}}}
+	}}};
 }
 
 Monster Witch : 2 {

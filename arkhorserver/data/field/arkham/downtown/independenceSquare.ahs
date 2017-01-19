@@ -1,4 +1,4 @@
-ArkhamEncounter Square_Enc1 {
+ArkhamEncounter {
 	field: DT_IndependenceSquare;
 	description: "A pair of friendly picnickers share "+
 		"their lunch with you. Gain 1 Stamina.";
@@ -8,7 +8,7 @@ AEOption Square_Enc1 {
 	activate: {{{ CHAR.addStamina(1); }}};
 }
 
-ArkhamEncounter Square_Enc2 {
+ArkhamEncounter {
 	field: DT_IndependenceSquare;
 	description: "A shadow falls across you from no "+
 		"apparent source and you shiver with more than "+

@@ -16,7 +16,7 @@ public:
     bool addDirectory(QString dir);
     bool addZip(QString zip);
 
-    QPixmap loadMonster(const QString &id);
+    QPixmap loadMonster(QString id);
     QPixmap loadCharacterFigure(QString id);
     QFont loadMainFont();
     QPixmap loadDimensionSymbol(AH::Dimension dim);

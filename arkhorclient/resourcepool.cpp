@@ -23,17 +23,6 @@ bool ResourcePool::addDirectory(QString dir)
             if (!addDirectory(fi.absoluteFilePath()))
                 return false;
         } else {
-            /*
-            QPair<QString, QString> data = getIdFromEntry(QDir::fromNativeSeparators(fi.absoluteFilePath()));
-            QString id = data.first;
-            QString sub = data.second;
-            if (id.isNull()) continue;
-            if (m_resPaths.contains(id) && m_resPaths[id].contains(sub)) {
-                qWarning() << "Overriding previous resource for id" << id << ", Subitem" << sub;
-            }
-
-            m_resPaths[id][sub] = ResourceDef(fi.absoluteFilePath());
-            */
             addEntry(QDir::fromNativeSeparators(fi.fileName()), ResourceDef(fi.absoluteFilePath()));
         }
     }
@@ -49,14 +38,6 @@ bool ResourcePool::addZip(QString zip)
     QList<QuaZipFileInfo> entries = z.getFileInfoList();
     foreach (QuaZipFileInfo e, entries) {
         if (e.uncompressedSize > 0) {
-            /*
-            QString id = getIdFromEntry(e.name);
-            if (id.isNull()) continue;
-            if (m_resPaths.contains(id)) {
-                qWarning() << "Overriding previous resource for id" << id;
-            }
-            m_resPaths[id] = ResourceDef(zip, e.name);
-            */
             addEntry(e.name, ResourceDef(zip, e.name));
         }
     }
@@ -64,14 +45,15 @@ bool ResourcePool::addZip(QString zip)
     return true;
 }
 
-QPixmap ResourcePool::loadMonster(const QString &id)
+QPixmap ResourcePool::loadMonster(QString id)
 {
     if (id.isEmpty()) return QPixmap();
+    id = id.toLower();
     QString sub = "";
     QString rid = id;
     if (m_monsterIdCache.contains(id)) {
-        sub = m_monsterIdCache[id].second;
         rid = m_monsterIdCache[id].first;
+        sub = m_monsterIdCache[id].second;
     } else {
         QRegExp rx("^(.*):(\\d+)$");
         if (rx.indexIn(id) >= 0) {
@@ -188,9 +170,9 @@ QPair<QString, QString> ResourcePool::getIdFromEntry(QString e)
 
     QRegExp rx("^([^-]+)(?:-([^-\\.]+))?\\.(.*)$");
     if (rx.exactMatch(e)) {
-        QString id = rx.cap(1);
-        QString subItem = rx.cap(2);
-        QString ext = rx.cap(3);
+        QString id = rx.cap(1).toLower();
+        QString subItem = rx.cap(2).toLower();
+        QString ext = rx.cap(3).toLower();
 
         qDebug() << "Id:" << id << "Sub:" << subItem << "Type:" << ext;
         return qMakePair(id, subItem);
@@ -206,6 +188,9 @@ ResourcePool::ResourcePool()
 
 QByteArray ResourcePool::intLoadResource(QString id, QString sub)
 {
+    id = id.toLower();
+    sub = sub.toLower();
+    
     if (id.isEmpty() || !m_resPaths.contains(id)) {
         return QByteArray();
     }

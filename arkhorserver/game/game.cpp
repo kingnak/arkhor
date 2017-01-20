@@ -20,6 +20,7 @@
 #include "mythoscard.h"
 #include "ancientone.h"
 #include "gamesettingdata.h"
+#include "actions/preventdamageaction.h"
 #include <QThread>
 #include <QDebug>
 
@@ -321,7 +322,7 @@ void Game::increaseTerrorLevel(int amount)
 
 void Game::setTerrorLevel(int val)
 {
-    int amount = m_terrorLevel - val;
+    int amount = val - m_terrorLevel;
     m_terrorLevel = val;
     int realTL = m_context.getGameProperty(PropertyValue::Game_TerrorLevel).finalVal();
 
@@ -331,8 +332,7 @@ void Game::setTerrorLevel(int val)
         m_terrorLevel -= diff;
         realTL = m_context.getGameProperty(PropertyValue::Game_TerrorLevel).finalVal();
         Q_ASSERT(realTL == 10);
-        int doomAdd = amount - diff;
-        m_ancientOne->increaseDoomTrack(doomAdd);
+        m_ancientOne->increaseDoomTrack(diff);
     }
 
     if (realTL >= m_context.getGameProperty(PropertyValue::Game_CloseGeneralStoreTerrorLevel).finalVal()) {
@@ -1154,6 +1154,86 @@ void Game::replacePlayerCharacter(Player *p, Investigator *i)
     FocusAction fa;
     int amount = 100;
     fa.executeOnPlayer(p, amount);
+}
+
+void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity, int &preventStamina, int &preventSanity)
+{
+    preventStamina = preventSanity = 0;
+    Character *c = p->getCharacter();
+
+    QList<GameOption *> options;
+
+    do {
+        foreach (GameObject *obj, c->inventory()) {
+            if (obj->hasPreventedDamage() || obj->isExhausted()) continue;
+            foreach (GameOption *opt, obj->getOptions()) {
+                if (opt->phases().testFlag(AH::CommitDamagePhase)) {
+                    PreventDamageOption *pOpt = dynamic_cast<PreventDamageOption *> (opt);
+                    if (!pOpt) continue;
+                    pOpt->setSource(obj);
+                    if (!pOpt->isAvailable()) continue;
+                    pOpt->updateOverrideDescription(damageStamina, damageSanity);
+
+                    if (damageStamina > 0 && pOpt->canPreventStamina()) {
+                        options << opt;
+                        continue;
+                    }
+                    if (damageSanity > 0 && pOpt->canPreventSanity()) {
+                        options << opt;
+                    }
+                }
+            }
+        }
+
+        if (options.isEmpty()) {
+            break;
+        }
+
+        options << GamePhase::getSkipOption();
+
+        GameOption *chosen = p->chooseOption(options);
+        if (!chosen) {
+            break;
+        }
+        if (chosen == GamePhase::getSkipOption()) {
+            break;
+        }
+
+        PreventDamageOption *pChosen = dynamic_cast<PreventDamageOption *> (chosen);
+        if (!pChosen) {
+            break;
+        }
+        pChosen->execute(damageStamina, damageSanity);
+
+        preventStamina += pChosen->preventedStamina();
+        preventSanity += pChosen->preventedSanity();
+        damageStamina -= pChosen->preventedStamina();
+        damageSanity -= pChosen->preventedSanity();
+
+        foreach (GameOption *o, options) {
+            if (PreventDamageOption *pO = dynamic_cast<PreventDamageOption*>(o)) {
+                pO->reset();
+            }
+        }
+
+        options.clear();
+
+        if (damageSanity <= 0 && damageStamina <= 0) {
+            break;
+        }
+
+    } while (true);
+
+    foreach (GameOption *o, options) {
+        if (PreventDamageOption *pO = dynamic_cast<PreventDamageOption*>(o)) {
+            pO->reset();
+        }
+    }
+
+    foreach (GameObject *obj, c->inventory()) {
+        obj->resetPreventDamage();
+    }
+
 }
 
 //private below:

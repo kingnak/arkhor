@@ -154,6 +154,8 @@ public:
 
     void replacePlayerCharacter(Player *p, Investigator *i);
 
+    void preventDamageHelper(Player *p, int &damageStamina, int &damageSanity, int &preventStamina, int &preventSanity);
+
 protected:
     void initBoard();
     void initDecks();

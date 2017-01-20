@@ -37,7 +37,7 @@ QuickOption EatFood {
 	phases: Any;
 	activate: {{{
 		// TODO: Does this work?
-		this.owner.preventDamageStamina(1);
+		//this.owner.preventDamageStamina(1);
 		this.discard();
 	}}};
 }
@@ -127,7 +127,7 @@ QuickOption DrinkWhiskey {
 	phases: Any;
 	activate: {{{
 		// TODO: Does this work?
-		this.owner.preventDamageSanity(1);
+		//this.owner.preventDamageSanity(1);
 		this.discard();
 	}}};
 }

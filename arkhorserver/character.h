@@ -69,8 +69,8 @@ public:
     void addSanity(int amount);
     void restoreStamina();
     void restoreSanity();
-    void preventDamageStamina(int amount);
-    void preventDamageSanity(int amount);
+    //void preventDamageStamina(int amount);
+    //void preventDamageSanity(int amount);
 
 
     // Items

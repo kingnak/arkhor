@@ -72,7 +72,7 @@ QuickOption UseEnchantedJewelry {
 	activate: {{{
 		this.exhaust();
 		// TODO: Does this work?
-		this.owner.preventDamageStamina(1);
+		//this.owner.preventDamageStamina(1);
 		this.tokens++;
 		if (this.tokens >= 3) {
 			this.discard();

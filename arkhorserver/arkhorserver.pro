@@ -1,4 +1,4 @@
-#CONFIG += DEBUG_SCRIPT
+CONFIG += DEBUG_SCRIPT
 
 QT += network script scripttools
 DEBUG_SCRIPT {
@@ -102,7 +102,9 @@ HEADERS += \
     game/phases/attackancientonephase.h \
     game/monstermodifier.h \
     script/monstermodifierscript.h \
-    communication/notificationformatter.h
+    communication/notificationformatter.h \
+    game/actions/preventdamageaction.h \
+    script/preventdamageoptionscript.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -194,7 +196,9 @@ SOURCES += \
     game/phases/attackancientonephase.cpp \
     game/monstermodifier.cpp \
     script/monstermodifierscript.cpp \
-    communication/notificationformatter.cpp
+    communication/notificationformatter.cpp \
+    game/actions/preventdamageaction.cpp \
+    script/preventdamageoptionscript.cpp
 
 OTHER_FILES += \
     data/field/arkham/frenchHill/theWitchhouse.js \

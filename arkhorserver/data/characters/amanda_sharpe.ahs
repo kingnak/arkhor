@@ -9,7 +9,8 @@ Investigator AmandaSharpe {
     uniqueAbilityId: SpecialAbility.Studious;
 	// Fixed Possessions is required, but empty list doesn't work...
 	// Use a literal empty array
-    fixedPossesionObjectIds: <<<[]>>>;
+	fixedPossesionObjectIds: <<<[]>>>;
+	//fixedPossesionObjectIds: (CommonItem.ASTest1,CommonItem.ASTest2,CommonItem.ASTest3);
     randomPossessions: [
             CommonItem 1,
             UniqueItem 1,
@@ -30,3 +31,54 @@ SpecialAbility Studious {
                 "and then discards one of the cards.";
     modifications: [ DrawCard_Skill +1 ];
 }
+/*
+CommonItem ASTest1 {
+	description: "Prevent Damage Test";
+	options: <<<[
+		game.getPreventDamageOption({
+			description: "Prevent 1 Sta + 1 San",
+			stamina: 1,
+			sanity: 1
+		})
+		]>>>;
+}
+
+CommonItem ASTest2 {
+	description: "Prevent Damage Test 2";
+	options: <<<[
+		game.getPreventDamageOption({
+			description: "Prevent 1 Sta + 1 San (Or...)",
+			stamina: 1,
+			sanity: 1
+		}),
+		game.getPreventDamageOption({
+			description: "Prevent 2 Sta (Or...)",
+			stamina: 2
+		}),
+		game.getPreventDamageOption({
+			description: "Prevent 2 San (Or...)",
+			sanity: 2
+		}),
+	]>>>;
+}
+
+CommonItem ASTest3 {
+	description: "Prevent Damage Test 3";
+	options: <<<[
+		game.getPreventDamageOption({
+			description: "Prevent ALL Stamina (Or...)",
+			stamina: function(dmg) {
+				debugger;
+				return dmg;
+			}
+		}),
+		game.getPreventDamageOption({
+			description: "Prevent ALL Sanity (Or...)",
+			sanity: function(dmg) {
+				debugger;
+				return dmg;
+			}
+		})
+	]>>>;
+}
+*/

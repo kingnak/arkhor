@@ -28,13 +28,13 @@ public:
     Q_INVOKABLE void restoreSanity() { Character::restoreSanity(); }
     Q_INVOKABLE void addSanity(int amount) { Character::addSanity(amount); }
     Q_INVOKABLE void damageSanity(int amount) { Character::damageSanity(amount); }
-    Q_INVOKABLE void preventDamageSanity(int amount) { Character::preventDamageSanity(amount); }
+    //Q_INVOKABLE void preventDamageSanity(int amount) { Character::preventDamageSanity(amount); }
 
     Q_PROPERTY(int stamina READ curStamina)
     Q_INVOKABLE void restoreStamina() { Character::restoreStamina(); }
     Q_INVOKABLE void addStamina(int amount) { Character::addStamina(amount); }
     Q_INVOKABLE void damageStamina(int amount) { Character::damageStamina(amount); }
-    Q_INVOKABLE void preventDamageStamina(int amount) { Character::preventDamageStamina(amount); }
+    //Q_INVOKABLE void preventDamageStamina(int amount) { Character::preventDamageStamina(amount); }
 
     Q_INVOKABLE bool commitDamage() { return Character::commitDamage(); }
 

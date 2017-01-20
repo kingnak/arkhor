@@ -71,6 +71,8 @@ public:
     Q_INVOKABLE QScriptValue quickOption();
     Q_INVOKABLE QScriptValue getDieRollOption();
 
+    Q_INVOKABLE QScriptValue getPreventDamageOption();
+
     Q_INVOKABLE QScriptValue registerSingleObject(GameObjectScript *o);
     Q_INVOKABLE QScriptValue registerObject(GameObjectScript *o);
     Q_INVOKABLE QScriptValue registerMultiObject(qint32 count, GameObjectScript *o);

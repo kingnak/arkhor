@@ -65,6 +65,7 @@ void OptionChooser::setOptions(QList<AH::Common::GameOptionData> opts)
         QVariant v;
         v << o;
         b->setProperty(OPTION_PROPERTY, v);
+        b->setProperty(OPTION_OBJECT_PROPERTY, o.sourceId());
         connect(b, SIGNAL(clicked()), this, SLOT(showOption()));
         l->addWidget(b);
     }

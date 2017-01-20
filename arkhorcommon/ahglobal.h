@@ -30,6 +30,7 @@ namespace AH
         DieRoll = 0x0100,
         FightPhase = 0x0200,
         EndFightPhase = 0x0400,
+        CommitDamagePhase = 0x0800,
     };
 
     Q_DECLARE_FLAGS(GamePhases, GamePhase)

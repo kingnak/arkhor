@@ -17,7 +17,7 @@ public:
     void setId(const QString &id) { m_id = id; }
     virtual GameObject *clone() = 0;
 
-    GameObject() : m_owner(NULL), m_isInfinite(false) {}
+    GameObject() : m_owner(NULL), m_isInfinite(false), m_preventedDamage(false) {}
     virtual ~GameObject() {}
 
     Character *owner() const { return m_owner; }
@@ -27,6 +27,10 @@ public:
 
     virtual void exhaust();
     virtual void refresh();
+
+    void preventDamage() { m_preventedDamage = true; }
+    void resetPreventDamage() { m_preventedDamage = false; }
+    bool hasPreventedDamage() const { return m_preventedDamage; }
 
     virtual bool onAddToInventory(Character *c);
     virtual bool onRemoveFromInventory(Character *c) { Q_UNUSED(c) return true; }
@@ -58,6 +62,7 @@ public:
 protected:
     Character *m_owner;
     bool m_isInfinite;
+    bool m_preventedDamage;
 };
 
 /*

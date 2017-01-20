@@ -1,4 +1,7 @@
 Headline TEST {
 	description: "For keeping the game going...";
-	executeHeadline: {{{}}};
+	executeHeadline: {{{
+		CHAR.damageStamina(2);
+		CHAR.damageSanity(2);
+	}}};
 }

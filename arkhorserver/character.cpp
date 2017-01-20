@@ -521,12 +521,12 @@ bool Character::commitDamage()
     if (m_curSanity > maxSanity()) {
         m_curSanity = maxSanity();
         setDirty();
-        if (m_curSanity == 0) maxIsZero = true;
+        if (m_curSanity <= 0) maxIsZero = true;
     }
     if (m_curStamina > maxStamina()) {
         m_curStamina = maxStamina();
         setDirty();
-        if (m_curStamina == 0) maxIsZero = true;
+        if (m_curStamina <= 0) maxIsZero = true;
     }
 
     if (maxIsZero) {
@@ -535,9 +535,17 @@ bool Character::commitDamage()
         return false;
     }
 
-    if (m_curDmgSanity == 0 && m_curDmgStamina == 0) {
+    if (m_curDmgSanity <= 0 && m_curDmgStamina <= 0) {
         return true;
     }
+
+    int preventSta, preventSan;
+    gGame->preventDamageHelper(gGame->playerForCharacter(this), m_curDmgStamina, m_curDmgSanity, preventSta, preventSan);
+
+    if (m_curDmgSanity <= 0 && m_curDmgStamina <= 0) {
+        return true;
+    }
+
     m_curStamina = qMax(0, m_curStamina - m_curDmgStamina);
     m_curSanity = qMax(0, m_curSanity - m_curDmgSanity);
 
@@ -572,12 +580,14 @@ bool Character::commitDamage()
 
 void Character::addStamina(int amount)
 {
+    /*
     if (m_curDmgStamina > 0) {
         int newAmount = amount - m_curDmgStamina;
         m_curDmgStamina = qMax(0, m_curDmgStamina - amount);
         if (newAmount - amount > 0) gGame->notifier()->notifySimple("{C} prevented {D} stamina damage", QString::number(newAmount - amount));
         amount = qMax(0, newAmount);
     }
+    */
     int maxStamina = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxStamina).finalVal();
     int newStamina = qMin(maxStamina, m_curStamina + amount);
     if (newStamina == m_curStamina)
@@ -590,12 +600,14 @@ void Character::addStamina(int amount)
 
 void Character::addSanity(int amount)
 {
+    /*
     if (m_curDmgSanity > 0) {
         int newAmount = amount - m_curDmgSanity;
         m_curDmgSanity = qMax(0, m_curDmgSanity - amount);
         if (newAmount - amount > 0) gGame->notifier()->notifySimple("{C} prevented {D} sanity damage", QString::number(newAmount - amount));
         amount = qMax(0, newAmount);
     }
+    */
     int maxSanity = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MaxSanity).finalVal();
     int newSanity  = qMin(maxSanity, m_curSanity + amount);
     if (newSanity == m_curSanity)
@@ -632,6 +644,7 @@ void Character::restoreSanity()
     gGame->notifier()->notifySimple("{C} restored sanity");
 }
 
+/*
 void Character::preventDamageStamina(int amount)
 {
     // TODO: Is this right?
@@ -643,6 +656,7 @@ void Character::preventDamageSanity(int amount)
     // TODO: Is this right?
     m_curDmgSanity = qMax(m_curDmgSanity - amount, 0);
 }
+*/
 
 void Character::addMonsterTrophy(Monster *m)
 {

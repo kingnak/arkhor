@@ -23,6 +23,7 @@
 #include "ancientonescript.h"
 #include "gatescript.h"
 #include "game/actions/dierollaction.h"
+#include "preventdamageoptionscript.h"
 #include <arkhorscriptgenerator.h>
 
 #define OUTPUT_COMPILED_AHS
@@ -705,6 +706,38 @@ QScriptValue GameScript::getDieRollOption()
         op->setId(id);
         gGame->registerOption(op);
     }
+    return id;
+}
+
+QScriptValue GameScript::getPreventDamageOption()
+{
+    if (context()->argumentCount() != 1 || !context()->argument(0).isObject()) {
+        return context()->throwError(QScriptContext::TypeError, "getPreventDamageOption: Must call with 1 object");
+    }
+
+    QScriptValue data = context()->argument(0);
+    QScriptValue sta = data.property("stamina");
+    QScriptValue san = data.property("sanity");
+    QScriptValue ex = data.property("exhaust");
+    QScriptValue disc = data.property("discard");
+    QString desc = data.property("description").toString();
+
+    if (desc.isEmpty()) {
+        return context()->throwError("getPreventDamageOption: description required");
+    }
+
+    if (!sta.isValid() && !san.isValid()) {
+        return context()->throwError("getPreventDamageOption: stamina and/or sanity required");
+    }
+
+    bool exhaust;
+    if (ex.isBool()) exhaust = ex.toBool(); else exhaust = true;
+    bool discard;
+    if (disc.isBool()) discard = disc.toBool(); else discard = false;
+
+    QString id = QString("OP_PREVENT_%1").arg(PreventDamageOption::nextId()) ;
+    PreventDamageOptionScript *opt = new PreventDamageOptionScript(id, desc, sta, san, discard, exhaust, this);
+    gGame->registerOption(opt);
     return id;
 }
 

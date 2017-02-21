@@ -31,15 +31,13 @@ CommonItem DarkCloak : 2 {
 CommonItem Food : 2 {
 	description: "<b>Any:</b> Discard Food to reduce any Stamina loss by 1.";
 	price: 1;
-	options: Option.EatFood;
-}
-QuickOption EatFood {
-	phases: Any;
-	activate: {{{
-		// TODO: Does this work?
-		//this.owner.preventDamageStamina(1);
-		this.discard();
-	}}};
+	options: <<<[
+		game.getPreventDamageOption({
+			stamina: 1,
+			discard: true,
+			description: "Prevent 1 Stamina damage"
+		})
+	]>>>;
 }
 
 CommonItem Lantern : 2 {
@@ -121,15 +119,13 @@ QuickOption UseResearchMaterials {
 CommonItem Whiskey : 2 {
 	description: "<b>Any:</b> Discard Whiskey to reduce any Sanity loss by 1.";
 	price: 1;
-	options: Option.DrinkWhiskey;
-}
-QuickOption DrinkWhiskey {
-	phases: Any;
-	activate: {{{
-		// TODO: Does this work?
-		//this.owner.preventDamageSanity(1);
-		this.discard();
-	}}};
+	options: <<<[
+		game.getPreventDamageOption({
+			sanity: 1,
+			discard: true,
+			description: "Prevent 1 Sanity damage"
+		})
+	]>>>;
 }
 
 CommonItem LuckyCigaretteCase : 2 {

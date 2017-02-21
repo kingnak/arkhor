@@ -1,0 +1,59 @@
+Rumor Disturbing_theDead {
+	description: "<b>Ongoing Effect:</b> Roll a die at the end of every <b>Mythos Phase</b> "+
+		"while this card is in play (beginning the turn after it entered play). "+
+		"On a 1 or 2, increase the terror level by 1.\n"+
+		"<b>Pass: </b>If a single player discards 2 gate trophies during the "+
+		"<b>Arkham Encounter Phase</b> while in the Rivertown streets, return this card to "+
+		"the box. Each player draws 1 Spell.\n"+
+		"<b>Fail: </b>If the terror level reaches 10, return this card to the box. "+
+		"Every investigator is <i>Cursed</i>.";
+	shortDescription: 	"<b>Pass: </b>Spend 2 gate trophies at Rivertown streets\n"+
+						"<b>Fail: </b>Terror level reaches 10";
+	
+	//clueField: keines...;
+	//gateField: RT_BlackCave;
+	//moveWhite: (Slash,Star,Triangle);
+	//moveBlack: Hexagon;
+	
+	rumorField: RT_Rivertown;
+	rumorFieldOptionId: Option.Disturbing_theDead;
+	
+	setupRumor: {{{}}};
+	teardownRumor: {{{}}};
+	
+	onMythos: {{{
+		var res = game.context.genericDieRollSum("Disturbing the Dead Rumor", 1);
+		if (res == 1 || res == 2) {
+			game.context.increaseTerrorLevel();
+		}
+		if (game.context.terrorLevel >= 10) {
+			this.fail();
+		}
+	}}};
+	
+	onPass: {{{
+		for (var c in game.allCharacters) {
+			var obj = game.drawSingleObject(Constants.ObjectType.Spell);
+			c.addToInventory(obj);
+		}
+		this.removeFromGame();
+	}}};
+	
+	onFail: {{{
+		for (var c in game.allCharacters) {
+			game.utility.curseCharacter(c);
+		}
+		this.removeFromGame();
+	}}};
+}
+
+QuickOption Disturbing_theDead {
+	phases: ArkhamEncountery;
+	chooseType: Optional;
+	continueType: CannotContinue;
+	description: "Avert Disturbing the Dead Rumor";
+	costs: [ GateTrophy 2 ];
+	activate: {{{
+		game.context.rumor.pass();
+	}}};
+}

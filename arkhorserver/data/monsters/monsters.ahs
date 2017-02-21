@@ -305,7 +305,7 @@ Monster HaunterOfTheDark : 1 {
 	attributes: ( Mask, Endless );
 }
 
-Monster HoundOfTindalos : 2{
+Monster HoundOfTindalos : 2 {
 	name: "Hound of Tindalos";
 	description: "When it moves, the Hound of "+
 		"Tindalos moves directly to the nearest "+

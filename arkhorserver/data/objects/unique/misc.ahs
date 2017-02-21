@@ -62,22 +62,21 @@ UniqueItem EnchantedJewelry : 1 {
 	properties: <<<{
 		tokens: { display: "Tokens", value: 0, onDisplay: function() { return this.tokens + " / 3"; } }
 	}>>>;
+	exhaustable: true;
 	onAddToInventory: {{{ this.tokens = 0; }}};
-	options: Option.UseEnchantedJewelry;
-}
-QuickOption UseEnchantedJewelry {
-	phases: Any;
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		this.exhaust();
-		// TODO: Does this work?
-		//this.owner.preventDamageStamina(1);
-		this.tokens++;
-		if (this.tokens >= 3) {
-			this.discard();
-		}
-	}}};
+	options: <<<[
+		game.getPreventDamageOption({
+			stamina: function() {
+				this.tokens++;
+				if (this.tokens >= 3) {
+					this.discard();
+				}
+				return 1;
+			},
+			exhaust: true,
+			description: "Prevent 1 Stamina damage"
+		})
+	]>>>;
 }
 
 UniqueItem PallidMask : 1 {

@@ -293,7 +293,7 @@ bool Game::registerMonster(Monster *m, quint32 count)
 
 bool Game::registerMythos(MythosCard *m)
 {
-    if (m->id() != "MY_TEST") return true;
+    //if (m->id() != "MY_TEST") return true;
     if (!m_registry->registerMythosCard(m)) {
         qCritical() << "Error registering mythos card";
         return false;

@@ -52,6 +52,7 @@ win32 {
     # workaround for qdatetime.h macro bug
     DEFINES += NOMINMAX
 	INCLUDEPATH += $$PWD/../../zlib/win32/include
+    LIBS+=-L$$PWD/../../zlib/win32/lib -lzdll
 }
 
 

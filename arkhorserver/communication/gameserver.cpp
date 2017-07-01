@@ -10,10 +10,10 @@ GameServer::GameServer()
 void GameServer::start()
 {
     AH::registerCommonMetaTypes();
-	bool ok = listen(QHostAddress::Any, 6572);
-	if (!ok) {
-		qFatal("Cannot listen on socket");
-	}
+    bool ok = listen(QHostAddress::Any, 6572);
+    if (!ok) {
+        qFatal("Cannot listen on socket");
+    }
 }
 
 void GameServer::incomingConnection(qintptr socketDescriptor)

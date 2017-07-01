@@ -11,7 +11,7 @@ public:
     void start();
 
 protected:
-	virtual void incomingConnection ( qintptr socketDescriptor ) override;
+    virtual void incomingConnection ( qintptr socketDescriptor ) override;
 
 private:
 };

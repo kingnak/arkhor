@@ -921,13 +921,13 @@ bool Game::setEnvironment(MythosCard *e)
     bool invalidateMonsters = false;
 
     if (m_environment) {
-		MythosCard *env = m_environment;
-		m_environment = NULL;
-		env->cleanup();
-		if (env->hasMonsterModifications()) {
+        MythosCard *env = m_environment;
+        m_environment = NULL;
+        env->cleanup();
+        if (env->hasMonsterModifications()) {
             invalidateMonsters = true;
         }
-		returnMythos(env);
+        returnMythos(env);
         setSettingDirty();
     }
     if (e) {

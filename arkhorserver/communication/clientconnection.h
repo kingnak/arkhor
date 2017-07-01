@@ -8,7 +8,7 @@ class NetworkPlayer;
 class ClientConnection : public AH::Common::NetworkConnection
 {
 public:
-	ClientConnection(qintptr socketDescriptor);
+    ClientConnection(qintptr socketDescriptor);
 
 protected slots:
     void cleanup();

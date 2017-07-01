@@ -15,7 +15,7 @@ namespace AH {
         {
             Q_OBJECT
         public:
-            explicit NetworkConnection(int socketDescriptor, QObject *parent = 0);
+			explicit NetworkConnection(qintptr socketDescriptor, QObject *parent = 0);
             explicit NetworkConnection(QTcpSocket *sock, QObject *parent = 0);
 
             void setPinging() { m_doPing = true; startPinging(); }
@@ -69,7 +69,7 @@ namespace AH {
             static T byteToInt(const char *src, size_t N);
 
         private:
-            int m_sockDesc;
+			qintptr m_sockDesc;
             QTcpSocket *m_socket;
             QByteArray m_buffer;
 

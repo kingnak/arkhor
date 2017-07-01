@@ -6,7 +6,7 @@
 
 namespace AH { namespace Common {
 
-NetworkConnection::NetworkConnection(int socketDescriptor, QObject *parent)
+NetworkConnection::NetworkConnection(qintptr socketDescriptor, QObject *parent)
 :   QObject(parent),
     //QTcpSocket(parent),
     m_sockDesc(socketDescriptor),

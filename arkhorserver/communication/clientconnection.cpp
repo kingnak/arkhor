@@ -5,7 +5,7 @@
 
 using namespace AH::Common;
 
-ClientConnection::ClientConnection(int socketDescriptor)
+ClientConnection::ClientConnection(qintptr socketDescriptor)
 :   NetworkConnection(socketDescriptor),
     m_player(NULL),
     m_versionReceived(false)

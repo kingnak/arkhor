@@ -109,10 +109,10 @@ INCLUDEPATH += $$PWD/../arkhorcommon
 DEPENDPATH += $$PWD/../arkhorcommon
 
 # Link to quazip
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/release/ -lquazip
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/debug/ -lquazip
-else:unix:!macx:CONFIG(release, release|debug): LIBS += -L$$PWD/../3rdparty/compiled/release/ -lquazip
-else:unix:!macx:CONFIG(debug, release|debug): LIBS += -L$$PWD/../3rdparty/compiled/debug/ -lquazip
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/release/msvc2017_64 -lquazip
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/debug/msvc2017_64 -lquazip
+else:unix:!macx:CONFIG(release, release|debug): LIBS += -L$$PWD/../3rdparty/compiled/release/linux -lquazip
+else:unix:!macx:CONFIG(debug, release|debug): LIBS += -L$$PWD/../3rdparty/compiled/debug/linux -lquazip
 
 INCLUDEPATH += $$PWD/../3rdparty/compiled/include/
 INCLUDEPATH += $$PWD/../3rdparty/compiled/include/zlib

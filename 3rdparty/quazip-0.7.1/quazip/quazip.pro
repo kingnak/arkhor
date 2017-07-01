@@ -51,8 +51,11 @@ win32 {
     INSTALLS += headers target
     # workaround for qdatetime.h macro bug
     DEFINES += NOMINMAX
-	INCLUDEPATH += $$PWD/../../zlib/win32/include
-    LIBS+=-L$$PWD/../../zlib/win32/lib -lzdll
+    # update to new zlib. couldn't find a 64bit MSVCRT... Stick to VS2017
+    #INCLUDEPATH += $$PWD/../../zlib/win32/include
+    #LIBS+=-L$$PWD/../../zlib/win32/lib -lzdll
+    INCLUDEPATH += $$PWD/../../zlib/msvc2017_64/include
+    LIBS+=-L$$PWD/../../zlib/msvc2017_64/lib -lzdll
 }
 
 

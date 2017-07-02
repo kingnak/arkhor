@@ -132,6 +132,20 @@ void BroadcastNotifier::objectTypeInvalidated(AH::Common::RequestObjectsData::Ob
     }
 }
 
+void BroadcastNotifier::setTempData(const QString &data)
+{
+    foreach (Player *p, m_game->getPlayers()) {
+        p->setTempData(data);
+    }
+}
+
+void BroadcastNotifier::clearTempData()
+{
+    foreach (Player *p, m_game->getPlayers()) {
+        p->clearTempData();
+    }
+}
+
 bool BroadcastNotifier::acknowledgeMythos(const MythosCard *m, QObject *observer)
 {
     Q_ASSERT(observer == NULL);

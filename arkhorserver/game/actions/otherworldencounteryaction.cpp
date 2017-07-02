@@ -30,6 +30,8 @@ bool OtherWorldEncounteryAction::execute()
         return false;
     }
 
+    gGame->notifier()->setTempData(enc->description());
+
     return opt->execute();
 }
 

@@ -19,3 +19,8 @@ QList<GameOption *> OtherWorldEncountery::getPhaseOptions()
     else
         return QList<GameOption *>() << getSkipOption();
 }
+
+void OtherWorldEncountery::finishPhase()
+{
+    gGame->notifier()->clearTempData();
+}

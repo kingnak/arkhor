@@ -2,6 +2,8 @@
 
 using namespace AH::Common;
 
+const QString ObjectRegistry::TempObjectId = "%TMP%";
+
 ObjectRegistry::ObjectRegistry()
     : m_conn(NULL)
 {
@@ -24,6 +26,8 @@ void ObjectRegistry::init(ConnectionHandler *c)
     connect(m_conn, SIGNAL(objectInvalidations(QStringList)), this, SLOT(receivedInvalidations(QStringList)));
     connect(m_conn, SIGNAL(objectTypeInvalidation(AH::Common::RequestObjectsData::ObjectType)), this, SLOT(receivedTypeInvalidation(AH::Common::RequestObjectsData::ObjectType)));
     connect(m_conn, SIGNAL(characterUpdate(AH::Common::CharacterData)), this, SLOT(updateCharacter(AH::Common::CharacterData)));
+    connect(m_conn, SIGNAL(setTempData(QString)), this, SLOT(setTempData(QString)));
+    connect(m_conn, SIGNAL(clearTempData()), this, SLOT(clearTempData()));
 }
 
 void ObjectRegistry::setThisCharacterId(QString id)
@@ -73,6 +77,12 @@ DescribeObjectsData::ObjectDescription ObjectRegistry::getObject(QString id, AH:
         if (m_registry.contains(id)) {
             return m_registry[id];
         }
+    }
+
+    if (id == TempObjectId) {
+        DescribeObjectsData::ObjectDescription d;
+        d.type = RequestObjectsData::Unknown;
+        return d;
     }
 
     RequestObjectsData reqs;
@@ -195,6 +205,28 @@ DescribeObjectsData ObjectRegistry::getObjectsOfType(QStringList ids, RequestObj
     }
 
     return getObjects(reqs);
+}
+
+void ObjectRegistry::setTempData(const QString &data)
+{
+    DescribeObjectsData::ObjectDescription obj;
+    obj.data = data;
+    obj.type = static_cast<RequestObjectsData::ObjectType> (TempObjectType);
+    obj.id = TempObjectId;
+    QWriteLocker lock(&m_lock);
+    m_registry[obj.id] = obj;
+}
+
+bool ObjectRegistry::hasTempObject()
+{
+    QReadLocker lock(&m_lock);
+    return m_registry.contains(TempObjectId);
+}
+
+void ObjectRegistry::clearTempData()
+{
+    QWriteLocker w(&m_lock);
+    m_registry.remove(TempObjectId);
 }
 
 void ObjectRegistry::receivedDescriptions(DescribeObjectsData descs)

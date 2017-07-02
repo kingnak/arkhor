@@ -314,6 +314,20 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         break;
     }
 
+    case AH::Common::Message::S_SET_TEMP_DATA:
+    {
+        QString d;
+        msg.payload >> d;
+        emit setTempData(d);
+        break;
+    }
+
+    case AH::Common::Message::S_CLEAR_TEMP_DATA:
+    {
+        emit clearTempData();
+        break;
+    }
+
     case AH::Common::Message::S_WON:
     {
         emit won(msg.payload.toString());

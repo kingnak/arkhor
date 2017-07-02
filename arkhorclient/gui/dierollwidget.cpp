@@ -38,8 +38,9 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     if (desc.isEmpty()) {
         desc = "Roll dies";
     }
-    if (!data.sourceId().isEmpty()) {
-        desc = QString("<a href=\"%1\">%2</a>").arg(data.sourceId(), desc.toHtmlEscaped());
+    QString lnk = data.sourceId();
+    if (!lnk.isEmpty()) {
+        desc = QString("<a href=\"%1\">%2</a>").arg(lnk, desc.toHtmlEscaped());
     }
 
     ui->lblDescription->setText(desc);

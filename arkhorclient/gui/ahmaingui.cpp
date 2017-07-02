@@ -120,6 +120,8 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
 
     connect(m_conn, SIGNAL(won(QString)), this, SLOT(won(QString)));
     connect(m_conn, SIGNAL(lost(QString)), this, SLOT(lost(QString)));
+
+    connect(m_conn, SIGNAL(clearTempData()), this, SLOT(clearTempObject()));
 }
 
 void AhMainGui::setThisPlayerId(QString id)
@@ -414,6 +416,14 @@ void AhMainGui::choiceCanceled()
      m_conn->choiceCanceled();
      //ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
      refitGui();
+}
+
+void AhMainGui::clearTempObject()
+{
+    if (ui->wgtObjectInfo->isDisplayingTempData()) {
+        doDismissInfoPane();
+        ui->wgtObjectInfo->displayNothing();
+    }
 }
 
 void AhMainGui::won(QString msg)

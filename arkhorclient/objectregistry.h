@@ -12,6 +12,10 @@ class ObjectRegistry : public QObject
 {
     Q_OBJECT
 public:
+    enum {
+        TempObjectType = -1
+    };
+    static const QString TempObjectId;
 
     static ObjectRegistry *instance();
 
@@ -35,6 +39,9 @@ public:
 
     AH::Common::DescribeObjectsData getObjectsOfType(QStringList ids, AH::Common::RequestObjectsData::ObjectType type);
 
+    AH::Common::DescribeObjectsData::ObjectDescription getTempObject();
+    bool hasTempObject();
+    
 signals:
     void objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription desc);
     void thisCharacterUpdated(AH::Common::CharacterData character);
@@ -44,6 +51,8 @@ private slots:
     void receivedInvalidations(QStringList lst);
     void receivedTypeInvalidation(AH::Common::RequestObjectsData::ObjectType type);
     void updateCharacter(AH::Common::CharacterData character);
+    void setTempData(const QString &data);
+    void clearTempData();
 
 private:
     ObjectRegistry();

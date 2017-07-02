@@ -132,6 +132,7 @@ public:
     void boardDirty();
     void characterDirty(Character *c);
     void invalidateObject(QString id);
+    void notifyTempObject(const QString &desc);
 
     void commitUpdates();
 

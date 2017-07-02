@@ -14,6 +14,7 @@ public:
 protected:
     virtual QList<GameOption *> getPhaseOptions();
     virtual void enterPhase();
+    virtual void finishPhase();
 
 private:
     ArkhamEncounteryOption *m_enc;

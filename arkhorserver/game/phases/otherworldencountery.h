@@ -13,6 +13,7 @@ public:
 
 protected:
     virtual QList<GameOption *> getPhaseOptions();
+    virtual void finishPhase();
 
 private:
     OtherWorldEncounteryOption *m_enc;

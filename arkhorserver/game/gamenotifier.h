@@ -47,6 +47,8 @@ public:
 
     virtual void objectsInvalidated(QStringList id) = 0;
     virtual void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type) = 0;
+    virtual void setTempData(const QString &data) = 0;
+    virtual void clearTempData() = 0;
 
     virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer = NULL) = 0;
 

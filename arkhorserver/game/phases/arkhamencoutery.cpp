@@ -36,3 +36,8 @@ void ArkhamEncoutery::enterPhase()
     Gate *g = f ? f->gate() : NULL;
     gGame->context().setGate(g);
 }
+
+void ArkhamEncoutery::finishPhase()
+{
+    gGame->context().player()->clearTempData();
+}

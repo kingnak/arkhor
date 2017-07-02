@@ -84,6 +84,9 @@ namespace AH{
                 C_SELECT_CHOICE,
                 C_CANCEL_CHOICE,
 
+                S_SET_TEMP_DATA,
+                S_CLEAR_TEMP_DATA,
+
                 S_WON,
                 S_LOST,
                 S_DIED,

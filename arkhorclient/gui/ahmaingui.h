@@ -95,6 +95,8 @@ private slots:
     void choiceSelected(AH::Common::ChoiceResponseData resp);
     void choiceCanceled();
 
+    void clearTempObject();
+
     void won(QString msg);
     void lost(QString msg);
 

@@ -23,6 +23,8 @@ class CharacterWidget;
 
 class MinSizeStack;
 
+class QLabel;
+
 class ObjectInfoWidget : public QWidget
 {
     Q_OBJECT
@@ -30,6 +32,8 @@ public:
     explicit ObjectInfoWidget(QWidget *parent = 0);
 
     QSize sizeHint() const;
+
+    bool isDisplayingTempData() const;
 
 signals:
 
@@ -47,6 +51,7 @@ private:
     void displayMythosDetails(const AH::Common::MythosData *m);
     void displayAncientOneDetails(const AH::Common::AncientOneData *ao);
     void displayCharacterDetails(const AH::Common::CharacterData *c);
+    void displayString(const QString &text);
 
 private:
     QString m_pendingDisplayId;
@@ -58,6 +63,7 @@ private:
     MythosCardWidget *m_mythos;
     AncientOneWidget *m_ancientOne;
     CharacterWidget *m_character;
+    QLabel *m_text;
 };
 
 #endif // OBJECTINFOWIDGET_H

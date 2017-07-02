@@ -22,6 +22,9 @@ ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
     m_mythos = new MythosCardWidget;
     m_ancientOne = new AncientOneWidget;
     m_character = new CharacterWidget;
+    m_text = new QLabel;
+    m_text->setWordWrap(true);
+    m_text->setMinimumWidth(200);
 
     QWidget *nothing = new QWidget;
     nothing->setMinimumSize(QSize(0,0));
@@ -33,6 +36,7 @@ ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
     m_stack->addWidget(m_mythos);
     m_stack->addWidget(m_ancientOne);
     m_stack->addWidget(m_character);
+    m_stack->addWidget(m_text);
 
     QHBoxLayout *l = new QHBoxLayout(this);
     l->addWidget(m_stack);
@@ -43,6 +47,11 @@ ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
 QSize ObjectInfoWidget::sizeHint() const
 {
     return m_stack->sizeHint().expandedTo(QSize(250,250));
+}
+
+bool ObjectInfoWidget::isDisplayingTempData() const
+{
+    return m_stack->currentWidget() == m_text;
 }
 
 void ObjectInfoWidget::displayItemInfo(const QString &id)
@@ -94,6 +103,11 @@ void ObjectInfoWidget::displayItemInfo(const QString &id)
             AH::Common::CharacterData c;
             d.data >> c;
             displayCharacterDetails(&c);
+            break;
+        }
+        case ObjectRegistry::TempObjectType:
+        {
+            displayString(d.data.toString());
             break;
         }
         default:
@@ -153,5 +167,11 @@ void ObjectInfoWidget::displayCharacterDetails(const CharacterData *c)
         m_character->updateCharacterData(*c);
         m_stack->setCurrentWidget(m_character);
     }
+}
+
+void ObjectInfoWidget::displayString(const QString &text)
+{
+    m_text->setText(text);
+    m_stack->setCurrentWidget(m_text);
 }
 

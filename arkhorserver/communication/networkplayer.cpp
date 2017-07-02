@@ -178,6 +178,18 @@ void NetworkPlayer::objectTypeInvalidated(RequestObjectsData::ObjectType type)
     m_conn->sendMessage(Message::S_INVALIDATE_OBJECTS_BY_TYPE, QVariant(type));
 }
 
+void NetworkPlayer::setTempData(const QString &data)
+{
+    QVariant m;
+    m << data;
+    m_conn->sendMessage(Message::S_SET_TEMP_DATA, m);
+}
+
+void NetworkPlayer::clearTempData()
+{
+    m_conn->sendMessage(Message::S_CLEAR_TEMP_DATA, QVariant());
+}
+
 bool NetworkPlayer::acknowledgeMythos(const MythosCard *m, QObject *observer)
 {
     QVariant v;

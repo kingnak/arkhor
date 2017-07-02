@@ -47,7 +47,9 @@ public:
     virtual void notifySimple(const QString &str, const QString &desc = QString::null);
 
     virtual void objectsInvalidated(QStringList id);
-    virtual void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type);
+    virtual void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type);    
+    virtual void setTempData(const QString &data);
+    virtual void clearTempData();
 
     virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer);
     virtual void abortAcknowledge();

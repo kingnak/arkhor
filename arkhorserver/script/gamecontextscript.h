@@ -39,11 +39,11 @@ public:
     MonsterScript *curMonster();
     AncientOneScript *curAncientOne();
 
-    Q_INVOKABLE int genericDieRollSum(QString desc, int dieCount);
-    Q_INVOKABLE bool genericDieRollTest(QString desc, int dieCount, int target);
-    Q_INVOKABLE int genericDieRollCount(QString desc, int dieCount);
-    Q_INVOKABLE bool skillTest(QString desc, AH::Skill skill, int adjust, int target);
-    Q_INVOKABLE int dieRollSkillCount(QString desc, AH::Skill skill, int adjust);
+    Q_INVOKABLE int genericDieRollSum(QString desc, QString sourceId, int dieCount);
+    Q_INVOKABLE bool genericDieRollTest(QString desc, QString sourceId, int dieCount, int target);
+    Q_INVOKABLE int genericDieRollCount(QString desc, QString sourceId, int dieCount);
+    Q_INVOKABLE bool skillTest(QString desc, QString sourceId, AH::Skill skill, int adjust, int target);
+    Q_INVOKABLE int dieRollSkillCount(QString desc, QString sourceId, AH::Skill skill, int adjust);
 
     Q_INVOKABLE void increaseTerrorLevel(int amount = 1);
     Q_INVOKABLE void decreaseTerrorLevel(int amount = 1) { increaseTerrorLevel(-amount); }

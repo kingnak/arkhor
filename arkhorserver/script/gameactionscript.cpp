@@ -53,7 +53,11 @@ GameActionScript *GameActionScript::createGameAction(QScriptValue data, QScriptC
 bool GameActionScript::execute()
 {
     //QScriptValue res = m_function.call(m_object);
-    return executeOnObject(QScriptValue());
+    // Might call a die roll, using temporary object data...
+    // Use an object with id "%TMP%"
+    QScriptValue obj = m_function.engine()->newObject();
+    obj.setProperty("id", "%TMP%");
+    return executeOnObject(obj);
 }
 
 bool GameActionScript::executeOnObject(QScriptValue obj)

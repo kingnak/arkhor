@@ -311,8 +311,8 @@ Headline {
 	//moveBlack: (Slash,Star,Triangle);
 	//gateField: MD_UnvisitedIsle;
 	executeHeadline: {{{
-		var res = game.returnMonsterTypesFromBoard(Monster.DimensionalShambler);
-		res &= game.returnMonsterTypesFromBoard(Monster.HoundOfTindalos);
+                var res = game.returnMonsterTypeFromBoard(Monster.DimensionalShambler);
+                res &= game.returnMonsterTypeFromBoard(Monster.HoundOfTindalos);
 		if (res) {
 			game.increaseTerrorLevel();
 		}
@@ -380,8 +380,8 @@ Headline {
 	//moveBlack: (Slash,Star,Triangle);
 	//gateField: DT_IndependenceSquare;
 	executeHeadline: {{{
-		var res = game.returnMonsterTypesFromBoard(Monster.Chthonian);
-		res &= game.returnMonsterTypesFromBoard(Monster.Dhole);
+                var res = game.returnMonsterTypeFromBoard(Monster.Chthonian);
+                res &= game.returnMonsterTypeFromBoard(Monster.Dhole);
 		if (res) {
 			game.increaseTerrorLevel();
 		}

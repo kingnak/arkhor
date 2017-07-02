@@ -19,7 +19,7 @@ bool HorrorAction::execute()
 
     if (m->horrorDamage() > 0) {
         gGame->notifier()->actionStart(this);
-        DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest("Horror Check", p->getCharacter(), AH::Skill_Horror, m->horrorAdjustment());
+        DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest("Horror Check", m->id(), p->getCharacter(), AH::Skill_Horror, m->horrorAdjustment());
         DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
         if (res.boolResult) {
             gGame->notifier()->actionUpdate(this, "succeeded");

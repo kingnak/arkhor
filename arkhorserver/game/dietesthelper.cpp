@@ -13,67 +13,67 @@
 
 using namespace AH::Common;
 
-DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(QString desc, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target)
+DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(QString desc, QString sourceId, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target)
 {
     DieTestSpec spec;
     propertyPool(spec, poolBase, adjustment);
     clueBurnProperty(spec, clueBurnMods);
     successCounter(spec, c);
     test(spec, target);
-    finalize(spec, desc);
+    finalize(spec, desc, sourceId);
     return spec;
 }
 
-DieTestHelper::DieTestSpec DieTestHelper::createClueBurnCounter(QString desc, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment)
+DieTestHelper::DieTestSpec DieTestHelper::createClueBurnCounter(QString desc, QString sourceId, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment)
 {
     DieTestSpec spec;
     propertyPool(spec, poolBase, adjustment);
     clueBurnProperty(spec, clueBurnMods);
     successCounter(spec, c);
     value(spec);
-    finalize(spec, desc);
+    finalize(spec, desc, sourceId);
     return spec;
 }
 
-DieTestHelper::DieTestSpec DieTestHelper::createSkillTest(QString desc, Character *c, AH::Skill skill, int adjustment, int target)
+DieTestHelper::DieTestSpec DieTestHelper::createSkillTest(QString desc, QString sourceId, Character *c, AH::Skill skill, int adjustment, int target)
 {
     DieTestSpec spec;
     skillPool(spec, c, skill, adjustment);
     clueBurnSkill(spec, c, skill);
     successCounter(spec, c);
     test(spec, target);
-    finalize(spec, desc);
+    finalize(spec, desc, sourceId);
     return spec;
 }
 
-DieTestHelper::DieTestSpec DieTestHelper::createSkillCounter(QString desc, Character *c, AH::Skill skill, int adjustment)
+DieTestHelper::DieTestSpec DieTestHelper::createSkillCounter(QString desc, QString sourceId, Character *c, AH::Skill skill, int adjustment)
 {
     DieTestSpec spec;
     skillPool(spec, c, skill, adjustment);
     clueBurnSkill(spec, c, skill);
     successCounter(spec, c);
     value(spec);
-    finalize(spec, desc);
+    finalize(spec, desc, sourceId);
     return spec;
 }
 
-DieTestHelper::DieTestSpec DieTestHelper::createGenericCounter(QString desc, int dieCount, QList<quint32> successVals)
+DieTestHelper::DieTestSpec DieTestHelper::createGenericCounter(QString desc, QString sourceId, int dieCount, QList<quint32> successVals)
 {
     DieTestSpec spec;
     fixedPool(spec, dieCount);
     counter(spec, successVals);
     value(spec);
-    finalize(spec, desc);
+    finalize(spec, desc, sourceId);
     return spec;
 }
 
-DieTestHelper::DieTestSpec DieTestHelper::createGenericSummer(QString desc, int dieCount)
+DieTestHelper::DieTestSpec DieTestHelper::createGenericSummer(QString desc, QString sourceId, int dieCount)
 {
     DieTestSpec spec;
     fixedPool(spec, dieCount);
     summer(spec);
     value(spec);
-    finalize(spec, desc);
+    finalize(spec, desc, sourceId);
     return spec;
 }
 
@@ -229,7 +229,7 @@ void DieTestHelper::test(DieTestHelper::DieTestSpec &spec, int target)
     spec.data.setTargetValue(target);
 }
 
-void DieTestHelper::finalize(DieTestHelper::DieTestSpec &spec, const QString &desc)
+void DieTestHelper::finalize(DieTestHelper::DieTestSpec &spec, const QString &desc, const QString &sourceId)
 {
     int dieCt = spec.data.rollData().pool().dieCount() + spec.data.rollData().pool().adjustment();
     dieCt = qMax(0, dieCt);
@@ -270,6 +270,7 @@ void DieTestHelper::finalize(DieTestHelper::DieTestSpec &spec, const QString &de
 
     spec.eval = eval;
     spec.data.setDescription(desc);
+    spec.data.setSourceId(sourceId);
 }
 
 void DieTestHelper::updateReRollOptions(DieTestHelper::DieTestSpec &spec, bool init)

@@ -23,7 +23,7 @@ bool CloseGateAction::execute()
         return true;
     }
 
-    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(name(), gGame->context().player()->getCharacter(), s, gGame->context().gate()->closeAdjustment());
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(name(), gGame->context().gate()->id(), gGame->context().player()->getCharacter(), s, gGame->context().gate()->closeAdjustment());
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
     if (res.boolResult) {
         GameField *f = gGame->context().gate()->sourceField();

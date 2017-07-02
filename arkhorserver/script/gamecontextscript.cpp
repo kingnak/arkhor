@@ -81,7 +81,7 @@ AncientOneScript *GameContextScript::curAncientOne()
 
 int GameContextScript::genericDieRollSum(QString desc, int dieCount)
 {
-    DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericSummer(desc, dieCount);
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericSummer(desc, "", dieCount);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
     return res.intResult;
 }
@@ -98,21 +98,21 @@ int GameContextScript::genericDieRollCount(QString desc, int dieCount)
     for (int i = gGame->context().getCurCharacterProperty(PropertyValue::Prop_MinSuccessDieRoll).finalVal(); i <= 6; ++i) {
         successes << i;
     }
-    DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericCounter(desc, dieCount, successes);
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericCounter(desc, "", dieCount, successes);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
     return res.intResult;
 }
 
 bool GameContextScript::skillTest(QString desc, AH::Skill skill, int adjust, int target)
 {
-    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(desc, gGame->context().player()->getCharacter(), skill, adjust, target);
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(desc, "", gGame->context().player()->getCharacter(), skill, adjust, target);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
     return res.boolResult;
 }
 
 int GameContextScript::dieRollSkillCount(QString desc, AH::Skill skill, int adjust)
 {
-    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillCounter(desc, gGame->context().player()->getCharacter(), skill, adjust);
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillCounter(desc, "", gGame->context().player()->getCharacter(), skill, adjust);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
     return res.intResult;
 }

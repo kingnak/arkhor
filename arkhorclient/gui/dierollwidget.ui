@@ -24,7 +24,7 @@
    <item>
     <widget class="QLabel" name="lblDescription">
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -172,7 +172,6 @@
             <height>261</height>
            </rect>
           </property>
-          <zorder>wgtDice</zorder>
          </widget>
         </widget>
        </item>

@@ -26,7 +26,7 @@ signals:
 private slots:
     void updateClueBurnAmount(int ct);
     void on_btnOk_clicked();
-    void modifierLinkClicked(QString id);
+    void requestObject(QString id);
     void reRollOptionClicked();
 
 private:

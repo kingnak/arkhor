@@ -20,6 +20,7 @@ public:
         AH::Common::DieRollTestData data;
         QList<GameOption *> options;
         DieTestSpec() : eval(0) {}
+        QString sourceId;
     };
 
     struct DieTestResult {
@@ -28,17 +29,17 @@ public:
         DieTestResult() : boolResult(false), intResult(0) {}
     };
 
-    static DieTestSpec createClueBurnTest(QString desc, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target = 1);
-    static DieTestSpec createClueBurnCounter(QString desc, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment);
+    static DieTestSpec createClueBurnTest(QString desc, QString sourceId, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target = 1);
+    static DieTestSpec createClueBurnCounter(QString desc, QString sourceId, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment);
 
-    static DieTestSpec createSkillTest(QString desc, Character *c, AH::Skill skill, int adjustment, int target = 1);
+    static DieTestSpec createSkillTest(QString desc, QString sourceId, Character *c, AH::Skill skill, int adjustment, int target = 1);
     //static DieTestSpec createAttributeTest(Character *c, AH::Attribute attr, int adjustment, int target = 1);
     //static DieTestSpec createGenericTest(int dieCount, QList<int> successVals, int target = 1);
 
-    static DieTestSpec createSkillCounter(QString desc, Character *c, AH::Skill skill, int adjustment);
+    static DieTestSpec createSkillCounter(QString desc, QString sourceId, Character *c, AH::Skill skill, int adjustment);
 
-    static DieTestSpec createGenericCounter(QString desc, int dieCount, QList<quint32> successVals);
-    static DieTestSpec createGenericSummer(QString desc, int dieCount);
+    static DieTestSpec createGenericCounter(QString desc, QString sourceId, int dieCount, QList<quint32> successVals);
+    static DieTestSpec createGenericSummer(QString desc, QString sourceId, int dieCount);
 
     static DieTestResult executeDieTest(Player *p, DieTestSpec &spec);
 
@@ -53,7 +54,7 @@ private:
     static void successCounter(DieTestSpec &spec, Character *c);
     static void value(DieTestSpec &spec);
     static void test(DieTestSpec &spec, int target);
-    static void finalize(DieTestSpec &spec, const QString &desc);
+    static void finalize(DieTestSpec &spec, const QString &desc, const QString &sourceId);
 
     static void updateReRollOptions(DieTestSpec &spec, bool init = false);
 

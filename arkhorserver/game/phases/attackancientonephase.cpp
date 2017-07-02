@@ -43,7 +43,7 @@ bool AttackAncientOneAction::execute()
 
     ModifiedPropertyValue clueBurnMods = gGame->context().getCurCharacterClueBurn(AH::Skill_Combat);
 
-    DieTestHelper::DieTestSpec test = DieTestHelper::createClueBurnCounter("Attack " + ao->name(), p->getCharacter(), pool, clueBurnMods, ao->combatAdjustment());
+    DieTestHelper::DieTestSpec test = DieTestHelper::createClueBurnCounter("Attack " + ao->name(), ao->id(), p->getCharacter(), pool, clueBurnMods, ao->combatAdjustment());
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
 
     ao->damage(res.intResult);

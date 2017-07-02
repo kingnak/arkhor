@@ -18,7 +18,7 @@ bool EvadeAction::execute()
     Player *p = gGame->context().player();
 
     gGame->notifier()->actionStart(this);
-    DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest(name() + " from monster", p->getCharacter(), AH::Skill_Evade, m->awareness());
+    DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest(name() + " from monster", m->id(), p->getCharacter(), AH::Skill_Evade, m->awareness());
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
     if (res.boolResult) {
         gGame->notifier()->actionUpdate(this, "succeded");

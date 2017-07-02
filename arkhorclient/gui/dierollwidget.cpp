@@ -19,6 +19,7 @@ DieRollWidget::DieRollWidget(QWidget *parent) :
     ui->wgtDice->setLayout(new QGridLayout);
     ui->scrlMods->setLayout(new QVBoxLayout);
     ui->wgtDieRollOpts->setLayout(new QVBoxLayout);
+    connect(ui->lblDescription, SIGNAL(linkActivated(QString)), this, SLOT(requestObject(QString)));
 }
 
 DieRollWidget::~DieRollWidget()
@@ -33,10 +34,19 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     QList<PropertyModificationData> mods = data.generalModifications();
 
     // Setup labels
-    ui->lblDescription->setText(data.description());
+    QString desc = data.description().trimmed();
+    if (desc.isEmpty()) {
+        desc = "Roll dies";
+    }
+    if (!data.sourceId().isEmpty()) {
+        desc = QString("<a href=\"%1\">%2</a>").arg(data.sourceId(), desc.toHtmlEscaped());
+    }
+
+    ui->lblDescription->setText(desc);
     ui->lblSuccess->setVisible(data.isSucceeded());
     ui->lblAdjustment->setText(QString::number(data.rollData().pool().adjustment()));
     ui->lblDieCount->setText(QString::number(ct));
+
     if (data.rollData().pool().type() == DiePoolData::Property) {
         ui->lblBaseSkill->setText(Utils::stringForProperty(data.rollData().pool().property().property().property()));
         mods += data.rollData().pool().property().modifications();
@@ -70,10 +80,10 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
             name = obj.name();
         }
 
-        QLabel *l = new QLabel(QString("<a href=\"%1\">%2</a>: %3").arg(id).arg(name).arg(Utils::stringForPropertyModification(mod)));
+        QLabel *l = new QLabel(QString("<a href=\"%1\">%2</a>: %3").arg(id, name.toHtmlEscaped(), Utils::stringForPropertyModification(mod)));
         //l->setProperty(PROPERTY_MODIFIER_ID, mod.modifierId());
         l->setWordWrap(true);
-        connect(l, SIGNAL(linkActivated(QString)), this, SLOT(modifierLinkClicked(QString)));
+        connect(l, SIGNAL(linkActivated(QString)), this, SLOT(requestObject(QString)));
         ui->scrlMods->layout()->addWidget(l);
     }
     // Spacing
@@ -132,7 +142,7 @@ void DieRollWidget::on_btnOk_clicked()
     emit dieUpdateChosen(upd);
 }
 
-void DieRollWidget::modifierLinkClicked(QString id)
+void DieRollWidget::requestObject(QString id)
 {
     //QString id = sender()->property(PROPERTY_MODIFIER_ID).toString();
     if (!id.isEmpty())

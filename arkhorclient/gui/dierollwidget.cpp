@@ -72,6 +72,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
 
         QLabel *l = new QLabel(QString("<a href=\"%1\">%2</a>: %3").arg(id).arg(name).arg(Utils::stringForPropertyModification(mod)));
         //l->setProperty(PROPERTY_MODIFIER_ID, mod.modifierId());
+        l->setWordWrap(true);
         connect(l, SIGNAL(linkActivated(QString)), this, SLOT(modifierLinkClicked(QString)));
         ui->scrlMods->layout()->addWidget(l);
     }

@@ -1,5 +1,6 @@
 #include "characterwidget.h"
 #include "ui_characterwidget.h"
+#include "../utils.h"
 
 CharacterWidget::CharacterWidget(QWidget *parent) :
     QWidget(parent),
@@ -30,4 +31,5 @@ void CharacterWidget::updateCharacterData(AH::Common::CharacterData data)
     ui->lblMonsterTrophies->setText(QString::number(data.monsterMarkerIds().count()));
     ui->lblGateTrophies->setText(QString::number(data.gateMarkerIds().count()));
     ui->lblMonsterToughness->setText(QString::number(data.getMonsterToughness()));
+    ui->lblField->setText(Utils::stringForField(data.fieldId()));
 }

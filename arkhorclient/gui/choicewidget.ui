@@ -43,7 +43,14 @@
         </widget>
        </item>
        <item>
-        <widget class="ObjectSelectorWidget" name="wgtObjSelection" native="true"/>
+        <widget class="ObjectSelectorWidget" name="wgtObjSelection" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="ObjectInfoWidget" name="wgtInfo" native="true"/>

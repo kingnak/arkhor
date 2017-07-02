@@ -288,6 +288,16 @@
       </widget>
      </item>
      <item>
+      <widget class="CharShortInfoWidget" name="wgtCharShortInfo" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="MinSizeTab" name="tabInteract" native="true"/>
      </item>
     </layout>
@@ -384,6 +394,12 @@
    <class>MinSizeTab</class>
    <extends>QWidget</extends>
    <header>gui/minsizetab.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CharShortInfoWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/charshortinfowidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

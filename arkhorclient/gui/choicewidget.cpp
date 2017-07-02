@@ -9,7 +9,7 @@ ChoiceWidget::ChoiceWidget(QWidget *parent) :
     m_type(ChoiceData::None)
 {
     ui->setupUi(this);
-    ui->wgtInfo->setVisible(false);
+    //ui->wgtInfo->setVisible(false);
     connect(ui->wgtObjSelection, SIGNAL(requestObjectInfo(QString)), this, SLOT(displayInfo(QString)));
 }
 

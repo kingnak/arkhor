@@ -39,7 +39,8 @@ HEADERS += \
     gui/rumorwidget.h \
     gui/investigatorwidget.h \
     gui/ancientonewidget.h \
-    gui/minsizetab.h
+    gui/minsizetab.h \
+    gui/charshortinfowidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -79,7 +80,8 @@ SOURCES += \
     gui/rumorwidget.cpp \
     gui/investigatorwidget.cpp \
     gui/ancientonewidget.cpp \
-    gui/minsizetab.cpp
+    gui/minsizetab.cpp \
+    gui/charshortinfowidget.cpp
 
 FORMS += \
     gui/characterwidget.ui \
@@ -98,7 +100,8 @@ FORMS += \
     gui/mythoscardwidget.ui \
     gui/ancientonewidget.ui \
     gui/_ahmaingui.ui \
-    gui/ahmaingui.ui
+    gui/ahmaingui.ui \
+    gui/charshortinfowidget.ui
 
 # Link to arkhorcommon
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../arkhorcommon/release/ -larkhorcommon

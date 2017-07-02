@@ -130,8 +130,8 @@ Headline {
 	//moveBlack: Cross;
 	//gateField: MD_TheUnnamable;
 	executeHeadline: {{{
-		game.createMonster(Constants.Fields.MD_MerchantDist);
-		game.createMonster(Constants.Fields.MD_MerchantDist);
+                game.spawnMonster(Constants.Fields.MD_MerchantDist);
+                game.spawnMonster(Constants.Fields.MD_MerchantDist);
 	}}};
 }
 
@@ -158,8 +158,8 @@ Headline {
 	//moveBlack: Cross;
 	//gateField: SS_HistoricalSociety;
 	executeHeadline: {{{
-		game.createMonster(Constants.Fields.MU_MiskatonicU);
-		game.createMonster(Constants.Fields.MU_MiskatonicU);
+                game.spawnMonster(Constants.Fields.MU_MiskatonicU);
+                game.spawnMonster(Constants.Fields.MU_MiskatonicU);
 	}}};
 }
 
@@ -187,8 +187,8 @@ Headline {
 	//moveBlack: (Diamond,Square);
 	//gateField: RT_BlackCave;
 	executeHeadline: {{{
-		game.createMonster(Constants.Fields.FH_FrenchHill);
-		game.createMonster(Constants.Fields.FH_FrenchHill);
+                game.spawnMonster(Constants.Fields.FH_FrenchHill);
+                game.spawnMonster(Constants.Fields.FH_FrenchHill);
 	}}};
 }
 
@@ -246,8 +246,8 @@ Headline {
 	//moveBlack: Cross;
 	//gateField: MD_UnvisitedIsle;
 	executeHeadline: {{{
-		game.createMonster(Constants.Fields.DT_Downtown);
-		game.createMonster(Constants.Fields.DT_Downtown);
+                game.spawnMonster(Constants.Fields.DT_Downtown);
+                game.spawnMonster(Constants.Fields.DT_Downtown);
 	}}};
 }
 
@@ -327,8 +327,8 @@ Headline {
 	//moveBlack: (Diamond,Square);
 	//gateField: RT_Graveyard;
 	executeHeadline: {{{
-		game.createMonster(Constants.Fields.UT_Uptown);
-		game.createMonster(Constants.Fields.UT_Uptown);
+                game.spawnMonster(Constants.Fields.UT_Uptown);
+                game.spawnMonster(Constants.Fields.UT_Uptown);
 	}}};
 }
 
@@ -340,8 +340,8 @@ Headline {
 	//moveBlack: Cross;
 	//gateField: UT_Woods;
 	executeHeadline: {{{
-		game.createMonster(Constants.Fields.ET_Easttown);
-		game.createMonster(Constants.Fields.ET_Easttown);
+                game.spawnMonster(Constants.Fields.ET_Easttown);
+                game.spawnMonster(Constants.Fields.ET_Easttown);
 	}}};
 }
 
@@ -353,8 +353,8 @@ Headline {
 	//moveBlack: (Diamond,Square);
 	//gateField: UT_Woods;
 	executeHeadline: {{{
-		game.createMonster(Constants.Fields.SS_Southside);
-		game.createMonster(Constants.Fields.SS_Southside);
+                game.spawnMonster(Constants.Fields.SS_Southside);
+                game.spawnMonster(Constants.Fields.SS_Southside);
 	}}};
 }
 
@@ -366,8 +366,8 @@ Headline {
 	//moveBlack: (Diamond,Square);
 	//gateField: UT_Woods;
 	executeHeadline: {{{
-		game.createMonster(Constants.Fields.SS_Southside);
-		game.createMonster(Constants.Fields.SS_Southside);
+                game.spawnMonster(Constants.Fields.SS_Southside);
+                game.spawnMonster(Constants.Fields.SS_Southside);
 	}}};
 }
 
@@ -396,8 +396,8 @@ Headline {
 	//moveBlack: Cross;
 	//gateField: FH_TheWitchHouse;
 	executeHeadline: {{{
-		game.createMonster(Constants.Fields.NS_Northside);
-		game.createMonster(Constants.Fields.NS_Northside);
+                game.spawnMonster(Constants.Fields.NS_Northside);
+                game.spawnMonster(Constants.Fields.NS_Northside);
 	}}};
 }
 
@@ -426,8 +426,8 @@ Headline {
 	//moveBlack: Cross;
 	//gateField: MD_UnvisitedIsle;
 	executeHeadline: {{{
-		game.createMonster(Constants.Fields.RT_Rivertown);
-		game.createMonster(Constants.Fields.RT_Rivertown);
+                game.spawnMonster(Constants.Fields.RT_Rivertown);
+                game.spawnMonster(Constants.Fields.RT_Rivertown);
 	}}};
 }
 

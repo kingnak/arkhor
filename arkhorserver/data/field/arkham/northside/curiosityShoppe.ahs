@@ -30,7 +30,7 @@ ArkhamEncounter Shoppe_Enc1 {
 }
 AEOption Shoppe_Enc1 {
 	activate: {{{
-		var res = game.context.skillTest("Resist", Constants.Skills.Fight, -1, 1);
+		var res = game.context.skillTest("Resist", this.id, Constants.Skills.Fight, -1, 1);
 		if (!res) {
 			// TODO
 		}

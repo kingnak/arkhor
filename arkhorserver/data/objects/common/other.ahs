@@ -14,7 +14,7 @@ QuickOption ReadTome {
 	chooseType: Supplemental;
 	activate: {{{
 		this.exhaust();
-		var res = game.context.skillTest("Read Ancient Tome", Constants.Skills.Lore, -1, 1);
+		var res = game.context.skillTest("Read Ancient Tome", this.id, Constants.Skills.Lore, -1, 1);
 		if (res) {
 			var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
 			owner.addToInventory(ob);
@@ -93,7 +93,7 @@ QuickOption ReadOldJournal {
 	phases: Movement;
 	activate: {{{
 		this.exhaust();
-		var res = game.context.skillTest("Read Old Journal", Constants.Skills.Lore, -1, 1);
+		var res = game.context.skillTest("Read Old Journal", this.id, Constants.Skills.Lore, -1, 1);
 		if (res) {
 			this.owner.addClue(3);
 			this.discard();

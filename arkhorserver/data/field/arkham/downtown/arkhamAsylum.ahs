@@ -36,7 +36,7 @@ ArkhamEncounter Asylum_Enc1 {
 }
 AEOption Asylum_Enc1 {
     activate: {{{
-        var res = game.context.dieRollSkillCount("Read Book", Constants.Skills.Lore, 0);
+        var res = game.context.dieRollSkillCount("Read Book", this.id, Constants.Skills.Lore, 0);
         switch (res) {
         case 0:
             CHAR.addClue(1);
@@ -65,7 +65,7 @@ ArkhamEncounter Asylum_Enc2 {
 AEOption Asylum_Enc2_Resist {
     name: "Try to resist";
     activate: {{{
-        var res = game.context.skillTest("Resist Nurse Heather", Constants.Skills.Fight, -2, 1);
+        var res = game.context.skillTest("Resist Nurse Heather", this.id, Constants.Skills.Fight, -2, 1);
         if (res) {
             CHAR.addSanity(2);
             CHAR.setOut();

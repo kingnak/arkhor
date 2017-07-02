@@ -21,7 +21,7 @@ ArkhamEncounter Cave_Enc2 {
 }
 AEOption Cave_Enc2 {
 	activate: {{{
-		var res = game.context.dieRollSkillCount("Check Body", Constants.Skills.Luck, 0, 1);
+                var res = game.context.dieRollSkillCount("Check Body", this.id, Constants.Skills.Luck, 0, 1);
 		if (res <= 0) {
 			CHAR.damageSanity(1);
 			if (CHAR.commitDamage()) {

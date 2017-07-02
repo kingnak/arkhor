@@ -1,7 +1,7 @@
 SpecialObject BankLoan {
-	description: "Gain $10 when you take this card.\n\n"+
-		"<bUpkeep:</b> Roll a die. On a 1-3, pay $1 or discard all of your items along with "+
-		"this card. You cannot get another Bank Loan this game.\n\n"+
+        description: "Gain $10 when you take this card.<br/><br/>"+
+                "<b>Upkeep:</b> Roll a die. On a 1-3, pay $1 or discard all of your items along with "+
+                "this card. You cannot get another Bank Loan this game.<br/><br/>"+
 		"<b>Any Phase:</b> Pay $10 to pay off your Bank Loan and discard this card. "+
 		"You may choose to take out a new Bank Loan later on during this game.";
 	actions: Action.BankLoanCheck;
@@ -14,13 +14,13 @@ SpecialObject BankLoan {
 Action BankLoanCheck {
 	phases: Upkeep;
 	activate: {{{
-		var res = game.context.genericDieRollSum("Bank Loan check", 1);
+                var res = game.context.genericDieRollSum("Bank Loan check", this.id, 1);
 		if (res < 4) {
 			var options = [["ITEMS", "Lose all items", "You lose all your items and this bank loan"]];
 			if (this.owner.canPay({type: Constants.Costs.Money, amount: 1})) {
 				options.push(["MONEY", "$1", "Pay $1 instead"]);
 			}
-			res = game.selectChoice(options);
+                        res = game.selectChoice("Choose how to pay", options);
 			if (res == "MONEY") {
 				this.owner.loseMoney(1);
 			} else {
@@ -76,7 +76,7 @@ SpecialObject PatrolWagon : 1 {
 }
 */
 
-SpecialObject Retiner {
+SpecialObject Retainer {
 	description: "<b>Upkeep:</b> Gain $2, then roll a die. Discard this card on a 1.";
 	actions: Action.Retainer;
 }
@@ -84,7 +84,7 @@ Action Retainer {
 	phases: Upkeep;
 	activate: {{{
 		c.addMoney(2);
-		var res = game.context.genericDieRollSum("Retainer test", 1);
+                var res = game.context.genericDieRollSum("Retainer test", this.id, 1);
 		if (res == 1) {
 			this.discard();
 		}

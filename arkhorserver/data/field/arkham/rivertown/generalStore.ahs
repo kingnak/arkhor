@@ -46,7 +46,7 @@ ArkhamEncounter Store_Enc2 {
 AEOption Store_Enc2 {
 	name: "Guess";
 	activate: {{{
-		var res = game.context.skillTest("Guess", Constants.Skills.Lore, -2, 1);
+		var res = game.context.skillTest("Guess", this.id, Constants.Skills.Lore, -2, 1);
 		if (res) {
 			CHAR.addMoney(5);
 		}

@@ -27,7 +27,7 @@ QuickOption Police_Enc1 {
 	phases: ArkhamEncountery;
 	name: "Take case file";
 	activate: {{{
-		var res = game.context.skillTest("Take case file", Constants.Skills.Sneak, 0, 1);
+		var res = game.context.skillTest("Take case file", this.id, Constants.Skills.Sneak, 0, 1);
 		if (res) {
 			var ob = game.drawSpecificObject("OBJ_RESEARCH_MATERIAL");
 			CHAR.addToInventory(ob);
@@ -47,7 +47,7 @@ QuickOption Police_Enc2 {
 	phases: ArkhamEncountery;
 	name: "Dodge the bullet";
 	activate: {{{
-		var res = game.context.skillTest("Dodge the bullet", Constants.Skills.Luck, -1, 1);
+		var res = game.context.skillTest("Dodge the bullet", this.id, Constants.Skills.Luck, -1, 1);
 		if (!res) {
 			CHAR.damageStamina(2);
 		}

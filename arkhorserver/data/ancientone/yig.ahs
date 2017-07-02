@@ -30,7 +30,7 @@ AncientOne Yig {
 	}}};
 	
 	attack: {{{
-		var res = game.context.skillTest("Yig attacks", Constants.Skills.Speed, this.attackAdjustment, 1);
+		var res = game.context.skillTest("Yig attacks", this.id, Constants.Skills.Speed, this.attackAdjustment, 1);
 		if (!res) {
 			CHAR.damageSanity(1);
 			CHAR.damageStamina(1);

@@ -14,7 +14,7 @@ QuickOption ReadAncientTablet {
 	chooseType: Supplemental;
 	activate: {{{
 		this.exhaust();
-		var res = game.context.genericDieRollCount("Read Tablet", 2);
+                var res = game.context.genericDieRollCount("Read Tablet", this.id, 2);
 		for (var i = 0; i < res; i++) {
 			var obj = game.context.drawObject(Constants.ObjectType.Spell);
 			CHAR.addToInventory(obj);
@@ -54,7 +54,7 @@ QuickOption ReadBookOfDzyan {
 	chooseType: Supplemental;
 	activate: {{{
 		this.exhaust();
-		var res = game.context.skillTest("Read Book of Dzyan", Constants.Skills.Lore, -1, 1);
+                var res = game.context.skillTest("Read Book of Dzyan", this.id, Constants.Skills.Lore, -1, 1);
 		if (res) {
 			var obj = game.context.drawObject(Constants.ObjectType.Spell);
 			this.owner.addToInventory(obj);
@@ -84,7 +84,7 @@ QuickOption ReadCabalaOfSaboth {
 	chooseType: Supplemental;
 	activate: {{{
 		this.exhaust();
-		var res = game.context.skillTest("Read Cabala of Saboth", Constants.Skills.Lore, -2, 1);
+                var res = game.context.skillTest("Read Cabala of Saboth", this.id, Constants.Skills.Lore, -2, 1);
 		if (res) {
 			var obj = game.context.drawObject(Constants.ObjectType.Skill);
 			this.owner.addToInventory(obj);
@@ -110,11 +110,11 @@ QuickOption ReadCultesDesGoules {
 	chooseType: Supplemental;
 	activate: {{{
 		this.exhaust();
-		var res = game.context.skillTest("Read Cultes des Goules", Constants.Skills.Lore, -2, 1);
+                var res = game.context.skillTest("Read Cultes des Goules", this.id, Constants.Skills.Lore, -2, 1);
 		if (res) {
 			var obj = game.context.drawObject(Constants.ObjectType.Spell);
 			this.owner.addToInventory(obj);
-			this.owner.addClues(1);
+                        this.owner.addClue(1);
 			this.owner.damageSanity(2);
 			this.discard();
 		}
@@ -137,9 +137,10 @@ QuickOption UseAlienStatue {
 	chooseType: Supplemental;
 	activate: {{{
 		this.exhaust();
-		var res = game.context.genericDieRollTest("Use Statue", 1, 1);
+                debugger;
+                var res = game.context.genericDieRollTest("Use Statue", this.id, 1, 1);
 		if (res) {
-			var choice = game.context.selectChoice([
+                        var choice = game.context.selectChoice("Choose reward", [
 				["SPELL", "Spell", "Get 1 Spell"],
 				["CLUES", "Clues", "Get 3 Clue tokens"],
 			]);
@@ -147,7 +148,7 @@ QuickOption UseAlienStatue {
 				var obj = game.context.drawObject(Constants.ObjectType.Spell);
 				this.owner.addToInventory(obj);
 			} else {
-				this.owner.addClues(3);
+                                this.owner.addClue(3);
 			}
 		} else {
 			this.owner.damageStamina(2);
@@ -170,7 +171,7 @@ QuickOption ReadNamelessCults {
 	chooseType: Supplemental;
 	activate: {{{
 		this.exhaust();
-		var res = game.context.skillTest("Read Nameless Cults", Constants.Skills.Lore, -1, 1);
+                var res = game.context.skillTest("Read Nameless Cults", this.id, Constants.Skills.Lore, -1, 1);
 		if (res) {
 			var obj = game.context.drawObject(Constants.ObjectType.Spell);
 			this.owner.addToInventory(obj);
@@ -196,7 +197,7 @@ QuickOption ReadNecronomicon {
 	chooseType: Supplemental;
 	activate: {{{
 		this.exhaust();
-		var res = game.context.skillTest("Read Necronomicon", Constants.Skills.Lore, -2, 1);
+                var res = game.context.skillTest("Read Necronomicon", this.id, Constants.Skills.Lore, -2, 1);
 		if (res) {
 			var obj = game.context.drawObject(Constants.ObjectType.Spell);
 			this.owner.addToInventory(obj);
@@ -222,7 +223,7 @@ QuickOption ReadKingInYellow {
 	chooseType: Supplemental;
 	activate: {{{
 		this.exhaust();
-		var res = game.context.skillTest("Read Necronomicon", Constants.Skills.Lore, -2, 1);
+                var res = game.context.skillTest("Read Necronomicon", this.id, Constants.Skills.Lore, -2, 1);
 		if (res) {
 			this.owner.addClue(4);
 			this.owner.damageSanity(1);

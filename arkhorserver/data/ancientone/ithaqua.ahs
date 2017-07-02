@@ -31,7 +31,7 @@ AncientOne Ithaqua {
 				case Constants.ObjectType.Spell:
 				case Constants.ObjectType.Skill:
 					// TODO: more?
-					var res = game.context.genericDieRollTest("Lose " + o.name, 1, 1);
+                                        var res = game.context.genericDieRollTest("Lose " + o.name, this.id, 1, 1);
 					if (!res) {
 						o.discard();
 					}
@@ -44,7 +44,7 @@ AncientOne Ithaqua {
 	}}};
 	
 	attack: {{{
-		var res = game.context.skillTest("Ithaqua attacks", Constants.Skills.Fight, this.attackAdjustment, 1);
+		var res = game.context.skillTest("Ithaqua attacks", this.id, Constants.Skills.Fight, this.attackAdjustment, 1);
 		if (!res) {
 			CHAR.damageStamina(2);
 		}

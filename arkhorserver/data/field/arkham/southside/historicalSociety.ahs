@@ -8,7 +8,7 @@ ArkhamEncounter Hist_Enc1 {
 }
 AEOption Hist_Enc1 {
 	activate: {{{
-		var res = game.context.skillTest("Read books", Constants.Skills.Luck, -1, 2);
+		var res = game.context.skillTest("Read books", this.id, Constants.Skills.Luck, -1, 2);
 		if (res) {
 			var ob = game.context.drawObject(Constants.ObjectType.Skill);
 			CHAR.addToInventory(ob);
@@ -31,7 +31,7 @@ ArkhamEncounter Hist_Enc2 {
 AEOption Hist_Enc2_Pay {
 	costs: [ Money 3 ];
 	activate: {{{
-		var res = game.context.skillTest("Read ledger", Constants.Skills.Luck, -1, 1);
+		var res = game.context.skillTest("Read ledger", this.id, Constants.Skills.Luck, -1, 1);
 		if (res) {
 			var ob = game.context.drawObject(Constants.ObjectType.Spell);
 			game.context.character.addToInventory(ob);

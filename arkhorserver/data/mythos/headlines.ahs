@@ -8,7 +8,7 @@ Headline {
 	//gateField: UT_Woods;
 	executeHeadline: {{{
 		// TODO: All characters
-		var res = game.context.skillTest("Get Blessed", Constants.Skills.Luck, -1, 1);
+		var res = game.context.skillTest("Get Blessed", this.id, Constants.Skills.Luck, -1, 1);
 		if (res) {
 			game.utility.blessCharacter(CHAR);
 		}
@@ -172,7 +172,7 @@ Headline {
 	//moveBlack: (Slash,Star,Triangle);
 	//gateField: RT_Graveyard;
 	executeHeadline: {{{
-		var res = game.context.skillTest("Resist Ill Wind", Constants.Skills.Luck, -1, 1);
+		var res = game.context.skillTest("Resist Ill Wind", this.id, Constants.Skills.Luck, -1, 1);
 		if (!res) {
 			game.utility.curseCharacter(CHAR);
 		}

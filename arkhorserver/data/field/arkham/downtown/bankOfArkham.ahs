@@ -21,7 +21,7 @@ ArkhamEncounter Bank_Enc1 {
 }
 AEOption Bank_Enc1 {
 	activate: {{{
-		var res = game.context.skillTest("Drive off", Constants.Skills.Combat, -1, 1);
+		var res = game.context.skillTest("Drive off", this.id, Constants.Skills.Combat, -1, 1);
 		if (!res) {
 			CHAR.loseMoney(10000);
 		}

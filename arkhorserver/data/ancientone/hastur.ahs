@@ -29,7 +29,7 @@ AncientOne Hastur {
 	attackAdjustment: 1;
 
 	attack: {{{
-		var res = game.context.skillTest("Hastur attacks", Constants.Skills.Luck, this.attackAdjustment, 1);
+                var res = game.context.skillTest("Hastur attacks", this.id, Constants.Skills.Luck, this.attackAdjustment, 1);
 		if (!res) {
 			CHAR.damageSanity(2);
 		}

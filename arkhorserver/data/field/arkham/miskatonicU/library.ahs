@@ -23,7 +23,7 @@ ArkhamEncounter Lib_Enc2 {
 }
 AEOption Lib_Enc2 {
 	activate: {{{
-		var res = game.context.dieRollSkillCount("Check", Constants.Skills.Will, 0);
+                var res = game.context.dieRollSkillCount("Check", this.id, Constants.Skills.Will, 0);
 		if (res <= 0) {
 			CHAR.placeOnField(Constants.Fields.MU_MiskatonicU);
 		} else if (res == 1) {

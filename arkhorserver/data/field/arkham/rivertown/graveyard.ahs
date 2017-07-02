@@ -12,7 +12,7 @@ ArkhamEncounter Grave_Enc1 {
 }
 AEOption Grave_Enc1 {
 	activate: {{{
-		var res = game.context.skillTest("Listen", Constants.Skills.Lore, -1, 1);
+		var res = game.context.skillTest("Listen", this.id, Constants.Skills.Lore, -1, 1);
 		if (res) {
 			CHAR.addClue(1);
 			CHAR.damageSanity(1);

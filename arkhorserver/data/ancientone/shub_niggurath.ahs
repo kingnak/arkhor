@@ -31,7 +31,7 @@ AncientOne ShubNiggurath {
 	}}};
 	
 	attack: {{{
-		var res = game.context.skillTest("Shub-Niggurath attacks", Constants.Skills.Sneak, this.attackAdjustment, 1);
+		var res = game.context.skillTest("Shub-Niggurath attacks", this.id, Constants.Skills.Sneak, this.attackAdjustment, 1);
 		if (!res) {
 			res = CHAR.pay({type: Constants.Costs.MonsterTrophy, amount: 1});
 			if (!res) {

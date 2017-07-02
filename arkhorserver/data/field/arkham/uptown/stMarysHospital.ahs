@@ -30,7 +30,7 @@ ArkhamEncounter Hosp_Enc1 {
 }
 AEOption Hosp_Enc1 {
 	activate: {{{
-		var res = game.context.skillTest("Detect Dr. Morimore", Constants.Skills.Luck, -1, 1);
+		var res = game.context.skillTest("Detect Dr. Morimore", this.id, Constants.Skills.Luck, -1, 1);
 		if (res) {
 			CHAR.addMoney(3);
 			CHAR.addSanity(2);
@@ -54,7 +54,7 @@ ArkhamEncounter Hosp_Enc2 {
 }
 AEOption Hosp_Enc2 {
 	activate: {{{
-		var res = game.context.skillTest("Sneak", Constants.Skills.Sneak, -1, 1);
+		var res = game.context.skillTest("Sneak", this.id, Constants.Skills.Sneak, -1, 1);
 		if (res) {
 			var ob = game.context.drawObject(Constants.ObjectType.Spell);
 			CHAR.addToInventory(ob);

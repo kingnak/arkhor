@@ -23,7 +23,7 @@ ArkhamEncounter Admin_Enc1 {
 }
 AEOption Admin_Enc1 {
 	activate: {{{
-		var res = game.context.skillTest("Carry on deception", Constants.Skills.Will, -2, 1);
+		var res = game.context.skillTest("Carry on deception", this.id, Constants.Skills.Will, -2, 1);
 		if (res) {
 			CHAR.addMoney(8);
 		} else {
@@ -42,7 +42,7 @@ ArkhamEncounter Admin_Enc2 {
 }
 AEOption Admin_Enc2 {
 	activate: {{{
-		var res = game.context.skillTest("Discuss", Constants.Skills.Lore, -1, 1);
+		var res = game.context.skillTest("Discuss", this.id, Constants.Skills.Lore, -1, 1);
 		if (res) {
 			CHAR.addMoney(5);
 		}

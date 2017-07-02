@@ -35,7 +35,7 @@ AncientOne Cthulhu {
 			return;
 		}
 
-		var choice = game.selectChoice(options);
+                var choice = game.selectChoice("Loose Stamina or Sanity?", options);
 		if (choice == "STA") {
 			var obj = game.drawSpecificObject(Object.CthulhuDamageStamina);
 			CHAR.addToInventory(obj);

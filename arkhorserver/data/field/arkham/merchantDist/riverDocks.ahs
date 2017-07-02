@@ -26,7 +26,7 @@ ArkhamEncounter Docks_Enc1 {
 }
 AEOption Docks_Enc1 {
 	activate: {{{
-		var res = game.context.skillTest("Withstand stench", Constants.Skills.Will, -1, 1);
+		var res = game.context.skillTest("Withstand stench", this.id, Constants.Skills.Will, -1, 1);
 		if (res) {
 			CHAR.damageSanity(1);
 		} else {
@@ -50,7 +50,7 @@ ArkhamEncounter Docks_Enc2 {
 }
 AEOption Docks_Enc2 {
 	activate: {{{
-		var res = game.context.skillTest("Withstand urge", Constants.Skills.Will, +1, 1);
+		var res = game.context.skillTest("Withstand urge", this.id, Constants.Skills.Will, +1, 1);
 		if (!res) {
 			CHAR.lostInSpaceAndTime();
 		}

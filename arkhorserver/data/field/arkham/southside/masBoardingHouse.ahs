@@ -30,7 +30,7 @@ ArkhamEncounter MasHouse_Enc1 {
 }
 AEOption MasHouse_Enc1 {
 	activate: {{{
-		var res = game.context.skillTest("Talk to Ryan", Constants.Skills.Will, 0, 1);
+		var res = game.context.skillTest("Talk to Ryan", this.id, Constants.Skills.Will, 0, 1);
 		if (res) {
 			// TODO: This is not 100% correct. It offers a Common and Unique item,
 			// and user has to choose one. Not first choose the type, then choose to buy...
@@ -63,7 +63,7 @@ ArkhamEncounter MasHouse_Enc2 {
 }
 AEOption MasHouse_Enc2 {
 	activate: {{{
-		var res = game.context.skillTest("Try to sleep", Constants.Skills.Luck, -1, 1);
+		var res = game.context.skillTest("Try to sleep", this.id, Constants.Skills.Luck, -1, 1);
 		if (!res) {
 			var type = game.context.selectChoice("Lose 1 Stamina or Sanity?",  ["Stamina", "Sanity"]);
 			if (type == "Stamina") {

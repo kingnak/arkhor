@@ -38,7 +38,7 @@ AncientOne YogSothoth {
 	}}};
 	
 	attack: {{{
-		var res = game.context.skillTest("Yog-Sothoth attacks", Constants.Skills.Will, this.attackAdjustment, 1);
+		var res = game.context.skillTest("Yog-Sothoth attacks", this.id, Constants.Skills.Will, this.attackAdjustment, 1);
 		if (!res) {
 			res = CHAR.pay({type: Constants.Costs.GateTrophy, amount: 1});
 			if (!res) {

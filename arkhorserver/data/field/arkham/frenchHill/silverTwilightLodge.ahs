@@ -18,7 +18,7 @@ AEOption Lodge_Enc1_Accept {
 AEOption Lodge_Enc1_Decline {
 	name: "Decline";
 	activate: {{{
-		var res = game.context.skillTest("Go out camly", Constants.Skills.Will, -1, 1);
+		var res = game.context.skillTest("Go out camly", this.id, Constants.Skills.Will, -1, 1);
 		if (!res) {
 			CHAR.damageStamina(3);
 		}
@@ -36,7 +36,7 @@ ArkhamEncounter Lodge_Enc2 {
 }
 AEOption Lodge_Enc2 {
 	activate: {{{
-		var res = game.context.skillTest("Resist Curse", Constants.Skills.Luck, -1, 1);
+		var res = game.context.skillTest("Resist Curse", this.id, Constants.Skills.Luck, -1, 1);
 		if (!res) {
 			game.utility.curseCharacter(CHAR);
 		}

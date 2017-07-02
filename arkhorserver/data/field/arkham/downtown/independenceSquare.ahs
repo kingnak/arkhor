@@ -18,7 +18,7 @@ ArkhamEncounter {
 }
 AEOption Square_Enc2 {
 	activate: {{{
-		var res = game.context.skillTest("Withstand Shadow", Constants.Skills.Will, -1, 1);
+		var res = game.context.skillTest("Withstand Shadow", this.id, Constants.Skills.Will, -1, 1);
 		if (!res) {
 			CHAR.damageStamina(1);
 			CHAR.damageSanity(1);

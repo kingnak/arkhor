@@ -14,7 +14,7 @@ ArkhamEncounter Witchhouse_Enc1 {
 }
 AEOption Witchhouse_Enc1 {
 	activate: {{{
-		var res = game.context.skillTest("Check symbol", Constants.Skills.Lore, -1, 1);
+		var res = game.context.skillTest("Check symbol", this.id, Constants.Skills.Lore, -1, 1);
 		if (res) {
 			var thom = game.drawSpecificObject("AL_THOMAS_F_MALONE");
 			if (thom) {

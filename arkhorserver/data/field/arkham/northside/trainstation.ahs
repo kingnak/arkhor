@@ -11,12 +11,12 @@ ArkhamEncounter Train_Enc1 {
 }
 AEOption Train_Enc1 {
 	activate: {{{
-		var res = game.context.skillTest("Let him draw", Constants.Skills.Luck, -1, 1);
-		if (res) {
+                var res = game.context.skillTest("Let him draw", this.id, this.id, Constants.Skills.Luck, -1, 1);
+                if (res) {
 			var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
 			CHAR.addToInventory(ob);
 		} else {
-			var dmg = game.context.genericDieRollSum("Damage by poisoned blade", 1);
+                        var dmg = game.context.genericDieRollSum("Damage by poisoned blade", this.id, 1);
 			CHAR.damageStamina(dmg);
 		}
 	}}};
@@ -39,13 +39,14 @@ ArkhamEncounter Train_Enc2 {
 }
 AEOption Train_Enc2 {
 	activate: {{{
-		var res = game.context.skillTest("Catch stranger", Constants.Skills.Speed, -1, 1);
+		var res = game.context.skillTest("Catch stranger", this.id, Constants.Skills.Speed, -1, 1);
 		if (res) {
 			var ob = game.context.drawObject(Constants.ObjectType.Spell);
 			CHAR.addToInventory(ob);
 		} else {
-			var dmg = game.context.genericDieRollSum("Damage by watching him die", 1);
+                        var dmg = game.context.genericDieRollSum("Damage by watching him die", this.id, 1);
 			CHAR.damageSanity(dmg);
 		}
 	}}};
 }
+

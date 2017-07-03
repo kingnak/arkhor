@@ -1,9 +1,13 @@
-CONFIG += DEBUG_SCRIPT
+#CONFIG += DEBUG_SCRIPT
+CONFIG += TEST_SCRIPT
 
 QT += network script scripttools
-DEBUG_SCRIPT {
+DEBUG_SCRIPT|TEST_SCRIPT {
 	QT += widgets
 	DEFINES += DEBUG_SCRIPT_BUILD
+        TEST_SCRIPT {
+            DEFINES += TEST_SCRIPT_BUILD
+        }
 } else {
 	QT -= gui widgets
 	CONFIG += console
@@ -104,7 +108,10 @@ HEADERS += \
     script/monstermodifierscript.h \
     communication/notificationformatter.h \
     game/actions/preventdamageaction.h \
-    script/preventdamageoptionscript.h
+    script/preventdamageoptionscript.h \
+    scripttest/scripttestconfig.h \
+    scripttest/scripttestconfigwidget.h \
+    scripttest/scripttestdrawwidget.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -198,7 +205,10 @@ SOURCES += \
     script/monstermodifierscript.cpp \
     communication/notificationformatter.cpp \
     game/actions/preventdamageaction.cpp \
-    script/preventdamageoptionscript.cpp
+    script/preventdamageoptionscript.cpp \
+    scripttest/scripttestconfig.cpp \
+    scripttest/scripttestconfigwidget.cpp \
+    scripttest/scripttestdrawwidget.cpp
 
 OTHER_FILES += \
     data/field/arkham/frenchHill/theWitchhouse.js \

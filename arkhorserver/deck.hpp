@@ -27,6 +27,10 @@ public:
     void returnToDeck(T *t)
     { if (t) m_deck.append(t); }
 
+#ifdef TEST_SCRIPT_BUILD
+    QList<T*> all() { return m_deck; }
+#endif
+
 private:
     QList<T *> m_deck;
 };

@@ -24,6 +24,27 @@
 #include <QThread>
 #include <QDebug>
 
+#ifdef TEST_SCRIPT_BUILD
+#include "scripttest/scripttestconfigwidget.h"
+#include "scripttest/scripttestconfig.h"
+#include "scripttest/scripttestdrawwidget.h"
+
+ScriptTestConfigWidget *scriptTestConfigWgt = nullptr;
+
+template<typename T>
+T *scriptTestDrawHelper(const QString &title, Deck<T> &d)
+{
+    QStringList lst;
+    for (auto o : d.all()) {
+        lst << o->id();
+    }
+    ScriptTestDrawWidget wgt(scriptTestConfigWgt);
+    QString id = wgt.askDraw(title, lst);
+    return d.drawSpecificById(id);
+}
+
+#endif
+
 Game *Game::s_instance = NULL;
 
 Game::Game()
@@ -43,6 +64,11 @@ Game::Game()
     m_notifier = new BroadcastNotifier;
     m_board = new GameBoard();
     m_board->init();
+
+#ifdef TEST_SCRIPT_BUILD
+    scriptTestConfigWgt = new ScriptTestConfigWidget;
+    scriptTestConfigWgt->show();
+#endif
 }
 
 Game::~Game()
@@ -419,6 +445,13 @@ void Game::returnMonster(Monster *m)
 
 Monster *Game::drawMonster()
 {
+#ifdef TEST_SCRIPT_BUILD
+    if (ScriptTestConfig::doAsk && ScriptTestConfig::askDrawMonster) {
+        Monster *m = scriptTestDrawHelper("Monster", m_monsterPool);
+        if (m) return m;
+    }
+#endif
+
     m_monsterPool.shuffle();
     int ct = m_monsterPool.size();
     do {
@@ -439,7 +472,15 @@ Monster *Game::drawMonster()
 
 MythosCard *Game::drawMythos()
 {
+#ifdef TEST_SCRIPT_BUILD
+    MythosCard *m = nullptr;
+    if (ScriptTestConfig::doAsk && ScriptTestConfig::askDrawMythos) {
+        m = scriptTestDrawHelper("Mythos", m_mythosDeck);
+    }
+    if (!m) m = m_mythosDeck.draw();
+#else
     MythosCard *m = m_mythosDeck.draw();
+#endif
     m->resolveDynamicAttributes();
     return m;
 }
@@ -454,7 +495,16 @@ GameObject *Game::drawObject(AH::GameObjectType t)
     if (!m_objectDecks.contains(t)) {
         return NULL;
     }
+
+#ifdef TEST_SCRIPT_BUILD
+    GameObject *ret = nullptr;
+    if (ScriptTestConfig::askDraw(t)) {
+        ret = scriptTestDrawHelper(ScriptTestConfig::nameForObjectType(t), m_objectDecks[t]);
+    }
+    if (!ret) ret = m_objectDecks[t].draw();
+#else
     GameObject *ret = m_objectDecks[t].draw();
+#endif
     if (ret->isInfinite()) {
         GameObject *copy = ret->clone();
         m_objectDecks[t].returnToDeck(ret);
@@ -1040,8 +1090,13 @@ void Game::chooseAncientOne()
     foreach (AncientOne *a, m_registry->allAncientOnes()) {
         m_ancientOnePool.addCard(a);
     }
+
     // TODO: Let user decide?
     m_ancientOnePool.shuffle();
+#ifdef TEST_SCRIPT_BUILD
+    m_ancientOne = scriptTestDrawHelper("Ancient One", m_ancientOnePool);
+    if (!m_ancientOne)
+#endif
     m_ancientOne = m_ancientOnePool.draw();
     setSettingDirty(true);
 }

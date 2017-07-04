@@ -34,6 +34,10 @@ protected:
     quint32 m_value;
 
     bool m_isRolled;
+
+#ifdef TEST_SCRIPT_BUILD
+    friend class DiePool;
+#endif
 };
 
 class UnequalDie : public Die

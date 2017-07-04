@@ -111,7 +111,8 @@ HEADERS += \
     script/preventdamageoptionscript.h \
     scripttest/scripttestconfig.h \
     scripttest/scripttestconfigwidget.h \
-    scripttest/scripttestdrawwidget.h
+    scripttest/scripttestdrawwidget.h \
+    scripttest/scripttestdierollwidget.h
 
 SOURCES += \
     communication/clientconnection.cpp \
@@ -208,7 +209,8 @@ SOURCES += \
     script/preventdamageoptionscript.cpp \
     scripttest/scripttestconfig.cpp \
     scripttest/scripttestconfigwidget.cpp \
-    scripttest/scripttestdrawwidget.cpp
+    scripttest/scripttestdrawwidget.cpp \
+    scripttest/scripttestdierollwidget.cpp
 
 OTHER_FILES += \
     data/field/arkham/frenchHill/theWitchhouse.js \

@@ -8,7 +8,7 @@ Headline {
 	//gateField: UT_Woods;
 	executeHeadline: {{{
         for (var c in game.context.allCharacters) {
-            var res = c.skillTest("Get Blessed", Constants.Skills.Luck, -1, 1);
+            var res = c.skillTest("Get Blessed", this.id, Constants.Skills.Luck, -1, 1);
             if (res) {
                 game.utility.blessCharacter(CHAR);
             }

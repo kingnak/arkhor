@@ -81,27 +81,27 @@ AncientOneScript *GameContextScript::curAncientOne()
 
 int GameContextScript::genericDieRollSum(QString desc, QString sourceId, int dieCount)
 {
-    return curCharacter()->genericDieRollSum(desc, dieCount);
+	return curCharacter()->genericDieRollSum(desc, sourceId, dieCount);
 }
 
 bool GameContextScript::genericDieRollTest(QString desc, QString sourceId, int dieCount, int target)
 {
-    return curCharacter()->genericDieRollTest(desc, dieCount, target);
+	return curCharacter()->genericDieRollTest(desc, sourceId, dieCount, target);
 }
 
 int GameContextScript::genericDieRollCount(QString desc, QString sourceId, int dieCount)
 {
-    return curCharacter()->genericDieRollCount(desc, dieCount);
+	return curCharacter()->genericDieRollCount(desc, sourceId, dieCount);
 }
 
 bool GameContextScript::skillTest(QString desc, QString sourceId, AH::Skill skill, int adjust, int target)
 {
-    return curCharacter()->skillTest(desc, skill, adjust, target);
+	return curCharacter()->skillTest(desc, sourceId, skill, adjust, target);
 }
 
 int GameContextScript::dieRollSkillCount(QString desc, QString sourceId, AH::Skill skill, int adjust)
 {
-    return curCharacter()->dieRollSkillCount(desc, skill, adjust);
+	return curCharacter()->dieRollSkillCount(desc, sourceId, skill, adjust);
 }
 
 void GameContextScript::increaseTerrorLevel(int amount)

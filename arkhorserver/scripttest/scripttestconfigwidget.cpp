@@ -12,7 +12,7 @@ ScriptTestConfigWidget::ScriptTestConfigWidget(QWidget *parent) : QWidget(parent
     QGroupBox *ask = new QGroupBox("Ask what to draw for:");
     ask->setCheckable(true);
     ask->setChecked(true);
-    connect(ask, &QGroupBox::toggled, [](bool b){ScriptTestConfig::doAsk = b;});
+    connect(ask, &QGroupBox::toggled, [](bool b){ScriptTestConfig::m_doAsk = b;});
 
     l->addWidget(ask);
     l->addWidget(new QLabel());
@@ -20,27 +20,27 @@ ScriptTestConfigWidget::ScriptTestConfigWidget(QWidget *parent) : QWidget(parent
     QVBoxLayout *l2 = new QVBoxLayout(ask);
     QHBoxLayout *g = new QHBoxLayout;
     QCheckBox *b = new QCheckBox("Common");
-    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::askDrawCommon = b;});
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawCommon = b;});
     b->setChecked(true);
     g->addWidget(b);
 
     b = new QCheckBox("Unique");
-    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::askDrawUnique = b;});
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawUnique = b;});
     b->setChecked(true);
     g->addWidget(b);
 
     b = new QCheckBox("Spell");
-    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::askDrawSpell = b;});
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawSpell = b;});
     b->setChecked(true);
     g->addWidget(b);
 
     b = new QCheckBox("Ally");
-    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::askDrawAlly = b;});
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawAlly = b;});
     b->setChecked(true);
     g->addWidget(b);
 
     b = new QCheckBox("Skill");
-    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::askDrawSkill = b;});
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawSkill = b;});
     b->setChecked(true);
     g->addWidget(b);
 
@@ -49,27 +49,27 @@ ScriptTestConfigWidget::ScriptTestConfigWidget(QWidget *parent) : QWidget(parent
     g = new QHBoxLayout;
 
     b = new QCheckBox("Ancient One");
-    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::askDrawAncientOne = b;});
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawAncientOne = b;});
     b->setChecked(true);
     g->addWidget(b);
 
     b = new QCheckBox("Monster");
-    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::askDrawMonster = b;});
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawMonster = b;});
     b->setChecked(true);
     g->addWidget(b);
 
     b = new QCheckBox("Mythos");
-    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::askDrawMythos = b;});
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawMythos = b;});
     b->setChecked(true);
     g->addWidget(b);
 /*
     b = new QCheckBox("Arkham Encounter");
-    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::askDrawArkhamEncounter = b;});
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawArkhamEncounter = b;});
     b->setChecked(true);
     g->addWidget(b);
 
     b = new QCheckBox("Other World Encounter");
-    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::askDrawOtherWorldEncounter = b;});
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawOtherWorldEncounter = b;});
     b->setChecked(true);
     g->addWidget(b);
 */

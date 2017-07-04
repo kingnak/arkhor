@@ -28,19 +28,30 @@
 #include "scripttest/scripttestconfigwidget.h"
 #include "scripttest/scripttestconfig.h"
 #include "scripttest/scripttestdrawwidget.h"
+#include <functional>
 
 ScriptTestConfigWidget *scriptTestConfigWgt = nullptr;
 
 template<typename T>
-T *scriptTestDrawHelper(const QString &title, Deck<T> &d)
+T *scriptTestDrawHelper(const QString &title, Deck<T> &d, std::function<bool()> check = nullptr, bool drawRandom = true)
 {
-    QStringList lst;
-    for (auto o : d.all()) {
-        lst << o->id();
+    T *ret = nullptr;
+    if (!check || check()) {
+        QStringList lst;
+        for (auto o : d.all()) {
+            QString id = o->id();
+            if (!id.isEmpty()) lst << id;
+        }
+        if (!lst.isEmpty()) {
+            ScriptTestDrawWidget wgt(scriptTestConfigWgt);
+            QString id = wgt.askDraw(title, lst);
+            if (!id.isNull()) ret = d.drawSpecificById(id);
+        }
     }
-    ScriptTestDrawWidget wgt(scriptTestConfigWgt);
-    QString id = wgt.askDraw(title, lst);
-    return d.drawSpecificById(id);
+    if (!ret && drawRandom) {
+        ret = d.draw();
+    }
+    return ret;
 }
 
 #endif
@@ -446,10 +457,8 @@ void Game::returnMonster(Monster *m)
 Monster *Game::drawMonster()
 {
 #ifdef TEST_SCRIPT_BUILD
-    if (ScriptTestConfig::doAsk && ScriptTestConfig::askDrawMonster) {
-        Monster *m = scriptTestDrawHelper("Monster", m_monsterPool);
-        if (m) return m;
-    }
+    Monster *m1 = scriptTestDrawHelper("Monster", m_monsterPool, &ScriptTestConfig::askDrawMonster, false);
+    if (m1) return m1;
 #endif
 
     m_monsterPool.shuffle();
@@ -473,11 +482,7 @@ Monster *Game::drawMonster()
 MythosCard *Game::drawMythos()
 {
 #ifdef TEST_SCRIPT_BUILD
-    MythosCard *m = nullptr;
-    if (ScriptTestConfig::doAsk && ScriptTestConfig::askDrawMythos) {
-        m = scriptTestDrawHelper("Mythos", m_mythosDeck);
-    }
-    if (!m) m = m_mythosDeck.draw();
+    MythosCard *m = scriptTestDrawHelper("Mythos", m_mythosDeck, &ScriptTestConfig::askDrawMythos, true);
 #else
     MythosCard *m = m_mythosDeck.draw();
 #endif
@@ -497,11 +502,7 @@ GameObject *Game::drawObject(AH::GameObjectType t)
     }
 
 #ifdef TEST_SCRIPT_BUILD
-    GameObject *ret = nullptr;
-    if (ScriptTestConfig::askDraw(t)) {
-        ret = scriptTestDrawHelper(ScriptTestConfig::nameForObjectType(t), m_objectDecks[t]);
-    }
-    if (!ret) ret = m_objectDecks[t].draw();
+    GameObject *ret = scriptTestDrawHelper(ScriptTestConfig::nameForObjectType(t), m_objectDecks[t], [t](){return ScriptTestConfig::askDraw(t);}, true);
 #else
     GameObject *ret = m_objectDecks[t].draw();
 #endif
@@ -1094,10 +1095,10 @@ void Game::chooseAncientOne()
     // TODO: Let user decide?
     m_ancientOnePool.shuffle();
 #ifdef TEST_SCRIPT_BUILD
-    m_ancientOne = scriptTestDrawHelper("Ancient One", m_ancientOnePool);
-    if (!m_ancientOne)
-#endif
+    m_ancientOne = scriptTestDrawHelper("Ancient One", m_ancientOnePool, &ScriptTestConfig::askDrawAncientOne, true);
+#else
     m_ancientOne = m_ancientOnePool.draw();
+#endif
     setSettingDirty(true);
 }
 

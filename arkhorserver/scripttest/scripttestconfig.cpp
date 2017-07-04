@@ -1,31 +1,29 @@
 #ifdef TEST_SCRIPT_BUILD
 #include "scripttestconfig.h"
 
-bool ScriptTestConfig::doAsk = true;
-bool ScriptTestConfig::askDrawCommon = true;
-bool ScriptTestConfig::askDrawUnique = true;
-bool ScriptTestConfig::askDrawSpell = true;
-bool ScriptTestConfig::askDrawAlly = true;
-bool ScriptTestConfig::askDrawSkill = true;
-bool ScriptTestConfig::askDrawMonster = true;
-bool ScriptTestConfig::askDrawArkhamEncounter = false;
-bool ScriptTestConfig::askDrawOtherWorldEncounter = false;
-bool ScriptTestConfig::askDrawMythos = true;
-bool ScriptTestConfig::askDrawGate = false;
-bool ScriptTestConfig::askDrawAncientOne = true;
-bool ScriptTestConfig::askRollDie = false;
-bool ScriptTestConfig::debugScript = false;
-
+bool ScriptTestConfig::m_doAsk = true;
+bool ScriptTestConfig::m_askDrawCommon = true;
+bool ScriptTestConfig::m_askDrawUnique = true;
+bool ScriptTestConfig::m_askDrawSpell = true;
+bool ScriptTestConfig::m_askDrawAlly = true;
+bool ScriptTestConfig::m_askDrawSkill = true;
+bool ScriptTestConfig::m_askDrawMonster = true;
+bool ScriptTestConfig::m_askDrawArkhamEncounter = true;
+bool ScriptTestConfig::m_askDrawOtherWorldEncounter = true;
+bool ScriptTestConfig::m_askDrawMythos = true;
+bool ScriptTestConfig::m_askDrawGate = false;
+bool ScriptTestConfig::m_askDrawAncientOne = true;
+bool ScriptTestConfig::m_askRollDie = false;
+bool ScriptTestConfig::m_debugScript = false;
 
 bool ScriptTestConfig::askDraw(AH::GameObjectType t)
 {
-    if (!doAsk) return false;
     switch (t) {
-    case AH::Obj_CommonItem: return askDrawCommon;
-    case AH::Obj_UniqueItem: return askDrawUnique;
-    case AH::Obj_Spell: return askDrawSpell;
-    case AH::Obj_Skill: return askDrawSkill;
-    case AH::Obj_Ally: return askDrawAlly;
+    case AH::Obj_CommonItem: return askDrawCommon();
+    case AH::Obj_UniqueItem: return askDrawUnique();
+    case AH::Obj_Spell: return askDrawSpell();
+    case AH::Obj_Skill: return askDrawSkill();
+    case AH::Obj_Ally: return askDrawAlly();
     default: return false;
     }
 }

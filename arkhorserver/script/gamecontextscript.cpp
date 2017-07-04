@@ -81,40 +81,27 @@ AncientOneScript *GameContextScript::curAncientOne()
 
 int GameContextScript::genericDieRollSum(QString desc, QString sourceId, int dieCount)
 {
-    DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericSummer(desc, sourceId, dieCount);
-    DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
-    return res.intResult;
+    return curCharacter()->genericDieRollSum(desc, dieCount);
 }
 
 bool GameContextScript::genericDieRollTest(QString desc, QString sourceId, int dieCount, int target)
 {
-    int ct = genericDieRollCount(desc, sourceId, dieCount);
-    return ct >= target;
+    return curCharacter()->genericDieRollTest(desc, dieCount, target);
 }
 
 int GameContextScript::genericDieRollCount(QString desc, QString sourceId, int dieCount)
 {
-    QList<quint32> successes;
-    for (int i = gGame->context().getCurCharacterProperty(PropertyValue::Prop_MinSuccessDieRoll).finalVal(); i <= 6; ++i) {
-        successes << i;
-    }
-    DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericCounter(desc, sourceId, dieCount, successes);
-    DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
-    return res.intResult;
+    return curCharacter()->genericDieRollCount(desc, dieCount);
 }
 
 bool GameContextScript::skillTest(QString desc, QString sourceId, AH::Skill skill, int adjust, int target)
 {
-    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(desc, sourceId, gGame->context().player()->getCharacter(), skill, adjust, target);
-    DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
-    return res.boolResult;
+    return curCharacter()->skillTest(desc, skill, adjust, target);
 }
 
 int GameContextScript::dieRollSkillCount(QString desc, QString sourceId, AH::Skill skill, int adjust)
 {
-    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillCounter(desc, sourceId, gGame->context().player()->getCharacter(), skill, adjust);
-    DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->context().player(), spec);
-    return res.intResult;
+    return curCharacter()->dieRollSkillCount(desc, skill, adjust);
 }
 
 void GameContextScript::increaseTerrorLevel(int amount)

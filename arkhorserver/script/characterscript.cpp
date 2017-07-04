@@ -46,6 +46,44 @@ bool CharacterScript::canCloseGate()
     return false;
 }
 
+int CharacterScript::genericDieRollSum(QString desc, int dieCount)
+{
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericSummer(desc, dieCount);
+    DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->playerForCharacter(this), spec);
+    return res.intResult;
+}
+
+bool CharacterScript::genericDieRollTest(QString desc, int dieCount, int target)
+{
+    int ct = genericDieRollCount(desc, dieCount);
+    return ct >= target;
+}
+
+int CharacterScript::genericDieRollCount(QString desc, int dieCount)
+{
+    QList<quint32> successes;
+    for (int i = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MinSuccessDieRoll).finalVal(); i <= 6; ++i) {
+        successes << i;
+    }
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericCounter(desc, dieCount, successes);
+    DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->playerForCharacter(this), spec);
+    return res.intResult;
+}
+
+bool CharacterScript::skillTest(QString desc, AH::Skill skill, int adjust, int target)
+{
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(desc, this, skill, adjust, target);
+    DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->playerForCharacter(this), spec);
+    return res.boolResult;
+}
+
+int CharacterScript::dieRollSkillCount(QString desc, AH::Skill skill, int adjust)
+{
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillCounter(desc, this, skill, adjust);
+    DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->playerForCharacter(this), spec);
+    return res.intResult;
+}
+
 QObjectList CharacterScript::getInventoryScript() const
 {
     QObjectList ret;

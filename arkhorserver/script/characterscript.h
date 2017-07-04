@@ -66,6 +66,12 @@ public:
     Q_INVOKABLE void loseHalfPossessions() { return Character::loseHalfPossessions(); }
     Q_INVOKABLE void losePossessions(int count) { return Character::losePossessions(count); }
 
+    Q_INVOKABLE int genericDieRollSum(QString desc, int dieCount);
+    Q_INVOKABLE bool genericDieRollTest(QString desc, int dieCount, int target);
+    Q_INVOKABLE int genericDieRollCount(QString desc, int dieCount);
+    Q_INVOKABLE bool skillTest(QString desc, AH::Skill skill, int adjust, int target);
+    Q_INVOKABLE int dieRollSkillCount(QString desc, AH::Skill skill, int adjust);
+
 signals:
 
 public slots:

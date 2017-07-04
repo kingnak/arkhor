@@ -27,6 +27,7 @@ void ArkhamEncounterGenerator::outputRegisterAkhamEncounter(const ClassDef &cls)
 QList<ClassGenerator::AttributeDesc> ArkhamEncounterGenerator::getAttributes()
 {
     return QList<AttributeDesc>()
+            << AttributeDesc("id", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
             << AttributeDesc("description", AttributeDesc::R_Required, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
             << AttributeDesc("field", AttributeDesc::R_Required, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
             << AttributeDesc("options", AttributeDesc::R_Required, AttributeDesc::H_IDRef, AttributeDesc::V_Array)

@@ -27,6 +27,7 @@ void OtherWorldEncounterGenerator::outputRegisterOtherWorldEncounter(const Class
 QList<ClassGenerator::AttributeDesc> OtherWorldEncounterGenerator::getAttributes()
 {
     return QList<AttributeDesc>()
+            << AttributeDesc("id", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
             << AttributeDesc("description", AttributeDesc::R_Required, AttributeDesc::H_Simple, AttributeDesc::V_Primitive)
             << AttributeDesc("field", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
             << AttributeDesc("color", AttributeDesc::R_Required, AttributeDesc::H_Special, AttributeDesc::V_Primitive)

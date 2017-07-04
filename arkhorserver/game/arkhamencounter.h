@@ -17,6 +17,12 @@ public:
 
 protected:
     QStringList m_optionIds;
+
+#ifdef TEST_SCRIPT_BUILD
+    QString m_id;
+public:
+    QString id() const { return m_id; }
+#endif
 };
 
 #endif // ARKHAMENCOUNTER_H

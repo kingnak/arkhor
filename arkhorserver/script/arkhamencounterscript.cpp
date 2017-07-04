@@ -43,7 +43,9 @@ ArkhamEncounterScript *ArkhamEncounterScript::createEncounter(QScriptContext *ct
     QScopedPointer<ArkhamEncounterScript> ret(new ArkhamEncounterScript);
 
     QScriptValue data = ctx->argument(0);
-
+#ifdef TEST_SCRIPT_BUILD
+    ret->m_id = data.property("id").toString();
+#endif
     ret->m_fieldId = static_cast<AH::Common::FieldData::FieldID> (data.property("field").toUInt32());
     ret->m_description = data.property("description").toString();
     ret->m_optionIds = GameScript::array2stringlist(data.property("options"));

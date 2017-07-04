@@ -702,7 +702,11 @@ GameNotifier *Game::notifier()
 ArkhamEncounter *Game::drawArkhamEncounter(AH::Common::FieldData::FieldID field)
 {
     m_arkEncDecks[field].shuffle();
+#ifdef TEST_SCRIPT_BUILD
+    ArkhamEncounter *enc = scriptTestDrawHelper("Arkham Encounter", m_arkEncDecks[field], &ScriptTestConfig::askDrawArkhamEncounter, true);
+#else
     ArkhamEncounter *enc = m_arkEncDecks[field].draw();
+#endif
     if (enc) {
         m_arkEncDecks[field].returnToDeck(enc);
     }
@@ -713,6 +717,11 @@ OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldI
 {
     AH::OtherWorldColors colors = m_board->colorsForOtherWorld(field);
     Q_ASSERT_X(colors != AH::OWC_NoColor, "Game::drawOtherWorldEncounter", "Field has no colors. Is it an other world field?");
+
+#ifdef TEST_SCRIPT_BUILD
+    OtherWorldEncounter *e1 = scriptTestDrawHelper("Other World Encoutner", m_owEncDeck, &ScriptTestConfig::askDrawOtherWorldEncounter, false);
+    if (e1) return e1;
+#endif
 
     // Sanity check...
     int ct = m_owEncDeck.size();

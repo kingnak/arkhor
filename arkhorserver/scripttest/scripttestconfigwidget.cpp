@@ -62,7 +62,7 @@ ScriptTestConfigWidget::ScriptTestConfigWidget(QWidget *parent) : QWidget(parent
     connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawMythos = b;});
     b->setChecked(true);
     g->addWidget(b);
-/*
+
     b = new QCheckBox("Arkham Encounter");
     connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawArkhamEncounter = b;});
     b->setChecked(true);
@@ -72,7 +72,7 @@ ScriptTestConfigWidget::ScriptTestConfigWidget(QWidget *parent) : QWidget(parent
     connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawOtherWorldEncounter = b;});
     b->setChecked(true);
     g->addWidget(b);
-*/
+
     g->addStretch(1);
     l2->addLayout(g);
 

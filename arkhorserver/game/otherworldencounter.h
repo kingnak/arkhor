@@ -21,6 +21,12 @@ public:
 protected:
     QStringList m_optionIds;
     AH::OtherWorldColor m_color;
+
+#ifdef TEST_SCRIPT_BUILD
+    QString m_id;
+public:
+    QString id() const { return m_id; }
+#endif
 };
 
 #endif // OTHERWORLDENCOUNTER_H

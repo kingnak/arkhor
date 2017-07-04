@@ -130,6 +130,17 @@ public:
     template<typename T>
     static void castListFromValue(const QScriptValue &v, QList<T> &o);
 
+    enum FunctionType {
+        F_Action, F_Available, F_AncientOne,
+        F_Display, F_Modification, F_Inventory,
+        F_Monster, F_Rumor, F_Prevent
+    };
+
+    // Central method caller
+    QScriptValue call(FunctionType t, QScriptValue f, QScriptValue obj, QScriptValue arg);
+    QScriptValue call(FunctionType t, QScriptValue f, QScriptValue obj = QScriptValue(), QScriptValueList args = QScriptValueList());
+
+
 signals:
 
 public slots:

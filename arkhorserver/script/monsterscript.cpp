@@ -82,7 +82,7 @@ AH::Common::MonsterData::MonsterAttributes MonsterScript::attributes() const
     if (m_attrFunc.isFunction()) {
         //QScriptValue v = m_attrFunc.call(getThis());
         QScriptValue f = m_attrFunc;
-        QScriptValue v = f.call(QScriptValue());
+        QScriptValue v = gGameScript->call(GameScript::F_Modification, f);
         MonsterAttributes newAttrs = MonsterAttributes(v.toInt32());
         if (m_oldDynAttrs != newAttrs) {
             gGame->invalidateObject(id());
@@ -96,7 +96,7 @@ AH::Common::MonsterData::MonsterAttributes MonsterScript::attributes() const
 void MonsterScript::move(AH::MovementDirection dir)
 {
     if (m_movement == Special) {
-        m_specialMoveFunc.call(getThis());
+        gGameScript->call(GameScript::F_Action, m_specialMoveFunc, getThis());
     } else {
         Monster::move(dir);
     }
@@ -106,7 +106,7 @@ void MonsterScript::defeat(Character *byCharacter)
 {
     if (m_onDefeatFunc.isFunction()) {
         CharacterScript *cs = dynamic_cast<CharacterScript *> (byCharacter);
-        QScriptValue res = m_onDefeatFunc.call(getThis(), QScriptValueList() << gGameScript->engine()->toScriptValue(cs));
+        QScriptValue res = gGameScript->call(GameScript::F_Monster, m_onDefeatFunc, getThis(), QScriptValueList() << gGameScript->engine()->toScriptValue(cs));
         if (res.isUndefined() || (res.isBool() && res.toBool())) {
             // If no result, or true result, do default action
             Monster::defeat(byCharacter);
@@ -128,7 +128,7 @@ bool MonsterScript::damage(Character *c, Monster::DamageType t)
         QScriptValueList args;
         args << t;
         args << gGameScript->engine()->toScriptValue(cs);
-        QScriptValue res = m_onDamageFunc.call(getThis(), args);
+        QScriptValue res = gGameScript->call(GameScript::F_Monster, m_onDamageFunc, getThis(), args);
         if (res.isBool()) {
             return res.toBool();
         }
@@ -140,7 +140,7 @@ void MonsterScript::evaded(Character *c)
 {
     if (m_onEvadeFunc.isFunction()) {
         CharacterScript *cs = dynamic_cast<CharacterScript *> (c);
-        m_onEvadeFunc.call(getThis(), gGameScript->engine()->toScriptValue(cs));
+        gGameScript->call(GameScript::F_Monster, m_onEvadeFunc, getThis(), gGameScript->engine()->toScriptValue(cs));
     }
 }
 
@@ -148,7 +148,7 @@ void MonsterScript::flown(Character *c)
 {
     if (m_onFleeFunc.isFunction()) {
         CharacterScript *cs = dynamic_cast<CharacterScript *> (c);
-        m_onFleeFunc.call(getThis(), gGameScript->engine()->toScriptValue(cs));
+        gGameScript->call(GameScript::F_Monster, m_onFleeFunc, getThis(), gGameScript->engine()->toScriptValue(cs));
     }
 }
 
@@ -156,7 +156,7 @@ PropertyModificationList MonsterScript::getModifications() const
 {
     if (m_modsFunc.isFunction()) {
         QScriptValue f = m_modsFunc;
-        QScriptValue v = f.call(QScriptValue()/*getThis()*/);
+        QScriptValue v = gGameScript->call(GameScript::F_Modification, f/*, getThis()*/);
         PropertyModificationList lst;
         if (PropertyModificationScript::parsePropertyModificationList(this, v, lst)) {
             if (m_oldDynMods != lst) {

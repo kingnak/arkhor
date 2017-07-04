@@ -16,7 +16,7 @@ QString DynamicPropertyScript::display() const
 {
     if (m_toString.isFunction()) {
         QScriptValue ts = m_toString;
-        return ts.call(m_this).toString();
+        return gGameScript->call(GameScript::F_Display, ts, m_this).toString();
     }
     return m_val.toString();
 }

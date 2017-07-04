@@ -155,7 +155,7 @@ PropertyModificationList GameObjectScript::getModifications() const
 {
     if (m_modsFunc.isFunction()) {
         QScriptValue f = m_modsFunc;
-        QScriptValue v = f.call(QScriptValue());
+        QScriptValue v = gGameScript->call(GameScript::F_Modification, f);
         PropertyModificationList lst;
         if (PropertyModificationScript::parsePropertyModificationList(this, v, lst)) {
             if (m_oldDynMods != lst) {
@@ -253,7 +253,7 @@ bool GameObjectScript::cast(Player *p)
         return false;
     }
 
-    m_castFunc.call(m_this);
+    gGameScript->call(GameScript::F_Action, m_castFunc, m_this);
     return true;
 }
 
@@ -263,7 +263,7 @@ bool GameObjectScript::onAddToInventory(Character *c)
 
     if (m_onAddFunc.isFunction()) {
         CharacterScript *cs = dynamic_cast<CharacterScript *> (c);
-        QScriptValue res = m_onAddFunc.call(m_this, gGameScript->engine()->toScriptValue(cs));
+        QScriptValue res = gGameScript->call(GameScript::F_Inventory, m_onAddFunc, m_this, gGameScript->engine()->toScriptValue(cs));
         if (res.isValid() && !res.isUndefined()) {
             if (res.isBool() && !res.toBool()) {
                 // False returned
@@ -280,7 +280,7 @@ bool GameObjectScript::onRemoveFromInventory(Character *c)
 
     if (m_onRemoveFunc.isFunction()) {
         CharacterScript *cs = dynamic_cast<CharacterScript *> (c);
-        QScriptValue res = m_onRemoveFunc.call(m_this, gGameScript->engine()->toScriptValue(cs));
+        QScriptValue res = gGameScript->call(GameScript::F_Inventory, m_onRemoveFunc, m_this, gGameScript->engine()->toScriptValue(cs));
         if (res.isValid() && !res.isUndefined()) {
             if (res.isBool() && !res.toBool()) {
                 // False returned

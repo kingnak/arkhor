@@ -11,6 +11,9 @@ class ScriptTestConfigWidget : public QWidget
 public:
     explicit ScriptTestConfigWidget(QWidget *parent = nullptr);
 
+private:
+    QWidget *buildAsk();
+    QWidget *buildDebug();
 };
 
 #endif // SCRIPTTESTCONFIGWIDGET_H

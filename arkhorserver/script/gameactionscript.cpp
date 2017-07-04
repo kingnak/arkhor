@@ -68,7 +68,7 @@ bool GameActionScript::executeOnObject(QScriptValue obj)
     else
         gGame->notifier()->actionStart(this);
 
-    QScriptValue res = m_function.call(obj);
+    QScriptValue res = gGameScript->call(GameScript::F_Action, m_function, obj);
     if (res.isError()) {
         QString s = res.toString();
         qWarning() << "Script Action Error: " << s;

@@ -30,7 +30,7 @@ bool PreventDamageOptionScript::execute(int damageStamina, int damageSanity)
 
     if (damageStamina > 0) {
         if (m_staFunc.isFunction()) {
-            QScriptValue res = m_staFunc.call(obj, QScriptValueList() << damageStamina);
+            QScriptValue res = gGameScript->call(GameScript::F_Prevent, m_staFunc, obj, QScriptValueList() << damageStamina);
             qDebug(qPrintable(res.toString()));
             m_staVal = res.toInt32();
         }
@@ -38,7 +38,7 @@ bool PreventDamageOptionScript::execute(int damageStamina, int damageSanity)
 
     if (damageSanity > 0) {
         if (m_sanFunc.isFunction()) {
-            QScriptValue res = m_sanFunc.call(obj, QScriptValueList() << damageSanity);
+            QScriptValue res = gGameScript->call(GameScript::F_Prevent, m_sanFunc, obj, QScriptValueList() << damageSanity);
             qDebug(qPrintable(res.toString()));
             m_sanVal = res.toInt32();
         }

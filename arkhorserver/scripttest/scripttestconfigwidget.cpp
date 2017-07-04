@@ -6,16 +6,20 @@
 
 ScriptTestConfigWidget::ScriptTestConfigWidget(QWidget *parent) : QWidget(parent)
 {
-    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint | Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinimizeButtonHint | Qt::WindowStaysOnTopHint);
     QVBoxLayout *l = new QVBoxLayout(this);
 
+    l->addWidget(buildAsk());
+    l->addWidget(buildDebug());
+    l->addStretch(1);
+}
+
+QWidget *ScriptTestConfigWidget::buildAsk()
+{
     QGroupBox *ask = new QGroupBox("Ask what to draw for:");
     ask->setCheckable(true);
     ask->setChecked(true);
     connect(ask, &QGroupBox::toggled, [](bool b){ScriptTestConfig::m_doAsk = b;});
-
-    l->addWidget(ask);
-    l->addWidget(new QLabel());
 
     QVBoxLayout *l2 = new QVBoxLayout(ask);
     QHBoxLayout *g = new QHBoxLayout;
@@ -76,8 +80,75 @@ ScriptTestConfigWidget::ScriptTestConfigWidget(QWidget *parent) : QWidget(parent
     g->addStretch(1);
     l2->addLayout(g);
 
-    l->addWidget(ask);
-    l->addStretch(1);
+    return ask;
+}
+
+QWidget *ScriptTestConfigWidget::buildDebug()
+{
+    QGroupBox *dbg = new QGroupBox("Debug");
+    dbg->setCheckable(true);
+    dbg->setChecked(true);
+    connect(dbg, &QGroupBox::toggled, [](bool b){ScriptTestConfig::m_debugScript = b;});
+
+    QVBoxLayout *l2 = new QVBoxLayout(dbg);
+    QHBoxLayout *g = new QHBoxLayout;
+    QCheckBox *b = new QCheckBox("Action");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugAction = b;});
+    b->setChecked(true);
+    g->addWidget(b);
+
+    b = new QCheckBox("Available");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugAvailable = b;});
+    b->setChecked(true);
+    g->addWidget(b);
+
+    b = new QCheckBox("Prevent");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugPrevent = b;});
+    b->setChecked(true);
+    g->addWidget(b);
+
+    g->addStretch(1);
+    l2->addLayout(g);
+    g = new QHBoxLayout;
+
+    b = new QCheckBox("Monster");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugMonster = b;});
+    b->setChecked(true);
+    g->addWidget(b);
+
+    b = new QCheckBox("Rumor");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugRumor = b;});
+    b->setChecked(true);
+    g->addWidget(b);
+
+    b = new QCheckBox("AncientOne");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugAncientOne = b;});
+    b->setChecked(true);
+    g->addWidget(b);
+
+    g->addStretch(1);
+    l2->addLayout(g);
+    g = new QHBoxLayout;
+
+    b = new QCheckBox("Display");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugDisplay = b;});
+    b->setChecked(true);
+    g->addWidget(b);
+
+    b = new QCheckBox("Modification");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugModification = b;});
+    b->setChecked(true);
+    g->addWidget(b);
+
+    b = new QCheckBox("Inventory");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugInventory = b;});
+    b->setChecked(true);
+    g->addWidget(b);
+
+    g->addStretch(1);
+    l2->addLayout(g);
+
+    return dbg;
 }
 
 #endif

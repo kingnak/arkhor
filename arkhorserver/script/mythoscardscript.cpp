@@ -129,7 +129,7 @@ void MythosCardScript::resolveDynamicAttributes()
 void MythosCardScript::executeHeadline()
 {
     Q_ASSERT(type() == Headline);
-    QScriptValue res = m_headlineFunc.call(m_object);
+    QScriptValue res = gGameScript->call(GameScript::F_Action, m_headlineFunc, m_object);
     if (res.isError()) {
         qCritical() << "Mythos executeHeadline Error:" << res.toString();
     }
@@ -153,7 +153,7 @@ AH::Common::FieldData::FieldID MythosCardScript::environmentFieldId()
 void MythosCardScript::onMythos()
 {
     Q_ASSERT(type() == Rumor);
-    QScriptValue res = m_onMythosFunc.call(m_object);
+    QScriptValue res = gGameScript->call(GameScript::F_Rumor, m_onMythosFunc, m_object);
     if (res.isError()) {
         qCritical() << "Mythos onMythos Error:" << res.toString();
     }
@@ -162,7 +162,7 @@ void MythosCardScript::onMythos()
 void MythosCardScript::onPass()
 {
     Q_ASSERT(type() == Rumor);
-    QScriptValue res = m_passFunc.call(m_object);
+    QScriptValue res = gGameScript->call(GameScript::F_Rumor, m_passFunc, m_object);
     if (res.isError()) {
         qCritical() << "Mythos onPass Error:" << res.toString();
     }
@@ -171,7 +171,7 @@ void MythosCardScript::onPass()
 void MythosCardScript::onFail()
 {
     Q_ASSERT(type() == Rumor);
-    QScriptValue res = m_failFunc.call(m_object);
+    QScriptValue res = gGameScript->call(GameScript::F_Rumor, m_failFunc, m_object);
     if (res.isError()) {
         qCritical() << "Mythos onFail Error:" << res.toString();
     }
@@ -180,7 +180,7 @@ void MythosCardScript::onFail()
 void MythosCardScript::setupRumor()
 {
     Q_ASSERT(type() == Rumor);
-    QScriptValue res = m_setupRumorFunc.call(m_object);
+    QScriptValue res = gGameScript->call(GameScript::F_Rumor, m_setupRumorFunc, m_object);
     if (res.isError()) {
         qCritical() << "Mythos setupRumor Error:" << res.toString();
     }
@@ -189,7 +189,7 @@ void MythosCardScript::setupRumor()
 void MythosCardScript::teardownRumor()
 {
     Q_ASSERT(type() == Rumor);
-    QScriptValue res = m_teardownRumorFunc.call(m_object);
+    QScriptValue res = gGameScript->call(GameScript::F_Rumor, m_teardownRumorFunc, m_object);
     if (res.isError()) {
         qCritical() << "Mythos teardownRumor Error:" << res.toString();
     }

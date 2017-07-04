@@ -35,6 +35,10 @@
 
 Q_DECLARE_METATYPE(QList<AH::Common::GameOptionData>)
 
+#ifdef TEST_SCRIPT_BUILD
+#include "scripttest/scripttestconfig.h"
+#endif
+
 #endif
 
 Q_DECLARE_METATYPE(AH::Common::FieldData::FieldID)
@@ -1049,6 +1053,32 @@ void GameScript::castChoiceOptionFromValue(const QScriptValue &v, AH::Common::Ch
     if (!parseOptionChoiceData(v, o)) {
         qCritical("Error parsing Choice Options");
     }
+}
+
+QScriptValue GameScript::call(FunctionType t, QScriptValue f, QScriptValue obj, QScriptValue arg)
+{
+    return call(t, f, obj, QScriptValueList() << arg);
+}
+
+QScriptValue GameScript::call(FunctionType t, QScriptValue f, QScriptValue obj, QScriptValueList args)
+{
+    if (!f.isFunction()) {
+        qWarning() << "Calling non-function " << f.toString();
+        return QScriptValue();
+    }
+
+#ifdef TEST_SCRIPT_BUILD
+    if (ScriptTestConfig::debugScript(t)) {
+        m_debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+    }
+#endif
+
+    QScriptValue res = f.call(obj, args);
+    if (res.isError()) {
+        qWarning() << "Error while calling function: " << res.toString();
+    }
+
+    return res;
 }
 
 bool GameScript::parseScripts(QDir base)

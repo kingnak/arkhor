@@ -80,7 +80,7 @@ bool GameOptionScript::isAvailableWithObject(QScriptValue obj) const
     }
     if (m_isAvailable.isFunction()) {
         QScriptValue av = m_isAvailable;
-        QScriptValue res = av.call(obj);
+        QScriptValue res = gGameScript->call(GameScript::F_Available, av, obj);
         if (res.isBool()) {
             return res.toBool();
         } else {

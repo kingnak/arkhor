@@ -14,7 +14,17 @@ bool ScriptTestConfig::m_askDrawMythos = true;
 bool ScriptTestConfig::m_askDrawGate = false;
 bool ScriptTestConfig::m_askDrawAncientOne = true;
 bool ScriptTestConfig::m_askRollDie = false;
-bool ScriptTestConfig::m_debugScript = false;
+
+bool ScriptTestConfig::m_debugScript = true;
+bool ScriptTestConfig::m_debugAction = true;
+bool ScriptTestConfig::m_debugAvailable = true;
+bool ScriptTestConfig::m_debugAncientOne = true;
+bool ScriptTestConfig::m_debugDisplay = true;
+bool ScriptTestConfig::m_debugModification = true;
+bool ScriptTestConfig::m_debugInventory = true;
+bool ScriptTestConfig::m_debugMonster = true;
+bool ScriptTestConfig::m_debugRumor = true;
+bool ScriptTestConfig::m_debugPrevent = true;
 
 bool ScriptTestConfig::askDraw(AH::GameObjectType t)
 {
@@ -24,6 +34,23 @@ bool ScriptTestConfig::askDraw(AH::GameObjectType t)
     case AH::Obj_Spell: return askDrawSpell();
     case AH::Obj_Skill: return askDrawSkill();
     case AH::Obj_Ally: return askDrawAlly();
+    default: return false;
+    }
+}
+
+bool ScriptTestConfig::debugScript(GameScript::FunctionType type)
+{
+    if (!m_debugScript) return false;
+    switch (type) {
+    case GameScript::F_Action: return m_debugAction;
+    case GameScript::F_Available: return m_debugAvailable;
+    case GameScript::F_AncientOne: return m_debugAncientOne;
+    case GameScript::F_Display: return m_debugDisplay;
+    case GameScript::F_Modification: return m_debugModification;
+    case GameScript::F_Inventory: return m_debugInventory;
+    case GameScript::F_Monster: return m_debugMonster;
+    case GameScript::F_Rumor: return m_debugRumor;
+    case GameScript::F_Prevent: return m_debugPrevent;
     default: return false;
     }
 }

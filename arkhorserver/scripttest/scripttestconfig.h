@@ -5,6 +5,7 @@
 
 #include <QtGlobal>
 #include <ahglobal.h>
+#include "../script/gamescript.h"
 
 class ScriptTestConfig
 {
@@ -25,7 +26,17 @@ private:
     static bool m_askDrawGate;
     static bool m_askDrawAncientOne;
     static bool m_askRollDie;
+
     static bool m_debugScript;
+    static bool m_debugAction;
+    static bool m_debugAvailable;
+    static bool m_debugAncientOne;
+    static bool m_debugDisplay;
+    static bool m_debugModification;
+    static bool m_debugInventory;
+    static bool m_debugMonster;
+    static bool m_debugRumor;
+    static bool m_debugPrevent;
 
 public:
     static bool doAsk() { return m_doAsk; }
@@ -42,7 +53,7 @@ public:
     static bool askDrawGate() { return m_doAsk && m_askDrawGate; }
     static bool askDrawAncientOne() { return m_doAsk && m_askDrawAncientOne; }
     static bool askRollDie() { return m_doAsk && m_askRollDie; }
-    static bool debugScript() { return m_doAsk && m_debugScript; }
+    static bool debugScript(GameScript::FunctionType type);
 
     static QString nameForObjectType(AH::GameObjectType t);
 };

@@ -2,6 +2,7 @@
 #include "gamescript.h"
 #include "propertymodificationscript.h"
 #include "monstermodifierscript.h"
+#include "gamescript.h"
 
 AncientOneScript::AncientOneScript(QObject *parent) :
     QObject(parent)
@@ -68,19 +69,19 @@ void AncientOneScript::awake()
 {
     AncientOne::awake();
     if (m_awakeFunc.isFunction()) {
-        m_awakeFunc.call(m_this);
+        gGameScript->call(GameScript::F_AncientOne, m_awakeFunc, m_this);
     }
 }
 
 void AncientOneScript::attack()
 {
-    m_attackFunc.call(m_this);
+    gGameScript->call(GameScript::F_AncientOne, m_attackFunc, m_this);
 }
 
 bool AncientOneScript::postAttack()
 {
     if (m_postAttackFunc.isFunction()) {
-        QScriptValue res = m_postAttackFunc.call(m_this);
+        QScriptValue res = gGameScript->call(GameScript::F_AncientOne, m_postAttackFunc, m_this);
         if (res.isValid() && !res.isUndefined()) {
             if (res.isBool() && !res.toBool()) {
                 // False returned

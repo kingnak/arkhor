@@ -700,16 +700,10 @@ QScriptValue GameScript::getDieRollOption()
         return context()->throwError("Invalid Die Roll Option");
     }
 
-    QString id = QString("OP_DIE_ROLL_%1_%2")
-            .arg(static_cast<int> (type))
-            .arg(static_cast<int> (skills));
-
-    if (!gGame->registry()->findOptionById(id)) {
-        // Create the option
-        DieRollOption *op = new DieRollOption(type, skills);
-        op->setId(id);
-        gGame->registerOption(op);
-    }
+    QString id = QString("OP_DIE_ROLL_%1").arg(DieRollOption::nextId());
+    DieRollOption *op = new DieRollOption(type, skills);
+    op->setId(id);
+    gGame->registerOption(op);
     return id;
 }
 

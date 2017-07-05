@@ -3,6 +3,8 @@
 #include "game/game.h"
 #include "die/dierollcountevaluator.h"
 
+quint32 DieRollOption::s_nextId = 0;
+
 bool DieRollOption::isAvailable() const
 {
     if (m_used)

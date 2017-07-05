@@ -70,11 +70,14 @@ public:
 
     void reset() { m_used = false; m_source = NULL; }
 
+    static quint32 nextId() { return ++s_nextId; }
+
 private:
     ReRollType m_type;
     AH::Skills m_skills;
     bool m_used;
     GameObject *m_source;
+    static quint32 s_nextId;
 };
 
 #endif // DIEROLLACTION_H

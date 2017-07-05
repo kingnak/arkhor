@@ -39,7 +39,7 @@ SpecialAbility Research {
 				Constants.Skills.Combat |
 				Constants.Skills.Horror | 
 				Constants.Skills.Spell,
-				type: Constants.Reroll.OneFailed}),
+                                type: Constants.Reroll.AllFailed}),
 		]
 	>>>;
 }

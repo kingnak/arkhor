@@ -1075,7 +1075,7 @@ QScriptValue GameScript::call(FunctionType t, QScriptValue f, QScriptValue obj, 
 
     QScriptValue res = f.call(obj, args);
     if (res.isError()) {
-        qWarning() << "Error while calling function: " << res.toString();
+		qWarning().noquote() << "Error while calling function: " << res.toString();
     }
 
     return res;

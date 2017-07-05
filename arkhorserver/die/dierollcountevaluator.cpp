@@ -65,7 +65,7 @@ void DieRollCountEvaluator::rerollNumFailed(int amount)
 ////////////////////////////////////////////////////
 
 DieRollCountBoolEvaluator::DieRollCountBoolEvaluator(DiePool initialPool, const QSet<quint32> &successRolls, quint32 target, DieRollBoolEvaluator::EvaluationType type)
-    : DieRollBoolEvaluator(target, type), m_eval(initialPool, successRolls)
+	: DieRollBoolEvaluator(target, type), DieRollCountEvaluator(initialPool, successRolls)
 {
 
 }
@@ -73,39 +73,4 @@ DieRollCountBoolEvaluator::DieRollCountBoolEvaluator(DiePool initialPool, const 
 bool DieRollCountBoolEvaluator::getBoolResult() const
 {
     return boolEvaluate(getResult());
-}
-
-void DieRollCountBoolEvaluator::evaluate()
-{
-    m_eval.evaluate();
-}
-
-qint32 DieRollCountBoolEvaluator::getResult() const
-{
-    return m_eval.getResult();
-}
-
-void DieRollCountBoolEvaluator::rerollAll()
-{
-    m_eval.rerollAll();
-}
-
-void DieRollCountBoolEvaluator::rollNew()
-{
-    m_eval.rollNew();
-}
-
-void DieRollCountBoolEvaluator::addDie(Die *die)
-{
-    m_eval.addDie(die);
-}
-
-void DieRollCountBoolEvaluator::addDice(QList<StandardDieSpec> specs)
-{
-    m_eval.addDice(specs);
-}
-
-void DieRollCountBoolEvaluator::rerollFailed()
-{
-    m_eval.rerollFailed();
 }

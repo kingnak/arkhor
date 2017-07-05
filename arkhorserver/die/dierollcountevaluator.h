@@ -30,30 +30,13 @@ private:
     DiePool m_pool;
 };
 
-class DieRollCountBoolEvaluator : public DieRollBoolEvaluator
+class DieRollCountBoolEvaluator : public DieRollBoolEvaluator, public DieRollCountEvaluator
 {
 public:
     DieRollCountBoolEvaluator(DiePool initialPool, const QSet<quint32> &successRolls, quint32 target, EvaluationType type = GREATER);
     ~DieRollCountBoolEvaluator() {}
 
     virtual bool getBoolResult() const;
-
-
-    // forwarders:
-    virtual void evaluate();
-    virtual qint32 getResult() const;
-
-    virtual void rerollAll();
-    virtual void rollNew();
-
-    virtual const DiePool *pool() const { return m_eval.pool(); }
-    virtual void addDie(Die *die);
-    virtual void addDice(QList<StandardDieSpec> specs);
-
-    void rerollFailed();
-
-private:
-    DieRollCountEvaluator m_eval;
 };
 
 #endif // DIEROLLCOUNTEVALUATOR_H

@@ -132,7 +132,7 @@ CommonItem LuckyCigaretteCase : 2 {
 	description: "<b>Any:</b> Discard Lucky Cigarette Case to re-roll "+
 		"any one Skill Check.";
 	price: 1;
-	options: <<< game.getDieRollOption({type: Constants.Reroll.OneFailed, skills: [
+        options: <<<[ game.getDieRollOption({type: Constants.Reroll.OneFailed, skills: [
 		Constants.Skills.Speed,
 		Constants.Skills.Sneak,
 		Constants.Skills.Fight,
@@ -143,5 +143,5 @@ CommonItem LuckyCigaretteCase : 2 {
 		Constants.Skills.Combat,
 		Constants.Skills.Horror,
 		Constants.Skills.Spell
-	]}) >>>;
+        ]}) ]>>>;
 }

@@ -42,4 +42,5 @@ SpecialAbility Research {
                                 type: Constants.Reroll.AllFailed}),
 		]
 	>>>;
+        exhaustable: true;
 }

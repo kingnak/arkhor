@@ -9,8 +9,8 @@ Investigator AmandaSharpe {
     uniqueAbilityId: SpecialAbility.Studious;
 	// Fixed Possessions is required, but empty list doesn't work...
 	// Use a literal empty array
-	//fixedPossesionObjectIds: <<<[]>>>;
-        fixedPossesionObjectIds: (SpecialObject.BankLoan, UniqueItem.AlienStatue);
+        fixedPossesionObjectIds: <<<[]>>>;
+        //fixedPossesionObjectIds: (SpecialObject.BankLoan, UniqueItem.AlienStatue);
 	//fixedPossesionObjectIds: (CommonItem.ASTest1,CommonItem.ASTest2,CommonItem.ASTest3);
     randomPossessions: [
             CommonItem 1,

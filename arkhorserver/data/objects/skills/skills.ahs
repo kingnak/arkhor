@@ -48,20 +48,24 @@ Skill Will : 2 {
 
 Skill Bravery : 2 {
 	description: "<b>Any Phase:</b> Exhaust to re-roll a <b>Horror check</b>.";
-	options: <<< game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Horror]}) >>>;
+        options: <<<[ game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Horror]}) ]>>>;
+        exhaustable: true;
 }
 
 Skill Occultist : 2 {
 	description: "<b>Any Phase:</b> Exhaust to re-roll a <b>Spell check</b>.";
-	options: <<< game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Spell]}) >>>;
+        options: <<<[ game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Spell]}) ]>>>;
+        exhaustable: true;
 }
 
 Skill Marksman : 2 {
 	description: "<b>Any Phase:</b> Exhaust to re-roll a <b>Combat check</b>.";
-	options: <<< game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Combat]}) >>>;
+        options: <<<[ game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Combat]}) ]>>>;
+        exhaustable: true;
 }
 
 Skill Stealth : 2 {
 	description: "<b>Any Phase:</b> Exhaust to re-roll an <b>Evade check</b>.";
-	options: <<< game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Evade]}) >>>;
+        options: <<<[ game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Evade]}) ]>>>;
+        exhaustable: true;
 }

@@ -9,6 +9,8 @@ class SkillGenerator : public ObjectGenerator
 {
 public:
     SkillGenerator(QTextStream &out) : ObjectGenerator(out) {}
+
+    QList<AttributeDesc> getAttributes();
 };
 
 }

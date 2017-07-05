@@ -89,6 +89,7 @@ CommonItem Bullwhip : 2 {
 	hands: 1;
 	price: 2;
 	modifications: [ Damage_Physical +1 ];
+        exhaustable: true;
 	options: <<< [game.getDieRollOption({type: Constants.Reroll.OneFailed, skills: [Constants.Skills.Combat]})] >>>;	
 }
 

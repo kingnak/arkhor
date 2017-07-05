@@ -50,6 +50,7 @@ bool AttackAction::execute()
     ModifiedPropertyValue clueBurnMods = gGame->context().getCurCharacterClueBurn(AH::Skill_Combat);
 
     DieTestHelper::DieTestSpec test = DieTestHelper::createClueBurnTest("Attack Monster", m->id(), p->getCharacter(), pool, clueBurnMods, m->combatAdjustment(), m->toughness());
+    DieTestHelper::addDieRollOptions(test, p->getCharacter(), AH::Skill_Combat);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
     if (res.boolResult) {
         m_fight->updatePhaseByResult(FightPhase::MonsterKilled);

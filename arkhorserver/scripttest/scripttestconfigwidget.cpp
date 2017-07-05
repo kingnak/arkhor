@@ -11,6 +11,14 @@ ScriptTestConfigWidget::ScriptTestConfigWidget(QWidget *parent) : QWidget(parent
 
     l->addWidget(buildAsk());
     l->addWidget(buildDebug());
+
+    QHBoxLayout *h = new QHBoxLayout;
+    QCheckBox *b = new QCheckBox("Die rolls");
+    b->setChecked(true);
+    connect(b, &QCheckBox::toggled, [](bool b) {ScriptTestConfig::m_askRollDie = b;});
+    h->addWidget(b);
+    l->addLayout(h);
+
     l->addStretch(1);
 }
 

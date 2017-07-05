@@ -3,19 +3,20 @@
 #ifndef SCRIPTTESTDIEROLLER_H
 #define SCRIPTTESTDIEROLLER_H
 
-#include <QWidget>
+#include <QDialog>
 
-class ScriptTestDieRollWidget : public QWidget
+class QLineEdit;
+
+class ScriptTestDieRollWidget : public QDialog
 {
     Q_OBJECT
 public:
     explicit ScriptTestDieRollWidget(QWidget *parent = nullptr);
 
-	QList<quint32> roll(const QList<quint32> fixed, int toRoll);
+    QString roll(const QString &curVals);
 
-signals:
-
-public slots:
+private:
+    QLineEdit *m_txt;
 };
 
 #endif // SCRIPTTESTDIEROLLER_H

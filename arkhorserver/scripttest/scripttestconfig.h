@@ -52,7 +52,7 @@ public:
     static bool askDrawMythos() { return m_doAsk && m_askDrawMythos; }
     static bool askDrawGate() { return m_doAsk && m_askDrawGate; }
     static bool askDrawAncientOne() { return m_doAsk && m_askDrawAncientOne; }
-    static bool askRollDie() { return m_doAsk && m_askRollDie; }
+    static bool askRollDie() { return m_askRollDie; }
     static bool debugScript(GameScript::FunctionType type);
 
     static QString nameForObjectType(AH::GameObjectType t);

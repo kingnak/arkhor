@@ -55,11 +55,30 @@ QList<DiePool::DiePoolIndex> DiePool::addDice(QList<StandardDieSpec> spec)
 
 void DiePool::roll()
 {
-	QSet<DiePool::DiePoolIndex> idxs;
-	for (DiePool::DiePoolIndex i = 0; i < m_dice.count(); ++i) {
-		if (!m_dice[i]->isRolled()) idxs << i;
-	}
-	reroll(idxs);
+#ifdef TEST_SCRIPT_BUILD
+    if (ScriptTestConfig::askRollDie()) {
+        QString s;
+        for (auto d : m_dice) {
+            if (d->isRolled()) s += ('0'+d->value());
+            else s += '0';
+        }
+        s = ScriptTestDieRollWidget().roll(s);
+        if (s.length() < m_dice.length()) s += QString(m_dice.count() - s.length(), '0');
+
+        for (int i = 0; i < m_dice.count(); ++i) {
+            int v = qMax(s.at(i).isDigit() ? int(s.at(i).cell()-'0') : 0, 0);
+            if (v < 1 || v > 6)
+                m_dice[i]->roll();
+            else
+                m_dice[i]->setValue(static_cast<quint32> (v));
+        }
+        return;
+    }
+#endif
+
+    for (auto d : m_dice) {
+        d->roll();
+    }
 }
 
 
@@ -72,31 +91,10 @@ void DiePool::unroll()
 
 void DiePool::reroll(const QSet<DiePool::DiePoolIndex> &dice)
 {
-#ifdef TEST_SCRIPT_BUILD
-    if (ScriptTestConfig::askRollDie()) {
-        QList<quint32> fixed;
-        int toRoll = 0;
-        for (int i = 0; i < m_dice.count(); ++i) {
-            if (dice.contains(i)) toRoll++;
-            else fixed << m_dice[i]->value();
-        }
-
-        if (toRoll == 0) return;
-        ScriptTestDieRollWidget wgt;
-        QList<quint32> rolled = wgt.roll(fixed, toRoll);
-        if (!rolled.isEmpty()) {
-            int ct = 0;
-            for (int i = 0; i < m_dice.count(); ++i) {
-                if (dice.contains(i)) m_dice[i]->m_value = rolled.value(ct++, 1);
-            }
-            return;
-        }
+    for (DiePoolIndex idx : dice) {
+        m_dice[idx]->unroll();
     }
-#endif
-
-    foreach (DiePoolIndex idx, dice) {
-        m_dice[idx]->roll();
-    }
+    roll();
 }
 
 DieRollResult DiePool::getResult() const

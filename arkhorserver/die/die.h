@@ -38,6 +38,11 @@ protected:
 
 #ifdef TEST_SCRIPT_BUILD
     friend class DiePool;
+    void setValue(quint32 v) {
+        m_value = v;
+        m_isRolled = true;
+    }
+
 #endif
 };
 

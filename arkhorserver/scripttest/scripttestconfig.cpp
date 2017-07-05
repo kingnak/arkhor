@@ -13,7 +13,7 @@ bool ScriptTestConfig::m_askDrawOtherWorldEncounter = true;
 bool ScriptTestConfig::m_askDrawMythos = true;
 bool ScriptTestConfig::m_askDrawGate = false;
 bool ScriptTestConfig::m_askDrawAncientOne = true;
-bool ScriptTestConfig::m_askRollDie = false;
+bool ScriptTestConfig::m_askRollDie = true;
 
 bool ScriptTestConfig::m_debugScript = true;
 bool ScriptTestConfig::m_debugAction = true;

@@ -11,7 +11,7 @@ class ScriptTestDieRollWidget : public QWidget
 public:
     explicit ScriptTestDieRollWidget(QWidget *parent = nullptr);
 
-    QList<quint32> roll(const QList<quint32> fixed, int toRoll);
+	QList<quint32> roll(const QList<quint32> fixed, int toRoll);
 
 signals:
 

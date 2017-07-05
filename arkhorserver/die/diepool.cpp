@@ -55,34 +55,13 @@ QList<DiePool::DiePoolIndex> DiePool::addDice(QList<StandardDieSpec> spec)
 
 void DiePool::roll()
 {
-#ifdef TEST_SCRIPT_BUILD
-    if (ScriptTestConfig::askRollDie()) {
-        QList<quint32> fixed;
-        int toRoll = 0;
-        for (Die *d : m_dice) {
-            if (d->isRolled()) fixed << d->value();
-            else toRoll++;
-        }
-
-        if (toRoll == 0) return;
-        ScriptTestDieRollWidget wgt;
-        QList<quint32> rolled = wgt.roll(fixed, toRoll);
-        if (!rolled.isEmpty()) {
-            int ct = 0;
-            for (Die *d : m_dice) {
-                if (!d->isRolled()) d->m_value = rolled.value(ct++, 1);
-            }
-            return;
-        }
-    }
-#endif
-
-    foreach (Die *d, m_dice) {
-        if (!d->isRolled()) {
-            d->roll();
-        }
-    }
+	QSet<DiePool::DiePoolIndex> idxs;
+	for (DiePool::DiePoolIndex i = 0; i < m_dice.count(); ++i) {
+		if (!m_dice[i]->isRolled()) idxs << i;
+	}
+	reroll(idxs);
 }
+
 
 void DiePool::unroll()
 {

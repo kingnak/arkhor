@@ -46,7 +46,7 @@ void DieRollSumEvaluator::addDice(QList<StandardDieSpec> specs)
 ////////////////////////////////////////////////////
 
 DieRollSumBoolEvaluator::DieRollSumBoolEvaluator(DiePool initialPool, quint32 target, DieRollBoolEvaluator::EvaluationType type)
-    : DieRollBoolEvaluator(target, type), m_eval(initialPool)
+    : DieRollBoolEvaluator(target, type), DieRollSumEvaluator(initialPool)
 {
 
 }
@@ -54,34 +54,4 @@ DieRollSumBoolEvaluator::DieRollSumBoolEvaluator(DiePool initialPool, quint32 ta
 bool DieRollSumBoolEvaluator::getBoolResult() const
 {
     return boolEvaluate(getResult());
-}
-
-void DieRollSumBoolEvaluator::evaluate()
-{
-    m_eval.evaluate();
-}
-
-qint32 DieRollSumBoolEvaluator::getResult() const
-{
-    return m_eval.getResult();
-}
-
-void DieRollSumBoolEvaluator::rerollAll()
-{
-    m_eval.rerollAll();
-}
-
-void DieRollSumBoolEvaluator::rollNew()
-{
-    m_eval.rollNew();
-}
-
-void DieRollSumBoolEvaluator::addDie(Die *die)
-{
-    m_eval.addDie(die);
-}
-
-void DieRollSumBoolEvaluator::addDice(QList<StandardDieSpec> specs)
-{
-    m_eval.addDice(specs);
 }

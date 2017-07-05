@@ -30,6 +30,8 @@ private:
     DiePool m_pool;
 };
 
+#pragma warning(push)
+#pragma warning(disable:4250) // Inherits method via dominance
 class DieRollCountBoolEvaluator : public DieRollBoolEvaluator, public DieRollCountEvaluator
 {
 public:
@@ -38,5 +40,6 @@ public:
 
     virtual bool getBoolResult() const;
 };
+#pragma warning(pop)
 
 #endif // DIEROLLCOUNTEVALUATOR_H

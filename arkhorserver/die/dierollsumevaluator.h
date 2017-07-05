@@ -3,7 +3,7 @@
 
 #include "die/dierollevaluator.h"
 
-class DieRollSumEvaluator : public DieRollEvaluator
+class DieRollSumEvaluator : public virtual DieRollEvaluator
 {
 public:
     DieRollSumEvaluator(DiePool initialPool);
@@ -25,26 +25,15 @@ private:
     qint32 m_resultValue;
 };
 
-class DieRollSumBoolEvaluator : public DieRollBoolEvaluator
+#pragma warning(push)
+#pragma warning(disable:4250) // Inherits method via dominance
+class DieRollSumBoolEvaluator : public DieRollBoolEvaluator, public DieRollSumEvaluator
 {
 public:
     DieRollSumBoolEvaluator(DiePool initialPool, quint32 target, EvaluationType type = GREATER);
 
     virtual bool getBoolResult() const;
-
-    // forwarders:
-    virtual void evaluate();
-    virtual qint32 getResult() const;
-
-    virtual void rerollAll() = 0;
-    virtual void rollNew() = 0;
-
-    virtual const DiePool *pool() const { return m_eval.pool(); }
-    virtual void addDie(Die *die);
-    virtual void addDice(QList<StandardDieSpec> specs);
-
-private:
-    DieRollSumEvaluator m_eval;
 };
+#pragma warning(pop)
 
 #endif // DIEROLLSUMEVALUATOR_H

@@ -68,7 +68,7 @@ public:
 
     void setSource(GameObject *obj) { m_source = obj; }
 
-    void reset() { m_used = false; }
+    void reset() { m_used = false; m_source = NULL; }
 
 private:
     ReRollType m_type;

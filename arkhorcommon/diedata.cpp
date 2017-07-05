@@ -32,6 +32,7 @@ void operator <<(QVariant &data, const DieRollData &target)
 {
     QVariantMap map;
     map["type"] << target.m_type;
+    map["skill"] << target.m_skill;
     map["diePool"] << target.m_pool;
     map["successValues"] << target.m_successes;
     data << map;
@@ -42,6 +43,7 @@ void operator >>(const QVariant &data, DieRollData &target)
     QVariantMap map;
     data >> map;
     map["type"] >> target.m_type;
+    map["skill"] >> target.m_skill;
     map["diePool"] >> target.m_pool;
     map["successValues"] >> target.m_successes;
 }

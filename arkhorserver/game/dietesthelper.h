@@ -41,6 +41,8 @@ public:
     static DieTestSpec createGenericCounter(QString desc, QString sourceId, int dieCount, QList<quint32> successVals);
     static DieTestSpec createGenericSummer(QString desc, QString sourceId, int dieCount);
 
+    static DieTestSpec &addDieRollOptions(DieTestSpec &spec, Character *c, AH::Skill skill);
+
     static DieTestResult executeDieTest(Player *p, DieTestSpec &spec);
 
 private:
@@ -56,7 +58,7 @@ private:
     static void test(DieTestSpec &spec, int target);
     static void finalize(DieTestSpec &spec, const QString &desc, const QString &sourceId);
 
-    static void updateReRollOptions(DieTestSpec &spec, bool init = false);
+    static void updateReRollOptions(DieTestSpec &spec);
 
 private:
     DieTestHelper();

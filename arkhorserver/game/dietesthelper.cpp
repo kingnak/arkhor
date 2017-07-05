@@ -77,13 +77,31 @@ DieTestHelper::DieTestSpec DieTestHelper::createGenericSummer(QString desc, QStr
     return spec;
 }
 
+DieTestHelper::DieTestSpec &DieTestHelper::addDieRollOptions(DieTestHelper::DieTestSpec &spec, Character *c, AH::Skill skill)
+{
+    spec.data.rollData().setSkill(skill);
+    for (auto obj : c->inventory()) {
+        for (auto o : obj->getOptions()) {
+            if (auto dro = dynamic_cast<DieRollOption*> (o)) {
+                if (dro->skills().testFlag(skill)) {
+                    spec.options << o;
+                    dro->reset();
+                    dro->setSource(obj);
+                }
+            }
+        }
+    }
+
+    return spec;
+}
+
 DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHelper::DieTestSpec &spec)
 {
     AH::Common::DieTestUpdateData upd;
 
     gGame->context().setDieRoll(&spec);
 
-    updateReRollOptions(spec, true);
+    updateReRollOptions(spec);
 
     upd = p->dieRollStart(spec.data);
     bool cont;
@@ -131,7 +149,6 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
         }
 
         spec.eval->rollNew();
-        spec.eval->evaluate();
         QList<quint32> dieVals;
         foreach (DieRollResultItem itm, spec.eval->pool()->getResult()) {
             dieVals << itm.value();
@@ -149,6 +166,13 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
 
     //p->dieRollFinish(spec.data);
     gGame->context().setDieRoll(NULL);
+
+    // Clean up options
+    for (auto o : spec.options) {
+        if (auto dro = dynamic_cast<DieRollOption*>(o)) {
+            dro->reset();
+        }
+    }
 
     DieTestResult ret;
     ret.intResult = spec.eval->getResult();
@@ -171,7 +195,7 @@ void DieTestHelper::skillPool(DieTestHelper::DieTestSpec &spec, Character *c, AH
     ModifiedPropertyValue poolBase = gGame->context().getCharacterSkill(c, skill);
     spec.baseVal = poolBase.toModifiedPropertyValueData();
     DiePoolData pd(poolBase.toModifiedPropertyValueData(), adjust);
-    spec.options = c->getOptions(AH::DieRoll);
+    addDieRollOptions(spec, c, skill);
     spec.data.rollData().setPool(pd);
 }
 
@@ -273,17 +297,13 @@ void DieTestHelper::finalize(DieTestHelper::DieTestSpec &spec, const QString &de
     spec.data.setSourceId(sourceId);
 }
 
-void DieTestHelper::updateReRollOptions(DieTestHelper::DieTestSpec &spec, bool init)
+void DieTestHelper::updateReRollOptions(DieTestHelper::DieTestSpec &spec)
 {
     QList<DieRollTestData::OptionDescription> descs;
     QList<GameOption *> &opts = spec.options;
     for (QList<GameOption *>::iterator it = opts.begin(); it != opts.end(); ) {
-        if (init) {
-            DieRollOption *op = dynamic_cast<DieRollOption *> (*it);
-            if (op) op->reset();
-        }
-
         if (!(*it)->isAvailable()) {
+            if (DieRollOption *op = dynamic_cast<DieRollOption *> (*it)) op->reset();
             it = opts.erase(it);
         } else {
             descs.append(qMakePair((*it)->id(), (*it)->name()));

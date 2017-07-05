@@ -58,22 +58,25 @@ namespace AH {
             };
 
             DieRollData()
-                : m_type(None) {}
+                : m_type(None), m_skill(NoSkill) {}
 
             DieRollData(RollType type)
-                : m_type(type) {}
+                : m_type(type), m_skill(NoSkill)  {}
 
             RollType type() const { return m_type; }
+            Skill skill() const { return m_skill; }
             DiePoolData pool() const { return m_pool; }
             DiePoolData &pool() { return m_pool; }
             QList<quint32> successRolls() const { return m_successes; }
 
             void setType(RollType type) { m_type = type; }
+            void setSkill(Skill skill) { m_skill = skill; }
             void setPool(const DiePoolData &pool) { m_pool = pool; }
             void setSuccessRolls(QList<quint32> successes) { m_successes = successes; }
 
         protected:
             RollType m_type;
+            Skill m_skill;
             DiePoolData m_pool;
             QList<quint32> m_successes;
 

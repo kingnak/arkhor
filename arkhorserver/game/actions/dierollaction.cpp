@@ -11,11 +11,10 @@ bool DieRollOption::isAvailable() const
         return false;
     if (!gGame->context().dieRoll())
         return false;
-    AH::Common::PropertyValueData prop = gGame->context().dieRoll()->data.rollData().pool().property().property();
-    if (prop.property() == AH::Common::PropertyValueData::NoProperty)
+    AH::Skill skill = gGame->context().dieRoll()->data.rollData().skill();
+    if (skill == AH::NoSkill)
         return false;
-    AH::Skill sk = PropertyValue::property2Skill(prop.property());
-    if (!m_skills.testFlag(sk))
+    if (!m_skills.testFlag(skill))
         return false;
     return true;
 }

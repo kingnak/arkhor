@@ -14,6 +14,7 @@ public:
 
     void roll();
     void unroll();
+    void reroll() { unroll(); roll(); }
     virtual quint32 value() const {
         if (!isRolled()) {
             return UNROLLED_VALUE;

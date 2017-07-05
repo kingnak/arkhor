@@ -9,9 +9,11 @@ Die::Die(quint32 min, quint32 max, quint32 multiplier)
 
 void Die::roll()
 {
-    quint32 v = RandomSource::instance().nextUint(m_min, m_max);
-    m_value = v*m_multiplier;
-    m_isRolled = true;
+    if (!m_isRolled) {
+        quint32 v = RandomSource::instance().nextUint(m_min, m_max);
+        m_value = v*m_multiplier;
+        m_isRolled = true;
+    }
 }
 
 void Die::unroll()

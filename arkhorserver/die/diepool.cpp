@@ -62,17 +62,20 @@ void DiePool::roll()
             if (d->isRolled()) s += ('0'+d->value());
             else s += '0';
         }
-        s = ScriptTestDieRollWidget().roll(s);
-        if (s.length() < m_dice.length()) s += QString(m_dice.count() - s.length(), '0');
 
-        for (int i = 0; i < m_dice.count(); ++i) {
-            int v = qMax(s.at(i).isDigit() ? int(s.at(i).cell()-'0') : 0, 0);
-            if (v < 1 || v > 6)
-                m_dice[i]->roll();
-            else
-                m_dice[i]->setValue(static_cast<quint32> (v));
-        }
-        return;
+		if (s.indexOf('0') >= 0) {
+			s = ScriptTestDieRollWidget().roll(s);
+			if (s.length() < m_dice.length()) s += QString(m_dice.count() - s.length(), '0');
+		}
+
+		for (int i = 0; i < m_dice.count(); ++i) {
+			int v = qMax(s.at(i).isDigit() ? int(s.at(i).cell()-'0') : 0, 0);
+			if (v < 1 || v > 6)
+				m_dice[i]->roll();
+			else
+				m_dice[i]->setValue(static_cast<quint32> (v));
+		}
+		return;
     }
 #endif
 

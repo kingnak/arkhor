@@ -3,7 +3,7 @@ var testEncounterOption = game.quickOption({
     //description: "",
     phases: Constants.GamePhases.OtherWorldEncountery,
     activate: function() {
-        var res = game.context.skillTest("Check Light", Constants.Skills.Luck, -2, 1);
+		var res = game.context.skillTest("Check Light", this.id, Constants.Skills.Luck, -2, 1);
         if (res) {
             game.context.character.returnToArkham();
         } else {

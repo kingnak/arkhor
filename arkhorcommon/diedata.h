@@ -92,7 +92,11 @@ namespace AH {
                 None, Value, Boolean
             };
 
-            typedef QPair<QString, QString> OptionDescription;
+            struct OptionDescription {
+                QString id;
+                QString desc;
+                QString sourceId;
+            };
 
             DieRollTestData()
                 : m_type(None), m_target(0), m_diceForClue(0), m_succeeded(false) {}
@@ -136,6 +140,7 @@ namespace AH {
             bool m_succeeded;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, DieRollTestData);
+            DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, DieRollTestData::OptionDescription);
         };
         //Q_DECLARE_METATYPE(DieRollTestData::OptionDescription)
 

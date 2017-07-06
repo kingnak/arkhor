@@ -87,6 +87,22 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
         connect(l, SIGNAL(linkActivated(QString)), this, SLOT(requestObject(QString)));
         ui->scrlMods->layout()->addWidget(l);
     }
+
+    // Display options in modifiers
+    for (auto d : data.dieRollOptions()) {
+        QString id = d.sourceId;
+        QString name = id;
+        if (ObjectRegistry::instance()->hasObject(id)) {
+            AH::Common::GameOptionData obj;
+            ObjectRegistry::instance()->getObject(id).data >> obj;
+            name = obj.name();
+        }
+
+        QLabel *l = new QLabel(QString("<a href=\"%1\">%2</a>: %3").arg(id, name.toHtmlEscaped(), d.desc));
+        l->setWordWrap(true);
+        connect(l, SIGNAL(linkActivated(QString)), this, SLOT(requestObject(QString)));
+        ui->scrlMods->layout()->addWidget(l);
+    }
     // Spacing
     static_cast<QBoxLayout*>(ui->scrlMods->layout())->addStretch(1);
 
@@ -122,8 +138,8 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     // Spacing
     static_cast<QBoxLayout*>(ui->wgtDieRollOpts->layout())->addStretch(1);
     foreach (AH::Common::DieRollTestData::OptionDescription opt, data.dieRollOptions()) {
-        QPushButton *btn = new QPushButton(opt.second);
-        btn->setProperty(PROPERTY_OPTION_ID, opt.first);
+        QPushButton *btn = new QPushButton(opt.desc);
+        btn->setProperty(PROPERTY_OPTION_ID, opt.id);
         connect(btn, SIGNAL(clicked()), this, SLOT(reRollOptionClicked()));
         ui->wgtDieRollOpts->layout()->addWidget(btn);
     }

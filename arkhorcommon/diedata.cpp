@@ -80,6 +80,24 @@ void operator >>(const QVariant &data, DieRollTestData &target)
     map["generalMods"] >> target.m_generalMods;
 }
 
+void operator <<(QVariant &data, const DieRollTestData::OptionDescription &target)
+{
+    QVariantMap map;
+    map["id"] << target.id;
+    map["desc"] << target.desc;
+    map["sourceId"] << target.sourceId;
+    data << map;
+}
+
+void operator >>(const QVariant &data, DieRollTestData::OptionDescription &target)
+{
+   QVariantMap map;
+   data >> map;
+   map["id"] >> target.id;
+   map["desc"] >> target.desc;
+   map["sourceId"] >> target.sourceId;
+}
+
 void operator <<(QVariant &data, const DieTestUpdateData &target)
 {
     QVariantMap map;

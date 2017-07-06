@@ -306,7 +306,7 @@ void DieTestHelper::updateReRollOptions(DieTestHelper::DieTestSpec &spec)
             if (DieRollOption *op = dynamic_cast<DieRollOption *> (*it)) op->reset();
             it = opts.erase(it);
         } else {
-            descs.append(qMakePair((*it)->id(), (*it)->name()));
+            descs.append(DieRollTestData::OptionDescription{ (*it)->id(), (*it)->name(), (*it)->sourceId() });
             ++it;
         }
     }

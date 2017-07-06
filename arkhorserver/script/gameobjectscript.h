@@ -93,6 +93,8 @@ public:
     virtual bool execute();
     virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
 
+	GameActionScript *realAction() { return m_act; }
+
 private:
     GameObjectScript *m_obj;
     GameActionScript *m_act;
@@ -123,6 +125,8 @@ public:
 
     virtual GameAction *action();
     virtual const GameAction *action() const;
+
+	GameOptionScript *realOption() { return m_opt; }
 
 private:
     GameObjectScript *m_obj;

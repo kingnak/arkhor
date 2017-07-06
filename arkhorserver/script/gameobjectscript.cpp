@@ -19,6 +19,19 @@ GameObject *GameObjectScript::clone()
     c->GameObjectData::operator=(*data());
     c->m_actMap = m_actMap;
     c->m_optMap = m_optMap;
+
+	// Proxy options/actions must be updated to use new object
+	for (auto &a : c->m_actMap) {
+		if (auto p = dynamic_cast<GameObjectScriptProxyAction*>(a)) {
+			a = new GameObjectScriptProxyAction(c, p->realAction());
+		}
+	}
+	for (auto &o : c->m_optMap) {
+		if (auto p = dynamic_cast<GameObjectScriptProxyOption*>(o)) {
+			o = new GameObjectScriptProxyOption(c, p->realOption());
+		}
+	}
+
     foreach (const PropertyModification &m, m_mods) {
         c->m_mods.append(PropertyModification(c, m.affectedProperty(), m.modificationAmount()));
     }

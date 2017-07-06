@@ -30,11 +30,13 @@ QString ScriptTestDrawWidget::askDraw(const QString &title, QStringList lst)
     qSort(lst);
     m_cmb->clear();
     m_cmb->addItems(lst);
+
     QCompleter *c = new QCompleter(lst, this);
     c->setCaseSensitivity(Qt::CaseInsensitive);
-    c->setFilterMode(Qt::MatchContains);
-
+	c->setFilterMode(Qt::MatchContains);
     m_cmb->setCompleter(c);
+
+	m_cmb->lineEdit()->selectAll();
 
     show();
     activateWindow();

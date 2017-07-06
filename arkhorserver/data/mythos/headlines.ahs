@@ -1,5 +1,5 @@
 // region @Headlines
-Headline {
+Headline QUIET_IN_ARKHAM {
 	name: "All Quiet in Arkham!";
 	description: "Each player may pass a <b>Luck (-1) check</b> to be <i>Blessed</i>.";
 	//clueField: SS_HistoricalSociety;
@@ -7,12 +7,14 @@ Headline {
 	//moveBlack: (Slash,Star,Triangle);
 	//gateField: UT_Woods;
 	executeHeadline: {{{
-        for (var c in game.context.allCharacters) {
-            var res = c.skillTest("Get Blessed", this.id, Constants.Skills.Luck, -1, 1);
-            if (res) {
-                game.utility.blessCharacter(CHAR);
+            var list = game.context.allCharacters;
+            for (var i = 0; i < list.length; ++i) {
+                var c = list[i];
+                var res = c.skillTest("Get Blessed", this.id, Constants.Skills.Luck, -1, 1);
+                if (res) {
+                    game.utility.blessCharacter(c);
+                }
             }
-        }
 	}}};
 }
 

@@ -49,8 +49,8 @@ Rumor SouthSideStrangler {
 	onPass: {{{
 		var list = game.context.allCharacters;
 		for (var i = 0; i < list.length; ++i) {
-			var c = list[i];
-			c.addMoney(5);
+                    var c = list[i];
+                    c.addMoney(5);
 		}
 		this.removeFromGame();
 	}}};

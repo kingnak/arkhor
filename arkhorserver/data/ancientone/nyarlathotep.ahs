@@ -25,11 +25,13 @@ AncientOne Nyarlathotep {
 	attackAdjustment: 1;
 
 	onAwake: {{{
-		for (var c in game.context.allCharacters) {
-			if (!c.canPay({type: Constants.Costs.Clue, amount: 1})) {
-				c.devour();
-			}
-		}
+            var list = game.context.allCharacters;
+            for (var i = 0; i < list.length; ++i) {
+            var c = list[i];
+                if (!c.canPay({type: Constants.Costs.Clue, amount: 1})) {
+                    c.devour();
+                }
+            }
 	}}};
 	
 	attack: {{{

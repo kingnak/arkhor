@@ -14,8 +14,10 @@ AncientOne Azathoth {
 	onAwake: {{{
 		// TODO: Lose game
 		// Test: Devour all characters
-		for (var c in game.context.allCharacters) {
-			c.devour();
+                var list = game.context.allCharacters;
+                for (var i = 0; i < list.length; ++i) {
+                    var c = list[i];
+                    c.devour();
 		}
 	}}};
 

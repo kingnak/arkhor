@@ -19,14 +19,16 @@ AncientOne Yig {
 	
 	attackAdjustment: 1;
 	onAwake: {{{
-		for (var c in game.context.allCharacters) {
-			if (game.utility.isCharacterCursed(c)) {
-				c.devour();
-			} else {
-				// TODO: Force curse?
-				game.utility.curseCharacter(c);
-			}
-		}
+            var list = game.context.allCharacters;
+            for (var i = 0; i < list.length; ++i) {
+                var c = list[i];
+                if (game.utility.isCharacterCursed(c)) {
+                    c.devour();
+                } else {
+                    // TODO: Force curse?
+                    game.utility.curseCharacter(c);
+                }
+            }
 	}}};
 	
 	attack: {{{

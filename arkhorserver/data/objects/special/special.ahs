@@ -20,7 +20,7 @@ Action BankLoanCheck {
 			if (this.owner.canPay({type: Constants.Costs.Money, amount: 1})) {
 				options.push(["MONEY", "$1", "Pay $1 instead"]);
 			}
-                        res = game.selectChoice("Choose how to pay", options);
+                        res = game.context.selectChoice("Choose how to pay", options);
 			if (res == "MONEY") {
 				this.owner.loseMoney(1);
 			} else {

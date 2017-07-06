@@ -12,7 +12,7 @@ ScriptTestDrawWidget::ScriptTestDrawWidget(QWidget *parent) : QDialog(parent)
     m_cmb = new QComboBox;
     m_cmb->setEditable(true);
     m_cmb->setInsertPolicy(QComboBox::NoInsert);
-    l->addWidget(m_cmb);
+    l->addWidget(m_cmb, 1);
 
     QPushButton *b = new QPushButton("OK");
     b->setDefault(true);

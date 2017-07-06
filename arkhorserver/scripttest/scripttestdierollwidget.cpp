@@ -10,7 +10,7 @@ ScriptTestDieRollWidget::ScriptTestDieRollWidget(QWidget *parent) : QDialog(pare
 
     m_txt = new QLineEdit;
     m_txt->setValidator(new QRegExpValidator(QRegExp("[0-6]*")));
-    l->addWidget(m_txt);
+    l->addWidget(m_txt, 1);
 
     QPushButton *b = new QPushButton("OK");
     b->setDefault(true);

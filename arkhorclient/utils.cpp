@@ -110,7 +110,7 @@ QString Utils::stringForDimension(AH::Dimension dim)
 QStringList Utils::stringsForDimensions(AH::Dimensions dims)
 {
     QStringList l;
-    for (int i = 1; i < AH::Dimension_Max_Value_Sentinel; i <<= 1) {
+    for (int i = 1; i <= AH::Dimension_Max_Value_Sentinel; i <<= 1) {
         AH::Dimension d = static_cast<AH::Dimension> (i);
         if (dims.testFlag(d)) {
             l << stringForDimension(d);

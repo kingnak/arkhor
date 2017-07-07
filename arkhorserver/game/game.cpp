@@ -32,8 +32,8 @@
 
 ScriptTestConfigWidget *scriptTestConfigWgt = nullptr;
 
-template<typename T>
-T *scriptTestDrawHelper(const QString &title, Deck<T> &d, std::function<bool()> check = nullptr, bool drawRandom = true)
+template<typename T, typename W = ScriptTestDrawWidget>
+T *scriptTestDrawHelper(const QString &title, Deck<T> &d, std::function<bool()> check = nullptr, bool drawRandom = true, QString *pMore = nullptr)
 {
     T *ret = nullptr;
     if (!check || check()) {
@@ -43,9 +43,10 @@ T *scriptTestDrawHelper(const QString &title, Deck<T> &d, std::function<bool()> 
             if (!id.isEmpty()) lst << id;
         }
         if (!lst.isEmpty()) {
-            ScriptTestDrawWidget wgt(scriptTestConfigWgt);
+			W wgt(scriptTestConfigWgt);
             QString id = wgt.askDraw(title, lst);
             if (!id.isNull()) ret = d.drawSpecificById(id);
+			if (pMore) *pMore = wgt.moreData();
         }
     }
     if (!ret && drawRandom) {
@@ -457,8 +458,13 @@ void Game::returnMonster(Monster *m)
 Monster *Game::drawMonster()
 {
 #ifdef TEST_SCRIPT_BUILD
-    Monster *m1 = scriptTestDrawHelper("Monster", m_monsterPool, &ScriptTestConfig::askDrawMonster, false);
-    if (m1) return m1;
+	QString more;
+	Monster *m1 = scriptTestDrawHelper<Monster,ScriptTestDrawMonsterWidget>("Monster", m_monsterPool, &ScriptTestConfig::askDrawMonster, false, &more);
+	if (m1) {
+		int i = more.toInt();
+		if (i > 0) m1->setDimension(static_cast<AH::Dimension>(i));
+		return m1;
+	}
 #endif
 
     m_monsterPool.shuffle();

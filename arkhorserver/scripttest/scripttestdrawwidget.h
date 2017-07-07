@@ -8,6 +8,7 @@
 class QComboBox;
 class QPushButton;
 class QLabel;
+class QHBoxLayout;
 
 class ScriptTestDrawWidget : public QDialog
 {
@@ -15,12 +16,31 @@ class ScriptTestDrawWidget : public QDialog
 public:
     explicit ScriptTestDrawWidget(QWidget *parent = nullptr);
 
-    QString askDraw(const QString &title, QStringList lst);
+	virtual QString askDraw(const QString &title, QStringList lst);
+	virtual QString moreData() { return QString::null; }
+protected:
+	ScriptTestDrawWidget(QWidget *parent, bool);
+	void setupUi(QHBoxLayout *l);
+	void prepareShow(const QString &title, QStringList lst);
+	QString doShow();
 
-private:
+protected:
     QLabel *m_title;
     QComboBox *m_cmb;
     QPushButton *m_rnd;
+};
+
+class ScriptTestDrawMonsterWidget : public ScriptTestDrawWidget
+{
+	Q_OBJECT
+public:
+	explicit ScriptTestDrawMonsterWidget(QWidget *parent = nullptr);
+
+	QString askDraw(const QString&, QStringList monsters) override;
+	QString moreData();
+
+private:
+	QComboBox *m_dim;
 };
 
 #endif // SCRIPTTESTDRAWWIDGET_H

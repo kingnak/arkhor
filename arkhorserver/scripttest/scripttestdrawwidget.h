@@ -37,10 +37,26 @@ public:
 	explicit ScriptTestDrawMonsterWidget(QWidget *parent = nullptr);
 
 	QString askDraw(const QString&, QStringList monsters) override;
-	QString moreData();
+    QString moreData() override;
 
 private:
 	QComboBox *m_dim;
+};
+
+class ScriptTestDrawMythosWidget : public ScriptTestDrawWidget
+{
+    Q_OBJECT
+public:
+    explicit ScriptTestDrawMythosWidget(QWidget *parent = nullptr);
+
+    QString askDraw(const QString &title, QStringList lst) override;
+    QString moreData() override;
+
+private:
+    QComboBox *m_clue;
+    QComboBox *m_gate;
+    quint32 m_black;
+    quint32 m_white;
 };
 
 #endif // SCRIPTTESTDRAWWIDGET_H

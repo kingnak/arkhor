@@ -83,6 +83,10 @@ private:
     GameOption *m_rumorFieldOption;
     QString m_rumorFieldOptionId;
     AH::Common::FieldData::FieldID m_rumorFieldId;
+
+#ifdef TEST_SCRIPT_BUILD
+    friend class Game;
+#endif
 };
 
 Q_DECLARE_METATYPE(MythosCardScript*)

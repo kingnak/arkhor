@@ -25,6 +25,7 @@
 #include <QDebug>
 
 #ifdef TEST_SCRIPT_BUILD
+#include "script/mythoscardscript.h"
 #include "scripttest/scripttestconfigwidget.h"
 #include "scripttest/scripttestconfig.h"
 #include "scripttest/scripttestdrawwidget.h"
@@ -488,7 +489,16 @@ Monster *Game::drawMonster()
 MythosCard *Game::drawMythos()
 {
 #ifdef TEST_SCRIPT_BUILD
-    MythosCard *m = scriptTestDrawHelper("Mythos", m_mythosDeck, &ScriptTestConfig::askDrawMythos, true);
+    QString data;
+    MythosCard *m = scriptTestDrawHelper<MythosCard, ScriptTestDrawMythosWidget>("Mythos", m_mythosDeck, &ScriptTestConfig::askDrawMythos, true, &data);
+    QStringList d = data.split(';');
+    auto *sm = dynamic_cast<MythosCardScript*>(m);
+    if (sm) {
+        sm->m_gateField = static_cast<AH::Common::FieldData::FieldID> (d.value(0).toInt());
+        sm->m_clueField = static_cast<AH::Common::FieldData::FieldID> (d.value(1).toInt());
+        sm->m_moveWhite = static_cast<AH::Dimensions> (d.value(2).toInt());
+        sm->m_moveBlack = static_cast<AH::Dimensions> (d.value(3).toInt());
+    }
 #else
     MythosCard *m = m_mythosDeck.draw();
 #endif

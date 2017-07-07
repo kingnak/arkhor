@@ -6,7 +6,7 @@
 
 ScriptTestConfigWidget::ScriptTestConfigWidget(QWidget *parent) : QWidget(parent)
 {
-    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinimizeButtonHint | Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinimizeButtonHint);
     QVBoxLayout *l = new QVBoxLayout(this);
 
     l->addWidget(buildAsk());

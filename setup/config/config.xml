@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<Installer> 
+	<Name>ArkHor</Name> 
+	<Version>0.5.0</Version> 
+	<Title>Arkhor 0.5.0 Installer</Title> 
+	<Publisher>King Nak</Publisher> 
+	<StartMenuDir>ArkHor</StartMenuDir> 
+	<TargetDir>C:/Program Files/ArkHor</TargetDir> 
+	<AllowSpaceInPath>true</AllowSpaceInPath> 
+	<MaintenanceToolName>ArkHorUninstaller</MaintenanceToolName>
+</Installer>

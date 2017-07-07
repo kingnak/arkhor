@@ -606,12 +606,32 @@ bool Game::createGate(GameField *field)
         m_ancientOne->increaseDoomTrack();
 
         // Create gate
-        int adj = RandomSource::instance().nextUint(0, 4)-2;
-        int dest = RandomSource::instance().nextUint(0, 7);
-        AH::Dimension d = randomDimension();
-        AH::Common::FieldData::FieldID fid = static_cast<AH::Common::FieldData::FieldID> (0x1000 + 0x0100*dest);
-        GameField *f = m_board->field(fid);
-        Gate *g = new Gate(d, adj, f);
+        int fid = 0;
+        int adj = std::numeric_limits<int>::min();
+        int dim = 0;
+#ifdef TEST_SCRIPT_BUILD
+        if (ScriptTestConfig::askDrawGate()) {
+            QString r = ScriptTestDrawGateWidget(scriptTestConfigWgt).askDraw();
+            if (!r.isEmpty()) {
+                QStringList l = r.split(';');
+                fid = l.value(0).toInt();
+                adj = l.value(1, "-10").toInt();
+                dim = l.value(2).toInt();
+            }
+        }
+#endif
+
+        AH::Dimension d = (dim) ? static_cast<AH::Dimension> (dim) : randomDimension();
+        adj = (adj < -2 || adj > 2) ? RandomSource::instance().nextUint(0, 4)-2 : adj;
+        auto f = static_cast<AH::Common::FieldData::FieldID>(fid);
+        if (!m_board->field(f) || m_board->field(f)->type() != AH::Common::FieldData::OtherWorld) {
+            int dest = RandomSource::instance().nextUint(0, 7);
+            f = static_cast<AH::Common::FieldData::FieldID> (0x1000 + 0x0100*dest);
+        }
+
+        GameField *fld = m_board->field(f);
+        Gate *g = new Gate(d, adj, fld);
+
         m_registry->registerGate(g);
         field->setGate(g);
 

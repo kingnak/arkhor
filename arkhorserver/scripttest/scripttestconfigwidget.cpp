@@ -56,12 +56,17 @@ QWidget *ScriptTestConfigWidget::buildAsk()
     b->setChecked(true);
     g->addWidget(b);
 
+    b = new QCheckBox("Ancient One");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawAncientOne = b;});
+    b->setChecked(true);
+    g->addWidget(b);
+
     g->addStretch(1);
     l2->addLayout(g);
     g = new QHBoxLayout;
 
-    b = new QCheckBox("Ancient One");
-    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawAncientOne = b;});
+    b = new QCheckBox("Gate");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawGate= b;});
     b->setChecked(true);
     g->addWidget(b);
 

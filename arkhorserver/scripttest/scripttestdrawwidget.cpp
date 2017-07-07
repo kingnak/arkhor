@@ -113,12 +113,35 @@ void forFields(std::function<void(AH::Common::FieldData::FieldID,QString)> cb, b
     }
 }
 
+QComboBox *setupCmbForFields(QList<AH::Common::FieldData::FieldType> types)
+{
+    QComboBox *ret = new QComboBox;
+    ret->setEditable(true);
+    ret->setInsertPolicy(QComboBox::NoInsert);
+    QStringList itms;
+    forFields([=,&itms](AH::Common::FieldData::FieldID f, QString s) {
+        auto fld = gGame->board()->field(f);
+        auto t = fld ? fld->type() : static_cast<AH::Common::FieldData::FieldType> (0);
+        if (f == AH::Common::FieldData::NO_NO_FIELD || types.contains(t)) {
+            ret->addItem(s, QVariant(int(f)));
+            itms.append(s);
+        }
+    }, true);
+    QCompleter *c = new QCompleter(itms);
+    c->setCaseSensitivity(Qt::CaseInsensitive);
+    c->setFilterMode(Qt::MatchContains);
+    ret->setCompleter(c);
+    return ret;
+}
+
+////////////////////////////////////////
+
 ScriptTestDrawWidget::ScriptTestDrawWidget(QWidget *parent) : QDialog(parent)
 {
 	setupUi(new QHBoxLayout(this));
 }
 
-ScriptTestDrawWidget::ScriptTestDrawWidget(QWidget *parent, bool) : QDialog(parent)
+ScriptTestDrawWidget::ScriptTestDrawWidget(QWidget *parent, bool) : QDialog(parent), m_cmb(nullptr), m_title(nullptr), m_rnd(nullptr)
 {
 }
 
@@ -132,6 +155,11 @@ void ScriptTestDrawWidget::setupUi(QHBoxLayout *l)
     m_cmb->setInsertPolicy(QComboBox::NoInsert);
     l->addWidget(m_cmb, 1);
 
+    setupButtons(l);
+}
+
+void ScriptTestDrawWidget::setupButtons(QHBoxLayout *l)
+{
     QPushButton *b = new QPushButton("OK");
     b->setDefault(true);
     b->setAutoDefault(true);
@@ -218,27 +246,6 @@ QString ScriptTestDrawMonsterWidget::moreData()
 
 /////////////////////////////////////
 
-QComboBox *setupCmbForFields(QList<AH::Common::FieldData::FieldType> types)
-{
-    QComboBox *ret = new QComboBox;
-    ret->setEditable(true);
-    ret->setInsertPolicy(QComboBox::NoInsert);
-    QStringList itms;
-    forFields([=,&itms](AH::Common::FieldData::FieldID f, QString s) {
-        auto fld = gGame->board()->field(f);
-        auto t = fld ? fld->type() : static_cast<AH::Common::FieldData::FieldType> (0);
-        if (f == AH::Common::FieldData::NO_NO_FIELD || types.contains(t)) {
-            ret->addItem(s, QVariant(int(f)));
-            itms.append(s);
-        }
-    }, true);
-    QCompleter *c = new QCompleter(itms);
-    c->setCaseSensitivity(Qt::CaseInsensitive);
-    c->setFilterMode(Qt::MatchContains);
-    ret->setCompleter(c);
-    return ret;
-}
-
 ScriptTestDrawMythosWidget::ScriptTestDrawMythosWidget(QWidget *parent)
     : ScriptTestDrawWidget(parent, true),
       m_black(0),
@@ -311,6 +318,61 @@ QString ScriptTestDrawMythosWidget::moreData()
     return lst.join(';');
 }
 
+/////////////////////////////////////
 
+ScriptTestDrawGateWidget::ScriptTestDrawGateWidget(QWidget *parent)
+    : ScriptTestDrawWidget(parent, false), m_dim(0), m_adj(0)
+{
+    QSpinBox *spn = new QSpinBox;
+    spn->setRange(-2, 2);
+    spn->setValue(0);
+    connect(spn, (void(QSpinBox::*)(int))&QSpinBox::valueChanged, [=](int v) {m_adj = v;});
+
+    QVBoxLayout *v = new QVBoxLayout(this);
+    QHBoxLayout *l = new QHBoxLayout;
+    m_title = new QLabel("Gate");
+    l->addWidget(m_title);
+    m_cmb = setupCmbForFields(QList<AH::Common::FieldData::FieldType>() << AH::Common::FieldData::OtherWorld);
+    l->addWidget(m_cmb, 1);
+    l->addWidget(spn);
+    setupButtons(l);
+    v->addLayout(l);
+
+    QGroupBox *dim = new QGroupBox("Dimensions");
+    QGridLayout *g1 = new QGridLayout(dim);
+    int r = 0, c = 0;
+    forDimensions([=,&r,&c](auto t, auto s){
+        QCheckBox *c1 = new QCheckBox(s);
+
+        connect(c1, &QCheckBox::toggled, [=](bool b) {
+            if (b) m_dim |= t; else m_dim &= ~t;
+        });
+
+        g1->addWidget(c1, r, c++);
+        if (c == 5) {
+            c = 0;
+            r++;
+        }
+    }, false);
+
+    v->addWidget(dim);
+}
+
+QString ScriptTestDrawGateWidget::askDraw(const QString &, QStringList)
+{
+    connect(this, &QDialog::rejected, [=](){m_adj=-10;});
+    ScriptTestDrawWidget::doShow();
+    if (m_adj == -10) return QString::null;
+    return moreData();
+}
+
+QString ScriptTestDrawGateWidget::moreData()
+{
+    return (QStringList()
+            << QString::number(m_cmb->currentData().toInt())
+            << QString::number(m_adj)
+            << QString::number(m_dim)
+            ).join(';');
+}
 
 #endif

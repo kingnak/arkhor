@@ -11,7 +11,7 @@ bool ScriptTestConfig::m_askDrawMonster = true;
 bool ScriptTestConfig::m_askDrawArkhamEncounter = true;
 bool ScriptTestConfig::m_askDrawOtherWorldEncounter = true;
 bool ScriptTestConfig::m_askDrawMythos = true;
-bool ScriptTestConfig::m_askDrawGate = false;
+bool ScriptTestConfig::m_askDrawGate = true;
 bool ScriptTestConfig::m_askDrawAncientOne = true;
 bool ScriptTestConfig::m_askRollDie = true;
 

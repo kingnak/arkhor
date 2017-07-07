@@ -21,6 +21,7 @@ public:
 protected:
 	ScriptTestDrawWidget(QWidget *parent, bool);
 	void setupUi(QHBoxLayout *l);
+    void setupButtons(QHBoxLayout *l);
 	void prepareShow(const QString &title, QStringList lst);
 	QString doShow();
 
@@ -57,6 +58,21 @@ private:
     QComboBox *m_gate;
     quint32 m_black;
     quint32 m_white;
+};
+
+class ScriptTestDrawGateWidget : public ScriptTestDrawWidget
+{
+    Q_OBJECT
+public:
+    explicit ScriptTestDrawGateWidget(QWidget *parent = nullptr);
+
+    QString askDraw() { return askDraw("",QStringList()); }
+    QString askDraw(const QString &title, QStringList lst) override;
+    QString moreData() override;
+
+private:
+    quint32 m_dim;
+    qint32 m_adj;
 };
 
 #endif // SCRIPTTESTDRAWWIDGET_H

@@ -154,7 +154,12 @@ private:
     // Quick access
     static QScriptValue quick_CurChar(QScriptContext *, QScriptEngine *);
 
-    bool parseScripts(QDir base);
+    bool parseScripts(QString base);
+    bool parseScriptsDir(QDir base);
+    bool parseScriptsZip(QString file);
+    bool parseScriptFile(QIODevice *d, const QString &fn, const QString &outScriptPath = QString::null);
+    bool parseScriptAHSFile(QIODevice *d, const QString &fn, const QString &outScriptPath = QString::null);
+    bool parseScriptJSFile(QIODevice *d, const QString &fn);
 
 private:
     QScriptEngine *m_engine;

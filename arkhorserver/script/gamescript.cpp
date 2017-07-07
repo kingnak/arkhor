@@ -25,6 +25,8 @@
 #include "game/actions/dierollaction.h"
 #include "preventdamageoptionscript.h"
 #include <arkhorscriptgenerator.h>
+#include <quazip/quazip.h>
+#include <quazip/quazipfile.h>
 
 #define OUTPUT_COMPILED_AHS
 
@@ -1075,75 +1077,134 @@ QScriptValue GameScript::call(FunctionType t, QScriptValue f, QScriptValue obj, 
     return res;
 }
 
-bool GameScript::parseScripts(QDir base)
+bool GameScript::parseScripts(QString base)
+{
+    if (QFileInfo(base).isDir()) {
+        return parseScriptsDir(base);
+    } else {
+        // Assume ZIP
+        return parseScriptsZip(base);
+    }
+}
+
+bool GameScript::parseScriptsZip(QString file)
+{
+    QuaZip z(file);
+    if (!z.open(QuaZip::mdUnzip)) {
+        qCritical() << "Cannot open file: " << file;
+        return false;
+    }
+
+    QList<QuaZipFileInfo> entries = z.getFileInfoList();
+    for (auto e : entries) {
+        if (e.uncompressedSize > 0) {
+            QString type = QFileInfo(e.name).suffix().toLower();
+            if (type != "ahs" && type != "js") {
+                continue;
+            }
+
+            QuaZipFile f(file, e.name);
+            if (!f.open(QIODevice::ReadOnly)) {
+                qCritical() << "Cannot open file: " << e.name;
+                return false;
+            }
+
+            if (!parseScriptFile(&f, e.name)) {
+                qCritical() << "Error parsing file: " << e.name;
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool GameScript::parseScriptsDir(QDir base)
 {
     QFileInfoList lst = base.entryInfoList(QStringList() << "*.ahs" << "*.js", QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Files, QDir::Name);
     foreach (QFileInfo fi, lst) {
         if (fi.isDir()) {
-            if (!parseScripts(fi.absoluteFilePath()))
+            if (!parseScriptsDir(fi.absoluteFilePath()))
                 return false;
         } else {
-            QString src;
-            if (fi.fileName().endsWith(".js")) {
-                QFile f(fi.absoluteFilePath());
-                if (!f.open(QIODevice::ReadOnly)) {
-                    qCritical() << "Cannot open file: " << fi.absoluteFilePath();
-                    return false;
-                }
-                QTextStream ts(&f);
-                src = ts.readAll();
-            } else if (fi.fileName().endsWith(".ahs")) {
-                QFile f(fi.absoluteFilePath());
-                if (!f.open(QIODevice::ReadOnly)) {
-                    qCritical() << "Cannot open file: " << fi.absoluteFilePath();
-                    return false;
-                }
-
-                QByteArray ba;
-                { // Scope limit buf
-                    QBuffer buf(&ba);
-                    buf.open(QIODevice::WriteOnly);
-                    AHS::ArkhorScriptGenerator gen(&f, &buf);
-                    if (!gen.generate()) {
-                        qCritical() << fi.absoluteFilePath() << ": AH Script Error:" << gen.error();
-                        return false;
-                    }
-                    if (!gen.warning().isEmpty()) qWarning() << "AH Script Warning:" << gen.warning();
-                }
-
-                src = ba.data();
-
-
-#ifdef OUTPUT_COMPILED_AHS
-                QFile fo(fi.absoluteFilePath() + ".js.compiled");
-                if (fo.open(QFile::WriteOnly | QFile::Truncate)) {
-                    QTextStream fostr(&fo);
-                    fostr << src;
-                }
-                fo.close();
-#endif
-
-            } else {
+            QString type = fi.suffix().toLower();
+            if (type != "ahs" && type != "js") {
                 continue;
             }
 
-#ifdef DEBUG_SCRIPT_BUILD
-            //QString fn = fi.absoluteFilePath();
-            //m_debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+            QFile f(fi.absoluteFilePath());
+            if (!f.open(QIODevice::ReadOnly)) {
+                qCritical() << "Cannot open file: " << fi.absoluteFilePath();
+                return false;
+            }
+
+            if (!parseScriptFile(&f, fi.absoluteFilePath(), fi.absoluteFilePath() + ".js.compiled")) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool GameScript::parseScriptFile(QIODevice *d, const QString &fn, const QString &outScriptPath)
+{
+    QString type = QFileInfo(fn).suffix().toLower();
+    if (type == "ahs") return parseScriptAHSFile(d, fn, outScriptPath);
+    if (type == "js") return parseScriptJSFile(d, fn);
+    return false;
+}
+
+bool GameScript::parseScriptAHSFile(QIODevice *d, const QString &fn, const QString &outScriptPath)
+{
+
+    QByteArray ba;
+    { // Scope limit buf
+        QBuffer buf(&ba);
+        buf.open(QIODevice::WriteOnly);
+        AHS::ArkhorScriptGenerator gen(d, &buf);
+        if (!gen.generate()) {
+            qCritical() << fn << ": AH Script Error:" << gen.error();
+            return false;
+        }
+        if (!gen.warning().isEmpty()) qWarning() << "AH Script Warning:" << gen.warning();
+    }
+
+#ifdef OUTPUT_COMPILED_AHS
+    if (!outScriptPath.isEmpty()) {
+        QFile fo(outScriptPath);
+        if (fo.open(QFile::WriteOnly | QFile::Truncate)) {
+            QTextStream fostr(&fo);
+            fostr.setCodec("UTF-8");
+            fostr << ba;
+        }
+        fo.close();
+    }
 #endif
 
-            if (src.length() > 0) {
-                QString fn = fi.absoluteFilePath();
-                qDebug(qPrintable(fn));
+    { // Scope limit buf
+        QBuffer buf(&ba);
+        buf.open(QIODevice::ReadOnly);
+        return parseScriptJSFile(&buf, fn);
+    }
+}
 
-                src = QString("(function(){%1\n})();").arg(src);
+bool GameScript::parseScriptJSFile(QIODevice *d, const QString &fn)
+{
+    QTextStream ts(d);
+    ts.setCodec("UTF-8");
+    ts.setAutoDetectUnicode(true);
+    QString src = ts.readAll();
 
-                QScriptValue v = m_engine->evaluate(src, fn, 1);
-                if (v.isError()) {
-                    qCritical() << "Error Parsing file " << fi.absoluteFilePath() << ": " << v.toString();
-                    return false;
-                }
-            }
+    if (src.length() > 0) {
+        qDebug(qPrintable(fn));
+
+        src = QString("(function(){%1\n})();").arg(src);
+
+        QScriptValue v = m_engine->evaluate(src, fn, 1);
+        if (v.isError()) {
+            qCritical() << "Error Parsing file " << fn << ": " << v.toString();
+            return false;
         }
     }
 

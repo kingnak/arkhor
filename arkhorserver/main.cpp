@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
 #ifdef _DEBUG
 //#error ok
-    if (!QDir(baseDir).exists()) {
+    if (!QFile(baseDir).exists()) {
 #ifdef Q_OS_WIN
         baseDir = "D:\\priv\\proj\\ah.git\\arkhorserver\\data\\";
 #else

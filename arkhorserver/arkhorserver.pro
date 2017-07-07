@@ -289,6 +289,16 @@ else:unix: LIBS += -L$$OUT_PWD/../arkhorscript/ -larkhorscript
 INCLUDEPATH += $$PWD/../arkhorscript
 DEPENDPATH += $$PWD/../arkhorscript
 
+# Link to quazip
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/release/msvc2017_64 -lquazip
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdparty/compiled/debug/msvc2017_64 -lquazip
+else:unix:!macx:CONFIG(release, release|debug): LIBS += -L$$PWD/../3rdparty/compiled/release/linux -lquazip
+else:unix:!macx:CONFIG(debug, release|debug): LIBS += -L$$PWD/../3rdparty/compiled/debug/linux -lquazip
+
+INCLUDEPATH += $$PWD/../3rdparty/compiled/include/
+INCLUDEPATH += $$PWD/../3rdparty/compiled/include/zlib
+# DEPENDPATH += $$PWD/../3rdparty/compiled/include/
+
 DISTFILES += \
     data/ancientone/cthulhu.ahs \
     data/characters/bob_jenkins.ahs \

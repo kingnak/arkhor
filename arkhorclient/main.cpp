@@ -35,7 +35,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    QString baseDir = "./res";
+    QString baseDir = "./res.zip";
     if (app.arguments().length() > 1)
         baseDir = app.arguments()[1];
     //ResourcePool::instance()->addZip("D:/priv/proj/arkhor/arkhor/res.zip");

@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     Game g;
     GameScript *script = new GameScript(&g);
 
-    QString baseDir = "./data";
+    QString baseDir = "./data.zip";
     if (app.arguments().length() > 1)
         baseDir = app.arguments()[1];
 

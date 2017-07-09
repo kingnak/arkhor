@@ -24,6 +24,7 @@ void CharShortInfoWidget::displayCharacter(const AH::Common::CharacterData *chr)
         ui->lblSanity->setText(QString("%1 / %2").arg(chr->curSanity()).arg(chr->maxSanity()));
         ui->lblStamina->setText(QString("%1 / %2").arg(chr->curStamina()).arg(chr->maxStamina()));
         ui->lblClue->setText(QString::number(chr->clues()));
+        ui->lblMoney->setText(QString::number(chr->money()));
         ui->lblSpeed->setText(QString::number(chr->investigatorData().attrSpeedSneak()[chr->attrSettings().value(0)].first));
         ui->lblSneak->setText(QString::number(chr->investigatorData().attrSpeedSneak()[chr->attrSettings().value(0)].second));
         ui->lblFight->setText(QString::number(chr->investigatorData().attrFightWill()[chr->attrSettings().value(1)].first));
@@ -35,6 +36,7 @@ void CharShortInfoWidget::displayCharacter(const AH::Common::CharacterData *chr)
         ui->lblSanity->setText("?");
         ui->lblStamina->setText("?");
         ui->lblClue->setText("?");
+        ui->lblMoney->setText("?");
         ui->lblSpeed->setText("?");
         ui->lblSneak->setText("?");
         ui->lblFight->setText("?");

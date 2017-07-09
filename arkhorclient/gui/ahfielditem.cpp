@@ -291,6 +291,7 @@ ClickAreaItem::ClickAreaItem(QRectF r, AhFieldItem *parent)
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::LeftButton);
     setPen(QPen(Qt::NoPen));
+    setFlag(QGraphicsItem::ItemClipsToShape, true);
 }
 
 void ClickAreaItem::setCurrent(bool cur)
@@ -398,6 +399,7 @@ void ClueAreaItem::init()
     m_text = new QGraphicsTextItem(this);
     m_text->setFont(AhFieldItem::getItemFont(16, true));
 
+    setFlag(QGraphicsItem::ItemClipsChildrenToShape, true);
     setClueCount(0);
 }
 
@@ -443,4 +445,5 @@ void GateItem::init()
 {
     setPen(Qt::NoPen);
     m_pixmap = new QGraphicsPixmapItem(this);
+    setFlag(QGraphicsItem::ItemClipsChildrenToShape, true);
 }

@@ -85,6 +85,16 @@ ModifiedPropertyValue GameContext::getCurCharacterDrawObject(AH::GameObjectType 
     return getCharacterDrawObject(m_player->getCharacter(), type);
 }
 
+ModifiedPropertyValue GameContext::getCurCharacterDrawArkhamEncounter()
+{
+    return getCharacterDrawArkhamEncounter(m_player->getCharacter());
+}
+
+ModifiedPropertyValue GameContext::getCurCharacterDrawOtherWorldEncounter()
+{
+    return getCharacterDrawOtherWorldEncounter(m_player->getCharacter());
+}
+
 bool GameContext::checkCurCharacterIgnoreMonsterAttribute(AH::Common::MonsterData::MonsterAttribute attr)
 {
     return checkCharacterIgnoreMonsterAttribute(m_player->getCharacter(), attr);
@@ -211,6 +221,21 @@ ModifiedPropertyValue GameContext::getCharacterClueBurn(const Character *c, AH::
 ModifiedPropertyValue GameContext::getCharacterDrawObject(const Character *c, AH::GameObjectType type)
 {
     PropertyValue::Property prop = PropertyValue::objectDraw2Property(type);
+    return getCharacterDraw(c, prop);
+}
+
+ModifiedPropertyValue GameContext::getCharacterDrawArkhamEncounter(const Character *c)
+{
+    return getCharacterDraw(c, PropertyValue::DrawCard_ArkhamEncountery);
+}
+
+ModifiedPropertyValue GameContext::getCharacterDrawOtherWorldEncounter(const Character *c)
+{
+    return getCharacterDraw(c, PropertyValue::DrawCard_OtherWorldEncountery);
+}
+
+ModifiedPropertyValue GameContext::getCharacterDraw(const Character *c, AH::Common::PropertyValueData::Property prop)
+{
     PropertyModificationList mods = c->getPropertyModifiers().filtered(prop);
     mods += m_game->getGameModifiers().filtered((prop));
 

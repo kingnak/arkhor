@@ -44,12 +44,16 @@ public:
     ModifiedPropertyValue getCurCharacterAttribute(AH::Attribute attr);
     ModifiedPropertyValue getCurCharacterClueBurn(AH::Skill skill);
     ModifiedPropertyValue getCurCharacterDrawObject(AH::GameObjectType type);
+    ModifiedPropertyValue getCurCharacterDrawArkhamEncounter();
+    ModifiedPropertyValue getCurCharacterDrawOtherWorldEncounter();
 
     ModifiedPropertyValue getCharacterProperty(const Character *c, PropertyValue::Property property);
     ModifiedPropertyValue getCharacterSkill(const Character *c, AH::Skill skill);
     ModifiedPropertyValue getCharacterAttribute(const Character *c, AH::Attribute attr);
     ModifiedPropertyValue getCharacterClueBurn(const Character *c, AH::Skill skill);
     ModifiedPropertyValue getCharacterDrawObject(const Character *c, AH::GameObjectType type);
+    ModifiedPropertyValue getCharacterDrawArkhamEncounter(const Character *c);
+    ModifiedPropertyValue getCharacterDrawOtherWorldEncounter(const Character *c);
 
     bool checkCurCharacterIgnoreMonsterAttribute(AH::Common::MonsterData::MonsterAttribute attr);
     bool checkCharacterIgnoreMonsterAttribute(const Character *c, AH::Common::MonsterData::MonsterAttribute attr);
@@ -60,6 +64,9 @@ public:
     ModifiedPropertyValue getMonsterProperty(const Monster *m, PropertyValue::Property property);
 
     ModifiedPropertyValue getGameProperty(PropertyValue::Property property);
+
+private:
+    ModifiedPropertyValue getCharacterDraw(const Character *c, PropertyValue::Property prop);
 
 private:
     Game *m_game;

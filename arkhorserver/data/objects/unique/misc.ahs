@@ -10,11 +10,11 @@ UniqueItem ElderSign : 4 {
 	options: Option.UseElderSign;
 }
 QuickOption UseElderSign {
-	phases: Any;
+        phases: ArkhamEncountery;
 	continueType: CannotContinue;
 	chooseType: Supplemental;
 	isAvailable: {{{
-		this.owner.canCloseGate();
+                return this.owner.canCloseGate();
 	}}};
 	activate: {{{
 		debugger;

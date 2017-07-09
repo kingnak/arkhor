@@ -9,7 +9,7 @@ Spell FindGate : 4 {
 		this.owner.returnToArkham();
 	}}};
 	castIsAvailable: {{{
-		this.owner.field.type == Constants.FieldType.OtherWorld;
+                return this.owner.field.type == Constants.FieldType.OtherWorld;
 	}}};
 	castPhases: Movement;
 	*/
@@ -19,7 +19,7 @@ Spell FindGate : 4 {
 		},
 		phases: Constants.GamePhases.Movement,
         isAvailable: function() {
-            this.owner.field.type == Constants.FieldType.OtherWorld;
+            return this.owner.field.type == Constants.FieldType.OtherWorld;
         }
 	}>>>;
 }

@@ -10,6 +10,7 @@ CommonItem AncientTome : 2 {
 QuickOption ReadTome {
 	name: "Read Ancient Tome";
 	phases: Movement;
+        costs: [ Movement 2 ];
 	continueType: CanContinue;
 	chooseType: Supplemental;
 	activate: {{{
@@ -60,6 +61,8 @@ CommonItem Map_ofArkham : 2 {
 }
 QuickOption ReadMap {
 	phases: Movement;
+        continueType: CanContinue;
+        chooseType: Supplemental;
 	activate: {{{
 		this.owner.addMovementPoint(1);
 		this.exhaust();
@@ -74,6 +77,8 @@ CommonItem Motorcycle : 2 {
 }
 QuickOption UseMotorcycle {
 	phases: Movement;
+        continueType: CanContinue;
+        chooseType: Supplemental;
 	activate: {{{
 		this.owner.addMovementPoint(2);
 		this.exhaust();
@@ -91,6 +96,9 @@ CommonItem OldJournal : 2 {
 }
 QuickOption ReadOldJournal {
 	phases: Movement;
+        continueType: CanContinue;
+        chooseType: Supplemental;
+        costs: [ Movement 1 ];
 	activate: {{{
 		this.exhaust();
 		var res = game.context.skillTest("Read Old Journal", this.id, Constants.Skills.Lore, -1, 1);
@@ -110,6 +118,7 @@ CommonItem ResearchMaterials : 2 {
 }
 QuickOption UseResearchMaterials {
 	phases: Any;
+        continueType: CanContinue;
 	activate: {{{
 		this.owner.addClue(1);
 		this.discard();

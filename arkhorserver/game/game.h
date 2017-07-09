@@ -45,6 +45,8 @@ public:
     Investigator *drawInvestigator();
     Investigator *drawSpecificInvestigator(QString id);
     void returnInvestigator(Investigator *i);
+    void returnEncounter(ArkhamEncounter *e);
+    void returnEncounter(OtherWorldEncounter *e);
 
     bool registerCharacter(Character *c);
     bool registerAction(GameAction *a);

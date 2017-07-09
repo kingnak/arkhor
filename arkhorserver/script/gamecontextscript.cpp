@@ -116,12 +116,7 @@ QString GameContextScript::selectChoice(QString desc, QList<AH::Common::ChoiceDa
 
 QString GameContextScript::selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
 {
-    AH::Common::ChoiceData ch;
-    ch.setSelectStrings(options);
-    ch.setDescription(desc);
-    ch.setCanCancel(canCancel);
-    AH::Common::ChoiceResponseData res = gGame->context().player()->offerChoice(ch);
-    return res.toString();
+    return gGame->context().selectChoice(desc, options, canCancel);
 }
 
 bool GameContextScript::spontaneousMonsterFight()

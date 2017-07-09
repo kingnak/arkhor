@@ -2,6 +2,10 @@
 #include "game.h"
 #include "player.h"
 #include "gameobject.h"
+#include "arkhamencounter.h"
+#include "otherworldencounter.h"
+#include "gamecontext.h"
+#include <choicedata.h>
 
 DrawCardHelper::DrawCardHelper()
 {
@@ -44,6 +48,48 @@ QList<GameObject *> DrawCardHelper::drawMixedObjects(Player *p, QString desc, QL
 
     sels = doDrawObject(p, desc, allObjs, min, max, allowQuickReturn);
     return sels;
+}
+
+ArkhamEncounter *DrawCardHelper::drawArkhamEncounter(Player *p, AH::Common::FieldData::FieldID fieldId, int ct)
+{
+    QList<ArkhamEncounter*> encs;
+    for (int i = 0; i < ct; ++i) {
+        auto e = gGame->drawArkhamEncounter(fieldId);
+        if (e) encs << e;
+    }
+    for (auto e : encs) {
+        gGame->returnEncounter(e);
+    }
+
+    if (encs.size() <= 1) return encs.value(0);
+
+    QList<AH::Common::ChoiceData::OptionData> choices;
+    for (int i = 0; i < encs.count(); ++i) {
+        choices << AH::Common::ChoiceData::OptionData(QString::number(i), QString("Encounter %1").arg(i+1), encs[i]->description());
+    }
+    QString res = gGame->context().selectChoice(p, "Select Encounter", choices, false);
+    return encs.value(res.toInt());
+}
+
+OtherWorldEncounter *DrawCardHelper::drawOtherWorldEncounter(Player *p, AH::Common::FieldData::FieldID fieldId, int ct)
+{
+    QList<OtherWorldEncounter*> encs;
+    for (int i = 0; i < ct; ++i) {
+        auto e = gGame->drawOtherWorldEncounter(fieldId);
+        if (e) encs << e;
+    }
+    for (auto e : encs) {
+        gGame->returnEncounter(e);
+    }
+
+    if (encs.size() <= 1) return encs.value(0);
+
+    QList<AH::Common::ChoiceData::OptionData> choices;
+    for (int i = 0; i < encs.count(); ++i) {
+        choices << AH::Common::ChoiceData::OptionData(QString::number(i), QString("Encounter %1").arg(i+1), encs[i]->description());
+    }
+    QString res = gGame->context().selectChoice(p, "Select Encounter", choices, false);
+    return encs.value(res.toInt());
 }
 
 QList<GameObject *> DrawCardHelper::doDrawObject(Player *p, QString desc, QList<GameObject *> avail, int min, int max, bool allowQuickReturn)

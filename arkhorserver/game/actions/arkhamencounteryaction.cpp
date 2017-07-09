@@ -4,11 +4,14 @@
 #include "character.h"
 #include <fielddata.h>
 #include "game/arkhamencounter.h"
+#include "game/drawcardhelper.h"
 
 bool ArkhamEncounteryAction::execute()
 {
     Player *p = gGame->context().player();
-    ArkhamEncounter *enc = gGame->drawArkhamEncounter(p->getCharacter()->fieldId());
+    DrawCardHelper hlp;
+    ModifiedPropertyValue mods = gGame->context().getCurCharacterDrawArkhamEncounter();
+    ArkhamEncounter *enc = hlp.drawArkhamEncounter(p, p->getCharacter()->fieldId(), mods.finalVal());
     if (!enc) {
         return false;
     }

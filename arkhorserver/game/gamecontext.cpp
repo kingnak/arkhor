@@ -22,6 +22,21 @@ MythosCard *GameContext::rumor()
     return gGame->rumor();
 }
 
+QString GameContext::selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
+{
+    return selectChoice(m_player, desc, options, canCancel);
+}
+
+QString GameContext::selectChoice(Player *p, QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
+{
+    AH::Common::ChoiceData ch;
+    ch.setSelectStrings(options);
+    ch.setDescription(desc);
+    ch.setCanCancel(canCancel);
+    AH::Common::ChoiceResponseData res = p->offerChoice(ch);
+    return res.toString();
+}
+
 /*
 void GameContext::setMonster(Monster *m)
 {

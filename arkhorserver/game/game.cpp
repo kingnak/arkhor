@@ -221,6 +221,18 @@ void Game::returnInvestigator(Investigator *i)
     m_investigators.returnToDeck(i);
 }
 
+void Game::returnEncounter(ArkhamEncounter *e)
+{
+    if (!e) return;
+    m_arkEncDecks[e->fieldId()].returnToDeck(e);
+}
+
+void Game::returnEncounter(OtherWorldEncounter *e)
+{
+    if (!e) return;
+    m_owEncDeck.returnToDeck(e);
+}
+
 bool Game::registerCharacter(Character *c)
 {
     //m_characters.insert(c->id(), c);
@@ -747,9 +759,6 @@ ArkhamEncounter *Game::drawArkhamEncounter(AH::Common::FieldData::FieldID field)
 #else
     ArkhamEncounter *enc = m_arkEncDecks[field].draw();
 #endif
-    if (enc) {
-        m_arkEncDecks[field].returnToDeck(enc);
-    }
     return enc;
 }
 
@@ -771,17 +780,18 @@ OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldI
     do {
         ct--;
         e = m_owEncDeck.draw();
-        m_owEncDeck.returnToDeck(e);
         // TEST: This would allow multi colored cards
         //if ((colors & e->color()) != 0) {
         if (colors.testFlag(e->color())) {
             // Check if field matches (no field matches all)
             if (e->fieldId() != AH::Common::FieldData::NO_NO_FIELD) {
                 if (e->fieldId() != field) {
+                    m_owEncDeck.returnToDeck(e);
                     e = NULL;
                 }
             }
         } else {
+            m_owEncDeck.returnToDeck(e);
             e = NULL;
         }
     } while (!e && ct >= 0);

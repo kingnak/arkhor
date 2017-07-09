@@ -3,6 +3,7 @@
 #include "character.h"
 #include "../player.h"
 #include "game/otherworldencounter.h"
+#include "game/drawcardhelper.h"
 
 OtherWorldEncounteryAction::OtherWorldEncounteryAction()
 {
@@ -11,7 +12,9 @@ OtherWorldEncounteryAction::OtherWorldEncounteryAction()
 bool OtherWorldEncounteryAction::execute()
 {
     Player *p = gGame->context().player();
-    OtherWorldEncounter *enc = gGame->drawOtherWorldEncounter(p->getCharacter()->fieldId());
+    DrawCardHelper hlp;
+    ModifiedPropertyValue mods = gGame->context().getCurCharacterDrawOtherWorldEncounter();
+    OtherWorldEncounter *enc = hlp.drawOtherWorldEncounter(p, p->getCharacter()->fieldId(), mods.finalVal());
     if (!enc) {
         return false;
     }

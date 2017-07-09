@@ -12,6 +12,7 @@ StringChoiceSelectorWidget::StringChoiceSelectorWidget(QWidget *parent) :
     m_display = new QLabel;
     m_optionsWidget = new QWidget;
 
+    m_display->setWordWrap(true);
     m_optionsWidget->setLayout(new QVBoxLayout);
 
     QVBoxLayout *l = new QVBoxLayout(this);

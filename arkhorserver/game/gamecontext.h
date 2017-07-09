@@ -7,6 +7,7 @@
 #include "propertymodifier.h"
 #include "dietesthelper.h"
 #include "monsterdata.h"
+#include <choicedata.h>
 
 class Monster;
 class Game;
@@ -38,6 +39,9 @@ public:
 
     //void updateCurMonsterVisibilityType(AH::Common::MonsterData::DisplayType dt);
     //AH::Common::MonsterData::DisplayType getMonsterDisplayType(const Monster *m);
+
+    QString selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel);
+    QString selectChoice(Player *p, QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel);
 
     ModifiedPropertyValue getCurCharacterProperty(PropertyValue::Property property);
     ModifiedPropertyValue getCurCharacterSkill(AH::Skill skill);

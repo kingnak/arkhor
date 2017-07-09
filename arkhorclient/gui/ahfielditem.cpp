@@ -40,6 +40,11 @@ void AhFieldItem::setClickable(bool clickable)
     if (m_fieldArea) m_fieldArea->setActive(clickable);
 }
 
+void AhFieldItem::setCurrentField(bool cur)
+{
+    if (m_fieldArea) m_fieldArea->setCurrent(cur);
+}
+
 void AhFieldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(painter);
@@ -280,12 +285,18 @@ void AhFieldItem::gateClicked(const GateItem *itm)
 ////////////////////////////////
 
 ClickAreaItem::ClickAreaItem(QRectF r, AhFieldItem *parent)
-    : QGraphicsRectItem(r, parent), m_isActive(false), m_mouseIn(false), m_mouseDown(false)
+    : QGraphicsRectItem(r, parent), m_isActive(false), m_isCurrent(false), m_mouseIn(false), m_mouseDown(false)
 {
     m_field = parent;
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::LeftButton);
     setPen(QPen(Qt::NoPen));
+}
+
+void ClickAreaItem::setCurrent(bool cur)
+{
+    m_isCurrent = cur;
+    updateColor();
 }
 
 void ClickAreaItem::setActive(bool active)
@@ -346,6 +357,8 @@ void ClickAreaItem::updateColor()
         } else {
             setBrush(QBrush(QColor(0,0,255,75)));
         }
+    } else if (m_isCurrent) {
+        setBrush(QBrush(QColor(255,0,0,128)));
     } else {
         setBrush(QBrush(QColor(0,0,255,0)));
     }

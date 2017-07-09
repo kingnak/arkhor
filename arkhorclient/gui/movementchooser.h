@@ -37,6 +37,7 @@ signals:
 private:
     void nextMoveStep(AH::Common::FieldData::FieldID nextId);
     void setNeighboursActive(AH::Common::FieldData::FieldID id, bool active);
+    void setFieldCurrent(AH::Common::FieldData::FieldID id, bool cur);
     void disableAllFields();
 
 private:

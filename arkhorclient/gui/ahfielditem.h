@@ -35,6 +35,7 @@ public:
     void setFieldRect(QRectF r);
     void setFieldExtent(QSizeF s);
     void setClickable(bool clickable);
+    void setCurrentField(bool cur);
 
     bool isLocked() const { return m_locked; }
 
@@ -93,6 +94,8 @@ class ClickAreaItem : public QGraphicsRectItem
 public:
     ClickAreaItem(QRectF r, AhFieldItem *parent);
 
+    void setCurrent(bool cur);
+    bool isCurrent() const { return m_isCurrent; }
     void setActive(bool active);
     bool isActive() const { return m_isActive; }
 
@@ -107,6 +110,7 @@ private:
 
 private:
     bool m_isActive;
+    bool m_isCurrent;
     bool m_mouseIn;
     bool m_mouseDown;
     AhFieldItem *m_field;

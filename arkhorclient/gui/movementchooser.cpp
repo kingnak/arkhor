@@ -43,7 +43,6 @@ void MovementChooser::finishedMovement()
 void MovementChooser::resetMovement()
 {
     disableAllFields();
-    disconnect(m_scene, SIGNAL(fieldClicked(AH::Common::FieldData::FieldID)), this, SLOT(nextItemClicked(AH::Common::FieldData::FieldID)));
     nextMoveStep(m_startId);
     m_curMove = m_maxMove;
     ui->lblRemMovementPoints->setText(QString::number(m_curMove));
@@ -55,7 +54,7 @@ void MovementChooser::cancelMovement()
 {
     disableAllFields();
     setEnabled(false);
-    connect(m_scene, SIGNAL(fieldClicked(AH::Common::FieldData::FieldID)), this, SLOT(nextItemClicked(AH::Common::FieldData::FieldID)));
+    disconnect(m_scene, SIGNAL(fieldClicked(AH::Common::FieldData::FieldID)), this, SLOT(nextItemClicked(AH::Common::FieldData::FieldID)));
     emit movementCancelled();
 }
 
@@ -67,16 +66,20 @@ void MovementChooser::nextItemClicked(AH::Common::FieldData::FieldID id)
     if (m_curMove > 0) {
         nextMoveStep(id);
     } else {
+        setFieldCurrent(m_curId, false);
         setNeighboursActive(m_curId, false);
         m_curId = id;
+        setFieldCurrent(m_curId, true);
     }
 }
 
 void MovementChooser::nextMoveStep(AH::Common::FieldData::FieldID nextId)
 {
+    setFieldCurrent(m_curId, false);
     setNeighboursActive(m_curId, false);
     m_curId = nextId;
     setNeighboursActive(m_curId, true);
+    setFieldCurrent(m_curId, true);
 }
 
 void MovementChooser::setNeighboursActive(AH::Common::FieldData::FieldID id, bool active)
@@ -92,9 +95,16 @@ void MovementChooser::setNeighboursActive(AH::Common::FieldData::FieldID id, boo
     }
 }
 
+void MovementChooser::setFieldCurrent(AH::Common::FieldData::FieldID id, bool cur)
+{
+    AhFieldItem *f = m_scene->getField(id);
+    if (f) f->setCurrentField(cur);
+}
+
 void MovementChooser::disableAllFields()
 {
     foreach (AhFieldItem *f, m_scene->allFields()) {
         f->setClickable(false);
+        f->setCurrentField(false);
     }
 }

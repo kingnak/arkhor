@@ -69,14 +69,12 @@ CommonItem ASTest3 {
 		game.getPreventDamageOption({
 			description: "Prevent ALL Stamina (Or...)",
 			stamina: function(dmg) {
-				debugger;
 				return dmg;
 			}
 		}),
 		game.getPreventDamageOption({
 			description: "Prevent ALL Sanity (Or...)",
 			sanity: function(dmg) {
-				debugger;
 				return dmg;
 			}
 		})

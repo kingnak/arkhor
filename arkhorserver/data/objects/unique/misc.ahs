@@ -17,7 +17,6 @@ QuickOption UseElderSign {
                 return this.owner.canCloseGate();
 	}}};
 	activate: {{{
-		debugger;
 		game.context.gate.seal(this.owner);
 		this.owner.damageStamina(1);
 		this.owner.damageSanity(1);

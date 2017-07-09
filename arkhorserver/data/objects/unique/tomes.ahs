@@ -137,7 +137,6 @@ QuickOption UseAlienStatue {
 	chooseType: Supplemental;
 	activate: {{{
 		this.exhaust();
-                debugger;
                 var res = game.context.genericDieRollTest("Use Statue", this.id, 1, 1);
 		if (res) {
                         var choice = game.context.selectChoice("Choose reward", [

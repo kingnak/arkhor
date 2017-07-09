@@ -51,7 +51,8 @@ void Gate::close(Character *c)
     m_sourceField->removeGate(this);
     m_destField->removeGate(this);
     c->addGateTrophy(this);
-    // Remove monsters done in GAME
+    // Remove monsters
+    gGame->closeGateCleanup(this);
 }
 
 void Gate::seal(Character *c)

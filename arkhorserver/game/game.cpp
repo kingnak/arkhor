@@ -703,6 +703,10 @@ bool Game::putOutskirtsMonster(Monster *m)
 void Game::closeGate(Gate *g, Character *c)
 {
     g->close(c);
+}
+
+void Game::closeGateCleanup(Gate *g)
+{
     // Return monsters
     QList<Monster *> monsters = m_board->getBoardMonsters();
     monsters << m_board->field(AH::Common::FieldData::Sp_Outskirts)->monsters();

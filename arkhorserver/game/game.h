@@ -114,6 +114,7 @@ public:
     bool createMonster(GameField *field);
     bool putOutskirtsMonster(Monster *m);
     void closeGate(Gate *g, Character *c);
+    void closeGateCleanup(Gate *g);
 
     void overrunArkham();
 

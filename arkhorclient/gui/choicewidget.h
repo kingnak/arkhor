@@ -28,6 +28,7 @@ public slots:
 signals:
     void choiceSelected(AH::Common::ChoiceResponseData resp);
     void choiceCanceled();
+    void objectInfoRequested(const QString &id);
 
 private slots:
     void on_btnCancel_clicked();

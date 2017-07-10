@@ -52,6 +52,8 @@ AhMainGui::AhMainGui(QWidget *parent) :
     connect(ui->wgtAncientOne, SIGNAL(ancientOneInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtRumor, SIGNAL(rumorInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtEnvironment, SIGNAL(environmentInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
+    connect(ui->wgtChoice, SIGNAL(objectInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
+    connect(ui->wgtWeaponChooser, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
 }
 
 AhMainGui::~AhMainGui()

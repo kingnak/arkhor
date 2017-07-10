@@ -24,11 +24,13 @@ public slots:
 signals:
     void weaponsCanceled();
     void weaponsSelected(QStringList weaponIds);
+    void itemInfoRequested(const QString &itemId);
 
 private slots:
     void updateHandCount();
     void on_btnOk_clicked();
     void on_btnCancel_clicked();
+    void on_lstWeapons_currentRowChanged(int row);
 
 private:
     void cleanWeapons();

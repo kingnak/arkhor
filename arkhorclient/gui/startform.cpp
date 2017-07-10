@@ -118,7 +118,7 @@ void StartForm::setInvestigatorList(QList<AH::Common::InvestigatorData> l)
     foreach (AH::Common::InvestigatorData i, l) {
         QVariant v;
         v << i;
-        ui->cmbInvestigators->addItem(i.id(), v);
+        ui->cmbInvestigators->addItem(i.name(), v);
     }
 }
 

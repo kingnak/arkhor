@@ -9,7 +9,8 @@ ChoiceWidget::ChoiceWidget(QWidget *parent) :
     m_type(ChoiceData::None)
 {
     ui->setupUi(this);
-    //ui->wgtInfo->setVisible(false);
+    // Weired resizing issue if this is visible...
+    ui->wgtInfo->setVisible(false);
     connect(ui->wgtObjSelection, SIGNAL(requestObjectInfo(QString)), this, SLOT(displayInfo(QString)));
 }
 
@@ -99,5 +100,6 @@ void ChoiceWidget::on_btnCancel_clicked()
 
 void ChoiceWidget::displayInfo(const QString &id)
 {
-    ui->wgtInfo->displayItemInfo(id);
+    //ui->wgtInfo->displayItemInfo(id);
+    emit objectInfoRequested(id);
 }

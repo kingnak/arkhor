@@ -314,6 +314,12 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>ObjectInfoWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/objectinfowidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>AhGraphicsView</class>
    <extends>QGraphicsView</extends>
    <header>gui/ahgraphicsview.h</header>
@@ -346,12 +352,6 @@
    <class>MythosDataWidget</class>
    <extends>QWidget</extends>
    <header>gui/mythosdatawidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ObjectInfoWidget</class>
-   <extends>QWidget</extends>
-   <header>gui/objectinfowidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

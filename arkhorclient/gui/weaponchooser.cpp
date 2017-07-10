@@ -99,6 +99,13 @@ void WeaponChooser::on_btnCancel_clicked()
     emit weaponsCanceled();
 }
 
+void WeaponChooser::on_lstWeapons_currentRowChanged(int row)
+{
+    if (row < 0 || row >= ui->lstWeapons->count())
+        return;
+    emit itemInfoRequested(ui->lstWeapons->item(row)->data(IDRole).toString());
+}
+
 void WeaponChooser::cleanWeapons()
 {
     ui->lstWeapons->clear();

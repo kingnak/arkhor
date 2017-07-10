@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>159</width>
+    <width>218</width>
     <height>453</height>
    </rect>
   </property>
@@ -201,6 +201,12 @@
    </item>
    <item>
     <widget class="MonsterBackWidget" name="wgtBackImg" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
        <width>200</width>
@@ -211,6 +217,12 @@
    </item>
    <item>
     <widget class="MonsterFrontWidget" name="wgtFrontImg" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
        <width>200</width>

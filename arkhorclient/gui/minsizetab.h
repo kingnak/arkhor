@@ -34,6 +34,22 @@ private:
     int m_cur;
 };
 
+class MinSizeHStack : public MinSizeStack {
+public:
+    MinSizeHStack(QWidget *parent = nullptr) : MinSizeStack(parent)
+    {
+        setOrientation(Qt::Horizontal);
+    }
+};
+
+class MinSizeVStack : public MinSizeStack {
+public:
+    MinSizeVStack(QWidget *parent = nullptr) : MinSizeStack(parent)
+    {
+        setOrientation(Qt::Vertical);
+    }
+};
+
 ////////////////////
 
 class MinSizeTab : public QWidget

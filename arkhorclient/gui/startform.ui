@@ -87,7 +87,17 @@
          </layout>
         </item>
         <item>
-         <widget class="QComboBox" name="cmbInvestigators"/>
+         <widget class="QComboBox" name="cmbInvestigators">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QComboBox::AdjustToContents</enum>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QPushButton" name="btnSelectInv">
@@ -121,8 +131,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>456</width>
-           <height>362</height>
+           <width>370</width>
+           <height>358</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_4">

@@ -89,6 +89,7 @@
    <container>1</container>
    <slots>
     <signal>selectionOk(bool)</signal>
+    <signal>activateChoice()</signal>
    </slots>
   </customwidget>
   <customwidget>
@@ -98,6 +99,7 @@
    <container>1</container>
    <slots>
     <signal>choiceOk(bool)</signal>
+    <signal>activateChoice()</signal>
    </slots>
   </customwidget>
   <customwidget>
@@ -107,6 +109,7 @@
    <container>1</container>
    <slots>
     <signal>choiceOk(bool)</signal>
+    <signal>activateChoice()</signal>
    </slots>
   </customwidget>
  </customwidgets>
@@ -160,5 +163,72 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>wgtStrings</sender>
+   <signal>activateChoice()</signal>
+   <receiver>ChoiceWidget</receiver>
+   <slot>selectActiveChoice()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>318</x>
+     <y>182</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>402</x>
+     <y>162</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>wgtPayment</sender>
+   <signal>activateChoice()</signal>
+   <receiver>ChoiceWidget</receiver>
+   <slot>selectActiveChoice()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>334</x>
+     <y>131</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>398</x>
+     <y>125</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>wgtObjSelection</sender>
+   <signal>activateChoice()</signal>
+   <receiver>ChoiceWidget</receiver>
+   <slot>selectActiveChoice()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>324</x>
+     <y>99</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>395</x>
+     <y>103</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnOk</sender>
+   <signal>clicked()</signal>
+   <receiver>ChoiceWidget</receiver>
+   <slot>selectActiveChoice()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>217</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>397</x>
+     <y>22</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>selectActiveChoice()</slot>
+ </slots>
 </ui>

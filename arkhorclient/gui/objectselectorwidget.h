@@ -32,6 +32,7 @@ signals:
     void requestObjectInfo(QString id);
     void selectionOk(bool ok);
     void selectionWrong(bool wrong);
+    void activateChoice();
 
 private slots:
     void describeItem(AH::Common::DescribeObjectsData::ObjectDescription desc);

@@ -40,7 +40,8 @@ HEADERS += \
     gui/investigatorwidget.h \
     gui/ancientonewidget.h \
     gui/minsizetab.h \
-    gui/charshortinfowidget.h
+    gui/charshortinfowidget.h \
+    gui/doubleclickbutton.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -81,7 +82,8 @@ SOURCES += \
     gui/investigatorwidget.cpp \
     gui/ancientonewidget.cpp \
     gui/minsizetab.cpp \
-    gui/charshortinfowidget.cpp
+    gui/charshortinfowidget.cpp \
+    gui/doubleclickbutton.cpp
 
 FORMS += \
     gui/characterwidget.ui \

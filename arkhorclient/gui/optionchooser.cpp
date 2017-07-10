@@ -7,6 +7,7 @@
 #include "monsterwidget.h"
 #include "gameobjectwidget.h"
 #include "gatedatawidget.h"
+#include "doubleclickbutton.h"
 
 using namespace AH::Common;
 
@@ -54,7 +55,7 @@ void OptionChooser::setOptions(QList<AH::Common::GameOptionData> opts)
             }
         }
 
-        QPushButton *b = new QPushButton(name);
+        DoubleClickButton *b = new DoubleClickButton(name);
         b->setCheckable(true);
         b->setProperty(OPTION_DESCRIPTION_PROPERTY, o.description());
         b->setProperty(OPTION_COST_PROPERTY, displayCosts(o.costs()));
@@ -67,6 +68,7 @@ void OptionChooser::setOptions(QList<AH::Common::GameOptionData> opts)
         b->setProperty(OPTION_PROPERTY, v);
         b->setProperty(OPTION_OBJECT_PROPERTY, o.sourceId());
         connect(b, SIGNAL(clicked()), this, SLOT(showOption()));
+        connect(b, SIGNAL(doubleClicked()), this, SLOT(on_btnOptionActivate_clicked()));
         l->addWidget(b);
     }
 

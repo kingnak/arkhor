@@ -2,6 +2,7 @@
 //#include "flowlayout.h"
 #include "../utils.h"
 #include <QtWidgets>
+#include "doubleclickbutton.h"
 
 #define PROPERTY_COST_DESCRIPTION "COST_DESCRIPTION"
 #define PROPERTY_COST_INDEX "COST_INDEX"
@@ -15,8 +16,9 @@ PaymentSelectorWidget::PaymentSelectorWidget(QWidget *parent) :
     m_optionsWidget->setLayout(new QVBoxLayout);
 
     QVBoxLayout *l = new QVBoxLayout(this);
-    l->addWidget(m_display, 1);
     l->addWidget(m_optionsWidget);
+    l->addWidget(m_display);
+    l->addStretch(1);
 }
 
 AH::Common::CostList PaymentSelectorWidget::getSelectedPayment() const
@@ -46,11 +48,12 @@ void PaymentSelectorWidget::displayPayments(AH::Common::Cost costs)
                     .arg(Utils::stringForCostItem(i.type));
             desc << s;
         }
-        QPushButton *btn = new QPushButton(QString("Alternative %1").arg(i+1));
+        DoubleClickButton *btn = new DoubleClickButton(QString("Alternative &%1").arg(i+1));
         btn->setCheckable(true);
         btn->setProperty(PROPERTY_COST_DESCRIPTION, desc.join("\nAND\n"));
         btn->setProperty(PROPERTY_COST_INDEX, i);
         connect(btn, SIGNAL(clicked()), this, SLOT(alternativeSelected()));
+        connect(btn, SIGNAL(doubleClicked()), this, SIGNAL(activateChoice()));
         m_optionsWidget->layout()->addWidget(btn);
         i++;
     }

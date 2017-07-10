@@ -23,12 +23,13 @@ public slots:
     void selectPayment(AH::Common::Cost cost);
     void selectString(QString desc, QList<AH::Common::ChoiceData::OptionData> options);
 
+    void selectActiveChoice();
+
 signals:
     void choiceSelected(AH::Common::ChoiceResponseData resp);
     void choiceCanceled();
 
 private slots:
-    void on_btnOk_clicked();
     void on_btnCancel_clicked();
 
     void displayInfo(const QString &id);

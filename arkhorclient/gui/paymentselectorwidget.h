@@ -23,6 +23,7 @@ public slots:
 
 signals:
     void choiceOk(bool ok);
+    void activateChoice();
 
 private slots:
     void alternativeSelected();

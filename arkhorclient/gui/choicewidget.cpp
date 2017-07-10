@@ -60,8 +60,9 @@ void ChoiceWidget::selectString(QString desc, QList<ChoiceData::OptionData> opti
     ui->stkChoices->setCurrentWidget(ui->pageStrings);
 }
 
-void ChoiceWidget::on_btnOk_clicked()
+void ChoiceWidget::selectActiveChoice()
 {
+    if (!ui->btnOk->isEnabled()) return;
     switch (m_type) {
     case ChoiceData::ChooseObjects:
     {

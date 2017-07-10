@@ -2,6 +2,7 @@
 #include <QtWidgets>
 //#include "flowlayout.h"
 #include "../utils.h"
+#include "doubleclickbutton.h"
 
 #define PROPERTY_CHOICE_INDEX "CHOICE_INDEX"
 
@@ -16,9 +17,9 @@ StringChoiceSelectorWidget::StringChoiceSelectorWidget(QWidget *parent) :
     m_optionsWidget->setLayout(new QVBoxLayout);
 
     QVBoxLayout *l = new QVBoxLayout(this);
+    l->addWidget(m_optionsWidget);
     l->addWidget(m_description);
     l->addWidget(m_display, 1);
-    l->addWidget(m_optionsWidget);
 }
 
 QString StringChoiceSelectorWidget::getSelectedChoiceId() const
@@ -37,10 +38,11 @@ void StringChoiceSelectorWidget::displayChoices(QString desc, QList<AH::Common::
     m_options = opts;
     int i = 0;
     foreach (AH::Common::ChoiceData::OptionData o, m_options) {
-        QPushButton *btn = new QPushButton(o.name);
+        DoubleClickButton *btn = new DoubleClickButton(o.name);
         btn->setCheckable(true);
         btn->setProperty(PROPERTY_CHOICE_INDEX, i);
         connect(btn, SIGNAL(clicked()), this, SLOT(choiceSelected()));
+        connect(btn, SIGNAL(doubleClicked()), this, SIGNAL(activateChoice()));
         m_optionsWidget->layout()->addWidget(btn);
         i++;
     }

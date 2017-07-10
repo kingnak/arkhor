@@ -45,6 +45,9 @@
     </layout>
    </item>
    <item>
+    <widget class="QWidget" name="wgtOptionsList" native="true"/>
+   </item>
+   <item>
     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
      <item>
       <widget class="QLabel" name="lblOptionDescription">
@@ -79,9 +82,6 @@
       </widget>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QWidget" name="wgtOptionsList" native="true"/>
    </item>
   </layout>
  </widget>

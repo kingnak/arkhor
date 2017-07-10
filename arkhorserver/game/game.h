@@ -64,6 +64,7 @@ public:
     int terrorLevel() const { return m_terrorLevel; }
     void increaseTerrorLevel(int amount = 1);
     void setTerrorLevel(int val);
+    bool isOverrun();
 
     void setSettingDirty(bool dirty = true) { m_settingDirty = dirty; }
     bool isSettingDirty() const { return m_settingDirty; }

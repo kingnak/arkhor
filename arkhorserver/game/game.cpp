@@ -374,6 +374,8 @@ void Game::increaseTerrorLevel(int amount)
 
 void Game::setTerrorLevel(int val)
 {
+    bool wasOverrun = isOverrun();
+
     int amount = val - m_terrorLevel;
     m_terrorLevel = val;
     int realTL = m_context.getGameProperty(PropertyValue::Game_TerrorLevel).finalVal();
@@ -415,11 +417,20 @@ void Game::setTerrorLevel(int val)
 
     }
 
-    if (realTL >= m_context.getGameProperty(PropertyValue::Game_OverrunArkhamTerrorLevel).finalVal()) {
-        overrunArkham();
+    if (isOverrun()) {
+        if (!wasOverrun) {
+            overrunArkham();
+        }
     }
 
     setSettingDirty();
+}
+
+bool Game::isOverrun()
+{
+    int curTerror = m_context.getGameProperty(PropertyValue::Game_TerrorLevel).finalVal();
+    int overrunTerror = m_context.getGameProperty(PropertyValue::Game_OverrunArkhamTerrorLevel).finalVal();
+    return curTerror >= overrunTerror;
 }
 
 Player *Game::getFirstPlayer()
@@ -736,7 +747,7 @@ void Game::closeGateCleanup(Gate *g)
 
 bool Game::canPlaceMonster()
 {
-    if (m_context.getGameProperty(PropertyValue::Game_TerrorLevel).finalVal() >= 10) {
+    if (isOverrun()) {
         // Overrun, no monster limit
         return true;
     }

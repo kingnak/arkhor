@@ -83,7 +83,7 @@ SpecialObject Retainer {
 Action Retainer {
 	phases: Upkeep;
 	activate: {{{
-		c.addMoney(2);
+                CHAR.addMoney(2);
                 var res = game.context.genericDieRollSum("Retainer test", this.id, 1);
 		if (res == 1) {
 			this.discard();

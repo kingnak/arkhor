@@ -413,7 +413,7 @@ Monster NightGaunt : 2 {
 	combatDamage: 0;
 	toughness: 2;
 	onDamage: {{{
-		if (type == Contants.MonsterDamage.Combat) {
+                if (type == Constants.MonsterDamage.Combat) {
 			// TODO
 		}
 	}}};

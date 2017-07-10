@@ -98,6 +98,8 @@ public:
     ///////// HELPER
     static QStringList array2stringlist(QScriptValue ar);
     static QScriptValueList array2list(QScriptValue ar);
+    template<typename T>
+    static QList<T> array2TypedList(QScriptValue ar);
 
     static bool parseCosts(QScriptValue v, AH::Common::Cost &c);
     static bool parseCostList(QScriptValue v, AH::Common::CostList &cl);
@@ -175,6 +177,16 @@ private:
 };
 
 
+template<typename T>
+static QList<T> GameScript::array2TypedList(QScriptValue ar)
+{
+    QStringList lst = array2stringlist(ar);
+    QList<T> ret;
+    for (auto s : lst) {
+        ret << static_cast<T> (s.toInt());
+    }
+    return ret;
+}
 
 template<typename T>
 T GameScript::parseFlags(QScriptValue v, T defVal)

@@ -696,9 +696,9 @@ QScriptValue GameScript::getDieRollOption()
     }
 
     QScriptValue data = context()->argument(0);
-    AH::Skills skills = GameScript::parseFlags<AH::Skills>(data.property("skills"), AH::NoSkill);
+    QList<AH::Skill> skills = GameScript::array2TypedList<AH::Skill>(data.property("skills"));
     DieRollOption::ReRollType type = static_cast<DieRollOption::ReRollType> (data.property("type").toInt32());
-    if (!type || !skills) {
+    if (!type || skills.isEmpty() || skills.contains(AH::NoSkill)) {
         return context()->throwError("Invalid Die Roll Option");
     }
 
@@ -857,6 +857,8 @@ QStringList GameScript::array2stringlist(QScriptValue ar)
         for (int i = 0; i < len; ++i) {
             ret << ar.property(i).toString();
         }
+    } else if (ar.isValid()) {
+        ret << ar.toString();
     }
 
     return ret;

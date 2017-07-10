@@ -184,7 +184,7 @@ bool GameObject::cast(Player *p)
         PropertyValue baseca(PropertyValue::Prop_CastAdjustment, this->castAdjustment());
         ModifiedPropertyValue modca(basecc, ca.apply(baseca.value()), ca);
 
-        DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest("Cast " + name(), this->id(), p->getCharacter(), AH::Skill_Will, modca.finalVal(), this->castTarget());
+        DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest("Cast " + name(), this->id(), p->getCharacter(), AH::Skill_Spell, modca.finalVal(), this->castTarget());
         DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
 
         if (!res.boolResult) {

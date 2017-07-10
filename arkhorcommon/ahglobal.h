@@ -50,9 +50,6 @@ namespace AH
         Skill_Spell
     };
 
-    Q_DECLARE_FLAGS(Skills, Skill)
-    Q_DECLARE_OPERATORS_FOR_FLAGS(Skills)
-
     ARKHOR_COMMON_EXPORTS Attribute attributeForSkillTest(Skill skill);
     ARKHOR_COMMON_EXPORTS Skill baseSkillForSpecialSkill(Skill skill);
 

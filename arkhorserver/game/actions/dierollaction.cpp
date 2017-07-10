@@ -16,7 +16,7 @@ bool DieRollOption::isAvailable() const
     AH::Skill skill = gGame->context().dieRoll()->data.rollData().skill();
     if (skill == AH::NoSkill)
         return false;
-    if (!m_skills.testFlag(skill))
+    if (!m_skills.contains(skill))
         return false;
     return true;
 }

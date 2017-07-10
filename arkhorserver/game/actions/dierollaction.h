@@ -51,7 +51,7 @@ public:
         ReRollOneFailed
     };
 
-    DieRollOption(ReRollType type, AH::Skills skills)
+    DieRollOption(ReRollType type, QList<AH::Skill> skills)
         : m_type(type), m_skills(skills), m_used(false), m_source(NULL) {}
 
     virtual AH::GamePhases phases() const { return AH::DieRoll; }
@@ -63,7 +63,7 @@ public:
     QString sourceId() const;
 
     ReRollType type() const { return m_type; }
-    AH::Skills skills() const { return m_skills; }
+    QList<AH::Skill> skills() const { return m_skills; }
     bool wasUsed() const { return m_used; }
 
     void setSource(GameObject *obj) { m_source = obj; }
@@ -74,7 +74,7 @@ public:
 
 private:
     ReRollType m_type;
-    AH::Skills m_skills;
+    QList<AH::Skill> m_skills;
     bool m_used;
     GameObject *m_source;
     static quint32 s_nextId;

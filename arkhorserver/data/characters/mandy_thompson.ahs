@@ -28,18 +28,20 @@ SpecialAbility Research {
 		"re-rolls all of the dice rolled for that check that did not result in successes. (Only implemented for herself)";
 	options: <<<
 		[
-			game.getDieRollOption({ skills: 
-				Constants.Skills.Speed | 
-				Constants.Skills.Sneak | 
-				Constants.Skills.Fight | 
-				Constants.Skills.Will | 
-				Constants.Skills.Lore | 
-				Constants.Skills.Luck |
-				Constants.Skills.Evade |
-				Constants.Skills.Combat |
-				Constants.Skills.Horror | 
-				Constants.Skills.Spell,
-                                type: Constants.Reroll.AllFailed}),
+                        game.getDieRollOption({
+                            skills: [
+                                Constants.Skills.Speed,
+                                Constants.Skills.Sneak,
+                                Constants.Skills.Fight,
+                                Constants.Skills.Will,
+                                Constants.Skills.Lore,
+                                Constants.Skills.Luck,
+                                Constants.Skills.Evade,
+                                Constants.Skills.Combat,
+                                Constants.Skills.Horror,
+                                Constants.Skills.Spell
+                            ],
+                            type: Constants.Reroll.AllFailed}),
 		]
 	>>>;
         exhaustable: true;

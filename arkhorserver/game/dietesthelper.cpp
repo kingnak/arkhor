@@ -83,7 +83,7 @@ DieTestHelper::DieTestSpec &DieTestHelper::addDieRollOptions(DieTestHelper::DieT
     for (auto obj : c->inventory()) {
         for (auto o : obj->getOptions()) {
             if (auto dro = dynamic_cast<DieRollOption*> (o)) {
-                if (dro->skills().testFlag(skill)) {
+                if (dro->skills().contains(skill)) {
                     spec.options << o;
                     dro->reset();
                     dro->setSource(obj);

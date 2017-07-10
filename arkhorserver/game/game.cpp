@@ -678,10 +678,7 @@ bool Game::createMonster(GameField *field)
         m->setDimension(randomDimension());
     }
 
-    int curMonsterCount = m_board->getBoardMonsters().count();
-    int maxMonsterCount = context().getGameProperty(PropertyValue::Game_MaxBoardMonsterCount).finalVal();
-    if (curMonsterCount >= maxMonsterCount) {
-        // Should be at most max!
+    if (!canPlaceMonster()) {
         // put on outskirts
         putOutskirtsMonster(m);
         return false;
@@ -700,9 +697,7 @@ bool Game::putOutskirtsMonster(Monster *m)
     if (outskirtCount >= maxOutskritsMonsters) {
         // remove from outskirts and increase terror track
         returnMonster(m);
-        foreach (Monster *mm, outskirtsMonsters) {
-            returnMonster(mm);
-        }
+        returnOutskirtsMonsters();
 
         increaseTerrorLevel();
         return false;
@@ -710,6 +705,14 @@ bool Game::putOutskirtsMonster(Monster *m)
 
     m_board->field(AH::Common::FieldData::Sp_Outskirts)->placeMonster(m);
     return true;
+}
+
+void Game::returnOutskirtsMonsters()
+{
+    QList<Monster *> outskirtsMonsters = m_board->field(AH::Common::FieldData::Sp_Outskirts)->monsters();
+    foreach (Monster *mm, outskirtsMonsters) {
+        returnMonster(mm);
+    }
 }
 
 void Game::closeGate(Gate *g, Character *c)
@@ -731,9 +734,28 @@ void Game::closeGateCleanup(Gate *g)
     }
 }
 
+bool Game::canPlaceMonster()
+{
+    if (m_context.getGameProperty(PropertyValue::Game_TerrorLevel).finalVal() >= 10) {
+        // Overrun, no monster limit
+        return true;
+    }
+
+    // Check monster limit
+    int curMonsterCount = m_board->getBoardMonsters().count();
+    int maxMonsterCount = context().getGameProperty(PropertyValue::Game_MaxBoardMonsterCount).finalVal();
+    if (curMonsterCount >= maxMonsterCount) {
+        return false;
+    }
+
+    return true;
+}
+
 void Game::overrunArkham()
 {
-    // TODO?
+    returnOutskirtsMonsters();
+    m_context.ancientOne()->increaseDoomTrack();
+
 }
 
 GameContext &Game::context()
@@ -1496,6 +1518,9 @@ Game::GameState Game::checkGameState()
         }
 
         // Awake ancient one?
+        if (ctOpen >= m_context.getGameProperty(PropertyValue::Game_MaxGateCount).finalVal()) {
+            return GS_AwakeAncientOne;
+        }
         if (m_ancientOne->doomValue() >= m_ancientOne->doomTrack()) {
             return GS_AwakeAncientOne;
         }

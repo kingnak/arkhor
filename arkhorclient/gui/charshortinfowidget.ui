@@ -250,7 +250,7 @@ font-weight: bold;</string>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QLabel" name="lblLuck">
+        <widget class="QLabel" name="lblLore">
          <property name="styleSheet">
           <string notr="true">color: rgb(0, 0, 255);
 font-weight: bold;</string>
@@ -261,7 +261,7 @@ font-weight: bold;</string>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="lblLore">
+        <widget class="QLabel" name="lblLuck">
          <property name="styleSheet">
           <string notr="true">color: rgb(255, 0, 0);
 font-weight: bold;</string>

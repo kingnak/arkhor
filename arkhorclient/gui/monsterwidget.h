@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <monsterdata.h>
+#include "asyncobjectreceiver.h"
 
 namespace Ui {
 class MonsterWidget;
@@ -58,13 +59,15 @@ private:
 
 //////////////////////////////////
 
-class MonsterWidget : public QWidget
+class MonsterWidget : public QWidget, public AsyncObjectReceiver
 {
     Q_OBJECT
 
 public:
     explicit MonsterWidget(QWidget *parent = 0);
     ~MonsterWidget();
+
+    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
 
 public slots:
     void displayMonster(const AH::Common::MonsterData *m);
@@ -77,11 +80,15 @@ public slots:
 
     static QColor getMovementTypeColor(AH::Common::MonsterData::MovementType type);
 
+private:
+    void updateMonster(const AH::Common::MonsterData *m);
+
 private slots:
     void turn();
 
 private:
     Ui::MonsterWidget *ui;
+    QString m_curMonsterId;
 };
 
 #endif // MONSTERWIDGET_H

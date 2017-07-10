@@ -3,6 +3,7 @@
 #include "resourcepool.h"
 #include "utils.h"
 #include <QtWidgets>
+#include "objectregistry.h"
 
 MonsterFrontWidget::MonsterFrontWidget(QWidget *parent) :
     QWidget(parent)
@@ -272,7 +273,27 @@ MonsterWidget::~MonsterWidget()
     delete ui;
 }
 
+void MonsterWidget::objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc)
+{
+    if (desc.type == AH::Common::RequestObjectsData::Monster && desc.id == m_curMonsterId) {
+        AH::Common::MonsterData d;
+        desc.data >> d;
+        updateMonster(&d);
+    }
+}
+
 void MonsterWidget::displayMonster(const AH::Common::MonsterData *m)
+{
+    ObjectRegistry::instance()->unsubscribe(this);
+    m_curMonsterId = QString::null;
+    updateMonster(m);
+    if (m) {
+        m_curMonsterId = m->id();
+        ObjectRegistry::instance()->asyncSubscribeObject(this, m->id(), AH::Common::RequestObjectsData::Monster);
+    }
+}
+
+void MonsterWidget::updateMonster(const AH::Common::MonsterData *m)
 {
     ui->wgtBackImg->setVisible(false);
     ui->wgtBackText->setVisible(false);

@@ -27,7 +27,11 @@ public slots:
     void displayAncientOne(const AH::Common::AncientOneData *ao);
 
 private:
+    void updateAncientOne(const AH::Common::AncientOneData *ao);
+
+private:
     Ui::AncientOneWidget *ui;
+    QString m_curAoId;
 };
 
 #endif // ANCIENTONESHORTWIDGET_H

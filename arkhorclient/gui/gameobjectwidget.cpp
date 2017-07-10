@@ -2,6 +2,7 @@
 #include "ui_gameobjectwidget.h"
 #include "resourcepool.h"
 #include "utils.h"
+#include "objectregistry.h"
 
 GameObjectWidget::GameObjectWidget(QWidget *parent) :
     QWidget(parent),
@@ -18,7 +19,27 @@ GameObjectWidget::~GameObjectWidget()
     delete ui;
 }
 
+void GameObjectWidget::objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc)
+{
+    if (desc.id == m_curObjId && desc.type == AH::Common::RequestObjectsData::Object) {
+        AH::Common::GameObjectData o;
+        desc.data >> o;
+        updateGameObject(&o);
+    }
+}
+
 void GameObjectWidget::displayGameObject(const AH::Common::GameObjectData *obj)
+{
+    m_curObjId = QString::null;
+    ObjectRegistry::instance()->unsubscribe(this);
+    updateGameObject(obj);
+    if (obj) {
+        m_curObjId = obj->id();
+        ObjectRegistry::instance()->asyncSubscribeObject(this, obj->id(), AH::Common::RequestObjectsData::Object);
+    }
+}
+
+void GameObjectWidget::updateGameObject(const AH::Common::GameObjectData *obj)
 {
     if (obj) {
         ui->lblName->setText(obj->name());

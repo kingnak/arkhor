@@ -330,7 +330,7 @@ void AhMainGui::dieUpdateChosen(DieTestUpdateData upd)
 void AhMainGui::updateCharacter(CharacterData c)
 {
     if (c.id() == m_registry->thisCharacterId()) {
-        ui->wgtCharacter->updateCharacterData(c);
+        ui->wgtCharacter->updateCharacterData(&c);
         ui->wgtCharShortInfo->displayCharacter(&c);
 
         //m_thisCharacter = c;

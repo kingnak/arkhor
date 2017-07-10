@@ -23,10 +23,10 @@ AncientOneWidget::~AncientOneWidget()
 
 void AncientOneWidget::objectDescribed(const DescribeObjectsData::ObjectDescription &desc)
 {
-    if (desc.type == RequestObjectsData::AncientOne) {
+    if (desc.id == m_curAoId && desc.type == RequestObjectsData::AncientOne) {
         AncientOneData aod;
         desc.data >> aod;
-        displayAncientOne(&aod);
+        updateAncientOne(&aod);
     }
 }
 
@@ -34,9 +34,20 @@ void AncientOneWidget::displayAncientOne(QString aoId)
 {
     ObjectRegistry::instance()->unsubscribe(this);
     ObjectRegistry::instance()->asyncSubscribeObject(this, aoId);
+    m_curAoId = aoId;
 }
 
 void AncientOneWidget::displayAncientOne(const AncientOneData *ao)
+{
+    ObjectRegistry::instance()->unsubscribe(this);
+    m_curAoId = QString::null;
+    updateAncientOne(ao);
+    if (ao) {
+        displayAncientOne(ao->id());
+    }
+}
+
+void AncientOneWidget::updateAncientOne(const AncientOneData *ao)
 {
     if (ao) {
         ui->lblName->setText(QString("<a href=\"%1\" style=\"text-decoration:none;color:rgb(0,0,0);\">%2</a>").arg(ao->id(), ao->name()));

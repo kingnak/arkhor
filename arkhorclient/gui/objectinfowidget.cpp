@@ -119,6 +119,13 @@ void ObjectInfoWidget::displayItemInfo(const QString &id)
 void ObjectInfoWidget::displayNothing()
 {
     m_stack->setCurrentIndex(0);
+    // Also display nothing in all subwidgets (they subscribe to object updates...)
+    m_monster->displayMonster(nullptr);
+    m_gate->displayGate(nullptr);
+    m_object->displayGameObject(nullptr);
+    m_mythos->displayNothing();
+    m_ancientOne->displayAncientOne(nullptr);
+    m_character->updateCharacterData(nullptr);
 }
 
 void ObjectInfoWidget::receivedDescription(DescribeObjectsData::ObjectDescription desc)
@@ -163,10 +170,8 @@ void ObjectInfoWidget::displayAncientOneDetails(const AncientOneData *ao)
 
 void ObjectInfoWidget::displayCharacterDetails(const CharacterData *c)
 {
-    if (c) {
-        m_character->updateCharacterData(*c);
-        m_stack->setCurrentWidget(m_character);
-    }
+    m_character->displayCharacterData(c);
+    m_stack->setCurrentWidget(m_character);
 }
 
 void ObjectInfoWidget::displayString(const QString &text)

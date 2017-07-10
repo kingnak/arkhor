@@ -118,8 +118,11 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(ui->wgtChoice, SIGNAL(choiceSelected(AH::Common::ChoiceResponseData)), this, SLOT(choiceSelected(AH::Common::ChoiceResponseData)));
     connect(ui->wgtChoice, SIGNAL(choiceCanceled()), this, SLOT(choiceCanceled()));
 
+
+    connect(m_conn, SIGNAL(died(QString)), this, SLOT(showInfo(QString)));
     connect(m_conn, SIGNAL(won(QString)), this, SLOT(won(QString)));
     connect(m_conn, SIGNAL(lost(QString)), this, SLOT(lost(QString)));
+    connect(m_conn, SIGNAL(gameInfo(QString)), this, SLOT(showInfo(QString)));
 
     connect(m_conn, SIGNAL(clearTempData()), this, SLOT(clearTempObject()));
 }
@@ -434,6 +437,11 @@ void AhMainGui::won(QString msg)
 void AhMainGui::lost(QString msg)
 {
     QMessageBox::critical(this, "LOST!", msg);
+}
+
+void AhMainGui::showInfo(QString msg)
+{
+    QMessageBox::information(this, "Arkham Horror", msg);
 }
 
 //////////////////////////////

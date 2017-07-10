@@ -89,8 +89,10 @@ signals:
 
     void offerChoice(AH::Common::ChoiceData choice);
 
+    void died(QString msg);
     void won(QString msg);
     void lost(QString msg);
+    void gameInfo(QString msg);
 
 private slots:
     void handleMessage(AH::Common::Message msg);

@@ -224,6 +224,11 @@ void NetworkPlayer::notifyDied(Player *p)
     }
 }
 
+void NetworkPlayer::notifyInfo(QString msg)
+{
+    m_conn->sendMessage(AH::Common::Message::S_GAME_INFO, msg);
+}
+
 DieTestUpdateData NetworkPlayer::dieRollStart(const DieRollTestData test)
 {
     // same as update...

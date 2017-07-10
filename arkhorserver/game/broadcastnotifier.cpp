@@ -202,6 +202,13 @@ void BroadcastNotifier::notifyDied(Player *dp)
     }
 }
 
+void BroadcastNotifier::notifyInfo(QString msg)
+{
+    foreach (Player *p, m_game->getPlayers()) {
+        p->notifyInfo(msg);
+    }
+}
+
 bool BroadcastNotifier::event(QEvent *eve)
 {
     if (eve->type() == QEvent::Timer) {

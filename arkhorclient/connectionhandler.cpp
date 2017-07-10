@@ -328,6 +328,12 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         break;
     }
 
+    case AH::Common::Message::S_DIED:
+    {
+        emit died(msg.payload.toString());
+        break;
+    }
+
     case AH::Common::Message::S_WON:
     {
         emit won(msg.payload.toString());
@@ -337,6 +343,12 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
     case AH::Common::Message::S_LOST:
     {
         emit lost(msg.payload.toString());
+        break;
+    }
+
+    case AH::Common::Message::S_GAME_INFO:
+    {
+        emit gameInfo(msg.payload.toString());
         break;
     }
 

@@ -755,7 +755,7 @@ void Game::overrunArkham()
 {
     returnOutskirtsMonsters();
     m_context.ancientOne()->increaseDoomTrack();
-
+    m_notifier->notifyInfo("Monsters overrun Arkham!");
 }
 
 GameContext &Game::context()
@@ -1544,6 +1544,7 @@ void Game::lost(Game::GameState gs)
 void Game::awakeAncientOne()
 {
     m_ancientOne->awake();
+    m_notifier->notifyInfo("The Ancient One awakes!");
     endFight();
 }
 

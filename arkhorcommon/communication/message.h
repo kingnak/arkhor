@@ -90,6 +90,7 @@ namespace AH{
                 S_WON,
                 S_LOST,
                 S_DIED,
+                S_GAME_INFO,
 
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF

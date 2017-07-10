@@ -191,6 +191,7 @@ void AhFieldItem::initSpecialItem()
     if (m_type == LostInSpaceAndTime) return;
 
     m_specialMarker = new QGraphicsPixmapItem(this);
+    m_specialMarker->setFlag(QGraphicsItem::ItemClipsToShape, true);
     if (m_type == Street)
         m_specialMarker->setPos(-SPECLIAL_ITEM_SIZE, -SPECLIAL_ITEM_SIZE/2);
     else

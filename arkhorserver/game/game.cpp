@@ -534,7 +534,7 @@ GameObject *Game::drawObject(AH::GameObjectType t)
 #else
     GameObject *ret = m_objectDecks[t].draw();
 #endif
-    if (ret->isInfinite()) {
+    if (ret && ret->isInfinite()) {
         GameObject *copy = ret->clone();
         m_objectDecks[t].returnToDeck(ret);
         ret = copy;

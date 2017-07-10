@@ -21,7 +21,7 @@ UniqueItem HolyWater : 4 {
 UniqueItem LampOfAlhazred : 1 {
 	hands: 2;
 	price: 7;
-	modifications: [ Damage_magical +5 ];
+        modifications: [ Damage_Magical +5 ];
 }
 
 UniqueItem PowderOfIbnGhazi : 2 {

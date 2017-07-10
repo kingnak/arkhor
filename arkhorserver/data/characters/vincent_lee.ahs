@@ -26,6 +26,7 @@ SpecialAbility Physician {
 		"in his location (not implemented). He cannot raise a character's Stamina higher than "+
 		"that character's maximum Stamina.";
 	options: Option.Physician;
+        exhaustable: true;
 }
 
 QuickOption Physician {
@@ -34,6 +35,7 @@ QuickOption Physician {
 	continueType: CanContinue;
 	activate: {{{
 		CHAR.addStamina(1);
+                this.exhaust();
 	}}};
 }
 

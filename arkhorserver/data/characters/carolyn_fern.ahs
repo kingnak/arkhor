@@ -26,6 +26,7 @@ SpecialAbility Psychology {
 		"in her location (not implemented). She cannot raise a character's Sanity higher than "+
 		"that character's maximum Sanity.";
 	options: Option.Psychology;
+        exhaustable: true;
 }
 
 QuickOption Psychology {
@@ -35,6 +36,7 @@ QuickOption Psychology {
 	chooseType: Supplemental;
 	activate: {{{
 		CHAR.addSanity(1);
+                this.exhaust();
 	}}};
 }
 

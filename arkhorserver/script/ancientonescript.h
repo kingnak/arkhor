@@ -24,7 +24,7 @@ public:
     Q_PROPERTY(int doomTrack READ doomValue)
     Q_PROPERTY(int maxDoomTrack READ doomTrack)
 
-    Q_INVOKABLE void awake();
+    void awake();
 
     Q_INVOKABLE void increaseDoomTrack(int amount = 1) { AncientOne::increaseDoomTrack(amount); }
     Q_INVOKABLE void decreaseDoomTrack(int amount = 1) { AncientOne::increaseDoomTrack(-amount); }

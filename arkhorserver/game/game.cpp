@@ -412,9 +412,6 @@ void Game::setTerrorLevel(int val)
         for (int i = 0; i < amount; ++i) {
             drawObject(AH::Obj_Ally);
         }
-
-        // If TL > 10, increase
-
     }
 
     if (isOverrun()) {
@@ -871,6 +868,12 @@ void Game::commitUpdates()
     if (isSettingDirty()) {
         setSettingDirty(false);
         sendSetting();
+        // Settings can affect monster dynamic attributes/modifications.
+        // Recalculate them, they will invalidate themselves
+        for (auto m : m_board->getBoardMonsters()) {
+            m->attributes();
+            m->getModifications();
+        }
     }
 
     if (m_ancientOne->isDirty()) {
@@ -1643,7 +1646,7 @@ void Game::sendBoard()
 void Game::sendSetting()
 {
     AH::Common::GameSettingData d;
-    d.setTerrorLevel(m_terrorLevel);
+    d.setTerrorLevel(m_context.getGameProperty(PropertyValue::Game_TerrorLevel).finalVal());
     if (m_ancientOne)
         d.setAncientOneId(m_ancientOne->id());
     if (m_rumor)

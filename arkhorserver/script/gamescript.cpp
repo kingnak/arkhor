@@ -5,6 +5,7 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QBuffer>
+#include <QThread>
 #include "game/gameboard.h"
 #include "game/game.h"
 #include <propertyvaluedata.h>
@@ -1060,6 +1061,10 @@ QScriptValue GameScript::call(FunctionType t, QScriptValue f, QScriptValue obj, 
 
 QScriptValue GameScript::call(FunctionType t, QScriptValue f, QScriptValue obj, QScriptValueList args)
 {
+    if (!isGameThread()) {
+        qFatal("Calling function from foreign thread");
+    }
+
     if (!f.isFunction()) {
         qWarning() << "Calling non-function " << f.toString();
         return QScriptValue();
@@ -1077,6 +1082,11 @@ QScriptValue GameScript::call(FunctionType t, QScriptValue f, QScriptValue obj, 
     }
 
     return res;
+}
+
+bool GameScript::isGameThread() const
+{
+    return QThread::currentThread() == gGame->thread();
 }
 
 bool GameScript::parseScripts(QString base)

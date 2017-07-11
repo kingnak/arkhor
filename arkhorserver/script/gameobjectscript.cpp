@@ -8,6 +8,8 @@
 #include "game/actions/castspellaction.h"
 #include <QDebug>
 
+QReadWriteLock GameObjectScript::s_modFunctionLock;
+
 GameObjectScript::GameObjectScript(QObject *parent) :
     DynamicScriptableObject(parent)
 {
@@ -167,10 +169,17 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
 PropertyModificationList GameObjectScript::getModifications() const
 {
     if (m_modsFunc.isFunction()) {
+        // If called from foreign thread, return cached values
+        if (!gGameScript->isGameThread()) {
+            QReadLocker r(&s_modFunctionLock);
+            return m_mods + m_oldDynMods;
+        }
+
         QScriptValue f = m_modsFunc;
         QScriptValue v = gGameScript->call(GameScript::F_Modification, f);
         PropertyModificationList lst;
         if (PropertyModificationScript::parsePropertyModificationList(this, v, lst)) {
+            QWriteLocker w(&s_modFunctionLock);
             if (m_oldDynMods != lst) {
                 gGame->invalidateObject(id());
                 m_oldDynMods = lst;

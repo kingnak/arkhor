@@ -7,6 +7,9 @@
 #include "propertymodificationscript.h"
 #include <QDebug>
 
+QReadWriteLock MonsterScript::s_attrFunctionLock;
+QReadWriteLock MonsterScript::s_modFunctionLock;
+
 MonsterScript::MonsterScript(QObject *parent)
     : QObject(parent), m_oldDynAttrs(0)
 {
@@ -80,10 +83,16 @@ MonsterScript *MonsterScript::createMonster(QScriptContext *ctx, QScriptEngine *
 AH::Common::MonsterData::MonsterAttributes MonsterScript::attributes() const
 {
     if (m_attrFunc.isFunction()) {
-        //QScriptValue v = m_attrFunc.call(getThis());
+        if (!gGameScript->isGameThread()) {
+            QReadLocker r(&s_attrFunctionLock);
+            return m_oldDynAttrs;
+        }
+
         QScriptValue f = m_attrFunc;
         QScriptValue v = gGameScript->call(GameScript::F_Modification, f);
         MonsterAttributes newAttrs = MonsterAttributes(v.toInt32());
+
+        QWriteLocker w(&s_attrFunctionLock);
         if (m_oldDynAttrs != newAttrs) {
             gGame->invalidateObject(id());
             m_oldDynAttrs = newAttrs;
@@ -155,10 +164,16 @@ void MonsterScript::flown(Character *c)
 PropertyModificationList MonsterScript::getModifications() const
 {
     if (m_modsFunc.isFunction()) {
+        if (!gGameScript->isGameThread()) {
+            QReadLocker r(&s_modFunctionLock);
+            return Monster::getModifications() + m_oldDynMods;
+        }
+
         QScriptValue f = m_modsFunc;
         QScriptValue v = gGameScript->call(GameScript::F_Modification, f/*, getThis()*/);
         PropertyModificationList lst;
         if (PropertyModificationScript::parsePropertyModificationList(this, v, lst)) {
+            QWriteLocker w(&s_modFunctionLock);
             if (m_oldDynMods != lst) {
                 gGame->invalidateObject(id());
                 m_oldDynMods = lst;

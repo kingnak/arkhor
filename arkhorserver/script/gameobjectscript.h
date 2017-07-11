@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include <QScriptValue>
-#include "game/gameobject.h"
 #include <QScriptEngine>
+#include <QReadWriteLock>
+#include "game/gameobject.h"
 #include "gameactionscript.h"
 #include "gameoptionscript.h"
 #include "dynamicpropertyscript.h"
@@ -75,6 +76,7 @@ private:
 
 private:
     mutable PropertyModificationList m_oldDynMods;
+    static QReadWriteLock s_modFunctionLock;
 };
 
 //////////////////////////////

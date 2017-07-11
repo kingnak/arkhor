@@ -142,6 +142,7 @@ public:
     QScriptValue call(FunctionType t, QScriptValue f, QScriptValue obj, QScriptValue arg);
     QScriptValue call(FunctionType t, QScriptValue f, QScriptValue obj = QScriptValue(), QScriptValueList args = QScriptValueList());
 
+    bool isGameThread() const;
 
 signals:
 

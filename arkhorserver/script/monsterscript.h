@@ -5,6 +5,7 @@
 #include <QScriptValue>
 #include <QScriptable>
 #include <QScriptEngine>
+#include <QReadWriteLock>
 #include "monster.h"
 
 class QScriptContext;
@@ -51,6 +52,8 @@ private:
 private:
     mutable MonsterAttributes m_oldDynAttrs;
     mutable PropertyModificationList m_oldDynMods;
+    static QReadWriteLock s_attrFunctionLock;
+    static QReadWriteLock s_modFunctionLock;
 };
 
 Q_DECLARE_METATYPE(MonsterScript*)

@@ -1,5 +1,5 @@
 #CONFIG += DEBUG_SCRIPT
-CONFIG += TEST_SCRIPT
+#CONFIG += TEST_SCRIPT
 
 QT += network script scripttools
 DEBUG_SCRIPT|TEST_SCRIPT {

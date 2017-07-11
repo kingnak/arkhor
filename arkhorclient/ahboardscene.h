@@ -21,6 +21,7 @@ public:
 
 public slots:
     void updateBoardFromData(QVariantMap boardMap);
+    void setTerrorLevel(int level);
 
 signals:
     void itemInfoRequested(QString id);
@@ -34,6 +35,9 @@ private:
 private:
     QMap<AH::Common::FieldData::FieldID, AhFieldItem *> m_fieldMap;
     QMap<AH::Common::FieldData::FieldID, QList<AH::Common::FieldData::FieldID> > m_neighbours;
+    QList<QPointF> m_terrorPositions;
+
+    QGraphicsItem *m_terrorItem;
 
     friend class AhBoardfillerHelper;
 };

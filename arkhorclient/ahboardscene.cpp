@@ -18,27 +18,12 @@ void AhBoardScene::initBoard()
     AhBoardfillerHelper h;
     h.initBoard(this, boardBkg);
 
-    /*
-    {
-        QRectF fRect(263,605,225,85);
-        AhFieldItem *f = new AhFieldItem(AH::Common::FieldData::MD_MerchantDist, AhFieldItem::Street, fRect, boardBkg);
-        f->setPos(fRect.center());
-        f->initSubItems();
-        connect(f, SIGNAL(itemInfoRequested(QString)), this, SIGNAL(itemInfoRequested(QString)));
-        m_fieldMap[f->id()] = f;
-    }
-
-    {
-        QRectF fRect(607,710,150,120);
-        AhFieldItem *f = new AhFieldItem(AH::Common::FieldData::RT_GeneralStore, AhFieldItem::Location, fRect, boardBkg);
-        f->setPos(fRect.center());
-        f->initSubItems();
-        connect(f, SIGNAL(itemInfoRequested(QString)), this, SIGNAL(itemInfoRequested(QString)));
-        m_fieldMap[f->id()] = f;
-    }
-    */
-
     addItem(boardBkg);
+
+    m_terrorItem = new QGraphicsPixmapItem(QPixmap(":/core/marker/terror_marker"));
+    m_terrorItem->setVisible(false);
+    addItem(m_terrorItem);
+    setTerrorLevel(-1);
 }
 
 void AhBoardScene::updateBoardFromData(QVariantMap boardMap)
@@ -57,6 +42,16 @@ void AhBoardScene::updateBoardFromData(QVariantMap boardMap)
             m_fieldMap[fId]->updateFromData(d);
         }
     }
+}
+
+void AhBoardScene::setTerrorLevel(int level)
+{
+    if (level < 0 || level >= m_terrorPositions.size()) {
+        m_terrorItem->setVisible(false);
+        return;
+    }
+    m_terrorItem->setPos(m_terrorPositions[level] - QPointF(m_terrorItem->boundingRect().width(), m_terrorItem->boundingRect().height())/2);
+    m_terrorItem->setVisible(true);
 }
 
 void AhBoardScene::initNeighbourHoodFromBoardData(QVariantMap boardMap)

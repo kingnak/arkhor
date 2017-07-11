@@ -11,6 +11,12 @@ AhBoardfillerHelper::AhBoardfillerHelper()
 
 void AhBoardfillerHelper::initBoard(AhBoardScene *scene, QGraphicsItem *parent)
 {
+    initFields(scene, parent);
+    initTerror(scene, parent);
+}
+
+void AhBoardfillerHelper::initFields(AhBoardScene *scene, QGraphicsItem *parent)
+{
     QFile f(":/core/data/boardfields");
     f.open(QIODevice::ReadOnly);
     QTextStream ts(&f);
@@ -44,6 +50,26 @@ void AhBoardfillerHelper::initBoard(AhBoardScene *scene, QGraphicsItem *parent)
         QObject::connect(f, SIGNAL(itemInfoRequested(QString)), scene, SIGNAL(itemInfoRequested(QString)));
         QObject::connect(f, SIGNAL(fieldClicked(AH::Common::FieldData::FieldID)), scene, SIGNAL(fieldClicked(AH::Common::FieldData::FieldID)));
         scene->m_fieldMap[f->id()] = f;
+    }
+}
+
+void AhBoardfillerHelper::initTerror(AhBoardScene *scene, QGraphicsItem *parent)
+{
+    Q_UNUSED(parent);
+    QFile f(":/core/data/terrorfields");
+    f.open(QIODevice::ReadOnly);
+    QTextStream ts(&f);
+
+    forever {
+        QString l = ts.readLine();
+        if (l.isEmpty()) break;
+        QStringList parts = l.split(";");
+        if (parts.length() != 2) continue;
+        bool okx, oky;
+        qreal x = parts[0].toDouble(&okx);
+        qreal y = parts[1].toDouble(&oky);
+        if (!okx || !oky) continue;
+        scene->m_terrorPositions << QPointF(x, y);
     }
 }
 

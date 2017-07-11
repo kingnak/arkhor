@@ -226,6 +226,9 @@ void AhMainGui::gameSettingUpdate(GameSettingData data)
     ui->wgtAncientOne->displayAncientOne(data.ancientOneId());
     ui->wgtRumor->displayRumor(data.rumorId());
     ui->wgtEnvironment->displayEnvironment(data.environmentId());
+    ui->lblTerrorLevel->setText(QString::number(data.terrorLevel()));
+
+    m_scene->setTerrorLevel(data.terrorLevel());
 }
 
 void AhMainGui::textMessage(const QString &msg)

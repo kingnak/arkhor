@@ -51,11 +51,13 @@
         <file alias="doom_token">client_resources/doom_token.png</file>
         <file alias="doom_token_red">client_resources/doom_token_red.png</file>
         <file alias="dollar">client_resources/dollar.png</file>
+        <file alias="terror_marker">client_resources/terror_marker.png</file>
     </qresource>
     <qresource prefix="/core/data">
         <file alias="boardfields">client_resources/boardfields.txt</file>
         <file>client_resources/carbon.ttf</file>
         <file>client_resources/carbon2.ttf</file>
         <file alias="fontCarbon">client_resources/CarbonType3.ttf</file>
+        <file alias="terrorfields">client_resources/terrorfields.txt</file>
     </qresource>
 </RCC>

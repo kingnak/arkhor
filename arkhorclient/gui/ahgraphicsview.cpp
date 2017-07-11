@@ -25,7 +25,7 @@ void AhGraphicsView::zoomOut()
 void AhGraphicsView::wheelEvent(QWheelEvent *event)
 {
     if (event->modifiers() == Qt::ControlModifier) {
-        scaleView(pow((double)2, -event->delta() / 240.0));
+        scaleView(pow((double)2, event->delta() / 240.0));
         event->accept();
     } else {
         QGraphicsView::wheelEvent(event);

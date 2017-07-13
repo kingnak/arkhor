@@ -53,9 +53,11 @@ bool AttackAction::execute()
     DieTestHelper::addDieRollOptions(test, p->getCharacter(), AH::Skill_Combat);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
     if (res.boolResult) {
+        gGame->notifier()->actionUpdate(this, "succeeded");
         m_fight->updatePhaseByResult(FightPhase::MonsterKilled);
         m->defeat(p->getCharacter());
     } else {
+        gGame->notifier()->actionUpdate(this, "failed");
         m_fight->updatePhaseByResult(FightPhase::AttackFailed);
     }
 
@@ -76,9 +78,9 @@ QString AttackAction::notificationString(GameAction::NotificationPart part, cons
     Q_UNUSED(desc);
     switch (part) {
     case Start:
-        return "{C} enters fight with {M}";
+        return "{C} attacks {M}";
     case Finish:
-        return "Fight ended";
+        return "Attack {B}";
     default:
         return QString::null;
     }

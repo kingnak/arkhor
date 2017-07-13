@@ -50,3 +50,12 @@ QString HorrorOption::sourceId() const
 {
     return gGame->context().monster()->id();
 }
+
+bool HorrorOption::isAvailable() const
+{
+    Monster *m = gGame->context().monster();
+    if (!m ||  m->horrorDamage() <= 0) {
+        return false;
+    }
+    return true;
+}

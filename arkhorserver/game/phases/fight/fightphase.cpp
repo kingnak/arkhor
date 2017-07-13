@@ -310,6 +310,12 @@ QList<GameOption *> FightPhase::horrorOptions()
 {
     m_hasEnteredFight = true;
     m_curPhase = Horror;
+
+    if (!m_horror->isAvailable()) {
+        // Skip a horror test that does nothing, just succeed it
+        return fightOrFleeOptions();
+    }
+
     return QList<GameOption *> ()
             << m_horror;
 }

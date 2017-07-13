@@ -36,7 +36,7 @@ public:
     QString id() const { return "OP_HORROR"; }
     QString sourceId() const;
 
-    virtual bool isAvailable() const { return true; }
+    virtual bool isAvailable() const;
 
 private:
     HorrorAction ha;

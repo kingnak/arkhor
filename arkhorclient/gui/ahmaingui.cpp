@@ -129,6 +129,7 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(m_conn, SIGNAL(lost(QString)), this, SLOT(lost(QString)));
 	connect(m_conn, SIGNAL(gameAlert(QString)), this, SLOT(showAlert(QString)));
 	connect(m_conn, SIGNAL(phaseChange(AH::GamePhase)), this, SLOT(phaseChange(AH::GamePhase)));
+    connect(m_conn, SIGNAL(playerChange(QString)), this, SLOT(playerChange(QString)));
 
     connect(m_conn, SIGNAL(clearTempData()), this, SLOT(clearTempObject()));
 }
@@ -455,8 +456,19 @@ void AhMainGui::showAlert(QString msg)
 
 void AhMainGui::phaseChange(AH::GamePhase ph)
 {
-	ui->txtLog->append(QString("New phase: %1").arg(Utils::stringForPhase(ph)));
-	ui->lblPhase->setText(Utils::stringForPhase(ph));
+    textMessage(QString("New phase: %1").arg(Utils::stringForPhase(ph)));
+    ui->lblPhase->setText(Utils::stringForPhase(ph));
+}
+
+void AhMainGui::playerChange(QString id)
+{
+    if (id == m_registry->thisPlayerId()) {
+        ui->stkWhichPlayer->setCurrentWidget(ui->pageThisPlayer);
+        textMessage("You are the current player");
+    } else {
+        ui->stkWhichPlayer->setCurrentWidget(ui->pageOtherPlayer);
+        textMessage(QString("The current player is %1").arg(id));
+    }
 }
 
 //////////////////////////////

@@ -132,24 +132,33 @@
            <widget class="QWidget" name="pageEmptyInteraction">
             <layout class="QVBoxLayout" name="verticalLayout_9">
              <item>
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>EMPTY</string>
-               </property>
+              <widget class="QStackedWidget" name="stkWhichPlayer">
+               <widget class="QWidget" name="pageOtherPlayer">
+                <layout class="QVBoxLayout" name="verticalLayout_18">
+                 <item>
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>Waiting for another player</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_5">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="pageThisPlayer"/>
               </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
              </item>
             </layout>
            </widget>
@@ -455,8 +464,8 @@
    <slot>displayInventoryData(QListWidgetItem*)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>500</x>
-     <y>55</y>
+     <x>674</x>
+     <y>97</y>
     </hint>
     <hint type="destinationlabel">
      <x>366</x>

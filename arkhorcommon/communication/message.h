@@ -28,7 +28,6 @@ namespace AH{
                 S_KILL,
                 S_PLAYER_REMOVED,
 
-
                 C_REGISTER_PLAYER,
                 S_REGISTER_PLAYER_SUCCESSFUL,
                 S_REGISTER_PLAYER_FAILED,
@@ -53,6 +52,8 @@ namespace AH{
                 C_DIE_ROLL_UPDATE,
 
                 S_GAME_START,
+                S_PHASE_CHANGE,
+                S_PLAYER_CHANGE,
 
                 S_CHOOSE_OPTION,
                 C_SELECT_OPTION,
@@ -91,7 +92,6 @@ namespace AH{
                 S_LOST,
                 S_DIED,
 				S_GAME_ALERT,
-				S_PHASE_CHANGE,
 
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF

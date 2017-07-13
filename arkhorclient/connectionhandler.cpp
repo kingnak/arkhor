@@ -360,6 +360,14 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
 		break;
 	}
 
+    case AH::Common::Message::S_PLAYER_CHANGE:
+    {
+        QString id;
+        msg.payload >> id;
+        emit playerChange(id);
+        break;
+    }
+
     default:
         qDebug() << "Did not understand message type: " << msg.type;
     }

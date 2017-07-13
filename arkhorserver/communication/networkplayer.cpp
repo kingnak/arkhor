@@ -128,11 +128,9 @@ void NetworkPlayer::firstPlayerChanged(const Player *player)
 
 void NetworkPlayer::currentPlayerChanged(const Player *player)
 {
-    if (player == this) {
-        sendText("You are the current player");
-    } else {
-        sendText("Current Player is " + player->id());
-    }
+    QVariant v;
+    v << player->id();
+    m_conn->sendMessage(Message::S_PLAYER_CHANGE, v);
 }
 
 void NetworkPlayer::actionStart(const GameAction *action, QString desc)

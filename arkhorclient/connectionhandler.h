@@ -94,6 +94,7 @@ signals:
     void lost(QString msg);
     void gameAlert(QString msg);
 	void phaseChange(AH::GamePhase ph);
+    void playerChange(QString playerId);
 
 private slots:
     void handleMessage(AH::Common::Message msg);

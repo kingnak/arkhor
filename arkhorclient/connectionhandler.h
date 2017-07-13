@@ -92,7 +92,7 @@ signals:
     void died(QString msg);
     void won(QString msg);
     void lost(QString msg);
-    void gameInfo(QString msg);
+    void gameAlert(QString msg);
 
 private slots:
     void handleMessage(AH::Common::Message msg);

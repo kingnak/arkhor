@@ -115,7 +115,14 @@ void BroadcastNotifier::notifySimple(const QString &str, const QString &desc)
 {
     foreach (Player *p, m_game->getPlayers()) {
         p->notifySimple(str, desc);
-    }
+	}
+}
+
+void BroadcastNotifier::notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc)
+{
+	foreach (Player *p, m_game->getPlayers()) {
+		p->notifySpecific(strThat, strOther, that, desc);
+	}
 }
 
 void BroadcastNotifier::objectsInvalidated(QStringList ids)
@@ -202,10 +209,10 @@ void BroadcastNotifier::notifyDied(Player *dp)
     }
 }
 
-void BroadcastNotifier::notifyInfo(QString msg)
+void BroadcastNotifier::notifyAlert(const QString &msg, const QString &desc)
 {
     foreach (Player *p, m_game->getPlayers()) {
-        p->notifyInfo(msg);
+		p->notifyAlert(msg, desc);
     }
 }
 

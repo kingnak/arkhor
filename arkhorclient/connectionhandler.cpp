@@ -346,9 +346,9 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         break;
     }
 
-    case AH::Common::Message::S_GAME_INFO:
+	case AH::Common::Message::S_GAME_ALERT:
     {
-        emit gameInfo(msg.payload.toString());
+		emit gameAlert(msg.payload.toString());
         break;
     }
 

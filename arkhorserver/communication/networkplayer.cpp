@@ -220,13 +220,22 @@ void NetworkPlayer::notifyDied(Player *p)
     if (p == this) {
         m_conn->sendMessage(AH::Common::Message::S_DIED, "You are dead");
     } else {
-        m_conn->sendMessage(AH::Common::Message::S_DIED, QString("%1 is dead").arg(p->id()));
+		m_conn->sendMessage(AH::Common::Message::S_DIED, m_formatter->formatSimple("{C} is dead"));
     }
 }
 
-void NetworkPlayer::notifyInfo(QString msg)
+void NetworkPlayer::notifyAlert(const QString &msg, const QString &desc)
 {
-    m_conn->sendMessage(AH::Common::Message::S_GAME_INFO, msg);
+	m_conn->sendMessage(AH::Common::Message::S_GAME_ALERT, m_formatter->formatSimple(msg, desc));
+}
+
+void NetworkPlayer::notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc)
+{
+	if (this == that) {
+		notifyAlert(strThat, desc);
+	} else {
+		notifySimple(strOther, desc);
+	}
 }
 
 DieTestUpdateData NetworkPlayer::dieRollStart(const DieRollTestData test)

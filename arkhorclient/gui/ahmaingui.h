@@ -99,7 +99,7 @@ private slots:
 
     void won(QString msg);
     void lost(QString msg);
-    void showInfo(QString msg);
+    void showAlert(QString msg);
 
 private:
     Ui::AhMainGui *ui;

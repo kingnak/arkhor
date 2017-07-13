@@ -13,7 +13,7 @@ public:
     QString formatActionUpdate(const GameAction *action, const QString &desc);
     QString formatActionFinish(const GameAction *action, const QString &desc);
     QString formatActionExecute(const GameAction *action, const QString &desc);
-    QString formatSimple(const QString &str, const QString &desc);
+	QString formatSimple(const QString &str, const QString &desc = QString::null);
 
 private:
     QString getBasicActionString(const GameAction *action, const QString &desc, GameAction::NotificationPart part);

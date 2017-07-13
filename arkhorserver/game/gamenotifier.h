@@ -43,7 +43,6 @@ public:
     virtual void actionUpdate(const GameAction *action, QString desc = QString::null) = 0;
     virtual void actionFinish(const GameAction *action, QString desc = QString::null) = 0;
     virtual void actionExecute(const GameAction *action, QString desc = QString::null) = 0;
-    virtual void notifySimple(const QString &str, const QString &desc = QString::null) = 0;
 
     virtual void objectsInvalidated(QStringList id) = 0;
     virtual void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type) = 0;
@@ -54,10 +53,12 @@ public:
 
     virtual void abortAcknowledge() = 0;
 
+	virtual void notifySimple(const QString &str, const QString &desc = QString::null) = 0;
+	virtual void notifyAlert(const QString &msg, const QString &desc = QString::null) = 0;
+	virtual void notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc = QString::null) = 0;
     virtual void notifyWon(QString msg) = 0;
     virtual void notifyLost(QString msg) = 0;
     virtual void notifyDied(Player *p) = 0;
-    virtual void notifyInfo(QString msg) = 0;
 };
 
 

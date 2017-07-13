@@ -106,7 +106,7 @@
         </sizepolicy>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tabInteraction">
         <attribute name="icon">
@@ -117,6 +117,13 @@
          <string/>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_8">
+         <item>
+          <widget class="QLabel" name="lblPhase">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QStackedWidget" name="stkInteraction">
            <property name="currentIndex">

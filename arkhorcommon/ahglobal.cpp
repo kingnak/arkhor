@@ -56,6 +56,7 @@ namespace AH {
 
     void registerCommonMetaTypes()
     {
+		qRegisterMetaType<AH::GamePhase>("AH::GamePhase");
         qRegisterMetaType<AH::Common::PlayerData>("AH::Common::PlayerData");
         qRegisterMetaType<AH::Common::InvestigatorData>("AH::Common::InvestigatorData");
         qRegisterMetaType<QList<AH::Common::InvestigatorData> >("QList<AH::Common::InvestigatorData>");

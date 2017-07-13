@@ -34,7 +34,7 @@ public:
     virtual void sendSetting(AH::Common::GameSettingData data) = 0;
 
     virtual void nextRound() = 0;
-    virtual void gamePhaseChaned(AH::GamePhase phase) = 0;
+    virtual void gamePhaseChanged(AH::GamePhase phase) = 0;
 
     virtual void firstPlayerChanged(const Player *player) = 0;
     virtual void currentPlayerChanged(const Player *player) = 0;

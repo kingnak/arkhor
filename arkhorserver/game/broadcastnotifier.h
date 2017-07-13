@@ -23,7 +23,7 @@ public:
     virtual void playerRemoved(Player *p);
 
     virtual void nextRound();
-    virtual void gamePhaseChaned(AH::GamePhase phase);
+    virtual void gamePhaseChanged(AH::GamePhase phase);
 
     virtual void firstPlayerChanged(const Player *player);
     virtual void currentPlayerChanged(const Player *player);

@@ -24,7 +24,7 @@ struct Utils {
     static QString stringForObjectType(AH::GameObjectType t);
     static QString stringForObjectAttribute(AH::Common::GameObjectData::ObjectAttribute a);
     static QStringList stringsForObjectAttributes(AH::Common::GameObjectData::ObjectAttributes attrs);
-    static QStringList stringsForPhases(AH::GamePhases ph);
+	static QString stringForPhase(AH::GamePhase ph);
     static QString stringForPropertyModification(AH::Common::PropertyModificationData mod);
     static QString stringForMythosType(AH::Common::MythosData::MythosType t, AH::Common::MythosData::EnvironmentType et, QString wrapSubType = QString::null);
     static QString stringForMythosEnvironmentType(AH::Common::MythosData::EnvironmentType et);

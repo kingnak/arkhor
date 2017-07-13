@@ -1394,31 +1394,31 @@ void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity,
 
 void Game::upkeep()
 {
-    m_notifier->gamePhaseChaned(AH::Upkeep);
+	m_notifier->gamePhaseChanged(AH::Upkeep);
     executePlayerPhase(m_phases[UpkeepIndex], AH::Upkeep);
 }
 
 void Game::movement()
 {
-    m_notifier->gamePhaseChaned(AH::Movement);
+	m_notifier->gamePhaseChanged(AH::Movement);
     executePlayerPhase(m_phases[MovementIndex], AH::Movement);
 }
 
 void Game::arkhamEncountery()
 {
-    m_notifier->gamePhaseChaned(AH::ArkhamEncountery);
+	m_notifier->gamePhaseChanged(AH::ArkhamEncountery);
     executePlayerPhase(m_phases[ArkhamEncounteryIndex], AH::ArkhamEncountery);
 }
 
 void Game::otherWorldEncountery()
 {
-    m_notifier->gamePhaseChaned(AH::OtherWorldEncountery);
+	m_notifier->gamePhaseChanged(AH::OtherWorldEncountery);
     executePlayerPhase(m_phases[OtherWorldEncounteryIndex], AH::OtherWorldEncountery);
 }
 
 void Game::mythos()
 {
-    m_notifier->gamePhaseChaned(AH::Mythos);
+	m_notifier->gamePhaseChanged(AH::Mythos);
     // Not a player phase
     m_context = GameContext(this, getFirstPlayer(), NULL, AH::Mythos);
     m_phases[MythosIndex]->execute();

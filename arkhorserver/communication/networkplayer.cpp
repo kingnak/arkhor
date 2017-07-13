@@ -110,19 +110,11 @@ void NetworkPlayer::nextRound()
     sendText("Next Round");
 }
 
-void NetworkPlayer::gamePhaseChaned(AH::GamePhase phase)
+void NetworkPlayer::gamePhaseChanged(AH::GamePhase phase)
 {
-    QString s;
-    switch (phase) {
-    case AH::Upkeep: s = "Upkeep"; break;
-    case AH::Movement: s = "Movement"; break;
-    case AH::ArkhamEncountery: s = "Arkham Encountery"; break;
-    case AH::OtherWorldEncountery: s = "Other World Encountery"; break;
-    case AH::Mythos: s = "Mythos"; break;
-    default: s = QString("Unknown (%1)").arg(phase); break;
-    }
-
-    sendText("New Phase: " + s);
+	QVariant v;
+	v << phase;
+	m_conn->sendMessage(Message::S_PHASE_CHANGE, v);
 }
 
 void NetworkPlayer::firstPlayerChanged(const Player *player)

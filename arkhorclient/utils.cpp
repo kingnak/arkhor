@@ -281,7 +281,22 @@ QStringList Utils::stringsForObjectAttributes(GameObjectData::ObjectAttributes a
             l << stringForObjectAttribute(a);
         }
     }
-    return l;
+	return l;
+}
+
+QString Utils::stringForPhase(AH::GamePhase ph)
+{
+	QString s;
+	switch (ph) {
+	case AH::Upkeep: s = "Upkeep"; break;
+	case AH::Movement: s = "Movement"; break;
+	case AH::ArkhamEncountery: s = "Arkham Encounter"; break;
+	case AH::OtherWorldEncountery: s = "Other World Encounter"; break;
+	case AH::Mythos: s = "Mythos"; break;
+	default: s = QString("Unknown (%1)").arg(ph); break;
+	}
+
+	return s;
 }
 
 QString Utils::stringForPropertyModification(PropertyModificationData mod)

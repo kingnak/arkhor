@@ -100,6 +100,7 @@ private slots:
     void won(QString msg);
     void lost(QString msg);
     void showAlert(QString msg);
+	void phaseChange(AH::GamePhase ph);
 
 private:
     Ui::AhMainGui *ui;

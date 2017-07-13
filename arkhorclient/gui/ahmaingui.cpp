@@ -7,6 +7,7 @@
 #include "gatedata.h"
 #include "resourcepool.h"
 #include <QtWidgets>
+#include "utils.h"
 
 #define MAXIMUM_WIDGET_WIDTH 16777215
 
@@ -37,6 +38,8 @@ AhMainGui::AhMainGui(QWidget *parent) :
     connect(m_dismissTimer, SIGNAL(timeout()), this, SLOT(doDismissInfoPane()));
 
     ui->wgtMovmentChooser->setBoard(m_scene, ui->grvBoard);
+
+	ui->lblPhase->setText("Setup");
 
     //ui->wgtAncientOne->setVisible(false);
     //ui->wgtCharacter->setVisible(false);
@@ -125,6 +128,7 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(m_conn, SIGNAL(won(QString)), this, SLOT(won(QString)));
     connect(m_conn, SIGNAL(lost(QString)), this, SLOT(lost(QString)));
 	connect(m_conn, SIGNAL(gameAlert(QString)), this, SLOT(showAlert(QString)));
+	connect(m_conn, SIGNAL(phaseChange(AH::GamePhase)), this, SLOT(phaseChange(AH::GamePhase)));
 
     connect(m_conn, SIGNAL(clearTempData()), this, SLOT(clearTempObject()));
 }
@@ -446,7 +450,13 @@ void AhMainGui::lost(QString msg)
 
 void AhMainGui::showAlert(QString msg)
 {
-    QMessageBox::information(this, "Arkham Horror", msg);
+	QMessageBox::information(this, "Arkham Horror", msg);
+}
+
+void AhMainGui::phaseChange(AH::GamePhase ph)
+{
+	ui->txtLog->append(QString("New phase: %1").arg(Utils::stringForPhase(ph)));
+	ui->lblPhase->setText(Utils::stringForPhase(ph));
 }
 
 //////////////////////////////

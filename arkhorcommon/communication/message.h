@@ -91,6 +91,7 @@ namespace AH{
                 S_LOST,
                 S_DIED,
 				S_GAME_ALERT,
+				S_PHASE_CHANGE,
 
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF

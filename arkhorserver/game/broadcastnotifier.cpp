@@ -62,10 +62,10 @@ void BroadcastNotifier::nextRound()
     }
 }
 
-void BroadcastNotifier::gamePhaseChaned(AH::GamePhase phase)
+void BroadcastNotifier::gamePhaseChanged(AH::GamePhase phase)
 {
     foreach (Player *p, m_game->getPlayers()) {
-        p->gamePhaseChaned(phase);
+        p->gamePhaseChanged(phase);
     }
 }
 

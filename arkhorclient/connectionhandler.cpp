@@ -352,6 +352,14 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         break;
     }
 
+	case AH::Common::Message::S_PHASE_CHANGE:
+	{
+		AH::GamePhase ph;
+		msg.payload >> ph;
+		emit phaseChange(ph);
+		break;
+	}
+
     default:
         qDebug() << "Did not understand message type: " << msg.type;
     }

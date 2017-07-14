@@ -8,7 +8,7 @@ FieldOption MasMouse_Recruit {
 		"the Ally deck.";
 	costs: [ MonsterToughness 10, GateTrophy 2, MonsterToughness 5 + GateTrophy 1 ];
 	activate: {{{
-		var res = game.context.drawMultipleObjects(Constants.ObjectType.Ally, "Recruit Ally", 1000, 0, 1);
+                var res = game.context.drawMultipleObjects(Constants.ObjectType.Ally, "Recruit Ally", this.id, 1000, 0, 1);
 		if (res.length > 0) {
 			var item = res[0];
 			CHAR.addToInventory(item);
@@ -38,7 +38,7 @@ AEOption MasHouse_Enc1 {
 						{type: Constants.ObjectType.CommonItem, amount: 1},
 						{type: Constants.ObjectType.UniqueItem, amount: 1},
 					];
-			var sels = game.context.drawMixedObjects("Buy Items", types, 0, 1);
+                        var sels = game.context.drawMixedObjects("Buy Items", this.id, types, 0, 1);
 			if (sels.length > 0) {
 				var item = sels[0];
 				var costs = { type: Constants.Costs.Money, amount: item.price};

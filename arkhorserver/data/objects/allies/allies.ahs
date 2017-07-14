@@ -31,7 +31,7 @@ Ally RubyStandish {
 	description: "Draw 1 Unique item when Ruby Standish joins you.";
 	modifications: [ Skill_Sneak +2 ];
 	onAddToInventory: {{{
-		var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
+                var ob = game.context.drawObject(Constants.ObjectType.UniqueItem, "Ruby joined you", this.id);
 		c.addToInventory(ob);
 	}}};
 }
@@ -40,7 +40,7 @@ Ally RyanDean {
 	description: "Draw 1 Common item when Ryan Dean joins you.";
 	modifications: [ Skill_Sneak +1, Skill_Will +1 ];
 	onAddToInventory: {{{
-		var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
+                var ob = game.context.drawObject(Constants.ObjectType.CommonItem, "Ryan joined you", this.id);
 		c.addToInventory(ob);
 	}}};
 }
@@ -63,7 +63,7 @@ Ally ThomasFMalone {
 	description: "Draw 1 Spell when Thomas F. Malone joins you.";
 	modifications: [ Skill_Fight +1, Skill_Lore +1 ];
 	onAddToInventory: {{{
-		var ob = game.context.drawObject(Constants.ObjectType.Spell);
+                var ob = game.context.drawObject(Constants.ObjectType.Spell, "Thomas joined you", this.id);
 		c.addToInventory(ob);
 	}}};
 }

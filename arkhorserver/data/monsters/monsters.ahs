@@ -387,7 +387,7 @@ Monster MiGo : 3 {
 	combatDamage: 1;
 	toughness: 1;
 	onDefeat: {{{
-		  var obj = game.context.drawObject(Constants.ObjectType.UniqueItem);
+                  var obj = game.context.drawObject(Constants.ObjectType.UniqueItem, "Defeated Mi-Go", this.id);
 		  CHAR.addToInventory(obj);
 		  return false;
 	}}};

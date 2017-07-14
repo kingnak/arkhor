@@ -6,7 +6,7 @@ FieldOption Store_Shop {
 		"them for its list price. Discard the other two "+
 		"items.";
 	activate: {{{
-		var res = game.context.drawMultipleObjects(Constants.ObjectType.CommonItem, "Buy items", 3, 0, 1);
+                var res = game.context.drawMultipleObjects(Constants.ObjectType.CommonItem, "Buy items", this.id, 3, 0, 1);
 		if (res.length > 0) {
 			var item = res[0];
 			var costs = { type: Constants.Costs.Money, amount: item.price };

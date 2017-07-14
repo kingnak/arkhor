@@ -12,6 +12,8 @@ ChoiceWidget::ChoiceWidget(QWidget *parent) :
     // Weired resizing issue if this is visible...
     ui->wgtInfo->setVisible(false);
     connect(ui->wgtObjSelection, SIGNAL(requestObjectInfo(QString)), this, SLOT(displayInfo(QString)));
+	connect(ui->lblTitle, SIGNAL(linkActivated(QString)), this, SIGNAL(objectInfoRequested(QString)));
+	connect(ui->wgtStrings, SIGNAL(objectInfoRequested(QString)), this, SIGNAL(objectInfoRequested(QString)));
 }
 
 ChoiceWidget::~ChoiceWidget()
@@ -21,7 +23,15 @@ ChoiceWidget::~ChoiceWidget()
 
 void ChoiceWidget::offerChoice(ChoiceData choice)
 {
-    ui->lblTitle->setText(choice.description());
+	QString desc = choice.description().trimmed();
+	if (!desc.isEmpty()) {
+		QString lnk = choice.sourceId();
+		if (!lnk.isEmpty()) {
+			desc = QString("<a href=\"%1\">%2</a>").arg(lnk, desc.toHtmlEscaped());
+		}
+	}
+
+	ui->lblTitle->setText(desc);
     ui->btnCancel->setVisible(choice.canCancel());
     switch (choice.type()) {
     case ChoiceData::ChooseObjects:
@@ -31,7 +41,7 @@ void ChoiceWidget::offerChoice(ChoiceData choice)
         selectPayment(choice.getCosts());
         break;
     case ChoiceData::ChooseString:
-        selectString(choice.description(), choice.getStrings());
+		selectString(desc, choice.getStrings());
         break;
     default:
         Q_ASSERT(false);

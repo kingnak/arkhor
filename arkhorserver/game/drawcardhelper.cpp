@@ -67,7 +67,7 @@ ArkhamEncounter *DrawCardHelper::drawArkhamEncounter(Player *p, AH::Common::Fiel
     for (int i = 0; i < encs.count(); ++i) {
         choices << AH::Common::ChoiceData::OptionData(QString::number(i), QString("Encounter %1").arg(i+1), encs[i]->description());
     }
-    QString res = gGame->context().selectChoice(p, "Select Encounter", choices, false);
+	QString res = gGame->context().selectChoice(p, "Select Encounter", QString::null, choices, false);
     return encs.value(res.toInt());
 }
 
@@ -88,7 +88,7 @@ OtherWorldEncounter *DrawCardHelper::drawOtherWorldEncounter(Player *p, AH::Comm
     for (int i = 0; i < encs.count(); ++i) {
         choices << AH::Common::ChoiceData::OptionData(QString::number(i), QString("Encounter %1").arg(i+1), encs[i]->description());
     }
-    QString res = gGame->context().selectChoice(p, "Select Encounter", choices, false);
+	QString res = gGame->context().selectChoice(p, "Select Encounter", QString::null, choices, false);
     return encs.value(res.toInt());
 }
 

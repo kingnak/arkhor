@@ -48,8 +48,8 @@ public:
     Q_INVOKABLE void increaseTerrorLevel(int amount = 1);
     Q_INVOKABLE void decreaseTerrorLevel(int amount = 1) { increaseTerrorLevel(-amount); }
 
-    Q_INVOKABLE QString selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options);
-    Q_INVOKABLE QString selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel);
+	Q_INVOKABLE QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options);
+	Q_INVOKABLE QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel);
 
     Q_INVOKABLE bool spontaneousMonsterFight();
     Q_INVOKABLE bool createGateAtCharacterField();

@@ -22,7 +22,7 @@ ArkhamEncounter Church_Enc1 {
 }
 AEOption Church_Enc1 {
 	activate: {{{
-		var type = game.context.selectChoice("Donate Money or Items?",  ["Money", "Items"]);
+                var type = game.context.selectChoice("Donate Money or Items?", this.id, ["Money", "Items"]);
 		if (type == "Items") {
 			CHAR.loseHalfPossessions();
 		} else {

@@ -56,7 +56,7 @@ Rumor SouthSideStrangler {
 	}}};
 
 	onFail: {{{
-		var sel = game.context.selectChoice("Select item to reduce Maximum value", ["Stamina", "Sanity"]);
+                var sel = game.context.selectChoice("Select item to reduce Maximum value", this.id, ["Stamina", "Sanity"]);
 		if (sel == "Stamina") {
 			var itm = game.drawSpecificObject("OBJ_SS_DecMaxStam");
 			game.context.character.addToInventory(itm);

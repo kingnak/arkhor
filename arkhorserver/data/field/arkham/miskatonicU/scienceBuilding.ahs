@@ -31,7 +31,7 @@ AEOption Science_Enc1 {
 			for (var i = 0; i <= ct; ++i) {
 				options[i] = i;
 			}
-			var stam = game.context.selectChoice("Heal how much stamina?", options);
+                        var stam = game.context.selectChoice("Heal how much stamina?", this.id, options);
 			CHAR.addStamina(stam);
 			ct -= stam;
 
@@ -43,7 +43,7 @@ AEOption Science_Enc1 {
 			for (var i = 0; i <= ct; ++i) {
 				options[i] = i;
 			}
-			var san = game.context.selectChoice("Heal how much sanity?", options);
+                        var san = game.context.selectChoice("Heal how much sanity?", this.id, options);
 			CHAR.addSanity(san);
 		} else {
 			CHAR.addStamina(1);

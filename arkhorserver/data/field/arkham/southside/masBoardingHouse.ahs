@@ -65,7 +65,7 @@ AEOption MasHouse_Enc2 {
 	activate: {{{
 		var res = game.context.skillTest("Try to sleep", this.id, Constants.Skills.Luck, -1, 1);
 		if (!res) {
-			var type = game.context.selectChoice("Lose 1 Stamina or Sanity?",  ["Stamina", "Sanity"]);
+                        var type = game.context.selectChoice("Lose 1 Stamina or Sanity?", this.id, ["Stamina", "Sanity"]);
 			if (type == "Stamina") {
 				CHAR.damageStamina(1);
 			} else {

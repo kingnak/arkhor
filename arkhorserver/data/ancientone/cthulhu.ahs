@@ -35,12 +35,12 @@ AncientOne Cthulhu {
 			return;
 		}
 
-                var choice = game.context.selectChoice("Loose Stamina or Sanity?", options);
+                var choice = game.context.selectChoice("Loose Stamina or Sanity?", this.id, options);
 		if (choice == "STA") {
-			var obj = game.drawSpecificObject(Object.CthulhuDamageStamina);
+                        var obj = game.drawSpecificObject(SpecialObject.CthulhuDamageStamina);
 			CHAR.addToInventory(obj);
 		} else {
-			var obj = game.drawSpecificObject(Object.CthulhuDamageSanity);
+                        var obj = game.drawSpecificObject(SpecialObject.CthulhuDamageSanity);
 			CHAR.addToInventory(obj);
 		}
 

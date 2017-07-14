@@ -139,7 +139,7 @@ QuickOption UseAlienStatue {
 		this.exhaust();
                 var res = game.context.genericDieRollTest("Use Statue", this.id, 1, 1);
 		if (res) {
-                        var choice = game.context.selectChoice("Choose reward", [
+                        var choice = game.context.selectChoice("Choose reward", this.id, [
 				["SPELL", "Spell", "Get 1 Spell"],
 				["CLUES", "Clues", "Get 3 Clue tokens"],
 			]);

@@ -22,16 +22,17 @@ MythosCard *GameContext::rumor()
     return gGame->rumor();
 }
 
-QString GameContext::selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
+QString GameContext::selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
 {
-    return selectChoice(m_player, desc, options, canCancel);
+	return selectChoice(m_player, desc, sourceId, options, canCancel);
 }
 
-QString GameContext::selectChoice(Player *p, QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
+QString GameContext::selectChoice(Player *p, QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
 {
     AH::Common::ChoiceData ch;
     ch.setSelectStrings(options);
     ch.setDescription(desc);
+	ch.setSourceId(sourceId);
     ch.setCanCancel(canCancel);
     AH::Common::ChoiceResponseData res = p->offerChoice(ch);
     return res.toString();

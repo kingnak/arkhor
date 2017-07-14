@@ -109,14 +109,14 @@ void GameContextScript::increaseTerrorLevel(int amount)
     gGame->increaseTerrorLevel(amount);
 }
 
-QString GameContextScript::selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options)
+QString GameContextScript::selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options)
 {
-    return selectChoice(desc, options, false);
+	return selectChoice(desc, sourceId, options, false);
 }
 
-QString GameContextScript::selectChoice(QString desc, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
+QString GameContextScript::selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
 {
-    return gGame->context().selectChoice(desc, options, canCancel);
+	return gGame->context().selectChoice(desc, sourceId, options, canCancel);
 }
 
 bool GameContextScript::spontaneousMonsterFight()

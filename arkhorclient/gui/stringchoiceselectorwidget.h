@@ -22,6 +22,7 @@ public slots:
 signals:
     void choiceOk(bool ok);
     void activateChoice();
+	void objectInfoRequested(const QString &id);
 
 private slots:
     void choiceSelected();

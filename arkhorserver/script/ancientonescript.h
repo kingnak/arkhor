@@ -20,6 +20,7 @@ public:
     static void castFromValue(const QScriptValue &v, AncientOneScript *&o) { o = qobject_cast<AncientOneScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, AncientOneScript * const &in) { return eng->newQObject(in); }
 
+	Q_PROPERTY(QString id READ id)
     Q_PROPERTY(int attackAdjustment READ attackAdjustment)
     Q_PROPERTY(int doomTrack READ doomValue)
     Q_PROPERTY(int maxDoomTrack READ doomTrack)

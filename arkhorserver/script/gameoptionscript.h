@@ -39,4 +39,39 @@ private:
 
 Q_DECLARE_METATYPE(GameOptionScript*)
 
+class GameField;
+class GameOptionFieldProxyScript : public GameOption
+{
+public:
+	GameOptionFieldProxyScript(GameField *field, const QString &optionId);
+
+	virtual bool execute();
+
+	virtual bool resolveDependencies(GameRegistry *reg);
+	virtual AH::Common::GameOptionData *data();
+
+	virtual QString id() const;
+	virtual QString name() const { return m_opt->name(); }
+	virtual QString description() const { return m_opt->description(); }
+	virtual AH::GamePhases phases() const { return m_opt->phases(); }
+	virtual QString actionId() const { return m_opt->actionId(); }
+
+	virtual AH::Common::Cost costs() const { return m_opt->costs(); }
+	virtual bool canPay() const { return m_opt->canPay(); }
+	virtual bool isAvailable() const;
+
+	virtual AH::ChooseType chooseType() const { return m_opt->chooseType(); }
+	virtual AH::ContinueType continueType() const { return m_opt->continueType(); }
+
+	virtual GameAction *action() { return m_opt->action(); }
+	virtual const GameAction *action() const { return m_opt->action(); }
+
+	GameOption *realOption() { return m_opt; }
+
+private:
+	GameOption *m_opt;
+	GameField *m_field;
+	QString m_optId;
+};
+
 #endif // GAMEOPTIONSCRIPT_H

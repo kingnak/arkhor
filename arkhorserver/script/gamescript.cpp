@@ -781,7 +781,10 @@ QScriptValue GameScript::addFieldOption(AH::Common::FieldData::FieldID fieldId, 
         return context()->throwError(QScriptContext::ReferenceError, "Option id not set");
     }
 
-    m_game->registerFieldOption(fieldId, optionId);
+	GameOptionFieldProxyScript *proxy = new GameOptionFieldProxyScript(f, optionId);
+
+	m_game->registerOption(proxy);
+	m_game->registerFieldOption(fieldId, proxy->id());
     return QScriptValue();
 }
 

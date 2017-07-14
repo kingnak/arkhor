@@ -294,21 +294,7 @@ bool Game::resolveDependencies()
                 ok = false;
             }
         }
-    }
-
-    // Resolve encounteries
-    /*
-    typedef QList<ArkhamEncounter *> AEL;
-    foreach (AEL lst, m_arkEnc.values()) {
-        foreach (ArkhamEncounter *a, lst) {
-            ok &= a->resolveDependencies(m_registry);
-        }
-    }
-
-    foreach (OtherWorldEncounter *e, m_owEnc) {
-        ok &= e->resolveDependencies(m_registry);
-    }
-    */
+	}
 
     return ok;
 }

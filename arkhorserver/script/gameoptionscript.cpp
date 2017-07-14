@@ -109,3 +109,56 @@ bool GameOptionScript::verify(GameOptionScript *op, QString *msg)
     return false;
 }
 
+////////////////////////////////////////
+
+#include "game/gamefield.h"
+#include "game/gameregistry.h"
+#include "game/game.h"
+#include <QDebug>
+
+GameOptionFieldProxyScript::GameOptionFieldProxyScript(GameField *field, const QString &optionId)
+	: m_field(field), m_opt(nullptr), m_optId(optionId)
+{
+
+}
+
+bool GameOptionFieldProxyScript::execute()
+{
+	gGame->notifier()->setTempData(m_opt->description());
+	bool res = m_opt->execute();
+	gGame->notifier()->clearTempData();
+	return res;
+}
+
+bool GameOptionFieldProxyScript::resolveDependencies(GameRegistry *reg)
+{
+	if (m_opt) return true;
+	if (m_optId.isEmpty()) return true; // ??
+	GameOption *o = reg->findOptionById(m_optId);
+	if (o) {
+		m_opt = o;
+		return true;
+	}
+	qWarning() << "Cannot resolve option" << m_optId << "for field option" << id();
+	return false;
+}
+
+AH::Common::GameOptionData *GameOptionFieldProxyScript::data()
+{
+	*static_cast<AH::Common::GameOptionData* const> (this) = *m_opt->data();
+	m_id = id();
+	return this;
+}
+
+QString GameOptionFieldProxyScript::id() const
+{
+	return QString("FIELD_%1::%2").arg(m_field->id()).arg(m_optId);
+}
+
+bool GameOptionFieldProxyScript::isAvailable() const
+{
+	if (m_field->isLocked()) {
+		return false;
+	}
+	return m_opt->isAvailable();
+}

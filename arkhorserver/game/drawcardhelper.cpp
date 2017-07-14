@@ -11,7 +11,7 @@ DrawCardHelper::DrawCardHelper()
 {
 }
 
-QList<GameObject *> DrawCardHelper::drawObjects(Player *p, QString desc, AH::GameObjectType type, int ct, int min, int max, bool allowQuickReturn)
+QList<GameObject *> DrawCardHelper::drawObjects(Player *p, QString desc, AH::GameObjectType type, int ct, int min, int max, bool allowQuickReturn, QString sourceId)
 {
     QList<GameObject *> allObjs;
     QList<GameObject *> sels;
@@ -30,11 +30,11 @@ QList<GameObject *> DrawCardHelper::drawObjects(Player *p, QString desc, AH::Gam
         }
     }
 
-    sels = doDrawObject(p, desc, allObjs, min, max, allowQuickReturn);
+	sels = doDrawObject(p, desc, allObjs, min, max, allowQuickReturn, sourceId);
     return sels;
 }
 
-QList<GameObject *> DrawCardHelper::drawMixedObjects(Player *p, QString desc, QList<AH::ObjectTypeCount> types, int min, int max, bool allowQuickReturn)
+QList<GameObject *> DrawCardHelper::drawMixedObjects(Player *p, QString desc, QList<AH::ObjectTypeCount> types, int min, int max, bool allowQuickReturn, QString sourceId)
 {
     QList<GameObject *> sels;
     if (types.isEmpty()) return sels;
@@ -46,7 +46,7 @@ QList<GameObject *> DrawCardHelper::drawMixedObjects(Player *p, QString desc, QL
         }
     }
 
-    sels = doDrawObject(p, desc, allObjs, min, max, allowQuickReturn);
+	sels = doDrawObject(p, desc, allObjs, min, max, allowQuickReturn, sourceId);
     return sels;
 }
 
@@ -92,7 +92,7 @@ OtherWorldEncounter *DrawCardHelper::drawOtherWorldEncounter(Player *p, AH::Comm
     return encs.value(res.toInt());
 }
 
-QList<GameObject *> DrawCardHelper::doDrawObject(Player *p, QString desc, QList<GameObject *> avail, int min, int max, bool allowQuickReturn)
+QList<GameObject *> DrawCardHelper::doDrawObject(Player *p, QString desc, QList<GameObject *> avail, int min, int max, bool allowQuickReturn, QString sourceId)
 {
     QList<GameObject *> sels;
 
@@ -119,6 +119,7 @@ QList<GameObject *> DrawCardHelper::doDrawObject(Player *p, QString desc, QList<
     AH::Common::ChoiceData choice;
     choice.setSelectObjects(ids, min, max);
     choice.setDescription(desc);
+	choice.setSourceId(sourceId);
     AH::Common::ChoiceResponseData resp = p->offerChoice(choice);
 
     QStringList selIds;

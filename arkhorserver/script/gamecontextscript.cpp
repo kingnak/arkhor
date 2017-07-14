@@ -140,16 +140,16 @@ bool GameContextScript::createGateAtCharacterField()
 
 GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type)
 {
-    return drawObject(type, "Select Object");
+	return drawObject(type, "Select Object", QString::null);
 }
 
-GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type, QString desc)
+GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type, QString desc, QString sourceId)
 {
     ModifiedPropertyValue val = gGame->context().getCurCharacterDrawObject(type);
     int ct = val.finalVal();
 
     DrawCardHelper hlp;
-    QList<GameObject *> objs = hlp.drawObjects(gGame->context().player(), desc, type, ct, 1, 1);
+	QList<GameObject *> objs = hlp.drawObjects(gGame->context().player(), desc, type, ct, 1, 1, sourceId.isNull(), sourceId);
 
     GameObject *o = objs.value(0);
     if (!o) return NULL;
@@ -161,13 +161,13 @@ GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type, QString
     return os;
 }
 
-QList<GameObjectScript *> GameContextScript::drawMultipleObjects(AH::GameObjectType type, QString desc, int count, int min, int max)
+QList<GameObjectScript *> GameContextScript::drawMultipleObjects(AH::GameObjectType type, QString desc, const QString &sourceId, int count, int min, int max)
 {
     ModifiedPropertyValue val = gGame->context().getCurCharacterDrawObject(type);
     int ct = val.modifiers().apply(count);
 
     DrawCardHelper hlp;
-    QList<GameObject *> objs = hlp.drawObjects(gGame->context().player(), desc, type, ct, min, max);
+	QList<GameObject *> objs = hlp.drawObjects(gGame->context().player(), desc, type, ct, min, max, sourceId.isNull(), sourceId);
 
     QList<GameObjectScript *> ret;
     foreach (GameObject *o, objs) {
@@ -182,12 +182,12 @@ QList<GameObjectScript *> GameContextScript::drawMultipleObjects(AH::GameObjectT
     return ret;
 }
 
-QList<GameObjectScript *> GameContextScript::drawMixedObjects(QString desc, QList<AH::ObjectTypeCount> types, int min, int max)
+QList<GameObjectScript *> GameContextScript::drawMixedObjects(QString desc, const QString &sourceId, QList<AH::ObjectTypeCount> types, int min, int max)
 {
     // TODO: Handle modifiers?
 
     DrawCardHelper hlp;
-    QList<GameObject *> objs = hlp.drawMixedObjects(gGame->context().player(), desc, types, min, max);
+	QList<GameObject *> objs = hlp.drawMixedObjects(gGame->context().player(), desc, types, min, max, sourceId.isNull(), sourceId);
 
     QList<GameObjectScript *> ret;
     foreach (GameObject *o, objs) {

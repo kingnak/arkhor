@@ -1087,6 +1087,13 @@ QScriptValue GameScript::call(FunctionType t, QScriptValue f, QScriptValue obj, 
     return res;
 }
 
+QScriptValue GameScript::getTempObject()
+{
+    static QScriptValue obj = engine()->newObject();
+    obj.setProperty("id", "%TMP%");
+    return obj;
+}
+
 bool GameScript::isGameThread() const
 {
     return QThread::currentThread() == gGame->thread();

@@ -129,7 +129,10 @@ void MythosCardScript::resolveDynamicAttributes()
 void MythosCardScript::executeHeadline()
 {
     Q_ASSERT(type() == Headline);
-    QScriptValue res = gGameScript->call(GameScript::F_Action, m_headlineFunc, m_object);
+    // Headlines' actions don't work on an "object", but on the current situation, hence the temp object
+    gGame->notifier()->setTempData(this->description());
+    QScriptValue res = gGameScript->call(GameScript::F_Action, m_headlineFunc, gGameScript->getTempObject());
+    gGame->notifier()->clearTempData();
     if (res.isError()) {
         qCritical() << "Mythos executeHeadline Error:" << res.toString();
     }

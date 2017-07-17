@@ -142,6 +142,9 @@ public:
     QScriptValue call(FunctionType t, QScriptValue f, QScriptValue obj, QScriptValue arg);
     QScriptValue call(FunctionType t, QScriptValue f, QScriptValue obj = QScriptValue(), QScriptValueList args = QScriptValueList());
 
+    // Helper for TMP id object
+    QScriptValue getTempObject();
+
     bool isGameThread() const;
 
 signals:

@@ -1212,7 +1212,7 @@ void Game::initInvestigators()
     commitUpdates();
 
     // INITIAL FOCUS
-    foreach (Player *p, m_registry->allPlayers())
+    foreach (Player *p, m_playerList)
     {
         FocusAction fa;
         int amount = 100;
@@ -1428,7 +1428,7 @@ void Game::ancientOneAttack()
 
 void Game::executePlayerPhase(GamePhase *ph, AH::GamePhase phase)
 {
-    foreach (Player *p, m_registry->allPlayers()) {
+    foreach (Player *p, m_playerList) {
         m_notifier->currentPlayerChanged(p);
         m_context = GameContext(this, p, NULL, phase);
         ph->execute();

@@ -73,6 +73,9 @@ void ChoiceHelper::losePossessions(Character *c, int count, const QString &sourc
         }
     }
 
+    // Limit to available items!
+    count = qMin(ids.count(), count);
+
     AH::Common::ChoiceData choice;
     choice.setSelectObjects(ids, count, count);
     choice.setDescription("Select items to lose");

@@ -1,7 +1,10 @@
 #CONFIG += DEBUG_SCRIPT
-#CONFIG += TEST_SCRIPT
+CONFIG += TEST_SCRIPT
 
+CONFIG += console
+CONFIG -= windows
 QT += network script scripttools
+
 DEBUG_SCRIPT|TEST_SCRIPT {
 	QT += widgets
 	DEFINES += DEBUG_SCRIPT_BUILD
@@ -10,9 +13,8 @@ DEBUG_SCRIPT|TEST_SCRIPT {
         }
 } else {
 	QT -= gui widgets
-	CONFIG += console
-	CONFIG -= windows
 }
+
 unix:CONFIG(debug, debug|release): DEFINES += "_DEBUG=1"
 
 HEADERS += \

@@ -148,8 +148,8 @@ void Game::play()
     */
 
     commitUpdates();
-    mythos();
     m_notifier->firstPlayerChanged(getFirstPlayer());
+    mythos();
     bool cont = true;
     while (cont) {
         cont = playRound();
@@ -749,7 +749,7 @@ void Game::overrunArkham()
 {
     returnOutskirtsMonsters();
     m_context.ancientOne()->increaseDoomTrack();
-	m_notifier->notifyAlert("Monsters overrun Arkham!");
+    m_notifier->notifyAlert("Monsters overrun Arkham!", nullptr);
 }
 
 GameContext &Game::context()
@@ -1544,7 +1544,7 @@ void Game::lost(Game::GameState gs)
 void Game::awakeAncientOne()
 {
     m_ancientOne->awake();
-	m_notifier->notifyAlert("The Ancient One awakes!");
+    m_notifier->notifyAlert("The Ancient One awakes!", nullptr);
     endFight();
 }
 
@@ -1570,7 +1570,7 @@ void Game::endFight()
 
     // TODO: Trade
 
-
+    m_notifier->gamePhaseChanged(AH::EndFightPhase);
 
     do {
         // Investigators attack

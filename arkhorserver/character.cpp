@@ -125,7 +125,7 @@ void Character::addToInventory(GameObject *obj)
         obj->setOwner(this);
         m_inventory << obj;
         gGame->characterDirty(this);
-        gGame->notifier()->notifySimple("{C} drew {D}", obj->name());
+        gGame->notifier()->notifySimple("{C} drew {D}", gGame->playerForCharacter(this), obj->name());
     } else if (obj->owner() != this) {
         Q_ASSERT(false);
     }
@@ -142,7 +142,7 @@ void Character::removeFromInventory(GameObject *obj)
         m_inventory.removeAll(obj);
         obj->setOwner(NULL);
         gGame->characterDirty(this);
-        gGame->notifier()->notifySimple("{C} lost {D}", obj->name());
+        gGame->notifier()->notifySimple("{C} lost {D}", gGame->playerForCharacter(this), obj->name());
     } else if (obj->owner() != NULL) {
         Q_ASSERT(false);
     }
@@ -302,7 +302,7 @@ bool Character::pay(const CostList &cost)
     gGame->characterDirty(this);
     if (!pays.isEmpty())
     {
-        gGame->notifier()->notifySimple("{C} payed {D}", pays.join(", "));
+        gGame->notifier()->notifySimple("{C} payed {D}", gGame->playerForCharacter(this), pays.join(", "));
     }
 
     return res;
@@ -313,7 +313,7 @@ void Character::loseClues()
     int cluesOld = m_clues;
     m_clues = (m_clues+1)/2;
     gGame->characterDirty(this);
-    gGame->notifier()->notifySimple("{C} lost {D}", QString("%1 clues").arg(cluesOld - m_clues));
+    gGame->notifier()->notifySimple("{C} lost {D}", gGame->playerForCharacter(this), QString("%1 clues").arg(cluesOld - m_clues));
 }
 
 void Character::loseHalfPossessions(const QString &sourceId)
@@ -486,14 +486,14 @@ void Character::addClue(int amount)
 {
     m_clues += amount;
     gGame->characterDirty(this);
-    gGame->notifier()->notifySimple("{C} gained {D}", QString("%1 clues").arg(amount));
+    gGame->notifier()->notifySimple("{C} gained {D}", gGame->playerForCharacter(this), QString("%1 clues").arg(amount));
 }
 
 void Character::addMoney(int amount)
 {
     m_money += amount;
     gGame->characterDirty(this);
-    gGame->notifier()->notifySimple("{C} gained {D}", QString("%1$").arg(amount));
+    gGame->notifier()->notifySimple("{C} gained {D}", gGame->playerForCharacter(this),QString("%1$").arg(amount));
 }
 
 void Character::loseMoney(int amount)
@@ -501,13 +501,12 @@ void Character::loseMoney(int amount)
     int moneyOld = m_money;
     m_money = qMax(m_money-amount,0);
     gGame->characterDirty(this);
-    gGame->notifier()->notifySimple("{C} lost {D}", QString("%1$").arg(moneyOld-m_money));
+    gGame->notifier()->notifySimple("{C} lost {D}", gGame->playerForCharacter(this),QString("%1$").arg(moneyOld-m_money));
 }
 
 void Character::damageStamina(int amount)
 {
     m_curDmgStamina += amount;
-
 }
 
 void Character::damageSanity(int amount)
@@ -556,7 +555,7 @@ bool Character::commitDamage()
     if (m_curDmgSanity > 0) {
         notify << QString("%1 sanity").arg(m_curDmgSanity);
     }
-    gGame->notifier()->notifySimple("{C} was damaged {D}", notify.join(" and "));
+    gGame->notifier()->notifySimple("{C} was damaged {D}", gGame->playerForCharacter(this), notify.join(" and "));
 
     m_curDmgSanity = m_curDmgStamina = 0;
 
@@ -595,7 +594,7 @@ void Character::addStamina(int amount)
 
     m_curStamina = newStamina;
     gGame->characterDirty(this);
-    if (amount > 0) gGame->notifier()->notifySimple("{C} healed {D} stamina", QString::number(amount));
+    if (amount > 0) gGame->notifier()->notifySimple("{C} healed {D} stamina", gGame->playerForCharacter(this), QString::number(amount));
 }
 
 void Character::addSanity(int amount)
@@ -615,7 +614,7 @@ void Character::addSanity(int amount)
 
     m_curSanity = newSanity;
     gGame->characterDirty(this);
-    if (amount > 0) gGame->notifier()->notifySimple("{C} healed {D} sanity", QString::number(amount));
+    if (amount > 0) gGame->notifier()->notifySimple("{C} healed {D} sanity", gGame->playerForCharacter(this), QString::number(amount));
 }
 
 void Character::restoreStamina()
@@ -628,7 +627,7 @@ void Character::restoreStamina()
 
     m_curStamina = maxStamina;
     gGame->characterDirty(this);
-    gGame->notifier()->notifySimple("{C} restored stamina");
+    gGame->notifier()->notifySimple("{C} restored stamina", gGame->playerForCharacter(this));
 }
 
 void Character::restoreSanity()
@@ -641,7 +640,7 @@ void Character::restoreSanity()
 
     m_curSanity = maxSanity;
     gGame->characterDirty(this);
-    gGame->notifier()->notifySimple("{C} restored sanity");
+    gGame->notifier()->notifySimple("{C} restored sanity", gGame->playerForCharacter(this));
 }
 
 /*
@@ -663,7 +662,7 @@ void Character::addMonsterTrophy(Monster *m)
     if (!m) return;
     m_monsterMarkers.append(m);
     gGame->characterDirty(this);
-    gGame->notifier()->notifySimple("{C} received a monster tropy");
+    gGame->notifier()->notifySimple("{C} received a monster tropy", gGame->playerForCharacter(this));
 }
 
 void Character::addGateTrophy(Gate *p)
@@ -671,7 +670,7 @@ void Character::addGateTrophy(Gate *p)
     if (!p) return;
     m_gateMarkers.append(p);
     gGame->characterDirty(this);
-    gGame->notifier()->notifySimple("{C} received a gate tropy");
+    gGame->notifier()->notifySimple("{C} received a gate tropy", gGame->playerForCharacter(this));
 }
 
 void Character::setExploredGate(const Gate *p)
@@ -685,7 +684,7 @@ void Character::setDelayed(bool delay)
     if (m_delayed == delay) return;
     m_delayed = delay;
     gGame->characterDirty(this);
-    gGame->notifier()->notifySimple("{C} is {D}delayed", delay ? "":"no longer ");
+    gGame->notifier()->notifySimple("{C} is {D}delayed", gGame->playerForCharacter(this), delay ? "":"no longer ");
 }
 
 void Character::setSetout(bool setout)
@@ -693,7 +692,7 @@ void Character::setSetout(bool setout)
     if (m_isSetOut == setout) return;
     m_isSetOut = setout;
     gGame->characterDirty(this);
-    gGame->notifier()->notifySimple("{C} is {D}set out", setout ? "":"no longer ");
+    gGame->notifier()->notifySimple("{C} is {D}set out", gGame->playerForCharacter(this), setout ? "":"no longer ");
 }
 
 bool Character::returnToArkham()

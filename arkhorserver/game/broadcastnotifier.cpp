@@ -111,10 +111,10 @@ void BroadcastNotifier::actionExecute(const GameAction *action, QString desc)
     }
 }
 
-void BroadcastNotifier::notifySimple(const QString &str, const QString &desc)
+void BroadcastNotifier::notifySimple(const QString &str, Player *p, const QString &desc)
 {
-    foreach (Player *p, m_game->getPlayers()) {
-        p->notifySimple(str, desc);
+    foreach (Player *c, m_game->getPlayers()) {
+        c->notifySimple(str, p, desc);
 	}
 }
 
@@ -223,10 +223,10 @@ void BroadcastNotifier::notifyDied(Player *dp)
     }
 }
 
-void BroadcastNotifier::notifyAlert(const QString &msg, const QString &desc)
+void BroadcastNotifier::notifyAlert(const QString &msg, Player *p, const QString &desc)
 {
-    foreach (Player *p, m_game->getPlayers()) {
-		p->notifyAlert(msg, desc);
+    foreach (Player *c, m_game->getPlayers()) {
+        c->notifyAlert(msg, p, desc);
     }
 }
 

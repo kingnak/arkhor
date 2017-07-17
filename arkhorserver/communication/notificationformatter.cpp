@@ -30,7 +30,7 @@ QString NotificationFormatter::formatActionStart(const GameAction *action, const
         m_bufList.clear();
     }
     m_curAction = action;
-    return getBasicActionString(action, desc, GameAction::Start);
+    return getBasicActionString(action, gGame->getCurrentPlayer(), desc, GameAction::Start);
 }
 
 QString NotificationFormatter::formatActionUpdate(const GameAction *action, const QString &desc)
@@ -50,7 +50,7 @@ QString NotificationFormatter::formatActionFinish(const GameAction *action, cons
     if (m_curAction != action) {
         qWarning("Finishing wrong action");
     } else {
-        ret = getBasicActionString(action, desc, GameAction::Finish);
+        ret = getBasicActionString(action, gGame->getCurrentPlayer(), desc, GameAction::Finish);
     }
     m_bufList.clear();
     m_curAction = NULL;
@@ -59,33 +59,36 @@ QString NotificationFormatter::formatActionFinish(const GameAction *action, cons
 
 QString NotificationFormatter::formatActionExecute(const GameAction *action, const QString &desc)
 {
-    return getBasicActionString(action, desc, GameAction::Execute);
+    return getBasicActionString(action, gGame->getCurrentPlayer(), desc, GameAction::Execute);
 }
 
-QString NotificationFormatter::formatSimple(const QString &str, const QString &desc)
+QString NotificationFormatter::formatSimple(const QString &str, Player *p, const QString &desc)
 {
-    return formatBasic(str, desc);
+    return formatBasic(str, p, desc);
 }
 
-QString NotificationFormatter::getBasicActionString(const GameAction *action, const QString &desc, GameAction::NotificationPart part)
+QString NotificationFormatter::getBasicActionString(const GameAction *action, Player *p, const QString &desc, GameAction::NotificationPart part)
 {
     QString s = action->notificationString(part, desc);
-    s = formatBasic(s, desc);
+    s = formatBasic(s, p, desc);
     if (part == GameAction::Finish) {
         s.replace("{B}", m_bufList.join(", "));
     }
     return s;
 }
 
-QString NotificationFormatter::formatBasic(QString str, const QString &desc)
+QString NotificationFormatter::formatBasic(QString str, Player *p, const QString &desc)
 {
-    if (gGame->context().player()) {
-        str.replace("{P}", gGame->context().player()->id());
-        if (gGame->context().player()->getCharacter()) {
-            QString f = gGame->context().player()->getCharacter()->field() ? gGame->context().player()->getCharacter()->field()->name() : "";
+    if (!p)
+        p = gGame->context().player();
+
+    if (p) {
+        str.replace("{P}", p->id());
+        if (p->getCharacter()) {
+            QString f = p->getCharacter()->field() ? p->getCharacter()->field()->name() : "";
             str.replace("{F}", f);
-            if (gGame->context().player()->getCharacter()->investigator()) {
-              str.replace("{C}", gGame->context().player()->getCharacter()->investigator()->name());
+            if (p->getCharacter()->investigator()) {
+                str.replace("{C}", p->getCharacter()->investigator()->name());
             }
         }
     }

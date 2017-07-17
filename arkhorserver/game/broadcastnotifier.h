@@ -42,9 +42,9 @@ public:
     virtual bool acknowledgeMonsterMovement(Monster *m, QObject *observer = NULL);
     virtual void abortAcknowledge();
 
-	virtual void notifySimple(const QString &str, const QString &desc = QString::null);
+    virtual void notifySimple(const QString &str, Player *p, const QString &desc = QString::null);
+    virtual void notifyAlert(const QString &msg, Player *p, const QString &desc = QString::null);
 	virtual void notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc = QString::null);
-	virtual void notifyAlert(const QString &msg, const QString &desc = QString::null);
 	virtual void notifyWon(QString msg);
 	virtual void notifyLost(QString msg);
 	virtual void notifyDied(Player *p);

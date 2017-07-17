@@ -153,9 +153,9 @@ void NetworkPlayer::actionExecute(const GameAction *action, QString desc)
     sendText(m_formatter->formatActionExecute(action, desc));
 }
 
-void NetworkPlayer::notifySimple(const QString &str, const QString &desc)
+void NetworkPlayer::notifySimple(const QString &str, Player *p, const QString &desc)
 {
-    sendText(m_formatter->formatSimple(str, desc));
+    sendText(m_formatter->formatSimple(str, p, desc));
 }
 
 void NetworkPlayer::objectsInvalidated(QStringList ids)
@@ -219,21 +219,21 @@ void NetworkPlayer::notifyDied(Player *p)
     if (p == this) {
         m_conn->sendMessage(AH::Common::Message::S_DIED, "You are dead");
     } else {
-		m_conn->sendMessage(AH::Common::Message::S_DIED, m_formatter->formatSimple("{C} is dead"));
+        m_conn->sendMessage(AH::Common::Message::S_DIED, m_formatter->formatSimple("{C} is dead", p));
     }
 }
 
-void NetworkPlayer::notifyAlert(const QString &msg, const QString &desc)
+void NetworkPlayer::notifyAlert(const QString &msg, Player *p, const QString &desc)
 {
-	m_conn->sendMessage(AH::Common::Message::S_GAME_ALERT, m_formatter->formatSimple(msg, desc));
+    m_conn->sendMessage(AH::Common::Message::S_GAME_ALERT, m_formatter->formatSimple(msg, p, desc));
 }
 
 void NetworkPlayer::notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc)
 {
 	if (this == that) {
-		notifyAlert(strThat, desc);
+        notifyAlert(strThat, that, desc);
 	} else {
-		notifySimple(strOther, desc);
+        notifySimple(strOther, that, desc);
 	}
 }
 

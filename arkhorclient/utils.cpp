@@ -293,6 +293,7 @@ QString Utils::stringForPhase(AH::GamePhase ph)
 	case AH::ArkhamEncountery: s = "Arkham Encounter"; break;
 	case AH::OtherWorldEncountery: s = "Other World Encounter"; break;
 	case AH::Mythos: s = "Mythos"; break;
+    case AH::EndFightPhase: s = "End Fight"; break;
 	default: s = QString("Unknown (%1)").arg(ph); break;
 	}
 

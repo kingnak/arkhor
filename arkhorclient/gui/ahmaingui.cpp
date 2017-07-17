@@ -232,7 +232,6 @@ void AhMainGui::displayInventoryData(QListWidgetItem *itm)
 
 void AhMainGui::gameSettingUpdate(GameSettingData data)
 {
-    // TODO: Display Terror Level
     ui->wgtAncientOne->displayAncientOne(data.ancientOneId());
     ui->wgtRumor->displayRumor(data.rumorId());
     ui->wgtEnvironment->displayEnvironment(data.environmentId());
@@ -271,14 +270,14 @@ void AhMainGui::chooseMove(AH::Common::FieldData::FieldID startId, int movementP
 void AhMainGui::movementChosen(QList<FieldData::FieldID> path)
 {
     m_conn->selectMovementPath(path);
-    //ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }
 
 void AhMainGui::movementCanceled()
 {
     m_conn->selectMovementPath(QList<FieldData::FieldID>());
-    //ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }
 
@@ -306,7 +305,7 @@ void AhMainGui::chooseSkill(QList<ModifiedPropertyValueData> options)
 void AhMainGui::skillChoosen(PropertyValueData::Property skill)
 {
     m_conn->selectSkill(skill);
-    //ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }
 
@@ -369,14 +368,14 @@ void AhMainGui::chooseWeapons(QList<GameObjectData> weapons, ModifiedPropertyVal
 void AhMainGui::weaponsCanceled()
 {
     m_conn->cancelWeapons();
-    //ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }
 
 void AhMainGui::weaponsSelected(QStringList weaponIds)
 {
     m_conn->selectWeapons(weaponIds);
-    //ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }
 
@@ -390,7 +389,7 @@ void AhMainGui::chooseEncounter(EncounterData encounter)
 void AhMainGui::encounterSelected(QString id)
 {
     m_conn->selectEncounterOption(id);
-    //ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }
 
@@ -446,14 +445,14 @@ void AhMainGui::offerChoice(ChoiceData choice)
 void AhMainGui::choiceSelected(ChoiceResponseData resp)
 {
     m_conn->choiceSelected(resp);
-    //ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }
 
 void AhMainGui::choiceCanceled()
 {
      m_conn->choiceCanceled();
-     //ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
      refitGui();
 }
 

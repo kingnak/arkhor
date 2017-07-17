@@ -10,8 +10,8 @@ class ChoiceHelper
 {
 public:
     static bool choosePayment(Character *c, AH::Common::Cost options, AH::Common::CostList &selected);
-    static void loseHalfPossesions(Character *c);
-    static void losePossessions(Character *c, int count);
+    static void loseHalfPossesions(Character *c, const QString &sourceId = QString::null);
+    static void losePossessions(Character *c, int count, const QString &sourceId = QString::null);
 
 private:
     ChoiceHelper();

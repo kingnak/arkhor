@@ -63,8 +63,8 @@ public:
     Q_INVOKABLE bool canPay(AH::Common::Cost cost) { return Character::canPay(cost); }
     Q_INVOKABLE bool pay(AH::Common::Cost cost) { return Character::pay(cost); }
 
-    Q_INVOKABLE void loseHalfPossessions() { return Character::loseHalfPossessions(); }
-    Q_INVOKABLE void losePossessions(int count) { return Character::losePossessions(count); }
+    Q_INVOKABLE void loseHalfPossessions(const QString &sourceId = QString::null) { return Character::loseHalfPossessions(sourceId); }
+    Q_INVOKABLE void losePossessions(int count, const QString &sourceId) { return Character::losePossessions(count, sourceId); }
 
 	Q_INVOKABLE int genericDieRollSum(QString desc, QString sourceId, int dieCount);
 	Q_INVOKABLE bool genericDieRollTest(QString desc, QString sourceId, int dieCount, int target);

@@ -95,8 +95,8 @@ public:
     bool pay(const AH::Common::CostList &cost);
 
     void loseClues();
-    void loseHalfPossessions();
-    void losePossessions(int count);
+    void loseHalfPossessions(const QString &sourceId = QString::null);
+    void losePossessions(int count, const QString &sourceId = QString::null);
     void arrest();
     void unconscious();
     void insane();

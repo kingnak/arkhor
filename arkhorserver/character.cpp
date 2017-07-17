@@ -316,14 +316,14 @@ void Character::loseClues()
     gGame->notifier()->notifySimple("{C} lost {D}", QString("%1 clues").arg(cluesOld - m_clues));
 }
 
-void Character::loseHalfPossessions()
+void Character::loseHalfPossessions(const QString &sourceId)
 {
-    ChoiceHelper::loseHalfPossesions(this);
+    ChoiceHelper::loseHalfPossesions(this, sourceId);
 }
 
-void Character::losePossessions(int count)
+void Character::losePossessions(int count, const QString &sourceId)
 {
-    ChoiceHelper::losePossessions(this, count);
+    ChoiceHelper::losePossessions(this, count, sourceId);
 }
 
 void Character::arrest()

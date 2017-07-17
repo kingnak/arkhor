@@ -24,7 +24,7 @@ AEOption Church_Enc1 {
 	activate: {{{
                 var type = game.context.selectChoice("Donate Money or Items?", this.id, ["Money", "Items"]);
 		if (type == "Items") {
-			CHAR.loseHalfPossessions();
+                        CHAR.loseHalfPossessions(this.id);
 		} else {
 			CHAR.loseHalfMoney();
 		}

@@ -24,7 +24,7 @@ Action BankLoanCheck {
 			if (res == "MONEY") {
 				this.owner.loseMoney(1);
 			} else {
-				this.owner.losePossessions(1000);
+                                this.owner.losePossessions(1000, this.id);
 				this.discard();
 			}
 		}

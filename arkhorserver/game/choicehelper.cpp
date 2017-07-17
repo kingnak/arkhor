@@ -39,7 +39,7 @@ bool ChoiceHelper::choosePayment(Character *c, AH::Common::Cost options, AH::Com
     return false;
 }
 
-void ChoiceHelper::loseHalfPossesions(Character *c)
+void ChoiceHelper::loseHalfPossesions(Character *c, const QString &sourceId)
 {
     // Count losable objects
     int ct = 0;
@@ -52,10 +52,10 @@ void ChoiceHelper::loseHalfPossesions(Character *c)
     }
 
     ct /= 2;
-    losePossessions(c, ct);
+    losePossessions(c, ct, sourceId);
 }
 
-void ChoiceHelper::losePossessions(Character *c, int count)
+void ChoiceHelper::losePossessions(Character *c, int count, const QString &sourceId)
 {
     if (count <= 0) {
         return;
@@ -76,6 +76,7 @@ void ChoiceHelper::losePossessions(Character *c, int count)
     AH::Common::ChoiceData choice;
     choice.setSelectObjects(ids, count, count);
     choice.setDescription("Select items to lose");
+    choice.setSourceId(sourceId);
     Player *p = gGame->playerForCharacter(c);
     AH::Common::ChoiceResponseData resp = p->offerChoice(choice);
 

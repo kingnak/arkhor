@@ -15,7 +15,7 @@ AEOption Woods_Enc2 {
 	activate: {{{
 		var res = game.context.skillTest("Avoid trap", this.id, Constants.Skills.Luck, -1, 1);
 		if (!res) {
-			CHAR.losePossessions(2);
+                        CHAR.losePossessions(2, this.id);
 			CHAR.damageStamina(2);
 		}
 	}}};

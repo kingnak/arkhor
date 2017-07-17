@@ -174,7 +174,7 @@ Monster ElderThing : 2 {
 	onDamage: {{{
 		if (type == Constants.MonsterDamage.Combat) {
 			// TODO: This is not 100% correct. It lets choose any object
-			chr.losePossessions(1);
+                        chr.losePossessions(1, this.id);
 		}
 	}}};
 }

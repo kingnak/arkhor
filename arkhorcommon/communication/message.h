@@ -78,6 +78,7 @@ namespace AH{
                 C_SELECT_ENCOUNTER,
 
                 S_ACKNOWLEDGE_MYTHOS,
+                S_ACKNOWLEDGE_MONSTER_MOVEMENT,
                 S_ABORT_ACKNOWLEDGE,
                 C_ACKNOWLEDGED,
 

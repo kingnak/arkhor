@@ -15,6 +15,7 @@ class GameOption;
 class GameBoard;
 class Character;
 class MythosCard;
+class Monster;
 
 class GameNotifier
 {
@@ -49,7 +50,9 @@ public:
     virtual void setTempData(const QString &data) = 0;
     virtual void clearTempData() = 0;
 
+    //virtual bool acknowledgeText(const QString &text, const QString &sourceId, QObject *observer = NULL) = 0;
     virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer = NULL) = 0;
+    virtual bool acknowledgeMonsterMovement(Monster *m, QObject *observer = NULL) = 0;
 
     virtual void abortAcknowledge() = 0;
 

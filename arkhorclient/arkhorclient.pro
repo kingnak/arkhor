@@ -41,7 +41,8 @@ HEADERS += \
     gui/ancientonewidget.h \
     gui/minsizetab.h \
     gui/charshortinfowidget.h \
-    gui/doubleclickbutton.h
+    gui/doubleclickbutton.h \
+    gui/monstermovementwidget.h
 
 SOURCES += \
     connectionhandler.cpp \
@@ -83,7 +84,8 @@ SOURCES += \
     gui/ancientonewidget.cpp \
     gui/minsizetab.cpp \
     gui/charshortinfowidget.cpp \
-    gui/doubleclickbutton.cpp
+    gui/doubleclickbutton.cpp \
+    gui/monstermovementwidget.cpp
 
 FORMS += \
     gui/characterwidget.ui \

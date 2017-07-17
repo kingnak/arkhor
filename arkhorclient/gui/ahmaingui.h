@@ -91,6 +91,10 @@ private slots:
     void acknowledgeMythos();
     void finishMythos();
 
+    void displayMonsterMovement(AH::Common::MonsterData monster);
+    void acknowledgeMonsterMovement();
+    void finishMonsterMovement();
+
     void offerChoice(AH::Common::ChoiceData choice);
     void choiceSelected(AH::Common::ChoiceResponseData resp);
     void choiceCanceled();

@@ -296,13 +296,21 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
     {
         AH::Common::MythosData m;
         msg.payload >> m;
-        emit displayMythos(m);
+        emit acknowledgeMythos(m);
+        break;
+    }
+
+    case AH::Common::Message::S_ACKNOWLEDGE_MONSTER_MOVEMENT:
+    {
+        AH::Common::MonsterData m;
+        msg.payload >> m;
+        emit acknowledgeMonsterMovement(m);
         break;
     }
 
     case AH::Common::Message::S_ABORT_ACKNOWLEDGE:
     {
-        emit finishMythos();
+        emit finishAcknowledge();
         break;
     }
 

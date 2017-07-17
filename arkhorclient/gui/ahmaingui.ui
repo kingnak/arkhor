@@ -211,6 +211,13 @@
              </item>
             </layout>
            </widget>
+           <widget class="QWidget" name="pageMonsterMovement">
+            <layout class="QVBoxLayout" name="verticalLayout_19">
+             <item>
+              <widget class="MonsterMovementWidget" name="wgtMonsterMovement" native="true"/>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </item>
         </layout>
@@ -434,6 +441,12 @@
    <class>CharShortInfoWidget</class>
    <extends>QWidget</extends>
    <header>gui/charshortinfowidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MonsterMovementWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/monstermovementwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -105,6 +105,7 @@ AH::Common::MonsterData::MonsterAttributes MonsterScript::attributes() const
 void MonsterScript::move(AH::MovementDirection dir)
 {
     if (m_movement == Special) {
+        gGame->notifier()->acknowledgeMonsterMovement(this);
         gGameScript->call(GameScript::F_Action, m_specialMoveFunc, getThis());
     } else {
         Monster::move(dir);

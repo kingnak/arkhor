@@ -114,9 +114,14 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(ui->wgtOptionChooser, SIGNAL(encounterChosen(QString)), this, SLOT(encounterSelected(QString)));
 
     // MYTHOS
-    connect(m_conn, SIGNAL(displayMythos(AH::Common::MythosData)), this, SLOT(displayMythos(AH::Common::MythosData)));
-    connect(m_conn, SIGNAL(finishMythos()), this, SLOT(finishMythos()));
+    connect(m_conn, SIGNAL(acknowledgeMythos(AH::Common::MythosData)), this, SLOT(displayMythos(AH::Common::MythosData)));
+    connect(m_conn, SIGNAL(finishAcknowledge()), this, SLOT(finishMythos()));
     connect(ui->wgtMythos, SIGNAL(acknowledgeMythos()), this, SLOT(acknowledgeMythos()));
+
+    // MOVEMENT
+    connect(m_conn, SIGNAL(acknowledgeMonsterMovement(AH::Common::MonsterData)), this, SLOT(displayMonsterMovement(AH::Common::MonsterData)));
+    connect(m_conn, SIGNAL(finishAcknowledge()), this, SLOT(finishMonsterMovement()));
+    connect(ui->wgtMonsterMovement, SIGNAL(acknowledgeMovement()), this, SLOT(acknowledgeMonsterMovement()));
 
     // CHOICE
     connect(m_conn, SIGNAL(offerChoice(AH::Common::ChoiceData)), this, SLOT(offerChoice(AH::Common::ChoiceData)));
@@ -406,6 +411,27 @@ void AhMainGui::finishMythos()
 {
     ui->wgtMythos->displayMythos(NULL);
     if (ui->stkInteraction->currentWidget() == ui->pageMythos) {
+        ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    }
+}
+
+void AhMainGui::displayMonsterMovement(MonsterData monster)
+{
+    ui->wgtMonsterMovement->displayMonsterMovement(&monster);
+    ui->stkInteraction->setCurrentWidget(ui->pageMonsterMovement);
+    ui->tabInteract->setCurrentWidget(ui->tabInteraction);
+}
+
+void AhMainGui::acknowledgeMonsterMovement()
+{
+    m_conn->acknowledge();
+    finishMonsterMovement();
+}
+
+void AhMainGui::finishMonsterMovement()
+{
+    ui->wgtMonsterMovement->displayMonsterMovement(NULL);
+    if (ui->stkInteraction->currentWidget() == ui->pageMonsterMovement) {
         ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     }
 }

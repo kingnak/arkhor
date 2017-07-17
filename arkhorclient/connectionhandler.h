@@ -16,6 +16,7 @@
 #include <mythosdata.h>
 #include <choicedata.h>
 #include <gamesettingdata.h>
+#include <monsterdata.h>
 
 class ConnectionHandler : public QObject
 {
@@ -84,8 +85,9 @@ signals:
 
     void playerCharacterInstantiated(QString playerId, QString investigatorId);
 
-    void displayMythos(AH::Common::MythosData mythos);
-    void finishMythos();
+    void acknowledgeMythos(AH::Common::MythosData mythos);
+    void acknowledgeMonsterMovement(AH::Common::MonsterData monster);
+    void finishAcknowledge();
 
     void offerChoice(AH::Common::ChoiceData choice);
 

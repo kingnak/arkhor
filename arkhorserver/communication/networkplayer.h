@@ -51,6 +51,7 @@ public:
     virtual void clearTempData();
 
     virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer);
+    virtual bool acknowledgeMonsterMovement(Monster *m, QObject *observer);
     virtual void abortAcknowledge();
 
 	void notifySimple(const QString &str, const QString &desc = QString::null);

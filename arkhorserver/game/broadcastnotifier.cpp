@@ -156,10 +156,24 @@ void BroadcastNotifier::clearTempData()
 bool BroadcastNotifier::acknowledgeMythos(const MythosCard *m, QObject *observer)
 {
     Q_ASSERT(observer == NULL);
+    return doAcknowledge([=](GameNotifier *n) {
+        return n->acknowledgeMythos(m, this);
+    });
+}
 
+bool BroadcastNotifier::acknowledgeMonsterMovement(Monster *m, QObject *observer)
+{
+    Q_ASSERT(observer == NULL);
+    return doAcknowledge([=](GameNotifier *n) {
+        return n->acknowledgeMonsterMovement(m, this);
+    });
+}
+
+bool BroadcastNotifier::doAcknowledge(std::function<bool(GameNotifier *)> func)
+{
     m_openAcks = m_game->getPlayers().toSet();
     foreach (Player *p, m_game->getPlayers()) {
-        if (p->acknowledgeMythos(m, this)) {
+        if (func(p)) {
             m_openAcks.remove(p);
         }
     }

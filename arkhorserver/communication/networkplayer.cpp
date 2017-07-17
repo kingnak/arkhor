@@ -189,6 +189,15 @@ bool NetworkPlayer::acknowledgeMythos(const MythosCard *m, QObject *observer)
     return false;
 }
 
+bool NetworkPlayer::acknowledgeMonsterMovement(Monster *m, QObject *observer)
+{
+    QVariant v;
+    v << *(m->data());
+    m_conn->sendMessage(AH::Common::Message::S_ACKNOWLEDGE_MONSTER_MOVEMENT, v);
+    m_ackReceiver = observer;
+    return false;
+}
+
 void NetworkPlayer::abortAcknowledge()
 {
     m_conn->sendMessage(AH::Common::Message::S_ABORT_ACKNOWLEDGE, QVariant());

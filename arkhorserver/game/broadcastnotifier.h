@@ -39,6 +39,7 @@ public:
     virtual void clearTempData();
 
     virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer = NULL);
+    virtual bool acknowledgeMonsterMovement(Monster *m, QObject *observer = NULL);
     virtual void abortAcknowledge();
 
 	virtual void notifySimple(const QString &str, const QString &desc = QString::null);
@@ -49,6 +50,9 @@ public:
 	virtual void notifyDied(Player *p);
 
     virtual bool event(QEvent *eve);
+
+private:
+    bool doAcknowledge(std::function<bool(GameNotifier*)> func);
 
 private:
     Game *m_game;

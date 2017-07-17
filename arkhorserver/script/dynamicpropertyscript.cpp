@@ -16,7 +16,10 @@ QString DynamicPropertyScript::display() const
 {
     if (m_toString.isFunction()) {
         QScriptValue ts = m_toString;
-        return gGameScript->call(GameScript::F_Display, ts, m_this).toString();
+        if (gGameScript->isGameThread()) {
+            m_oldDynFuncValue = gGameScript->call(GameScript::F_Display, ts, m_this).toString();
+        }
+        return m_oldDynFuncValue;
     }
     return m_val.toString();
 }
@@ -106,6 +109,8 @@ void DynamicScriptableObject::resolveDependencies(QScriptValue thisObj)
     */
     for (QMap<QByteArray, DynamicPropertyScript>::iterator it = m_dynamicProperties.begin(); it != m_dynamicProperties.end(); ++it) {
         it.value().setObject(thisObj);
+        // Force calling display function in main thread
+        it.value().display();
     }
 }
 
@@ -116,6 +121,8 @@ bool DynamicScriptableObject::event(QEvent *eve)
         if (m_dynamicProperties.contains(dynPropChange->propertyName())) {
             QVariant v = this->property(dynPropChange->propertyName());
             m_dynamicProperties[dynPropChange->propertyName()].setValue(v);
+            // Force recalculation in main thead
+            m_dynamicProperties[dynPropChange->propertyName()].display();
             this->dynamicPropertyChanged();
             return true;
         }

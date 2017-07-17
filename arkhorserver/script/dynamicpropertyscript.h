@@ -24,6 +24,7 @@ private:
     QByteArray m_propertyName;
     QScriptValue m_this;
     QScriptValue m_toString;
+    mutable QString m_oldDynFuncValue;
 };
 
 //Q_DECLARE_METATYPE(DynamicPropertyScript)
@@ -44,7 +45,6 @@ protected:
     virtual void dynamicPropertyChanged() {}
 
     bool event(QEvent *eve);
-
 };
 
 #endif // DYNAMICPROPERTYSCRIPT_H

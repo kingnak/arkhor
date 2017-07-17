@@ -107,6 +107,9 @@ bool MythosCardScript::resolveDependencies()
         }
         m_envFieldOption = opt;
     }
+
+    DynamicScriptableObject::resolveDependencies(m_object);
+
     return true;
 }
 

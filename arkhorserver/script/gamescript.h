@@ -55,6 +55,7 @@ public:
 
     Q_INVOKABLE void createGate(AH::Common::FieldData::FieldID fieldId);
 
+	Q_INVOKABLE void awakeAncientOne();
 
     ////////// SETUP
     Q_INVOKABLE bool registerConstant(QString scope, QString name, QString value);

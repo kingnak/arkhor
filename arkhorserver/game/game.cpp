@@ -70,7 +70,8 @@ Game::Game()
     m_started(false),
     m_settingDirty(false),
     m_terrorLevel(0),
-    m_nextSpecialActionNr(1)
+	m_nextSpecialActionNr(1),
+	m_reqAwake(false)
 {
     Game::s_instance = this;
     m_registry = new GameRegistry;
@@ -750,6 +751,11 @@ void Game::overrunArkham()
     returnOutskirtsMonsters();
     m_context.ancientOne()->increaseDoomTrack();
     m_notifier->notifyAlert("Monsters overrun Arkham!", nullptr);
+}
+
+void Game::requestAwakeAncientOne()
+{
+	m_reqAwake = true;
 }
 
 GameContext &Game::context()
@@ -1486,13 +1492,13 @@ bool Game::postRoundChecks()
 
 Game::GameState Game::checkGameState()
 {
-    // TEST
-    //return GS_AwakeAncientOne;
-
-
     if (m_context.phase() == AH::EndFightPhase) {
         // TODO: nothing? (all handled in endFight())
     } else {
+		if (m_reqAwake) {
+			return GS_AwakeAncientOne;
+		}
+
         // Count sealed gates and open gates
         int ctSealed = 0;
         int ctOpen = 0;
@@ -1543,9 +1549,19 @@ void Game::lost(Game::GameState gs)
 
 void Game::awakeAncientOne()
 {
+	m_notifier->gamePhaseChanged(AH::EndFightPhase);
+
+	// Must make an end fight context, as awake can devour characters
+	m_context = GameContext(this, getCurrentPlayer(), nullptr, AH::EndFightPhase);
+
+	m_notifier->notifyAlert("The Ancient One awakes!", nullptr);
     m_ancientOne->awake();
-    m_notifier->notifyAlert("The Ancient One awakes!", nullptr);
-    endFight();
+	commitUpdates();
+	if (countActivePlayers() == 0) {
+		this->lost(GS_Lost);
+	} else {
+		endFight();
+	}
 }
 
 void Game::endFight()
@@ -1562,6 +1578,8 @@ void Game::endFight()
         }
     }
     commitUpdates();
+
+
 
     // TODO: Place all characters at End Fight Field (required for Trade)
 

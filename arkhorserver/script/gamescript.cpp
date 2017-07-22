@@ -630,6 +630,11 @@ void GameScript::createGate(AH::Common::FieldData::FieldID fieldld)
         gGame->createGate(field);
 }
 
+void GameScript::awakeAncientOne()
+{
+	gGame->requestAwakeAncientOne();
+}
+
 bool GameScript::registerConstant(QString scope, QString name, QString value)
 {
     QScriptValue sc = m_engine->globalObject().property(scope);

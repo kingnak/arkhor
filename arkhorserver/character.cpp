@@ -393,7 +393,7 @@ void Character::devour()
     if (gGame->context().phase() == AH::EndFightPhase) {
         // KILL HIM!
         gGame->characterDirty(this);
-        gGame->killPlayer(gGame->context().player());
+		gGame->killPlayer(gGame->playerForCharacter(this));
         return;
     }
 

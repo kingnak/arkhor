@@ -1435,9 +1435,11 @@ void Game::ancientOneAttack()
 void Game::executePlayerPhase(GamePhase *ph, AH::GamePhase phase)
 {
     foreach (Player *p, m_playerList) {
-        m_notifier->currentPlayerChanged(p);
-        m_context = GameContext(this, p, NULL, phase);
-        ph->execute();
+		if (p->isActive()) {
+			m_notifier->currentPlayerChanged(p);
+			m_context = GameContext(this, p, NULL, phase);
+			ph->execute();
+		}
     }
 }
 

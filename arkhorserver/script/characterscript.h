@@ -17,6 +17,10 @@ public:
     static void castFromValue(const QScriptValue &v, CharacterScript *&o) { o = qobject_cast<CharacterScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, CharacterScript * const &in) { return eng->newQObject(in); }
 
+	Q_PROPERTY(QString name READ investigatorName)
+	QString investigatorName() const { return m_investigatorData.name(); }
+	Q_PROPERTY(QString id READ id)
+
     Q_PROPERTY(QObjectList inventory READ getInventoryScript)
 
     Q_INVOKABLE void addToInventory(GameObjectScript *o) { Character::addToInventory(o); }

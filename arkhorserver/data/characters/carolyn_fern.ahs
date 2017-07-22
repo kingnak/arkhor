@@ -23,20 +23,36 @@ Investigator CarolynFern {
 
 SpecialAbility Psychology {
 	description: "<b>Upkeep:</b> Dr. Fern may restore 1 Sanity to herself or another character "+
-		"in her location (not implemented). She cannot raise a character's Sanity higher than "+
+                "in her location. She cannot raise a character's Sanity higher than "+
 		"that character's maximum Sanity.";
-	options: Option.Psychology;
+        options: Option.FernPsychology;
         exhaustable: true;
 }
 
-QuickOption Psychology {
-	phases: Upkeep;
-	description: "Restore 1 Sanity";
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		CHAR.addSanity(1);
+QuickOption FernPsychology {
+        name: "Psychology";
+        phases: Upkeep;
+        description: "Restore 1 Sanity for another Player";
+        continueType: CanContinue;
+        chooseType: Supplemental;
+        activate: {{{
+            // Includes this character:
+            var list = CHAR.field.characters;
+            var opts = [];
+            for (var i = 0; i < list.length; ++i) {
+                var c = list[i];
+                opts.push([c.id, c.name, "Restore 1 Sanity for " + c.name]);
+            }
+            var choice = game.context.selectChoice("Choose character", this.id, opts, true);
+            if (choice != "") {
+                for (var i = 0; i < list.length; ++i) {
+                    var c = list[i];
+                    if (c.id == choice) {
+                        c.addSanity(1);
+                        break;
+                    }
+                }
                 this.exhaust();
-	}}};
+            }
+        }}};
 }
-

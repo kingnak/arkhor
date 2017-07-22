@@ -21,6 +21,10 @@ Environment BlackestNight {
 		Skill_Luck -1,
 		Skill_Sneak +1
 	];
+        // This is mentioned in the monster's description...
+        monsterModifications: [
+                { HaunterOfTheDark Monster_CombatAdjustment +1 }
+        ];
 }
 
 Environment NodenFavor {

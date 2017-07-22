@@ -22,7 +22,12 @@ Investigator HarveyWalters {
 }
 
 SpecialAbility StrongMind {
-	// TODO
 	description: "<b>Any Phase:</b> Harvey reduces all Sanity losses he suffers by 1, "+
-		"to a minimum of 0. (not implemented)";
+                "to a minimum of 0.";
+        options: <<<[
+                game.getPreventDamageOption({
+                        description: "Prevent 1 Stanity",
+                        sanity: 1
+                })
+            ]>>>;
 }

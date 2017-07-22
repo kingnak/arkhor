@@ -23,19 +23,37 @@ Investigator VincentLee {
 
 SpecialAbility Physician {
 	description: "<b>Upkeep:</b> Dr. Lee may restore 1 Stamina to himself or another character "+
-		"in his location (not implemented). He cannot raise a character's Stamina higher than "+
+                "in his location. He cannot raise a character's Stamina higher than "+
 		"that character's maximum Stamina.";
 	options: Option.Physician;
         exhaustable: true;
 }
 
-QuickOption Physician {
-	phases: Upkeep;
-	chooseType: Supplemental;
-	continueType: CanContinue;
-	activate: {{{
-		CHAR.addStamina(1);
-                this.exhaust();
-	}}};
-}
 
+QuickOption LeePhysician {
+        name: "Physician";
+        phases: Upkeep;
+        description: "Restore 1 Stamina for another Player";
+        continueType: CanContinue;
+        chooseType: Supplemental;
+        activate: {{{
+            // Includes this character:
+            var list = CHAR.field.characters;
+            var opts = [];
+            for (var i = 0; i < list.length; ++i) {
+                var c = list[i];
+                opts.push([c.id, c.name, "Restore 1 Stamina for " + c.name]);
+            }
+            var choice = game.context.selectChoice("Choose character", this.id, opts, true);
+            if (choice != "") {
+                for (var i = 0; i < list.length; ++i) {
+                    var c = list[i];
+                    if (c.id == choice) {
+                        c.addStamina(1);
+                        break;
+                    }
+                }
+                this.exhaust();
+            }
+        }}};
+}

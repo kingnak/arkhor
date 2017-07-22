@@ -1,7 +1,6 @@
 Headline TEST {
-	description: "For keeping the game going...";
+	description: "The Ancient One awakes!";
 	executeHeadline: {{{
-		CHAR.damageStamina(2);
-		CHAR.damageSanity(2);
+                game.awakeAncientOne();
 	}}};
 }

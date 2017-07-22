@@ -22,6 +22,11 @@ Investigator MichaelMcGlen {
 }
 
 SpecialAbility StrongBody {
-	// TODO
-	description: "<b>Any Phase:</b> Michael reduces all Stamina losses he suffers by 1, to a minimum of 0. (not implemented)";
+        description: "<b>Any Phase:</b> Michael reduces all Stamina losses he suffers by 1, to a minimum of 0.";
+        options: <<<[
+                game.getPreventDamageOption({
+                        description: "Prevent 1 Stamina",
+                        stamina: 1
+                })
+            ]>>>;
 }

@@ -293,8 +293,8 @@ Monster HaunterOfTheDark : 1 {
 	description: "If the Blackest Night card is "+
 		"in play, Haunter of the Dark's fighting "+
 		"rating increases to -5.";
-		// TODO: This must be done in that mythos card...
-	//dimension: Square;
+                // This must be done in that mythos card...
+        //dimension: Square;
 	movementType: Flying;
 	awareness: -3;
 	horrorAdjustment: -2;

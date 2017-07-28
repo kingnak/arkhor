@@ -23,7 +23,7 @@ Environment BlackestNight {
 	];
         // This is mentioned in the monster's description...
         monsterModifications: [
-                { HaunterOfTheDark Monster_CombatAdjustment +1 }
+                HaunterOfTheDark { Monster_CombatAdjustment +1 }
         ];
 }
 

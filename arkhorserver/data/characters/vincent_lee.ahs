@@ -25,7 +25,7 @@ SpecialAbility Physician {
 	description: "<b>Upkeep:</b> Dr. Lee may restore 1 Stamina to himself or another character "+
                 "in his location. He cannot raise a character's Stamina higher than "+
 		"that character's maximum Stamina.";
-	options: Option.Physician;
+        options: Option.LeePhysician;
         exhaustable: true;
 }
 

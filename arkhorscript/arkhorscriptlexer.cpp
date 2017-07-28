@@ -109,6 +109,7 @@ bool ArkhorScriptLexer::parse()
             if (c == '<')
                 return parseBlock('<', '>', Symbol::Literal);
             m_symbol = makeSymbol(Symbol::Operator, sLine, sPos, "<");
+			return true;
             /*
         case '[':
             return parseBlock('[', ']', Symbol::Complex);

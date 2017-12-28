@@ -16,6 +16,7 @@
 #include <choicedata.h>
 #include <gamesettingdata.h>
 #include <QListWidgetItem>
+#include <playerdata.h>
 #include "asyncobjectreceiver.h"
 
 class ObjectRegistry;
@@ -107,12 +108,15 @@ private slots:
     void phaseChange(AH::GamePhase ph);
     void playerChange(QString id);
 
+    void on_btnSkipOptions_clicked();
+
 private:
     Ui::AhMainGui *ui;
     AhBoardScene *m_scene;
     ConnectionHandler *m_conn;
     ObjectRegistry *m_registry;
     QTimer *m_dismissTimer;
+    AH::Common::PlayerData::AutoSkipData m_skipOption;
 
     //QString m_pendingDisplayId;
 };

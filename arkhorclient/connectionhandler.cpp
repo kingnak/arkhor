@@ -101,6 +101,11 @@ void ConnectionHandler::choiceCanceled()
     send(AH::Common::Message::C_CANCEL_CHOICE);
 }
 
+void ConnectionHandler::setSkipOption(AH::Common::PlayerData::AutoSkipData skipOption)
+{
+    send(AH::Common::Message::C_SET_AUTOSKIP, skipOption);
+}
+
 void ConnectionHandler::startup()
 {
     QTcpSocket *sock = new QTcpSocket;

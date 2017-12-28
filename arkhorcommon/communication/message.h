@@ -94,6 +94,8 @@ namespace AH{
                 S_DIED,
 				S_GAME_ALERT,
 
+                C_SET_AUTOSKIP,
+
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF
             } type;

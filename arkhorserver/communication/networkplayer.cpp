@@ -488,6 +488,10 @@ void NetworkPlayer::doHandleMessage(Message msg)
             qApp->postEvent(m_ackReceiver, new AcknowledgeEvent(this));
         }
         abortAcknowledge();
+    } else if (msg.type == Message::C_SET_AUTOSKIP) {
+        PlayerData::AutoSkipData d;
+        msg.payload >> d;
+        this->m_autoSkip = d;
     } else if (m_waitMsgTypes.contains(msg.type)) {
         m_waitMsg = msg;
         m_bWaitSuccessful = true;

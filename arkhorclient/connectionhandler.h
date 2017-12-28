@@ -46,6 +46,8 @@ public:
     void choiceSelected(AH::Common::ChoiceResponseData resp);
     void choiceCanceled();
 
+    void setSkipOption(AH::Common::PlayerData::AutoSkipData skipOption);
+
 public slots:
     void startup();
     void cleanup();

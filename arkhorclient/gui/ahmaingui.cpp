@@ -17,7 +17,8 @@ AhMainGui::AhMainGui(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AhMainGui),
     m_conn(NULL),
-    m_registry(NULL)
+    m_registry(NULL),
+    m_skipOption(PlayerData::NoAutoSkip)
 {
     ui->setupUi(this);
     ui->tabInteract->setOrientation(Qt::Horizontal);
@@ -493,6 +494,25 @@ void AhMainGui::playerChange(QString id)
     } else {
         ui->stkWhichPlayer->setCurrentWidget(ui->pageOtherPlayer);
         textMessage(QString("The current player is %1").arg(id));
+    }
+}
+
+void AhMainGui::on_btnSkipOptions_clicked()
+{
+    bool ok = true;
+    QStringList itms = QStringList()
+            << "Show all options"
+            << "End round automatically if nothing to do"
+            << "Automatically choose option if there  is only 1";
+    QString sel = QInputDialog::getItem(this, "Skip Option", "Choose skip options", itms, m_skipOption, false, &ok);
+
+    if (!ok) return;
+    int idx = itms.indexOf(sel);
+    if (idx < 0) return;
+
+    if (idx != m_skipOption) {
+        m_skipOption = static_cast<PlayerData::AutoSkipData> (idx);
+        m_conn->setSkipOption(m_skipOption);
     }
 }
 

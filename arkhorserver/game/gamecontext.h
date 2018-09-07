@@ -21,7 +21,7 @@ class GameContext
 {
 public:
     GameContext(Game *g, Player *p, Monster *m,  AH::GamePhase ph)
-        : m_game(g), m_player(p), m_monster(m), m_phase(ph), m_dieRoll(NULL) {}
+        : m_game(g), m_player(p), m_monster(m), m_gate(NULL), m_phase(ph), m_dieRoll(NULL) {}
 
     Player *player() { return m_player; }
     Monster *monster() { return m_monster; }

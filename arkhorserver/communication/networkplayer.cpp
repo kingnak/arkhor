@@ -237,13 +237,13 @@ void NetworkPlayer::notifySpecific(const QString &strThat, const QString &strOth
 	}
 }
 
-DieTestUpdateData NetworkPlayer::dieRollStart(const DieRollTestData test)
+DieTestUpdateData NetworkPlayer::dieRollStart(const DieRollTestData &test)
 {
     // same as update...
     return dieRollUpdate(test);
 }
 
-DieTestUpdateData NetworkPlayer::dieRollUpdate(const DieRollTestData test)
+DieTestUpdateData NetworkPlayer::dieRollUpdate(const DieRollTestData &test)
 {
     // Start with display
     dieRollFinish(test);
@@ -262,7 +262,7 @@ DieTestUpdateData NetworkPlayer::dieRollUpdate(const DieRollTestData test)
     return DieTestUpdateData();
 }
 
-void NetworkPlayer::dieRollFinish(const DieRollTestData test)
+void NetworkPlayer::dieRollFinish(const DieRollTestData &test)
 {
     QVariant v;
     v << test;

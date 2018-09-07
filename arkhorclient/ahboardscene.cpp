@@ -5,7 +5,7 @@
 using namespace AH::Common;
 
 AhBoardScene::AhBoardScene(QObject *parent) :
-    QGraphicsScene(parent)
+    QGraphicsScene(parent), m_terrorItem(nullptr)
 {
 }
 

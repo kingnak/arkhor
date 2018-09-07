@@ -5,8 +5,11 @@
 #include "monstermodifierscript.h"
 #include <QDebug>
 
-MythosCardScript::MythosCardScript(QObject *parent) :
-    DynamicScriptableObject(parent), m_envFieldOption(NULL), m_rumorFieldOption(NULL)
+MythosCardScript::MythosCardScript(QObject *parent) : DynamicScriptableObject(parent)
+  , m_envFieldOption(NULL)
+  , m_envFieldId(AH::Common::FieldData::NO_NO_FIELD)
+  , m_rumorFieldOption(NULL)
+  , m_rumorFieldId(AH::Common::FieldData::NO_NO_FIELD)
 {
 }
 

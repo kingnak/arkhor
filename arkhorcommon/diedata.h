@@ -149,7 +149,7 @@ namespace AH {
         class DieTestUpdateData
         {
         public:
-            DieTestUpdateData() {}
+            DieTestUpdateData() : m_clueBurnAmount(0) {}
 
             DieTestUpdateData(QString optId, int clueBurns = 0)
                 : m_optionId(optId), m_clueBurnAmount(clueBurns)

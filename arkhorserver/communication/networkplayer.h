@@ -63,9 +63,9 @@ public:
 
     ///////// INTERACTOR:
 
-    virtual AH::Common::DieTestUpdateData dieRollStart(const AH::Common::DieRollTestData test);
-    virtual AH::Common::DieTestUpdateData dieRollUpdate(const AH::Common::DieRollTestData test);
-    virtual void dieRollFinish(const AH::Common::DieRollTestData test);
+    virtual AH::Common::DieTestUpdateData dieRollStart(const AH::Common::DieRollTestData &test);
+    virtual AH::Common::DieTestUpdateData dieRollUpdate(const AH::Common::DieRollTestData &test);
+    virtual void dieRollFinish(const AH::Common::DieRollTestData &test);
 
     virtual Investigator *chooseInvestigator(QList<Investigator *> invs);
 

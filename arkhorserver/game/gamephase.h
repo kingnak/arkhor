@@ -27,7 +27,7 @@ protected:
     //SkipOption *getSkipOption() { return m_skip; }
 
     QList<GameOption *> getOptions();
-    GameOption *autoChoose(const QList<GameOption *> options);
+    GameOption *autoChoose(const QList<GameOption *> &options);
 
 protected:
     Game *m_game;

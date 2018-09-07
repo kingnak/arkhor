@@ -3,6 +3,7 @@
 #include <QScriptContext>
 
 PropertyModificationScript::PropertyModificationScript()
+:   m_engine(nullptr)
 {
 }
 

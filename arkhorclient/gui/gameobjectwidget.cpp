@@ -98,7 +98,7 @@ void GameObjectWidget::updateGameObject(const AH::Common::GameObjectData *obj)
     // Hide labels without text to preserve space
     foreach (QLabel *l, this->findChildren<QLabel*>()) {
         if (l != ui->lblImage && l != ui->lblExhausted) {
-            if (l->text() == "") {
+            if (l->text().isEmpty()) {
                 l->setVisible(false);
             } else {
                 l->setVisible(true);

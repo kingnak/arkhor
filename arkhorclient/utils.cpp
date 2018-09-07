@@ -72,6 +72,7 @@ QString Utils::stringForProperty(AH::Common::PropertyValueData::Property p)
     case PropertyValueData::Monster_HorrorAdjustment: return "Monster Horror Rating";
     case PropertyValueData::Monster_Awareness: return "Monster Awareness";
     case PropertyValueData::Monster_Toughness: return "Monster Toughness";
+    case PropertyValueData::Monster_Movement: return "Monster Movement";
 
     case PropertyValueData::Ignore_MonsterAttributes: return "Ignore Monster Attributes";
     case PropertyValueData::Ignore_PhysicalDamage: return "Ignore Physical Damage";
@@ -265,6 +266,7 @@ QString Utils::stringForObjectAttribute(GameObjectData::ObjectAttribute a)
     case GameObjectData::None: return "";
     case GameObjectData::CannotBeLost: return "Cannot be lost";
     case GameObjectData::DiscardAfterAttack: return "Discard after attack";
+    case GameObjectData::DiscardOnEndFight: return "Discard when Ancient One awakes";
 
     case GameObjectData::ObjectAttribute_Max_Value_Sentinel:
         Q_ASSERT(false);
@@ -312,9 +314,10 @@ QString Utils::stringForPropertyModification(PropertyModificationData mod)
         val = QString("*%1").arg(mod.modificationAmount());
         break;
     case PropertyModificationData::DividingUp:
-        val = "^";
+        val = QString("^/%1").arg(mod.modificationAmount());
+        break;
     case PropertyModificationData::DividingDown:
-        val += QString("/%1").arg(mod.modificationAmount());
+        val = QString("/%1").arg(mod.modificationAmount());
         break;
     case PropertyModificationData::Setting:
         val = QString("=%1").arg(mod.modificationAmount());

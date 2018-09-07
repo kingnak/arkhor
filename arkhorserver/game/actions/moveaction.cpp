@@ -46,6 +46,7 @@ QString MoveAction::notificationString(GameAction::NotificationPart part, const 
                 return "{C} returns to {D}";
             }
         }
+        break;
     default:
         Q_ASSERT_X(false, "Movement", "Unsupported Field Type");
     }

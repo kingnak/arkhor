@@ -23,13 +23,13 @@ QString FocusAction::notificationString(GameAction::NotificationPart part, const
     Q_UNUSED(desc);
     if (part == Finish) {
         QString attrs;
-        QList<AttributeSlider> a = gGame->context().player()->getCharacter()->getModifyableFocusAttributes();
-        int sp = gGame->context().player()->getCharacter()->getAttributeValue(AH::Attr_Speed);
-        int sn = gGame->context().player()->getCharacter()->getAttributeValue(AH::Attr_Sneak);
-        int fi = gGame->context().player()->getCharacter()->getAttributeValue(AH::Attr_Fight);
-        int wi = gGame->context().player()->getCharacter()->getAttributeValue(AH::Attr_Will);
-        int lo = gGame->context().player()->getCharacter()->getAttributeValue(AH::Attr_Lore);
-        int lu = gGame->context().player()->getCharacter()->getAttributeValue(AH::Attr_Luck);
+        const auto c = gGame->context().player()->getCharacter();
+        int sp = c->getAttributeValue(AH::Attr_Speed);
+        int sn = c->getAttributeValue(AH::Attr_Sneak);
+        int fi = c->getAttributeValue(AH::Attr_Fight);
+        int wi = c->getAttributeValue(AH::Attr_Will);
+        int lo = c->getAttributeValue(AH::Attr_Lore);
+        int lu = c->getAttributeValue(AH::Attr_Luck);
         attrs = QString("Sp/Sn %1/%2, Fi/Wi %3/%4, Lo/Lu %5/%6").arg(sp).arg(sn).arg(fi).arg(wi).arg(lo).arg(lu);
         return "{C} focused: " + attrs;
     }

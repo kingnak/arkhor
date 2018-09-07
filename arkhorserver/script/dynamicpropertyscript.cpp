@@ -83,7 +83,7 @@ QList<AH::Common::DynamicPropertyData> DynamicScriptableObject::getDynamicProper
     foreach (DynamicPropertyScript prop, m_dynamicProperties.values()) {
         QVariant v = property(prop.propertyName());
 
-        QString s = v.toString();
+        //QString s = v.toString();
 
         AH::Common::DynamicPropertyData c(prop.name());
         c.setValue(v);

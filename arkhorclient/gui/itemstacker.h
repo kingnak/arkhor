@@ -16,11 +16,11 @@ public:
     StackItem() : m_stacker(NULL) {}
     virtual ~StackItem() {}
     StackItem(const QString &desc)
-        : m_desc(desc) {}
+        : m_desc(desc), m_stacker(nullptr) {}
     StackItem(const QPixmap &pixmap, const QString &desc)
-        : m_desc(desc), m_pixmap(pixmap) {}
+        : m_desc(desc), m_pixmap(pixmap), m_stacker(nullptr)  {}
     StackItem(const QPixmap &pixmap, const QString &desc, const QVariant &data)
-        : m_desc(desc), m_pixmap(pixmap), m_data(data) {}
+        : m_desc(desc), m_pixmap(pixmap), m_data(data), m_stacker(nullptr)  {}
 
     virtual void wasAdded() {}
     QString description() const { return m_desc; }

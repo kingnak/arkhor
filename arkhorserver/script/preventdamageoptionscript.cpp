@@ -25,8 +25,7 @@ bool PreventDamageOptionScript::execute(int damageStamina, int damageSanity)
 {
     bool ret = true;
 
-    GameObjectScript *objs = dynamic_cast<GameObjectScript *> (m_source);
-    QScriptValue obj = gGameScript->engine()->newQObject(objs, QScriptEngine::QtOwnership, QScriptEngine::PreferExistingWrapperObject);
+    QScriptValue obj = gGameScript->engine()->newQObject(dynamic_cast<GameObjectScript *> (m_source), QScriptEngine::QtOwnership, QScriptEngine::PreferExistingWrapperObject);
 
     if (damageStamina > 0) {
         if (m_staFunc.isFunction()) {

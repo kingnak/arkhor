@@ -159,6 +159,7 @@ bool ArkhorScriptParser::ElementAttribute()
             break;
         case Symbol::Minus:
             a.content.first = "-";
+            // fallthrough
         case Symbol::Plus:
             consumeToken(m_lexer->currentSymbol().type);
             a.content.first += m_lexer->currentSymbol().image;

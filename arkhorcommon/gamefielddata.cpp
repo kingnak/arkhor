@@ -3,7 +3,9 @@
 namespace AH { namespace Common {
 
 GameFieldData::GameFieldData()
-:   m_clues(0),
+:   m_id(FieldData::NO_NO_FIELD),
+    m_type(FieldData::Street),
+    m_clues(0),
     m_sealed(false),
     m_locked(false),
     m_specialActionNr(0)

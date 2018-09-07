@@ -7,6 +7,7 @@ DEFINE_ENUM_SERIALIZER(MythosData::EnvironmentType)
 
 MythosData::MythosData()
 :   m_type(None),
+    m_envType(Env_None),
     m_clueField(AH::Common::FieldData::NO_NO_FIELD),
     m_gateField(AH::Common::FieldData::NO_NO_FIELD),
     m_moveBlack(AH::NoDimension),

@@ -271,6 +271,7 @@ bool ClassGenerator::outputAttribute(const ClassDef &cls, const AttrDef &attr, b
         case ArkhorScriptParser::EnumValue:
         case ArkhorScriptParser::ArrayValues:
         case ArkhorScriptParser::None:
+        case ArkhorScriptParser::NestedObject:
             Q_ASSERT_X(false, "Simple attribute", qPrintable(QString("Simple Attribute '%1' must be Primitive, Literal, Function, or IDRef").arg(a.name)));
         }
 

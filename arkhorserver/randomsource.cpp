@@ -3,7 +3,7 @@
 
 RandomSource::RandomSource()
 {
-    qsrand(time(NULL));
+    qsrand(time(nullptr));
 }
 
 RandomSource &RandomSource::instance()

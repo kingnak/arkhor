@@ -133,6 +133,7 @@ void AhFieldItem::initCharacterItem()
     if (m_type == Location) stkSize = qMin(bound.height()/2., STACK_ITEM_SIZE);
     else if (m_type == Street) stkSize = qMin(bound.height(), STACK_ITEM_SIZE);
     else if (m_type == OtherWorld) stkSize = qMin(bound.height(), STACK_ITEM_SIZE);
+    else stkSize = qMin(bound.height(), STACK_ITEM_SIZE);
 
     prxChar->resize(stkSize, stkSize);
     prxChar->setPos(bound.topLeft());

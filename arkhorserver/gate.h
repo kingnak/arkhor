@@ -14,7 +14,7 @@ public:
 
     //QString id() const { return "GA_Dummy"; }
 
-    void setId(const QString id) { m_id = id; }
+    void setId(const QString &id) { m_id = id; }
 
     virtual AH::Common::FieldData::FieldID source() const;
     virtual AH::Common::FieldData::FieldID destination() const;

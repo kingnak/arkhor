@@ -155,8 +155,8 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
         }
         spec.data.rollData().pool().setDieValues(dieVals);
 
-        if (dynamic_cast<const DieRollBoolEvaluator*>(spec.eval)) {
-            spec.data.setSucceeded(dynamic_cast<const DieRollBoolEvaluator*>(spec.eval)->getBoolResult());
+        if (auto e = dynamic_cast<const DieRollBoolEvaluator*>(spec.eval)) {
+            spec.data.setSucceeded(e->getBoolResult());
         }
 
         updateReRollOptions(spec);
@@ -176,8 +176,8 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
 
     DieTestResult ret;
     ret.intResult = spec.eval->getResult();
-    if (dynamic_cast<const DieRollBoolEvaluator*>(spec.eval)) {
-        ret.boolResult = dynamic_cast<const DieRollBoolEvaluator*>(spec.eval)->getBoolResult();
+    if (auto e = dynamic_cast<const DieRollBoolEvaluator*>(spec.eval)) {
+        ret.boolResult = e->getBoolResult();
     } else {
         ret.boolResult = false;
     }

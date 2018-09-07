@@ -83,7 +83,7 @@ void NetworkConnection::stop()
     if (!m_socket->isValid()) {
         qDebug() << "Socket Error:" << m_socket->errorString();
     }
-    abort();
+    this->abort();
     emit shutdown();
 }
 

@@ -802,6 +802,7 @@ OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldI
     do {
         ct--;
         e = m_owEncDeck.draw();
+        if (!e) break;
         // TEST: This would allow multi colored cards
         //if ((colors & e->color()) != 0) {
         if (colors.testFlag(e->color())) {

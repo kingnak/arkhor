@@ -5,6 +5,8 @@
 #include <QTimerEvent>
 
 BroadcastNotifier::BroadcastNotifier()
+:   m_game(NULL),
+    m_ackTimeoutId(0)
 {
 }
 

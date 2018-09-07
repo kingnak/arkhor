@@ -52,11 +52,8 @@ void GamePhase::execute()
             success = false;
         }
         gGame->commitUpdates();
-    } while (!success || op == nullptr || (op && op->continueType() == AH::CanContinue));
-    if (!success) {
-        Q_ASSERT(false);
-    }
-
+    } while (!success || op == nullptr || op->continueType() == AH::CanContinue);
+    
     finishPhase();
     gGame->commitUpdates();
 }
@@ -95,7 +92,7 @@ QList<GameOption *> GamePhase::getOptions()
     return effectiveOpts;
 }
 
-GameOption *GamePhase::autoChoose(const QList<GameOption *> options)
+GameOption *GamePhase::autoChoose(const QList<GameOption *> &options)
 {
     if (m_game->context().player()->autoSkip() == AH::Common::PlayerData::NoAutoSkip)
         return nullptr;

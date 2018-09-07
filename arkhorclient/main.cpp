@@ -98,5 +98,6 @@ int main(int argc, char **argv)
     //AhMainGui gui;
     //gui.show();
     app.exec();
+    return 0;
 }
 

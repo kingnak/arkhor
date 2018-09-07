@@ -45,7 +45,7 @@ protected:
         ValueTypes valTypes;
         AttributeDesc(QString n, ReqType r, HandleType h, int v)
             : name(n), reqType(r), handleType(h), valTypes(ValueTypes(v)) {}
-        AttributeDesc() : reqType(R_INVALID) {}
+        AttributeDesc() : reqType(R_INVALID), handleType(H_Simple) {}
     };
 
     virtual bool allowInfinite(const ClassDef &cls) const { Q_UNUSED(cls); return false; }

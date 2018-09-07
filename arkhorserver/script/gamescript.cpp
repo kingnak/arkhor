@@ -703,11 +703,12 @@ QScriptValue GameScript::getDieRollOption()
 
     QScriptValue data = context()->argument(0);
     QList<AH::Skill> skills = GameScript::array2TypedList<AH::Skill>(data.property("skills"));
-    DieRollOption::ReRollType type = static_cast<DieRollOption::ReRollType> (data.property("type").toInt32());
-    if (!type || skills.isEmpty() || skills.contains(AH::NoSkill)) {
+    int iType = data.property("type").toInt32();
+    if (iType == 0 || skills.isEmpty() || skills.contains(AH::NoSkill)) {
         return context()->throwError("Invalid Die Roll Option");
     }
 
+    DieRollOption::ReRollType type = static_cast<DieRollOption::ReRollType> (iType);
     QString id = QString("OP_DIE_ROLL_%1").arg(DieRollOption::nextId());
     DieRollOption *op = new DieRollOption(type, skills);
     op->setId(id);

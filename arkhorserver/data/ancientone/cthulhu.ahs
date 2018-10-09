@@ -1,67 +1,67 @@
 AncientOne Cthulhu {
-	combatAdjustment: -6;
-	worshippersText: "Cthulhu's worshippers often have the Innsmouth Look, a sign "+
-		"of monstrous ancestors. <b>Cultists</b> have a horror rating of <b>-2</b> "+
-		"and a horror damage of <b>2</b> Sanity";
+    combatAdjustment: -6;
+    worshippersText: "Cthulhu's worshippers often have the Innsmouth Look, a sign "+
+        "of monstrous ancestors. <b>Cultists</b> have a horror rating of <b>-2</b> "+
+        "and a horror damage of <b>2</b> Sanity";
 
-	powerTitle: "Dreams of Madness";
-	powerText: "While Cthulhu stirs in his slumber, investigators have their maximum Sanity and maximum Stamina reduced by 1.";
-	attackText: "Each investigator lowers either his maximum Sanity or Maximum Stamina by 1 "+
-		"(his choice). After Cthulhu attacks 1 doom token is placed back on Cthulhu's doom track "+
-		"if it isn't already full.";
-	doomTrack: 13;
-	monsterModifications: [
-		Cultist { Monster_HorrorAdjustment -2, Monster_HorrorDamage +1 }
-	];
-	
-	slumberModifications: [
-		Prop_MaxSanity -1,
-		Prop_MaxStamina -1
-	];
+    powerTitle: "Dreams of Madness";
+    powerText: "While Cthulhu stirs in his slumber, investigators have their maximum Sanity and maximum Stamina reduced by 1.";
+    attackText: "Each investigator lowers either his maximum Sanity or Maximum Stamina by 1 "+
+        "(his choice). After Cthulhu attacks 1 doom token is placed back on Cthulhu's doom track "+
+        "if it isn't already full.";
+    doomTrack: 13;
+    monsterModifications: [
+        Cultist { Monster_HorrorAdjustment -2, Monster_HorrorDamage +1 }
+    ];
+    
+    slumberModifications: [
+        Prop_MaxSanity -1,
+        Prop_MaxStamina -1
+    ];
 
-	// Not needed... but required
-	attackAdjustment: 0;
+    // Not needed... but required
+    attackAdjustment: 0;
 
-	attack: {{{
-		var options = [];
-		if (CHAR.canPay({ type: Constants.Costs.Stamina, amount: 1})) {
-			options.push(["STA", "Stamina", "Reduce maximum Stamina by 1"]);
-		}
-		if (CHAR.canPay({ type: Constants.Costs.Sanity, amount: 1})) {
-			options.push(["SAN", "Sanity", "Reduce maximum Sanity by 1"]);
-		}
-		if (options.length == 0) {
-			CHAR.devour();
-			return;
-		}
+    attack: {{{
+        var options = [];
+        if (CHAR.canPay({ type: Constants.Costs.Stamina, amount: 1})) {
+            options.push(["STA", "Stamina", "Reduce maximum Stamina by 1"]);
+        }
+        if (CHAR.canPay({ type: Constants.Costs.Sanity, amount: 1})) {
+            options.push(["SAN", "Sanity", "Reduce maximum Sanity by 1"]);
+        }
+        if (options.length == 0) {
+            CHAR.devour();
+            return;
+        }
 
-                var choice = game.context.selectChoice("Loose Stamina or Sanity?", this.id, options);
-		if (choice == "STA") {
-                        var obj = game.drawSpecificObject(SpecialObject.CthulhuDamageStamina);
-			CHAR.addToInventory(obj);
-		} else {
-                        var obj = game.drawSpecificObject(SpecialObject.CthulhuDamageSanity);
-			CHAR.addToInventory(obj);
-		}
+        var choice = game.context.selectChoice("Loose Stamina or Sanity?", this.id, options);
+        if (choice == "STA") {
+            var obj = game.drawSpecificObject(SpecialObject.CthulhuDamageStamina);
+            CHAR.addToInventory(obj);
+        } else {
+            var obj = game.drawSpecificObject(SpecialObject.CthulhuDamageSanity);
+            CHAR.addToInventory(obj);
+        }
 
-		if (!CHAR.commitDamage()) {
-			CHAR.devour();
-		}
-	}}};
+        if (!CHAR.commitDamage()) {
+            CHAR.devour();
+        }
+    }}};
 
-	postAttack: {{{
-		if (this.doomTrack < this.maxDoomTrack) {
-			increaseDoomTrack();
-		}
-	}}};
+    postAttack: {{{
+        if (this.doomTrack < this.maxDoomTrack) {
+            increaseDoomTrack();
+        }
+    }}};
 }
 
 SpecialObject CthulhuDamageSanity {
-	name: "Cthulhu Damage (Sanity)";
-	modifications: [ Prop_MaxSanity -1 ];
+    name: "Cthulhu Damage (Sanity)";
+    modifications: [ Prop_MaxSanity -1 ];
 }
 
 SpecialObject CthulhuDamageStamina {
-	name: "Cthulhu Damage (Stamina)";
-	modifications: [ Prop_MaxStamina -1 ];
+    name: "Cthulhu Damage (Stamina)";
+    modifications: [ Prop_MaxStamina -1 ];
 }

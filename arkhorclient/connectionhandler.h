@@ -97,7 +97,7 @@ signals:
     void won(QString msg);
     void lost(QString msg);
     void gameAlert(QString msg);
-	void phaseChange(AH::GamePhase ph);
+    void phaseChange(AH::GamePhase ph);
     void playerChange(QString playerId);
 
 private slots:

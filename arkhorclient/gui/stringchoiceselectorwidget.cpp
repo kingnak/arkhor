@@ -21,7 +21,7 @@ StringChoiceSelectorWidget::StringChoiceSelectorWidget(QWidget *parent) :
     l->addWidget(m_description);
     l->addWidget(m_display, 1);
 
-	connect(m_description, SIGNAL(linkActivated(QString)), this, SIGNAL(objectInfoRequested(QString)));
+    connect(m_description, SIGNAL(linkActivated(QString)), this, SIGNAL(objectInfoRequested(QString)));
 }
 
 QString StringChoiceSelectorWidget::getSelectedChoiceId() const

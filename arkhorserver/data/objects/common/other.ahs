@@ -1,156 +1,156 @@
 CommonItem AncientTome : 2 {
-	description: "<b>Movement:</b> Exhaust and spend 2 movement points "+
-		"to make a <b>Lore (-1) check</b>. "+
-		"If you pass, draw 1 Spell and discard Ancient Tome. "+
-		"If you fail, nothing happens.";
-	exhaustable: true;
-	price: 4;
-	options: Option.ReadTome;
+    description: "<b>Movement:</b> Exhaust and spend 2 movement points "+
+        "to make a <b>Lore (-1) check</b>. "+
+        "If you pass, draw 1 Spell and discard Ancient Tome. "+
+        "If you fail, nothing happens.";
+    exhaustable: true;
+    price: 4;
+    options: Option.ReadTome;
 }
 QuickOption ReadTome {
-	name: "Read Ancient Tome";
-	phases: Movement;
-        costs: [ Movement 2 ];
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		this.exhaust();
-		var res = game.context.skillTest("Read Ancient Tome", this.id, Constants.Skills.Lore, -1, 1);
-		if (res) {
-			var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
-			owner.addToInventory(ob);
-			this.discard();
-		}
-	}}};
+    name: "Read Ancient Tome";
+    phases: Movement;
+    costs: [ Movement 2 ];
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.exhaust();
+        var res = game.context.skillTest("Read Ancient Tome", this.id, Constants.Skills.Lore, -1, 1);
+        if (res) {
+            var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
+            owner.addToInventory(ob);
+            this.discard();
+        }
+    }}};
 }
 
 CommonItem DarkCloak : 2 {
-	price: 2;
-	modifications: [ Skill_Evade +1 ];
+    price: 2;
+    modifications: [ Skill_Evade +1 ];
 }
 
 CommonItem Food : 2 {
-	description: "<b>Any:</b> Discard Food to reduce any Stamina loss by 1.";
-	price: 1;
-	options: <<<[
-		game.getPreventDamageOption({
-			stamina: 1,
-			discard: true,
-			description: "Prevent 1 Stamina damage"
-		})
-	]>>>;
+    description: "<b>Any:</b> Discard Food to reduce any Stamina loss by 1.";
+    price: 1;
+    options: <<<[
+        game.getPreventDamageOption({
+            stamina: 1,
+            discard: true,
+            description: "Prevent 1 Stamina damage"
+        })
+    ]>>>;
 }
 
 CommonItem Lantern : 2 {
-	price: 3;
-	modifications: [ Skill_Luck +1 ];
-	/*
-	 * NOTE: This is corrected lantern from Dunwich Horror.
-	 * Original lantern had:
-	 * Any Phase: Exhaust to re-roll 1 die after making a Luck check.
-	 * And cost $2
-	 */
+    price: 3;
+    modifications: [ Skill_Luck +1 ];
+    /*
+     * NOTE: This is corrected lantern from Dunwich Horror.
+     * Original lantern had:
+     * Any Phase: Exhaust to re-roll 1 die after making a Luck check.
+     * And cost $2
+     */
 }
 
 
 CommonItem Map_ofArkham : 2 {
-	description: "<b>Movement:</b> Exhaust to get 1 extra movement point.";
-	exhaustable: true;
-	price: 2;
-	options: Option.ReadMap;
+    description: "<b>Movement:</b> Exhaust to get 1 extra movement point.";
+    exhaustable: true;
+    price: 2;
+    options: Option.ReadMap;
 }
 QuickOption ReadMap {
-	phases: Movement;
-        continueType: CanContinue;
-        chooseType: Supplemental;
-	activate: {{{
-		this.owner.addMovementPoint(1);
-		this.exhaust();
-	}}};
+    phases: Movement;
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.owner.addMovementPoint(1);
+        this.exhaust();
+    }}};
 }
 
 CommonItem Motorcycle : 2 {
-	description: "<b>Movement:</b> Exhaust to get 2 extra movement points.";
-	exhaustable: true;
-	price: 4;
-	options: Option.UseMotorcycle;
+    description: "<b>Movement:</b> Exhaust to get 2 extra movement points.";
+    exhaustable: true;
+    price: 4;
+    options: Option.UseMotorcycle;
 }
 QuickOption UseMotorcycle {
-	phases: Movement;
-        continueType: CanContinue;
-        chooseType: Supplemental;
-	activate: {{{
-		this.owner.addMovementPoint(2);
-		this.exhaust();
-	}}};
+    phases: Movement;
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.owner.addMovementPoint(2);
+        this.exhaust();
+    }}};
 }
 
 CommonItem OldJournal : 2 {
-	description: "<b>Movement:</b> Exhaust and spend 1 movement point "+
-		"to make a <b>Lore (-1) check</b>. "+
-		"If you pass, gain 3 Clue tokens and discard Old Journal. "+
-		"If you fail, nothing happens.";
-	exhaustable: true;
-	price: 1;
-	options: Option.ReadOldJournal;
+    description: "<b>Movement:</b> Exhaust and spend 1 movement point "+
+        "to make a <b>Lore (-1) check</b>. "+
+        "If you pass, gain 3 Clue tokens and discard Old Journal. "+
+        "If you fail, nothing happens.";
+    exhaustable: true;
+    price: 1;
+    options: Option.ReadOldJournal;
 }
 QuickOption ReadOldJournal {
-	phases: Movement;
-        continueType: CanContinue;
-        chooseType: Supplemental;
-        costs: [ Movement 1 ];
-	activate: {{{
-		this.exhaust();
-		var res = game.context.skillTest("Read Old Journal", this.id, Constants.Skills.Lore, -1, 1);
-		if (res) {
-			this.owner.addClue(3);
-			this.discard();
-		}
-	}}};
+    phases: Movement;
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    costs: [ Movement 1 ];
+    activate: {{{
+        this.exhaust();
+        var res = game.context.skillTest("Read Old Journal", this.id, Constants.Skills.Lore, -1, 1);
+        if (res) {
+            this.owner.addClue(3);
+            this.discard();
+        }
+    }}};
 }
 
 CommonItem ResearchMaterials : 2 {
-	description: "<b>Any:</b> Discard Research Materials to gain 1 Clue token.";
-		//ORIGINAL: "<b>Any:</b> Discard Research Materials instead of spending 1 Clue token.";
-	price: 1;
-	exhaustable: true;
-	options: Option.UseResearchMaterials;
+    description: "<b>Any:</b> Discard Research Materials to gain 1 Clue token.";
+    //ORIGINAL: "<b>Any:</b> Discard Research Materials instead of spending 1 Clue token.";
+    price: 1;
+    exhaustable: true;
+    options: Option.UseResearchMaterials;
 }
 QuickOption UseResearchMaterials {
-	phases: Any;
-        continueType: CanContinue;
-	activate: {{{
-		this.owner.addClue(1);
-		this.discard();
-	}}};
+    phases: Any;
+    continueType: CanContinue;
+    activate: {{{
+        this.owner.addClue(1);
+        this.discard();
+    }}};
 }
 
 CommonItem Whiskey : 2 {
-	description: "<b>Any:</b> Discard Whiskey to reduce any Sanity loss by 1.";
-	price: 1;
-	options: <<<[
-		game.getPreventDamageOption({
-			sanity: 1,
-			discard: true,
-			description: "Prevent 1 Sanity damage"
-		})
-	]>>>;
+    description: "<b>Any:</b> Discard Whiskey to reduce any Sanity loss by 1.";
+    price: 1;
+    options: <<<[
+        game.getPreventDamageOption({
+            sanity: 1,
+            discard: true,
+            description: "Prevent 1 Sanity damage"
+        })
+    ]>>>;
 }
 
 CommonItem LuckyCigaretteCase : 2 {
-	description: "<b>Any:</b> Discard Lucky Cigarette Case to re-roll "+
-		"any one Skill Check.";
-	price: 1;
+    description: "<b>Any:</b> Discard Lucky Cigarette Case to re-roll "+
+        "any one Skill Check.";
+    price: 1;
         options: <<<[ game.getDieRollOption({type: Constants.Reroll.OneFailed, skills: [
-		Constants.Skills.Speed,
-		Constants.Skills.Sneak,
-		Constants.Skills.Fight,
-		Constants.Skills.Will,
-		Constants.Skills.Lore,
-		Constants.Skills.Luck,
-		Constants.Skills.Evade,
-		Constants.Skills.Combat,
-		Constants.Skills.Horror,
-		Constants.Skills.Spell
+        Constants.Skills.Speed,
+        Constants.Skills.Sneak,
+        Constants.Skills.Fight,
+        Constants.Skills.Will,
+        Constants.Skills.Lore,
+        Constants.Skills.Luck,
+        Constants.Skills.Evade,
+        Constants.Skills.Combat,
+        Constants.Skills.Horror,
+        Constants.Skills.Spell
         ]}) ]>>>;
 }

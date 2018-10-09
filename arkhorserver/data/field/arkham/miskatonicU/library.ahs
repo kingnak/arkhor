@@ -1,38 +1,38 @@
 ArkhamEncounter Lib_Enc1 {
-	field: MU_Library;
-	description: "A book in a shadowy corner of the library "+
-		"begins to whisper terrible things to you. "+
-		"Lose 1 Sanity.";
-	options: Option.Lib_Enc1;
+    field: MU_Library;
+    description: "A book in a shadowy corner of the library "+
+        "begins to whisper terrible things to you. "+
+        "Lose 1 Sanity.";
+    options: Option.Lib_Enc1;
 }
 AEOption Lib_Enc1 {
-	activate: {{{ CHAR.damageSanity(1); }}};
+    activate: {{{ CHAR.damageSanity(1); }}};
 }
 
 ArkhamEncounter Lib_Enc2 {
-	field: MU_Library;
-	description: "Make a <b>Will (+0) check</b> and consult the chart below:<br/><br/>"+
-		"Successes:<br/>"+
-		"0) Abigail tosses you out. Move to the street.<br/>"+
-		"1) Abigail lets you into a private section of the "+
-			"library where you find an ancient tome. Draw "+
-			"2 Spells and keep whichever one of them you want.<br/>"+
-		"2+) Abigail loans you one of the strange items in "+
-			"the library's display case. Draw 1 Unique Item.";
-	options: Option.Lib_Enc2;
+    field: MU_Library;
+    description: "Make a <b>Will (+0) check</b> and consult the chart below:<br/><br/>"+
+        "Successes:<br/>"+
+        "0) Abigail tosses you out. Move to the street.<br/>"+
+        "1) Abigail lets you into a private section of the "+
+            "library where you find an ancient tome. Draw "+
+            "2 Spells and keep whichever one of them you want.<br/>"+
+        "2+) Abigail loans you one of the strange items in "+
+            "the library's display case. Draw 1 Unique Item.";
+    options: Option.Lib_Enc2;
 }
 AEOption Lib_Enc2 {
-	activate: {{{
-                var res = game.context.dieRollSkillCount("Check", this.id, Constants.Skills.Will, 0);
-		if (res <= 0) {
-			CHAR.placeOnField(Constants.Fields.MU_MiskatonicU);
-		} else if (res == 1) {
-                        var sp = game.context.drawMultipleObjects(Constants.ObjectType.Spell, "Select Spell", this.id, 2, 1, 1);
-			if (sp.length > 0)
-				CHAR.addToInventory(sp[0]);
-		} else {
-			var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
-			CHAR.addToInventory(ob);
-		}
-	}}};
+    activate: {{{
+        var res = game.context.dieRollSkillCount("Check", this.id, Constants.Skills.Will, 0);
+        if (res <= 0) {
+            CHAR.placeOnField(Constants.Fields.MU_MiskatonicU);
+        } else if (res == 1) {
+            var sp = game.context.drawMultipleObjects(Constants.ObjectType.Spell, "Select Spell", this.id, 2, 1, 1);
+            if (sp.length > 0)
+                CHAR.addToInventory(sp[0]);
+        } else {
+            var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
+            CHAR.addToInventory(ob);
+        }
+    }}};
 }

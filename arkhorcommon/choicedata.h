@@ -31,7 +31,7 @@ namespace AH {
 
             ChoiceType type() const { return m_type; }
             QString description() const { return m_desc; }
-			QString sourceId() const { return m_sourceId; }
+            QString sourceId() const { return m_sourceId; }
             bool canCancel() const { return m_canCancel; }
             int getMin() const { return m_min; }
             int getMax() const { return m_max; }
@@ -41,7 +41,7 @@ namespace AH {
 
             void setType(ChoiceType type) { m_type = type; }
             void setDescription(const QString &desc) { m_desc = desc; }
-			void setSourceId(const QString &sourceId) { m_sourceId = sourceId; }
+            void setSourceId(const QString &sourceId) { m_sourceId = sourceId; }
             void setCanCancel(bool canCancel) { m_canCancel = canCancel; }
 
             void setSelectObjects(QStringList objectIds, int min = 0, int max = 1);
@@ -52,7 +52,7 @@ namespace AH {
         private:
             ChoiceType m_type;
             QString m_desc;
-			QString m_sourceId;
+            QString m_sourceId;
             bool m_canCancel;
 
             // Objects

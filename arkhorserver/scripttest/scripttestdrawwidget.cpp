@@ -9,29 +9,29 @@
 
 QString string4dim(AH::Dimension d)
 {
-	switch (d) {
-	case AH::NoDimension: return "No Dimension";
-	case AH::Dim_Square: return "Square";
-	case AH::Dim_Circle: return "Circle";
-	case AH::Dim_Moon: return "Moon";
-	case AH::Dim_Slash: return "Slash";
-	case AH::Dim_Star: return "Star";
-	case AH::Dim_Diamond: return "Diamond";
-	case AH::Dim_Hexagon: return "Hexagon";
-	case AH::Dim_Plus: return "Plus";
-	case AH::Dim_Triangle: return "Triangle";
-	}
+    switch (d) {
+    case AH::NoDimension: return "No Dimension";
+    case AH::Dim_Square: return "Square";
+    case AH::Dim_Circle: return "Circle";
+    case AH::Dim_Moon: return "Moon";
+    case AH::Dim_Slash: return "Slash";
+    case AH::Dim_Star: return "Star";
+    case AH::Dim_Diamond: return "Diamond";
+    case AH::Dim_Hexagon: return "Hexagon";
+    case AH::Dim_Plus: return "Plus";
+    case AH::Dim_Triangle: return "Triangle";
+    }
     return "??? " + QString::number(int(d));
 }
 
 void forDimensions(std::function<void(AH::Dimension,QString)> cb, bool withNone = true)
 {
-	if (withNone) {
-		cb(AH::NoDimension, string4dim(AH::NoDimension));
-	}
-	for (int i = AH::Dim_Square; i <= AH::Dim_Triangle; i<<=1) {
-		cb(static_cast<AH::Dimension>(i), string4dim(static_cast<AH::Dimension>(i)));
-	}
+    if (withNone) {
+        cb(AH::NoDimension, string4dim(AH::NoDimension));
+    }
+    for (int i = AH::Dim_Square; i <= AH::Dim_Triangle; i<<=1) {
+        cb(static_cast<AH::Dimension>(i), string4dim(static_cast<AH::Dimension>(i)));
+    }
 }
 
 QString string4field(AH::Common::FieldData::FieldID f) {
@@ -138,7 +138,7 @@ QComboBox *setupCmbForFields(QList<AH::Common::FieldData::FieldType> types)
 
 ScriptTestDrawWidget::ScriptTestDrawWidget(QWidget *parent) : QDialog(parent)
 {
-	setupUi(new QHBoxLayout(this));
+    setupUi(new QHBoxLayout(this));
 }
 
 ScriptTestDrawWidget::ScriptTestDrawWidget(QWidget *parent, bool) : QDialog(parent), m_cmb(nullptr), m_title(nullptr), m_rnd(nullptr)
@@ -147,7 +147,7 @@ ScriptTestDrawWidget::ScriptTestDrawWidget(QWidget *parent, bool) : QDialog(pare
 
 void ScriptTestDrawWidget::setupUi(QHBoxLayout *l)
 {
-	m_title = new QLabel;
+    m_title = new QLabel;
     l->addWidget(m_title);
 
     m_cmb = new QComboBox;
@@ -167,13 +167,13 @@ void ScriptTestDrawWidget::setupButtons(QHBoxLayout *l)
     l->addWidget(b);
     b = new QPushButton("Random");
     connect(b, &QPushButton::clicked, this, &QDialog::reject);
-	l->addWidget(b);
+    l->addWidget(b);
 }
 
 QString ScriptTestDrawWidget::askDraw(const QString &title, QStringList lst)
 {
-	prepareShow(title, lst);
-	return doShow();
+    prepareShow(title, lst);
+    return doShow();
 }
 
 void ScriptTestDrawWidget::prepareShow(const QString &title, QStringList lst)
@@ -185,10 +185,10 @@ void ScriptTestDrawWidget::prepareShow(const QString &title, QStringList lst)
 
     QCompleter *c = new QCompleter(lst, this);
     c->setCaseSensitivity(Qt::CaseInsensitive);
-	c->setFilterMode(Qt::MatchContains);
+    c->setFilterMode(Qt::MatchContains);
     m_cmb->setCompleter(c);
 
-	m_cmb->lineEdit()->selectAll();
+    m_cmb->lineEdit()->selectAll();
 }
 
 QString ScriptTestDrawWidget::doShow()
@@ -212,36 +212,36 @@ QString ScriptTestDrawWidget::doShow()
 /////////////////////////////////////
 
 ScriptTestDrawMonsterWidget::ScriptTestDrawMonsterWidget(QWidget *parent)
-	: ScriptTestDrawWidget(parent, true)
+    : ScriptTestDrawWidget(parent, true)
 {
-	QHBoxLayout *l = new QHBoxLayout;
-	ScriptTestDrawWidget::setupUi(l);
+    QHBoxLayout *l = new QHBoxLayout;
+    ScriptTestDrawWidget::setupUi(l);
 
-	QVBoxLayout *v = new QVBoxLayout(this);
-	v->addLayout(l);
+    QVBoxLayout *v = new QVBoxLayout(this);
+    v->addLayout(l);
 
-	l = new QHBoxLayout;
-	m_dim = new QComboBox;
-	forDimensions([=](AH::Dimension d, QString s){
-		m_dim->addItem(s, QVariant(int(d)));
-	});
+    l = new QHBoxLayout;
+    m_dim = new QComboBox;
+    forDimensions([=](AH::Dimension d, QString s){
+        m_dim->addItem(s, QVariant(int(d)));
+    });
 
-	l->addWidget(new QLabel("Dimension: "));
-	l->addWidget(m_dim, 1);
+    l->addWidget(new QLabel("Dimension: "));
+    l->addWidget(m_dim, 1);
 
-	v->addLayout(l);
-	v->addStretch(1);
+    v->addLayout(l);
+    v->addStretch(1);
 }
 
 QString ScriptTestDrawMonsterWidget::askDraw(const QString&, QStringList monsters)
 {
-	return ScriptTestDrawWidget::askDraw("Monster", monsters);
+    return ScriptTestDrawWidget::askDraw("Monster", monsters);
 }
 
 QString ScriptTestDrawMonsterWidget::moreData()
 {
-	int i = m_dim->currentData().toInt();
-	return QString::number(i);
+    int i = m_dim->currentData().toInt();
+    return QString::number(i);
 }
 
 /////////////////////////////////////

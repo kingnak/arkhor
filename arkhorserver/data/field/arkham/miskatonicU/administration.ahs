@@ -1,50 +1,50 @@
 FieldOption Administration_Classes {
-	field: MU_Administration;
-	name: "Classes";
-	description: "Instead of having an encounter here, you "+
-		"may pay $8 to draw 2 Skills. Keep one of them and "+
-		"discard the other.";
-	costs: [ Money 8 ];
-	activate: {{{
-                var sk = game.context.drawMultipleObjects(Constants.ObjectType.Skill, "Select Skill", this.id, 2, 1, 1);
-		if (sk.length > 0)
-			CHAR.addToInventory(sk[0]);
-	}}};
+    field: MU_Administration;
+    name: "Classes";
+    description: "Instead of having an encounter here, you "+
+        "may pay $8 to draw 2 Skills. Keep one of them and "+
+        "discard the other.";
+    costs: [ Money 8 ];
+    activate: {{{
+        var sk = game.context.drawMultipleObjects(Constants.ObjectType.Skill, "Select Skill", this.id, 2, 1, 1);
+        if (sk.length > 0)
+            CHAR.addToInventory(sk[0]);
+    }}};
 }
 
 ArkhamEncounter Admin_Enc1 {
-	field: MU_Administration;
-	description: "A student mistakes you for the bursar. If "+
-		"you want to carry on the deception, make a "+
-		"<b>Will (-2) check</b>. If you pass, gain $8 in "+
-		"ill-gotten tuition money. If you fail, you're "+
-		"arrested and taken to the Police Station.";
-	options: ( Option.Admin_Enc1, Option.SKIP );
+    field: MU_Administration;
+    description: "A student mistakes you for the bursar. If "+
+        "you want to carry on the deception, make a "+
+        "<b>Will (-2) check</b>. If you pass, gain $8 in "+
+        "ill-gotten tuition money. If you fail, you're "+
+        "arrested and taken to the Police Station.";
+    options: ( Option.Admin_Enc1, Option.SKIP );
 }
 AEOption Admin_Enc1 {
-	activate: {{{
-		var res = game.context.skillTest("Carry on deception", this.id, Constants.Skills.Will, -2, 1);
-		if (res) {
-			CHAR.addMoney(8);
-		} else {
-			CHAR.arrest();
-		}
-	}}};
+    activate: {{{
+        var res = game.context.skillTest("Carry on deception", this.id, Constants.Skills.Will, -2, 1);
+        if (res) {
+            CHAR.addMoney(8);
+        } else {
+            CHAR.arrest();
+        }
+    }}};
 }
 
 ArkhamEncounter Admin_Enc2 {
-	field: MU_Administration;
-	description: "Discuss the opportunity to sell a "+
-		"monograph with the President of the University. "+
-		"Pass a <b>Lore (-1) check</b> to make the sale "+
-		"and gain $5.";
-	options: Option.Admin_Enc2;
+    field: MU_Administration;
+    description: "Discuss the opportunity to sell a "+
+        "monograph with the President of the University. "+
+        "Pass a <b>Lore (-1) check</b> to make the sale "+
+        "and gain $5.";
+    options: Option.Admin_Enc2;
 }
 AEOption Admin_Enc2 {
-	activate: {{{
-		var res = game.context.skillTest("Discuss", this.id, Constants.Skills.Lore, -1, 1);
-		if (res) {
-			CHAR.addMoney(5);
-		}
-	}}};
+    activate: {{{
+        var res = game.context.skillTest("Discuss", this.id, Constants.Skills.Lore, -1, 1);
+        if (res) {
+            CHAR.addMoney(5);
+        }
+    }}};
 }

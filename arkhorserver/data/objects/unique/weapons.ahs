@@ -1,40 +1,40 @@
 UniqueItem EnchantedBlade : 2 {
-	hands: 1;
-	price: 6;
-	modifications: [ Damage_Magical +4 ];
+    hands: 1;
+    price: 6;
+    modifications: [ Damage_Magical +4 ];
 }
 
 UniqueItem EnchantedKnife : 2 {
-	hands: 1;
-	price: 5;
-	modifications: [ Damage_Magical +3 ];
+    hands: 1;
+    price: 5;
+    modifications: [ Damage_Magical +3 ];
 }
 
 UniqueItem HolyWater : 4 {
-	description: "Discard after use";
-	hands: 2;
-	price: 4;
-	modifications: [ Damage_Magical +6 ];
-	attributes: DiscardAfterAttack;
+    description: "Discard after use";
+    hands: 2;
+    price: 4;
+    modifications: [ Damage_Magical +6 ];
+    attributes: DiscardAfterAttack;
 }
 
 UniqueItem LampOfAlhazred : 1 {
-	hands: 2;
-	price: 7;
+    hands: 2;
+    price: 7;
         modifications: [ Damage_Magical +5 ];
 }
 
 UniqueItem PowderOfIbnGhazi : 2 {
-	description: "Lose 1 sanity and discard after use.";
-	hands: 2;
-	price: 6;
-	modifications: [ Damage_magical +6 ];
-	attributes: DiscardAfterAttack;
-	// TODO: After Attack: Lose 1 sanity
+    description: "Lose 1 sanity and discard after use.";
+    hands: 2;
+    price: 6;
+    modifications: [ Damage_magical +6 ];
+    attributes: DiscardAfterAttack;
+    // TODO: After Attack: Lose 1 sanity
 }
 
 UniqueItem SwordOfGlory : 1 {
-	hands: 2;
-	price: 8;
-	modifications: [ Damage_magical +6 ];
+    hands: 2;
+    price: 8;
+    modifications: [ Damage_magical +6 ];
 }

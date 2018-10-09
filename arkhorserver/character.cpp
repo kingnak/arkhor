@@ -348,7 +348,7 @@ void Character::unconscious()
         return;
     }
 
-	gGame->notifier()->notifySpecific("You are unconscious!", "{C} is unconscious", gGame->playerForCharacter(this));
+    gGame->notifier()->notifySpecific("You are unconscious!", "{C} is unconscious", gGame->playerForCharacter(this));
     m_curStamina = qMin(1, maxStamina());
     if (m_curStamina == 0) {
         devour();
@@ -374,7 +374,7 @@ void Character::insane()
         return;
     }
 
-	gGame->notifier()->notifySpecific("You are insane!", "{C} is insane", gGame->playerForCharacter(this));
+    gGame->notifier()->notifySpecific("You are insane!", "{C} is insane", gGame->playerForCharacter(this));
     m_curSanity = qMin(1, maxSanity());
     if (m_curSanity == 0) {
         devour();
@@ -393,11 +393,11 @@ void Character::devour()
     if (gGame->context().phase() == AH::EndFightPhase) {
         // KILL HIM!
         gGame->characterDirty(this);
-		gGame->killPlayer(gGame->playerForCharacter(this));
+        gGame->killPlayer(gGame->playerForCharacter(this));
         return;
     }
 
-	gGame->notifier()->notifySpecific("You were devoured!", "{C} was devoured", gGame->playerForCharacter(this));
+    gGame->notifier()->notifySpecific("You were devoured!", "{C} was devoured", gGame->playerForCharacter(this));
     // Simply replace investigator
     gGame->returnInvestigator(investigator());
     Investigator *newInv = gGame->drawInvestigator();
@@ -408,7 +408,7 @@ void Character::lostInSpaceAndTime()
 {
     m_curSanity = qMax(1, m_curSanity);
     m_curStamina = qMax(1, m_curStamina);
-	gGame->notifier()->notifySpecific("You are lost in time and space!", "{C} is lost in time and space", gGame->playerForCharacter(this));
+    gGame->notifier()->notifySpecific("You are lost in time and space!", "{C} is lost in time and space", gGame->playerForCharacter(this));
     loseHalfPossessions();
     setDelayed(true);
     gGame->board()->field(AH::Common::FieldData::Sp_SpaceAndTime)->placeCharacter(this);

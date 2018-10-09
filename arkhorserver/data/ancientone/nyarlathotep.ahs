@@ -1,47 +1,47 @@
 AncientOne Nyarlathotep {
-	combatAdjustment: -4;
-	worshippersText: "Nyarlathotep has innumerable cults all over the world. <b>Cultists</b> "+
-		"have the <b><i>Endless</i></b> ability";
+    combatAdjustment: -4;
+    worshippersText: "Nyarlathotep has innumerable cults all over the world. <b>Cultists</b> "+
+        "have the <b><i>Endless</i></b> ability";
 
-	powerTitle: "A Thousand Masks";
-	powerText: "At the start of the game add the 5 <b><i>Mask</i></b> monsters to the cup. "+
-		"Multiple <b><i>Mask</i></b> monsters can be in play at once.";
-		// ^Solved by setting AllowMaskMonster
-		
-	battleStartText: "Any investigator with no Clue tokens is <b>devoured</b>.";
-	attackText: "Each investigator must pass a <b>Lore (+1) check</b> or lose 1 Clue token. "+
-		"Any investigator with no Clue tokens left is <b>devoured</b>. "+
-		"This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)";
-		
-	doomTrack: 11;
-	defenses: MagicalResistance;
-	monsterModifications: [
-		Cultist { Monster_Attributes |"+Constants.Monster.Endless+" }
-	];
-	slumberModifications: [
-		Game_AllowMaskMonster 1
-	];
+    powerTitle: "A Thousand Masks";
+    powerText: "At the start of the game add the 5 <b><i>Mask</i></b> monsters to the cup. "+
+        "Multiple <b><i>Mask</i></b> monsters can be in play at once.";
+        // ^Solved by setting AllowMaskMonster
+        
+    battleStartText: "Any investigator with no Clue tokens is <b>devoured</b>.";
+    attackText: "Each investigator must pass a <b>Lore (+1) check</b> or lose 1 Clue token. "+
+        "Any investigator with no Clue tokens left is <b>devoured</b>. "+
+        "This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)";
+        
+    doomTrack: 11;
+    defenses: MagicalResistance;
+    monsterModifications: [
+        Cultist { Monster_Attributes |"+Constants.Monster.Endless+" }
+    ];
+    slumberModifications: [
+        Game_AllowMaskMonster 1
+    ];
 
-	attackAdjustment: 1;
+    attackAdjustment: 1;
 
-	onAwake: {{{
-            var list = game.context.allCharacters;
-            for (var i = 0; i < list.length; ++i) {
-            var c = list[i];
-                if (!c.canPay({type: Constants.Costs.Clue, amount: 1})) {
-                    c.devour();
-                }
+    onAwake: {{{
+        var list = game.context.allCharacters;
+        for (var i = 0; i < list.length; ++i) {
+        var c = list[i];
+            if (!c.canPay({type: Constants.Costs.Clue, amount: 1})) {
+                c.devour();
             }
-	}}};
-	
-	attack: {{{
-		var res = game.context.skillTest("Nyarlathotep attacks", this.id, Constants.Skills.Lore, this.attackAdjustment, 1);
-		if (!res) {
-			res = CHAR.pay({type: Constants.Costs.Clue, amount: 1});
-			if (!res) {
-				CHAR.devour();
-			}
-		}
-	}}};
+        }
+    }}};
+    
+    attack: {{{
+        var res = game.context.skillTest("Nyarlathotep attacks", this.id, Constants.Skills.Lore, this.attackAdjustment, 1);
+        if (!res) {
+            res = CHAR.pay({type: Constants.Costs.Clue, amount: 1});
+            if (!res) {
+                CHAR.devour();
+            }
+        }
+    }}};
 }
 

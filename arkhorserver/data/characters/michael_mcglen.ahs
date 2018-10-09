@@ -1,32 +1,32 @@
 
 Investigator MichaelMcGlen {
-	name: "Micael McGlen";
-	occupation: "The Gangster";
-	homeFieldId: SS_MasBoardingHouse;
-	sanity: 3;
-	stamina: 7;
-	money: 8;
-	focus: 1;
-	clues: 0;
-	uniqueAbilityId: SpecialAbility.StrongBody;
-	fixedPossesionObjectIds: (CommonItem.Dynamite, CommonItem.TommyGun);
-	randomPossessions: [
-		UniqueItem 1,
-		Skill 1
-	];
-	attributes: [
-		SpeedSneak {(2,4),(3,3),(4,2),(5,1)},
-		FightWill {(3,4),(4,3),(5,2),(6,1)},
-		LoreLuck {(0,3),(1,2),(2,1),(3,0)}
-	];
+    name: "Micael McGlen";
+    occupation: "The Gangster";
+    homeFieldId: SS_MasBoardingHouse;
+    sanity: 3;
+    stamina: 7;
+    money: 8;
+    focus: 1;
+    clues: 0;
+    uniqueAbilityId: SpecialAbility.StrongBody;
+    fixedPossesionObjectIds: (CommonItem.Dynamite, CommonItem.TommyGun);
+    randomPossessions: [
+        UniqueItem 1,
+        Skill 1
+    ];
+    attributes: [
+        SpeedSneak {(2,4),(3,3),(4,2),(5,1)},
+        FightWill {(3,4),(4,3),(5,2),(6,1)},
+        LoreLuck {(0,3),(1,2),(2,1),(3,0)}
+    ];
 }
 
 SpecialAbility StrongBody {
         description: "<b>Any Phase:</b> Michael reduces all Stamina losses he suffers by 1, to a minimum of 0.";
         options: <<<[
                 game.getPreventDamageOption({
-                        description: "Prevent 1 Stamina",
-                        stamina: 1
+                    description: "Prevent 1 Stamina",
+                    stamina: 1
                 })
             ]>>>;
 }

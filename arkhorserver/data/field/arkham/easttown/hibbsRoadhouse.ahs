@@ -1,31 +1,31 @@
 ArkhamEncounter Hibbs_Enc1 {
-	field: ET_HibbsRoadhouse;
-	description: "\"So, what's your story, friend?\" "+
-		"A smiling man inquires about your adventures over "+
-		"a glass of gin. You tell him your story.<br/>If you "+
-		"spend 3 Clue Tokens, he introduces himself as "+
-		"Ryan Dean and asks to join you. Take his Ally card.<br/>"+
-		"If it's not available, he gives you some useful "+
-		"items instead. Draw 2 Common Items.";
-	options: (Option.Hibbs_Enc1, Option.SKIP);
+    field: ET_HibbsRoadhouse;
+    description: "\"So, what's your story, friend?\" "+
+        "A smiling man inquires about your adventures over "+
+        "a glass of gin. You tell him your story.<br/>If you "+
+        "spend 3 Clue Tokens, he introduces himself as "+
+        "Ryan Dean and asks to join you. Take his Ally card.<br/>"+
+        "If it's not available, he gives you some useful "+
+        "items instead. Draw 2 Common Items.";
+    options: (Option.Hibbs_Enc1, Option.SKIP);
 }
 AEOption Hibbs_Enc1 {
-	costs: [ Clue 3 ];
-	activate: {{{
-                var ryan = game.drawSpecificObject(Ally.RyanDean);
-		if (ryan) {
-			CHAR.addToInventory(ryan);
-		} else {
-                        var objs = game.context.drawMultipleObjects(Constants.ObjectType.CommonItem, "Get items", this.id, 2, 2, 2);
-			for (var o in objs) {
-				CHAR.addToInventory(o);
-			}
-		}
-	}}};
+    costs: [ Clue 3 ];
+    activate: {{{
+        var ryan = game.drawSpecificObject(Ally.RyanDean);
+        if (ryan) {
+            CHAR.addToInventory(ryan);
+        } else {
+            var objs = game.context.drawMultipleObjects(Constants.ObjectType.CommonItem, "Get items", this.id, 2, 2, 2);
+            for (var o in objs) {
+                CHAR.addToInventory(o);
+            }
+        }
+    }}};
 }
 
 ArkhamEncounter Hibbs_Enc2 {
-	field: ET_HibbsRoadhouse;
-	description: "A horrible monster appears!";
-	options: Option.MonsterAppearsARK;
+    field: ET_HibbsRoadhouse;
+    description: "A horrible monster appears!";
+    options: Option.MonsterAppearsARK;
 }

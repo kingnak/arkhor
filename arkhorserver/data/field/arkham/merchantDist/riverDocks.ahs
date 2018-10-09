@@ -1,58 +1,58 @@
 FieldOption Docks_Shady {
-	field: MD_RiverDocks;
-	name: "Shady Character";
-	description: "Instead of having an encounter here, "+
-		"you may spend 5 toughness worth of monster trophies "+
-		"or 1 gate trophy to gain $5.";
-	costs: [ MonsterToughness 5, GateTrophy 1 ];
-	activate: {{{
-		CHAR.addMoney(5);
-	}}};
+    field: MD_RiverDocks;
+    name: "Shady Character";
+    description: "Instead of having an encounter here, "+
+        "you may spend 5 toughness worth of monster trophies "+
+        "or 1 gate trophy to gain $5.";
+    costs: [ MonsterToughness 5, GateTrophy 1 ];
+    activate: {{{
+        CHAR.addMoney(5);
+    }}};
 }
 
 ArkhamEncounter Docks_Enc1 {
-	field: MD_RiverDocks;
-	description: "A horrific stench draws your attention "+
-		"to the body of some bizarre marine creature, rotting "+
-		"on the edge of the docks. As you move towards it, "+
-		"an uneasy feeling grows in the pit of your stomach, "+
-		"as though you are meddling with something best left "+
-		"alone. Make a <b>Will (-1) check</b>. If you pass, "+
-		"lose 1 Sanity. If you fail, lose 2 Sanity. In "+
-		"either event, if you are not reduced to 0 Sanity, "+
-		"you find something clutched in its webbed hands.<br/>"+
-		"Draw 1 Unique Item.";
-	options: Option.Docks_Enc1;
+    field: MD_RiverDocks;
+    description: "A horrific stench draws your attention "+
+        "to the body of some bizarre marine creature, rotting "+
+        "on the edge of the docks. As you move towards it, "+
+        "an uneasy feeling grows in the pit of your stomach, "+
+        "as though you are meddling with something best left "+
+        "alone. Make a <b>Will (-1) check</b>. If you pass, "+
+        "lose 1 Sanity. If you fail, lose 2 Sanity. In "+
+        "either event, if you are not reduced to 0 Sanity, "+
+        "you find something clutched in its webbed hands.<br/>"+
+        "Draw 1 Unique Item.";
+    options: Option.Docks_Enc1;
 }
 AEOption Docks_Enc1 {
-	activate: {{{
-		var res = game.context.skillTest("Withstand stench", this.id, Constants.Skills.Will, -1, 1);
-		if (res) {
-			CHAR.damageSanity(1);
-		} else {
-			CHAR.damageSanity(2);
-		}
-		var ok = CHAR.commitDamage();
-		if (ok) {
-			var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
-			CHAR.addToInventory(ob);
-		}
-	}}};
+    activate: {{{
+        var res = game.context.skillTest("Withstand stench", this.id, Constants.Skills.Will, -1, 1);
+        if (res) {
+            CHAR.damageSanity(1);
+        } else {
+            CHAR.damageSanity(2);
+        }
+        var ok = CHAR.commitDamage();
+        if (ok) {
+            var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
+            CHAR.addToInventory(ob);
+        }
+    }}};
 }
 
 ArkhamEncounter Docks_Enc2 {
-	field: MD_RiverDocks;
-	description: "As you look out across the waves, you "+
-		"feel strangely compelled to throw yourself into "+
-		"the ocean's watery embrace. Pass a <b>Will (+1) "+
-		"check</b> or you are <em>Lost in time and space</em>.";
-	options: Option.Docks_Enc2;
+    field: MD_RiverDocks;
+    description: "As you look out across the waves, you "+
+        "feel strangely compelled to throw yourself into "+
+        "the ocean's watery embrace. Pass a <b>Will (+1) "+
+        "check</b> or you are <em>Lost in time and space</em>.";
+    options: Option.Docks_Enc2;
 }
 AEOption Docks_Enc2 {
-	activate: {{{
-		var res = game.context.skillTest("Withstand urge", this.id, Constants.Skills.Will, +1, 1);
-		if (!res) {
-			CHAR.lostInSpaceAndTime();
-		}
-	}}};
+    activate: {{{
+        var res = game.context.skillTest("Withstand urge", this.id, Constants.Skills.Will, +1, 1);
+        if (!res) {
+            CHAR.lostInSpaceAndTime();
+        }
+    }}};
 }

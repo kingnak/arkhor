@@ -112,9 +112,9 @@ void NetworkPlayer::nextRound()
 
 void NetworkPlayer::gamePhaseChanged(AH::GamePhase phase)
 {
-	QVariant v;
-	v << phase;
-	m_conn->sendMessage(Message::S_PHASE_CHANGE, v);
+    QVariant v;
+    v << phase;
+    m_conn->sendMessage(Message::S_PHASE_CHANGE, v);
 }
 
 void NetworkPlayer::firstPlayerChanged(const Player *player)
@@ -230,11 +230,11 @@ void NetworkPlayer::notifyAlert(const QString &msg, Player *p, const QString &de
 
 void NetworkPlayer::notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc)
 {
-	if (this == that) {
+    if (this == that) {
         notifyAlert(strThat, that, desc);
-	} else {
+    } else {
         notifySimple(strOther, that, desc);
-	}
+    }
 }
 
 DieTestUpdateData NetworkPlayer::dieRollStart(const DieRollTestData &test)

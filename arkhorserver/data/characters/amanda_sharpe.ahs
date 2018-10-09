@@ -7,77 +7,77 @@ Investigator AmandaSharpe {
     money: 1;
     clues: 1;
     uniqueAbilityId: SpecialAbility.Studious;
-	// Fixed Possessions is required, but empty list doesn't work...
-	// Use a literal empty array
-        fixedPossesionObjectIds: <<<[]>>>;
-        //fixedPossesionObjectIds: (SpecialObject.BankLoan, UniqueItem.AlienStatue);
-	//fixedPossesionObjectIds: (CommonItem.ASTest1,CommonItem.ASTest2,CommonItem.ASTest3);
+    // Fixed Possessions is required, but empty list doesn't work...
+    // Use a literal empty array
+    fixedPossesionObjectIds: <<<[]>>>;
+    //fixedPossesionObjectIds: (SpecialObject.BankLoan, UniqueItem.AlienStatue);
+    //fixedPossesionObjectIds: (CommonItem.ASTest1,CommonItem.ASTest2,CommonItem.ASTest3);
     randomPossessions: [
-            CommonItem 1,
-            UniqueItem 1,
-            Spell 1,
-            Skill 2
+        CommonItem 1,
+        UniqueItem 1,
+        Spell 1,
+        Skill 2
     ];
     focus: 3;
     attributes: [
-            SpeedSneak {(1,4),(2,3),(3,2),(4,1)},
-            FightWill {(1,4),(2,3),(3,2),(4,1)},
-            LoreLuck {(1,4),(2,3),(3,2),(4,1)}
+        SpeedSneak {(1,4),(2,3),(3,2),(4,1)},
+        FightWill {(1,4),(2,3),(3,2),(4,1)},
+        LoreLuck {(1,4),(2,3),(3,2),(4,1)}
     ];
 }
 
 SpecialAbility Studious {
     description: "Whenever Amanda draws one or more cards "+
-                "from the Skill deck, she draws one extra card "+
-                "and then discards one of the cards.";
+                 "from the Skill deck, she draws one extra card "+
+                 "and then discards one of the cards.";
     modifications: [ DrawCard_Skill +1 ];
 }
 /*
 CommonItem ASTest1 {
-	description: "Prevent Damage Test";
-	options: <<<[
-		game.getPreventDamageOption({
-			description: "Prevent 1 Sta + 1 San",
-			stamina: 1,
-			sanity: 1
-		})
-		]>>>;
+    description: "Prevent Damage Test";
+    options: <<<[
+        game.getPreventDamageOption({
+            description: "Prevent 1 Sta + 1 San",
+            stamina: 1,
+            sanity: 1
+        })
+        ]>>>;
 }
 
 CommonItem ASTest2 {
-	description: "Prevent Damage Test 2";
-	options: <<<[
-		game.getPreventDamageOption({
-			description: "Prevent 1 Sta + 1 San (Or...)",
-			stamina: 1,
-			sanity: 1
-		}),
-		game.getPreventDamageOption({
-			description: "Prevent 2 Sta (Or...)",
-			stamina: 2
-		}),
-		game.getPreventDamageOption({
-			description: "Prevent 2 San (Or...)",
-			sanity: 2
-		}),
-	]>>>;
+    description: "Prevent Damage Test 2";
+    options: <<<[
+        game.getPreventDamageOption({
+            description: "Prevent 1 Sta + 1 San (Or...)",
+            stamina: 1,
+            sanity: 1
+        }),
+        game.getPreventDamageOption({
+            description: "Prevent 2 Sta (Or...)",
+            stamina: 2
+        }),
+        game.getPreventDamageOption({
+            description: "Prevent 2 San (Or...)",
+            sanity: 2
+        }),
+    ]>>>;
 }
 
 CommonItem ASTest3 {
-	description: "Prevent Damage Test 3";
-	options: <<<[
-		game.getPreventDamageOption({
-			description: "Prevent ALL Stamina (Or...)",
-			stamina: function(dmg) {
-				return dmg;
-			}
-		}),
-		game.getPreventDamageOption({
-			description: "Prevent ALL Sanity (Or...)",
-			sanity: function(dmg) {
-				return dmg;
-			}
-		})
-	]>>>;
+    description: "Prevent Damage Test 3";
+    options: <<<[
+        game.getPreventDamageOption({
+            description: "Prevent ALL Stamina (Or...)",
+            stamina: function(dmg) {
+                return dmg;
+            }
+        }),
+        game.getPreventDamageOption({
+            description: "Prevent ALL Sanity (Or...)",
+            sanity: function(dmg) {
+                return dmg;
+            }
+        })
+    ]>>>;
 }
 */

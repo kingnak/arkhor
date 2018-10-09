@@ -1,101 +1,101 @@
 SpecialObject BankLoan {
-        description: "Gain $10 when you take this card.<br/><br/>"+
-                "<b>Upkeep:</b> Roll a die. On a 1-3, pay $1 or discard all of your items along with "+
-                "this card. You cannot get another Bank Loan this game.<br/><br/>"+
-		"<b>Any Phase:</b> Pay $10 to pay off your Bank Loan and discard this card. "+
-		"You may choose to take out a new Bank Loan later on during this game.";
-	actions: Action.BankLoanCheck;
-	options: Option.BankLoanPayback;
-	onAddToInventory: {{{
-		// TODO: Check if player can have another bankloan... maybe through dummy blocker object?
-		c.addMoney(10);
-	}}};
+    description: "Gain $10 when you take this card.<br/><br/>"+
+            "<b>Upkeep:</b> Roll a die. On a 1-3, pay $1 or discard all of your items along with "+
+            "this card. You cannot get another Bank Loan this game.<br/><br/>"+
+            "<b>Any Phase:</b> Pay $10 to pay off your Bank Loan and discard this card. "+
+            "You may choose to take out a new Bank Loan later on during this game.";
+    actions: Action.BankLoanCheck;
+    options: Option.BankLoanPayback;
+    onAddToInventory: {{{
+        // TODO: Check if player can have another bankloan... maybe through dummy blocker object?
+        c.addMoney(10);
+    }}};
 }
 Action BankLoanCheck {
-	phases: Upkeep;
-	activate: {{{
-                var res = game.context.genericDieRollSum("Bank Loan check", this.id, 1);
-		if (res < 4) {
-			var options = [["ITEMS", "Lose all items", "You lose all your items and this bank loan"]];
-			if (this.owner.canPay({type: Constants.Costs.Money, amount: 1})) {
-				options.push(["MONEY", "$1", "Pay $1 instead"]);
-			}
-                        res = game.context.selectChoice("Choose how to pay", this.id, options);
-			if (res == "MONEY") {
-				this.owner.loseMoney(1);
-			} else {
-                                this.owner.losePossessions(1000, this.id);
-				this.discard();
-			}
-		}
-	}}};
+    phases: Upkeep;
+    activate: {{{
+        var res = game.context.genericDieRollSum("Bank Loan check", this.id, 1);
+        if (res < 4) {
+            var options = [["ITEMS", "Lose all items", "You lose all your items and this bank loan"]];
+            if (this.owner.canPay({type: Constants.Costs.Money, amount: 1})) {
+                options.push(["MONEY", "$1", "Pay $1 instead"]);
+            }
+            res = game.context.selectChoice("Choose how to pay", this.id, options);
+            if (res == "MONEY") {
+                this.owner.loseMoney(1);
+            } else {
+                this.owner.losePossessions(1000, this.id);
+                this.discard();
+            }
+        }
+    }}};
 }
 QuickOption BankLoanPayback {
-	phases: Any;
-	name: "Pay off Bank Loan";
-	chooseType: Supplemental;
-	continueType: CanContinue;
-	costs: [ Money 10 ];
-	activate: {{{
-		this.discard();
-	}}};
+    phases: Any;
+    name: "Pay off Bank Loan";
+    chooseType: Supplemental;
+    continueType: CanContinue;
+    costs: [ Money 10 ];
+    activate: {{{
+        this.discard();
+    }}};
 }
 
 SpecialObject DeputyOfArkham : 1 {
-	description: "When you gain this card, take the Deputy's Revolver and the Patrol Wagon (not implemented) as well.\n"+
-		"<b>Upkeep:</b> Gain $1";
-	actions: Action.DeputyUpkeep;
-	onAddToInventory: {{{
-		var rev = game.drawSpecificObject(SpecialObject.DeputysRevolver);
-		this.owner.addToInventory(rev);
-		//var wag = game.drawSpecificObject(SpecialObject.PatrolWagon);
-		//this.owner.addToInventory(wag);
-	}}};
+    description: "When you gain this card, take the Deputy's Revolver and the Patrol Wagon (not implemented) as well.\n"+
+        "<b>Upkeep:</b> Gain $1";
+    actions: Action.DeputyUpkeep;
+    onAddToInventory: {{{
+        var rev = game.drawSpecificObject(SpecialObject.DeputysRevolver);
+        this.owner.addToInventory(rev);
+        //var wag = game.drawSpecificObject(SpecialObject.PatrolWagon);
+        //this.owner.addToInventory(wag);
+    }}};
 }
 Action DeputyUpkeep {
-	phases: Upkeep;
-	activate: {{{
-		this.owner.addMoney(1);
-	}}};
+    phases: Upkeep;
+    activate: {{{
+        this.owner.addMoney(1);
+    }}};
 }
 
 SpecialObject DeputysRevolver : 1 {
-	name: "Deputy's Revolver";
-	description: "Deputy's Revolver cannot be lost or stolen unless you choose to allow it.";
-	hands: 1;
-	modifications: [ Damage_Physical +3 ];
-	attributes: CannotBeLost;
+    name: "Deputy's Revolver";
+    description: "Deputy's Revolver cannot be lost or stolen unless you choose to allow it.";
+    hands: 1;
+    modifications: [ Damage_Physical +3 ];
+    attributes: CannotBeLost;
 }
 /*
 SpecialObject PatrolWagon : 1 {
-	// TODO
-	description: "<b>Movement:</b> If you are in Arkham, you may move to any street area or "+
-		"location in Arkham instead of your normal movement.\n"+
-		"Roll a die at the end of each Combat and whenever you return to Arkham from an "+
-		"Other World. On a 1, return this card to the box."
+    // TODO
+    description: "<b>Movement:</b> If you are in Arkham, you may move to any street area or "+
+        "location in Arkham instead of your normal movement.\n"+
+        "Roll a die at the end of each Combat and whenever you return to Arkham from an "+
+        "Other World. On a 1, return this card to the box."
 }
 */
 
 SpecialObject Retainer {
-	description: "<b>Upkeep:</b> Gain $2, then roll a die. Discard this card on a 1.";
-	actions: Action.Retainer;
+    description: "<b>Upkeep:</b> Gain $2, then roll a die. Discard this card on a 1.";
+    actions: Action.Retainer;
 }
 Action Retainer {
-	phases: Upkeep;
-	activate: {{{
-                CHAR.addMoney(2);
-                var res = game.context.genericDieRollSum("Retainer test", this.id, 1);
-		if (res == 1) {
-			this.discard();
-		}
-	}}};
+    phases: Upkeep;
+    activate: {{{
+        CHAR.addMoney(2);
+        var res = game.context.genericDieRollSum("Retainer test", this.id, 1);
+        if (res == 1) {
+            this.discard();
+        }
+    }}};
 }
 
 /*
 SpecialObject LodgeMembership {
-	// TODO
-	name: "Silver Twilight Lodge Membership";
-	description: "<b>Any Phase:</b> Whenever you have an encounter at the Silver Twilight Lodge, "+
-		"you have an encounter at the Inner Sanctum instead.";
+    // TODO
+    name: "Silver Twilight Lodge Membership";
+    description: "<b>Any Phase:</b> Whenever you have an encounter at the Silver Twilight Lodge, "+
+        "you have an encounter at the Inner Sanctum instead.";
 }
 */

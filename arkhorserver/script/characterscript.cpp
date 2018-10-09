@@ -48,14 +48,14 @@ bool CharacterScript::canCloseGate()
 
 int CharacterScript::genericDieRollSum(QString desc, QString sourceId, int dieCount)
 {
-	DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericSummer(desc, sourceId, dieCount);
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericSummer(desc, sourceId, dieCount);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->playerForCharacter(this), spec);
     return res.intResult;
 }
 
 bool CharacterScript::genericDieRollTest(QString desc, QString sourceId, int dieCount, int target)
 {
-	int ct = genericDieRollCount(desc, sourceId, dieCount);
+    int ct = genericDieRollCount(desc, sourceId, dieCount);
     return ct >= target;
 }
 
@@ -65,21 +65,21 @@ int CharacterScript::genericDieRollCount(QString desc, QString sourceId, int die
     for (int i = gGame->context().getCharacterProperty(this, PropertyValue::Prop_MinSuccessDieRoll).finalVal(); i <= 6; ++i) {
         successes << i;
     }
-	DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericCounter(desc, sourceId, dieCount, successes);
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericCounter(desc, sourceId, dieCount, successes);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->playerForCharacter(this), spec);
     return res.intResult;
 }
 
 bool CharacterScript::skillTest(QString desc, QString sourceId, AH::Skill skill, int adjust, int target)
 {
-	DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(desc, sourceId, this, skill, adjust, target);
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(desc, sourceId, this, skill, adjust, target);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->playerForCharacter(this), spec);
     return res.boolResult;
 }
 
 int CharacterScript::dieRollSkillCount(QString desc, QString sourceId, AH::Skill skill, int adjust)
 {
-	DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillCounter(desc, sourceId, this, skill, adjust);
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillCounter(desc, sourceId, this, skill, adjust);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->playerForCharacter(this), spec);
     return res.intResult;
 }

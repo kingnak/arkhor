@@ -1,63 +1,63 @@
 FieldOption Hosp_HealOne {
-	field: UT_StMarysHospital;
-	name: "Medical Care (One)";
-	description: "Instead of having an encounter here, "+
-		"you may recover Stamina by receiving medical care. "+
-		"You regain 1 Stamina for free.";
-	activate: {{{ CHAR.addStamina(1); }}};
+    field: UT_StMarysHospital;
+    name: "Medical Care (One)";
+    description: "Instead of having an encounter here, "+
+        "you may recover Stamina by receiving medical care. "+
+        "You regain 1 Stamina for free.";
+    activate: {{{ CHAR.addStamina(1); }}};
 }
 
 FieldOption Hosp_HealAll {
-	field: UT_StMarysHospital;
-	name: "Medical Care (All)";
-	description: "Instead of having an encounter here, "+
-		"you may recover Stamina by receiving medical care. "+
-		"Pay $2 to restore your Stamina to its maximum value.";
-	costs: [ Money 2 ];
-	activate: {{{ CHAR.restoreStamina(); }}};
+    field: UT_StMarysHospital;
+    name: "Medical Care (All)";
+    description: "Instead of having an encounter here, "+
+        "you may recover Stamina by receiving medical care. "+
+        "Pay $2 to restore your Stamina to its maximum value.";
+    costs: [ Money 2 ];
+    activate: {{{ CHAR.restoreStamina(); }}};
 }
 
 ArkhamEncounter Hosp_Enc1 {
-	field: UT_StMarysHospital;
-	description: "Make a <b>Luck (-1) check</b>. If you "+
-		"pass, you realize that Dr. Mortimore is sneaking "+
-		"up behind you with a hypodermic needle filled with "+
-		"a phosphorescent gel. You avoid his experiment and "+
-		"subdue the mad doctor. The city awards you $3 and "+
-		"you gain 2 Sanity in the process. If you fail, "+
-		"lose 2 Sanity, then you are dumped in the street.";
-	options: Option.Hosp_Enc1;
+    field: UT_StMarysHospital;
+    description: "Make a <b>Luck (-1) check</b>. If you "+
+        "pass, you realize that Dr. Mortimore is sneaking "+
+        "up behind you with a hypodermic needle filled with "+
+        "a phosphorescent gel. You avoid his experiment and "+
+        "subdue the mad doctor. The city awards you $3 and "+
+        "you gain 2 Sanity in the process. If you fail, "+
+        "lose 2 Sanity, then you are dumped in the street.";
+    options: Option.Hosp_Enc1;
 }
 AEOption Hosp_Enc1 {
-	activate: {{{
-		var res = game.context.skillTest("Detect Dr. Morimore", this.id, Constants.Skills.Luck, -1, 1);
-		if (res) {
-			CHAR.addMoney(3);
-			CHAR.addSanity(2);
-		} else {
-			CHAR.damageSanity(2);
-			CHAR.placeOnField(Constants.Fields.UT_Uptown);
-		}
-	}}};
+    activate: {{{
+        var res = game.context.skillTest("Detect Dr. Morimore", this.id, Constants.Skills.Luck, -1, 1);
+        if (res) {
+            CHAR.addMoney(3);
+            CHAR.addSanity(2);
+        } else {
+            CHAR.damageSanity(2);
+            CHAR.placeOnField(Constants.Fields.UT_Uptown);
+        }
+    }}};
 }
 
 ArkhamEncounter Hosp_Enc2 {
-	field: UT_StMarysHospital;
-	description: "Nurse Sharon slips something into your "+
-		"hand when the doctor isn't looking. Pass a <b>Sneak "+
-		"(-1) check</b> to keep anyone else from noticing. "+
-		"If you do, you later examine the object and find "+
-		"it to be an old parchment with a spell scratched "+
-		"on it. Draw 1 Spell. If you fail, an orderly "+
-		"takes it away from you and you gain nothing.";
-	options: Option.Hosp_Enc2;
+    field: UT_StMarysHospital;
+    description: "Nurse Sharon slips something into your "+
+        "hand when the doctor isn't looking. Pass a <b>Sneak "+
+        "(-1) check</b> to keep anyone else from noticing. "+
+        "If you do, you later examine the object and find "+
+        "it to be an old parchment with a spell scratched "+
+        "on it. Draw 1 Spell. If you fail, an orderly "+
+        "takes it away from you and you gain nothing.";
+    options: Option.Hosp_Enc2;
 }
 AEOption Hosp_Enc2 {
-	activate: {{{
-		var res = game.context.skillTest("Sneak", this.id, Constants.Skills.Sneak, -1, 1);
-		if (res) {
-			var ob = game.context.drawObject(Constants.ObjectType.Spell);
-			CHAR.addToInventory(ob);
-		}
-	}}};
+    activate: {{{
+        var res = game.context.skillTest("Sneak", this.id, Constants.Skills.Sneak, -1, 1);
+        if (res) {
+            var ob = game.context.drawObject(Constants.ObjectType.Spell);
+            CHAR.addToInventory(ob);
+        }
+    }}};
 }

@@ -1,68 +1,68 @@
 ArkhamEncounter Velmas_Enc1 {
-	field: ET_VelmasDiner;
-	description: "\"This must be where pies go when "+
-		"they die.\" If you want, pay $1 to enjoy a fine "+
-		"slice of cherry pie. If you do, gain 2 Stamina";
-	options: ( Option.Velmas_Enc1, Option.SKIP );
+    field: ET_VelmasDiner;
+    description: "\"This must be where pies go when "+
+        "they die.\" If you want, pay $1 to enjoy a fine "+
+        "slice of cherry pie. If you do, gain 2 Stamina";
+    options: ( Option.Velmas_Enc1, Option.SKIP );
 }
 QuickOption Velmas_Enc1 {
-	phases: ArkhamEncountery;
-	name: "Eat pie";
-	costs: [ Money 1 ];
-	activate: {{{ CHAR.addStamina(1); }}};
+    phases: ArkhamEncountery;
+    name: "Eat pie";
+    costs: [ Money 1 ];
+    activate: {{{ CHAR.addStamina(1); }}};
 }
 
 ArkhamEncounter Velmas_Enc2 {
-	field: ET_VelmasDiner;
-	description: "\"What'll it be, hon?\" Velma takes "+
-		"your order. Pay up to $6 to gain that many points "+
-		"split between Sanity and Stamina however you like.";
-	options: ( Option.Velmas_Enc2, Option.SKIP );
+    field: ET_VelmasDiner;
+    description: "\"What'll it be, hon?\" Velma takes "+
+        "your order. Pay up to $6 to gain that many points "+
+        "split between Sanity and Stamina however you like.";
+    options: ( Option.Velmas_Enc2, Option.SKIP );
 }
 AEOption Velmas_Enc2 {
-	name: "Place Order";
-	activate: {{{
-		var ok = false;
-		var amount = 0;
-		var prefix = "";
-		do {
-                        amount = game.context.selectChoice(prefix + "How much will you spend?", this.id, [0,1,2,3,4,5,6]);
-			if (amount == 0) return;
-			var costs = { type: Constants.Costs.Money, amount: amount };
-			ok = CHAR.canPay(costs);
-			prefix = "You don't have that much money.<br/>";
-		} while (!ok);
+    name: "Place Order";
+    activate: {{{
+        var ok = false;
+        var amount = 0;
+        var prefix = "";
+        do {
+            amount = game.context.selectChoice(prefix + "How much will you spend?", this.id, [0,1,2,3,4,5,6]);
+            if (amount == 0) return;
+            var costs = { type: Constants.Costs.Money, amount: amount };
+            ok = CHAR.canPay(costs);
+            prefix = "You don't have that much money.<br/>";
+        } while (!ok);
 
-		var costs = { type: Constants.Costs.Money, amount: amount };
-		ok = CHAR.pay(costs);
-		if (!ok) return;
+        var costs = { type: Constants.Costs.Money, amount: amount };
+        ok = CHAR.pay(costs);
+        if (!ok) return;
 
-		// Ask for stamina
-		var options = new Array(amount+1);
-		for (var i = 0; i <= amount; ++i) {
-			options[i] = i;
-		}
-                var stam = game.context.selectChoice("Heal how much stamina?", this.id, options);
-		CHAR.addStamina(stam);
-		amount -= stam;
+        // Ask for stamina
+        var options = new Array(amount+1);
+        for (var i = 0; i <= amount; ++i) {
+            options[i] = i;
+        }
+        var stam = game.context.selectChoice("Heal how much stamina?", this.id, options);
+        CHAR.addStamina(stam);
+        amount -= stam;
 
-		if (amount <= 0) {
-			// No more for sanity
-			return;
-		}
+        if (amount <= 0) {
+            // No more for sanity
+            return;
+        }
 
-		// Ask for sanity
-		options = new Array(amount+1);
-		for (var i = 0; i <= amount; ++i) {
-			options[i] = i;
-		}
-                var san = game.context.selectChoice("Heal how much sanity?", this.id, options);
-		CHAR.addSanity(san);
-		amount -= san;
+        // Ask for sanity
+        options = new Array(amount+1);
+        for (var i = 0; i <= amount; ++i) {
+            options[i] = i;
+        }
+        var san = game.context.selectChoice("Heal how much sanity?", this.id, options);
+        CHAR.addSanity(san);
+        amount -= san;
 
-		if (amount > 0) {
-			// Give back change
-			CHAR.addMoney(amount);
-		}
-	}}};
+        if (amount > 0) {
+            // Give back change
+            CHAR.addMoney(amount);
+        }
+    }}};
 }

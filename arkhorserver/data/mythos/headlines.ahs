@@ -1,437 +1,437 @@
 // region @Headlines
 Headline QUIET_IN_ARKHAM {
-	name: "All Quiet in Arkham!";
-	description: "Each player may pass a <b>Luck (-1) check</b> to be <i>Blessed</i>.";
-	//clueField: SS_HistoricalSociety;
-	//moveWhite: Hexagon;
-	//moveBlack: (Slash,Star,Triangle);
-	//gateField: UT_Woods;
-	executeHeadline: {{{
-            var list = game.context.allCharacters;
-            for (var i = 0; i < list.length; ++i) {
-                var c = list[i];
-                var res = c.skillTest("Get Blessed", this.id, Constants.Skills.Luck, -1, 1);
-                if (res) {
-                    game.utility.blessCharacter(c);
-                }
+    name: "All Quiet in Arkham!";
+    description: "Each player may pass a <b>Luck (-1) check</b> to be <i>Blessed</i>.";
+    //clueField: SS_HistoricalSociety;
+    //moveWhite: Hexagon;
+    //moveBlack: (Slash,Star,Triangle);
+    //gateField: UT_Woods;
+    executeHeadline: {{{
+        var list = game.context.allCharacters;
+        for (var i = 0; i < list.length; ++i) {
+            var c = list[i];
+            var res = c.skillTest("Get Blessed", this.id, Constants.Skills.Luck, -1, 1);
+            if (res) {
+                game.utility.blessCharacter(c);
             }
-	}}};
+        }
+    }}};
 }
 
 Headline {
-	name: "Big Storm Sweeps Arkham!";
-	description: "All monsters in the Sky and Outskirts are returned to the cup.";
-	//clueField: MD_TheUnnamable;
-	//moveWhite: Moon;
-	//moveBlack: Cross;
-	//gateField: DT_IndependenceSquare;
-	executeHeadline: {{{
-		game.returnMonstersFromFields( [
-			Constants.Fields.Sp_Sky,
-			Constants.Fields.Sp_Outskirts
-		] );
-	}}};
+    name: "Big Storm Sweeps Arkham!";
+    description: "All monsters in the Sky and Outskirts are returned to the cup.";
+    //clueField: MD_TheUnnamable;
+    //moveWhite: Moon;
+    //moveBlack: Cross;
+    //gateField: DT_IndependenceSquare;
+    executeHeadline: {{{
+        game.returnMonstersFromFields( [
+            Constants.Fields.Sp_Sky,
+            Constants.Fields.Sp_Outskirts
+        ] );
+    }}};
 }
 
 Headline {
-	name: "Bizarre Dreams Plague Citizens!";
-	description: "All Gugs and Nightgaunts in Arkham are returned to the cup. "+
-		"If at least one monster returns to the cup, raise the terror level by 1.";
-	//clueField: FH_TheWitchHouse;
-	//moveWhite: Hexagon;
-	//moveBlack: (Slash,Diamond,Triangle);
-	//gateField: MU_ScienceBuilding;
-	executeHeadline: {{{
-		var res = game.returnMonsterTypeFromBoard(Monster.Gug);
-		res &= game.returnMonsterTypeFromBoard(Monster.Nightgaunt);
-		if (res) {
-			game.context.increaseTerrorLevel();
-		}
-	}}};
+    name: "Bizarre Dreams Plague Citizens!";
+    description: "All Gugs and Nightgaunts in Arkham are returned to the cup. "+
+        "If at least one monster returns to the cup, raise the terror level by 1.";
+    //clueField: FH_TheWitchHouse;
+    //moveWhite: Hexagon;
+    //moveBlack: (Slash,Diamond,Triangle);
+    //gateField: MU_ScienceBuilding;
+    executeHeadline: {{{
+        var res = game.returnMonsterTypeFromBoard(Monster.Gug);
+        res &= game.returnMonsterTypeFromBoard(Monster.Nightgaunt);
+        if (res) {
+            game.context.increaseTerrorLevel();
+        }
+    }}};
 }
 
 Headline {
-	name: "Campus Security Increased!";
-	description: "All monsters in the Miskatonic U. Streets or Locations are returned to the cup.";
-	//clueField: MD_TheUnnamable;
-	//moveWhite: Circle;
-	//moveBlack: (Diamond,Sqare);
-	//gateField: DT_IndependenceSquare;
-	executeHeadline: {{{
-		game.returnMonstersFromFields( [
-			Constants.Fields.MU_MiskatonicU,
-			Constants.Fields.MU_ScienceBuilding,
-			Constants.Fields.MU_Administration,
-			Constants.Fields.MU_Library
-		] );
-	}}};
+    name: "Campus Security Increased!";
+    description: "All monsters in the Miskatonic U. Streets or Locations are returned to the cup.";
+    //clueField: MD_TheUnnamable;
+    //moveWhite: Circle;
+    //moveBlack: (Diamond,Sqare);
+    //gateField: DT_IndependenceSquare;
+    executeHeadline: {{{
+        game.returnMonstersFromFields( [
+            Constants.Fields.MU_MiskatonicU,
+            Constants.Fields.MU_ScienceBuilding,
+            Constants.Fields.MU_Administration,
+            Constants.Fields.MU_Library
+        ] );
+    }}};
 }
 
 Headline {
-	name: "Church Group Reclaims Southside!";
-	description: "All monsters in the Southside streets or locations are returned to the cup.";
-	//clueField: ET_HibbsRoadhouse;
-	//moveWhite: Hexagon;
-	//moveBlack: (Slash,Star,Triangle);
-	//gateField: RT_BlackCave;
-	executeHeadline: {{{
-		game.returnMonstersFromFields( [
-			Constants.Fields.SS_Southside,
-			Constants.Fields.SS_MasBoardingHouse,
-			Constants.Fields.SS_SouthChurch,
-			Constants.Fields.SS_HistoricalSociety
-		] );
-	}}};
+    name: "Church Group Reclaims Southside!";
+    description: "All monsters in the Southside streets or locations are returned to the cup.";
+    //clueField: ET_HibbsRoadhouse;
+    //moveWhite: Hexagon;
+    //moveBlack: (Slash,Star,Triangle);
+    //gateField: RT_BlackCave;
+    executeHeadline: {{{
+        game.returnMonstersFromFields( [
+            Constants.Fields.SS_Southside,
+            Constants.Fields.SS_MasBoardingHouse,
+            Constants.Fields.SS_SouthChurch,
+            Constants.Fields.SS_HistoricalSociety
+        ] );
+    }}};
 }
 
 Headline {
-	name: "Family Found Butchered!";
-	description: "The terror level increases by 1 in light of this tragic news.";
-	//clueField: MD_UnvisitedIsle;
-	//moveWhite: Circle;
-	//moveBlack: Cross;
-	//gateField: RT_Graveyard;
-	executeHeadline: {{{
-		game.context.increaseTerrorLevel();
-	}}};
+    name: "Family Found Butchered!";
+    description: "The terror level increases by 1 in light of this tragic news.";
+    //clueField: MD_UnvisitedIsle;
+    //moveWhite: Circle;
+    //moveBlack: Cross;
+    //gateField: RT_Graveyard;
+    executeHeadline: {{{
+        game.context.increaseTerrorLevel();
+    }}};
 }
 
 Headline {
-	name: "Feds Raid Arkham!";
-	description: "All monsters in the streets are returned to the cup.";
-	//clueField: ET_HibbsRoadhouse;
-	//moveWhite: Circle;
-	//moveBlack: Cross;
-	//gateField: RT_BlackCave;
-	executeHeadline: {{{
-		game.returnMonstersFromFieldType(Constants.FieldType.Street);
-	}}};
+    name: "Feds Raid Arkham!";
+    description: "All monsters in the streets are returned to the cup.";
+    //clueField: ET_HibbsRoadhouse;
+    //moveWhite: Circle;
+    //moveBlack: Cross;
+    //gateField: RT_BlackCave;
+    executeHeadline: {{{
+        game.returnMonstersFromFieldType(Constants.FieldType.Street);
+    }}};
 }
 
 Headline {
-	name: "Gangs Clean Up Easttown!";
-	description: "All monsters in the Easttown streets or locations are returned to the cup.";
-	//clueField: RT_BlackCave;
-	//moveWhite: Circle;
-	//moveBlack: (Diamond,Square);
-	//gateField: FH_TheWitchHouse;
-	executeHeadline: {{{
-		game.returnMonstersFromFields( [
-			Constants.Fields.ET_Easttown,
-			Constants.Fields.ET_HibbsRoadhouse,
-			Constants.Fields.ET_VelmasDiner,
-			Constants.Fields.ET_PoliceStation
-		] );
-	}}};
+    name: "Gangs Clean Up Easttown!";
+    description: "All monsters in the Easttown streets or locations are returned to the cup.";
+    //clueField: RT_BlackCave;
+    //moveWhite: Circle;
+    //moveBlack: (Diamond,Square);
+    //gateField: FH_TheWitchHouse;
+    executeHeadline: {{{
+        game.returnMonstersFromFields( [
+            Constants.Fields.ET_Easttown,
+            Constants.Fields.ET_HibbsRoadhouse,
+            Constants.Fields.ET_VelmasDiner,
+            Constants.Fields.ET_PoliceStation
+        ] );
+    }}};
 }
 
 Headline {
-	name: "Ghost Ship Docks by Itself!";
-	description: "An ancient ghost ship arrives in Arkham, releasing 2 monsters into the Merchant Dist. streets.";
-	//clueField: UT_Woods;
-	//moveWhite: Moon;
-	//moveBlack: Cross;
-	//gateField: MD_TheUnnamable;
-	executeHeadline: {{{
-                game.spawnMonster(Constants.Fields.MD_MerchantDist);
-                game.spawnMonster(Constants.Fields.MD_MerchantDist);
-	}}};
+    name: "Ghost Ship Docks by Itself!";
+    description: "An ancient ghost ship arrives in Arkham, releasing 2 monsters into the Merchant Dist. streets.";
+    //clueField: UT_Woods;
+    //moveWhite: Moon;
+    //moveBlack: Cross;
+    //gateField: MD_TheUnnamable;
+    executeHeadline: {{{
+        game.spawnMonster(Constants.Fields.MD_MerchantDist);
+        game.spawnMonster(Constants.Fields.MD_MerchantDist);
+    }}};
 }
 
 Headline {
-	name: "Goat-like Creature Spotted in Woods!";
-	description: "All Dark Young in Arkham are returned to the cup. If at least one monster returns to the cup, raise the terror level by 1.";
-	//clueField: MD_TheUnnamable;
-	//moveWhite: Hexagon;
-	//moveBlack: (Slash,Star,Triangle);
-	//gateField: DT_IndependenceSquare;
-	executeHeadline: {{{
-		var res = game.returnMonsterTypeFromBoard(Monster.DarkYoung);
-		if (res) {
-			game.context.increaseTerrorLevel();
-		}
-	}}};
+    name: "Goat-like Creature Spotted in Woods!";
+    description: "All Dark Young in Arkham are returned to the cup. If at least one monster returns to the cup, raise the terror level by 1.";
+    //clueField: MD_TheUnnamable;
+    //moveWhite: Hexagon;
+    //moveBlack: (Slash,Star,Triangle);
+    //gateField: DT_IndependenceSquare;
+    executeHeadline: {{{
+        var res = game.returnMonsterTypeFromBoard(Monster.DarkYoung);
+        if (res) {
+            game.context.increaseTerrorLevel();
+        }
+    }}};
 }
 
 Headline {
-	name: "Horror at Groundbreaking!";
-	description: "An ancient stone is disturbed by the construction, releasing 2 monsters into the Miskatonic U. streets.";
-	//clueField: FH_SilverTwilightLodge;
-	//moveWhite: Moon;
-	//moveBlack: Cross;
-	//gateField: SS_HistoricalSociety;
-	executeHeadline: {{{
-                game.spawnMonster(Constants.Fields.MU_MiskatonicU);
-                game.spawnMonster(Constants.Fields.MU_MiskatonicU);
-	}}};
-}
-
-
-Headline {
-	name: "Ill Wind Grips Arkham!";
-	description: "The first player must pass a <b>Luck (-1) check</b> or be <i>Cursed</i>";
-	//clueField: MD_UnvisitedIsle;
-	//moveWhite: Hexagon;
-	//moveBlack: (Slash,Star,Triangle);
-	//gateField: RT_Graveyard;
-	executeHeadline: {{{
-		var res = game.context.skillTest("Resist Ill Wind", this.id, Constants.Skills.Luck, -1, 1);
-		if (!res) {
-			game.utility.curseCharacter(CHAR);
-		}
-	}}};
-}
-
-Headline {
-	name: "Lodge Member Held for Questioning!";
-	description: "A Silver Lodge ritual lets 2 monsters loose in the French Hill streets.";
-	//clueField: ET_HibbsRoadhouse;
-	//moveWhite: Circle;
-	//moveBlack: (Diamond,Square);
-	//gateField: RT_BlackCave;
-	executeHeadline: {{{
-                game.spawnMonster(Constants.Fields.FH_FrenchHill);
-                game.spawnMonster(Constants.Fields.FH_FrenchHill);
-	}}};
-}
-
-Headline {
-	name: "Lodge Members Watch the Night!";
-	description: "All monsters in the French Hill streets or locations are returned to the cup.";
-	//clueField: MU_ScienceBuilding;
-	//moveWhite: Circle;
-	//moveBlack: (Diamond,Square);
-	//gateField: MD_UnvisitedIsle;
-	executeHeadline: {{{
-		game.returnMonstersFromFields([
-			Constants.Fields.FH_FrenchHill,
-			Constants.Fields.FH_TheWitchHouse,
-			Constants.Fields.FH_SilverTwilightLodge
-		]);
-	}}};
+    name: "Horror at Groundbreaking!";
+    description: "An ancient stone is disturbed by the construction, releasing 2 monsters into the Miskatonic U. streets.";
+    //clueField: FH_SilverTwilightLodge;
+    //moveWhite: Moon;
+    //moveBlack: Cross;
+    //gateField: SS_HistoricalSociety;
+    executeHeadline: {{{
+        game.spawnMonster(Constants.Fields.MU_MiskatonicU);
+        game.spawnMonster(Constants.Fields.MU_MiskatonicU);
+    }}};
 }
 
 
 Headline {
-	name: "Manhunt in Arkham!";
-	description: "All monsters in locations are returned to the cup.";
-	//clueField: DT_IndependenceSquare;
-	//moveWhite: (Slash,Star,Triangle);
-	//moveBlack: Hexagon;
-	//gateField: UT_Woods;
-	executeHeadline: {{{
-		game.returnMonstersFromFieldType(Constants.FieldType.Location);
-	}}};
+    name: "Ill Wind Grips Arkham!";
+    description: "The first player must pass a <b>Luck (-1) check</b> or be <i>Cursed</i>";
+    //clueField: MD_UnvisitedIsle;
+    //moveWhite: Hexagon;
+    //moveBlack: (Slash,Star,Triangle);
+    //gateField: RT_Graveyard;
+    executeHeadline: {{{
+        var res = game.context.skillTest("Resist Ill Wind", this.id, Constants.Skills.Luck, -1, 1);
+        if (!res) {
+            game.utility.curseCharacter(CHAR);
+        }
+    }}};
 }
 
 Headline {
-	name: "Merchants March on Crime!";
-	description: "All monsters in the Merchant Dist. streets or locations are returned to the cup.";
-	//clueField: MD_TheUnnamable;
-	//moveWhite: Circle;
-	//moveBlack: (Diamond,Square);
-	//gateField: DT_IndependenceSquare;
-	executeHeadline: {{{
-		game.returnMonstersFromFields([
-			Constants.Fields.MD_MerchantDist,
-			Constants.Fields.MD_UnvisitedIsle,
-			Constants.Fields.MD_RiverDocks,
-			Constants.Fields.MD_TheUnnamable
-		]);
-	}}};
+    name: "Lodge Member Held for Questioning!";
+    description: "A Silver Lodge ritual lets 2 monsters loose in the French Hill streets.";
+    //clueField: ET_HibbsRoadhouse;
+    //moveWhite: Circle;
+    //moveBlack: (Diamond,Square);
+    //gateField: RT_BlackCave;
+    executeHeadline: {{{
+        game.spawnMonster(Constants.Fields.FH_FrenchHill);
+        game.spawnMonster(Constants.Fields.FH_FrenchHill);
+    }}};
 }
 
 Headline {
-	name: "Picnickers Panic!";
-	description: "A careless picnicker unleashes 2 monsters on the Downtown streets.";
-	//clueField: MU_ScienceBuilding;
-	//moveWhite: Moon;
-	//moveBlack: Cross;
-	//gateField: MD_UnvisitedIsle;
-	executeHeadline: {{{
-                game.spawnMonster(Constants.Fields.DT_Downtown);
-                game.spawnMonster(Constants.Fields.DT_Downtown);
-	}}};
+    name: "Lodge Members Watch the Night!";
+    description: "All monsters in the French Hill streets or locations are returned to the cup.";
+    //clueField: MU_ScienceBuilding;
+    //moveWhite: Circle;
+    //moveBlack: (Diamond,Square);
+    //gateField: MD_UnvisitedIsle;
+    executeHeadline: {{{
+        game.returnMonstersFromFields([
+            Constants.Fields.FH_FrenchHill,
+            Constants.Fields.FH_TheWitchHouse,
+            Constants.Fields.FH_SilverTwilightLodge
+        ]);
+    }}};
+}
+
+
+Headline {
+    name: "Manhunt in Arkham!";
+    description: "All monsters in locations are returned to the cup.";
+    //clueField: DT_IndependenceSquare;
+    //moveWhite: (Slash,Star,Triangle);
+    //moveBlack: Hexagon;
+    //gateField: UT_Woods;
+    executeHeadline: {{{
+        game.returnMonstersFromFieldType(Constants.FieldType.Location);
+    }}};
 }
 
 Headline {
-	name: "Police Step Up Patrols in Northside!";
-	description: "All monsters in the Northside streets or locations are returned to the cup.";
-	//clueField: RT_Graveyard;
-	//moveWhite: Circle;
-	//moveBlack: (Diamond,Square);
-	//gateField: FH_SilverTwilightLodge;
-	executeHeadline: {{{
-		game.returnMonstersFromFields([
-			Constants.Fields.NS_Northside,
-			Constants.Fields.NS_TrainStation,
-			Constants.Fields.NS_Newspaper,
-			Constants.Fields.NS_CuriositieShoppe
-		]);
-	}}};
+    name: "Merchants March on Crime!";
+    description: "All monsters in the Merchant Dist. streets or locations are returned to the cup.";
+    //clueField: MD_TheUnnamable;
+    //moveWhite: Circle;
+    //moveBlack: (Diamond,Square);
+    //gateField: DT_IndependenceSquare;
+    executeHeadline: {{{
+        game.returnMonstersFromFields([
+            Constants.Fields.MD_MerchantDist,
+            Constants.Fields.MD_UnvisitedIsle,
+            Constants.Fields.MD_RiverDocks,
+            Constants.Fields.MD_TheUnnamable
+        ]);
+    }}};
 }
 
 Headline {
-	name: "Private Security Hired in Uptown!";
-	description: "All monsters in the Uptown streets or locations are returned to the cup.";
-	//clueField: SS_HistoricalSociety;
-	//moveWhite: Circle;
-	//moveBlack: (Diamond,Square);
-	//gateField: UT_Woods;
-	executeHeadline: {{{
-		game.returnMonstersFromFields([
-			Constants.Fields.UT_Uptown,
-			Constants.Fields.UT_StMarysHospital,
-			Constants.Fields.UT_YeOldeMagickShoppe,
-			Constants.Fields.UT_Woods
-		]);
-	}}};
+    name: "Picnickers Panic!";
+    description: "A careless picnicker unleashes 2 monsters on the Downtown streets.";
+    //clueField: MU_ScienceBuilding;
+    //moveWhite: Moon;
+    //moveBlack: Cross;
+    //gateField: MD_UnvisitedIsle;
+    executeHeadline: {{{
+        game.spawnMonster(Constants.Fields.DT_Downtown);
+        game.spawnMonster(Constants.Fields.DT_Downtown);
+    }}};
 }
 
 Headline {
-	name: "Rivertown Residents Take Back Streets!";
-	description: "All monsters in the Rivertown streets or locations are returned to the cup.";
-	//clueField: RT_BlackCave;
-	//moveWhite: Circle;
-	//moveBlack: (Diamond,Square);
-	//gateField: FH_TheWitchHouse;
-	executeHeadline: {{{
-		game.returnMonstersFromFields([
-			Constants.Fields.RT_Rivertown,
-			Constants.Fields.RT_Graveyard,
-			Constants.Fields.RT_BlackCave,
-			Constants.Fields.RT_GeneralStore
-		]);
-	}}};
+    name: "Police Step Up Patrols in Northside!";
+    description: "All monsters in the Northside streets or locations are returned to the cup.";
+    //clueField: RT_Graveyard;
+    //moveWhite: Circle;
+    //moveBlack: (Diamond,Square);
+    //gateField: FH_SilverTwilightLodge;
+    executeHeadline: {{{
+        game.returnMonstersFromFields([
+            Constants.Fields.NS_Northside,
+            Constants.Fields.NS_TrainStation,
+            Constants.Fields.NS_Newspaper,
+            Constants.Fields.NS_CuriositieShoppe
+        ]);
+    }}};
 }
 
 Headline {
-	name: "Scientist Warns of Dimensional Rift!";
-	description: "All Dimensional Shamblers and Hounds of Tindalos are returned to the cup. "+
-		"If one or more monster is returned to the cup, raise the terror level by 1.";
-	//clueField: MU_ScienceBuilding;
-	//moveWhite: Hexagon;
-	//moveBlack: (Slash,Star,Triangle);
-	//gateField: MD_UnvisitedIsle;
-	executeHeadline: {{{
-                var res = game.returnMonsterTypeFromBoard(Monster.DimensionalShambler);
-                res &= game.returnMonsterTypeFromBoard(Monster.HoundOfTindalos);
-		if (res) {
-			game.increaseTerrorLevel();
-		}
-	}}};
+    name: "Private Security Hired in Uptown!";
+    description: "All monsters in the Uptown streets or locations are returned to the cup.";
+    //clueField: SS_HistoricalSociety;
+    //moveWhite: Circle;
+    //moveBlack: (Diamond,Square);
+    //gateField: UT_Woods;
+    executeHeadline: {{{
+        game.returnMonstersFromFields([
+            Constants.Fields.UT_Uptown,
+            Constants.Fields.UT_StMarysHospital,
+            Constants.Fields.UT_YeOldeMagickShoppe,
+            Constants.Fields.UT_Woods
+        ]);
+    }}};
 }
 
 Headline {
-	name: "Sheldon Gang Turns to Police for Aid!";
-	description: "The Sheldon Gang disturbs a burial mound, releasing 2 monsters into the Uptown Streets.";
-	//clueField: MD_UnvisitedIsle;
-	//moveWhite: Circle;
-	//moveBlack: (Diamond,Square);
-	//gateField: RT_Graveyard;
-	executeHeadline: {{{
-                game.spawnMonster(Constants.Fields.UT_Uptown);
-                game.spawnMonster(Constants.Fields.UT_Uptown);
-	}}};
+    name: "Rivertown Residents Take Back Streets!";
+    description: "All monsters in the Rivertown streets or locations are returned to the cup.";
+    //clueField: RT_BlackCave;
+    //moveWhite: Circle;
+    //moveBlack: (Diamond,Square);
+    //gateField: FH_TheWitchHouse;
+    executeHeadline: {{{
+        game.returnMonstersFromFields([
+            Constants.Fields.RT_Rivertown,
+            Constants.Fields.RT_Graveyard,
+            Constants.Fields.RT_BlackCave,
+            Constants.Fields.RT_GeneralStore
+        ]);
+    }}};
 }
 
 Headline {
-	name: "Slum Murders Continue!";
-	description: "An old basement is opened, releasing 2 monsters into the Easttown Streets.";
-	//clueField: SS_HistoricalSociety;
-	//moveWhite: Moon;
-	//moveBlack: Cross;
-	//gateField: UT_Woods;
-	executeHeadline: {{{
-                game.spawnMonster(Constants.Fields.ET_Easttown);
-                game.spawnMonster(Constants.Fields.ET_Easttown);
-	}}};
+    name: "Scientist Warns of Dimensional Rift!";
+    description: "All Dimensional Shamblers and Hounds of Tindalos are returned to the cup. "+
+        "If one or more monster is returned to the cup, raise the terror level by 1.";
+    //clueField: MU_ScienceBuilding;
+    //moveWhite: Hexagon;
+    //moveBlack: (Slash,Star,Triangle);
+    //gateField: MD_UnvisitedIsle;
+    executeHeadline: {{{
+        var res = game.returnMonsterTypeFromBoard(Monster.DimensionalShambler);
+        res &= game.returnMonsterTypeFromBoard(Monster.HoundOfTindalos);
+        if (res) {
+            game.increaseTerrorLevel();
+        }
+    }}};
 }
 
 Headline {
-	name: "Southside Strangler Suspected!";
-	description: "However, the press is mistaken, and the murders were caused by 2 monsters that are released into the Southside streets.";
-	//clueField: SS_HistoricalSociety;
-	//moveWhite: Circle;
-	//moveBlack: (Diamond,Square);
-	//gateField: UT_Woods;
-	executeHeadline: {{{
-                game.spawnMonster(Constants.Fields.SS_Southside);
-                game.spawnMonster(Constants.Fields.SS_Southside);
-	}}};
+    name: "Sheldon Gang Turns to Police for Aid!";
+    description: "The Sheldon Gang disturbs a burial mound, releasing 2 monsters into the Uptown Streets.";
+    //clueField: MD_UnvisitedIsle;
+    //moveWhite: Circle;
+    //moveBlack: (Diamond,Square);
+    //gateField: RT_Graveyard;
+    executeHeadline: {{{
+        game.spawnMonster(Constants.Fields.UT_Uptown);
+        game.spawnMonster(Constants.Fields.UT_Uptown);
+    }}};
 }
 
 Headline {
-	name: "Southside Strangler Suspected!";
-	description: "However, the press is mistaken, and the murders were caused by 2 monsters that are released into the Southside streets.";
-	//clueField: SS_HistoricalSociety;
-	//moveWhite: Circle;
-	//moveBlack: (Diamond,Square);
-	//gateField: UT_Woods;
-	executeHeadline: {{{
-                game.spawnMonster(Constants.Fields.SS_Southside);
-                game.spawnMonster(Constants.Fields.SS_Southside);
-	}}};
+    name: "Slum Murders Continue!";
+    description: "An old basement is opened, releasing 2 monsters into the Easttown Streets.";
+    //clueField: SS_HistoricalSociety;
+    //moveWhite: Moon;
+    //moveBlack: Cross;
+    //gateField: UT_Woods;
+    executeHeadline: {{{
+        game.spawnMonster(Constants.Fields.ET_Easttown);
+        game.spawnMonster(Constants.Fields.ET_Easttown);
+    }}};
 }
 
 Headline {
-	name: "Strange Tremors Cease!";
-	description: "All Chthonians and Dholes in Arkham are returned to the cup. "+
-		"If at least one monster returns to the cup, raise the terror level by 1.";
-	//clueField: MD_TheUnnamable;
-	//moveWhite: Hexagon;
-	//moveBlack: (Slash,Star,Triangle);
-	//gateField: DT_IndependenceSquare;
-	executeHeadline: {{{
-                var res = game.returnMonsterTypeFromBoard(Monster.Chthonian);
-                res &= game.returnMonsterTypeFromBoard(Monster.Dhole);
-		if (res) {
-			game.increaseTerrorLevel();
-		}
-	}}};
+    name: "Southside Strangler Suspected!";
+    description: "However, the press is mistaken, and the murders were caused by 2 monsters that are released into the Southside streets.";
+    //clueField: SS_HistoricalSociety;
+    //moveWhite: Circle;
+    //moveBlack: (Diamond,Square);
+    //gateField: UT_Woods;
+    executeHeadline: {{{
+        game.spawnMonster(Constants.Fields.SS_Southside);
+        game.spawnMonster(Constants.Fields.SS_Southside);
+    }}};
 }
 
 Headline {
-	name: "Terror at the Train Station!";
-	description: "A rusty train arrives in Arkham, disgorging 2 monsters into the Northside streets.";
-	//clueField: RT_BlackCave;
-	//moveWhite: Moon;
-	//moveBlack: Cross;
-	//gateField: FH_TheWitchHouse;
-	executeHeadline: {{{
-                game.spawnMonster(Constants.Fields.NS_Northside);
-                game.spawnMonster(Constants.Fields.NS_Northside);
-	}}};
+    name: "Southside Strangler Suspected!";
+    description: "However, the press is mistaken, and the murders were caused by 2 monsters that are released into the Southside streets.";
+    //clueField: SS_HistoricalSociety;
+    //moveWhite: Circle;
+    //moveBlack: (Diamond,Square);
+    //gateField: UT_Woods;
+    executeHeadline: {{{
+        game.spawnMonster(Constants.Fields.SS_Southside);
+        game.spawnMonster(Constants.Fields.SS_Southside);
+    }}};
 }
 
 Headline {
-	name: "Vigilante Guards the Night!";
-	description: "All monsters in the Downtown streets or locations are returned to the cup.";
-	//clueField: UT_Woods;
-	//moveWhite: Circle;
-	//moveBlack: (Diamond,Square);
-	//gateField: MD_TheUnnamable;
-	executeHeadline: {{{
-		game.returnMonstersFromFields([
-			Constants.Fields.DT_Downtown,
-			Constants.Fields.DT_BankOfArkham,
-			Constants.Fields.DT_ArkhamAsylum,
-			Constants.Fields.DT_IndependenceSquare
-		]);
-	}}};
+    name: "Strange Tremors Cease!";
+    description: "All Chthonians and Dholes in Arkham are returned to the cup. "+
+        "If at least one monster returns to the cup, raise the terror level by 1.";
+    //clueField: MD_TheUnnamable;
+    //moveWhite: Hexagon;
+    //moveBlack: (Slash,Star,Triangle);
+    //gateField: DT_IndependenceSquare;
+    executeHeadline: {{{
+        var res = game.returnMonsterTypeFromBoard(Monster.Chthonian);
+        res &= game.returnMonsterTypeFromBoard(Monster.Dhole);
+        if (res) {
+            game.increaseTerrorLevel();
+        }
+    }}};
 }
 
 Headline {
-	name: "Witch Burning Anniversary!";
-	description: "An ancient curse strikes Arkham, releasing 2 monsters into the Rivertown streets.";
-	//clueField: MU_ScienceBuilding;
-	//moveWhite: Moon;
-	//moveBlack: Cross;
-	//gateField: MD_UnvisitedIsle;
-	executeHeadline: {{{
-                game.spawnMonster(Constants.Fields.RT_Rivertown);
-                game.spawnMonster(Constants.Fields.RT_Rivertown);
-	}}};
+    name: "Terror at the Train Station!";
+    description: "A rusty train arrives in Arkham, disgorging 2 monsters into the Northside streets.";
+    //clueField: RT_BlackCave;
+    //moveWhite: Moon;
+    //moveBlack: Cross;
+    //gateField: FH_TheWitchHouse;
+    executeHeadline: {{{
+        game.spawnMonster(Constants.Fields.NS_Northside);
+        game.spawnMonster(Constants.Fields.NS_Northside);
+    }}};
+}
+
+Headline {
+    name: "Vigilante Guards the Night!";
+    description: "All monsters in the Downtown streets or locations are returned to the cup.";
+    //clueField: UT_Woods;
+    //moveWhite: Circle;
+    //moveBlack: (Diamond,Square);
+    //gateField: MD_TheUnnamable;
+    executeHeadline: {{{
+        game.returnMonstersFromFields([
+            Constants.Fields.DT_Downtown,
+            Constants.Fields.DT_BankOfArkham,
+            Constants.Fields.DT_ArkhamAsylum,
+            Constants.Fields.DT_IndependenceSquare
+        ]);
+    }}};
+}
+
+Headline {
+    name: "Witch Burning Anniversary!";
+    description: "An ancient curse strikes Arkham, releasing 2 monsters into the Rivertown streets.";
+    //clueField: MU_ScienceBuilding;
+    //moveWhite: Moon;
+    //moveBlack: Cross;
+    //gateField: MD_UnvisitedIsle;
+    executeHeadline: {{{
+        game.spawnMonster(Constants.Fields.RT_Rivertown);
+        game.spawnMonster(Constants.Fields.RT_Rivertown);
+    }}};
 }
 
 /*

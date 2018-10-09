@@ -123,7 +123,7 @@ public:
 
     void overrunArkham();
 
-	void requestAwakeAncientOne();
+    void requestAwakeAncientOne();
 
     GameContext &context();
     GameBoard *board();
@@ -267,7 +267,7 @@ private:
     QList<int> m_specialActionNrs;
     int m_nextSpecialActionNr;
 
-	bool m_reqAwake;
+    bool m_reqAwake;
 
     mutable QReadWriteLock m_lock;
 };

@@ -40,7 +40,7 @@ AhMainGui::AhMainGui(QWidget *parent) :
 
     ui->wgtMovmentChooser->setBoard(m_scene, ui->grvBoard);
 
-	ui->lblPhase->setText("Setup");
+    ui->lblPhase->setText("Setup");
 
     //ui->wgtAncientOne->setVisible(false);
     //ui->wgtCharacter->setVisible(false);
@@ -130,11 +130,11 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(ui->wgtChoice, SIGNAL(choiceCanceled()), this, SLOT(choiceCanceled()));
 
 
-	connect(m_conn, SIGNAL(died(QString)), this, SLOT(showAlert(QString)));
+    connect(m_conn, SIGNAL(died(QString)), this, SLOT(showAlert(QString)));
     connect(m_conn, SIGNAL(won(QString)), this, SLOT(won(QString)));
     connect(m_conn, SIGNAL(lost(QString)), this, SLOT(lost(QString)));
-	connect(m_conn, SIGNAL(gameAlert(QString)), this, SLOT(showAlert(QString)));
-	connect(m_conn, SIGNAL(phaseChange(AH::GamePhase)), this, SLOT(phaseChange(AH::GamePhase)));
+    connect(m_conn, SIGNAL(gameAlert(QString)), this, SLOT(showAlert(QString)));
+    connect(m_conn, SIGNAL(phaseChange(AH::GamePhase)), this, SLOT(phaseChange(AH::GamePhase)));
     connect(m_conn, SIGNAL(playerChange(QString)), this, SLOT(playerChange(QString)));
 
     connect(m_conn, SIGNAL(clearTempData()), this, SLOT(clearTempObject()));
@@ -477,7 +477,7 @@ void AhMainGui::lost(QString msg)
 
 void AhMainGui::showAlert(QString msg)
 {
-	QMessageBox::information(this, "Arkham Horror", msg);
+    QMessageBox::information(this, "Arkham Horror", msg);
 }
 
 void AhMainGui::phaseChange(AH::GamePhase ph)

@@ -1,40 +1,40 @@
 FieldOption Bank_Loan {
-	name: "Bank Loan";
-	description: "Instead of having an encounter here, "+
-		"you may take out a Bank Loan if you don't have "+
-		"one yet";
-	activate: {{{
-		var loan = game.drawSpecificObject("OBJ_BANK_LOAN");
-		CHAR.addToInventory(loan);
-	}}};
-	field: DT_BankOfArkham;
+    name: "Bank Loan";
+    description: "Instead of having an encounter here, "+
+        "you may take out a Bank Loan if you don't have "+
+        "one yet";
+    activate: {{{
+        var loan = game.drawSpecificObject("OBJ_BANK_LOAN");
+        CHAR.addToInventory(loan);
+    }}};
+    field: DT_BankOfArkham;
 }
 
 ArkhamEncounter Bank_Enc1 {
-	field: DT_BankOfArkham;
-	description: "\"This is a stick-up, see? Nobody move!\" "+
-		"Three men armed with tommy guns rob the bank while "+
-		"you're standing in line. Make a <b>Combat (-1) check</b>. "+
-		"If you pass, you drive them off. Nothing happens. "+
-		"If you fail, lose all of your money.";
-	options: Option.Bank_Enc1;
+    field: DT_BankOfArkham;
+    description: "\"This is a stick-up, see? Nobody move!\" "+
+        "Three men armed with tommy guns rob the bank while "+
+        "you're standing in line. Make a <b>Combat (-1) check</b>. "+
+        "If you pass, you drive them off. Nothing happens. "+
+        "If you fail, lose all of your money.";
+    options: Option.Bank_Enc1;
 }
 AEOption Bank_Enc1 {
-	activate: {{{
-		var res = game.context.skillTest("Drive off", this.id, Constants.Skills.Combat, -1, 1);
-		if (!res) {
-			CHAR.loseMoney(10000);
-		}
-	}}};
+    activate: {{{
+        var res = game.context.skillTest("Drive off", this.id, Constants.Skills.Combat, -1, 1);
+        if (!res) {
+            CHAR.loseMoney(10000);
+        }
+    }}};
 }
 
 ArkhamEncounter Bank_Enc2 {
-	field: DT_BankOfArkham;
-	description: "A little old lady stands in front "+
-		"of you in line counting out a bag of pennies "+
-		"to deposit. Lose 1 Sanity.";
-	options: Option.Bank_Enc2;
+    field: DT_BankOfArkham;
+    description: "A little old lady stands in front "+
+        "of you in line counting out a bag of pennies "+
+        "to deposit. Lose 1 Sanity.";
+    options: Option.Bank_Enc2;
 }
 AEOption Bank_Enc2 {
-	activate: {{{ CHAR.damageSanity(1); }}};
+    activate: {{{ CHAR.damageSanity(1); }}};
 }

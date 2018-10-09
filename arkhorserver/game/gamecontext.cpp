@@ -24,7 +24,7 @@ MythosCard *GameContext::rumor()
 
 QString GameContext::selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
 {
-	return selectChoice(m_player, desc, sourceId, options, canCancel);
+    return selectChoice(m_player, desc, sourceId, options, canCancel);
 }
 
 QString GameContext::selectChoice(Player *p, QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
@@ -32,7 +32,7 @@ QString GameContext::selectChoice(Player *p, QString desc, const QString &source
     AH::Common::ChoiceData ch;
     ch.setSelectStrings(options);
     ch.setDescription(desc);
-	ch.setSourceId(sourceId);
+    ch.setSourceId(sourceId);
     ch.setCanCancel(canCancel);
     AH::Common::ChoiceResponseData res = p->offerChoice(ch);
     return res.toString();

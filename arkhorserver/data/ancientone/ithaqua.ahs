@@ -1,55 +1,55 @@
 AncientOne Ithaqua {
-	combatAdjustment: -3;
-	worshippersText: "Ithaqua's worshippers eat the flesh of their fellow men, "+
-		"gaining supernatural power through their dark practice. <b>Cultists</b> have their "+
-		"<b>toughness</b> increased by <b>2</b>.";
+    combatAdjustment: -3;
+    worshippersText: "Ithaqua's worshippers eat the flesh of their fellow men, "+
+        "gaining supernatural power through their dark practice. <b>Cultists</b> have their "+
+        "<b>toughness</b> increased by <b>2</b>.";
 
-	powerTitle: "Icy Winds";
-	powerText: "While Ithaqua stirs in his slumber, any investigator in a street area "+
-		"at the end of the Mythos phase loses <b>1 Stamina</b>. In addition, all Weather "+
-		"cards are discarded without their special effects taking place. (not implemented)";
-		// TODO
-		
-	battleStartText: "Investigators must roll a die for every item they have, discarding the item on a failure.";
-	attackText: "Each investigator must pass a <b>Fight (+1) check</b> or lose 2 Stamina. "+
-		"This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)";
-		
-	doomTrack: 11;
-	monsterModifications: [
-		Cultist { Monster_Toughness +2 }
-	];
+    powerTitle: "Icy Winds";
+    powerText: "While Ithaqua stirs in his slumber, any investigator in a street area "+
+        "at the end of the Mythos phase loses <b>1 Stamina</b>. In addition, all Weather "+
+        "cards are discarded without their special effects taking place. (not implemented)";
+        // TODO
+        
+    battleStartText: "Investigators must roll a die for every item they have, discarding the item on a failure.";
+    attackText: "Each investigator must pass a <b>Fight (+1) check</b> or lose 2 Stamina. "+
+        "This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)";
+        
+    doomTrack: 11;
+    monsterModifications: [
+        Cultist { Monster_Toughness +2 }
+    ];
 
-	attackAdjustment: 1;
+    attackAdjustment: 1;
 
-	onAwake: {{{
-                var list = game.context.allCharacters;
-                for (var i = 0; i < list.length; ++i) {
-                    var c = list[i];
-                    for (var o in c.inventory) {
-                        switch (o.type) {
-                        case Constants.ObjectType.Ally:
-                        case Constants.ObjectType.CommonItem:
-                        case Constants.ObjectType.UniqueItem:
-                        case Constants.ObjectType.Spell:
-                        case Constants.ObjectType.Skill:
-                                // TODO: more?
-                        var res = c.genericDieRollTest("Lose " + o.name, this.id, 1, 1);
-                            if (!res) {
-                                    o.discard();
-                            }
-                            break;
-                        default:
-                                break;
-                        }
+    onAwake: {{{
+        var list = game.context.allCharacters;
+        for (var i = 0; i < list.length; ++i) {
+            var c = list[i];
+            for (var o in c.inventory) {
+                switch (o.type) {
+                case Constants.ObjectType.Ally:
+                case Constants.ObjectType.CommonItem:
+                case Constants.ObjectType.UniqueItem:
+                case Constants.ObjectType.Spell:
+                case Constants.ObjectType.Skill:
+                    // TODO: more?
+                    var res = c.genericDieRollTest("Lose " + o.name, this.id, 1, 1);
+                    if (!res) {
+                        o.discard();
                     }
-		}
-	}}};
-	
-	attack: {{{
-		var res = game.context.skillTest("Ithaqua attacks", this.id, Constants.Skills.Fight, this.attackAdjustment, 1);
-		if (!res) {
-			CHAR.damageStamina(2);
-		}
-	}}};
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+    }}};
+    
+    attack: {{{
+        var res = game.context.skillTest("Ithaqua attacks", this.id, Constants.Skills.Fight, this.attackAdjustment, 1);
+        if (!res) {
+            CHAR.damageStamina(2);
+        }
+    }}};
 }
 

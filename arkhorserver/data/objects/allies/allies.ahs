@@ -1,103 +1,103 @@
 Ally AnnaKaslow {
-	description: "Gain 2 Clue tokens when Anna Kaslow joins you.";
-	modifications: [ Skill_Luck +2 ];
-	onAddToInventory: {{{
-		c.addClue(2);
-	}}};
+    description: "Gain 2 Clue tokens when Anna Kaslow joins you.";
+    modifications: [ Skill_Luck +2 ];
+    onAddToInventory: {{{
+        c.addClue(2);
+    }}};
 }
 
 Ally Duke {
-	description: "Discard to immediately restore your Sanity to its maximum.";
-	modifications: [ Prop_MaxSanity +1 ];
-	options: Option.DiscardDuke;
+    description: "Discard to immediately restore your Sanity to its maximum.";
+    modifications: [ Prop_MaxSanity +1 ];
+    options: Option.DiscardDuke;
 }
 QuickOption DiscardDuke {
-	phases: Any;
-	activate: {{{
-		owner.restoreSanity();
-		this.discard();
-	}}};
+    phases: Any;
+    activate: {{{
+        owner.restoreSanity();
+        this.discard();
+    }}};
 }
 
 Ally EricColt {
-	description: "You take no Sanity loss from the Nightmarish ability.";
-	modifications: [
-		Skill_Speed +2,
-		Ignore_MonsterAttributes |"+Constants.Monster.DamageNightmarish+"
-	];
+    description: "You take no Sanity loss from the Nightmarish ability.";
+    modifications: [
+        Skill_Speed +2,
+        Ignore_MonsterAttributes |"+Constants.Monster.DamageNightmarish+"
+    ];
 }
 
 Ally RubyStandish {
-	description: "Draw 1 Unique item when Ruby Standish joins you.";
-	modifications: [ Skill_Sneak +2 ];
-	onAddToInventory: {{{
-                var ob = game.context.drawObject(Constants.ObjectType.UniqueItem, "Ruby joined you", this.id);
-		c.addToInventory(ob);
-	}}};
+    description: "Draw 1 Unique item when Ruby Standish joins you.";
+    modifications: [ Skill_Sneak +2 ];
+    onAddToInventory: {{{
+        var ob = game.context.drawObject(Constants.ObjectType.UniqueItem, "Ruby joined you", this.id);
+        c.addToInventory(ob);
+    }}};
 }
 
 Ally RyanDean {
-	description: "Draw 1 Common item when Ryan Dean joins you.";
-	modifications: [ Skill_Sneak +1, Skill_Will +1 ];
-	onAddToInventory: {{{
-                var ob = game.context.drawObject(Constants.ObjectType.CommonItem, "Ryan joined you", this.id);
-		c.addToInventory(ob);
-	}}};
+    description: "Draw 1 Common item when Ryan Dean joins you.";
+    modifications: [ Skill_Sneak +1, Skill_Will +1 ];
+    onAddToInventory: {{{
+        var ob = game.context.drawObject(Constants.ObjectType.CommonItem, "Ryan joined you", this.id);
+        c.addToInventory(ob);
+    }}};
 }
 
 Ally SirWilliamBrinton {
-	description: "Discard to immediately restore your Stamina to its maximum.";
-	modifications: [ Prop_MaxStamina +1 ];
-	options: Option.DiscardSirWilliamBrinton;
+    description: "Discard to immediately restore your Stamina to its maximum.";
+    modifications: [ Prop_MaxStamina +1 ];
+    options: Option.DiscardSirWilliamBrinton;
 }
 QuickOption DiscardSirWilliamBrinton {
-	phases: Any;
-	activate: {{{
-		owner.restoreStamina();
-		this.discard();
-	}}};
+    phases: Any;
+    activate: {{{
+        owner.restoreStamina();
+        this.discard();
+    }}};
 }
 
 Ally ThomasFMalone {
-	name: "Thomas F. Malone";
-	description: "Draw 1 Spell when Thomas F. Malone joins you.";
-	modifications: [ Skill_Fight +1, Skill_Lore +1 ];
-	onAddToInventory: {{{
-                var ob = game.context.drawObject(Constants.ObjectType.Spell, "Thomas joined you", this.id);
-		c.addToInventory(ob);
-	}}};
+    name: "Thomas F. Malone";
+    description: "Draw 1 Spell when Thomas F. Malone joins you.";
+    modifications: [ Skill_Fight +1, Skill_Lore +1 ];
+    onAddToInventory: {{{
+        var ob = game.context.drawObject(Constants.ObjectType.Spell, "Thomas joined you", this.id);
+        c.addToInventory(ob);
+    }}};
 }
 
 Ally JohnLegrasse {
-	description: "You can claim monsters with the Endless ability as trophies.";
-	modifications: [ 
-		Skill_Will +2, 
-		Ignore_MonsterAttributes |"+Constants.Monster.Endless+"
-	];
+    description: "You can claim monsters with the Endless ability as trophies.";
+    modifications: [ 
+        Skill_Will +2, 
+        Ignore_MonsterAttributes |"+Constants.Monster.Endless+"
+    ];
 }
 
 Ally ProfessorArmitage {
-	description: "Your attacks are not affected by Magical Resistance.";
-	modifications: [
-		Skill_Lore +2,
-		Ignore_MonsterAttributes |"+Constants.Monster.MagicalResistance+"
-	];
+    description: "Your attacks are not affected by Magical Resistance.";
+    modifications: [
+        Skill_Lore +2,
+        Ignore_MonsterAttributes |"+Constants.Monster.MagicalResistance+"
+    ];
 }
 
 Ally RichardUptonPickman {
-	description: "Your attacks are not affected by Physical Resistance.";
-	modifications: [
-		Skill_Luck +1,
-		Skill_Speed +1,
-		Ignore_MonsterAttributes |"+Constants.Monster.PhysicalResistance+"
-	];
+    description: "Your attacks are not affected by Physical Resistance.";
+    modifications: [
+        Skill_Luck +1,
+        Skill_Speed +1,
+        Ignore_MonsterAttributes |"+Constants.Monster.PhysicalResistance+"
+    ];
 }
 
 Ally TomMurphy {
-	name: 'Tom "Mountain" Murphy';
-	description: "You take no Stamina loss from the Overwhelming ability.";
-	modifications: [
-		Skill_Fight +2,
-		Ignore_MonsterAttributes |"+Constants.Monster.DamageOverwhelming+"
-	];
+    name: 'Tom "Mountain" Murphy';
+    description: "You take no Stamina loss from the Overwhelming ability.";
+    modifications: [
+        Skill_Fight +2,
+        Ignore_MonsterAttributes |"+Constants.Monster.DamageOverwhelming+"
+    ];
 }

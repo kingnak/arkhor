@@ -1,38 +1,38 @@
 ArkhamEncounter Cave_Enc1 {
-	field: RT_BlackCave;
-	description: "A monster appears!";
-	options: Option.MonsterAppearsARK;
+    field: RT_BlackCave;
+    description: "A monster appears!";
+    options: Option.MonsterAppearsARK;
 }
 
 ArkhamEncounter Cave_Enc2 {
-	field: RT_BlackCave;
-	description: "In the darkness you happen upon the "+
-		"remains of a previous spelunker. Make a "+
-		"<b>Luck (+0) check</b> and consult the chart below:<br/>"+
-		"Successes:<br/>"+
-		"0) The body begins to bloat and splits open, "+
-		"releasing the horror within. Lose 1 Sanity and "+
-		"a monster appears!<br/>"+
-		"1) The body has been ripped apart as if shredded "+
-		"by a powerful monster. Lose 1 Sanity.<br/>"+
-		"2+) Searching the body you find something "+
-		"intersting. Draw 1 Common Item.";
-	options: Option.Cave_Enc2;
+    field: RT_BlackCave;
+    description: "In the darkness you happen upon the "+
+        "remains of a previous spelunker. Make a "+
+        "<b>Luck (+0) check</b> and consult the chart below:<br/>"+
+        "Successes:<br/>"+
+        "0) The body begins to bloat and splits open, "+
+        "releasing the horror within. Lose 1 Sanity and "+
+        "a monster appears!<br/>"+
+        "1) The body has been ripped apart as if shredded "+
+        "by a powerful monster. Lose 1 Sanity.<br/>"+
+        "2+) Searching the body you find something "+
+        "intersting. Draw 1 Common Item.";
+    options: Option.Cave_Enc2;
 }
 AEOption Cave_Enc2 {
-	activate: {{{
-                var res = game.context.dieRollSkillCount("Check Body", this.id, Constants.Skills.Luck, 0, 1);
-		if (res <= 0) {
-			CHAR.damageSanity(1);
-			if (CHAR.commitDamage()) {
-				// TODO: Why first check commit?
-				CHAR.spontaneousMonsterFight();
-			}
-		} else if (res == 1) {
-			CHAR.damageSanity(1);
-		} else {
-			var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
-			CHAR.addToInventory(ob);
-		}
-	}}};
+    activate: {{{
+        var res = game.context.dieRollSkillCount("Check Body", this.id, Constants.Skills.Luck, 0, 1);
+        if (res <= 0) {
+            CHAR.damageSanity(1);
+            if (CHAR.commitDamage()) {
+                // TODO: Why first check commit?
+                CHAR.spontaneousMonsterFight();
+            }
+        } else if (res == 1) {
+            CHAR.damageSanity(1);
+        } else {
+            var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
+            CHAR.addToInventory(ob);
+        }
+    }}};
 }

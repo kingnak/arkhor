@@ -48,17 +48,17 @@ public:
     Q_INVOKABLE void increaseTerrorLevel(int amount = 1);
     Q_INVOKABLE void decreaseTerrorLevel(int amount = 1) { increaseTerrorLevel(-amount); }
 
-	Q_INVOKABLE QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options);
-	Q_INVOKABLE QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel);
+    Q_INVOKABLE QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options);
+    Q_INVOKABLE QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel);
 
     Q_INVOKABLE bool spontaneousMonsterFight();
     Q_INVOKABLE bool createGateAtCharacterField();
 
     Q_INVOKABLE GameObjectScript *drawObject(AH::GameObjectType type);
-	Q_INVOKABLE GameObjectScript *drawObject(AH::GameObjectType type, QString desc, QString sourceId = QString::null);
+    Q_INVOKABLE GameObjectScript *drawObject(AH::GameObjectType type, QString desc, QString sourceId = QString::null);
 
-	Q_INVOKABLE QList<GameObjectScript *> drawMultipleObjects(AH::GameObjectType type, QString desc, const QString &sourceId, int count, int min, int max);
-	Q_INVOKABLE QList<GameObjectScript *> drawMixedObjects(QString desc, const QString &sourceId, QList<AH::ObjectTypeCount> types, int min, int max);
+    Q_INVOKABLE QList<GameObjectScript *> drawMultipleObjects(AH::GameObjectType type, QString desc, const QString &sourceId, int count, int min, int max);
+    Q_INVOKABLE QList<GameObjectScript *> drawMixedObjects(QString desc, const QString &sourceId, QList<AH::ObjectTypeCount> types, int min, int max);
 
 signals:
 

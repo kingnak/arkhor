@@ -1,52 +1,52 @@
 AncientOne YogSothoth {
-	name: "Yog-Sothoth";
-	combatAdjustment: -5;
-	worshippersText: "Yog-Sothoth's worshippers ave powerful magical abilities. "+
-		"<b>Cultists</b> have <i>Magical Immunity</i> and a combat rating of <b>-1</b>. ";
+    name: "Yog-Sothoth";
+    combatAdjustment: -5;
+    worshippersText: "Yog-Sothoth's worshippers have powerful magical abilities. "+
+        "<b>Cultists</b> have <i>Magical Immunity</i> and a combat rating of <b>-1</b>. ";
 
-	powerTitle: "Te Key and the Gate";
-	powerText: "While Yog-Sothoth stirs in his slumber, the difficulty to close or seal a gate "+
-		"increases by 1. In addition, any investigator <i>Lost in Time and Space</i> is <b>devoured</b>. (not implemented)";
-		
-	battleStartText: "Any investigator with no gate trophies is <b>devoured</b>.";
-	attackText: "Each investigator must pass a <b>Will (+1) check</b> or lose 1 gate trophy. "+
-		"Any investigator with no gate trophies left is <b>devoured</b>. "+
-		"This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)";
-		
-	doomTrack: 12;
-	defenses: MagicalImmunity;
-	monsterModifications: [
-		Cultist { 
-			Monster_CombatAdjustment -2, 
-			Monster_Attributes |"+Constants.Monster.MagicalImmunity+" 
-		}
-	];
-	
-	/*
-	TODO
-	slumberModifications: [
-	];
-	*/
-	
-	attackAdjustment: 1;
-	onAwake: {{{
-            var list = game.context.allCharacters;
-            for (var i = 0; i < list.length; ++i) {
-                var c = list[i];
-                if (!c.canPay({type: Constants.Costs.GateTrophy, amount: 1})) {
-                    c.devour();
-                }
+    powerTitle: "The Key and the Gate";
+    powerText: "While Yog-Sothoth stirs in his slumber, the difficulty to close or seal a gate "+
+        "increases by 1. In addition, any investigator <i>Lost in Time and Space</i> is <b>devoured</b>. (not implemented)";
+        
+    battleStartText: "Any investigator with no gate trophies is <b>devoured</b>.";
+    attackText: "Each investigator must pass a <b>Will (+1) check</b> or lose 1 gate trophy. "+
+        "Any investigator with no gate trophies left is <b>devoured</b>. "+
+        "This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)";
+        
+    doomTrack: 12;
+    defenses: MagicalImmunity;
+    monsterModifications: [
+        Cultist { 
+            Monster_CombatAdjustment -2, 
+            Monster_Attributes |"+Constants.Monster.MagicalImmunity+" 
+        }
+    ];
+    
+    /*
+    TODO
+    slumberModifications: [
+    ];
+    */
+    
+    attackAdjustment: 1;
+    onAwake: {{{
+        var list = game.context.allCharacters;
+        for (var i = 0; i < list.length; ++i) {
+            var c = list[i];
+            if (!c.canPay({type: Constants.Costs.GateTrophy, amount: 1})) {
+                c.devour();
             }
-	}}};
-	
-	attack: {{{
-		var res = game.context.skillTest("Yog-Sothoth attacks", this.id, Constants.Skills.Will, this.attackAdjustment, 1);
-		if (!res) {
-			res = CHAR.pay({type: Constants.Costs.GateTrophy, amount: 1});
-			if (!res) {
-				CHAR.devour();
-			}
-		}
-	}}};
+        }
+    }}};
+    
+    attack: {{{
+        var res = game.context.skillTest("Yog-Sothoth attacks", this.id, Constants.Skills.Will, this.attackAdjustment, 1);
+        if (!res) {
+            res = CHAR.pay({type: Constants.Costs.GateTrophy, amount: 1});
+            if (!res) {
+                CHAR.devour();
+            }
+        }
+    }}};
 }
 

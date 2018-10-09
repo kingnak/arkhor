@@ -1,70 +1,70 @@
 FieldOption Science_Dissection {
-	field: MU_ScienceBuilding;
-	name: "Dissection";
-	description: "Instead of having an encounter here, "+
-		"you may spend 5 toughness worth of monster trophies "+
-		"or 1 gate trophy to gain 2 Clue tokens.";
-	costs: [ MonsterToughness 5, GateTrophy 1 ];
-	activate: {{{ CHAR.addClue(2); }}};
+    field: MU_ScienceBuilding;
+    name: "Dissection";
+    description: "Instead of having an encounter here, "+
+        "you may spend 5 toughness worth of monster trophies "+
+        "or 1 gate trophy to gain 2 Clue tokens.";
+    costs: [ MonsterToughness 5, GateTrophy 1 ];
+    activate: {{{ CHAR.addClue(2); }}};
 }
 
 ArkhamEncounter Science_Enc1 {
-	field: MU_ScienceBuilding;
-	description: "A chemical brew bubbles on a nearby "+
-		"Bunsen burner. It smells delicious. If you drink "+
-		"it, make a <b>Luck (+0) check</b>. If you pass, "+
-		"the strange liquid fortifies you. Roll a die and "+
-		"gain that many points, split between your Stamina "+
-		"and Sanity however you like. If you fail, the "+
-		"liquid turns out to be coffee. Gain 1 Stamina.";
-	options: ( Option.Science_Enc1, Option.SKIP );
+    field: MU_ScienceBuilding;
+    description: "A chemical brew bubbles on a nearby "+
+        "Bunsen burner. It smells delicious. If you drink "+
+        "it, make a <b>Luck (+0) check</b>. If you pass, "+
+        "the strange liquid fortifies you. Roll a die and "+
+        "gain that many points, split between your Stamina "+
+        "and Sanity however you like. If you fail, the "+
+        "liquid turns out to be coffee. Gain 1 Stamina.";
+    options: ( Option.Science_Enc1, Option.SKIP );
 }
 AEOption Science_Enc1 {
-	name: "Drink";
-	activate: {{{
-		var res = game.context.skillTest("Drink", this.id, Constants.Skills.Luck, 0, 1);
-		if (res) {
-			var ct = game.context.genericDieRullSum("Points to gain", 1);
+    name: "Drink";
+    activate: {{{
+        var res = game.context.skillTest("Drink", this.id, Constants.Skills.Luck, 0, 1);
+        if (res) {
+            var ct = game.context.genericDieRullSum("Points to gain", 1);
 
-			// Ask how much stamina
-			var options = new Array(ct+1);
-			for (var i = 0; i <= ct; ++i) {
-				options[i] = i;
-			}
-                        var stam = game.context.selectChoice("Heal how much stamina?", this.id, options);
-			CHAR.addStamina(stam);
-			ct -= stam;
+            // Ask how much stamina
+            var options = new Array(ct+1);
+            for (var i = 0; i <= ct; ++i) {
+                options[i] = i;
+            }
+            var stam = game.context.selectChoice("Heal how much stamina?", this.id, options);
+            CHAR.addStamina(stam);
+            ct -= stam;
 
-			// Abort if all used
-			if (ct <= 0) return;
+            // Abort if all used
+            if (ct <= 0) return;
 
-			// Ask how much sanity
-			options = new Array(ct+1);
-			for (var i = 0; i <= ct; ++i) {
-				options[i] = i;
-			}
-                        var san = game.context.selectChoice("Heal how much sanity?", this.id, options);
-			CHAR.addSanity(san);
-		} else {
-			CHAR.addStamina(1);
-		}
-	}}};
+            // Ask how much sanity
+            options = new Array(ct+1);
+            for (var i = 0; i <= ct; ++i) {
+                options[i] = i;
+            }
+            var san = game.context.selectChoice("Heal how much sanity?", this.id, options);
+            CHAR.addSanity(san);
+        } else {
+            CHAR.addStamina(1);
+        }
+    }}};
 }
 
 ArkhamEncounter Science_Enc2 {
-	field: MU_ScienceBuilding;
-	description: "A professor of the occult asks you to "+
-		"hold a hideous statue that he believes to have "+
-		"strange powers while he reads a scroll. Energy "+
-		"shoots through your body. Make a <b>Luck (-1) check</b>. "+
-		"If you pass, your spirit rises from your body and "+
-		"you feel that you have the power to switch bodies "+
-		"with another investigator. You may choose another "+
-		"investigator from the pile of unused investigators "+
-		"and bring it into play as a new character, "+
-		"discarding your current investigator (along with "+
-		"all of his items, skills, trophies, etc.). If you "+
-		"fail, nothing happens."+
-		"<br/>Not implemented";
-	options: Option.SKIP;
+    field: MU_ScienceBuilding;
+    description: "A professor of the occult asks you to "+
+        "hold a hideous statue that he believes to have "+
+        "strange powers while he reads a scroll. Energy "+
+        "shoots through your body. Make a <b>Luck (-1) check</b>. "+
+        "If you pass, your spirit rises from your body and "+
+        "you feel that you have the power to switch bodies "+
+        "with another investigator. You may choose another "+
+        "investigator from the pile of unused investigators "+
+        "and bring it into play as a new character, "+
+        "discarding your current investigator (along with "+
+        "all of his items, skills, trophies, etc.). If you "+
+        "fail, nothing happens."+
+        "<br/>Not implemented";
+    options: Option.SKIP;
 }

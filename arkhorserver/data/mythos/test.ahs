@@ -1,6 +1,6 @@
 Headline TEST {
-	description: "The Ancient One awakes!";
-	executeHeadline: {{{
-                game.awakeAncientOne();
-	}}};
+    description: "The Ancient One awakes!";
+    executeHeadline: {{{
+        game.awakeAncientOne();
+    }}};
 }

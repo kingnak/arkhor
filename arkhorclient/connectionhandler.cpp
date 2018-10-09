@@ -359,19 +359,19 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         break;
     }
 
-	case AH::Common::Message::S_GAME_ALERT:
+    case AH::Common::Message::S_GAME_ALERT:
     {
-		emit gameAlert(msg.payload.toString());
+        emit gameAlert(msg.payload.toString());
         break;
     }
 
-	case AH::Common::Message::S_PHASE_CHANGE:
-	{
-		AH::GamePhase ph;
-		msg.payload >> ph;
-		emit phaseChange(ph);
-		break;
-	}
+    case AH::Common::Message::S_PHASE_CHANGE:
+    {
+        AH::GamePhase ph;
+        msg.payload >> ph;
+        emit phaseChange(ph);
+        break;
+    }
 
     case AH::Common::Message::S_PLAYER_CHANGE:
     {

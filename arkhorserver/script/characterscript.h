@@ -17,9 +17,9 @@ public:
     static void castFromValue(const QScriptValue &v, CharacterScript *&o) { o = qobject_cast<CharacterScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, CharacterScript * const &in) { return eng->newQObject(in); }
 
-	Q_PROPERTY(QString name READ investigatorName)
-	QString investigatorName() const { return m_investigatorData.name(); }
-	Q_PROPERTY(QString id READ id)
+    Q_PROPERTY(QString name READ investigatorName)
+    QString investigatorName() const { return m_investigatorData.name(); }
+    Q_PROPERTY(QString id READ id)
 
     Q_PROPERTY(QObjectList inventory READ getInventoryScript)
 
@@ -70,11 +70,11 @@ public:
     Q_INVOKABLE void loseHalfPossessions(const QString &sourceId = QString::null) { return Character::loseHalfPossessions(sourceId); }
     Q_INVOKABLE void losePossessions(int count, const QString &sourceId) { return Character::losePossessions(count, sourceId); }
 
-	Q_INVOKABLE int genericDieRollSum(QString desc, QString sourceId, int dieCount);
-	Q_INVOKABLE bool genericDieRollTest(QString desc, QString sourceId, int dieCount, int target);
-	Q_INVOKABLE int genericDieRollCount(QString desc, QString sourceId, int dieCount);
-	Q_INVOKABLE bool skillTest(QString desc, QString sourceId, AH::Skill skill, int adjust, int target);
-	Q_INVOKABLE int dieRollSkillCount(QString desc, QString sourceId, AH::Skill skill, int adjust);
+    Q_INVOKABLE int genericDieRollSum(QString desc, QString sourceId, int dieCount);
+    Q_INVOKABLE bool genericDieRollTest(QString desc, QString sourceId, int dieCount, int target);
+    Q_INVOKABLE int genericDieRollCount(QString desc, QString sourceId, int dieCount);
+    Q_INVOKABLE bool skillTest(QString desc, QString sourceId, AH::Skill skill, int adjust, int target);
+    Q_INVOKABLE int dieRollSkillCount(QString desc, QString sourceId, AH::Skill skill, int adjust);
 
 signals:
 

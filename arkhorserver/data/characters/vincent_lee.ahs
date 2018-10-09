@@ -1,30 +1,30 @@
 
 Investigator VincentLee {
-	occupation: "The Doctor";
-	homeFieldId: UT_StMarysHospital;
-	sanity: 5;
-	stamina: 5;
-	money: 9;
-	focus: 2;
-	clues: 1;
-	uniqueAbilityId: SpecialAbility.Physician;
-	fixedPossesionObjectIds: <<<[]>>>;
-	randomPossessions: [
-		CommonItem 2,
-		Spell 2,
-		Skill 1
-	];
-	attributes: [
-		SpeedSneak {(0,5),(1,4),(2,3),(3,2)},
-		FightWill {(0,4),(1,3),(2,2),(3,1)},
-		LoreLuck {(2,4),(3,3),(4,2),(5,1)}
-	];
+    occupation: "The Doctor";
+    homeFieldId: UT_StMarysHospital;
+    sanity: 5;
+    stamina: 5;
+    money: 9;
+    focus: 2;
+    clues: 1;
+    uniqueAbilityId: SpecialAbility.Physician;
+    fixedPossesionObjectIds: <<<[]>>>;
+    randomPossessions: [
+        CommonItem 2,
+        Spell 2,
+        Skill 1
+    ];
+    attributes: [
+        SpeedSneak {(0,5),(1,4),(2,3),(3,2)},
+        FightWill {(0,4),(1,3),(2,2),(3,1)},
+        LoreLuck {(2,4),(3,3),(4,2),(5,1)}
+    ];
 }
 
 SpecialAbility Physician {
-	description: "<b>Upkeep:</b> Dr. Lee may restore 1 Stamina to himself or another character "+
+    description: "<b>Upkeep:</b> Dr. Lee may restore 1 Stamina to himself or another character "+
                 "in his location. He cannot raise a character's Stamina higher than "+
-		"that character's maximum Stamina.";
+        "that character's maximum Stamina.";
         options: Option.LeePhysician;
         exhaustable: true;
 }

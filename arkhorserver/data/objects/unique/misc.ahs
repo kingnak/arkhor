@@ -1,90 +1,90 @@
 UniqueItem ElderSign : 4 {
-	description: "<b>Any Phase:</b> When sealing a gate, "+
-		"lose 1 Stamina and 1 Sanity and return this card "+
-		"to the box. You do not need to make a skill check "+
-		"or spend any Clue tokens to seal the gate. In "+
-		"addition, remove one doom token from the Ancient "+
-		"One's doom track.";
-	exhaustable: true;
-	price: 5;
-	options: Option.UseElderSign;
+    description: "<b>Any Phase:</b> When sealing a gate, "+
+        "lose 1 Stamina and 1 Sanity and return this card "+
+        "to the box. You do not need to make a skill check "+
+        "or spend any Clue tokens to seal the gate. In "+
+        "addition, remove one doom token from the Ancient "+
+        "One's doom track.";
+    exhaustable: true;
+    price: 5;
+    options: Option.UseElderSign;
 }
 QuickOption UseElderSign {
-        phases: ArkhamEncountery;
-	continueType: CannotContinue;
-	chooseType: Supplemental;
-	isAvailable: {{{
-                return this.owner.canCloseGate();
-	}}};
-	activate: {{{
-		game.context.gate.seal(this.owner);
-		this.owner.damageStamina(1);
-		this.owner.damageSanity(1);
-		game.context.ancientOne.decreaseDoomTrack(1);
-		this.removeFromGame();
-	}}};
+    phases: ArkhamEncountery;
+    continueType: CannotContinue;
+    chooseType: Supplemental;
+    isAvailable: {{{
+        return this.owner.canCloseGate();
+    }}};
+    activate: {{{
+        game.context.gate.seal(this.owner);
+        this.owner.damageStamina(1);
+        this.owner.damageSanity(1);
+        game.context.ancientOne.decreaseDoomTrack(1);
+        this.removeFromGame();
+    }}};
 }
 
 UniqueItem HealingStone : 1 {
-	description: "<b>Upkeep:</b> You may gain 1 Stamina or 1 Sanity.\n"+
-		"Discard Healing Stone if the Ancient One awakens.";
-	exhaustable: true;
-	price: 8;
-	options: ( Option.HS_HealStamina, Option.HS_HealSanity );
-	attributes: DiscardOnEndFight;
+    description: "<b>Upkeep:</b> You may gain 1 Stamina or 1 Sanity.\n"+
+        "Discard Healing Stone if the Ancient One awakens.";
+    exhaustable: true;
+    price: 8;
+    options: ( Option.HS_HealStamina, Option.HS_HealSanity );
+    attributes: DiscardOnEndFight;
 }
 QuickOption HS_HealStamina {
-	name: "Heal Stamina (Healing Stone)";
-	phases: Upkeep;
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		this.owner.addStamina(1);
-		this.exhaust();
-	}}};
+    name: "Heal Stamina (Healing Stone)";
+    phases: Upkeep;
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.owner.addStamina(1);
+        this.exhaust();
+    }}};
 }
 QuickOption HS_HealSanity {
-	name: "Heal Sanity (Healing Stone)";
-	phases: Upkeep;
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		this.owner.addSanity(1);
-		this.exhaust();
-	}}};
+    name: "Heal Sanity (Healing Stone)";
+    phases: Upkeep;
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.owner.addSanity(1);
+        this.exhaust();
+    }}};
 }
 
 UniqueItem EnchantedJewelry : 1 {
-	description: "<b>Any Phase</b>: Put 1 Stamina token from the bank on Enchanted Jewelry to "+
-		"avoid losing 1 Stamina. If there are 3 Stamina tokens on it, discard Enchanted Jewelry.";
-	price: 3;
-	properties: <<<{
-		tokens: { display: "Tokens", value: 0, onDisplay: function() { return this.tokens + " / 3"; } }
-	}>>>;
-	exhaustable: true;
-	onAddToInventory: {{{ this.tokens = 0; }}};
-	options: <<<[
-		game.getPreventDamageOption({
-			stamina: function() {
-				this.tokens++;
-				if (this.tokens >= 3) {
-					this.discard();
-				}
-				return 1;
-			},
-			exhaust: true,
-			description: "Prevent 1 Stamina damage"
-		})
-	]>>>;
+    description: "<b>Any Phase</b>: Put 1 Stamina token from the bank on Enchanted Jewelry to "+
+        "avoid losing 1 Stamina. If there are 3 Stamina tokens on it, discard Enchanted Jewelry.";
+    price: 3;
+    properties: <<<{
+        tokens: { display: "Tokens", value: 0, onDisplay: function() { return this.tokens + " / 3"; } }
+    }>>>;
+    exhaustable: true;
+    onAddToInventory: {{{ this.tokens = 0; }}};
+    options: <<<[
+        game.getPreventDamageOption({
+            stamina: function() {
+                this.tokens++;
+                if (this.tokens >= 3) {
+                    this.discard();
+                }
+                return 1;
+            },
+            exhaust: true,
+            description: "Prevent 1 Stamina damage"
+        })
+    ]>>>;
 }
 
 UniqueItem PallidMask : 1 {
-	price: 4;
-	modifications: [ Skill_Evade +2 ];
+    price: 4;
+    modifications: [ Skill_Evade +2 ];
 }
 
 UniqueItem RubyOfRlyeh : 1 {
-	name: "Ruby of R'lyeh";
-	price: 8;
-	modifications: [ Prop_Movement +3 ];
+    name: "Ruby of R'lyeh";
+    price: 8;
+    modifications: [ Prop_Movement +3 ];
 }

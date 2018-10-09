@@ -1,71 +1,71 @@
 Skill Fight : 2 {
-	description: "When you spend a Clue token to add to any <b>Fight check</b>, add one extra bonus die.";
-	modifications: [
-		Skill_Fight +1,
-		DieRoll_Fight +1
-	];
+    description: "When you spend a Clue token to add to any <b>Fight check</b>, add one extra bonus die.";
+    modifications: [
+        Skill_Fight +1,
+        DieRoll_Fight +1
+    ];
 }
 
 Skill Lore : 2 {
-	description: "When you spend a Clue token to add to any <b>Lore check</b>, add one extra bonus die.";
-	modifications: [
-		Skill_Lore +1,
-		DieRoll_Lore +1
-	];
+    description: "When you spend a Clue token to add to any <b>Lore check</b>, add one extra bonus die.";
+    modifications: [
+        Skill_Lore +1,
+        DieRoll_Lore +1
+    ];
 }
 
 Skill Luck : 2 {
-	description: "When you spend a Clue token to add to any <b>Luck check</b>, add one extra bonus die.";
-	modifications: [
-		Skill_Luck +1,
-		DieRoll_Luck +1
-	];
+    description: "When you spend a Clue token to add to any <b>Luck check</b>, add one extra bonus die.";
+    modifications: [
+        Skill_Luck +1,
+        DieRoll_Luck +1
+    ];
 }
 
 Skill Sneak : 2 {
-	description: "When you spend a Clue token to add to any <b>Sneak check</b>, add one extra bonus die.";
-	modifications: [
-		Skill_Sneak +1,
-		DieRoll_Sneak +1
-	];
+    description: "When you spend a Clue token to add to any <b>Sneak check</b>, add one extra bonus die.";
+    modifications: [
+        Skill_Sneak +1,
+        DieRoll_Sneak +1
+    ];
 }
 
 Skill Speed : 2 {
-	description: "When you spend a Clue token to add to any <b>Speed check</b>, add one extra bonus die.";
-	modifications: [
-		Skill_Speed +1,
-		DieRoll_Speed +1
-	];
+    description: "When you spend a Clue token to add to any <b>Speed check</b>, add one extra bonus die.";
+    modifications: [
+        Skill_Speed +1,
+        DieRoll_Speed +1
+    ];
 }
 
 Skill Will : 2 {
-	description: "When you spend a Clue token to add to any <b>Will check</b>, add one extra bonus die.";
-	modifications: [
-		Skill_Will +1,
-		DieRoll_Will +1
-	];
+    description: "When you spend a Clue token to add to any <b>Will check</b>, add one extra bonus die.";
+    modifications: [
+        Skill_Will +1,
+        DieRoll_Will +1
+    ];
 }
 
 Skill Bravery : 2 {
-	description: "<b>Any Phase:</b> Exhaust to re-roll a <b>Horror check</b>.";
-        options: <<<[ game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Horror]}) ]>>>;
-        exhaustable: true;
+    description: "<b>Any Phase:</b> Exhaust to re-roll a <b>Horror check</b>.";
+    options: <<<[ game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Horror]}) ]>>>;
+    exhaustable: true;
 }
 
 Skill Occultist : 2 {
-	description: "<b>Any Phase:</b> Exhaust to re-roll a <b>Spell check</b>.";
-        options: <<<[ game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Spell]}) ]>>>;
-        exhaustable: true;
+    description: "<b>Any Phase:</b> Exhaust to re-roll a <b>Spell check</b>.";
+    options: <<<[ game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Spell]}) ]>>>;
+    exhaustable: true;
 }
 
 Skill Marksman : 2 {
-	description: "<b>Any Phase:</b> Exhaust to re-roll a <b>Combat check</b>.";
-        options: <<<[ game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Combat]}) ]>>>;
-        exhaustable: true;
+    description: "<b>Any Phase:</b> Exhaust to re-roll a <b>Combat check</b>.";
+    options: <<<[ game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Combat]}) ]>>>;
+    exhaustable: true;
 }
 
 Skill Stealth : 2 {
-	description: "<b>Any Phase:</b> Exhaust to re-roll an <b>Evade check</b>.";
-        options: <<<[ game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Evade]}) ]>>>;
-        exhaustable: true;
+    description: "<b>Any Phase:</b> Exhaust to re-roll an <b>Evade check</b>.";
+    options: <<<[ game.getDieRollOption({type: Constants.Reroll.All, skills: [Constants.Skills.Evade]}) ]>>>;
+    exhaustable: true;
 }

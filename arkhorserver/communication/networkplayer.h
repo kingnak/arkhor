@@ -35,7 +35,7 @@ public:
     virtual void sendSetting(AH::Common::GameSettingData data);
 
     virtual void nextRound();
-	virtual void gamePhaseChanged(AH::GamePhase phase);
+    virtual void gamePhaseChanged(AH::GamePhase phase);
 
     virtual void firstPlayerChanged(const Player *player);
     virtual void currentPlayerChanged(const Player *player);
@@ -56,7 +56,7 @@ public:
 
     void notifySimple(const QString &str, Player *p, const QString &desc = QString::null);
     void notifyAlert(const QString &msg, Player *p, const QString &desc = QString::null);
-	void notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc = QString::null);
+    void notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc = QString::null);
     void notifyWon(QString msg);
     void notifyLost(QString msg);
     void notifyDied(Player *p);

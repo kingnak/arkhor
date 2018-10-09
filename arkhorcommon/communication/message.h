@@ -92,7 +92,7 @@ namespace AH{
                 S_WON,
                 S_LOST,
                 S_DIED,
-				S_GAME_ALERT,
+                S_GAME_ALERT,
 
                 C_SET_AUTOSKIP,
 

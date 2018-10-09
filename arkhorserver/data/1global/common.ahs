@@ -1,9 +1,9 @@
 AEOption MonsterAppearsARK {
-	name: "Monster Appears";
-	activate: {{{ game.context.spontaneousMonsterFight(); }}};
+    name: "Monster Appears";
+    activate: {{{ game.context.spontaneousMonsterFight(); }}};
 }
 
 AEOption GateAndMonsterAppears {
-	name: "Gate and Monster Appears";
-	activate: {{{ game.context.createGateAtCharacterField(); }}};
+    name: "Gate and Monster Appears";
+    activate: {{{ game.context.createGateAtCharacterField(); }}};
 }

@@ -1,42 +1,41 @@
 AncientOne Yig {
-	combatAdjustment: -3;
-	worshippersText: "Yig's worshippers are actually disguised serpent people. "+
-		"Their bite is highly poisonous. <b>Cultists</b> have a combat rating of +0 and "+
-		"a combat damage of 4 Stamina.";
+    combatAdjustment: -3;
+    worshippersText: "Yig's worshippers are actually disguised serpent people. "+
+        "Their bite is highly poisonous. <b>Cultists</b> have a combat rating of +0 and "+
+        "a combat damage of 4 Stamina.";
 
-	powerTitle: "Yig's Anger";
-	powerText: "While Yig stirs in his slumber, he gains a doom token whenever a "+
-		"<b>Cultist</b> is defeated or an investigator is <i>Lost in Time and Space</i>. (not implemented)";
-		
-	battleStartText: "Every investigator is <i>Cursed</i>. Any investigator that already has a Curse is <b>devoured</b>.";
-	attackText: "Each investigator must pass a <b>Speed (+1) check</b> or lose 1 Sanity and 1 Stamina. "+
-		"This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)";
-		
-	doomTrack: 10;
-	monsterModifications: [
-		Cultist { Monster_CombatAdjustment -1, Monster_CombatDamage +3 }
-	];
-	
-	attackAdjustment: 1;
-	onAwake: {{{
-            var list = game.context.allCharacters;
-            for (var i = 0; i < list.length; ++i) {
-                var c = list[i];
-                if (game.utility.isCharacterCursed(c)) {
-                    c.devour();
-                } else {
-                    // TODO: Force curse?
-                    game.utility.curseCharacter(c);
-                }
+    powerTitle: "Yig's Anger";
+    powerText: "While Yig stirs in his slumber, he gains a doom token whenever a "+
+        "<b>Cultist</b> is defeated or an investigator is <i>Lost in Time and Space</i>. (not implemented)";
+        
+    battleStartText: "Every investigator is <i>Cursed</i>. Any investigator that already has a Curse is <b>devoured</b>.";
+    attackText: "Each investigator must pass a <b>Speed (+1) check</b> or lose 1 Sanity and 1 Stamina. "+
+        "This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)";
+        
+    doomTrack: 10;
+    monsterModifications: [
+        Cultist { Monster_CombatAdjustment -1, Monster_CombatDamage +3 }
+    ];
+    
+    attackAdjustment: 1;
+    onAwake: {{{
+        var list = game.context.allCharacters;
+        for (var i = 0; i < list.length; ++i) {
+            var c = list[i];
+            if (game.utility.isCharacterCursed(c)) {
+                c.devour();
+            } else {
+                // TODO: Force curse?
+                game.utility.curseCharacter(c);
             }
-	}}};
-	
-	attack: {{{
-		var res = game.context.skillTest("Yig attacks", this.id, Constants.Skills.Speed, this.attackAdjustment, 1);
-		if (!res) {
-			CHAR.damageSanity(1);
-			CHAR.damageStamina(1);
-		}
-	}}};
+        }
+    }}};
+    
+    attack: {{{
+        var res = game.context.skillTest("Yig attacks", this.id, Constants.Skills.Speed, this.attackAdjustment, 1);
+        if (!res) {
+            CHAR.damageSanity(1);
+            CHAR.damageStamina(1);
+        }
+    }}};
 }
-

@@ -44,10 +44,10 @@ public:
 
     virtual void notifySimple(const QString &str, Player *p, const QString &desc = QString::null);
     virtual void notifyAlert(const QString &msg, Player *p, const QString &desc = QString::null);
-	virtual void notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc = QString::null);
-	virtual void notifyWon(QString msg);
-	virtual void notifyLost(QString msg);
-	virtual void notifyDied(Player *p);
+    virtual void notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc = QString::null);
+    virtual void notifyWon(QString msg);
+    virtual void notifyLost(QString msg);
+    virtual void notifyDied(Player *p);
 
     virtual bool event(QEvent *eve);
 

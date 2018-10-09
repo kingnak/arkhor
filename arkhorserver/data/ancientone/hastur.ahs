@@ -1,37 +1,37 @@
 AncientOne Hastur {
-	combatAdjustment: 0;
-	worshippersText: "Hastur's worshippers ride byakhee mounts that they "+
-					 "call with enchanted whistles. <b>Cultists</b> are <em>flying "+
-					 "monsters</em> and their combat rating is -2.";
+    combatAdjustment: 0;
+    worshippersText: "Hastur's worshippers ride byakhee mounts that they "+
+                     "call with enchanted whistles. <b>Cultists</b> are <em>flying "+
+                     "monsters</em> and their combat rating is -2.";
 
-	powerTitle: "The King in Yellow";
-	powerText: "While Hastur stirs in his slumber, the cost to seal a gate is 8 Clue tokens instead of 5.";
-	battleStartText: "Combat adjustment is set to the current terror level";
-	attackText: "Each investigator must pass a Luck (+1) check or lose 2 Sanity. "+
-				"This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)";
-	doomTrack: 13;
-	monsterModifications: [
-		Cultist { Monster_CombatAdjustment -3 }
-	];
-	monsterMoveModifications: [
-		Cultist Flying
-	];
+    powerTitle: "The King in Yellow";
+    powerText: "While Hastur stirs in his slumber, the cost to seal a gate is 8 Clue tokens instead of 5.";
+    battleStartText: "Combat adjustment is set to the current terror level";
+    attackText: "Each investigator must pass a Luck (+1) check or lose 2 Sanity. "+
+                "This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)";
+    doomTrack: 13;
+    monsterModifications: [
+        Cultist { Monster_CombatAdjustment -3 }
+    ];
+    monsterMoveModifications: [
+        Cultist Flying
+    ];
 
-	defenses: PhysicalResistance;
-	slumberModifications: [
-		Game_SealClueCost +3
-	];
+    defenses: PhysicalResistance;
+    slumberModifications: [
+        Game_SealClueCost +3
+    ];
 
-	onAwake: {{{
-		this.setCombatAdjustment(game.context.terrorLevel);
-	}}};
+    onAwake: {{{
+        this.setCombatAdjustment(game.context.terrorLevel);
+    }}};
 
-	attackAdjustment: 1;
+    attackAdjustment: 1;
 
-	attack: {{{
-                var res = game.context.skillTest("Hastur attacks", this.id, Constants.Skills.Luck, this.attackAdjustment, 1);
-		if (!res) {
-			CHAR.damageSanity(2);
-		}
-	}}};
+    attack: {{{
+        var res = game.context.skillTest("Hastur attacks", this.id, Constants.Skills.Luck, this.attackAdjustment, 1);
+        if (!res) {
+            CHAR.damageSanity(2);
+        }
+    }}};
 }

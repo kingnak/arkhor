@@ -1,7 +1,7 @@
 BlessingCurse Blessing {
-	modifications: [ Prop_MinSuccessDieRoll -1 ];
+    modifications: [ Prop_MinSuccessDieRoll -1 ];
 }
 
 BlessingCurse Curse {
-	modifications: [ Prop_MinSuccessDieRoll +1 ];
+    modifications: [ Prop_MinSuccessDieRoll +1 ];
 }

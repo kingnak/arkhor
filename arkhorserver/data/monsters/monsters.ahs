@@ -1,69 +1,69 @@
 Monster BlackMan : 1 {
-	name: "The Black Man";
-	description: "Before making a Horror Check, "+
-		"pass a <b>Luck (-1) check</b> or be devoured. "+
-		"If you pass, gain 2 Clue tokens. In either "+
-		"case, return the black Man to the cup. (not implemented)";
-	//dimension: Moon;
-	movementType: Normal;
-	awareness: -3;
-	horrorAdjustment: 0;
-	horrorDamage: 0;
-	combatAdjustment: 0;
-	combatDamage: 0;
-	toughness: 1;
-	attributes: ( Mask, Endless );
-	// TODO
+    name: "The Black Man";
+    description: "Before making a Horror Check, "+
+        "pass a <b>Luck (-1) check</b> or be devoured. "+
+        "If you pass, gain 2 Clue tokens. In either "+
+        "case, return the black Man to the cup. (not implemented)";
+    //dimension: Moon;
+    movementType: Normal;
+    awareness: -3;
+    horrorAdjustment: 0;
+    horrorDamage: 0;
+    combatAdjustment: 0;
+    combatDamage: 0;
+    toughness: 1;
+    attributes: ( Mask, Endless );
+    // TODO
 }
 
 Monster BloatedWoman : 1 {
-	name: "The Bloated Woman";
-	description: "Before making a Horror "+
-		"check, pass a <b>Will (-2) check</b> or "+
-		"automatically fail the Horror check "+
-		"and the Combat check. (not implemented)";
-	//dimension: Hexagon;
-	movementType: Normal;
-	awareness: -1;
-	horrorAdjustment: -1;
-	horrorDamage: 2;
-	combatAdjustment: -2;
-	combatDamage: 2;
-	toughness: 2;
-	attributes: ( Mask, Endless );
-	// TODO
+    name: "The Bloated Woman";
+    description: "Before making a Horror "+
+        "check, pass a <b>Will (-2) check</b> or "+
+        "automatically fail the Horror check "+
+        "and the Combat check. (not implemented)";
+    //dimension: Hexagon;
+    movementType: Normal;
+    awareness: -1;
+    horrorAdjustment: -1;
+    horrorDamage: 2;
+    combatAdjustment: -2;
+    combatDamage: 2;
+    toughness: 2;
+    attributes: ( Mask, Endless );
+    // TODO
 }
 
 Monster Byakhee : 3 {
-	mythText: "It shrieked and flapped its wings. "+
-		"I thought of the empty shell of a beetle, "+
-		"and the soft loam of rotting earth. It cocked "+
-		"its carapaced head at me, black teeth clicking "+
-		"against each other.";
-	//dimension: Circle;
-	movementType: Flying;
-	awareness: -2;
-	horrorAdjustment: -1;
-	horrorDamage: 1;
-	combatAdjustment: 0;
-	combatDamage: +1;
-	toughness: 1;
+    mythText: "It shrieked and flapped its wings. "+
+        "I thought of the empty shell of a beetle, "+
+        "and the soft loam of rotting earth. It cocked "+
+        "its carapaced head at me, black teeth clicking "+
+        "against each other.";
+    //dimension: Circle;
+    movementType: Flying;
+    awareness: -2;
+    horrorAdjustment: -1;
+    horrorDamage: 1;
+    combatAdjustment: 0;
+    combatDamage: +1;
+    toughness: 1;
 }
 
 Monster Chthonian : 3 {
-	description:
-		"Instead of moving, roll a die. On a 4-6, "+
-		"all investigators in Arkham lose 1 Stamina";
-	//dimension: Triangle;
-	movementType: Special;
-	awareness: +1;
-	horrorAdjustment: -2;
-	horrorDamage: 2;
-	combatAdjustment: -3;
-	combatDamage: 3;
-	toughness: 3;
-	//attributes: ;
-	onMove: {{{
+    description:
+        "Instead of moving, roll a die. On a 4-6, "+
+        "all investigators in Arkham lose 1 Stamina";
+    //dimension: Triangle;
+    movementType: Special;
+    awareness: +1;
+    horrorAdjustment: -2;
+    horrorDamage: 2;
+    combatAdjustment: -3;
+    combatDamage: 3;
+    toughness: 3;
+    //attributes: ;
+    onMove: {{{
             var list = game.context.allCharacters;
             for (var i = 0; i < list.length; ++i) {
                 var c = list[i];
@@ -72,445 +72,445 @@ Monster Chthonian : 3 {
                     c.commitDamage();
                 }
             }
-	}}};
+    }}};
 }
 
 Monster Cultist : 6 {
-	mythText: "la! la! Cthulhu Fthagen! "+
-		"Ph'nglui mglw'nfah Cthulhu "+
-		"R'lyeh ywah'nagl fhtagn!";
-	//dimension: Moon;
-	movementType: Normal;
-	awareness: -3;
-	horrorAdjustment: 0;
-	horrorDamage: 0;
-	combatAdjustment: +1;
-	combatDamage: 1;
-	toughness: 1;
+    mythText: "la! la! Cthulhu Fthagen! "+
+        "Ph'nglui mglw'nfah Cthulhu "+
+        "R'lyeh ywah'nagl fhtagn!";
+    //dimension: Moon;
+    movementType: Normal;
+    awareness: -3;
+    horrorAdjustment: 0;
+    horrorDamage: 0;
+    combatAdjustment: +1;
+    combatDamage: 1;
+    toughness: 1;
 }
 
 Monster DarkPharao : 1 {
-	name: "The Dark Pharao";
-	description: "Use Lore in combat with the "+
-		"Dark Pharoah instead of Fight. (not implemented)";
-	//dimension: Slash;
-	movementType: Normal;
-	awareness: -1;
-	horrorAdjustment: -1;
-	horrorDamage: 1;
-	combatAdjustment: -3;
-	combatDamage: 3;
-	toughness: 2;
-	attributes: ( Mask, Endless );
-	// TODO
+    name: "The Dark Pharao";
+    description: "Use Lore in combat with the "+
+        "Dark Pharoah instead of Fight. (not implemented)";
+    //dimension: Slash;
+    movementType: Normal;
+    awareness: -1;
+    horrorAdjustment: -1;
+    horrorDamage: 1;
+    combatAdjustment: -3;
+    combatDamage: 3;
+    toughness: 2;
+    attributes: ( Mask, Endless );
+    // TODO
 }
 
 Monster DarkYoung : 3 {
-	mythText:
-		"The trees trembled, leaves fluttering "+
-		"around us. The earth shook as the thuds "+
-		"of giant hooved feet grew ever closer...";
-	//dimension: Hexagon;
-	movementType: Stationary;
-	awareness: -2;
-	horrorAdjustment: 0;
-	horrorDamage: 3;
-	combatAdjustment: -1;
-	combatDamage: 3;
-	toughness: 3;
-	attributes: (PhysicalResistance, Nightmarish_1);
+    mythText:
+        "The trees trembled, leaves fluttering "+
+        "around us. The earth shook as the thuds "+
+        "of giant hooved feet grew ever closer...";
+    //dimension: Hexagon;
+    movementType: Stationary;
+    awareness: -2;
+    horrorAdjustment: 0;
+    horrorDamage: 3;
+    combatAdjustment: -1;
+    combatDamage: 3;
+    toughness: 3;
+    attributes: (PhysicalResistance, Nightmarish_1);
 }
 
 Monster Dhole : 1 {
-	//dimension: Circle;
-	movementType: Normal;
-	awareness: -1;
-	horrorAdjustment: -1;
-	horrorDamage: 4;
-	combatAdjustment: -3;
-	combatDamage: 4;
-	toughness: 3;
-	attributes: (
-		  PhysicalResistance,
-		  MagicalResistance,
-		  Nightmarish_1,
-		  Overwhelming_1
-	);
+    //dimension: Circle;
+    movementType: Normal;
+    awareness: -1;
+    horrorAdjustment: -1;
+    horrorDamage: 4;
+    combatAdjustment: -3;
+    combatDamage: 4;
+    toughness: 3;
+    attributes: (
+          PhysicalResistance,
+          MagicalResistance,
+          Nightmarish_1,
+          Overwhelming_1
+    );
 }
 
 Monster DimensionalShambler : 2 {
-	description:
-		 "If you fail a Combat Check against Dimensional "+
-		"Shambler, you are lost in time and space.";
-	//dimension: Hexagon;
-	movementType: Fast;
-	awareness: -3;
-	horrorAdjustment: -2;
-	horrorDamage: 1;
-	combatAdjustment: -2;
-	combatDamage: 0;
-	toughness: 1;
-	onDamage: {{{
-		if (type == Constants.MonsterDamage.Combat) {
-			chr.lostInSpaceAndTime();
-			return false;
-		}
-	}}};
+    description:
+         "If you fail a Combat Check against Dimensional "+
+        "Shambler, you are lost in time and space.";
+    //dimension: Hexagon;
+    movementType: Fast;
+    awareness: -3;
+    horrorAdjustment: -2;
+    horrorDamage: 1;
+    combatAdjustment: -2;
+    combatDamage: 0;
+    toughness: 1;
+    onDamage: {{{
+        if (type == Constants.MonsterDamage.Combat) {
+            chr.lostInSpaceAndTime();
+            return false;
+        }
+    }}};
 }
 
 Monster ElderThing : 2 {
-	description:
-		"When you fail a Combat Check against "+
-		"Elder Thing, you must discard 1 of your "+
-		"Weapons or Spells (your choice), if able.";
-	//dimension: Diamond;
-	movementType: Normal;
-	awareness: -2;
-	horrorAdjustment: -3;
-	horrorDamage: 2;
-	combatAdjustment: 0;
-	combatDamage: 1;
-	toughness: 2;
-	onDamage: {{{
-		if (type == Constants.MonsterDamage.Combat) {
-			// TODO: This is not 100% correct. It lets choose any object
-                        chr.losePossessions(1, this.id);
-		}
-	}}};
+    description:
+        "When you fail a Combat Check against "+
+        "Elder Thing, you must discard 1 of your "+
+        "Weapons or Spells (your choice), if able.";
+    //dimension: Diamond;
+    movementType: Normal;
+    awareness: -2;
+    horrorAdjustment: -3;
+    horrorDamage: 2;
+    combatAdjustment: 0;
+    combatDamage: 1;
+    toughness: 2;
+    onDamage: {{{
+        if (type == Constants.MonsterDamage.Combat) {
+            // TODO: This is not 100% correct. It lets choose any object
+            chr.losePossessions(1, this.id);
+        }
+    }}};
 }
 
 Monster FireVampire : 2 {
-	mythText:
-		"A thousand tiny fires, the size of "+
-		"match-flames, swept from the night sky. "+
-		"The old man was suddenly radiant with light.";
-	//dimension: Star;
-	movementType: Flying;
-	awareness: 0;
-	horrorAdjustment: 0;
-	horrorDamage: 0;
-	combatAdjustment: -2;
-	combatDamage: 2;
-	toughness: 1;
-	attributes: ( PhysicalImunity, Ambush );
+    mythText:
+        "A thousand tiny fires, the size of "+
+        "match-flames, swept from the night sky. "+
+        "The old man was suddenly radiant with light.";
+    //dimension: Star;
+    movementType: Flying;
+    awareness: 0;
+    horrorAdjustment: 0;
+    horrorDamage: 0;
+    combatAdjustment: -2;
+    combatDamage: 2;
+    toughness: 1;
+    attributes: ( PhysicalImunity, Ambush );
 }
 
 Monster FlyingPolyp : 1 {
-	//dimension: Hexagon;
-	movementType: Flying;
-	awareness: 0;
-	horrorAdjustment: -2;
-	horrorDamage: 4;
-	combatAdjustment: -3;
-	combatDamage: 3;
-	toughness: 3;
-	attributes: (
-	  PhysicalResistance,
-	  Nightmarish_1,
-	  Overwhelming_1
-	);
+    //dimension: Hexagon;
+    movementType: Flying;
+    awareness: 0;
+    horrorAdjustment: -2;
+    horrorDamage: 4;
+    combatAdjustment: -3;
+    combatDamage: 3;
+    toughness: 3;
+    attributes: (
+        PhysicalResistance,
+        Nightmarish_1,
+        Overwhelming_1
+    );
 }
 
 Monster FormlessSpawn : 2 {
-	mythText: "From the darkened alley a "+
-		"patch of darkness seemed to detach "+
-		"itself, curling along the bricks and "+
-		"rising to block our path.";
-	//dimension: Hexagon;
-	movementType: Normal;
-	awareness: 0;
-	horrorAdjustment: -1;
-	horrorDamage: 2;
-	combatAdjustment: -2;
-	combatDamage: 2;
-	toughness: 2;
-	attributes: ( PhysicalImunity );
+    mythText: "From the darkened alley a "+
+        "patch of darkness seemed to detach "+
+        "itself, curling along the bricks and "+
+        "rising to block our path.";
+    //dimension: Hexagon;
+    movementType: Normal;
+    awareness: 0;
+    horrorAdjustment: -1;
+    horrorDamage: 2;
+    combatAdjustment: -2;
+    combatDamage: 2;
+    toughness: 2;
+    attributes: ( PhysicalImunity );
 }
 
 Monster Ghost : 3 {
-	//dimension: Moon;
-	movementType: Stationary;
-	awareness: -3;
-	horrorAdjustment: -2;
-	horrorDamage: 2;
-	combatAdjustment: -3;
-	combatDamage: 2;
-	toughness: 1;
-	attributes: ( PhysicalImunity, Undead );
+    //dimension: Moon;
+    movementType: Stationary;
+    awareness: -3;
+    horrorAdjustment: -2;
+    horrorDamage: 2;
+    combatAdjustment: -3;
+    combatDamage: 2;
+    toughness: 1;
+    attributes: ( PhysicalImunity, Undead );
 }
 
 Monster Ghoul : 3 {
-	mythText: "Most of the bodies, while roughly "+
-		"bipedal, had a forward slumping, and a vaguely "+
-		"canine cast. The texture of the majority was "+
-		"a kind of unpleasant rubberiness.";
-	//dimension: Hexagon;
-	movementType: Normal;
-	awareness: -3;
-	horrorAdjustment: 0;
-	horrorDamage: 1;
-	combatAdjustment: -1;
-	combatDamage: 1;
-	toughness: 1;
-	attributes: Ambush;
+    mythText: "Most of the bodies, while roughly "+
+        "bipedal, had a forward slumping, and a vaguely "+
+        "canine cast. The texture of the majority was "+
+        "a kind of unpleasant rubberiness.";
+    //dimension: Hexagon;
+    movementType: Normal;
+    awareness: -3;
+    horrorAdjustment: 0;
+    horrorDamage: 1;
+    combatAdjustment: -1;
+    combatDamage: 1;
+    toughness: 1;
+    attributes: Ambush;
 }
 
 Monster God_of_theBloodyTongue : 1 {
-	//dimension: Triangle;
-	movementType: Normal;
-	awareness: +1;
-	horrorAdjustment: -3;
-	horrorDamage: 3;
-	combatAdjustment: -4;
-	combatDamage: 4;
-	toughness: 4;
-	attributes: (
-	  Mask,
-	  Endless,
-	  Overwhelming_1,
-	  Nightmarish_1
-	);
+    //dimension: Triangle;
+    movementType: Normal;
+    awareness: +1;
+    horrorAdjustment: -3;
+    horrorDamage: 3;
+    combatAdjustment: -4;
+    combatDamage: 4;
+    toughness: 4;
+    attributes: (
+        Mask,
+        Endless,
+        Overwhelming_1,
+        Nightmarish_1
+    );
 }
 
 Monster Gug : 2 {
-	mythText: "I caught confused glimpses "+
-		"of a terrible, wrongly-angled mouth, "+
-		"multi-jointed arms, and protruding eyes "+
-		"as big as a man's head.";
-	//dimension: Slash;
-	movementType: Normal;
-	awareness: -2;
-	horrorAdjustment: -1;
-	horrorDamage: 2;
-	combatAdjustment: -2;
-	combatDamage: 4;
-	toughness: 3;
-	attributes: Overwhelming_1;
+    mythText: "I caught confused glimpses "+
+        "of a terrible, wrongly-angled mouth, "+
+        "multi-jointed arms, and protruding eyes "+
+        "as big as a man's head.";
+    //dimension: Slash;
+    movementType: Normal;
+    awareness: -2;
+    horrorAdjustment: -1;
+    horrorDamage: 2;
+    combatAdjustment: -2;
+    combatDamage: 4;
+    toughness: 3;
+    attributes: Overwhelming_1;
 }
 
 Monster HaunterOfTheDark : 1 {
-	name: "Haunter of the Dark";
-	description: "If the Blackest Night card is "+
-		"in play, Haunter of the Dark's fighting "+
-		"rating increases to -5.";
-                // This must be done in that mythos card...
+    name: "Haunter of the Dark";
+    description: "If the Blackest Night card is "+
+        "in play, Haunter of the Dark's fighting "+
+        "rating increases to -5.";
+        // This must be done in that mythos card...
         //dimension: Square;
-	movementType: Flying;
-	awareness: -3;
-	horrorAdjustment: -2;
-	horrorDamage: 2;
-	combatAdjustment: -2;
-	combatDamage: 2;
-	toughness: 2;
-	attributes: ( Mask, Endless );
+    movementType: Flying;
+    awareness: -3;
+    horrorAdjustment: -2;
+    horrorDamage: 2;
+    combatAdjustment: -2;
+    combatDamage: 2;
+    toughness: 2;
+    attributes: ( Mask, Endless );
 }
 
 Monster HoundOfTindalos : 2 {
-	name: "Hound of Tindalos";
-	description: "When it moves, the Hound of "+
-		"Tindalos moves directly to the nearest "+
-		"investigator inside a location in Arkham "+
-		"Other than the Hospital or Asylum). (not implemented)";
-	//dimension: Square;
-	movementType: Special;
-	awareness: -1;
-	horrorAdjustment: -2;
-	horrorDamage: 4;
-	combatAdjustment: -1;
-	combatDamage: 3;
-	toughness: 2;
-	attributes: ( PhysicalImunity );
-	onMove:{{{
-		// TODO
-	}}};
+    name: "Hound of Tindalos";
+    description: "When it moves, the Hound of "+
+        "Tindalos moves directly to the nearest "+
+        "investigator inside a location in Arkham "+
+        "(Other than the Hospital or Asylum). (not implemented)";
+    //dimension: Square;
+    movementType: Special;
+    awareness: -1;
+    horrorAdjustment: -2;
+    horrorDamage: 4;
+    combatAdjustment: -1;
+    combatDamage: 3;
+    toughness: 2;
+    attributes: ( PhysicalImunity );
+    onMove:{{{
+        // TODO
+    }}};
 }
 
 Monster HighPriest : 1 {
-	mythText: '"We will not cease our struggle," '+
-		'intoned the robed figure, "Until we have '+
-		'built Carcosa upon this land of ruined Reason."';
-	//dimension: Plus;
-	movementType: Normal;
-	awareness: -2;
-	horrorAdjustment: +1;
-	horrorDamage: 1;
-	combatAdjustment: -2;
-	combatDamage: 2;
-	toughness: 2;
-	attributes: MagicalImunity;
+    mythText: '"We will not cease our struggle," '+
+        'intoned the robed figure, "Until we have '+
+        'built Carcosa upon this land of ruined Reason."';
+    //dimension: Plus;
+    movementType: Normal;
+    awareness: -2;
+    horrorAdjustment: +1;
+    horrorDamage: 1;
+    combatAdjustment: -2;
+    combatDamage: 2;
+    toughness: 2;
+    attributes: MagicalImunity;
 }
 
 Monster Maniac : 3 {
-	description: "If the terror level is at least 6, "+
-		"Maniac's fight rating increases to -2, his "+
-		"combat damage increases to 3 Stamina, and "+
-		"he gains Endless.";
-	//dimension: Moon;
-	movementType: Normal;
-	awareness: -1;
-	horrorAdjustment: 0;
-	horrorDamage: 0;
-	combatAdjustment: +1;
-	combatDamage: 1;
-	toughness: 1;
-	attributes: <<<
-		function() {
-			if (game.context.terrorLevel >= 6) {
-				return Constants.Monster.Endless;
-			}
-			return 0;
-		}
-	>>>;
+    description: "If the terror level is at least 6, "+
+        "Maniac's fight rating increases to -2, his "+
+        "combat damage increases to 3 Stamina, and "+
+        "he gains Endless.";
+    //dimension: Moon;
+    movementType: Normal;
+    awareness: -1;
+    horrorAdjustment: 0;
+    horrorDamage: 0;
+    combatAdjustment: +1;
+    combatDamage: 1;
+    toughness: 1;
+    attributes: <<<
+        function() {
+            if (game.context.terrorLevel >= 6) {
+                return Constants.Monster.Endless;
+            }
+            return 0;
+        }
+    >>>;
 
-	modifications: {{{
-		if (game.context.terrorLevel >= 6) {
-			return [
-				{ property: Constants.Mods.Monster_CombatAdjustment, value: -3 },
-				{ property: Constants.Mods.Monster_CombatDamage, value: 2 }
-			];
-		}
-		return null;
-	}}};
+    modifications: {{{
+        if (game.context.terrorLevel >= 6) {
+            return [
+                { property: Constants.Mods.Monster_CombatAdjustment, value: -3 },
+                { property: Constants.Mods.Monster_CombatDamage, value: 2 }
+            ];
+        }
+        return null;
+    }}};
 }
 
 Monster MiGo : 3 {
-	name: "Mi-Go";
-	description: "If you pass a Combat check "+
-		"against Mi-Go, return it to the box and "+
-		"draw 1 Unique Item.";
-	//dimension: Circle;
-	movementType: Flying;
-	awareness: -2;
-	horrorAdjustment: -1;
-	horrorDamage: 2;
-	combatAdjustment: 0;
-	combatDamage: 1;
-	toughness: 1;
-	onDefeat: {{{
-                  var obj = game.context.drawObject(Constants.ObjectType.UniqueItem, "Defeated Mi-Go", this.id);
-		  CHAR.addToInventory(obj);
-		  return false;
-	}}};
+    name: "Mi-Go";
+    description: "If you pass a Combat check "+
+        "against Mi-Go, return it to the box and "+
+        "draw 1 Unique Item.";
+    //dimension: Circle;
+    movementType: Flying;
+    awareness: -2;
+    horrorAdjustment: -1;
+    horrorDamage: 2;
+    combatAdjustment: 0;
+    combatDamage: 1;
+    toughness: 1;
+    onDefeat: {{{
+        var obj = game.context.drawObject(Constants.ObjectType.UniqueItem, "Defeated Mi-Go", this.id);
+        CHAR.addToInventory(obj);
+        return false;
+    }}};
 }
 
 Monster NightGaunt : 2 {
-	description: "When you fail a Combat "+
-		"check against Nightgaunt, you are drawn "+
-		"through the nearest open gate. If two or "+
-		"more gates are the same distance from you, "+
-		"you choose which gate you are drawn through.";
-		/* NOTE: If in Other World, nearest gate is 
-		 * back to Arkham.
-		 * NOTE: If no gate open, fight ends with no effect.
-		 * NOTE: Also drawn through when failing evade check.
-		 */ 
-	//dimension: Slash;
-	movementType: Flying;
-	awareness: -2;
-	horrorAdjustment: -1;
-	horrorDamage: 1;
-	combatAdjustment: -2;
-	combatDamage: 0;
-	toughness: 2;
-	onDamage: {{{
-                if (type == Constants.MonsterDamage.Combat) {
-			// TODO
-		}
-	}}};
+    description: "When you fail a Combat "+
+        "check against Nightgaunt, you are drawn "+
+        "through the nearest open gate. If two or "+
+        "more gates are the same distance from you, "+
+        "you choose which gate you are drawn through.";
+        /* NOTE: If in Other World, nearest gate is 
+         * back to Arkham.
+         * NOTE: If no gate open, fight ends with no effect.
+         * NOTE: Also drawn through when failing evade check.
+         */ 
+    //dimension: Slash;
+    movementType: Flying;
+    awareness: -2;
+    horrorAdjustment: -1;
+    horrorDamage: 1;
+    combatAdjustment: -2;
+    combatDamage: 0;
+    toughness: 2;
+    onDamage: {{{
+        if (type == Constants.MonsterDamage.Combat) {
+            // TODO
+        }
+    }}};
 }
 
 Monster Shoggoth : 2 {
-	mythText: "The stench was unbearale, and "+
-		"rising to the surface came a terrible cry. "+
-		'"Tekeli-li! Tekeli-li!"';
-	//dimension: Diamond;
-	movementType: Fast;
-	awareness: -1;
-	horrorAdjustment: -1;
-	horrorDamage: 3;
-	combatAdjustment: -1;
-	combatDamage: 3;
-	toughness: 3;
-	attributes: ( PhysicalResistance, Nightmarish_1 );
+    mythText: "The stench was unbearale, and "+
+        "rising to the surface came a terrible cry. "+
+        '"Tekeli-li! Tekeli-li!"';
+    //dimension: Diamond;
+    movementType: Fast;
+    awareness: -1;
+    horrorAdjustment: -1;
+    horrorDamage: 3;
+    combatAdjustment: -1;
+    combatDamage: 3;
+    toughness: 3;
+    attributes: ( PhysicalResistance, Nightmarish_1 );
 }
 
 Monster StarSpawn : 2 {
-	mythText: 'The bosun was the only one '+
-		'left alive. We dragged him screaming '+
-		'from the cargo hold. \"That thing!" '+
-		'he wept, "Not a whale... not an island..."';
-	//dimension: Plus;
-	movementType: Normal;
-	awareness: -1;
-	horrorAdjustment: -3;
-	horrorDamage: 2;
-	combatAdjustment: -3;
-	combatDamage: 3;
-	toughness: 3;
+    mythText: 'The bosun was the only one '+
+        'left alive. We dragged him screaming '+
+        'from the cargo hold. "That thing!" '+
+        'he wept, "Not a whale... not an island..."';
+    //dimension: Plus;
+    movementType: Normal;
+    awareness: -1;
+    horrorAdjustment: -3;
+    horrorDamage: 2;
+    combatAdjustment: -3;
+    combatDamage: 3;
+    toughness: 3;
 }
 
 Monster Vampire : 1 {
-	mythText: "It was a beast born in grave. "+
-		"It stretched its hands toward us and "+
-		"curled its lips, drawn to the blood "+
-		"in our veins.";
-	//dimension: Moon;
-	movementType: Normal;
-	awareness: -3;
-	horrorAdjustment: 0;
-	horrorDamage: 2;
-	combatAdjustment: -3;
-	combatDamage: 3;
-	toughness: 2;
-	attributes: ( Undead, PhysicalResistance );
+    mythText: "It was a beast born in grave. "+
+        "It stretched its hands toward us and "+
+        "curled its lips, drawn to the blood "+
+        "in our veins.";
+    //dimension: Moon;
+    movementType: Normal;
+    awareness: -3;
+    horrorAdjustment: 0;
+    horrorDamage: 2;
+    combatAdjustment: -3;
+    combatDamage: 3;
+    toughness: 2;
+    attributes: ( Undead, PhysicalResistance );
 }
 
 Monster Warlock : 2 {
-	description: "If you pass a Combat check "+
-		"against Warlock, return it to the box "+
-		"and gain 2 Clue tokens";
-	//dimension: Circle;
-	movementType: Stationary;
-	awareness: -2;
-	horrorAdjustment: -1;
-	horrorDamage: 1;
-	combatAdjustment: -3;
-	combatDamage: 1;
-	toughness: 2;
-	attributes: ( MagicalImunity );
-	onDefeat: {{{
-		chr.addClue(2);
-		return false;
-	}}};
+    description: "If you pass a Combat check "+
+        "against Warlock, return it to the box "+
+        "and gain 2 Clue tokens";
+    //dimension: Circle;
+    movementType: Stationary;
+    awareness: -2;
+    horrorAdjustment: -1;
+    horrorDamage: 1;
+    combatAdjustment: -3;
+    combatDamage: 1;
+    toughness: 2;
+    attributes: ( MagicalImunity );
+    onDefeat: {{{
+        chr.addClue(2);
+        return false;
+    }}};
 }
 
 Monster Witch : 2 {
-	mythText: 'She was lovely and terrible all '+
-		'at once. A strange light shone in her '+
-		'eyes as she changed, "Iä! Iä! Shub-Niggurath! '+
-		'The Goat with a Thousand Young!"';
-	//dimension: Circle;
-	movementType: Normal;
-	awareness: -1;
-	horrorAdjustment: 0;
-	horrorDamage: 0;
-	combatAdjustment: -3;
-	combatDamage: 2;
-	toughness: 1;
-	attributes: MagicalResistance;
+    mythText: 'She was lovely and terrible all '+
+        'at once. A strange light shone in her '+
+        'eyes as she changed, "Iä! Iä! Shub-Niggurath! '+
+        'The Goat with a Thousand Young!"';
+    //dimension: Circle;
+    movementType: Normal;
+    awareness: -1;
+    horrorAdjustment: 0;
+    horrorDamage: 0;
+    combatAdjustment: -3;
+    combatDamage: 2;
+    toughness: 1;
+    attributes: MagicalResistance;
 }
 
 Monster Zombie : 3 {
-	mythText: "She screamed and fired again, "+
-		"but still the thing shambled on, teeth "+
-		"dripping as it groaned its horrible cry.";
-	//dimension: Moon;
-	movementType: Normal;
-	awareness: +1;
-	horrorAdjustment: -1;
-	horrorDamage: 1;
-	combatAdjustment: -1;
-	combatDamage: 2;
-	toughness: 1;
-	attributes: Undead;
+    mythText: "She screamed and fired again, "+
+        "but still the thing shambled on, teeth "+
+        "dripping as it groaned its horrible cry.";
+    //dimension: Moon;
+    movementType: Normal;
+    awareness: +1;
+    horrorAdjustment: -1;
+    horrorDamage: 1;
+    combatAdjustment: -1;
+    combatDamage: 2;
+    toughness: 1;
+    attributes: Undead;
 }

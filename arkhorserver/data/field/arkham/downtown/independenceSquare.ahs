@@ -1,27 +1,27 @@
 ArkhamEncounter {
-	field: DT_IndependenceSquare;
-	description: "A pair of friendly picnickers share "+
-		"their lunch with you. Gain 1 Stamina.";
-	options: Option.Square_Enc1;
+    field: DT_IndependenceSquare;
+    description: "A pair of friendly picnickers share "+
+        "their lunch with you. Gain 1 Stamina.";
+    options: Option.Square_Enc1;
 }
 AEOption Square_Enc1 {
-	activate: {{{ CHAR.addStamina(1); }}};
+    activate: {{{ CHAR.addStamina(1); }}};
 }
 
 ArkhamEncounter {
-	field: DT_IndependenceSquare;
-	description: "A shadow falls across you from no "+
-		"apparent source and you shiver with more than "+
-		"just cold. Pass a <b>Will (-1) check</b> or lose "+
-		"1 Stamina and 1 Sanity.";
-	options: Option.Square_Enc2;
+    field: DT_IndependenceSquare;
+    description: "A shadow falls across you from no "+
+        "apparent source and you shiver with more than "+
+        "just cold. Pass a <b>Will (-1) check</b> or lose "+
+        "1 Stamina and 1 Sanity.";
+    options: Option.Square_Enc2;
 }
 AEOption Square_Enc2 {
-	activate: {{{
-		var res = game.context.skillTest("Withstand Shadow", this.id, Constants.Skills.Will, -1, 1);
-		if (!res) {
-			CHAR.damageStamina(1);
-			CHAR.damageSanity(1);
-		}
-	}}};
+    activate: {{{
+        var res = game.context.skillTest("Withstand Shadow", this.id, Constants.Skills.Will, -1, 1);
+        if (!res) {
+            CHAR.damageStamina(1);
+            CHAR.damageSanity(1);
+        }
+    }}};
 }

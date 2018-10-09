@@ -1,58 +1,58 @@
 
 Investigator CarolynFern {
-	occupation: "The Psychologist";
-	homeFieldId: DT_ArkhamAsylum;
-	sanity: 6;
-	stamina: 4;
-	money: 7;
-	focus: 2;
-	clues: 1;
-	uniqueAbilityId: SpecialAbility.Psychology;
-	fixedPossesionObjectIds: <<<[]>>>;
-	randomPossessions: [
-		CommonItem 2,
-		UniqueItem 2,
-		Skill 1
-	];
-	attributes: [
-		SpeedSneak {(0,3),(1,2),(2,1),(3,0)},
-		FightWill {(1,4),(2,3),(3,2),(4,1)},
-		LoreLuck {(2,5),(3,4),(4,3),(5,2)}
-	];
+    occupation: "The Psychologist";
+    homeFieldId: DT_ArkhamAsylum;
+    sanity: 6;
+    stamina: 4;
+    money: 7;
+    focus: 2;
+    clues: 1;
+    uniqueAbilityId: SpecialAbility.Psychology;
+    fixedPossesionObjectIds: <<<[]>>>;
+    randomPossessions: [
+        CommonItem 2,
+        UniqueItem 2,
+        Skill 1
+    ];
+    attributes: [
+        SpeedSneak {(0,3),(1,2),(2,1),(3,0)},
+        FightWill {(1,4),(2,3),(3,2),(4,1)},
+        LoreLuck {(2,5),(3,4),(4,3),(5,2)}
+    ];
 }
 
 SpecialAbility Psychology {
-	description: "<b>Upkeep:</b> Dr. Fern may restore 1 Sanity to herself or another character "+
+    description: "<b>Upkeep:</b> Dr. Fern may restore 1 Sanity to herself or another character "+
                 "in her location. She cannot raise a character's Sanity higher than "+
-		"that character's maximum Sanity.";
-        options: Option.FernPsychology;
-        exhaustable: true;
+                "that character's maximum Sanity.";
+    options: Option.FernPsychology;
+    exhaustable: true;
 }
 
 QuickOption FernPsychology {
-        name: "Psychology";
-        phases: Upkeep;
-        description: "Restore 1 Sanity for another Player";
-        continueType: CanContinue;
-        chooseType: Supplemental;
-        activate: {{{
-            // Includes this character:
-            var list = CHAR.field.characters;
-            var opts = [];
+    name: "Psychology";
+    phases: Upkeep;
+    description: "Restore 1 Sanity for another Player";
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        // Includes this character:
+        var list = CHAR.field.characters;
+        var opts = [];
+        for (var i = 0; i < list.length; ++i) {
+            var c = list[i];
+            opts.push([c.id, c.name, "Restore 1 Sanity for " + c.name]);
+        }
+        var choice = game.context.selectChoice("Choose character", this.id, opts, true);
+        if (choice != "") {
             for (var i = 0; i < list.length; ++i) {
                 var c = list[i];
-                opts.push([c.id, c.name, "Restore 1 Sanity for " + c.name]);
-            }
-            var choice = game.context.selectChoice("Choose character", this.id, opts, true);
-            if (choice != "") {
-                for (var i = 0; i < list.length; ++i) {
-                    var c = list[i];
-                    if (c.id == choice) {
-                        c.addSanity(1);
-                        break;
-                    }
+                if (c.id == choice) {
+                    c.addSanity(1);
+                    break;
                 }
-                this.exhaust();
             }
-        }}};
+            this.exhaust();
+        }
+    }}};
 }

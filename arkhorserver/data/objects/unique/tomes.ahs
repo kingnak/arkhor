@@ -1,232 +1,232 @@
 UniqueItem AncientTablet : 1 {
-	description: "<b>Movement:</b> Spend 3 movement points "+
-		"and discard Ancient Tablet to roll 2 dice. For "+
-		"every success rolled, draw 1 Spell. For every "+
-		"failure rolled, gain 2 Clue tokens.";
-	exhaustable: true;
-	price: 8;
-	options: Option.ReadAncientTablet;
+    description: "<b>Movement:</b> Spend 3 movement points "+
+        "and discard Ancient Tablet to roll 2 dice. For "+
+        "every success rolled, draw 1 Spell. For every "+
+        "failure rolled, gain 2 Clue tokens.";
+    exhaustable: true;
+    price: 8;
+    options: Option.ReadAncientTablet;
 }
 QuickOption ReadAncientTablet {
-	costs: [ Movement 3 ];
-	phases: Movement;
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		this.exhaust();
-                var res = game.context.genericDieRollCount("Read Tablet", this.id, 2);
-		for (var i = 0; i < res; i++) {
-			var obj = game.context.drawObject(Constants.ObjectType.Spell);
-			CHAR.addToInventory(obj);
-		}
-		for (var i = 0; i < 2-res; i++) {
-			CHAR.addClue(2);
-		}
-		this.discard();
-	}}};
+    costs: [ Movement 3 ];
+    phases: Movement;
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.exhaust();
+        var res = game.context.genericDieRollCount("Read Tablet", this.id, 2);
+        for (var i = 0; i < res; i++) {
+            var obj = game.context.drawObject(Constants.ObjectType.Spell);
+            CHAR.addToInventory(obj);
+        }
+        for (var i = 0; i < 2-res; i++) {
+            CHAR.addClue(2);
+        }
+        this.discard();
+    }}};
 }
 
 UniqueItem BookOfDzyan : 1 {
-	description: "<b>Movement:</b> Exhaust and spend 2 "+
-		"movement points to make a <b>Lore (-1) check</b>. "+
-		"If you pass, draw 1 Spell, lose 1 Sanity, and "+
-		"put 1 Stamina token from the bank on Book of "+
-		"Dzyan. If there are 2 Stamina tokens on it, "+
-		"discard Book of Dzyan. If you fail, nothing happens.";
-	exhaustable: true;
-	price: 3;
-	options: Option.ReadBookOfDzyan;
-	onAddToInventory: {{{ this.tokens = 0; }}};
-	properties: <<<{
-		tokens: { 
-			display: "Tokens on Book", 
-			value: 0, 
-			onDisplay: function() {
-				return this.tokens + " / 2";
-			}
-		}
-	}>>>;
+    description: "<b>Movement:</b> Exhaust and spend 2 "+
+        "movement points to make a <b>Lore (-1) check</b>. "+
+        "If you pass, draw 1 Spell, lose 1 Sanity, and "+
+        "put 1 Stamina token from the bank on Book of "+
+        "Dzyan. If there are 2 Stamina tokens on it, "+
+        "discard Book of Dzyan. If you fail, nothing happens.";
+    exhaustable: true;
+    price: 3;
+    options: Option.ReadBookOfDzyan;
+    onAddToInventory: {{{ this.tokens = 0; }}};
+    properties: <<<{
+        tokens: { 
+            display: "Tokens on Book", 
+            value: 0, 
+            onDisplay: function() {
+                return this.tokens + " / 2";
+            }
+        }
+    }>>>;
 }
 QuickOption ReadBookOfDzyan {
-	costs: [ Movement 2 ];
-	phases: Movement;
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		this.exhaust();
-                var res = game.context.skillTest("Read Book of Dzyan", this.id, Constants.Skills.Lore, -1, 1);
-		if (res) {
-			var obj = game.context.drawObject(Constants.ObjectType.Spell);
-			this.owner.addToInventory(obj);
-			this.owner.damageSanity(1);
-			
-			this.tokens++;
-			if (this.tokens >= 2) {
-				this.discard();
-			}
-		}
-	}}};
+    costs: [ Movement 2 ];
+    phases: Movement;
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.exhaust();
+        var res = game.context.skillTest("Read Book of Dzyan", this.id, Constants.Skills.Lore, -1, 1);
+        if (res) {
+            var obj = game.context.drawObject(Constants.ObjectType.Spell);
+            this.owner.addToInventory(obj);
+            this.owner.damageSanity(1);
+            
+            this.tokens++;
+            if (this.tokens >= 2) {
+                this.discard();
+            }
+        }
+    }}};
 }
 
 UniqueItem CabalaOfSaboth : 2 {
-	description: "<b>Movement:</b> Exhaust and spend 2 "+
-		"movement points to make a <b>Lore (-2) check</b>. "+
-		"If you pass, draw 1 Skill and discard Cabala of "+
-		"Saboth. If you fail, nothing happens.";
-	exhaustable: true;
-	price: 5;
-	options: Option.ReadCabalaOfSaboth;
+    description: "<b>Movement:</b> Exhaust and spend 2 "+
+        "movement points to make a <b>Lore (-2) check</b>. "+
+        "If you pass, draw 1 Skill and discard Cabala of "+
+        "Saboth. If you fail, nothing happens.";
+    exhaustable: true;
+    price: 5;
+    options: Option.ReadCabalaOfSaboth;
 }
 QuickOption ReadCabalaOfSaboth {
-	costs: [ Movement 2 ];
-	phases: Movement;
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		this.exhaust();
-                var res = game.context.skillTest("Read Cabala of Saboth", this.id, Constants.Skills.Lore, -2, 1);
-		if (res) {
-			var obj = game.context.drawObject(Constants.ObjectType.Skill);
-			this.owner.addToInventory(obj);
-			this.discard();
-		}
-	}}};
+    costs: [ Movement 2 ];
+    phases: Movement;
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.exhaust();
+        var res = game.context.skillTest("Read Cabala of Saboth", this.id, Constants.Skills.Lore, -2, 1);
+        if (res) {
+            var obj = game.context.drawObject(Constants.ObjectType.Skill);
+            this.owner.addToInventory(obj);
+            this.discard();
+        }
+    }}};
 }
 
 UniqueItem CultesDesGoules : 2 {
-	description: "<b>Movement:</b> Exhaust and spend 2 "+
-		"movement points to make a <b>Lore (-2) check</b>. "+
-		"If you pass, draw 1 Spell and gain 1 Clue token, "+
-		"but lose 2 Sanity and discard Cultes Des Goules. "+
-		"If you fail, nothing happens.";
-	exhaustable: true;
-	price: 3;
-	options: Option.ReadCultesDesGoules;
+    description: "<b>Movement:</b> Exhaust and spend 2 "+
+        "movement points to make a <b>Lore (-2) check</b>. "+
+        "If you pass, draw 1 Spell and gain 1 Clue token, "+
+        "but lose 2 Sanity and discard Cultes Des Goules. "+
+        "If you fail, nothing happens.";
+    exhaustable: true;
+    price: 3;
+    options: Option.ReadCultesDesGoules;
 }
 QuickOption ReadCultesDesGoules {
-	costs: [ Movement 2 ];
-	phases: Movement;
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		this.exhaust();
-                var res = game.context.skillTest("Read Cultes des Goules", this.id, Constants.Skills.Lore, -2, 1);
-		if (res) {
-			var obj = game.context.drawObject(Constants.ObjectType.Spell);
-			this.owner.addToInventory(obj);
-                        this.owner.addClue(1);
-			this.owner.damageSanity(2);
-			this.discard();
-		}
-	}}};
+    costs: [ Movement 2 ];
+    phases: Movement;
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.exhaust();
+        var res = game.context.skillTest("Read Cultes des Goules", this.id, Constants.Skills.Lore, -2, 1);
+        if (res) {
+            var obj = game.context.drawObject(Constants.ObjectType.Spell);
+            this.owner.addToInventory(obj);
+            this.owner.addClue(1);
+            this.owner.damageSanity(2);
+            this.discard();
+        }
+    }}};
 }
 
 UniqueItem AlienStatue : 1 {
-	description: "<b>Movement:</b> Exhaust and spend 2 "+
-		"movement points and 1 Sanity to roll a die. If "+
-		"the die is a success, draw 1 Spell or gain 3 "+
-		"Clue tokens. If it is a failure, lose 2 Stamina.";
-	exhaustable: true;
-	price: 5;
-	options: Option.UseAlienStatue;
+    description: "<b>Movement:</b> Exhaust and spend 2 "+
+        "movement points and 1 Sanity to roll a die. If "+
+        "the die is a success, draw 1 Spell or gain 3 "+
+        "Clue tokens. If it is a failure, lose 2 Stamina.";
+    exhaustable: true;
+    price: 5;
+    options: Option.UseAlienStatue;
 }
 QuickOption UseAlienStatue {
-	phases: Movement;
-	costs: [ Movement 2 + Sanity 1 ];
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		this.exhaust();
-                var res = game.context.genericDieRollTest("Use Statue", this.id, 1, 1);
-		if (res) {
-                        var choice = game.context.selectChoice("Choose reward", this.id, [
-				["SPELL", "Spell", "Get 1 Spell"],
-				["CLUES", "Clues", "Get 3 Clue tokens"],
-			]);
-			if (choice == "SPELL") {
-				var obj = game.context.drawObject(Constants.ObjectType.Spell);
-				this.owner.addToInventory(obj);
-			} else {
-                                this.owner.addClue(3);
-			}
-		} else {
-			this.owner.damageStamina(2);
-		}
-	}}};
+    phases: Movement;
+    costs: [ Movement 2 + Sanity 1 ];
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.exhaust();
+        var res = game.context.genericDieRollTest("Use Statue", this.id, 1, 1);
+        if (res) {
+                var choice = game.context.selectChoice("Choose reward", this.id, [
+                ["SPELL", "Spell", "Get 1 Spell"],
+                ["CLUES", "Clues", "Get 3 Clue tokens"],
+            ]);
+            if (choice == "SPELL") {
+                var obj = game.context.drawObject(Constants.ObjectType.Spell);
+                this.owner.addToInventory(obj);
+            } else {
+                this.owner.addClue(3);
+            }
+        } else {
+            this.owner.damageStamina(2);
+        }
+    }}};
 }
 
 UniqueItem NamelessCults : 2 {
-	description: "<b>Movement:</b> Exhaust and spend 1 movement point to make a "+
-		"<b>Lore (-1) check</b>. If you pass, draw 1 Spell, lose 1 Sanity, and "+
-		"discard Nameless Cults. If you fail, nothing happens.";
-	exhaustable: true;
-	price: 3;
-	options: Option.ReadNamelessCults;
+    description: "<b>Movement:</b> Exhaust and spend 1 movement point to make a "+
+        "<b>Lore (-1) check</b>. If you pass, draw 1 Spell, lose 1 Sanity, and "+
+        "discard Nameless Cults. If you fail, nothing happens.";
+    exhaustable: true;
+    price: 3;
+    options: Option.ReadNamelessCults;
 }
 QuickOption ReadNamelessCults {
-	phases: Movement;
-	costs: [ Movement 1 ];
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		this.exhaust();
-                var res = game.context.skillTest("Read Nameless Cults", this.id, Constants.Skills.Lore, -1, 1);
-		if (res) {
-			var obj = game.context.drawObject(Constants.ObjectType.Spell);
-			this.owner.addToInventory(obj);
-			this.owner.damageSanity(1);
-			this.discard();
-		}
-	}}};
+    phases: Movement;
+    costs: [ Movement 1 ];
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.exhaust();
+        var res = game.context.skillTest("Read Nameless Cults", this.id, Constants.Skills.Lore, -1, 1);
+        if (res) {
+            var obj = game.context.drawObject(Constants.ObjectType.Spell);
+            this.owner.addToInventory(obj);
+            this.owner.damageSanity(1);
+            this.discard();
+        }
+    }}};
 }
 
 
 UniqueItem Necronomicon : 1 {
-	description: "<b>Movement:</b> Exhaust and spend 2 movement points to make a "+
-		"<b>Lore (-2) check</b>. If you pass, draw 1 Spell and lose 2 Sanity. "+
-		"If you fail, nothing happens.";
-	exhaustable: true;
-	price: 6;
-	options: Option.ReadNecronomicon;
+    description: "<b>Movement:</b> Exhaust and spend 2 movement points to make a "+
+        "<b>Lore (-2) check</b>. If you pass, draw 1 Spell and lose 2 Sanity. "+
+        "If you fail, nothing happens.";
+    exhaustable: true;
+    price: 6;
+    options: Option.ReadNecronomicon;
 }
 QuickOption ReadNecronomicon {
-	phases: Movement;
-	costs: [ Movement 2 ];
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		this.exhaust();
-                var res = game.context.skillTest("Read Necronomicon", this.id, Constants.Skills.Lore, -2, 1);
-		if (res) {
-			var obj = game.context.drawObject(Constants.ObjectType.Spell);
-			this.owner.addToInventory(obj);
-			this.owner.damageSanity(2);
-			this.discard();
-		}
-	}}};
+    phases: Movement;
+    costs: [ Movement 2 ];
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.exhaust();
+        var res = game.context.skillTest("Read Necronomicon", this.id, Constants.Skills.Lore, -2, 1);
+        if (res) {
+            var obj = game.context.drawObject(Constants.ObjectType.Spell);
+            this.owner.addToInventory(obj);
+            this.owner.damageSanity(2);
+            this.discard();
+        }
+    }}};
 }
 
 UniqueItem KingInYellow : 2 {
-	name: "The King in Yellow";
-	description: "<b>Movement:</b> Exhaust and spend 2 movement points to make a "+
-		"<b>Lore (-2) check</b>. If you pass, gain 4 Clue tokens, lose 1 Sanity "+
-		"and discard The King in Yellow. If you fail nothing happens.";
-	exhaustable: true;
-	price: 2;
-	options: Option.ReadKingInYellow;
+    name: "The King in Yellow";
+    description: "<b>Movement:</b> Exhaust and spend 2 movement points to make a "+
+        "<b>Lore (-2) check</b>. If you pass, gain 4 Clue tokens, lose 1 Sanity "+
+        "and discard The King in Yellow. If you fail nothing happens.";
+    exhaustable: true;
+    price: 2;
+    options: Option.ReadKingInYellow;
 }
 QuickOption ReadKingInYellow {
-	phases: Movement;
-	costs: [ Movement 2 ];
-	continueType: CanContinue;
-	chooseType: Supplemental;
-	activate: {{{
-		this.exhaust();
-                var res = game.context.skillTest("Read Necronomicon", this.id, Constants.Skills.Lore, -2, 1);
-		if (res) {
-			this.owner.addClue(4);
-			this.owner.damageSanity(1);
-			this.discard();
-		}
-	}}};
+    phases: Movement;
+    costs: [ Movement 2 ];
+    continueType: CanContinue;
+    chooseType: Supplemental;
+    activate: {{{
+        this.exhaust();
+        var res = game.context.skillTest("Read Necronomicon", this.id, Constants.Skills.Lore, -2, 1);
+        if (res) {
+            this.owner.addClue(4);
+            this.owner.damageSanity(1);
+            this.discard();
+        }
+    }}};
 }

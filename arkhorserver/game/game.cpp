@@ -44,10 +44,10 @@ T *scriptTestDrawHelper(const QString &title, Deck<T> &d, std::function<bool()> 
             if (!id.isEmpty()) lst << id;
         }
         if (!lst.isEmpty()) {
-			W wgt(scriptTestConfigWgt);
+            W wgt(scriptTestConfigWgt);
             QString id = wgt.askDraw(title, lst);
             if (!id.isNull()) ret = d.drawSpecificById(id);
-			if (pMore) *pMore = wgt.moreData();
+            if (pMore) *pMore = wgt.moreData();
         }
     }
     if (!ret && drawRandom) {
@@ -70,8 +70,8 @@ Game::Game()
     m_started(false),
     m_settingDirty(false),
     m_terrorLevel(0),
-	m_nextSpecialActionNr(1),
-	m_reqAwake(false)
+    m_nextSpecialActionNr(1),
+    m_reqAwake(false)
 {
     Game::s_instance = this;
     m_registry = new GameRegistry;
@@ -295,7 +295,7 @@ bool Game::resolveDependencies()
                 ok = false;
             }
         }
-	}
+    }
 
     return ok;
 }
@@ -466,13 +466,13 @@ void Game::returnMonster(Monster *m)
 Monster *Game::drawMonster()
 {
 #ifdef TEST_SCRIPT_BUILD
-	QString more;
-	Monster *m1 = scriptTestDrawHelper<Monster,ScriptTestDrawMonsterWidget>("Monster", m_monsterPool, &ScriptTestConfig::askDrawMonster, false, &more);
-	if (m1) {
-		int i = more.toInt();
-		if (i > 0) m1->setDimension(static_cast<AH::Dimension>(i));
-		return m1;
-	}
+    QString more;
+    Monster *m1 = scriptTestDrawHelper<Monster,ScriptTestDrawMonsterWidget>("Monster", m_monsterPool, &ScriptTestConfig::askDrawMonster, false, &more);
+    if (m1) {
+        int i = more.toInt();
+        if (i > 0) m1->setDimension(static_cast<AH::Dimension>(i));
+        return m1;
+    }
 #endif
 
     m_monsterPool.shuffle();
@@ -755,7 +755,7 @@ void Game::overrunArkham()
 
 void Game::requestAwakeAncientOne()
 {
-	m_reqAwake = true;
+    m_reqAwake = true;
 }
 
 GameContext &Game::context()
@@ -1387,31 +1387,31 @@ void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity,
 
 void Game::upkeep()
 {
-	m_notifier->gamePhaseChanged(AH::Upkeep);
+    m_notifier->gamePhaseChanged(AH::Upkeep);
     executePlayerPhase(m_phases[UpkeepIndex], AH::Upkeep);
 }
 
 void Game::movement()
 {
-	m_notifier->gamePhaseChanged(AH::Movement);
+    m_notifier->gamePhaseChanged(AH::Movement);
     executePlayerPhase(m_phases[MovementIndex], AH::Movement);
 }
 
 void Game::arkhamEncountery()
 {
-	m_notifier->gamePhaseChanged(AH::ArkhamEncountery);
+    m_notifier->gamePhaseChanged(AH::ArkhamEncountery);
     executePlayerPhase(m_phases[ArkhamEncounteryIndex], AH::ArkhamEncountery);
 }
 
 void Game::otherWorldEncountery()
 {
-	m_notifier->gamePhaseChanged(AH::OtherWorldEncountery);
+    m_notifier->gamePhaseChanged(AH::OtherWorldEncountery);
     executePlayerPhase(m_phases[OtherWorldEncounteryIndex], AH::OtherWorldEncountery);
 }
 
 void Game::mythos()
 {
-	m_notifier->gamePhaseChanged(AH::Mythos);
+    m_notifier->gamePhaseChanged(AH::Mythos);
     // Not a player phase
     m_context = GameContext(this, getFirstPlayer(), NULL, AH::Mythos);
     m_phases[MythosIndex]->execute();
@@ -1436,11 +1436,11 @@ void Game::ancientOneAttack()
 void Game::executePlayerPhase(GamePhase *ph, AH::GamePhase phase)
 {
     foreach (Player *p, m_playerList) {
-		if (p->isActive()) {
-			m_notifier->currentPlayerChanged(p);
-			m_context = GameContext(this, p, NULL, phase);
-			ph->execute();
-		}
+        if (p->isActive()) {
+            m_notifier->currentPlayerChanged(p);
+            m_context = GameContext(this, p, NULL, phase);
+            ph->execute();
+        }
     }
 }
 
@@ -1498,9 +1498,9 @@ Game::GameState Game::checkGameState()
     if (m_context.phase() == AH::EndFightPhase) {
         // TODO: nothing? (all handled in endFight())
     } else {
-		if (m_reqAwake) {
-			return GS_AwakeAncientOne;
-		}
+        if (m_reqAwake) {
+            return GS_AwakeAncientOne;
+        }
 
         // Count sealed gates and open gates
         int ctSealed = 0;
@@ -1552,19 +1552,19 @@ void Game::lost(Game::GameState gs)
 
 void Game::awakeAncientOne()
 {
-	m_notifier->gamePhaseChanged(AH::EndFightPhase);
+    m_notifier->gamePhaseChanged(AH::EndFightPhase);
 
-	// Must make an end fight context, as awake can devour characters
-	m_context = GameContext(this, getCurrentPlayer(), nullptr, AH::EndFightPhase);
+    // Must make an end fight context, as awake can devour characters
+    m_context = GameContext(this, getCurrentPlayer(), nullptr, AH::EndFightPhase);
 
-	m_notifier->notifyAlert("The Ancient One awakes!", nullptr);
+    m_notifier->notifyAlert("The Ancient One awakes!", nullptr);
     m_ancientOne->awake();
-	commitUpdates();
-	if (countActivePlayers() == 0) {
-		this->lost(GS_Lost);
-	} else {
-		endFight();
-	}
+    commitUpdates();
+    if (countActivePlayers() == 0) {
+        this->lost(GS_Lost);
+    } else {
+        endFight();
+    }
 }
 
 void Game::endFight()

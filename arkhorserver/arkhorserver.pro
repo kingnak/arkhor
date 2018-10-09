@@ -1,16 +1,16 @@
 #CONFIG += DEBUG_SCRIPT
-CONFIG += TEST_SCRIPT
+#CONFIG += TEST_SCRIPT
 
 CONFIG += console
 CONFIG -= windows
 QT += network script scripttools
 
 DEBUG_SCRIPT|TEST_SCRIPT {
-	QT += widgets
-	DEFINES += DEBUG_SCRIPT_BUILD
-        TEST_SCRIPT {
-            DEFINES += TEST_SCRIPT_BUILD
-        }
+    QT += widgets
+    DEFINES += DEBUG_SCRIPT_BUILD
+    TEST_SCRIPT {
+        DEFINES += TEST_SCRIPT_BUILD
+    }
 } else {
 	QT -= gui widgets
 }

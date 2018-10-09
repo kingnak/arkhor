@@ -117,14 +117,14 @@ void BroadcastNotifier::notifySimple(const QString &str, Player *p, const QStrin
 {
     foreach (Player *c, m_game->getPlayers()) {
         c->notifySimple(str, p, desc);
-	}
+    }
 }
 
 void BroadcastNotifier::notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc)
 {
-	foreach (Player *p, m_game->getPlayers()) {
-		p->notifySpecific(strThat, strOther, that, desc);
-	}
+    foreach (Player *p, m_game->getPlayers()) {
+        p->notifySpecific(strThat, strOther, that, desc);
+    }
 }
 
 void BroadcastNotifier::objectsInvalidated(QStringList ids)

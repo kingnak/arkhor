@@ -632,7 +632,7 @@ void GameScript::createGate(AH::Common::FieldData::FieldID fieldld)
 
 void GameScript::awakeAncientOne()
 {
-	gGame->requestAwakeAncientOne();
+    gGame->requestAwakeAncientOne();
 }
 
 bool GameScript::registerConstant(QString scope, QString name, QString value)
@@ -787,10 +787,10 @@ QScriptValue GameScript::addFieldOption(AH::Common::FieldData::FieldID fieldId, 
         return context()->throwError(QScriptContext::ReferenceError, "Option id not set");
     }
 
-	GameOptionFieldProxyScript *proxy = new GameOptionFieldProxyScript(f, optionId);
+    GameOptionFieldProxyScript *proxy = new GameOptionFieldProxyScript(f, optionId);
 
-	m_game->registerOption(proxy);
-	m_game->registerFieldOption(fieldId, proxy->id());
+    m_game->registerOption(proxy);
+    m_game->registerFieldOption(fieldId, proxy->id());
     return QScriptValue();
 }
 
@@ -1087,7 +1087,7 @@ QScriptValue GameScript::call(FunctionType t, QScriptValue f, QScriptValue obj, 
 
     QScriptValue res = f.call(obj, args);
     if (res.isError()) {
-		qWarning().noquote() << "Error while calling function: " << res.toString();
+        qWarning().noquote() << "Error while calling function: " << res.toString();
     }
 
     return res;

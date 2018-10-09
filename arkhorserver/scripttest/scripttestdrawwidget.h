@@ -16,14 +16,14 @@ class ScriptTestDrawWidget : public QDialog
 public:
     explicit ScriptTestDrawWidget(QWidget *parent = nullptr);
 
-	virtual QString askDraw(const QString &title, QStringList lst);
-	virtual QString moreData() { return QString::null; }
+    virtual QString askDraw(const QString &title, QStringList lst);
+    virtual QString moreData() { return QString::null; }
 protected:
-	ScriptTestDrawWidget(QWidget *parent, bool);
-	void setupUi(QHBoxLayout *l);
+    ScriptTestDrawWidget(QWidget *parent, bool);
+    void setupUi(QHBoxLayout *l);
     void setupButtons(QHBoxLayout *l);
-	void prepareShow(const QString &title, QStringList lst);
-	QString doShow();
+    void prepareShow(const QString &title, QStringList lst);
+    QString doShow();
 
 protected:
     QLabel *m_title;
@@ -33,15 +33,15 @@ protected:
 
 class ScriptTestDrawMonsterWidget : public ScriptTestDrawWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	explicit ScriptTestDrawMonsterWidget(QWidget *parent = nullptr);
+    explicit ScriptTestDrawMonsterWidget(QWidget *parent = nullptr);
 
-	QString askDraw(const QString&, QStringList monsters) override;
+    QString askDraw(const QString&, QStringList monsters) override;
     QString moreData() override;
 
 private:
-	QComboBox *m_dim;
+    QComboBox *m_dim;
 };
 
 class ScriptTestDrawMythosWidget : public ScriptTestDrawWidget

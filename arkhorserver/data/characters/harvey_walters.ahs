@@ -1,28 +1,28 @@
 
 Investigator HarveyWalters {
-	occupation: "The Professor";
-	homeFieldId: MU_Administration;
-	sanity: 7;
-	stamina: 3;
-	money: 5;
-	focus: 2;
-	clues: 1;
-	uniqueAbilityId: SpecialAbility.StrongMind;
-	fixedPossesionObjectIds: <<<[]>>>;
-	randomPossessions: [
-		UniqueItem 2,
-		Spell 2,
-		Skill 1
-	];
-	attributes: [
-		SpeedSneak {(0,5),(1,4),(2,3),(3,2)},
-		FightWill {(0,3),(1,2),(2,1),(3,0)},
-		LoreLuck {(3,4),(4,3),(5,2),(6,1)}
-	];
+    occupation: "The Professor";
+    homeFieldId: MU_Administration;
+    sanity: 7;
+    stamina: 3;
+    money: 5;
+    focus: 2;
+    clues: 1;
+    uniqueAbilityId: SpecialAbility.StrongMind;
+    fixedPossesionObjectIds: <<<[]>>>;
+    randomPossessions: [
+        UniqueItem 2,
+        Spell 2,
+        Skill 1
+    ];
+    attributes: [
+        SpeedSneak {(0,5),(1,4),(2,3),(3,2)},
+        FightWill {(0,3),(1,2),(2,1),(3,0)},
+        LoreLuck {(3,4),(4,3),(5,2),(6,1)}
+    ];
 }
 
 SpecialAbility StrongMind {
-	description: "<b>Any Phase:</b> Harvey reduces all Sanity losses he suffers by 1, "+
+    description: "<b>Any Phase:</b> Harvey reduces all Sanity losses he suffers by 1, "+
                 "to a minimum of 0.";
         options: <<<[
                 game.getPreventDamageOption({

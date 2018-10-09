@@ -1,48 +1,48 @@
 
 Investigator MandyThompson {
-	occupation: "The Researcher";
-	homeFieldId: MU_Library;
-	sanity: 5;
-	stamina: 5;
-	money: 6;
-	focus: 2;
-	clues: 4;
-	uniqueAbilityId: SpecialAbility.Research;
-	fixedPossesionObjectIds: <<<[]>>>;
-	randomPossessions: [
-		CommonItem 2,
-		UniqueItem 1,
-		Skill 1
-	];
-	attributes: [
-		SpeedSneak {(1,5),(2,4),(3,3),(4,2)},
-		FightWill {(0,5),(1,4),(2,3),(3,2)},
-		LoreLuck {(1,3),(2,2),(3,1),(4,0)}
-	];
+    occupation: "The Researcher";
+    homeFieldId: MU_Library;
+    sanity: 5;
+    stamina: 5;
+    money: 6;
+    focus: 2;
+    clues: 4;
+    uniqueAbilityId: SpecialAbility.Research;
+    fixedPossesionObjectIds: <<<[]>>>;
+    randomPossessions: [
+        CommonItem 2,
+        UniqueItem 1,
+        Skill 1
+    ];
+    attributes: [
+        SpeedSneak {(1,5),(2,4),(3,3),(4,2)},
+        FightWill {(0,5),(1,4),(2,3),(3,2)},
+        LoreLuck {(1,3),(2,2),(3,1),(4,0)}
+    ];
 }
 
 SpecialAbility Research {
-	// TODO
-	description: "<b>Any Phase:</b> Once per turn, Mandy can activate this ability after "+
-		"any investigator (including herself) makes a skill check. That investigator then "+
-		"re-rolls all of the dice rolled for that check that did not result in successes. (Only implemented for herself)";
-	options: <<<
-		[
-                        game.getDieRollOption({
-                            skills: [
-                                Constants.Skills.Speed,
-                                Constants.Skills.Sneak,
-                                Constants.Skills.Fight,
-                                Constants.Skills.Will,
-                                Constants.Skills.Lore,
-                                Constants.Skills.Luck,
-                                Constants.Skills.Evade,
-                                Constants.Skills.Combat,
-                                Constants.Skills.Horror,
-                                Constants.Skills.Spell
-                            ],
-                            type: Constants.Reroll.AllFailed}),
-		]
-	>>>;
-        exhaustable: true;
+    // TODO
+    description: "<b>Any Phase:</b> Once per turn, Mandy can activate this ability after "+
+        "any investigator (including herself) makes a skill check. That investigator then "+
+        "re-rolls all of the dice rolled for that check that did not result in successes. (Only implemented for herself)";
+    options: <<<
+        [
+        game.getDieRollOption({
+            skills: [
+                Constants.Skills.Speed,
+                Constants.Skills.Sneak,
+                Constants.Skills.Fight,
+                Constants.Skills.Will,
+                Constants.Skills.Lore,
+                Constants.Skills.Luck,
+                Constants.Skills.Evade,
+                Constants.Skills.Combat,
+                Constants.Skills.Horror,
+                Constants.Skills.Spell
+            ],
+            type: Constants.Reroll.AllFailed}),
+        ]
+    >>>;
+    exhaustable: true;
 }

@@ -40,7 +40,7 @@ int main(int argc, char **argv)
         baseDir = app.arguments()[1];
     //ResourcePool::instance()->addZip("D:/priv/proj/arkhor/arkhor/res.zip");
 #ifdef _DEBUG
-    if (!QDir(baseDir).exists()) {
+    if (!QFile::exists(baseDir)) {
 #ifdef Q_OS_WIN
         baseDir = "D:/priv/proj/ah.git/res/";
 #else

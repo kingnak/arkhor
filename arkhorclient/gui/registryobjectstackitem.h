@@ -24,11 +24,14 @@ protected:
 class MonsterStackItem : public RegistryObjectStackItem
 {
 public:
-    explicit MonsterStackItem(QString id);
+    MonsterStackItem(QString id, double scale);
     virtual void wasAdded();
 
 protected:
     virtual void updateObject(AH::Common::DescribeObjectsData::ObjectDescription desc);
+
+private:
+    double m_scale;
 };
 
 class CharacterStackItem : public StackItem

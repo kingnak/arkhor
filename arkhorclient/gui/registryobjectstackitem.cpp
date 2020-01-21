@@ -20,8 +20,9 @@ void RegistryObjectStackItem::objectDescribed(const AH::Common::DescribeObjectsD
 
 //////////////////////////////////////
 
-MonsterStackItem::MonsterStackItem(QString id)
+MonsterStackItem::MonsterStackItem(QString id, double scale)
     : RegistryObjectStackItem(id)
+    , m_scale(scale)
 {
     setData(id);
 }
@@ -31,7 +32,7 @@ void MonsterStackItem::wasAdded()
     RegistryObjectStackItem::wasAdded();
     if (m_pixmap.isNull()) {
         AH::Common::MonsterData dummy;
-        QPixmap pic = MonsterFrontWidget::drawMonster(&dummy);
+        QPixmap pic = MonsterFrontWidget::drawMonster(&dummy, m_scale);
         setPixmap(pic);
     }
 }
@@ -40,7 +41,7 @@ void MonsterStackItem::updateObject(AH::Common::DescribeObjectsData::ObjectDescr
 {
     AH::Common::MonsterData m;
     desc.data >> m;
-    QPixmap pic = MonsterFrontWidget::drawMonster(&m);
+    QPixmap pic = MonsterFrontWidget::drawMonster(&m, m_scale);
     setPixmap(pic);
 }
 

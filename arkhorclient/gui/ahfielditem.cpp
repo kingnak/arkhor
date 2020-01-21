@@ -10,10 +10,11 @@
 static const double STACK_ITEM_SIZE = 75;
 static const double SPECLIAL_ITEM_SIZE = 25;
 static const double CLUE_ITEM_SIZE = 25;
-static const QSizeF THIS_CHAR_ITEM_SIZE = QSize(50,75);
+static const double THIS_CHAR_ITEM_W = 50;
+static const double THIS_CHAR_ITEM_H = 75;
 static const double PORTAL_SIZE = 75;
 
-AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, QRectF rect, QGraphicsItem *parent)
+AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, QRectF rect, double scale, QGraphicsItem *parent)
 :   QGraphicsObject(parent),
     m_id(id),
     m_locked(false),
@@ -25,7 +26,8 @@ AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, 
     m_clues(NULL),
     m_gate(NULL),
     m_specialMarker(NULL),
-    m_thisCharacter(NULL)
+    m_thisCharacter(NULL),
+    m_scale(scale)
 {
     m_itemRect = QRectF(-rect.width()/2,-rect.height()/2,rect.width(),rect.height());
 }
@@ -87,7 +89,7 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
     if (m_monsters) {
         m_monsters->clear();
         foreach (QString id, data.monsterIds()) {
-            m_monsters->addItem(new MonsterStackItem(id));
+            m_monsters->addItem(new MonsterStackItem(id, m_scale));
         }
     }
 
@@ -99,7 +101,7 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
     if (m_specialMarker) {
         m_specialMarker->setVisible(false);
         if (data.isSealed()) {
-            m_specialMarker->setPixmap(QPixmap(":/core/marker/elder_sign").scaled(SPECLIAL_ITEM_SIZE, SPECLIAL_ITEM_SIZE));
+            m_specialMarker->setPixmap(QPixmap(":/core/marker/elder_sign").scaled(SPECLIAL_ITEM_SIZE*m_scale, SPECLIAL_ITEM_SIZE*m_scale));
             m_specialMarker->setVisible(true);
         }
         if (m_locked) {
@@ -108,7 +110,7 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
         }
         if (data.hasSpecialAction()) {
             // TODO: set marker according to number...
-            m_specialMarker->setPixmap(QPixmap(":/core/marker/activity_1").scaled(SPECLIAL_ITEM_SIZE, SPECLIAL_ITEM_SIZE));
+            m_specialMarker->setPixmap(QPixmap(":/core/marker/activity_1").scaled(SPECLIAL_ITEM_SIZE*m_scale, SPECLIAL_ITEM_SIZE*m_scale));
             m_specialMarker->setVisible(true);
         }
     }
@@ -120,7 +122,7 @@ void AhFieldItem::initCharacterItem()
     if (m_type == Outskirts) return;
 
     m_characters = new ItemStacker;
-    m_characters->setPicSize(QSize(STACK_ITEM_SIZE,STACK_ITEM_SIZE));
+    m_characters->setPicSize(QSize(STACK_ITEM_SIZE*m_scale,STACK_ITEM_SIZE*m_scale));
     m_characters->setFont(getItemFont());
     m_characters->setAutoFillBackground(false);
     m_characters->setAttribute(Qt::WA_TranslucentBackground);
@@ -130,10 +132,10 @@ void AhFieldItem::initCharacterItem()
 
     QRectF bound = boundingRect();
     qreal stkSize;
-    if (m_type == Location) stkSize = qMin(bound.height()/2., STACK_ITEM_SIZE);
-    else if (m_type == Street) stkSize = qMin(bound.height(), STACK_ITEM_SIZE);
-    else if (m_type == OtherWorld) stkSize = qMin(bound.height(), STACK_ITEM_SIZE);
-    else stkSize = qMin(bound.height(), STACK_ITEM_SIZE);
+    if (m_type == Location) stkSize = qMin(bound.height()/2., STACK_ITEM_SIZE*m_scale);
+    else if (m_type == Street) stkSize = qMin(bound.height(), STACK_ITEM_SIZE*m_scale);
+    else if (m_type == OtherWorld) stkSize = qMin(bound.height(), STACK_ITEM_SIZE*m_scale);
+    else stkSize = qMin(bound.height(), STACK_ITEM_SIZE*m_scale);
 
     prxChar->resize(stkSize, stkSize);
     prxChar->setPos(bound.topLeft());
@@ -141,7 +143,7 @@ void AhFieldItem::initCharacterItem()
     /*
     if (m_type == OtherWorld) {
         m_secondPhaseCharacters = new ItemStacker;
-        m_secondPhaseCharacters->setPicSize(QSize(STACK_ITEM_SIZE,STACK_ITEM_SIZE));
+        m_secondPhaseCharacters->setPicSize(QSize(STACK_ITEM_SIZE*m_scale,STACK_ITEM_SIZE*m_scale));
         m_secondPhaseCharacters->setAutoFillBackground(false);
         m_secondPhaseCharacters->setAttribute(Qt::WA_TranslucentBackground);
         connect(m_secondPhaseCharacters, SIGNAL(itemActivated(StackItem)), this, SLOT(characterClicked(StackItem)));
@@ -161,7 +163,7 @@ void AhFieldItem::initMonsterItem()
 
     m_monsters = new ItemStacker;
     m_monsters->setFont(getItemFont());
-    //m_monsters->setPicSize(QSize(STACK_ITEM_SIZE,STACK_ITEM_SIZE));
+    //m_monsters->setPicSize(QSize(STACK_ITEM_SIZE*m_scale,STACK_ITEM_SIZE*m_scale));
     m_monsters->setPicSize(QSize(200,200));
     m_monsters->setAutoFillBackground(false);
     m_monsters->setAttribute(Qt::WA_TranslucentBackground);
@@ -171,8 +173,8 @@ void AhFieldItem::initMonsterItem()
 
     QRectF bound = boundingRect();
     qreal stkSize;
-    if (m_type == Location) stkSize = qMin(bound.height()/2., STACK_ITEM_SIZE);
-    else stkSize = qMin(bound.height(), STACK_ITEM_SIZE);
+    if (m_type == Location) stkSize = qMin(bound.height()/2., STACK_ITEM_SIZE*m_scale);
+    else stkSize = qMin(bound.height(), STACK_ITEM_SIZE*m_scale);
 
     //prxMonst->resize(stkSize, stkSize);
 
@@ -194,10 +196,10 @@ void AhFieldItem::initSpecialItem()
     m_specialMarker = new QGraphicsPixmapItem(this);
     m_specialMarker->setFlag(QGraphicsItem::ItemClipsToShape, true);
     if (m_type == Street)
-        m_specialMarker->setPos(-SPECLIAL_ITEM_SIZE, -SPECLIAL_ITEM_SIZE/2);
+        m_specialMarker->setPos(-SPECLIAL_ITEM_SIZE*m_scale, -SPECLIAL_ITEM_SIZE*m_scale/2);
     else
-        m_specialMarker->setPos(-SPECLIAL_ITEM_SIZE/2, -SPECLIAL_ITEM_SIZE/2);
-    //m_specialMarker->setPixmap(QPixmap(":/core/marker/activity_1").scaled(QSize(SPECLIAL_ITEM_SIZE, SPECLIAL_ITEM_SIZE)));
+        m_specialMarker->setPos(-SPECLIAL_ITEM_SIZE*m_scale/2, -SPECLIAL_ITEM_SIZE*m_scale/2);
+    //m_specialMarker->setPixmap(QPixmap(":/core/marker/activity_1").scaled(QSize(SPECLIAL_ITEM_SIZE*m_scale, SPECLIAL_ITEM_SIZE*m_scale)));
 }
 
 void AhFieldItem::initThisCharacterItem()
@@ -207,9 +209,9 @@ void AhFieldItem::initThisCharacterItem()
 
     m_thisCharacter = new QGraphicsPixmapItem(this);
     if (m_type == Location)
-        m_thisCharacter->setPos(-THIS_CHAR_ITEM_SIZE.width()/2, m_itemRect.bottom()-THIS_CHAR_ITEM_SIZE.height());
+        m_thisCharacter->setPos(-THIS_CHAR_ITEM_W*m_scale/2, m_itemRect.bottom()-THIS_CHAR_ITEM_H*m_scale);
     else
-        m_thisCharacter->setPos(0, -THIS_CHAR_ITEM_SIZE.height()/2);
+        m_thisCharacter->setPos(0, -THIS_CHAR_ITEM_H*m_scale/2);
 
     // TODO
 
@@ -233,7 +235,7 @@ void AhFieldItem::initClueItem()
 {
     if (m_type != Location)
         return;
-    QRectF r(0,0,CLUE_ITEM_SIZE,CLUE_ITEM_SIZE);
+    QRectF r(0,0,CLUE_ITEM_SIZE*m_scale,CLUE_ITEM_SIZE*m_scale);
     m_clues = new ClueAreaItem(r, this);
     m_clues->setPos(boundingRect().bottomLeft().x(), boundingRect().bottomLeft().y()-m_clues->boundingRect().width());
     m_clues->setClueCount(3);
@@ -243,11 +245,11 @@ void AhFieldItem::initGateItem()
 {
     if (m_type != Location)
         return;
-    //m_gate = new GateItem(QRectF(0,0,PORTAL_SIZE,PORTAL_SIZE), this);
+    //m_gate = new GateItem(QRectF(0,0,PORTAL_SIZE*m_scale,PORTAL_SIZE*m_scale), this);
     m_gate = new GateItem(QRectF(0,0,160,160), this);
-    m_gate->setScale(PORTAL_SIZE/160.);
+    m_gate->setScale(PORTAL_SIZE*m_scale/160.);
     m_gate->setZValue(-2);
-    m_gate->setPos(-PORTAL_SIZE/2,-PORTAL_SIZE/2);
+    m_gate->setPos(-PORTAL_SIZE*m_scale/2,-PORTAL_SIZE*m_scale/2);
 }
 
 void AhFieldItem::fieldAreaClicked()

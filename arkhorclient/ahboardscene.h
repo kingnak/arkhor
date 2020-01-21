@@ -13,6 +13,14 @@ class AhBoardScene : public QGraphicsScene
 public:
     explicit AhBoardScene(QObject *parent = 0);
 
+    double boardScaleFactor() {
+        return m_scale;
+    }
+
+    void setBoardScaleFactor(double d) {
+        m_scale = d;
+    }
+
     void initBoard();
 
     QList<AH::Common::FieldData::FieldID> getNeighbours(AH::Common::FieldData::FieldID id) { return m_neighbours.value(id); }
@@ -38,6 +46,8 @@ private:
     QList<QPointF> m_terrorPositions;
 
     QGraphicsItem *m_terrorItem;
+
+    double m_scale;
 
     friend class AhBoardfillerHelper;
 };

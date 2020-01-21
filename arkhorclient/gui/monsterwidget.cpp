@@ -16,8 +16,10 @@ MonsterFrontWidget::~MonsterFrontWidget()
 
 }
 
-QPixmap MonsterFrontWidget::drawMonster(const AH::Common::MonsterData *m, QSize s)
+QPixmap MonsterFrontWidget::drawMonster(const AH::Common::MonsterData *m, double scale, QSize s)
 {
+    s.setWidth(s.width()*scale);
+    s.setHeight(s.height()*scale);
     QPixmap ret(s);
     ret.fill();
     if (m) {
@@ -32,19 +34,19 @@ QPixmap MonsterFrontWidget::drawMonster(const AH::Common::MonsterData *m, QSize 
         QFont f = ResourcePool::instance()->loadMainFont();
         // Name
         f.setBold(true);
-        f.setPixelSize(10);
+        f.setPixelSize(10*scale);
         p.setBrush(Qt::black);
         p.setFont(f);
-        QRect nameRect(6,6,154,14);
+        QRect nameRect(6*scale,6*scale,154*scale,14*scale);
         p.drawText(nameRect, m->name());
 
         // Awareness
-        f.setPixelSize(28);
+        f.setPixelSize(28*scale);
         f.setBold(false);
-        QRect awareRect(160, 6, 40, 28);
+        QRect awareRect(160*scale, 6*scale, 40*scale, 28*scale);
         p.setClipRect(awareRect);
         QPainterPath txtPath;
-        txtPath.addText(160, 30, f, Utils::fullNumberString(m->awareness()));
+        txtPath.addText(160*scale, 30*scale, f, Utils::fullNumberString(m->awareness()));
         p.fillPath(txtPath, QColor(0xD2363A));
         QPainterPathStroker txtStroke;
         txtPath = txtStroke.createStroke(txtPath);
@@ -53,12 +55,12 @@ QPixmap MonsterFrontWidget::drawMonster(const AH::Common::MonsterData *m, QSize 
 
         // Dimension
         QPixmap dimSym = ResourcePool::instance()->loadDimensionSymbol(m->dimension());
-        QRect dimRect(162,162,36,36);
+        QRect dimRect(162*scale,162*scale,36*scale,36*scale);
         p.drawPixmap(dimRect, dimSym);
 
         // Movment border
         p.setBrush(Qt::NoBrush);
-        p.setPen(QPen(MonsterWidget::getMovementTypeColor(m->movementType()), 8));
+        p.setPen(QPen(MonsterWidget::getMovementTypeColor(m->movementType()), 8*scale));
         p.drawRect(0, 0, s.width(), s.height());
     }
     return ret;
@@ -67,7 +69,7 @@ QPixmap MonsterFrontWidget::drawMonster(const AH::Common::MonsterData *m, QSize 
 void MonsterFrontWidget::displayMonster(const AH::Common::MonsterData *m)
 {
     QSize s = sizeHint();
-    m_cache = MonsterFrontWidget::drawMonster(m, s);
+    m_cache = MonsterFrontWidget::drawMonster(m, 1.0, s);
     update();
 }
 

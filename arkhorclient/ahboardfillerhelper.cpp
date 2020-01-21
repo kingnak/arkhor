@@ -11,11 +11,30 @@ AhBoardfillerHelper::AhBoardfillerHelper()
 
 void AhBoardfillerHelper::initBoard(AhBoardScene *scene, QGraphicsItem *parent)
 {
-    initFields(scene, parent);
-    initTerror(scene, parent);
+    double d = initScale(scene);
+    initFields(scene, parent, d);
+    initTerror(scene, parent, d);
 }
 
-void AhBoardfillerHelper::initFields(AhBoardScene *scene, QGraphicsItem *parent)
+double AhBoardfillerHelper::initScale(AhBoardScene *scene)
+{
+    QFile f(":/core/data/boardscale");
+    if (!f.open(QIODevice::ReadOnly)) {
+        return 1.0;
+    }
+    QTextStream ts(&f);
+    bool ok;
+    // first line is scaling of board (for items)
+    double d = ts.readLine().toDouble(&ok);
+    if (ok) scene->setBoardScaleFactor(d);
+
+    // second line is scaling of coords in field text files
+    d = ts.readLine().toDouble(&ok);
+    if (ok) return d;
+    return 1.0;
+}
+
+void AhBoardfillerHelper::initFields(AhBoardScene *scene, QGraphicsItem *parent, double scale)
 {
     QFile f(":/core/data/boardfields");
     f.open(QIODevice::ReadOnly);
@@ -42,9 +61,9 @@ void AhBoardfillerHelper::initFields(AhBoardScene *scene, QGraphicsItem *parent)
         }
 
         AH::Common::FieldData::FieldID id = parseId(parts[0]);
-        QRect r = parseRect(parts[2]);
+        QRect r = parseRect(parts[2], scale);
 
-        AhFieldItem *f = new AhFieldItem(id, fieldType, r, parent);
+        AhFieldItem *f = new AhFieldItem(id, fieldType, r, scene->boardScaleFactor(), parent);
         f->setPos(r.center());
         f->initSubItems();
         QObject::connect(f, SIGNAL(itemInfoRequested(QString)), scene, SIGNAL(itemInfoRequested(QString)));
@@ -53,7 +72,7 @@ void AhBoardfillerHelper::initFields(AhBoardScene *scene, QGraphicsItem *parent)
     }
 }
 
-void AhBoardfillerHelper::initTerror(AhBoardScene *scene, QGraphicsItem *parent)
+void AhBoardfillerHelper::initTerror(AhBoardScene *scene, QGraphicsItem *parent, double scale)
 {
     Q_UNUSED(parent);
     QFile f(":/core/data/terrorfields");
@@ -69,7 +88,7 @@ void AhBoardfillerHelper::initTerror(AhBoardScene *scene, QGraphicsItem *parent)
         qreal x = parts[0].toDouble(&okx);
         qreal y = parts[1].toDouble(&oky);
         if (!okx || !oky) continue;
-        scene->m_terrorPositions << QPointF(x, y);
+        scene->m_terrorPositions << QPointF(x*scale, y*scale);
     }
 }
 
@@ -137,9 +156,9 @@ AH::Common::FieldData::FieldType AhBoardfillerHelper::parseType(QString type)
     return AH::Common::FieldData::Street;
 }
 
-QRect AhBoardfillerHelper::parseRect(QString r)
+QRect AhBoardfillerHelper::parseRect(QString r, double scale)
 {
     QStringList parts = r.split(",");
-    return QRect(parts[0].toInt(), parts[1].toInt(), parts[2].toInt(), parts[3].toInt());
+    return QRect(scale*parts[0].toInt(), scale*parts[1].toInt(), scale*parts[2].toInt(), scale*parts[3].toInt());
 }
 

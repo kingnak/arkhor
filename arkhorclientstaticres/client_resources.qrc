@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/core/images">
         <file alias="terror_track">client_resources/terror_track.png</file>
-        <file alias="gameboard">client_resources/gameboard_v1.png</file>
+        <file>client_resources/gameboard_v1.png</file>
         <file alias="interaction">client_resources/041-48x48-Import-Export_Manager.png</file>
         <file alias="info">client_resources/074-48x48-Info_ueber_asim.png</file>
         <file alias="inventory">client_resources/094-48x48-Berechtigungsgruppe.png</file>
@@ -37,6 +37,7 @@
         <file alias="mythos_back">client_resources/MythosBack.png</file>
         <file alias="inv_template">client_resources/inv_template.png</file>
         <file alias="ao_template">client_resources/ao_tmpl.png</file>
+        <file alias="gameboard">client_resources/ArkH_Board.jpg</file>
     </qresource>
     <qresource prefix="/core/marker">
         <file alias="activity_1">client_resources/activity_marker_1.png</file>
@@ -59,5 +60,6 @@
         <file>client_resources/carbon2.ttf</file>
         <file alias="fontCarbon">client_resources/CarbonType3.ttf</file>
         <file alias="terrorfields">client_resources/terrorfields.txt</file>
+        <file alias="boardscale">client_resources/boardscale.txt</file>
     </qresource>
 </RCC>

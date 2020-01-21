@@ -26,7 +26,7 @@ public:
         Outskirts
     };
 
-    AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, QRectF rect, QGraphicsItem *parent = 0);
+    AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, QRectF rect, double scale, QGraphicsItem *parent = 0);
 
     AH::Common::FieldData::FieldID id() const { return m_id; }
 
@@ -87,6 +87,7 @@ private:
     GateItem *m_gate;
     QGraphicsPixmapItem *m_specialMarker;
     QGraphicsPixmapItem *m_thisCharacter;
+    double m_scale;
 };
 
 class ClickAreaItem : public QGraphicsRectItem

@@ -24,6 +24,7 @@ void AhBoardScene::initBoard()
 
     m_terrorItem = new QGraphicsPixmapItem(QPixmap(":/core/marker/terror_marker"));
     m_terrorItem->setVisible(false);
+    m_terrorItem->setScale(m_scale);
     addItem(m_terrorItem);
     setTerrorLevel(-1);
 }
@@ -48,6 +49,19 @@ void AhBoardScene::updateBoardFromData(QVariantMap boardMap)
 
 void AhBoardScene::setTerrorLevel(int level)
 {
+    /*
+    if (level < 0) {
+        for (auto p : m_terrorPositions) {
+            auto i = new QGraphicsPixmapItem(QPixmap(":/core/marker/terror_marker"));
+            i->setScale(m_scale);
+            i->setPos(p - QPointF(i->boundingRect().width(), i->boundingRect().height())/2);
+            addItem(i);
+            i->setFlag(QGraphicsItem::ItemIsMovable, true);
+        }
+        return;
+    }
+    */
+
     if (level < 0 || level >= m_terrorPositions.size()) {
         m_terrorItem->setVisible(false);
         return;

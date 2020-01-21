@@ -120,11 +120,11 @@ private:
 class ClueAreaItem : public QGraphicsRectItem
 {
 public:
-    ClueAreaItem(QRectF rect, QGraphicsItem *parent);
+    ClueAreaItem(QRectF rect, double scale, QGraphicsItem *parent);
     void setClueCount(quint32 ct);
 
 private:
-    void init();
+    void init(double scale);
 
 private:
     quint32 m_clueCount;

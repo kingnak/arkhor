@@ -30,6 +30,7 @@ AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, 
     m_scale(scale)
 {
     m_itemRect = QRectF(-rect.width()/2,-rect.height()/2,rect.width(),rect.height());
+    //this->setFlag(QGraphicsItem::ItemIsMovable, true);
 }
 
 QRectF AhFieldItem::boundingRect() const
@@ -52,7 +53,12 @@ void AhFieldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     Q_UNUSED(painter);
     Q_UNUSED(option);
     Q_UNUSED(widget);
-    //painter->fillRect(m_itemRect,QColor(0,0,0,128));
+    /*
+    auto r = this->mapToScene(this->boundingRect()).boundingRect();
+    painter->fillRect(m_itemRect,QColor(0,0,0,128));
+    painter->fillRect(0, 0, 100, 24, Qt::white);
+    painter->drawText(0, 20, QString("%1,%2").arg(r.left()/m_scale).arg(r.top()/m_scale));
+    */
 }
 
 void AhFieldItem::initSubItems()
@@ -236,7 +242,7 @@ void AhFieldItem::initClueItem()
     if (m_type != Location)
         return;
     QRectF r(0,0,CLUE_ITEM_SIZE*m_scale,CLUE_ITEM_SIZE*m_scale);
-    m_clues = new ClueAreaItem(r, this);
+    m_clues = new ClueAreaItem(r, m_scale, this);
     m_clues->setPos(boundingRect().bottomLeft().x(), boundingRect().bottomLeft().y()-m_clues->boundingRect().width());
     m_clues->setClueCount(3);
 }
@@ -372,10 +378,10 @@ void ClickAreaItem::updateColor()
 
 //////////////////////////////
 
-ClueAreaItem::ClueAreaItem(QRectF rect, QGraphicsItem *parent)
+ClueAreaItem::ClueAreaItem(QRectF rect, double scale, QGraphicsItem *parent)
     : QGraphicsRectItem(rect, parent), m_clueCount(0)
 {
-    init();
+    init(scale);
 }
 
 void ClueAreaItem::setClueCount(quint32 ct)
@@ -392,16 +398,16 @@ void ClueAreaItem::setClueCount(quint32 ct)
         m_text->setPlainText(QString::number(ct));
         m_text->setVisible(true);
         m_text->adjustSize();
-        m_text->setPos(0, 0);
+        m_text->setPos((m_icon->boundingRect().width()-m_text->boundingRect().width())/2, (m_icon->boundingRect().height()-m_text->boundingRect().height())/2);
     }
 }
 
-void ClueAreaItem::init()
+void ClueAreaItem::init(double scale)
 {
     setPen(QPen(Qt::NoPen));
     m_icon = new QGraphicsPixmapItem(QPixmap(":/core/marker/clue").scaled(this->boundingRect().size().toSize()), this);
     m_text = new QGraphicsTextItem(this);
-    m_text->setFont(AhFieldItem::getItemFont(16, true));
+    m_text->setFont(AhFieldItem::getItemFont(16*scale, true));
 
     setFlag(QGraphicsItem::ItemClipsChildrenToShape, true);
     setClueCount(0);

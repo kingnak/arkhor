@@ -8,9 +8,10 @@
 class RegistryObjectStackItem : public StackItem, public AsyncObjectReceiver
 {
 public:
-    explicit RegistryObjectStackItem(QString id);
+    explicit RegistryObjectStackItem(QString id, bool subscribe = false);
 
     virtual void wasAdded();
+    virtual void wasRemoved();
 
     void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
 
@@ -19,6 +20,7 @@ protected:
 
 protected:
     QString m_id;
+    bool m_subscribing;
 };
 
 class MonsterStackItem : public RegistryObjectStackItem
@@ -34,10 +36,17 @@ private:
     double m_scale;
 };
 
-class CharacterStackItem : public StackItem
+class CharacterStackItem : public RegistryObjectStackItem
 {
 public:
-    explicit CharacterStackItem(QString id);
+    CharacterStackItem(QString id, double scale);
+    virtual void wasAdded();
+
+protected:
+    virtual void updateObject(AH::Common::DescribeObjectsData::ObjectDescription desc);
+
+private:
+    double m_scale;
 };
 
 #endif // REGISTRYOBJECTSTACKITEM_H

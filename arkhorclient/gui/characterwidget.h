@@ -17,6 +17,8 @@ public:
     explicit CharacterWidget(QWidget *parent = 0);
     ~CharacterWidget();
 
+    static QPixmap drawCharacterWithStats(const AH::Common::CharacterData *c, double scale, QSize s = QSize(200, 200));
+
     virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
 
 public slots:

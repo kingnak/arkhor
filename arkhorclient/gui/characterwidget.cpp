@@ -2,6 +2,8 @@
 #include "ui_characterwidget.h"
 #include "../utils.h"
 #include "objectregistry.h"
+#include "resourcepool.h"
+#include <QtGui>
 
 CharacterWidget::CharacterWidget(QWidget *parent) :
     QWidget(parent),
@@ -22,6 +24,48 @@ void CharacterWidget::objectDescribed(const AH::Common::DescribeObjectsData::Obj
         desc.data >> c;
         updateCharacterData(&c);
     }
+}
+
+QPixmap CharacterWidget::drawCharacterWithStats(const AH::Common::CharacterData *c, double scale, QSize s)
+{
+    s.setWidth(s.width()*scale);
+    s.setHeight(s.height()*scale);
+    QPixmap ret(s);
+    ret.fill();
+    if (c) {
+        // Main image
+        QPainter p(&ret);
+        p.setRenderHint(QPainter::Antialiasing);
+        QPixmap img = ResourcePool::instance()->loadCharacterFigure(c->id()).scaled(s);
+        p.drawPixmap(0, 0, img);
+
+        QFont f = ResourcePool::instance()->loadMainFont();
+        f.setPixelSize(46*scale);
+
+        // Sanity
+        QPixmap sanity = QPixmap(":/core/marker/sanity").scaled(50*scale,50*scale, Qt::KeepAspectRatio);
+        p.drawPixmap(8*scale, 12*scale, sanity);
+        QPainterPath pathSan;
+        pathSan.addText(20*scale, 36*scale, f, QString::number(c->curSanity()));
+        p.fillPath(pathSan, QColor(0x3672AE));
+        QPainterPathStroker strSan;
+        pathSan = strSan.createStroke(pathSan);
+        //p.setPen(Qt::white);
+        p.drawPath(pathSan);
+
+        // Stamina
+        QPixmap stamina = QPixmap(":/core/marker/stamina").scaled(50*scale,50*scale, Qt::KeepAspectRatio);
+        p.drawPixmap(142*scale, 7*scale, stamina);
+        QPainterPath pathSta;
+        pathSta.addText(154*scale, 36*scale, f, QString::number(c->curStamina()));
+        p.fillPath(pathSta, QColor(0xD2363A));
+        QPainterPathStroker strSta;
+        pathSta = strSta.createStroke(pathSta);
+        //p.setPen(Qt::white);
+        p.drawPath(pathSta);
+    }
+
+    return ret;
 }
 
 void CharacterWidget::displayCharacterData(const AH::Common::CharacterData *data)

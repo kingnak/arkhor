@@ -82,7 +82,7 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
         m_characters->clear();        
         foreach (QString id, data.characterIds()) {
             //m_characters->addItem(new StackItem(QPixmap(":/test/client_resources/test/jenny_barnes_figure.png"), "", id));
-            m_characters->addItem(new CharacterStackItem(id));
+            m_characters->addItem(new CharacterStackItem(id, m_scale));
         }
     }
 

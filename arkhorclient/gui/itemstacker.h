@@ -23,6 +23,7 @@ public:
         : m_desc(desc), m_pixmap(pixmap), m_data(data), m_stacker(nullptr)  {}
 
     virtual void wasAdded() {}
+    virtual void wasRemoved() {}
     QString description() const { return m_desc; }
     QPixmap pixmap() const { return m_pixmap; }
     QVariant data() const { return m_data; }

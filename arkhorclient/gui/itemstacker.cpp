@@ -94,7 +94,9 @@ void ItemStacker::removeAt(int idx)
         return;
     }
 
-    delete m_items.takeAt(idx);
+    auto itm = m_items.takeAt(idx);
+    itm->wasRemoved();
+    delete itm;
     if (m_cur >= idx) {
         m_cur--;
         if (m_cur < 0)
@@ -108,6 +110,8 @@ void ItemStacker::removeAt(int idx)
 
 void ItemStacker::clear()
 {
+    for (auto itm : m_items)
+        itm->wasRemoved();
     qDeleteAll(m_items);
     m_items.clear();
     updateItemVisibility();

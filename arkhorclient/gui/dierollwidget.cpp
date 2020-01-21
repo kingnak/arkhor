@@ -19,6 +19,7 @@ DieRollWidget::DieRollWidget(QWidget *parent) :
     ui->wgtDice->setLayout(new QGridLayout);
     ui->scrlMods->setLayout(new QVBoxLayout);
     ui->wgtDieRollOpts->setLayout(new QVBoxLayout);
+    ui->wgtDieRollOpts->layout()->setContentsMargins(0, 0, 0, 0);
     connect(ui->lblDescription, SIGNAL(linkActivated(QString)), this, SLOT(requestObject(QString)));
 }
 
@@ -30,6 +31,10 @@ DieRollWidget::~DieRollWidget()
 void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
 {
     int ct = data.rollData().pool().dieCount()+data.rollData().pool().adjustment();
+    m_fixedValues = data.rollData().pool().dieValues();
+    while (m_fixedValues.size() < ct) {
+        m_fixedValues.append(0);
+    }
 
     QList<PropertyModificationData> mods = data.generalModifications();
 
@@ -107,19 +112,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     static_cast<QBoxLayout*>(ui->scrlMods->layout())->addStretch(1);
 
     // Display dice
-    QList<quint32> vals = data.rollData().pool().dieValues();
-    int totCt = qMax(ct, vals.size());
-
-    cleanDice();
-
-    QGridLayout *l = static_cast<QGridLayout *> (ui->wgtDice->layout());
-    for (int i = 0; i < totCt; ++i) {
-        //QLabel *lbl = new QLabel(QString::number(vals.value(i)), this);
-        DieWidget *w = new DieWidget(this);
-        w->setDieValue(vals.value(i));
-        l->addWidget(w, i/2, i%2);
-        //l->setAlignment(w, Qt::AlignRight);
-    }
+    displayDice(m_fixedValues, 0);
 
     m_clueBurnFactor = data.diceForClueBurn();
 
@@ -145,6 +138,27 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     }
 }
 
+void DieRollWidget::displayDice(QList<quint32> values, int additional)
+{
+    bool hasUnrolled = values.count(0) > 0;
+    cleanDice();
+    int totalCount = m_fixedValues.size() + additional;
+    QGridLayout *l = static_cast<QGridLayout *> (ui->wgtDice->layout());
+    for (int i = 0; i < totalCount; ++i) {
+        //QLabel *lbl = new QLabel(QString::number(vals.value(i)), this);
+        DieWidget *w = new DieWidget(this);
+        w->setDieValue(values.value(i));
+        l->addWidget(w, i/5, i%5);
+        l->setAlignment(w, Qt::AlignLeft);
+    }
+
+    if (additional > 0 || hasUnrolled) {
+        ui->btnOk->setText("Roll new dice");
+    } else {
+        ui->btnOk->setText("Ok");
+    }
+}
+
 void DieRollWidget::updateClueBurnAmount(int ct)
 {
     ui->lblDieAddCount->setText(QString::number(ct*m_clueBurnFactor));
@@ -157,6 +171,11 @@ void DieRollWidget::on_btnOk_clicked()
     cleanModifiers();
     cleanOptions();
     emit dieUpdateChosen(upd);
+}
+
+void DieRollWidget::on_spnClueBurn_valueChanged(int ct)
+{
+    displayDice(m_fixedValues, ct*m_clueBurnFactor);
 }
 
 void DieRollWidget::requestObject(QString id)
@@ -193,6 +212,7 @@ void DieRollWidget::cleanDice()
     delete ui->wgtDice->layout();
     QGridLayout *g = new QGridLayout;
     ui->wgtDice->setLayout(g);
+    g->setColumnStretch(5,1);
     //g->addWidget(new QWidget, 0, 0);
     //g->setColumnStretch(0,1);
 }

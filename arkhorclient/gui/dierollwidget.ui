@@ -13,13 +13,16 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,1">
    <item>
     <widget class="QPushButton" name="btnOk">
      <property name="text">
       <string>&amp;Ok</string>
      </property>
     </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="wgtDieRollOpts" native="true"/>
    </item>
    <item>
     <widget class="QLabel" name="lblDescription">
@@ -86,31 +89,38 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QWidget" name="wgtDice" native="true"/>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="2" column="1">
-        <widget class="QLabel" name="lblAdjustment">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Base Value:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLabel" name="lblDieCount">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Based On:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="lblTargetVal">
          <property name="text">
           <string/>
          </property>
@@ -123,42 +133,7 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Die Count:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="lblBaseSkill">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>Successes:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Based On:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Target:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
+       <item row="9" column="0" colspan="2">
         <widget class="QScrollArea" name="scrlMods">
          <property name="widgetResizable">
           <bool>true</bool>
@@ -168,31 +143,24 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>132</width>
-            <height>261</height>
+            <width>275</width>
+            <height>69</height>
            </rect>
           </property>
          </widget>
         </widget>
        </item>
-       <item row="7" column="1">
-        <widget class="QLabel" name="lblDieCount">
+       <item row="2" column="1">
+        <widget class="QLabel" name="lblAdjustment">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="lblTargetVal">
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_6">
          <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Base Value:</string>
+          <string>Die Count:</string>
          </property>
         </widget>
        </item>
@@ -203,7 +171,21 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Target:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Successes:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
         <widget class="QLabel" name="label_7">
          <property name="text">
           <string>Modifiers:</string>
@@ -217,7 +199,14 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
+       <item row="0" column="1">
+        <widget class="QLabel" name="lblBaseSkill">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
         <widget class="QLabel" name="lblSuccess">
          <property name="minimumSize">
           <size>
@@ -244,10 +233,27 @@
        </item>
       </layout>
      </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QWidget" name="wgtDice" native="true"/>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QWidget" name="wgtDieRollOpts" native="true"/>
    </item>
   </layout>
  </widget>

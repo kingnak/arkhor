@@ -26,6 +26,7 @@ signals:
 private slots:
     void updateClueBurnAmount(int ct);
     void on_btnOk_clicked();
+    void on_spnClueBurn_valueChanged(int ct);
     void requestObject(QString id);
     void reRollOptionClicked();
 
@@ -33,9 +34,11 @@ private:
     void cleanDice();
     void cleanModifiers();
     void cleanOptions();
+    void displayDice(QList<quint32> values, int additional);
 
 private:
     int m_clueBurnFactor;
+    QList<quint32> m_fixedValues;
 
 private:
     Ui::DieRollWidget *ui;

@@ -34,11 +34,12 @@ private:
     void cleanDice();
     void cleanModifiers();
     void cleanOptions();
-    void displayDice(QList<quint32> values, int additional);
+    void displayDice(QList<quint32> values, int initialCount, int additional);
 
 private:
     int m_clueBurnFactor;
     QList<quint32> m_fixedValues;
+    int m_fixedCount;
 
 private:
     Ui::DieRollWidget *ui;

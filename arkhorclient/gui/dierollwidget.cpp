@@ -13,7 +13,8 @@ using namespace AH::Common;
 
 DieRollWidget::DieRollWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::DieRollWidget)
+    ui(new Ui::DieRollWidget),
+    m_fixedCount(0)
 {
     ui->setupUi(this);
     ui->wgtDice->setLayout(new QGridLayout);
@@ -31,6 +32,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
 {
     int ct = data.rollData().pool().dieCount()+data.rollData().pool().adjustment();
     m_fixedValues = data.rollData().pool().dieValues();
+    m_fixedCount = ct;
     while (m_fixedValues.size() < ct) {
         m_fixedValues.append(0);
     }
@@ -91,7 +93,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     ui->scrlMods->addStretch();
 
     // Display dice
-    displayDice(m_fixedValues, 0);
+    displayDice(m_fixedValues, m_fixedCount, 0);
 
     m_clueBurnFactor = data.diceForClueBurn();
 
@@ -117,11 +119,12 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     }
 }
 
-void DieRollWidget::displayDice(QList<quint32> values, int additional)
+void DieRollWidget::displayDice(QList<quint32> values, int initialCount, int additional)
 {
     bool hasUnrolled = values.count(0) > 0;
     cleanDice();
-    int totalCount = m_fixedValues.size() + additional;
+    int totalCount = values.size() + additional;
+    if (initialCount < 0) totalCount += initialCount; // remove dice if negative initial!
     QGridLayout *l = static_cast<QGridLayout *> (ui->wgtDice->layout());
     for (int i = 0; i < totalCount; ++i) {
         //QLabel *lbl = new QLabel(QString::number(vals.value(i)), this);
@@ -154,7 +157,7 @@ void DieRollWidget::on_btnOk_clicked()
 
 void DieRollWidget::on_spnClueBurn_valueChanged(int ct)
 {
-    displayDice(m_fixedValues, ct*m_clueBurnFactor);
+    displayDice(m_fixedValues, m_fixedCount, ct*m_clueBurnFactor);
 }
 
 void DieRollWidget::requestObject(QString id)

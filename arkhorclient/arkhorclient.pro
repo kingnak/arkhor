@@ -6,6 +6,8 @@ HEADERS += \
     connectionhandler.h \
     ahboardscene.h \
     ahboardfillerhelper.h \
+    gui/modifiedpropertyinfowidget.h \
+    gui/modifierinfowidget.h \
     objectregistry.h \
     resourcepool.h \
     utils.h \
@@ -46,6 +48,8 @@ HEADERS += \
 
 SOURCES += \
     connectionhandler.cpp \
+    gui/modifiedpropertyinfowidget.cpp \
+    gui/modifierinfowidget.cpp \
     main.cpp \
     ahboardscene.cpp \
     ahboardfillerhelper.cpp \
@@ -92,6 +96,7 @@ FORMS += \
     gui/dierollwidget.ui \
     gui/focuschooser.ui \
     gui/gatedatawidget.ui \
+    gui/modifiedpropertyinfowidget.ui \
     gui/monsterwidget.ui \
     gui/movementchooser.ui \
     gui/optionchooser.ui \

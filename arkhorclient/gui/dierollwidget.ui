@@ -134,7 +134,7 @@
         </widget>
        </item>
        <item row="9" column="0" colspan="2">
-        <widget class="QScrollArea" name="scrlMods">
+        <widget class="ModifierInfoWidget" name="scrlMods">
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -257,6 +257,17 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ModifierInfoWidget</class>
+   <extends>QScrollArea</extends>
+   <header>modifierinfowidget.h</header>
+   <container>1</container>
+   <slots>
+    <signal>objectDescriptionRequested(QString)</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../../arkhorclientstaticres/client_resources.qrc"/>
  </resources>
@@ -268,8 +279,8 @@
    <slot>updateClueBurnAmount(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>66</x>
-     <y>273</y>
+     <x>81</x>
+     <y>102</y>
     </hint>
     <hint type="destinationlabel">
      <x>125</x>
@@ -277,8 +288,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>scrlMods</sender>
+   <signal>objectDescriptionRequested(QString)</signal>
+   <receiver>DieRollWidget</receiver>
+   <slot>requestObject(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>204</x>
+     <y>309</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>297</x>
+     <y>315</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>updateClueBurnAmount(int)</slot>
+  <slot>requestObject(QString)</slot>
  </slots>
 </ui>

@@ -48,7 +48,7 @@
     <widget class="QWidget" name="wgtOptionsList" native="true"/>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
+    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,1">
      <item>
       <widget class="QLabel" name="lblOptionDescription">
        <property name="text">
@@ -61,6 +61,9 @@
         <bool>true</bool>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="ModifiedPropertyInfoWidget" name="wgtPropertyInfo" native="true"/>
      </item>
      <item>
       <widget class="QWidget" name="wgtMoreDescription" native="true">
@@ -85,6 +88,37 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ModifiedPropertyInfoWidget</class>
+   <extends>QWidget</extends>
+   <header>modifiedpropertyinfowidget.h</header>
+   <container>1</container>
+   <slots>
+    <signal>objectInfoRequested(QString)</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>wgtPropertyInfo</sender>
+   <signal>objectInfoRequested(QString)</signal>
+   <receiver>OptionChooser</receiver>
+   <slot>describeObject(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>55</x>
+     <y>76</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>50</x>
+     <y>259</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>describeObject(QString)</slot>
+ </slots>
 </ui>

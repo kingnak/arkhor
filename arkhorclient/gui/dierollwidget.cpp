@@ -17,7 +17,6 @@ DieRollWidget::DieRollWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->wgtDice->setLayout(new QGridLayout);
-    ui->scrlMods->setLayout(new QVBoxLayout);
     ui->wgtDieRollOpts->setLayout(new QVBoxLayout);
     ui->wgtDieRollOpts->layout()->setContentsMargins(0, 0, 0, 0);
     connect(ui->lblDescription, SIGNAL(linkActivated(QString)), this, SLOT(requestObject(QString)));
@@ -75,23 +74,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     // Display modifiers
     cleanModifiers();
     mods.append(data.clueBurnMods().modifications());
-    foreach (PropertyModificationData mod, mods) {
-
-        // TODO: This assumes modifier is already known
-        QString id = mod.modifierId();
-        QString name = id;
-        if (ObjectRegistry::instance()->hasObject(id)) {
-            AH::Common::GameOptionData obj;
-            ObjectRegistry::instance()->getObject(id).data >> obj;
-            name = obj.name();
-        }
-
-        QLabel *l = new QLabel(QString("<a href=\"%1\">%2</a>: %3").arg(id, name.toHtmlEscaped(), Utils::stringForPropertyModification(mod)));
-        //l->setProperty(PROPERTY_MODIFIER_ID, mod.modifierId());
-        l->setWordWrap(true);
-        connect(l, SIGNAL(linkActivated(QString)), this, SLOT(requestObject(QString)));
-        ui->scrlMods->layout()->addWidget(l);
-    }
+    ui->scrlMods->setModifiers(mods, false);
 
     // Display options in modifiers
     for (auto d : data.dieRollOptions()) {
@@ -103,13 +86,9 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
             name = obj.name();
         }
 
-        QLabel *l = new QLabel(QString("<a href=\"%1\">%2</a>: %3").arg(id, name.toHtmlEscaped(), d.desc));
-        l->setWordWrap(true);
-        connect(l, SIGNAL(linkActivated(QString)), this, SLOT(requestObject(QString)));
-        ui->scrlMods->layout()->addWidget(l);
+        ui->scrlMods->appendModifier(id, name.toHtmlEscaped(), d.desc);
     }
-    // Spacing
-    static_cast<QBoxLayout*>(ui->scrlMods->layout())->addStretch(1);
+    ui->scrlMods->addStretch();
 
     // Display dice
     displayDice(m_fixedValues, 0);
@@ -219,16 +198,7 @@ void DieRollWidget::cleanDice()
 
 void DieRollWidget::cleanModifiers()
 {
-    QLayout *l = ui->scrlMods->layout();
-    if (l) {
-        QLayoutItem *child;
-        while ((child = l->takeAt(0)) != 0) {
-            delete child;
-        }
-    }
-    foreach (QWidget *w, ui->scrlMods->findChildren<QLabel*>()) {
-        delete w;
-    }
+    ui->scrlMods->cleanModifiers();
 }
 
 void DieRollWidget::cleanOptions()

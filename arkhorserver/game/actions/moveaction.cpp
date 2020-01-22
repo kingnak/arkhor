@@ -110,6 +110,11 @@ bool MoveAction::moveOtherWorld()
     return false;
 }
 
+AH::Common::ModifiedPropertyValueData MoveOption::baseProperty() const
+{
+    return gGame->context().getCurCharacterSkill(AH::Skill_Speed).toModifiedPropertyValueData();
+}
+
 void MoveOption::determineMovementType()
 {
     if (gGame->context().player()->getCharacter()->isDelayed()) {

@@ -34,10 +34,12 @@ signals:
     void optionChosen(QString id);
     void skillChosen(AH::Common::PropertyValueData::Property skill);
     void encounterChosen(QString id);
+    void objectDescriptionRequested(QString id);
 
 private slots:
     void cleanupOptions();
     void cleanupMore();
+    void describeObject(QString id);
 
     void showOption();
     void on_btnOptionActivate_clicked();

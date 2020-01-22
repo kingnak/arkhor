@@ -34,6 +34,7 @@ public:
     MoveOption(Movement *m) : GameOption(&ma, AH::CanContinue, AH::ChooseOptional, AH::Movement), ma(m) {}
 
     QString id() const { return "OP_MOVE"; }
+    virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
 
     void determineMovementType();
 

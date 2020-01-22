@@ -19,6 +19,7 @@ static const char *OPTION_SKILL_PROPERTY = "SKILL";
 static const char *OPTION_MONSTER_PROPERTY = "MONSTER";
 static const char *OPTION_OBJECT_PROPERTY = "OBJECT";
 static const char *OPTION_GATE_PROPERTY = "GATE";
+static const char *OPTION_BASE_PROPERTY_PROPERTY = "BASE_PROPERTY";
 
 OptionChooser::OptionChooser(QWidget *parent) :
     QWidget(parent),
@@ -67,6 +68,8 @@ void OptionChooser::setOptions(QList<AH::Common::GameOptionData> opts)
         v << o;
         b->setProperty(OPTION_PROPERTY, v);
         b->setProperty(OPTION_OBJECT_PROPERTY, o.sourceId());
+        v << o.baseProperty();
+        b->setProperty(OPTION_BASE_PROPERTY_PROPERTY, v);
         connect(b, SIGNAL(clicked()), this, SLOT(showOption()));
         connect(b, SIGNAL(doubleClicked()), this, SLOT(on_btnOptionActivate_clicked()));
         l->addWidget(b);
@@ -88,8 +91,11 @@ void OptionChooser::setSkills(QList<ModifiedPropertyValueData> opts)
         int val = v.finalVal();
         QPushButton *btn = new QPushButton(name);
         btn->setCheckable(true);
-        btn->setProperty(OPTION_DESCRIPTION_PROPERTY, QString("Skill %1. Current Value: %2").arg(name).arg(val));
+        //btn->setProperty(OPTION_DESCRIPTION_PROPERTY, QString("Skill %1. Current Value: %2").arg(name).arg(val));
         btn->setProperty(OPTION_SKILL_PROPERTY, QVariant::fromValue(static_cast<qint32>(v.property().property())));
+        QVariant prop;
+        prop << v;
+        btn->setProperty(OPTION_BASE_PROPERTY_PROPERTY, prop);
         connect(btn, SIGNAL(clicked()), this, SLOT(showOption()));
         l->addWidget(btn);
     }
@@ -125,6 +131,8 @@ void OptionChooser::setEncounter(EncounterData enc)
             QVariant v;
             v << o;
             b->setProperty(OPTION_PROPERTY, v);
+            v << o.baseProperty();
+            b->setProperty(OPTION_BASE_PROPERTY_PROPERTY, v);
             connect(b, SIGNAL(clicked()), this, SLOT(showOption()));
             l->addWidget(b);
         }
@@ -177,6 +185,13 @@ void OptionChooser::cleanupMore()
     */
     delete m_moreWgt;
     m_moreWgt = NULL;
+    ui->wgtPropertyInfo->cleanValue();
+    ui->wgtPropertyInfo->setVisible(false);
+}
+
+void OptionChooser::describeObject(QString id)
+{
+    emit objectDescriptionRequested(id);
 }
 
 void OptionChooser::showOption()
@@ -194,6 +209,8 @@ void OptionChooser::showOption()
 
     ui->btnOptionActivate->setEnabled(true);
 
+    cleanupMore();
+
     QVariant v = sender()->property(OPTION_PROPERTY);
     if (v.isValid()) {
         GameOptionData o;
@@ -203,7 +220,15 @@ void OptionChooser::showOption()
         }
     }
 
-    cleanupMore();
+    v = sender()->property(OPTION_BASE_PROPERTY_PROPERTY);
+    if (v.isValid()) {
+        AH::Common::ModifiedPropertyValueData prop;
+        v >> prop;
+        if (prop.property().property() != AH::Common::PropertyValueData::Property::NoProperty) {
+            ui->wgtPropertyInfo->displayPropertyValue(prop);
+            ui->wgtPropertyInfo->setVisible(true);
+        }
+    }
 
     v = sender()->property(OPTION_MONSTER_PROPERTY);
     if (v.isValid() && !v.toString().isEmpty()) {

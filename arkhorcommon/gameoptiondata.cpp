@@ -29,6 +29,7 @@ void operator <<(QVariant &data, const GameOptionData &target)
     map["continueType"] << target.continueType();
     map["available"] << target.isAvailable();
     map["canPay"] << target.canPay();
+    map["baseProperty"] << target.baseProperty();
     data << map;
 }
 
@@ -47,6 +48,7 @@ void operator >>(const QVariant &data, GameOptionData &target)
     map["continueType"] >> target.m_continueType;
     map["available"] >> target.m_isAvailable;
     map["canPay"] >> target.m_canPay;
+    map["baseProperty"] >> target.m_baseProperty;
 }
 
 }}

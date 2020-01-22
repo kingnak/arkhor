@@ -21,9 +21,8 @@ bool AttackAction::execute()
 
     gGame->notifier()->actionStart(this);
 
-    ModifiedPropertyValue pool;
-    PropertyModificationList weaponMods;
-    std::tie(pool, weaponMods) = getAttackModifications(p->getCharacter());
+    auto base = getAttackModifications(p->getCharacter());
+    ModifiedPropertyValue pool = base.finalPropery();
 
     ModifiedPropertyValue clueBurnMods = gGame->context().getCurCharacterClueBurn(AH::Skill_Combat);
 
@@ -42,7 +41,9 @@ bool AttackAction::execute()
     // TODO: Call post-use methods for equipped objects ==> Needed?
 
     // Remove single use objects
-    discardAfterAttack(weaponMods);
+    discardAfterAttack(base.weaponsGeneral);
+    discardAfterAttack(base.weaponsPhysical);
+    discardAfterAttack(base.weaponsMagical);
 
     gGame->notifier()->actionFinish(this);
 
@@ -101,9 +102,9 @@ void AttackAction::discardAfterAttack(PropertyModificationList &lst)
     }
 }
 
-PropertyModificationList AttackAction::getMonsterModifications() const
+PropertyModificationList AttackAction::getMonsterModifications(Character *c) const
 {
-    MonsterData::MonsterAttributes ignoredAttributes = gGame->context().getCurCharacterIgnoredMonsterAttributes();
+    MonsterData::MonsterAttributes ignoredAttributes = gGame->context().getCharacterIgnoredMonsterAttributes(c);
     return gGame->context().monster()->getFilteredModifications(ignoredAttributes);
 }
 
@@ -120,11 +121,35 @@ AttackAction::AttackModifications AttackAction::getAttackModifications(Character
     filterEquipped(mag);
     filterEquipped(phy);
 
-    PropertyModificationList monsterMods = this->getMonsterModifications();
-    phy += monsterMods.filtered(PropertyValue::Damage_Physical);
-    mag += monsterMods.filtered(PropertyValue::Damage_Magical);
+    PropertyModificationList monsterMods = this->getMonsterModifications(c);
 
-    return std::make_pair(ModifiedPropertyValue(PropertyValue(base.property(), base.base()), base.modifiers()+gen+mag+phy), gen+mag+phy);
+    return AttackModifications({base, gen, phy, mag, monsterMods.filtered(PropertyValue::Damage_Physical), monsterMods.filtered(PropertyValue::Damage_Magical)});
+}
+
+ModifiedPropertyValue AttackAction::AttackModifications::finalPropery() const
+{
+    auto phy = weaponsPhysical+monsterPhysical;
+    auto mag = weaponsMagical+monsterMagical;
+    int dmgBase = base.finalVal();
+    int dmgGen = weaponsGeneral.apply(0);
+    int dmgPhy = phy.apply(0);
+    int dmgMag = mag.apply(0);
+    auto ret = ModifiedPropertyValue(PropertyValue(base.property(), base.base()), weaponsGeneral+phy+mag);
+    ret.overrideFinalValue(dmgBase+dmgGen+dmgPhy+dmgMag);
+    return ret;
+}
+
+ModifiedPropertyValue AttackAction::AttackModifications::characterProperty() const
+{
+    auto phy = weaponsPhysical;
+    auto mag = weaponsMagical;
+    int dmgBase = base.finalVal();
+    int dmgGen = weaponsGeneral.apply(0);
+    int dmgPhy = phy.apply(0);
+    int dmgMag = mag.apply(0);
+    auto ret = ModifiedPropertyValue(PropertyValue(base.property(), base.base()), weaponsGeneral+phy+mag);
+    ret.overrideFinalValue(dmgBase+dmgGen+dmgPhy+dmgMag);
+    return ret;
 }
 
 ///////////////////////////////////////
@@ -136,7 +161,8 @@ QString AttackOption::sourceId() const
 
 ModifiedPropertyValueData AttackOption::baseProperty() const
 {
-    ModifiedPropertyValue base;
-    std::tie(base, std::ignore) = aa.getAttackModifications(gGame->context().player()->getCharacter());
+    auto prop = aa.getAttackModifications(gGame->context().player()->getCharacter());
+    ModifiedPropertyValue base = prop.characterProperty();
     return base.toModifiedPropertyValueData();
 }
+

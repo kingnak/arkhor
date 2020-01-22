@@ -27,9 +27,20 @@ public:
 protected:
     void filterEquipped(PropertyModificationList &lst) const;
     void discardAfterAttack(PropertyModificationList &lst);
-    virtual PropertyModificationList getMonsterModifications() const;
+    virtual PropertyModificationList getMonsterModifications(Character *c) const;
 
-    typedef std::pair<ModifiedPropertyValue, PropertyModificationList> AttackModifications;
+    //typedef std::pair<ModifiedPropertyValue, PropertyModificationList> AttackModifications;
+    struct AttackModifications {
+        ModifiedPropertyValue base;
+        PropertyModificationList weaponsGeneral;
+        PropertyModificationList weaponsPhysical;
+        PropertyModificationList weaponsMagical;
+        PropertyModificationList monsterPhysical;
+        PropertyModificationList monsterMagical;
+        ModifiedPropertyValue finalPropery() const;
+        ModifiedPropertyValue characterProperty() const;
+    };
+
     AttackModifications getAttackModifications(Character *c) const;
 
     FightPhase *m_fight;

@@ -18,7 +18,7 @@ public:
     virtual bool execute();
 
 protected:
-    virtual PropertyModificationList getMonsterModifications() const;
+    virtual PropertyModificationList getMonsterModifications(Character *c) const;
 };
 
 ////////////////////////////

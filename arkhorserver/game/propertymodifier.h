@@ -45,20 +45,24 @@ public:
 class ModifiedPropertyValue
 {
 public:
-    ModifiedPropertyValue() : m_prop(PropertyValue::NoProperty, 0) {}
+    ModifiedPropertyValue() : m_prop(PropertyValue::NoProperty, 0), m_finalVal(0) {}
     ModifiedPropertyValue(PropertyValue v, PropertyModificationList mods)
-        : m_prop(v), m_mods(mods) {}
+        : m_prop(v), m_mods(mods) {
+        m_finalVal = m_mods.apply(m_prop.value());
+    }
 
     PropertyValue::Property property() const { return m_prop.property(); }
     int base() const { return m_prop.value(); }
-    int finalVal() const { return m_mods.apply(m_prop.value()); }
+    int finalVal() const { return m_finalVal; }
     PropertyModificationList modifiers() const { return m_mods; }
+    void overrideFinalValue(int value) { m_finalVal = value; }
 
     AH::Common::ModifiedPropertyValueData toModifiedPropertyValueData() const;
 
 private:
     PropertyValue m_prop;
     PropertyModificationList m_mods;
+    int m_finalVal;
 };
 
 class PropertyModifier

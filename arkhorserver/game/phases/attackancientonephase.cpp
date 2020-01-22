@@ -13,9 +13,8 @@ bool AttackAncientOneAction::execute()
 
     gGame->notifier()->actionStart(this);
 
-    ModifiedPropertyValue pool;
-    PropertyModificationList weaponMods;
-    std::tie(pool, weaponMods) = this->getAttackModifications(p->getCharacter());
+    auto base = this->getAttackModifications(p->getCharacter());
+    ModifiedPropertyValue pool = base.finalPropery();
 
     ModifiedPropertyValue clueBurnMods = gGame->context().getCurCharacterClueBurn(AH::Skill_Combat);
 
@@ -27,15 +26,18 @@ bool AttackAncientOneAction::execute()
     // TODO: Call post-use methods for equipped objects ==> Needed?
 
     // Remove single use objects
-    discardAfterAttack(weaponMods);
+    discardAfterAttack(base.weaponsGeneral);
+    discardAfterAttack(base.weaponsPhysical);
+    discardAfterAttack(base.weaponsMagical);
 
     gGame->notifier()->actionFinish(this);
 
     return true;
 }
 
-PropertyModificationList AttackAncientOneAction::getMonsterModifications() const
+PropertyModificationList AttackAncientOneAction::getMonsterModifications(Character *c) const
 {
+    Q_UNUSED(c)
     return gGame->context().ancientOne()->getCombatModifications();
 }
 

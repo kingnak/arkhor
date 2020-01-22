@@ -112,7 +112,7 @@ bool MoveAction::moveOtherWorld()
 
 AH::Common::ModifiedPropertyValueData MoveOption::baseProperty() const
 {
-    return gGame->context().getCurCharacterSkill(AH::Skill_Speed).toModifiedPropertyValueData();
+    return gGame->context().getCurCharacterProperty(PropertyValue::Prop_Movement).toModifiedPropertyValueData();
 }
 
 void MoveOption::determineMovementType()

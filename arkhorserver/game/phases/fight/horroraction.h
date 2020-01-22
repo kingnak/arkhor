@@ -37,6 +37,7 @@ public:
     QString sourceId() const;
 
     virtual bool isAvailable() const;
+    virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
 
 private:
     HorrorAction ha;

@@ -59,3 +59,8 @@ bool HorrorOption::isAvailable() const
     }
     return true;
 }
+
+AH::Common::ModifiedPropertyValueData HorrorOption::baseProperty() const
+{
+    return gGame->context().getCurCharacterSkill(AH::Skill::Skill_Horror).toModifiedPropertyValueData();
+}

@@ -165,7 +165,7 @@ bool GameObject::cast(Player *p)
     PropertyModificationList cc = gGame->context().player()->getCharacter()->getPropertyModifiers().filtered(PropertyValue::Prop_CastCost);
     cc += gGame->getGameModifiers().filtered(PropertyValue::Prop_CastCost);
     PropertyValue basecc(PropertyValue::Prop_CastCost, this->castCost());
-    ModifiedPropertyValue modcc(basecc, cc.apply(basecc.value()), cc);
+    ModifiedPropertyValue modcc(basecc, cc);
     if (modcc.finalVal() != 0) {
         AH::Common::CostList cost;
         cost << AH::Common::CostItem(AH::Common::CostItem::Pay_Sanity, modcc.finalVal());
@@ -182,7 +182,7 @@ bool GameObject::cast(Player *p)
         PropertyModificationList ca = gGame->context().player()->getCharacter()->getPropertyModifiers().filtered(PropertyValue::Prop_CastAdjustment);
         ca += gGame->getGameModifiers().filtered(PropertyValue::Prop_CastAdjustment);
         PropertyValue baseca(PropertyValue::Prop_CastAdjustment, this->castAdjustment());
-        ModifiedPropertyValue modca(basecc, ca.apply(baseca.value()), ca);
+        ModifiedPropertyValue modca(basecc, ca);
 
         DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest("Cast " + name(), this->id(), p->getCharacter(), AH::Skill_Spell, modca.finalVal(), this->castTarget());
         DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);

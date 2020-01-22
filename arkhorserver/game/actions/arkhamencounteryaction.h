@@ -30,6 +30,7 @@ public:
     QString id() const { return "OP_ARKHAM_ENCOUNTERY"; }
 
     virtual bool isAvailable() const { return true; }
+    virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
 
 private:
     ArkhamEncounteryAction ea;

@@ -1,9 +1,12 @@
 #ifndef ATTACKACTION_H
 #define ATTACKACTION_H
 
+#include <QPair>
 #include "game/gameaction.h"
 #include "game/gameoption.h"
+#include "game/propertymodifier.h"
 
+class Character;
 class FightPhase;
 class PropertyModificationList;
 
@@ -22,8 +25,12 @@ public:
     virtual QString description() const { return ""; }
 
 protected:
-    void filterEquipped(PropertyModificationList &lst);
+    void filterEquipped(PropertyModificationList &lst) const;
     void discardAfterAttack(PropertyModificationList &lst);
+    virtual PropertyModificationList getMonsterModifications() const;
+
+    typedef std::pair<ModifiedPropertyValue, PropertyModificationList> AttackModifications;
+    AttackModifications getAttackModifications(Character *c) const;
 
     FightPhase *m_fight;
     friend class AttackOption;
@@ -41,6 +48,7 @@ public:
     QString sourceId() const;
 
     virtual bool isAvailable() const { return true; }
+    virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
 
 private:
     AttackAction aa;

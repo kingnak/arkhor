@@ -42,6 +42,8 @@ public:
         sa.m_name = name;
     }
 
+    virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
+
     virtual bool isAvailable() const;
 
 private:

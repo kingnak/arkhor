@@ -167,9 +167,7 @@ ModifiedPropertyValue GameContext::getCharacterProperty(const Character *c, Prop
     PropertyModificationList mods = c->getPropertyModifiers().filtered(property);
     mods += m_game->getGameModifiers().filtered(property);
 
-    int finalVal = mods.apply(base);
-
-    return ModifiedPropertyValue(PropertyValue(property, base), finalVal, mods);
+    return ModifiedPropertyValue(PropertyValue(property, base), mods);
 }
 
 ModifiedPropertyValue GameContext::getCharacterSkill(const Character *c, AH::Skill skill)
@@ -188,11 +186,8 @@ ModifiedPropertyValue GameContext::getCharacterSkill(const Character *c, AH::Ski
         mods += m_game->getGameModifiers().filtered(baseProp);
     }
 
-    int finalVal = mods.apply(attrValue.finalVal());
-
     ModifiedPropertyValue ret(
         PropertyValue(prop, attrValue.base()),
-        finalVal,
         attrValue.modifiers() + mods
     );
     return ret;
@@ -205,9 +200,7 @@ ModifiedPropertyValue GameContext::getCharacterAttribute(const Character *c, AH:
     PropertyModificationList mods = c->getPropertyModifiers().filtered(prop);
     mods += m_game->getGameModifiers().filtered(prop);
 
-    int finalVal = mods.apply(base);
-
-    ModifiedPropertyValue ret(PropertyValue(prop, base), finalVal, mods);
+    ModifiedPropertyValue ret(PropertyValue(prop, base), mods);
     return ret;
 }
 
@@ -228,9 +221,7 @@ ModifiedPropertyValue GameContext::getCharacterClueBurn(const Character *c, AH::
 
     int base = 1;
 
-    int finalVal = mods.apply(base);
-
-    ModifiedPropertyValue ret(PropertyValue(prop, base), finalVal, mods);
+    ModifiedPropertyValue ret(PropertyValue(prop, base), mods);
     return ret;
 }
 
@@ -256,9 +247,8 @@ ModifiedPropertyValue GameContext::getCharacterDraw(const Character *c, AH::Comm
     mods += m_game->getGameModifiers().filtered((prop));
 
     int base = 1;
-    int finalVal = mods.apply(base);
 
-    ModifiedPropertyValue ret(PropertyValue(prop, base), finalVal, mods);
+    ModifiedPropertyValue ret(PropertyValue(prop, base), mods);
     return ret;
 }
 
@@ -345,9 +335,7 @@ ModifiedPropertyValue GameContext::getMonsterProperty(const Monster *m, AH::Comm
         mods += movMods;
     }
 
-    int finalVal = mods.apply(base);
-
-    return ModifiedPropertyValue(PropertyValue(property, base), finalVal, mods);
+    return ModifiedPropertyValue(PropertyValue(property, base), mods);
 }
 
 ModifiedPropertyValue GameContext::getGameProperty(PropertyValue::Property property)
@@ -412,8 +400,6 @@ ModifiedPropertyValue GameContext::getGameProperty(PropertyValue::Property prope
 
     PropertyModificationList mods = gGame->getGameModifiers().filtered(property);
 
-    int finalVal = mods.apply(base);
-
-    ModifiedPropertyValue ret(PropertyValue(property, base), finalVal, mods);
+    ModifiedPropertyValue ret(PropertyValue(property, base), mods);
     return ret;
 }

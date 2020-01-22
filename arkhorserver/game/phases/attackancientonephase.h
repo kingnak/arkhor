@@ -16,6 +16,9 @@ public:
     }
 
     virtual bool execute();
+
+protected:
+    virtual PropertyModificationList getMonsterModifications() const;
 };
 
 ////////////////////////////

@@ -31,7 +31,7 @@ class PropertyModificationList : public QList<PropertyModification>
 {
 public:
     PropertyModificationList filtered(PropertyValue::Property prop);
-    int apply(int value);
+    int apply(int value) const;
     PropertyModificationList operator + (const PropertyModificationList &o) const {
         PropertyModificationList ret;
         ret.append(*this);
@@ -45,26 +45,26 @@ public:
 class ModifiedPropertyValue
 {
 public:
-    ModifiedPropertyValue() : m_prop(PropertyValue::NoProperty, 0), m_finalVal(0) {}
-    ModifiedPropertyValue(PropertyValue v, int finalVal, PropertyModificationList mods)
-        : m_prop(v), m_finalVal(finalVal), m_mods(mods) {}
+    ModifiedPropertyValue() : m_prop(PropertyValue::NoProperty, 0) {}
+    ModifiedPropertyValue(PropertyValue v, PropertyModificationList mods)
+        : m_prop(v), m_mods(mods) {}
 
     PropertyValue::Property property() const { return m_prop.property(); }
     int base() const { return m_prop.value(); }
-    int finalVal() const { return m_finalVal; }
+    int finalVal() const { return m_mods.apply(m_prop.value()); }
     PropertyModificationList modifiers() const { return m_mods; }
 
     AH::Common::ModifiedPropertyValueData toModifiedPropertyValueData() const;
 
 private:
     PropertyValue m_prop;
-    int m_finalVal;
     PropertyModificationList m_mods;
 };
 
 class PropertyModifier
 {
 public:
+    virtual ~PropertyModifier() = default;
     virtual QString modifierId() const = 0;
     virtual PropertyModificationList getModifications() const = 0;
 };

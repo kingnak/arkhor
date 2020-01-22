@@ -49,3 +49,8 @@ bool OtherWorldEncounteryOption::isAvailable() const
 {
     return gGame->context().player()->getCharacter()->field()->type() == AH::Common::FieldData::OtherWorld;
 }
+
+AH::Common::ModifiedPropertyValueData OtherWorldEncounteryOption::baseProperty() const
+{
+    return gGame->context().getCurCharacterDrawOtherWorldEncounter().toModifiedPropertyValueData();
+}

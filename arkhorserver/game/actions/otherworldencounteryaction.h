@@ -30,6 +30,7 @@ public:
     QString id() const { return "OP_OTHERWORLD_ENCOUNTERY"; }
 
     virtual bool isAvailable() const;
+    virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
 
 private:
     OtherWorldEncounteryAction ea;

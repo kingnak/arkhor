@@ -21,31 +21,9 @@ bool AttackAction::execute()
 
     gGame->notifier()->actionStart(this);
 
-    // Get base damage + weapon damages
-    ModifiedPropertyValue base = gGame->context().getCurCharacterSkill(AH::Skill_Combat);
-    PropertyModificationList gen = p->getCharacter()->getPropertyModifiers().filtered(PropertyValue::Damage_General);
-    PropertyModificationList mag = p->getCharacter()->getPropertyModifiers().filtered(PropertyValue::Damage_Magical);
-    PropertyModificationList phy = p->getCharacter()->getPropertyModifiers().filtered(PropertyValue::Damage_Physical);
-
-    // Get only equipped
-    filterEquipped(gen);
-    filterEquipped(mag);
-    filterEquipped(phy);
-
-    MonsterData::MonsterAttributes ignoredAttributes = gGame->context().getCurCharacterIgnoredMonsterAttributes();
-
-    PropertyModificationList monsterMods = gGame->context().monster()->getFilteredModifications(ignoredAttributes);
-    phy += monsterMods.filtered(PropertyValue::Damage_Physical);
-    mag += monsterMods.filtered(PropertyValue::Damage_Magical);
-
-    int dmgBase = base.finalVal();
-    int dmgGen = gen.apply(0);
-    int dmgMag = mag.apply(0);
-    int dmgPhy = phy.apply(0);
-
-    // Calculate final pool
-    int dmgTotal = dmgBase + dmgGen + dmgMag + dmgPhy;
-    ModifiedPropertyValue pool(PropertyValue(PropertyValue::Skill_Combat, dmgBase), dmgTotal, base.modifiers()+gen+mag+phy);
+    ModifiedPropertyValue pool;
+    PropertyModificationList weaponMods;
+    std::tie(pool, weaponMods) = getAttackModifications(p->getCharacter());
 
     ModifiedPropertyValue clueBurnMods = gGame->context().getCurCharacterClueBurn(AH::Skill_Combat);
 
@@ -64,9 +42,7 @@ bool AttackAction::execute()
     // TODO: Call post-use methods for equipped objects ==> Needed?
 
     // Remove single use objects
-    discardAfterAttack(gen);
-    discardAfterAttack(mag);
-    discardAfterAttack(phy);
+    discardAfterAttack(weaponMods);
 
     gGame->notifier()->actionFinish(this);
 
@@ -86,7 +62,7 @@ QString AttackAction::notificationString(GameAction::NotificationPart part, cons
     }
 }
 
-void AttackAction::filterEquipped(PropertyModificationList &lst)
+void AttackAction::filterEquipped(PropertyModificationList &lst) const
 {
     for (PropertyModificationList::iterator it = lst.begin(); it != lst.end();) {
         if (const GameObject * obj = dynamic_cast<const GameObject *> (it->getModifier())) {
@@ -125,9 +101,42 @@ void AttackAction::discardAfterAttack(PropertyModificationList &lst)
     }
 }
 
+PropertyModificationList AttackAction::getMonsterModifications() const
+{
+    MonsterData::MonsterAttributes ignoredAttributes = gGame->context().getCurCharacterIgnoredMonsterAttributes();
+    return gGame->context().monster()->getFilteredModifications(ignoredAttributes);
+}
+
+AttackAction::AttackModifications AttackAction::getAttackModifications(Character *c) const
+{
+    // Get base damage + weapon damages
+    ModifiedPropertyValue base = gGame->context().getCharacterSkill(c, AH::Skill_Combat);
+    PropertyModificationList gen = c->getPropertyModifiers().filtered(PropertyValue::Damage_General);
+    PropertyModificationList mag = c->getPropertyModifiers().filtered(PropertyValue::Damage_Magical);
+    PropertyModificationList phy = c->getPropertyModifiers().filtered(PropertyValue::Damage_Physical);
+
+    // Get only equipped
+    filterEquipped(gen);
+    filterEquipped(mag);
+    filterEquipped(phy);
+
+    PropertyModificationList monsterMods = this->getMonsterModifications();
+    phy += monsterMods.filtered(PropertyValue::Damage_Physical);
+    mag += monsterMods.filtered(PropertyValue::Damage_Magical);
+
+    return std::make_pair(ModifiedPropertyValue(PropertyValue(base.property(), base.base()), base.modifiers()+gen+mag+phy), gen+mag+phy);
+}
+
 ///////////////////////////////////////
 
 QString AttackOption::sourceId() const
 {
     return gGame->context().monster()->id();
+}
+
+ModifiedPropertyValueData AttackOption::baseProperty() const
+{
+    ModifiedPropertyValue base;
+    std::tie(base, std::ignore) = aa.getAttackModifications(gGame->context().player()->getCharacter());
+    return base.toModifiedPropertyValueData();
 }

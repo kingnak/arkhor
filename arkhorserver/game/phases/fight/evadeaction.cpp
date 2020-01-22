@@ -56,3 +56,8 @@ QString EvadeOption::sourceId() const
 {
     return gGame->context().monster()->id();
 }
+
+AH::Common::ModifiedPropertyValueData EvadeOption::baseProperty() const
+{
+    return gGame->context().getCurCharacterSkill(AH::Skill_Evade).toModifiedPropertyValueData();
+}

@@ -42,3 +42,8 @@ QString ArkhamEncounteryAction::notificationString(GameAction::NotificationPart 
     return "{C} has an encounter at {F}";
 }
 
+
+AH::Common::ModifiedPropertyValueData ArkhamEncounteryOption::baseProperty() const
+{
+    return gGame->context().getCurCharacterDrawArkhamEncounter().toModifiedPropertyValueData();
+}

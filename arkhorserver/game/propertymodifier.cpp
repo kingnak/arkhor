@@ -17,10 +17,11 @@ struct SortByType {
     }
 };
 
-int PropertyModificationList::apply(int value)
+int PropertyModificationList::apply(int value) const
 {
-    qSort(this->begin(), this->end(), SortByType());
-    foreach (PropertyModification p, *this) {
+    QList<PropertyModification> lst = *this;
+    qSort(lst.begin(), lst.end(), SortByType());
+    for (PropertyModification p : lst) {
         value = p.modify(value);
     }
     return value;
@@ -38,9 +39,8 @@ QList<AH::Common::PropertyModificationData> PropertyModificationList::toProperty
 
 AH::Common::ModifiedPropertyValueData ModifiedPropertyValue::toModifiedPropertyValueData() const
 {
-    return AH::Common::ModifiedPropertyValueData(m_prop, m_finalVal, m_mods.toPropertyModificationDataList());
+    return AH::Common::ModifiedPropertyValueData(m_prop, finalVal(), m_mods.toPropertyModificationDataList());
 }
-
 
 bool PropertyModification::operator ==(const PropertyModification &o) const
 {

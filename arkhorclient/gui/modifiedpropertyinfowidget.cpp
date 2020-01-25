@@ -28,6 +28,11 @@ void ModifiedPropertyInfoWidget::displayPropertyValue(AH::Common::ModifiedProper
     ui->lblBase->setText(QString::number(value.property().value()));
     ui->lblFinal->setText(QString::number(value.finalVal()));
     ui->scrlMods->setModifiers(value.modifications());
+    if (value.modifications().empty()) {
+        ui->scrlMods->setVisible(false);
+    } else {
+        ui->scrlMods->setVisible(true);
+    }
 }
 
 void ModifiedPropertyInfoWidget::requestObjectInfo(QString id)

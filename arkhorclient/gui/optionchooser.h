@@ -47,6 +47,7 @@ private slots:
 private:
     static QString displayCosts(const AH::Common::Cost &costs);
     void setMoreWidget(QWidget *w);
+    void showBaseProperty(AH::Common::ModifiedPropertyValueData p);
 
 private:
     enum {

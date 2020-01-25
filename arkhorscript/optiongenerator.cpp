@@ -34,6 +34,7 @@ QList<ClassGenerator::AttributeDesc> OptionGenerator::getAttributes()
             << AttributeDesc("continueType", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
             << AttributeDesc("chooseType", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
             << AttributeDesc("costs", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
+            << AttributeDesc("baseProperty", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Primitive)
                ;
 }
 
@@ -57,6 +58,10 @@ bool OptionGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef 
 
     if (desc.name == "costs") {
         return outputCosts(attr, cls);
+    }
+
+    if (desc.name == "baseProperty") {
+        return outputEnumValue("Constants.Mods", attr, cls);
     }
 
     Q_ASSERT_X(false, "Option Generator", qPrintable(QString("Special Attribute '%1' not handled").arg(desc.name)));

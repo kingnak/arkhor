@@ -16,6 +16,7 @@ GameOptionData *GameOption::data()
     //m_isAvailable = isAvailable();
     //m_costs = costs();
     m_canPay = gGame->context().player()->getCharacter()->canPay(costs());
+    m_baseProperty = baseProperty();
     return GameOptionData::data();
 }
 

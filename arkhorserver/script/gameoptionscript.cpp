@@ -1,10 +1,13 @@
 #include "gameoptionscript.h"
 #include <QScriptContext>
 #include <qscriptengine.h>
+#include <game/game.h>
 #include "gamescript.h"
 
-GameOptionScript::GameOptionScript(QObject *parent) :
-    QObject(parent), GameOption(NULL, AH::CannotContinue, AH::ChooseOptional)
+GameOptionScript::GameOptionScript(QObject *parent)
+    : QObject(parent)
+    , GameOption(NULL, AH::CannotContinue, AH::ChooseOptional)
+    , m_basePropertyProp(AH::Common::PropertyValueData::NoProperty)
 {
 }
 
@@ -55,6 +58,9 @@ GameOptionScript *GameOptionScript::createGameOption(QScriptValue data, QScriptC
         return NULL;
     }
 
+    if (data.property("baseProperty").isValid() && !data.property("baseProperty").isUndefined())
+        ret->m_basePropertyProp = static_cast<AH::Common::PropertyValueData::Property> (data.property("baseProperty").toUInt32());
+
     QString err;
     if (!verify(ret.data(), &err)) {
         ctx->throwError(QScriptContext::TypeError, "createOption: Invalid GameOption data. Errors:\n"+err);
@@ -71,6 +77,14 @@ GameOptionScript *GameOptionScript::createGameOption(QScriptValue data, QScriptC
 bool GameOptionScript::isAvailable() const
 {
     return isAvailableWithObject(m_this);
+}
+
+AH::Common::ModifiedPropertyValueData GameOptionScript::baseProperty() const
+{
+    if (m_basePropertyProp != AH::Common::PropertyValueData::NoProperty) {
+        return gGame->context().getCurCharacterProperty(m_basePropertyProp).toModifiedPropertyValueData();
+    }
+    return GameOption::baseProperty();
 }
 
 bool GameOptionScript::isAvailableWithObject(QScriptValue obj) const

@@ -140,6 +140,7 @@ void OptionChooser::setEncounter(EncounterData enc)
         QString id = enc.optionData().value(0).id();
         ui->btnOptionActivate->setProperty(OPTION_ID_PROPERTY, id);
         ui->btnOptionActivate->setEnabled(true);
+        showBaseProperty(enc.optionData().value(0).baseProperty());
     }
 
     ui->lblOptionDescription->setText(baseDesc);
@@ -224,10 +225,7 @@ void OptionChooser::showOption()
     if (v.isValid()) {
         AH::Common::ModifiedPropertyValueData prop;
         v >> prop;
-        if (prop.property().property() != AH::Common::PropertyValueData::Property::NoProperty) {
-            ui->wgtPropertyInfo->displayPropertyValue(prop);
-            ui->wgtPropertyInfo->setVisible(true);
-        }
+        showBaseProperty(prop);
     }
 
     v = sender()->property(OPTION_MONSTER_PROPERTY);
@@ -267,6 +265,16 @@ void OptionChooser::showOption()
             setMoreWidget(w);
         }
         return;
+    }
+}
+
+void OptionChooser::showBaseProperty(AH::Common::ModifiedPropertyValueData p)
+{
+    if (p.property().property() != AH::Common::PropertyValueData::Property::NoProperty) {
+        ui->wgtPropertyInfo->displayPropertyValue(p);
+        ui->wgtPropertyInfo->setVisible(true);
+    } else {
+        ui->wgtPropertyInfo->setVisible(false);
     }
 }
 

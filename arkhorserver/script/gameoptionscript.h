@@ -22,6 +22,7 @@ public:
     static GameOptionScript *createGameOption(QScriptValue data, QScriptContext *ctx, QScriptEngine *eng);
 
     virtual bool isAvailable() const;
+    virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
 
     bool isAvailableWithObject(QScriptValue obj) const;
 
@@ -35,6 +36,7 @@ private:
 private:
     QScriptValue m_this;
     QScriptValue m_isAvailable;
+    AH::Common::PropertyValueData::Property m_basePropertyProp;
 };
 
 Q_DECLARE_METATYPE(GameOptionScript*)

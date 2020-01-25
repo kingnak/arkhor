@@ -62,5 +62,5 @@ bool HorrorOption::isAvailable() const
 
 AH::Common::ModifiedPropertyValueData HorrorOption::baseProperty() const
 {
-    return gGame->context().getCurCharacterSkill(AH::Skill::Skill_Horror).toModifiedPropertyValueData();
+    return gGame->context().getCurCharacterDieRoll(PropertyValue::Property::DieRoll_Horror).toModifiedPropertyValueData();
 }

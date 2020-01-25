@@ -96,6 +96,11 @@ ModifiedPropertyValue GameContext::getCurCharacterClueBurn(AH::Skill skill)
     return getCharacterClueBurn(m_player->getCharacter(), skill);
 }
 
+ModifiedPropertyValue GameContext::getCurCharacterDieRoll(AH::Common::PropertyValueData::Property property)
+{
+    return getCharacterDieRoll(m_player->getCharacter(), property);
+}
+
 ModifiedPropertyValue GameContext::getCurCharacterDrawObject(AH::GameObjectType type)
 {
     return getCharacterDrawObject(m_player->getCharacter(), type);
@@ -124,6 +129,8 @@ ModifiedPropertyValue GameContext::getCharacterProperty(const Character *c, Prop
     AH::Skill skill = PropertyValue::property2Skill(property);
     if (skill != AH::NoSkill)
         return getCharacterSkill(c, skill);
+    if (PropertyValue::isDieRollProperty(property))
+        return getCharacterDieRoll(c, property);
 
     Q_ASSERT(PropertyValue::isCharacterProperty(property));
 
@@ -223,6 +230,19 @@ ModifiedPropertyValue GameContext::getCharacterClueBurn(const Character *c, AH::
 
     ModifiedPropertyValue ret(PropertyValue(prop, base), mods);
     return ret;
+}
+
+ModifiedPropertyValue GameContext::getCharacterDieRoll(const Character *c, AH::Common::PropertyValueData::Property property)
+{
+    Q_ASSERT(PropertyValue::isDieRollProperty(property));
+    AH::Skill skill = PropertyValue::dieRoll2Skill(property);
+    ModifiedPropertyValue base = getCharacterSkill(c, skill);
+    ModifiedPropertyValue clueBurn = getCharacterClueBurn(c, skill);
+    ModifiedPropertyValue successMin = getCharacterProperty(c, PropertyValue::Prop_MinSuccessDieRoll);
+
+    // TODO: Reroll options
+
+    return ModifiedPropertyValue(PropertyValue(base.property(), base.base()), base.modifiers()+clueBurn.modifiers()+successMin.modifiers());
 }
 
 ModifiedPropertyValue GameContext::getCharacterDrawObject(const Character *c, AH::GameObjectType type)

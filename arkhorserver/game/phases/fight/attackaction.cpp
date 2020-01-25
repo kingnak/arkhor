@@ -109,10 +109,12 @@ PropertyModificationList AttackAction::getMonsterModifications(Character *c) con
     return gGame->context().monster()->getFilteredModifications(ignoredAttributes);
 }
 
-AttackAction::AttackModifications AttackAction::getAttackModifications(Character *c) const
+AttackAction::AttackModifications AttackAction::getAttackModifications(Character *c, bool asDieRoll) const
 {
     // Get base damage + weapon damages
-    ModifiedPropertyValue base = gGame->context().getCharacterSkill(c, AH::Skill_Combat);
+    ModifiedPropertyValue base = asDieRoll
+            ? gGame->context().getCharacterSkill(c, AH::Skill_Combat)
+            : gGame->context().getCharacterDieRoll(c, PropertyValue::Property::DieRoll_Combat);
     PropertyModificationList gen = c->getPropertyModifiers().filtered(PropertyValue::Damage_General);
     PropertyModificationList mag = c->getPropertyModifiers().filtered(PropertyValue::Damage_Magical);
     PropertyModificationList phy = c->getPropertyModifiers().filtered(PropertyValue::Damage_Physical);
@@ -162,7 +164,7 @@ QString AttackOption::sourceId() const
 
 ModifiedPropertyValueData AttackOption::baseProperty() const
 {
-    auto prop = aa.getAttackModifications(gGame->context().player()->getCharacter());
+    auto prop = aa.getAttackModifications(gGame->context().player()->getCharacter(), true);
     ModifiedPropertyValue base = prop.characterProperty();
     return base.toModifiedPropertyValueData();
 }

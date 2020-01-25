@@ -47,6 +47,7 @@ public:
     ModifiedPropertyValue getCurCharacterSkill(AH::Skill skill);
     ModifiedPropertyValue getCurCharacterAttribute(AH::Attribute attr);
     ModifiedPropertyValue getCurCharacterClueBurn(AH::Skill skill);
+    ModifiedPropertyValue getCurCharacterDieRoll(PropertyValue::Property property);
     ModifiedPropertyValue getCurCharacterDrawObject(AH::GameObjectType type);
     ModifiedPropertyValue getCurCharacterDrawArkhamEncounter();
     ModifiedPropertyValue getCurCharacterDrawOtherWorldEncounter();
@@ -55,6 +56,7 @@ public:
     ModifiedPropertyValue getCharacterSkill(const Character *c, AH::Skill skill);
     ModifiedPropertyValue getCharacterAttribute(const Character *c, AH::Attribute attr);
     ModifiedPropertyValue getCharacterClueBurn(const Character *c, AH::Skill skill);
+    ModifiedPropertyValue getCharacterDieRoll(const Character *c, PropertyValue::Property property);
     ModifiedPropertyValue getCharacterDrawObject(const Character *c, AH::GameObjectType type);
     ModifiedPropertyValue getCharacterDrawArkhamEncounter(const Character *c);
     ModifiedPropertyValue getCharacterDrawOtherWorldEncounter(const Character *c);

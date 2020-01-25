@@ -41,7 +41,7 @@ protected:
         ModifiedPropertyValue characterProperty() const;
     };
 
-    AttackModifications getAttackModifications(Character *c) const;
+    AttackModifications getAttackModifications(Character *c, bool asDieRoll = false) const;
 
     FightPhase *m_fight;
     friend class AttackOption;

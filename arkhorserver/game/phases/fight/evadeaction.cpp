@@ -59,5 +59,5 @@ QString EvadeOption::sourceId() const
 
 AH::Common::ModifiedPropertyValueData EvadeOption::baseProperty() const
 {
-    return gGame->context().getCurCharacterSkill(AH::Skill_Evade).toModifiedPropertyValueData();
+    return gGame->context().getCurCharacterDieRoll(PropertyValue::Property::DieRoll_Evade).toModifiedPropertyValueData();
 }

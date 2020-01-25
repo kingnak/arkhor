@@ -35,6 +35,11 @@ bool PropertyValue::isIgnoreProperty(AH::Common::PropertyValueData::Property p)
     return (p & IGNORE_OFFSET) == IGNORE_OFFSET;
 }
 
+bool PropertyValue::isDieRollProperty(AH::Common::PropertyValueData::Property p)
+{
+    return (p & DIEROLL_OFFSET) == DIEROLL_OFFSET;
+}
+
 PropertyValue::Property PropertyValue::attribute2Property(AH::Attribute attr)
 {
     switch (attr) {
@@ -90,6 +95,11 @@ AH::Attribute PropertyValue::property2Attribute(PropertyValue::Property prop)
 AH::Common::PropertyValueData::Property PropertyValue::skill2DieRoll(AH::Skill skill)
 {
     return static_cast<PropertyValue::Property> (DIEROLL_OFFSET | skill);
+}
+
+AH::Skill PropertyValue::dieRoll2Skill(AH::Common::PropertyValueData::Property prop)
+{
+    return static_cast<AH::Skill> (prop & ~DIEROLL_OFFSET);
 }
 
 AH::GameObjectType PropertyValue::property2ObjectType(AH::Common::PropertyValueData::Property prop)

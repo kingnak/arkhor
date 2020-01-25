@@ -17,3 +17,17 @@ AH::Skill ChooseSkillHelper::chooseSkill(Player *p, QList<AH::Skill> options)
     AH::Skill s = PropertyValue::property2Skill(ret);
     return s;
 }
+
+AH::Skill ChooseSkillHelper::chooseSkillDieRoll(Player *p, QList<AH::Skill> options)
+{
+    QList<AH::Common::ModifiedPropertyValueData> opts;
+
+    for(AH::Skill s : options) {
+        ModifiedPropertyValue v = gGame->context().getCharacterDieRoll(p->getCharacter(), PropertyValue::skill2DieRoll(s));
+        opts.append(v.toModifiedPropertyValueData());
+    }
+
+    AH::Common::PropertyValueData::Property ret = p->chooseSkill(opts);
+    AH::Skill s = PropertyValue::dieRoll2Skill(ret);
+    return s;
+}

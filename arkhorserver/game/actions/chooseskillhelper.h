@@ -9,6 +9,7 @@ class ChooseSkillHelper
 {
 public:
     static AH::Skill chooseSkill(Player *p, QList<AH::Skill> options);
+    static AH::Skill chooseSkillDieRoll(Player *p, QList<AH::Skill> options);
 
 private:
     ChooseSkillHelper();

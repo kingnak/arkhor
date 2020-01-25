@@ -17,7 +17,7 @@ CloseGateAction::CloseGateAction()
 bool CloseGateAction::execute()
 {
     // Let user decide on skill!
-    AH::Skill s = ChooseSkillHelper::chooseSkill(gGame->context().player(), QList<AH::Skill>() << AH::Skill_Fight << AH::Skill_Will);
+    AH::Skill s = ChooseSkillHelper::chooseSkillDieRoll(gGame->context().player(), QList<AH::Skill>() << AH::Skill_Fight << AH::Skill_Will);
     if (s == AH::NoSkill) {
         // User abort...
         return true;

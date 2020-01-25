@@ -64,6 +64,9 @@ bool FightPhase::handleFight(QList<Monster *> monsters)
     gGame->context().setPhase(returnPhase);
     gGame->context().setMonster(NULL);
 
+    // Unequip all spells
+    unequipSpells();
+
     if (m_outcome == EndEvaded) {
         // Can continue phase
         return true;

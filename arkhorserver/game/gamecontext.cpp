@@ -242,7 +242,10 @@ ModifiedPropertyValue GameContext::getCharacterDieRoll(const Character *c, AH::C
 
     // TODO: Reroll options
 
-    return ModifiedPropertyValue(PropertyValue(base.property(), base.base()), base.modifiers()+clueBurn.modifiers()+successMin.modifiers());
+    auto m = ModifiedPropertyValue(PropertyValue(base.property(), base.base()), base.modifiers()+clueBurn.modifiers()+successMin.modifiers());
+    // don't count clue burn or success to the roll
+    m.overrideFinalValue(base.finalVal());
+    return m;
 }
 
 ModifiedPropertyValue GameContext::getCharacterDrawObject(const Character *c, AH::GameObjectType type)

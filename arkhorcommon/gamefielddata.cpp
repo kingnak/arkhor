@@ -23,6 +23,7 @@ void operator <<(QVariant &data, const GameFieldData &target)
     map["isSealed"] << target.isSealed();
     map["isLocked"] << target.isLocked();
     map["characters"] << target.characterIds();
+    map["secondPhaseCharacters"] << target.secondPhaseCharacterIds();
     map["monsters"] << target.monsterIds();
     map["gate"] << target.gateId();
     map["specialActionNr"] << target.specialActionNumber();
@@ -41,6 +42,7 @@ void operator >>(const QVariant &data, GameFieldData &target)
     map["isSealed"] >> target.m_sealed;
     map["isLocked"] >> target.m_locked;
     map["characters"] >> target.m_characterIds;
+    map["secondPhaseCharacters"] >> target.m_secondPhaseCharacterIds;
     map["monsters"] >> target.m_monsterIds;
     map["gate"] >> target.m_gateId;
     map["specialActionNr"] >> target.m_specialActionNr;

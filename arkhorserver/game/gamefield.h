@@ -59,8 +59,8 @@ public:
     void removeCharacter(Character *c);
     void removeMonster(Monster *m);
 
-
     virtual QStringList characterIds() const;
+    virtual QStringList secondPhaseCharacterIds() const;
     virtual QStringList monsterIds() const;
     virtual QString gateId() const;
     virtual QList<int> neighbourIds() const;

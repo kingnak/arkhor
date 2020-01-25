@@ -24,6 +24,7 @@ namespace AH {
             virtual bool isLocked() const { return m_locked; }
 
             virtual QStringList characterIds() const { return m_characterIds; }
+            virtual QStringList secondPhaseCharacterIds() const { return m_secondPhaseCharacterIds; }
             virtual QStringList monsterIds() const { return m_monsterIds; }
             virtual QString gateId() const { return m_gateId; }
             virtual QList<int> neighbourIds() const { return m_neighbourIds; }
@@ -43,6 +44,7 @@ namespace AH {
             int m_specialActionNr;
 
             QStringList m_characterIds;
+            QStringList m_secondPhaseCharacterIds;
             QStringList m_monsterIds;
             QString m_gateId;
             QList<int> m_neighbourIds;

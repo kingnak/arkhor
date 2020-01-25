@@ -21,6 +21,7 @@ AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, 
     m_type(type),
     m_monsters(NULL),
     m_characters(NULL),
+    m_secondPhaseCharacters(NULL),
 //    m_secondPhaseCharacters(NULL),
     m_fieldArea(NULL),
     m_clues(NULL),
@@ -83,12 +84,15 @@ void AhFieldItem::initSubItems()
 
 void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
 {
-    //if (m_secondPhaseCharacters) m_secondPhaseCharacters->clear();
+    if (m_secondPhaseCharacters) m_secondPhaseCharacters->clear();
     if (m_characters) {
         m_characters->clear();        
-        foreach (QString id, data.characterIds()) {
-            //m_characters->addItem(new StackItem(QPixmap(":/test/client_resources/test/jenny_barnes_figure.png"), "", id));
-            m_characters->addItem(new CharacterStackItem(id, m_scale));
+        for (QString id : data.characterIds()) {
+            if (m_secondPhaseCharacters && data.secondPhaseCharacterIds().contains(id)) {
+                m_secondPhaseCharacters->addItem(new CharacterStackItem(id, m_scale));
+            } else {
+                m_characters->addItem(new CharacterStackItem(id, m_scale));
+            }
         }
     }
 
@@ -146,20 +150,19 @@ void AhFieldItem::initCharacterItem()
     prxChar->resize(stkSize, stkSize);
     prxChar->setPos(bound.topLeft());
 
-    /*
     if (m_type == OtherWorld) {
         m_secondPhaseCharacters = new ItemStacker;
         m_secondPhaseCharacters->setPicSize(QSize(STACK_ITEM_SIZE*m_scale,STACK_ITEM_SIZE*m_scale));
         m_secondPhaseCharacters->setAutoFillBackground(false);
         m_secondPhaseCharacters->setAttribute(Qt::WA_TranslucentBackground);
-        connect(m_secondPhaseCharacters, SIGNAL(itemActivated(StackItem)), this, SLOT(characterClicked(StackItem)));
+        connect(m_secondPhaseCharacters, SIGNAL(itemActivated(const StackItem*)), this, SLOT(characterClicked(const StackItem*)));
         QGraphicsProxyWidget *prx2nd = new QGraphicsProxyWidget(this);
         prx2nd->setWidget(m_secondPhaseCharacters);
         prx2nd->resize(stkSize, stkSize);
         prxChar->setPos(0,0);
         prx2nd->setPos(bound.topLeft());
     }
-    */
+
 }
 
 void AhFieldItem::initMonsterItem()

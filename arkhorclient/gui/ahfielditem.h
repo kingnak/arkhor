@@ -79,6 +79,7 @@ private:
     QRectF m_fieldRect;
     ItemStacker *m_monsters;
     ItemStacker *m_characters;
+    ItemStacker *m_secondPhaseCharacters; // For other world
 
     //ItemStacker *m_secondPhaseCharacters;
 

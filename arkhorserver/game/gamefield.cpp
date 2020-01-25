@@ -168,8 +168,21 @@ void GameField::removeMonster(Monster *m)
 QStringList GameField::characterIds() const
 {
     QStringList ret;
-    foreach (Character *c, m_characters) {
+    for (Character *c : m_characters) {
         ret << c->id();
+    }
+    return ret;
+}
+
+QStringList GameField::secondPhaseCharacterIds() const
+{
+    QStringList ret;
+    if (type() == AH::Common::FieldData::OtherWorld) {
+        for (Character *c : m_characters) {
+            if (c->otherWorldPhase() == AH::OtherWorldPhase::OWP_SecondField) {
+                ret << c->id();
+            }
+        }
     }
     return ret;
 }

@@ -52,5 +52,10 @@ bool OtherWorldEncounteryOption::isAvailable() const
 
 AH::Common::ModifiedPropertyValueData OtherWorldEncounteryOption::baseProperty() const
 {
-    return gGame->context().getCurCharacterDrawOtherWorldEncounter().toModifiedPropertyValueData();
+    auto mods = gGame->context().getCurCharacterDrawOtherWorldEncounter().toModifiedPropertyValueData();
+    if (mods.modifications().empty()) {
+        // not interesting for client if not modified
+        return GameOption::baseProperty();
+    }
+    return mods;
 }

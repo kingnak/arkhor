@@ -45,5 +45,10 @@ QString ArkhamEncounteryAction::notificationString(GameAction::NotificationPart 
 
 AH::Common::ModifiedPropertyValueData ArkhamEncounteryOption::baseProperty() const
 {
-    return gGame->context().getCurCharacterDrawArkhamEncounter().toModifiedPropertyValueData();
+    auto mods = gGame->context().getCurCharacterDrawArkhamEncounter().toModifiedPropertyValueData();
+    if (mods.modifications().empty()) {
+        // not interesting for client if not modified
+        return GameOption::baseProperty();
+    }
+    return mods;
 }

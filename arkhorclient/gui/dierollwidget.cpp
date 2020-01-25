@@ -33,6 +33,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     int ct = data.rollData().pool().dieCount()+data.rollData().pool().adjustment();
     m_fixedValues = data.rollData().pool().dieValues();
     m_fixedCount = ct;
+    m_successValues = data.rollData().successRolls();
     while (m_fixedValues.size() < ct) {
         m_fixedValues.append(0);
     }
@@ -64,7 +65,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     if (data.type() == DieRollTestData::Boolean) {
         ui->lblTargetVal->setText(QString::number(data.targetValue()));
         QStringList s;
-        foreach (qint32 i, data.rollData().successRolls()) {
+        for (quint32 i : data.rollData().successRolls()) {
             s << QString::number(i);
         }
         ui->lblSuccessVals->setText(s.join(", "));
@@ -130,6 +131,7 @@ void DieRollWidget::displayDice(QList<quint32> values, int initialCount, int add
         //QLabel *lbl = new QLabel(QString::number(vals.value(i)), this);
         DieWidget *w = new DieWidget(this);
         w->setDieValue(values.value(i));
+        w->setSuccess(m_successValues.contains(values.value(i)));
         l->addWidget(w, i/5, i%5);
         l->setAlignment(w, Qt::AlignLeft);
     }

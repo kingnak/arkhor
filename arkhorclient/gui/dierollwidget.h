@@ -40,6 +40,7 @@ private:
     int m_clueBurnFactor;
     QList<quint32> m_fixedValues;
     int m_fixedCount;
+    QList<quint32> m_successValues;
 
 private:
     Ui::DieRollWidget *ui;

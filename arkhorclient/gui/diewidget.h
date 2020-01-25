@@ -19,6 +19,7 @@ signals:
 
 public slots:
     void setDieValue(int val);
+    void setSuccess(bool success);
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -28,6 +29,7 @@ private:
 
 private:
     int m_val;
+    bool m_success;
     QPixmap m_cache;
 
 };

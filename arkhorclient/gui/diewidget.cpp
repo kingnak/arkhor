@@ -3,7 +3,7 @@
 #include "resourcepool.h"
 
 DieWidget::DieWidget(QWidget *parent) :
-    QWidget(parent), m_val(0)
+    QWidget(parent), m_val(0), m_success(false)
 {
     updateImage();
 }
@@ -21,6 +21,12 @@ QSizePolicy DieWidget::sizePolicy() const
 void DieWidget::setDieValue(int val)
 {
     m_val = val;
+    updateImage();
+}
+
+void DieWidget::setSuccess(bool success)
+{
+    m_success = success;
     updateImage();
 }
 
@@ -50,6 +56,9 @@ void DieWidget::updateImage()
     } else {
         c2 = c1.darker();
     }
+
+    if (m_success)
+        c1 = qRgb(207,255,229);
 
     // Bkg
     m_cache = QPixmap(s);

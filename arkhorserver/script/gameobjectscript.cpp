@@ -143,6 +143,9 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
             if (!castOption.property("chooseType").isValid())
                 castOption.setProperty("chooseType", AH::ChooseSupplemental);
 
+            if (!castOption.property("baseProperty").isValid())
+                castOption.setProperty("baseProperty", PropertyValue::Property::DieRoll_Spell);
+
             GameOptionScript *castOpt = GameOptionScript::createGameOption(castOption, ctx, eng);
             gGame->registerOption(castOpt);
             castAct->setPhases(phases);

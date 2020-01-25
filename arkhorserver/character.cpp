@@ -419,6 +419,7 @@ void Character::lostInSpaceAndTime()
 void Character::instantiateFromInvestigator()
 {
     m_investigatorId = m_investigator->id();
+    m_investigatorData = *m_investigator->data();
     m_id = "CH_"+m_investigatorId;
     m_curStamina = m_maxStamina = m_investigator->stamina();
     m_curSanity = m_maxSanity = m_investigator->sanity();

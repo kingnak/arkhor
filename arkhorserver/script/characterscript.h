@@ -18,7 +18,7 @@ public:
     static QScriptValue castToValue(QScriptEngine *eng, CharacterScript * const &in) { return eng->newQObject(in); }
 
     Q_PROPERTY(QString name READ investigatorName)
-    QString investigatorName() const { return m_investigatorData.name(); }
+    QString investigatorName() const { return m_investigator->name(); }
     Q_PROPERTY(QString id READ id)
 
     Q_PROPERTY(QObjectList inventory READ getInventoryScript)

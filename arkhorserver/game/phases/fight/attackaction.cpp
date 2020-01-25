@@ -29,6 +29,14 @@ bool AttackAction::execute()
     DieTestHelper::DieTestSpec test = DieTestHelper::createClueBurnTest("Attack Monster", m->id(), p->getCharacter(), pool, clueBurnMods, m->combatAdjustment(), m->toughness());
     DieTestHelper::addDieRollOptions(test, p->getCharacter(), AH::Skill_Combat);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
+
+    // TODO: Call post-use methods for equipped objects ==> Needed?
+
+    // Remove single use objects
+    discardAfterAttack(base.weaponsGeneral);
+    discardAfterAttack(base.weaponsPhysical);
+    discardAfterAttack(base.weaponsMagical);
+
     if (res.boolResult) {
         gGame->notifier()->actionUpdate(this, "succeeded");
         m_fight->updatePhaseByResult(FightPhase::MonsterKilled);
@@ -37,13 +45,6 @@ bool AttackAction::execute()
         gGame->notifier()->actionUpdate(this, "failed");
         m_fight->updatePhaseByResult(FightPhase::AttackFailed);
     }
-
-    // TODO: Call post-use methods for equipped objects ==> Needed?
-
-    // Remove single use objects
-    discardAfterAttack(base.weaponsGeneral);
-    discardAfterAttack(base.weaponsPhysical);
-    discardAfterAttack(base.weaponsMagical);
 
     gGame->notifier()->actionFinish(this);
 

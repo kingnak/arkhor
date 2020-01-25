@@ -12,6 +12,7 @@ ArkhamEncounter Woods_Enc2 {
     options: Option.Woods_Enc2;
 }
 AEOption Woods_Enc2 {
+    baseProperty: DieRoll_Luck;
     activate: {{{
         var res = game.context.skillTest("Avoid trap", this.id, Constants.Skills.Luck, -1, 1);
         if (!res) {

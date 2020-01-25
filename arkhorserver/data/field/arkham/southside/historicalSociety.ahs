@@ -7,6 +7,7 @@ ArkhamEncounter Hist_Enc1 {
     options: Option.Hist_Enc1;
 }
 AEOption Hist_Enc1 {
+    baseProperty: DieRoll_Luck;
     activate: {{{
         var res = game.context.skillTest("Read books", this.id, Constants.Skills.Luck, -1, 2);
         if (res) {
@@ -30,6 +31,7 @@ ArkhamEncounter Hist_Enc2 {
 }
 AEOption Hist_Enc2_Pay {
     costs: [ Money 3 ];
+    baseProperty: DieRoll_Luck;
     activate: {{{
         var res = game.context.skillTest("Read ledger", this.id, Constants.Skills.Luck, -1, 1);
         if (res) {

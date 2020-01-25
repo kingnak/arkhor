@@ -52,6 +52,7 @@ QuickOption ReadBookOfDzyan {
     phases: Movement;
     continueType: CanContinue;
     chooseType: Supplemental;
+    baseProperty: DieRoll_Lore;
     activate: {{{
         this.exhaust();
         var res = game.context.skillTest("Read Book of Dzyan", this.id, Constants.Skills.Lore, -1, 1);
@@ -82,6 +83,7 @@ QuickOption ReadCabalaOfSaboth {
     phases: Movement;
     continueType: CanContinue;
     chooseType: Supplemental;
+    baseProperty: DieRoll_Lore;
     activate: {{{
         this.exhaust();
         var res = game.context.skillTest("Read Cabala of Saboth", this.id, Constants.Skills.Lore, -2, 1);
@@ -108,6 +110,7 @@ QuickOption ReadCultesDesGoules {
     phases: Movement;
     continueType: CanContinue;
     chooseType: Supplemental;
+    baseProperty: DieRoll_Lore;
     activate: {{{
         this.exhaust();
         var res = game.context.skillTest("Read Cultes des Goules", this.id, Constants.Skills.Lore, -2, 1);
@@ -168,6 +171,7 @@ QuickOption ReadNamelessCults {
     costs: [ Movement 1 ];
     continueType: CanContinue;
     chooseType: Supplemental;
+    baseProperty: DieRoll_Lore;
     activate: {{{
         this.exhaust();
         var res = game.context.skillTest("Read Nameless Cults", this.id, Constants.Skills.Lore, -1, 1);
@@ -194,6 +198,7 @@ QuickOption ReadNecronomicon {
     costs: [ Movement 2 ];
     continueType: CanContinue;
     chooseType: Supplemental;
+    baseProperty: DieRoll_Lore;
     activate: {{{
         this.exhaust();
         var res = game.context.skillTest("Read Necronomicon", this.id, Constants.Skills.Lore, -2, 1);
@@ -220,6 +225,7 @@ QuickOption ReadKingInYellow {
     costs: [ Movement 2 ];
     continueType: CanContinue;
     chooseType: Supplemental;
+    baseProperty: DieRoll_Lore;
     activate: {{{
         this.exhaust();
         var res = game.context.skillTest("Read Necronomicon", this.id, Constants.Skills.Lore, -2, 1);

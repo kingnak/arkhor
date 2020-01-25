@@ -29,6 +29,7 @@ ArkhamEncounter Hosp_Enc1 {
     options: Option.Hosp_Enc1;
 }
 AEOption Hosp_Enc1 {
+    baseProperty: DieRoll_Luck;
     activate: {{{
         var res = game.context.skillTest("Detect Dr. Morimore", this.id, Constants.Skills.Luck, -1, 1);
         if (res) {
@@ -53,6 +54,7 @@ ArkhamEncounter Hosp_Enc2 {
     options: Option.Hosp_Enc2;
 }
 AEOption Hosp_Enc2 {
+    baseProperty: DieRoll_Sneak;
     activate: {{{
         var res = game.context.skillTest("Sneak", this.id, Constants.Skills.Sneak, -1, 1);
         if (res) {

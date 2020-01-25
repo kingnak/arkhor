@@ -17,15 +17,17 @@ ArkhamEncounter Bank_Enc1 {
         "you're standing in line. Make a <b>Combat (-1) check</b>. "+
         "If you pass, you drive them off. Nothing happens. "+
         "If you fail, lose all of your money.";
-    options: Option.Bank_Enc1;
-}
-AEOption Bank_Enc1 {
-    activate: {{{
-        var res = game.context.skillTest("Drive off", this.id, Constants.Skills.Combat, -1, 1);
-        if (!res) {
-            CHAR.loseMoney(10000);
+    options: {
+        AEOption{
+            baseProperty: DieRoll_Combat;
+            activate: {{{
+                var res = game.context.skillTest("Drive off", this.id, Constants.Skills.Combat, -1, 1);
+                if (!res) {
+                    CHAR.loseMoney(CHAR.money);
+                }
+            }}};
         }
-    }}};
+    };
 }
 
 ArkhamEncounter Bank_Enc2 {

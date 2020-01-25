@@ -45,6 +45,7 @@ ArkhamEncounter Store_Enc2 {
 }
 AEOption Store_Enc2 {
     name: "Guess";
+    baseProperty: DieRoll_Lore;
     activate: {{{
         var res = game.context.skillTest("Guess", this.id, Constants.Skills.Lore, -2, 1);
         if (res) {

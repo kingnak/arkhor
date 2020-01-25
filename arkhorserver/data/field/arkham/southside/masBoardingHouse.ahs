@@ -29,6 +29,7 @@ ArkhamEncounter MasHouse_Enc1 {
     options: ( Option.MasHouse_Enc1, Option.SKIP );
 }
 AEOption MasHouse_Enc1 {
+    baseProperty: DieRoll_Will;
     activate: {{{
         var res = game.context.skillTest("Talk to Ryan", this.id, Constants.Skills.Will, 0, 1);
         if (res) {

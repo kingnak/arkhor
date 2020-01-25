@@ -21,18 +21,19 @@ ArkhamEncounter Police_Enc1 {
         "file as he makes his way past you. Pass a "+
         "<b>Sneak (+0) check</b> to search the Common Item "+
         "deck for a Research Materials card and take it.";
-    options: Option.Police_Enc1;
-}
-QuickOption Police_Enc1 {
-    phases: ArkhamEncountery;
-    name: "Take case file";
-    activate: {{{
-        var res = game.context.skillTest("Take case file", this.id, Constants.Skills.Sneak, 0, 1);
-        if (res) {
-            var ob = game.drawSpecificObject("OBJ_RESEARCH_MATERIAL");
-            CHAR.addToInventory(ob);
+    options: {
+        AEOption {
+            name: "Take case file";
+            baseProperty: DieRoll_Sneak;
+            activate: {{{
+                var res = game.context.skillTest("Take case file", this.id, Constants.Skills.Sneak, 0, 1);
+                if (res) {
+                    var ob = game.drawSpecificObject("OBJ_RESEARCH_MATERIAL");
+                    CHAR.addToInventory(ob);
+                }
+            }}};
         }
-    }}};
+    };
 }
 
 ArkhamEncounter Police_Enc2 {
@@ -41,15 +42,16 @@ ArkhamEncounter Police_Enc2 {
         "gun, fires a bullet from the chamber in your "+
         "direction. Pass a <b>Luck (-1) check</b> to avoid "+
         "getting shot. If you fail, lose 2 Stamina.";
-    options: Option.Police_Enc2;
-}
-QuickOption Police_Enc2 {
-    phases: ArkhamEncountery;
-    name: "Dodge the bullet";
-    activate: {{{
-        var res = game.context.skillTest("Dodge the bullet", this.id, Constants.Skills.Luck, -1, 1);
-        if (!res) {
-            CHAR.damageStamina(2);
+    options: {
+        AEOption{
+            name: "Dodge the bullet";
+            baseProperty: DieRoll_Luck;
+            activate: {{{
+                var res = game.context.skillTest("Dodge the bullet", this.id, Constants.Skills.Luck, -1, 1);
+                if (!res) {
+                    CHAR.damageStamina(2);
+                }
+            }}};
         }
-    }}};
+    };
 }

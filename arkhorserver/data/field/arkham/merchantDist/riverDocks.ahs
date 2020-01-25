@@ -25,6 +25,7 @@ ArkhamEncounter Docks_Enc1 {
     options: Option.Docks_Enc1;
 }
 AEOption Docks_Enc1 {
+    baseProperty: DieRoll_Will;
     activate: {{{
         var res = game.context.skillTest("Withstand stench", this.id, Constants.Skills.Will, -1, 1);
         if (res) {
@@ -49,6 +50,7 @@ ArkhamEncounter Docks_Enc2 {
     options: Option.Docks_Enc2;
 }
 AEOption Docks_Enc2 {
+    baseProperty: DieRoll_Will;
     activate: {{{
         var res = game.context.skillTest("Withstand urge", this.id, Constants.Skills.Will, +1, 1);
         if (!res) {

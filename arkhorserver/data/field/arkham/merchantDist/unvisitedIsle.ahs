@@ -7,6 +7,7 @@ ArkhamEncounter Isle_Enc1 {
     options: Option.Isle_Enc1;
 }
 AEOption Isle_Enc1 {
+    baseProperty: DieRoll_Sneak;
     activate: {{{
         var res = game.context.skillTest("Eavesdrop", this.id, Constants.Skills.Sneak, -1, 1);
         if (res) {
@@ -25,6 +26,7 @@ ArkhamEncounter Isle_Enc2 {
     options: Option.Isle_Enc2;
 }
 AEOption Isle_Enc2 {
+    baseProperty: DieRoll_Will;
     activate: {{{
         CHAR.damageStamina(1);
         var res = game.context.skillTest("Resist", this.id, Constants.Skills.Will, -1, 1);

@@ -10,6 +10,7 @@ ArkhamEncounter Lodge_Enc1 {
 }
 AEOption Lodge_Enc1_Accept {
     name: "Accept (Not implemented)";
+    baseProperty: DieRoll_Will;
     costs: [ Money 3 ];
     activate: {{{
         // TODO
@@ -17,6 +18,7 @@ AEOption Lodge_Enc1_Accept {
 }
 AEOption Lodge_Enc1_Decline {
     name: "Decline";
+    baseProperty: DieRoll_Will;
     activate: {{{
         var res = game.context.skillTest("Go out camly", this.id, Constants.Skills.Will, -1, 1);
         if (!res) {
@@ -35,6 +37,7 @@ ArkhamEncounter Lodge_Enc2 {
     options: Option.Lodge_Enc2;
 }
 AEOption Lodge_Enc2 {
+    baseProperty: DieRoll_Luck;
     activate: {{{
         var res = game.context.skillTest("Resist Curse", this.id, Constants.Skills.Luck, -1, 1);
         if (!res) {

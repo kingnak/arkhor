@@ -22,6 +22,7 @@ ArkhamEncounter Admin_Enc1 {
     options: ( Option.Admin_Enc1, Option.SKIP );
 }
 AEOption Admin_Enc1 {
+    baseProperty: DieRoll_Will;
     activate: {{{
         var res = game.context.skillTest("Carry on deception", this.id, Constants.Skills.Will, -2, 1);
         if (res) {
@@ -41,6 +42,7 @@ ArkhamEncounter Admin_Enc2 {
     options: Option.Admin_Enc2;
 }
 AEOption Admin_Enc2 {
+    baseProperty: DieRoll_Lore;
     activate: {{{
         var res = game.context.skillTest("Discuss", this.id, Constants.Skills.Lore, -1, 1);
         if (res) {

@@ -20,6 +20,7 @@ ArkhamEncounter Cave_Enc2 {
     options: Option.Cave_Enc2;
 }
 AEOption Cave_Enc2 {
+    baseProperty: DieRoll_Luck;
     activate: {{{
         var res = game.context.dieRollSkillCount("Check Body", this.id, Constants.Skills.Luck, 0, 1);
         if (res <= 0) {

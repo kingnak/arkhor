@@ -10,6 +10,7 @@ ArkhamEncounter Train_Enc1 {
     options: Option.Train_Enc1;
 }
 AEOption Train_Enc1 {
+    baseProperty: DieRoll_Luck;
     activate: {{{
         var res = game.context.skillTest("Let him draw", this.id, this.id, Constants.Skills.Luck, -1, 1);
         if (res) {
@@ -38,6 +39,7 @@ ArkhamEncounter Train_Enc2 {
     options: Option.Train_Enc2;
 }
 AEOption Train_Enc2 {
+    baseProperty: DieRoll_Speed;
     activate: {{{
         var res = game.context.skillTest("Catch stranger", this.id, Constants.Skills.Speed, -1, 1);
         if (res) {

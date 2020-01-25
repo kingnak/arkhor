@@ -34,6 +34,7 @@ ArkhamEncounter Asylum_Enc1 {
                     "information. Gain 3 Clue tokens.";
     options: {
         AEOption {
+            baseProperty: DieRoll_Lore;
             activate: {{{
                 var res = game.context.dieRollSkillCount("Read Book", this.id, Constants.Skills.Lore, 0);
                 switch (res) {
@@ -63,6 +64,7 @@ ArkhamEncounter Asylum_Enc2 {
     options: (
         {AEOption {
             name: "Try to resist";
+            baseProperty: DieRoll_Fight;
             activate: {{{
                 var res = game.context.skillTest("Resist Nurse Heather", this.id, Constants.Skills.Fight, -2, 1);
                 if (res) {

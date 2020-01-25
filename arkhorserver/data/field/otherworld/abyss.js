@@ -2,6 +2,7 @@ var testEncounterOption = game.quickOption({
     name: "Check Light",
     //description: "",
     phases: Constants.GamePhases.OtherWorldEncountery,
+    baseProperty: Constants.Mods.DieRoll_Luck,
     activate: function() {
 		var res = game.context.skillTest("Check Light", this.id, Constants.Skills.Luck, -2, 1);
         if (res) {

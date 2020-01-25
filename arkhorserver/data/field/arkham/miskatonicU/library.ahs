@@ -22,6 +22,7 @@ ArkhamEncounter Lib_Enc2 {
     options: Option.Lib_Enc2;
 }
 AEOption Lib_Enc2 {
+    baseProperty: DieRoll_Will;
     activate: {{{
         var res = game.context.dieRollSkillCount("Check", this.id, Constants.Skills.Will, 0);
         if (res <= 0) {

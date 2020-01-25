@@ -17,6 +17,7 @@ ArkhamEncounter Unname_Enc2 {
 }
 AEOption Unname_Enc2 {
     activate: {{{
+        baseProperty: DieRoll_Lore;
         var res = game.context.skillTest("Read manuscript", this.id, Constants.Skills.Lore, -1, 1);
         if (res) {
             var ob = game.context.drawObject(Constants.ObjectType.Spell);

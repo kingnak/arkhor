@@ -13,6 +13,7 @@ QuickOption ReadTome {
     costs: [ Movement 2 ];
     continueType: CanContinue;
     chooseType: Supplemental;
+    baseProperty: DieRoll_Lore;
     activate: {{{
         this.exhaust();
         var res = game.context.skillTest("Read Ancient Tome", this.id, Constants.Skills.Lore, -1, 1);

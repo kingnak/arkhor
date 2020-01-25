@@ -48,7 +48,7 @@ AH::Common::ModifiedPropertyValueData ArkhamEncounteryOption::baseProperty() con
     auto mods = gGame->context().getCurCharacterDrawArkhamEncounter().toModifiedPropertyValueData();
     if (mods.modifications().empty()) {
         // not interesting for client if not modified
-        return GameOption::baseProperty();
+        return {};
     }
     return mods;
 }

@@ -112,16 +112,17 @@ bool MoveAction::moveOtherWorld()
 
 AH::Common::ModifiedPropertyValueData MoveOption::baseProperty() const
 {
-    if (gGame->context().player()->getCharacter()->isDelayed()) {
-        return GameOption::baseProperty();
-    }
+    if (!isAvailable())
+        return {};
+    if (gGame->context().player()->getCharacter()->isDelayed())
+        return {};
 
     switch (gGame->context().player()->getCharacter()->field()->type()) {
     case AH::Common::FieldData::Location:
     case AH::Common::FieldData::Street:
         return gGame->context().getCurCharacterProperty(PropertyValue::Prop_Movement).toModifiedPropertyValueData();
     }
-    return GameOption::baseProperty();
+    return {};
 }
 
 void MoveOption::determineMovementType()

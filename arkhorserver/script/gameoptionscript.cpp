@@ -84,7 +84,7 @@ AH::Common::ModifiedPropertyValueData GameOptionScript::baseProperty() const
     if (m_basePropertyProp != AH::Common::PropertyValueData::NoProperty) {
         return gGame->context().getCurCharacterProperty(m_basePropertyProp).toModifiedPropertyValueData();
     }
-    return GameOption::baseProperty();
+    return {};
 }
 
 bool GameOptionScript::isAvailableWithObject(QScriptValue obj) const

@@ -19,7 +19,8 @@ StringChoiceSelectorWidget::StringChoiceSelectorWidget(QWidget *parent) :
     QVBoxLayout *l = new QVBoxLayout(this);
     l->addWidget(m_optionsWidget);
     l->addWidget(m_description);
-    l->addWidget(m_display, 1);
+    l->addWidget(m_display);
+    l->addStretch(1);
 
     connect(m_description, SIGNAL(linkActivated(QString)), this, SIGNAL(objectInfoRequested(QString)));
 }

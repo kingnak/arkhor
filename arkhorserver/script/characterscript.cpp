@@ -40,6 +40,16 @@ bool CharacterScript::placeOnField(AH::Common::FieldData::FieldID fieldId)
     return false;
 }
 
+QString CharacterScript::selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options)
+{
+    return selectChoice(desc, sourceId, options, false);
+}
+
+QString CharacterScript::selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canBeCanceled)
+{
+    return gGame->context().selectChoice(gGame->playerForCharacter(this), desc, sourceId, options, canBeCanceled);
+}
+
 bool CharacterScript::canCloseGate()
 {
     if (m_explorededGate && m_explorededGate == gGame->context().gate()) {

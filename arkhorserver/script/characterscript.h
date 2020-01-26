@@ -55,6 +55,8 @@ public:
     Q_INVOKABLE bool returnToArkham() { return Character::returnToArkham(); }
     Q_INVOKABLE bool placeOnField(AH::Common::FieldData::FieldID fieldId);
     Q_INVOKABLE void addMovementPoint(int amount) { Character::addMovementPoint(amount); }
+    Q_INVOKABLE QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options);
+    Q_INVOKABLE QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canBeCanceled);
 
     Q_INVOKABLE bool canCloseGate();
 

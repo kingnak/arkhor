@@ -47,6 +47,7 @@ QList<ClassGenerator::AttributeDesc> AncientOneGenerator::getAttributes()
             << AttributeDesc("monsterMoveModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
             << AttributeDesc("postAttack", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
             << AttributeDesc("onEndMythos", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
+            << AttributeDesc("ignoreEnvironmentTypes", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Array | AttributeDesc::V_Primitive)
                ;
 }
 
@@ -63,6 +64,9 @@ bool AncientOneGenerator::outputSpecialAttribute(AttributeDesc desc, const Class
     }
     if (desc.name == "monsterMoveModifications") {
         return outputMonsterMoveModifications(attr, cls);
+    }
+    if (desc.name == "ignoreEnvironmentTypes") {
+        return outputEnumValueArray("Constants.EnvironmentType", attr, cls);
     }
 
     Q_ASSERT_X(false, "AncientOne Generator", qPrintable(QString("Special Attribute '%1' not handled").arg(desc.name)));

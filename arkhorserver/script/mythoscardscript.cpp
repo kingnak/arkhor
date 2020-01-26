@@ -254,6 +254,7 @@ bool MythosCardScript::verify(MythosCardScript *myth, QString *err)
             if (myth->m_envFieldId == AH::Common::FieldData::NO_NO_FIELD)
                 errs << "environmentField must be set";
         }
+        if (myth->m_onEndMoveFunc.isValid() && !myth->m_onEndMoveFunc.isFunction()) errs << "onEndMovement must be a function";
     }
 
     if (myth->m_type == Rumor) {

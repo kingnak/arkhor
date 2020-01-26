@@ -55,6 +55,8 @@ AncientOneScript *AncientOneScript::createAncientOne(QScriptContext *ctx, QScrip
     // Monster Modifications
     MonsterModifierScript::parseMonsterModifications(data, *ret, ret.data());
 
+    ret->m_ignEnvTypes = parseIgnoreEnvironmentTypes(data.property("ignoreEnvironmentTypes"));
+
     QString err;
     if (!verify(ret.data(), &err)) {
         ctx->throwError(QScriptContext::TypeError, "createAncientOne: Invalid AncientOne data. Errors:\n"+err);
@@ -99,6 +101,23 @@ bool AncientOneScript::postAttack()
         }
     }
     return true;
+}
+
+QList<AH::Common::MythosData::EnvironmentType> AncientOneScript::parseIgnoreEnvironmentTypes(QScriptValue v)
+{
+    if (!v.isValid()) {
+        return {};
+    }
+
+    if (v.isNumber()) {
+        return QList<AH::Common::MythosData::EnvironmentType>()
+                << static_cast<AH::Common::MythosData::EnvironmentType> (v.toInt32());
+    }
+
+    if (v.isArray()) {
+        return GameScript::array2TypedList<AH::Common::MythosData::EnvironmentType> (v);
+    }
+    return {};
 }
 
 bool AncientOneScript::verify(AncientOneScript *m, QString *msg)

@@ -37,6 +37,9 @@ public:
     virtual void onEndMythos();
     virtual void attack();
     virtual bool postAttack();
+    QList<AH::Common::MythosData::EnvironmentType> ignoreEnvironmentTypes() const { return m_ignEnvTypes; }
+
+    static QList<AH::Common::MythosData::EnvironmentType> parseIgnoreEnvironmentTypes(QScriptValue v);
 
 signals:
 
@@ -53,6 +56,7 @@ private:
     QScriptValue m_this;
 
     PropertyModificationList m_slumberModifications;
+    QList<AH::Common::MythosData::EnvironmentType> m_ignEnvTypes;
 };
 
 Q_DECLARE_METATYPE(AncientOneScript*)

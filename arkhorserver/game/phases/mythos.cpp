@@ -81,20 +81,29 @@ bool MythosAction::execute()
         gGame->returnMythos(card);
         break;
     case AH::Common::MythosData::Environment:
-        if (gGame->setEnvironment(card)) {
-            auto fId = card->environmentFieldId();
-            if (fId != AH::Common::FieldData::NO_NO_FIELD) {
-                GameField *f = gGame->board()->field(fId);
-                GameOption *opt = card->environmentFieldOption();
-                f->setSpecialActionNr(gGame->getSpecialActionNumber());
-                if (opt) {
-                    f->addFieldOption(opt);
-                }
+    {
+            bool activate = true;
+            if (gGame->ancientOne()->ignoreEnvironmentTypes().contains(card->environmenType())) {
+                activate = false;
+            } else {
+                activate = gGame->setEnvironment(card);
             }
-        } else {
-            gGame->returnMythos(card);
-        }
+
+            if (activate) {
+                auto fId = card->environmentFieldId();
+                if (fId != AH::Common::FieldData::NO_NO_FIELD) {
+                    GameField *f = gGame->board()->field(fId);
+                    GameOption *opt = card->environmentFieldOption();
+                    f->setSpecialActionNr(gGame->getSpecialActionNumber());
+                    if (opt) {
+                        f->addFieldOption(opt);
+                    }
+                }
+            } else {
+                gGame->returnMythos(card);
+            }
         break;
+    }
     case AH::Common::MythosData::Rumor:
         if (gGame->setRumor(card)) {
             GameOption *opt = card->rumorFieldOption();

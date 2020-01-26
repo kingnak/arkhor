@@ -4,6 +4,7 @@
 #include <ancientonedata.h>
 #include "game/propertymodifier.h"
 #include "game/monstermodifier.h"
+#include "mythosdata.h"
 
 class Character;
 
@@ -48,6 +49,7 @@ public:
     void damage(int amount);
 
     virtual void decreaseAttackAdjustment(int amount) { m_attackAdjustment -= amount; setDirty(); }
+    virtual QList<AH::Common::MythosData::EnvironmentType> ignoreEnvironmentTypes() const { return {}; }
 
 protected:
     const PropertyModifier *getMonsterMovementModifier() const { return this; }

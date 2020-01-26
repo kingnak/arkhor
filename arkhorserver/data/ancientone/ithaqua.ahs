@@ -7,8 +7,7 @@ AncientOne Ithaqua {
     powerTitle: "Icy Winds";
     powerText: "While Ithaqua stirs in his slumber, any investigator in a street area "+
         "at the end of the Mythos phase loses <b>1 Stamina</b>. In addition, all Weather "+
-        "cards are discarded without their special effects taking place. (not implemented)";
-        // TODO
+        "cards are discarded without their special effects taking place.";
         
     battleStartText: "Investigators must roll a die for every item they have, discarding the item on a failure.";
     attackText: "Each investigator must pass a <b>Fight (+1) check</b> or lose 2 Stamina. "+
@@ -20,6 +19,17 @@ AncientOne Ithaqua {
     ];
 
     attackAdjustment: 1;
+
+    ignoreEnvironmentTypes: Weather;
+    onEndMythos: {{{
+        var list = game.context.allCharacters;
+        for (var i = 0; i < list.length; ++i) {
+            var c = list[i];
+            if (c.field.type == Constants.FieldType.Street) {
+                c.damageStamina(1);
+            }
+        }
+    }}};
 
     onAwake: {{{
         var list = game.context.allCharacters;

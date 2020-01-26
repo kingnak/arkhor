@@ -27,7 +27,7 @@ AncientOne Nyarlathotep {
     onAwake: {{{
         var list = game.context.allCharacters;
         for (var i = 0; i < list.length; ++i) {
-        var c = list[i];
+            var c = list[i];
             if (!c.canPay({type: Constants.Costs.Clue, amount: 1})) {
                 c.devour();
             }

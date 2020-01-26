@@ -26,6 +26,7 @@ bool ScriptTestConfig::m_debugMonster = true;
 bool ScriptTestConfig::m_debugRumor = true;
 bool ScriptTestConfig::m_debugPrevent = true;
 bool ScriptTestConfig::m_debugMythos = true;
+bool ScriptTestConfig::m_debugCharacter = true;
 
 bool ScriptTestConfig::askDraw(AH::GameObjectType t)
 {
@@ -53,6 +54,7 @@ bool ScriptTestConfig::debugScript(GameScript::FunctionType type)
     case GameScript::F_Rumor: return m_debugRumor;
     case GameScript::F_Prevent: return m_debugPrevent;
     case GameScript::F_Mythos: return m_debugMythos;
+    case GameScript::F_Character: return m_debugCharacter;
     default: return false;
     }
 }

@@ -25,6 +25,11 @@ public:
     virtual QString uniqueAbilityDescription() const;
     virtual QStringList fixedPossessionNames() const;
 
+private:
+    QScriptValue m_unconsciousFunc;
+    QScriptValue m_insaneFunc;
+    QScriptValue m_lostFunc;
+
 signals:
 
 public slots:
@@ -32,6 +37,8 @@ public slots:
 private:
     static bool parseAttributeList(QScriptValue v, QList<AH::Common::InvestigatorData::AttributeValuePair> &ret);
     static bool verify(InvestigatorScript *inv, QString *msg = NULL);
+
+    friend class CharacterScript;
 };
 
 #endif // INVESTIGATORSCRIPT_H

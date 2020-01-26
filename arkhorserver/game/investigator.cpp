@@ -11,6 +11,7 @@ Character *Investigator::instantiate()
 {
     if (m_isInstantiated) return NULL;
     Character *c = new Character(this);
+    c->instantiateFromInvestigator();
     m_isInstantiated = true;
     return c;
 }

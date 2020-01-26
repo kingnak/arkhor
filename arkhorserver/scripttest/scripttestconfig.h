@@ -38,6 +38,7 @@ private:
     static bool m_debugRumor;
     static bool m_debugPrevent;
     static bool m_debugMythos;
+    static bool m_debugCharacter;
 
 public:
     static bool doAsk() { return m_doAsk; }

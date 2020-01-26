@@ -60,6 +60,8 @@ public:
 
     Q_INVOKABLE void lostInSpaceAndTime() { Character::lostInSpaceAndTime(); }
     Q_INVOKABLE void devour() { Character::devour(); }
+    Q_INVOKABLE void insane() { Character::insane(); }
+    Q_INVOKABLE void unconscious() { Character::unconscious(); }
 
     Q_INVOKABLE void arrest() { Character::arrest(); }
     Q_INVOKABLE void delay() { Character::setDelayed(true); }
@@ -77,15 +79,28 @@ public:
     Q_INVOKABLE bool skillTest(QString desc, QString sourceId, AH::Skill skill, int adjust, int target);
     Q_INVOKABLE int dieRollSkillCount(QString desc, QString sourceId, AH::Skill skill, int adjust);
 
+    virtual bool onUnconscious();
+    virtual bool onInsane();
+    virtual bool onLostInSpaceAndTime();
+
 signals:
 
 public slots:
+
+protected:
+    void instantiateFromInvestigator();
 
 private:
     QObjectList getInventoryScript() const;
 
 private:
     GameFieldScript *m_fieldBridge;
+
+    QScriptValue m_unconsciousFunc;
+    QScriptValue m_insaneFunc;
+    QScriptValue m_lostFunc;
+
+    friend class InvestigatorScript;
 };
 
 Q_DECLARE_METATYPE(CharacterScript*)

@@ -106,8 +106,12 @@ public:
     void lostInSpaceAndTime();
     bool returnToArkham();
 
+    virtual bool onUnconscious() { return true; }
+    virtual bool onInsane() { return true; }
+    virtual bool onLostInSpaceAndTime() { return true; }
+
 protected:
-    void instantiateFromInvestigator();
+    virtual void instantiateFromInvestigator();
 
 protected:
     Investigator *m_investigator;
@@ -127,6 +131,8 @@ protected:
 
     QList<Gate *> m_gateMarkers;
     QList<Monster *> m_monsterMarkers;
+
+    friend class Investigator;
 };
 
 #endif // CHARACTER_H

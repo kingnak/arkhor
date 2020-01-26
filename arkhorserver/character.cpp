@@ -31,7 +31,6 @@ Character::Character(Investigator *i)
     m_curDmgSanity(0),
     m_explorededGate(NULL)
 {
-    instantiateFromInvestigator();
 }
 
 CharacterData *Character::data()

@@ -135,14 +135,14 @@ QWidget *ScriptTestConfigWidget::buildDebug()
     b->setChecked(true);
     g->addWidget(b);
 
-    g->addStretch(1);
-    l2->addLayout(g);
-    g = new QHBoxLayout;
-
     b = new QCheckBox("Monster");
     connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugMonster = b;});
     b->setChecked(true);
     g->addWidget(b);
+
+    g->addStretch(1);
+    l2->addLayout(g);
+    g = new QHBoxLayout;
 
     b = new QCheckBox("Rumor");
     connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugRumor = b;});
@@ -154,10 +154,6 @@ QWidget *ScriptTestConfigWidget::buildDebug()
     b->setChecked(true);
     g->addWidget(b);
 
-    g->addStretch(1);
-    l2->addLayout(g);
-    g = new QHBoxLayout;
-
     b = new QCheckBox("Mythos");
     connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugMythos = b;});
     b->setChecked(true);
@@ -168,6 +164,10 @@ QWidget *ScriptTestConfigWidget::buildDebug()
     b->setChecked(true);
     g->addWidget(b);
 
+    g->addStretch(1);
+    l2->addLayout(g);
+    g = new QHBoxLayout;
+
     b = new QCheckBox("Modification");
     connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugModification = b;});
     b->setChecked(true);
@@ -175,6 +175,11 @@ QWidget *ScriptTestConfigWidget::buildDebug()
 
     b = new QCheckBox("Inventory");
     connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugInventory = b;});
+    b->setChecked(true);
+    g->addWidget(b);
+
+    b = new QCheckBox("Character");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugCharacter = b;});
     b->setChecked(true);
     g->addWidget(b);
 

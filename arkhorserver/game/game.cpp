@@ -458,16 +458,22 @@ void Game::killPlayer(Player *p)
 
 bool Game::handleUnconscious(Character *c)
 {
+    if (!c->onUnconscious())
+        return false;
     return m_ancientOne->onUnconscious(c);
 }
 
 bool Game::handleInsane(Character *c)
 {
+    if (!c->onInsane())
+        return false;
     return m_ancientOne->onInsane(c);
 }
 
 bool Game::handleLostInSpaceAndTime(Character *c)
 {
+    if (!c->onLostInSpaceAndTime())
+        return false;
     return m_ancientOne->onLostInSpaceAndTime(c);
 }
 

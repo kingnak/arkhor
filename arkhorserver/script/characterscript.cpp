@@ -1,5 +1,7 @@
 #include "characterscript.h"
 #include <QDebug>
+#include "gamescript.h"
+#include "investigatorscript.h"
 
 CharacterScript::CharacterScript(Investigator *i, QObject *parent) :
     QObject(parent), Character(i)
@@ -82,6 +84,45 @@ int CharacterScript::dieRollSkillCount(QString desc, QString sourceId, AH::Skill
     DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillCounter(desc, sourceId, this, skill, adjust);
     DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->playerForCharacter(this), spec);
     return res.intResult;
+}
+
+bool CharacterScript::onUnconscious()
+{
+    if (m_unconsciousFunc.isFunction()) {
+        QScriptValue res = gGameScript->call(GameScript::F_Character, m_unconsciousFunc, gGameScript->getCharacter(this));
+        if (res.isBool())
+            return res.toBool();
+    }
+    return true;
+}
+
+bool CharacterScript::onInsane()
+{
+    if (m_insaneFunc.isFunction()) {
+        QScriptValue res = gGameScript->call(GameScript::F_Character, m_insaneFunc, gGameScript->getCharacter(this));
+        if (res.isBool())
+            return res.toBool();
+    }
+    return true;
+}
+
+bool CharacterScript::onLostInSpaceAndTime()
+{
+    if (m_lostFunc.isFunction()) {
+        QScriptValue res = gGameScript->call(GameScript::F_Character, m_lostFunc, gGameScript->getCharacter(this));
+        if (res.isBool())
+            return res.toBool();
+    }
+    return true;
+}
+
+void CharacterScript::instantiateFromInvestigator()
+{
+    Character::instantiateFromInvestigator();
+    auto is = dynamic_cast<InvestigatorScript*> (m_investigator);
+    m_unconsciousFunc = is->m_unconsciousFunc;
+    m_insaneFunc = is->m_insaneFunc;
+    m_lostFunc = is->m_lostFunc;
 }
 
 QObjectList CharacterScript::getInventoryScript() const

@@ -14,7 +14,8 @@ InvestigatorScript::InvestigatorScript(QObject *parent) :
 Character *InvestigatorScript::instantiate()
 {
     if (m_isInstantiated) return NULL;
-    Character *c = new CharacterScript(this);
+    CharacterScript *c = new CharacterScript(this);
+    c->instantiateFromInvestigator();
     m_isInstantiated = true;
     return c;
 }
@@ -58,6 +59,10 @@ QScriptValue InvestigatorScript::createInvestigator(QScriptContext *ctx, QScript
     QList<AH::ObjectTypeCount> rndPoss;
     GameScript::parseObjectTypeCount(data.property("randomPossessions"), rndPoss);
     ret->m_randomPossessions = rndPoss;
+
+    ret->m_unconsciousFunc = data.property("onUnconscious");
+    ret->m_insaneFunc = data.property("onInsane");
+    ret->m_lostFunc = data.property("onLostInSpaceAndTime");
 
     QString err;
     if (!verify(ret.data(), &err)) {
@@ -123,6 +128,9 @@ bool InvestigatorScript::verify(InvestigatorScript *inv, QString *msg)
     if (inv->attrSpeedSneak().size() < 1) errs.append("Speed/Sneak attributes must not be empty");
     if (inv->attrFightWill().size() < 1) errs.append("Speed/Sneak attributes must not be empty");
     if (inv->attrLoreLuck().size() < 1) errs.append("Speed/Sneak attributes must not be empty");
+    if (inv->m_unconsciousFunc.isValid() && !inv->m_unconsciousFunc.isFunction()) errs.append("onUnconscious mut be a function");
+    if (inv->m_insaneFunc.isValid() && !inv->m_insaneFunc.isFunction()) errs.append("onInsane mut be a function");
+    if (inv->m_lostFunc.isValid() && !inv->m_lostFunc.isFunction()) errs.append("onLostInSpaceAndTime mut be a function");
 
     if (msg) *msg = errs.join("\n");
     if (errs.isEmpty()) {

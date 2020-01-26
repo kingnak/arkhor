@@ -43,6 +43,9 @@ QList<ClassGenerator::AttributeDesc> InvestigatorGenerator::getAttributes()
             << AttributeDesc("randomPossessions", AttributeDesc::R_Required, AttributeDesc::H_Special, AttributeDesc::V_Complex)
             << AttributeDesc("attributes", AttributeDesc::R_Required, AttributeDesc::H_Special, AttributeDesc::V_Complex)
             << AttributeDesc("uniqueAbilityId", AttributeDesc::R_Optional, AttributeDesc::H_IDRef, AttributeDesc::V_Primitive)
+            << AttributeDesc("onUnconscious", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
+            << AttributeDesc("onInsane", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
+            << AttributeDesc("onLostInSpaceAndTime", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
                ;
 }
 

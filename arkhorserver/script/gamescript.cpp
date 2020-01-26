@@ -128,6 +128,11 @@ bool GameScript::init(const QString &scriptBaseDir)
     return m_game->resolveDependencies();
 }
 
+QScriptValue GameScript::getCharacter(CharacterScript *c)
+{
+    return m_engine->toScriptValue(c);
+}
+
 GameContextScript *GameScript::getGameContext()
 {
     return m_ctx;
@@ -485,7 +490,6 @@ void GameScript::initFieldConstants(QScriptValue &consts)
     fdt.setProperty("Outskirts", AH::Common::FieldData::Outskirts, QScriptValue::ReadOnly);
     consts.setProperty("FieldType", fdt, QScriptValue::ReadOnly);
 }
-
 
 void GameScript::initGlobalMethods()
 {

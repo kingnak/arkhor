@@ -36,6 +36,8 @@ public:
 
     bool init(const QString &scriptBaseDir);
 
+    QScriptValue getCharacter(CharacterScript *c);
+
     QScriptEngine *engine() { return m_engine; }
 
     Q_PROPERTY(GameContextScript* context READ getGameContext SCRIPTABLE true)
@@ -136,7 +138,8 @@ public:
     enum FunctionType {
         F_Action, F_Available, F_AncientOne,
         F_Display, F_Modification, F_Inventory,
-        F_Monster, F_Rumor, F_Prevent, F_Mythos
+        F_Monster, F_Rumor, F_Prevent, F_Mythos,
+        F_Character
     };
 
     // Central method caller

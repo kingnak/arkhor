@@ -148,10 +148,12 @@ void OptionChooser::setEncounter(EncounterData enc)
     ui->btnOptionActivate->setDefault(true);
 }
 
-void OptionChooser::setMonsters(QList<MonsterData> monsters)
+void OptionChooser::setMonsters(QString desc, QList<MonsterData> monsters)
 {
     m_type = ChooseMonster;
     cleanupOptions();
+
+    ui->lblOptionDescription->setText(desc);
 
     QLayout *l = ui->wgtOptionsList->layout();
     for (MonsterData m : monsters) {

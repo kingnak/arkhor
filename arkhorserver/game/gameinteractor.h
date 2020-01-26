@@ -34,7 +34,7 @@ public:
     virtual GameOption *chooseOption(QList<GameOption *> options) = 0;
     virtual QList<int> chooseFocus(QList<AttributeSlider> sliders, int totalFocus) = 0;
     virtual MovementPath chooseMovement(GameField *start, int movement) = 0;
-    virtual QString chooseMonster(QList<AH::Common::MonsterData> monsters) = 0;
+    virtual QString chooseMonster(QString desc, QList<AH::Common::MonsterData> monsters) = 0;
 
     //virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c) = 0;
 

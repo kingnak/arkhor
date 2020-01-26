@@ -19,7 +19,7 @@ public:
     virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
 
     virtual QString name() const { return "Choose Monster"; }
-    virtual QString description() const { return ""; }
+    virtual QString description() const { return "Choose Monster to fight"; }
 
 private:
     FightPhase *m_fight;

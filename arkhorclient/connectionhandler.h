@@ -74,7 +74,7 @@ signals:
     void chooseSkill(QList<AH::Common::ModifiedPropertyValueData> opts);
     void chooseWeapons(QList<AH::Common::GameObjectData> weapons, AH::Common::ModifiedPropertyValueData hands);
     void chooseEncounterOption(AH::Common::EncounterData encounter);
-    void chooseMonster(QList<AH::Common::MonsterData> monsters);
+    void chooseMonster(QString desc, QList<AH::Common::MonsterData> monsters);
 
     void dieRollInfo(AH::Common::DieRollTestData data);
 

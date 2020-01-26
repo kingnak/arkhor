@@ -122,7 +122,7 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(ui->wgtOptionChooser, SIGNAL(encounterChosen(QString)), this, SLOT(encounterSelected(QString)));
 
     // MONSTER
-    connect(m_conn, SIGNAL(chooseMonster(QList<AH::Common::MonsterData>)), this, SLOT(chooseMonster(QList<AH::Common::MonsterData>)));
+    connect(m_conn, SIGNAL(chooseMonster(QString, QList<AH::Common::MonsterData>)), this, SLOT(chooseMonster(QString, QList<AH::Common::MonsterData>)));
     connect(ui->wgtOptionChooser, SIGNAL(monsterChosen(QString)), this, SLOT(monsterSelected(QString)));
 
     // MYTHOS
@@ -405,9 +405,9 @@ void AhMainGui::encounterSelected(QString id)
     refitGui();
 }
 
-void AhMainGui::chooseMonster(QList<AH::Common::MonsterData> monsters)
+void AhMainGui::chooseMonster(QString desc, QList<AH::Common::MonsterData> monsters)
 {
-    ui->wgtOptionChooser->setMonsters(monsters);
+    ui->wgtOptionChooser->setMonsters(desc, monsters);
     ui->stkInteraction->setCurrentWidget(ui->pageOptionChooser);
     ui->tabInteract->setCurrentWidget(ui->tabInteraction);
 }

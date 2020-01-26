@@ -30,7 +30,7 @@ public slots:
     void setOptions(QList<AH::Common::GameOptionData> opts);
     void setSkills(QList<AH::Common::ModifiedPropertyValueData> opts);
     void setEncounter(AH::Common::EncounterData enc);
-    void setMonsters(QList<AH::Common::MonsterData> monsters);
+    void setMonsters(QString desc, QList<AH::Common::MonsterData> monsters);
 
 signals:
     void optionChosen(QString id);

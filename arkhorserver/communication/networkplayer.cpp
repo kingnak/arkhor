@@ -404,10 +404,11 @@ QString NetworkPlayer::chooseEncounterOption(EncounterData *enc)
     return QString::null;
 }
 
-QString NetworkPlayer::chooseMonster(QList<MonsterData> monsters)
+QString NetworkPlayer::chooseMonster(QString desc, QList<MonsterData> monsters)
 {
-    QVariant v;
-    v << monsters;
+    QVariantMap v;
+    v["description"] << desc;
+    v["monsters"] << monsters;
     m_conn->sendMessage(Message::S_CHOOSE_MONSTER, v);
 
     AH::Common::Message resp;

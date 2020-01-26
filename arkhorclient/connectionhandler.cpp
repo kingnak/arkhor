@@ -304,9 +304,13 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
 
     case AH::Common::Message::S_CHOOSE_MONSTER:
     {
+        QString desc;
         QList<AH::Common::MonsterData> m;
-        msg.payload >> m;
-        emit chooseMonster(m);
+        QVariantMap map;
+        msg.payload >> map;
+        map["description"] >> desc;
+        map["monsters"] >> m;
+        emit chooseMonster(desc, m);
         break;
     }
 

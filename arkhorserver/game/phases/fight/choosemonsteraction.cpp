@@ -18,7 +18,7 @@ bool ChooseMonsterAction::execute()
     for (auto m : m_monsters)
         monsters << *m->data();
 
-    QString id = gGame->context().player()->chooseMonster(monsters);
+    QString id = gGame->context().player()->chooseMonster(description(), monsters);
     if (id.isNull()) {
         id = m_monsters.value(0)->id();
     }

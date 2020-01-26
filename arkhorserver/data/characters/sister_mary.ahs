@@ -22,11 +22,27 @@ Investigator SisterMary {
         FightWill {(0,4),(1,3),(2,2),(3,1)},
         LoreLuck {(1,6),(2,5),(3,4),(4,3)}
     ];
+    onLostInSpaceAndTime: {{{
+        if (this.stamina == 0) {
+            this.placeOnField(Constants.Fields.UT_StMarysHospital);
+            this.unconscious();
+            return false;
+        } else if (this.sanity == 0) {
+            this.placeOnField(Constants.Fields.DT_ArkhamAsylum);
+            this.insane();
+            return false;
+        } else {
+            // do like lost in space and time
+            this.placeOnField(Constants.Fields.SS_SouthChurch);
+            this.loseHalfPossessions();
+            this.delay();
+            return false;
+        }
+    }}};
 }
 
 SpecialAbility GuardianAngel {
-    // TODO
     description: "<b>Any Phase:</b> Sister Mary is never Lost in Time and Space. Instead, if "+
         "her Sanity is 0, she returns to Arkham Asylum. If her Stamina is 0, she returns to "+
-        "St. Mary's Hospital. If neither her Sanity or her Stamina are 0, she returns to South Church. (not implemented)";
+        "St. Mary's Hospital. If neither her Sanity or her Stamina are 0, she returns to South Church.";
 }

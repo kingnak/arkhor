@@ -27,6 +27,34 @@ Environment BlackestNight {
     ];
 }
 
+Environment BloodMagick {
+    description: "Investigators who end their movement in Rivertown streets may choose to delve into dark mysteries using their life force. "+
+                 "They roll dice equal to their current Stamina, and for every failed die, they lose 1 Stamina. If this reduces them to "+
+                 "0 Stamina, they are <b>devoured</b> and the player must start a new character. Otherwise, they gain 3 Clue tokens.";
+    environmentType: Mystic;
+    //clueField: MD_TheUnnamable;
+    //moveWhite: (Diamond,Square);
+    //moveBlack: Circle;
+    //gateField: NS_IndependenceSquare;
+    environmentField: RT_Rivertown;
+    onEndMovement: {{{
+        var opts = [["DELVE", "Delve into dark mysteries"]];
+        if (CHAR.field.id == Constants.Fields.RT_Rivertown) {
+            var res = game.context.selectChoice("Delve into dark mysteries", this.id, opts, true);
+            if (res == "DELVE") {
+                var sta = CHAR.stamina;
+                res = CHAR.genericDieRollCount("Delve into dark mysteries", this.id, sta);
+                CHAR.damageStamina(sta - res);
+                if (CHAR.commitDamage()) {
+                    CHAR.addClue(3);
+                } else {
+                    CHAR.devour();
+                }
+            }
+        }
+    }}};
+}
+
 Environment NodenFavor {
     name: "Noden's Favor";
     description: "It costs 2 fewer Clue tokens to <b>seal</b> gates.";
@@ -37,6 +65,20 @@ Environment NodenFavor {
     //gateField: FH_TheWitchHouse;
     environmentModifications: [
         Game_SealClueCost -2
+    ];
+}
+
+Environment NoOneCanHelpYouNow {
+    description: "Gates cannot be <b>sealed</b>, although they can still be <b>closed</b>.";
+    environmentType: Mystic;
+    //clueField: UT_Woods;
+    //moveWhite: (Plus);
+    //moveBlack: Moon;
+    //gateField: MD_TheUnnamable;
+    environmentModifications: [
+        // Noone has that...
+        // TODO: Is sealing by elder sign still allowed?
+        Game_SealClueCost =100
     ];
 }
 
@@ -97,6 +139,38 @@ Environment ChillOfGrave {
     ];
 }
 
+Environment ManInBlack {
+    name: "The Man in Black";
+    description: "Investigators who end their movement in the French Hill streets may deal with the Man in Black to gain power. "+
+                 "They roll dice equal to their current Sanity and for every failed die, the lose 1 Sanity. "+
+                 "If this reduces them to 0 Sanity, they are <b>devoured</b> and the player must start a new character. "+
+                 "Otherwise, they gain 1 Clue token and draw 1 Spell.";
+    environmentType: Mystic;
+    //clueField: RT_BlackCave;
+    //moveWhite: (Plus);
+    //moveBlack: Moon;
+    //gateField: FH_TheWitchHouse;
+    environmentField: FH_FrenchHill;
+    onEndMovement: {{{
+        var opts = [["DEAL", "Deal with Man in Black"]];
+        if (CHAR.field.id == Constants.Fields.FH_FrenchHill) {
+            var res = game.context.selectChoice("Deal with Man in Black", this.id, opts, true);
+            if (res == "DEAL") {
+                var san = CHAR.sanity;
+                res = CHAR.genericDieRollCount("Deal with Man in Black", this.id, san);
+                CHAR.damageSanity(san - res);
+                if (CHAR.commitDamage()) {
+                    CHAR.addClue(1);
+                    var ob = game.context.drawObject(Constants.ObjectType.Spell);
+                    CHAR.addToInventory(ob);
+                } else {
+                    CHAR.devour();
+                }
+            }
+        }
+    }}};
+}
+
 Environment ThingsOfDarkness {
     name: "Things of Darkness";
     description: "Ghouls, Formless Spawns, Shoggoths and Flying Polyps have their toughness increased by 1";
@@ -116,8 +190,5 @@ Environment ThingsOfDarkness {
 
 /*
 TODOS:
-Blood Magic
 Dreams of a Sunken City
-No One Can Help You Now
-The Man in Black
 */

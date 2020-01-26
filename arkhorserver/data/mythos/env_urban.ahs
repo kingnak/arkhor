@@ -11,6 +11,95 @@ Environment AlienTechnology {
     // TODO
 }
 
+Environment CurfewEnforced {
+    description: "Any investigator who ends his movement in the streets must pass a <b>Will (+0) check</b> or be arrested and taken to the Police Station.<br>"+
+                 "This does not apply to The Deputy of Arkham.";
+    environmentType: Urban;
+    //clueField: MU_ScienceBuilding;
+    //moveWhite: (Plus);
+    //moveBlack: Moon;
+    //gateField: MD_UnvisitedIsle;
+    onEndMovement: {{{
+        if (CHAR.hasObject(SpecialObject.DeputyOfArkham)) {
+            return;
+        }
+
+        if (CHAR.field.type == Constants.FieldType.Street) {
+            var res = game.context.skillTest("Evade curfew", this.id, Constants.Skills.Will, 0, 1);
+            if (!res) {
+                CHAR.arrest();
+            }
+        }
+    }}};
+}
+
+Environment DarkesCarnivalArrives {
+    name: "Darke's Carnival Arrives";
+    description: "Investigators who end their movement in the Northside streets gain 1 Clue token from the sinister wonders they witness, "+
+                 "but must pass a <b>Will (-1) check</b> or lose 1 Sanity.";
+     environmentType: Urban;
+     //clueField: UT_Woods;
+     //moveWhite: (Diamond,Square);
+     //moveBlack: Circle;
+     //gateField: MD_TheUnnamable;
+     environmentField: NS_Northside;
+     onEndMovement: {{{
+        if (CHAR.field.id == Constants.Fields.NS_Northside) {
+            CHAR.addClue(1);
+            var res = game.context.skillTest("Witness Drake's Carnival", this.id, Constants.Skills.Will, -1, 1);
+            if (!res) {
+                CHAR.damageSanity(1);
+            }
+        }
+     }}};
+}
+
+Environment EgyptianExhibit {
+    name: "Egyptian Exhibit Visits Miskatonic U.";
+    description: "Any investigator who ends his movement in the Miskatonic U. streets "+
+                 "may pass a <b>Lore (-1) check</b> to gain 1 Clue token by reading the "+
+                 "strange hieroglyphics on the artifacts in the exhibit.";
+     environmentType: Urban;
+     //clueField: RT_BlackCave;
+     //moveWhite: (Plus);
+     //moveBlack: Moon;
+     //gateField: FH_TheWitchHouse;
+     environmentField: MU_MiskatonicU;
+     onEndMovement: {{{
+        if (CHAR.field.id == Constants.Fields.MU_MiskatonicU) {
+            var res = game.context.skillTest("Read hieroglyphics", this.id, Constants.Skills.Lore, -1, 1);
+            if (res) {
+                CHAR.addClue(1);
+            }
+        }
+     }}};
+}
+
+Environment EstateSale {
+    description: "Investigators who end their movement in the Uptown streets "+
+                 "may draw 2 Unique Items and purchase one, none, or both of them "+
+                 "at list price, discarding any that are not purchased.";
+     environmentType: Urban;
+     //clueField: RT_BlackCave;
+     //moveWhite: (Diamond,Square);
+     //moveBlack: Circle;
+     //gateField: FH_TheWitchHouse;
+     environmentField: UT_Uptown;
+     onEndMovement: {{{
+        if (CHAR.field.id == Constants.Fields.UT_Uptown) {
+            var res = game.context.drawMultipleObjects(Constants.ObjectType.UniqueItem, "Buy items", this.id, 2, 0, 1000);
+            for (var i = 0; i < res.length; ++i) {
+                var item = res[i];
+                var costs = { type: Constants.Costs.Money, amount: item.price };
+                if (CHAR.pay(costs)) {
+                    CHAR.addToInventory(item);
+                } else {
+                    item.returnToDeck();
+                }
+            }
+        }
+     }}};
+}
 
 Environment TheFestival {
     description: "The Festival has begun! Cultists and Byakhee "+
@@ -28,10 +117,6 @@ Environment TheFestival {
 
 /*
 TODOS:
-Curfew Enforced
-Darke's Carnival Arrives
-Egyptian Exhibit Visits Miskatonic U.
-Estate Sale
 Happy Days are Here Again
 
 */

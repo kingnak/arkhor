@@ -59,7 +59,7 @@ Environment HeatWave {
     //moveBlack: Circle;
     //gateField: UT_Woods;
     environmentModifications: [
-        // Not 100% correct... Only in Arkham
+        // TODO: Not 100% correct... Only in Arkham
         Skill_Fight -1,
         Skill_Lore +1
     ];
@@ -78,7 +78,7 @@ Environment AnEvilFog {
     //moveBlack: Moon;
     //gateField: RT_Graveyard;
     environmentModifications: [
-        // Not 100% correct... Only in Arkham
+        // TODO: Not 100% correct... Only in Arkham
         Skill_Will -1,
         Skill_Sneak +1
     ];

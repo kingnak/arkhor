@@ -47,9 +47,9 @@ SpecialObject DeputyOfArkham : 1 {
     actions: Action.DeputyUpkeep;
     onAddToInventory: {{{
         var rev = game.drawSpecificObject(SpecialObject.DeputysRevolver);
-        this.owner.addToInventory(rev);
+        c.addToInventory(rev);
         //var wag = game.drawSpecificObject(SpecialObject.PatrolWagon);
-        //this.owner.addToInventory(wag);
+        //c.addToInventory(wag);
     }}};
 }
 Action DeputyUpkeep {

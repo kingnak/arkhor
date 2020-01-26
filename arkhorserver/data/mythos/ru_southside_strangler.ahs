@@ -56,20 +56,18 @@ Rumor SouthSideStrangler {
     }}};
 
     onFail: {{{
-        var sel = game.context.selectChoice("Reduce maximum Stamina or Sanity?", this.id, ["Stamina", "Sanity"]);
-        if (sel == "Stamina") {
-            var itm = game.drawSpecificObject("OBJ_SS_DecMaxStam");
-            game.context.character.addToInventory(itm);
-        } else {
-            var itm = game.drawSpecificObject("OBJ_SS_DecMaxSan");
-            game.context.character.addToInventory(itm);
-        }
-
-        /* TODO: Do on all characters!
         var list = game.context.allCharacters;
         for (var i = 0; i < list.length; ++i) {
+            var c = list[i];
+            var sel = c.selectChoice("Reduce maximum Stamina or Sanity?", this.id, ["Stamina", "Sanity"]);
+            if (sel == "Stamina") {
+                var itm = game.drawSpecificObject("OBJ_SS_DecMaxStam");
+                c.addToInventory(itm);
+            } else {
+                var itm = game.drawSpecificObject("OBJ_SS_DecMaxSan");
+                c.addToInventory(itm);
+            }
         }
-        */
 
         this.removeFromGame();
     }}};

@@ -51,6 +51,7 @@ private slots:
     void receivedInvalidations(QStringList lst);
     void receivedTypeInvalidation(AH::Common::RequestObjectsData::ObjectType type);
     void updateCharacter(AH::Common::CharacterData character);
+    void receivedMonsters(QList<AH::Common::MonsterData> monsters);
     void setTempData(const QString &data);
     void clearTempData();
 

@@ -77,6 +77,7 @@ public:
     virtual MovementPath chooseMovement(GameField *start, int movement);
 
     virtual QString chooseEncounterOption(AH::Common::EncounterData *enc);
+    virtual QString chooseMonster(QList<AH::Common::MonsterData> monsters);
 
     //virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c);
     virtual AH::Common::PropertyValueData::Property chooseSkill(QList<AH::Common::ModifiedPropertyValueData> options);

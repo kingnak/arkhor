@@ -86,6 +86,11 @@ void ConnectionHandler::selectEncounterOption(QString id)
     send(AH::Common::Message::C_SELECT_ENCOUNTER, id);
 }
 
+void ConnectionHandler::selectMonster(QString id)
+{
+    send(AH::Common::Message::C_SELECT_MONSTER, id);
+}
+
 void ConnectionHandler::acknowledge()
 {
     send(AH::Common::Message::C_ACKNOWLEDGED);
@@ -294,6 +299,14 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         AH::Common::EncounterData a;
         msg.payload >> a;
         emit chooseEncounterOption(a);
+        break;
+    }
+
+    case AH::Common::Message::S_CHOOSE_MONSTER:
+    {
+        QList<AH::Common::MonsterData> m;
+        msg.payload >> m;
+        emit chooseMonster(m);
         break;
     }
 

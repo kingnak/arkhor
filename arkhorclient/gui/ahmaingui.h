@@ -75,6 +75,9 @@ private slots:
     void chooseSkill(QList<AH::Common::ModifiedPropertyValueData> options);
     void skillChoosen(AH::Common::PropertyValueData::Property skill);
 
+    void chooseMonster(QList<AH::Common::MonsterData> monsters);
+    void monsterSelected(QString id);
+
     void showDieRollInfo(AH::Common::DieRollTestData data);
     void dieUpdateChosen(AH::Common::DieTestUpdateData upd);
 

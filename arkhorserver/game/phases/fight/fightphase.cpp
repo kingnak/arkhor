@@ -2,6 +2,7 @@
 #include "evadeaction.h"
 #include "fightaction.h"
 #include "horroraction.h"
+#include "choosemonsteraction.h"
 #include "chooseweaponsaction.h"
 #include "attackaction.h"
 #include "game/player.h"
@@ -12,6 +13,7 @@
 FightPhase::FightPhase()
     : GamePhase(gGame)
 {
+    m_chooseMonster = new ChooseMonsterOption(this);
     m_evade = new EvadeOption(this);
     m_fight = new FightOption(this);
     m_horror = new HorrorOption(this);
@@ -22,6 +24,7 @@ FightPhase::FightPhase()
 
 FightPhase::~FightPhase()
 {
+    delete m_chooseMonster;
     delete m_evade;
     delete m_fight;
     delete m_horror;
@@ -83,6 +86,12 @@ void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
     case CharacterFlown:
         m_flownMonsters.append(gGame->context().monster());
         m_curPhase = ChooseMonster;
+        break;
+    case MonsterChosen:
+        if (m_hasEnteredFight)
+            m_curPhase = FightOrFlee;
+        else
+            m_curPhase = FightOrEvade;
         break;
     case EvadeFailed:
         //m_hadFailedEvade = true;
@@ -248,7 +257,7 @@ QList<GameOption *> FightPhase::chooseMonsterOptions()
 {
     QList<Monster *> monsters = m_monsters;
     // remove evaded/flown monsters
-    foreach (Monster *m, m_flownMonsters) {
+    for (Monster *m : m_flownMonsters) {
         monsters.removeAll(m);
     }
 
@@ -284,8 +293,10 @@ QList<GameOption *> FightPhase::chooseMonsterOptions()
     }
 
     if (monsters.size() > 1) {
-        // TODO: Let user choose monster
-
+        // Let user choose monster
+        m_chooseMonster->setMonsters(monsters);
+        return QList<GameOption *> ()
+                << m_chooseMonster;
     }
     Monster *m = monsters.first();
     gGame->context().setMonster(m);

@@ -6,6 +6,7 @@
 #include <gameoptiondata.h>
 #include <propertyvaluedata.h>
 #include <encounterdata.h>
+#include <monsterdata.h>
 #include "asyncobjectreceiver.h"
 
 namespace Ui {
@@ -29,11 +30,13 @@ public slots:
     void setOptions(QList<AH::Common::GameOptionData> opts);
     void setSkills(QList<AH::Common::ModifiedPropertyValueData> opts);
     void setEncounter(AH::Common::EncounterData enc);
+    void setMonsters(QList<AH::Common::MonsterData> monsters);
 
 signals:
     void optionChosen(QString id);
     void skillChosen(AH::Common::PropertyValueData::Property skill);
     void encounterChosen(QString id);
+    void monsterChosen(QString id);
     void objectDescriptionRequested(QString id);
 
 private slots:
@@ -53,7 +56,8 @@ private:
     enum {
         ChooseOption,
         ChooseSkill,
-        ChooseEncounter
+        ChooseEncounter,
+        ChooseMonster
     } m_type;
 
     Ui::OptionChooser *ui;

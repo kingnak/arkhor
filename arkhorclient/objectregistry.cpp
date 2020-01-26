@@ -28,6 +28,7 @@ void ObjectRegistry::init(ConnectionHandler *c)
     connect(m_conn, SIGNAL(characterUpdate(AH::Common::CharacterData)), this, SLOT(updateCharacter(AH::Common::CharacterData)));
     connect(m_conn, SIGNAL(setTempData(QString)), this, SLOT(setTempData(QString)));
     connect(m_conn, SIGNAL(clearTempData()), this, SLOT(clearTempData()));
+    connect(m_conn, SIGNAL(chooseMonster(QList<AH::Common::MonsterData>)), this, SLOT(receivedMonsters(QList<AH::Common::MonsterData>)));
 }
 
 void ObjectRegistry::setThisCharacterId(QString id)
@@ -331,5 +332,22 @@ void ObjectRegistry::updateCharacter(CharacterData character)
     if (character.id() == m_thisCharacterId) {
         m_thisCharacter = character;
         emit thisCharacterUpdated(m_thisCharacter);
+    }
+}
+
+void ObjectRegistry::receivedMonsters(QList<MonsterData> monsters)
+{
+    for (auto m : monsters) {
+        QVariant v;
+        v << m;
+        AH::Common::DescribeObjectsData::ObjectDescription d{
+                AH::Common::RequestObjectsData::Monster,
+                m.id(),
+                v
+        };
+        {
+            QWriteLocker w(&m_lock);
+            m_registry[m.id()] = d;
+        }
     }
 }

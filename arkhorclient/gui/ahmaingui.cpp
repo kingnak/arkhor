@@ -11,6 +11,9 @@
 
 #define MAXIMUM_WIDGET_WIDTH 16777215
 
+Q_DECLARE_METATYPE(AH::Common::MonsterData);
+Q_DECLARE_METATYPE(QList<AH::Common::MonsterData>)
+
 using namespace AH::Common;
 
 AhMainGui::AhMainGui(QWidget *parent) :
@@ -20,6 +23,9 @@ AhMainGui::AhMainGui(QWidget *parent) :
     m_registry(NULL),
     m_skipOption(PlayerData::NoAutoSkip)
 {
+    qRegisterMetaType<AH::Common::MonsterData>();
+    qRegisterMetaType<QList<AH::Common::MonsterData>>();
+
     ui->setupUi(this);
     ui->tabInteract->setOrientation(Qt::Horizontal);
     ui->tabInteract->buildFromTab(ui->tabInteract_base);
@@ -114,6 +120,10 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     // ENCOUNTER
     connect(m_conn, SIGNAL(chooseEncounterOption(AH::Common::EncounterData)), this, SLOT(chooseEncounter(AH::Common::EncounterData)));
     connect(ui->wgtOptionChooser, SIGNAL(encounterChosen(QString)), this, SLOT(encounterSelected(QString)));
+
+    // MONSTER
+    connect(m_conn, SIGNAL(chooseMonster(QList<AH::Common::MonsterData>)), this, SLOT(chooseMonster(QList<AH::Common::MonsterData>)));
+    connect(ui->wgtOptionChooser, SIGNAL(monsterChosen(QString)), this, SLOT(monsterSelected(QString)));
 
     // MYTHOS
     connect(m_conn, SIGNAL(acknowledgeMythos(AH::Common::MythosData)), this, SLOT(displayMythos(AH::Common::MythosData)));
@@ -391,6 +401,20 @@ void AhMainGui::chooseEncounter(EncounterData encounter)
 void AhMainGui::encounterSelected(QString id)
 {
     m_conn->selectEncounterOption(id);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
+}
+
+void AhMainGui::chooseMonster(QList<AH::Common::MonsterData> monsters)
+{
+    ui->wgtOptionChooser->setMonsters(monsters);
+    ui->stkInteraction->setCurrentWidget(ui->pageOptionChooser);
+    ui->tabInteract->setCurrentWidget(ui->tabInteraction);
+}
+
+void AhMainGui::monsterSelected(QString id)
+{
+    m_conn->selectMonster(id);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }

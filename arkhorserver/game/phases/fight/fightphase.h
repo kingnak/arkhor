@@ -5,6 +5,7 @@
 #include "game/gameoption.h"
 #include "game/gamephase.h"
 
+class ChooseMonsterOption;
 class EvadeOption;
 class FightOption;
 class HorrorOption;
@@ -32,6 +33,7 @@ public:
         WeaponsChosen,
         MonsterKilled,
         AttackFailed,
+        MonsterChosen
     };
 
     void updatePhaseByResult(PhaseResult res);
@@ -85,6 +87,7 @@ private:
     bool m_hasEnteredFight;
     //bool m_hadFailedEvade;
 
+    ChooseMonsterOption *m_chooseMonster;
     EvadeOption *m_evade;
     FightOption *m_fight;
     HorrorOption *m_horror;

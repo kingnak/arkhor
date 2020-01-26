@@ -148,6 +148,23 @@ void OptionChooser::setEncounter(EncounterData enc)
     ui->btnOptionActivate->setDefault(true);
 }
 
+void OptionChooser::setMonsters(QList<MonsterData> monsters)
+{
+    m_type = ChooseMonster;
+    cleanupOptions();
+
+    QLayout *l = ui->wgtOptionsList->layout();
+    for (MonsterData m : monsters) {
+        QString name = m.name();
+        QPushButton *btn = new QPushButton(name);
+        btn->setCheckable(true);
+        btn->setProperty(OPTION_MONSTER_PROPERTY, m.id());
+        btn->setProperty(OPTION_ID_PROPERTY, m.id());
+        connect(btn, SIGNAL(clicked()), this, SLOT(showOption()));
+        l->addWidget(btn);
+    }
+}
+
 void OptionChooser::cleanupOptions()
 {
     QLayout *l = ui->wgtOptionsList->layout();
@@ -291,6 +308,9 @@ void OptionChooser::on_btnOptionActivate_clicked()
     } else if (m_type == ChooseEncounter) {
         QString id = ui->btnOptionActivate->property(OPTION_ID_PROPERTY).toString();
         emit encounterChosen(id);
+    } else if (m_type == ChooseMonster) {
+        QString id = ui->btnOptionActivate->property(OPTION_ID_PROPERTY).toString();
+        emit monsterChosen(id);
     }
 }
 

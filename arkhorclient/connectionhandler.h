@@ -41,6 +41,8 @@ public:
 
     void selectEncounterOption(QString id);
 
+    void selectMonster(QString id);
+
     void acknowledge();
 
     void choiceSelected(AH::Common::ChoiceResponseData resp);
@@ -72,6 +74,7 @@ signals:
     void chooseSkill(QList<AH::Common::ModifiedPropertyValueData> opts);
     void chooseWeapons(QList<AH::Common::GameObjectData> weapons, AH::Common::ModifiedPropertyValueData hands);
     void chooseEncounterOption(AH::Common::EncounterData encounter);
+    void chooseMonster(QList<AH::Common::MonsterData> monsters);
 
     void dieRollInfo(AH::Common::DieRollTestData data);
 

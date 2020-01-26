@@ -404,6 +404,23 @@ QString NetworkPlayer::chooseEncounterOption(EncounterData *enc)
     return QString::null;
 }
 
+QString NetworkPlayer::chooseMonster(QList<MonsterData> monsters)
+{
+    QVariant v;
+    v << monsters;
+    m_conn->sendMessage(Message::S_CHOOSE_MONSTER, v);
+
+    AH::Common::Message resp;
+    QList<Message::Type> l;
+    l << Message::C_SELECT_MONSTER;
+    bool ok = awaitResponse(resp, l);
+    if (ok) {
+        QString id = resp.payload.toString();
+        return id;
+    }
+    return QString::null;
+}
+
 /*
 CostList NetworkPlayer::choosePayment(const Cost &c)
 {

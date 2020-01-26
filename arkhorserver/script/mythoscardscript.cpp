@@ -3,6 +3,8 @@
 #include "game/game.h"
 #include "propertymodificationscript.h"
 #include "monstermodifierscript.h"
+#include "characterscript.h"
+#include "monsterscript.h"
 #include <QDebug>
 
 MythosCardScript::MythosCardScript(QObject *parent) : DynamicScriptableObject(parent)
@@ -52,10 +54,8 @@ MythosCardScript *MythosCardScript::createMythosCard(QScriptContext *ctx, QScrip
         ret->m_envFieldId = static_cast<AH::Common::FieldData::FieldID> (data.property("environmentField").toInt32());
         ret->m_envType = static_cast<AH::Common::MythosData::EnvironmentType> (data.property("environmentType").toInt32());
 
-        QScriptValue endMove = data.property("onEndMovement");
-        if (endMove.isFunction()) {
-            ret->m_onEndMoveFunc = endMove;
-        }
+        ret->m_onEndMoveFunc = data.property("onEndMovement");
+        ret->m_onDefeatMonsterFunc = data.property("onDefeatMonster");
 
         QScriptValue envMods = data.property("environmentModifications");
         if (envMods.isValid() && !envMods.isUndefined()) {
@@ -173,6 +173,21 @@ void MythosCardScript::onEndMovement()
     }
 }
 
+bool MythosCardScript::onDefeatMonster(Character *byCharacter, Monster *m)
+{
+    Q_ASSERT(type() == Environment);
+    QScriptValueList args;
+    args << gGameScript->engine()->toScriptValue(dynamic_cast<CharacterScript*>(byCharacter));
+    args << gGameScript->engine()->toScriptValue(dynamic_cast<MonsterScript*>(m));
+    QScriptValue res = gGameScript->call(GameScript::F_Mythos, m_onDefeatMonsterFunc, m_object);
+    if (res.isError()) {
+        qCritical() << "Mythos onDefeatMonster Error:" << res.toString();
+    }
+    if (res.isBool())
+        return res.toBool();
+    return true;
+}
+
 void MythosCardScript::onMythos()
 {
     Q_ASSERT(type() == Rumor);
@@ -255,6 +270,7 @@ bool MythosCardScript::verify(MythosCardScript *myth, QString *err)
                 errs << "environmentField must be set";
         }
         if (myth->m_onEndMoveFunc.isValid() && !myth->m_onEndMoveFunc.isFunction()) errs << "onEndMovement must be a function";
+        if (myth->m_onDefeatMonsterFunc.isValid() && !myth->m_onDefeatMonsterFunc.isFunction()) errs << "onDefeatMonster must be a function";
     }
 
     if (myth->m_type == Rumor) {

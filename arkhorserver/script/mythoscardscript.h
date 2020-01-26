@@ -44,6 +44,7 @@ public:
     virtual GameOption *environmentFieldOption();
     virtual AH::Common::FieldData::FieldID environmentFieldId();
     virtual void onEndMovement();
+    virtual bool onDefeatMonster(Character *byCharacter, Monster *m);
 
     // Rumors
     virtual void onMythos();
@@ -76,6 +77,7 @@ private:
     AH::Common::FieldData::FieldID m_envFieldId;
     PropertyModificationList m_envMods;
     QScriptValue m_onEndMoveFunc;
+    QScriptValue m_onDefeatMonsterFunc;
 
     QScriptValue m_setupRumorFunc;
     QScriptValue m_teardownRumorFunc;

@@ -114,12 +114,15 @@ void MonsterScript::move(AH::MovementDirection dir)
 
 void MonsterScript::defeat(Character *byCharacter)
 {
+    if (!gGame->handleDefeatMonster(byCharacter, this)) {
+        return;
+    }
     if (m_onDefeatFunc.isFunction()) {
         CharacterScript *cs = dynamic_cast<CharacterScript *> (byCharacter);
         QScriptValue res = gGameScript->call(GameScript::F_Monster, m_onDefeatFunc, getThis(), QScriptValueList() << gGameScript->engine()->toScriptValue(cs));
         if (res.isUndefined() || (res.isBool() && res.toBool())) {
             // If no result, or true result, do default action
-            Monster::defeat(byCharacter);
+            Monster::execDefeat(byCharacter);
         } else {
             // Must remove in any case
             if (m_field) {
@@ -127,7 +130,7 @@ void MonsterScript::defeat(Character *byCharacter)
             }
         }
     } else {
-        Monster::defeat(byCharacter);
+        Monster::execDefeat(byCharacter);
     }
 }
 

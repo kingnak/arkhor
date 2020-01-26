@@ -65,6 +65,9 @@ public:
     PropertyModificationList getFilteredModifications(MonsterAttributes ignoredAttributes) const;
 
 protected:
+    void execDefeat(Character *byCharacter);
+
+protected:
     GameField *m_field;
     bool m_isSpontaneous;
 };

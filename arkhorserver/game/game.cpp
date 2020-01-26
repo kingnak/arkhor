@@ -479,6 +479,8 @@ bool Game::handleLostInSpaceAndTime(Character *c)
 
 bool Game::handleDefeatMonster(Character *byCharacter, Monster *m)
 {
+    if (m_environment && !m_environment->onDefeatMonster(byCharacter, m))
+        return false;
     return m_ancientOne->onDefeatMonster(byCharacter, m);
 }
 

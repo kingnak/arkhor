@@ -146,6 +146,10 @@ void Monster::move(AH::MovementDirection dir)
 
 void Monster::defeat(Character *byCharacter)
 {
+    if (!gGame->handleDefeatMonster(byCharacter, this)) {
+        return;
+    }
+
     if (m_field) {
         m_field->removeMonster(this);
     }

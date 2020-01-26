@@ -20,6 +20,8 @@ public:
 
     Q_PROPERTY(QString id READ id)
     Q_PROPERTY(quint32 attributes READ attributes)
+    Q_PROPERTY(QString name READ name)
+    Q_PROPERTY(QString type READ typeId)
 
     static MonsterScript *createMonster(QScriptContext *ctx, QScriptEngine *eng);
 

@@ -456,6 +456,26 @@ void Game::killPlayer(Player *p)
     removePlayer(p);
 }
 
+bool Game::handleUnconscious(Character *c)
+{
+    return m_ancientOne->onUnconscious(c);
+}
+
+bool Game::handleInsane(Character *c)
+{
+    return m_ancientOne->onInsane(c);
+}
+
+bool Game::handleLostInSpaceAndTime(Character *c)
+{
+    return m_ancientOne->onLostInSpaceAndTime(c);
+}
+
+bool Game::handleDefeatMonster(Character *byCharacter, Monster *m)
+{
+    return m_ancientOne->onDefeatMonster(byCharacter, m);
+}
+
 void Game::returnMonster(Monster *m)
 {
     if (!m) return;

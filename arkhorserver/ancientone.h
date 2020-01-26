@@ -44,6 +44,11 @@ public:
     virtual bool postAttack() { return true; }
     virtual void newAttackRound();
 
+    virtual bool onUnconscious(Character *c) { Q_UNUSED(c) return true; }
+    virtual bool onInsane(Character *c) { Q_UNUSED(c) return true; }
+    virtual bool onLostInSpaceAndTime(Character *c) { Q_UNUSED(c) return true; }
+    virtual bool onDefeatMonster(Character *c, Monster *m) { Q_UNUSED(c) Q_UNUSED(m) return true; }
+
     bool isDefeated() const;
 
     void damage(int amount);

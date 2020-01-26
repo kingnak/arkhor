@@ -34,6 +34,11 @@ public:
 
     virtual PropertyModificationList getSlumberModifications() const { return m_slumberModifications; }
 
+    virtual bool onUnconscious(Character *c);
+    virtual bool onInsane(Character *c);
+    virtual bool onLostInSpaceAndTime(Character *c);
+    virtual bool onDefeatMonster(Character *c, Monster *m);
+
     virtual void onEndMythos();
     virtual void attack();
     virtual bool postAttack();
@@ -54,6 +59,11 @@ private:
     QScriptValue m_attackFunc;
     QScriptValue m_postAttackFunc;
     QScriptValue m_this;
+
+    QScriptValue m_onUnconsciousFunc;
+    QScriptValue m_onInsaneFunc;
+    QScriptValue m_onLostFunc;
+    QScriptValue m_onDefeatMonsterFunc;
 
     PropertyModificationList m_slumberModifications;
     QList<AH::Common::MythosData::EnvironmentType> m_ignEnvTypes;

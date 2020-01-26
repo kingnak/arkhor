@@ -101,6 +101,11 @@ public:
 
     void killPlayer(Player *p);
 
+    bool handleUnconscious(Character *c);
+    bool handleInsane(Character *c);
+    bool handleLostInSpaceAndTime(Character *c);
+    bool handleDefeatMonster(Character *byCharacter, Monster *m);
+
     void returnMonster(Monster *m);
     Monster *drawMonster();
 

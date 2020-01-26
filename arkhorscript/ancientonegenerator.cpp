@@ -48,6 +48,10 @@ QList<ClassGenerator::AttributeDesc> AncientOneGenerator::getAttributes()
             << AttributeDesc("postAttack", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
             << AttributeDesc("onEndMythos", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
             << AttributeDesc("ignoreEnvironmentTypes", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Array | AttributeDesc::V_Primitive)
+            << AttributeDesc("onUnconscious", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
+            << AttributeDesc("onInsane", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
+            << AttributeDesc("onLostInSpaceAndTime", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
+            << AttributeDesc("onDefeatMonster", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
                ;
 }
 
@@ -68,7 +72,12 @@ bool AncientOneGenerator::outputSpecialAttribute(AttributeDesc desc, const Class
     if (desc.name == "ignoreEnvironmentTypes") {
         return outputEnumValueArray("Constants.EnvironmentType", attr, cls);
     }
-
+    if (desc.name == "onUnconscious" || desc.name == "onInsane" || desc.name == "onLostInSpaceAndTime") {
+        return outputFunction(attr, cls, "c");
+    }
+    if (desc.name == "onDefeatMonster") {
+        return outputFunction(attr, cls, "c, m");
+    }
     Q_ASSERT_X(false, "AncientOne Generator", qPrintable(QString("Special Attribute '%1' not handled").arg(desc.name)));
     return false;
 }

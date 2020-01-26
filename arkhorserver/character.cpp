@@ -343,6 +343,10 @@ void Character::unconscious()
         return;
     }
 
+    if (!gGame->handleUnconscious(this)) {
+        return;
+    }
+
     if (field()->type() == AH::Common::FieldData::OtherWorld) {
         lostInSpaceAndTime();
         return;
@@ -366,6 +370,10 @@ void Character::insane()
     // Check for ancient one fight
     if (gGame->context().phase() == AH::EndFightPhase) {
         devour();
+        return;
+    }
+
+    if (!gGame->handleInsane(this)) {
         return;
     }
 
@@ -406,6 +414,10 @@ void Character::devour()
 
 void Character::lostInSpaceAndTime()
 {
+    if (!gGame->handleLostInSpaceAndTime(this)) {
+        return;
+    }
+
     m_curSanity = qMax(1, m_curSanity);
     m_curStamina = qMax(1, m_curStamina);
     gGame->notifier()->notifySpecific("You are lost in time and space!", "{C} is lost in time and space", gGame->playerForCharacter(this));

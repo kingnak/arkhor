@@ -3,6 +3,8 @@
 #include "propertymodificationscript.h"
 #include "monstermodifierscript.h"
 #include "gamescript.h"
+#include "characterscript.h"
+#include "monsterscript.h"
 
 AncientOneScript::AncientOneScript(QObject *parent) :
     QObject(parent)
@@ -32,6 +34,10 @@ AncientOneScript *AncientOneScript::createAncientOne(QScriptContext *ctx, QScrip
     ret->m_doomTrack = data.property("doomTrack").toInt32();
     ret->m_awakeFunc = data.property("onAwake");
     ret->m_postAttackFunc = data.property("postAttack");
+    ret->m_onUnconsciousFunc = data.property("onUnconscious");
+    ret->m_onInsaneFunc = data.property("onInsane");
+    ret->m_onLostFunc = data.property("onLostInSpaceAndTime");
+    ret->m_onDefeatMonsterFunc = data.property("onDefeatMonster");
 
     // Dynamic attack adjustment
     ret->m_attackAdjustment = data.property("attackAdjustment").toInt32();
@@ -75,6 +81,57 @@ void AncientOneScript::awake()
     if (m_awakeFunc.isFunction()) {
         gGameScript->call(GameScript::F_AncientOne, m_awakeFunc, m_this);
     }
+}
+
+bool AncientOneScript::onUnconscious(Character *c)
+{
+    if (m_onUnconsciousFunc.isFunction()) {
+        auto res = gGameScript->call(GameScript::F_AncientOne, m_onUnconsciousFunc, m_this, gGameScript->engine()->toScriptValue(dynamic_cast<CharacterScript*>(c)));
+        if (res.isBool()) {
+            return res.toBool();
+        }
+    }
+
+    return true;
+}
+
+bool AncientOneScript::onInsane(Character *c)
+{
+    if (m_onInsaneFunc.isFunction()) {
+        auto res = gGameScript->call(GameScript::F_AncientOne, m_onInsaneFunc, m_this, gGameScript->engine()->toScriptValue(dynamic_cast<CharacterScript*>(c)));
+        if (res.isBool()) {
+            return res.toBool();
+        }
+    }
+
+    return true;
+}
+
+bool AncientOneScript::onLostInSpaceAndTime(Character *c)
+{
+    if (m_onLostFunc.isFunction()) {
+        auto res = gGameScript->call(GameScript::F_AncientOne, m_onLostFunc, m_this, gGameScript->engine()->toScriptValue(dynamic_cast<CharacterScript*>(c)));
+        if (res.isBool()) {
+            return res.toBool();
+        }
+    }
+
+    return true;
+}
+
+bool AncientOneScript::onDefeatMonster(Character *c, Monster *m)
+{
+    if (m_onDefeatMonsterFunc.isFunction()) {
+        QScriptValueList args;
+        args << gGameScript->engine()->toScriptValue(dynamic_cast<CharacterScript*>(c));
+        args << gGameScript->engine()->toScriptValue(dynamic_cast<MonsterScript*>(m));
+        auto res = gGameScript->call(GameScript::F_AncientOne, m_onDefeatMonsterFunc, m_this, args);
+        if (res.isBool()) {
+            return res.toBool();
+        }
+    }
+
+    return true;
 }
 
 void AncientOneScript::onEndMythos()
@@ -131,6 +188,10 @@ bool AncientOneScript::verify(AncientOneScript *m, QString *msg)
     if (!m->m_attackFunc.isValid() || !m->m_attackFunc.isFunction()) errs.append("attack must be a function");
     if (m->m_postAttackFunc.isValid() && !m->m_postAttackFunc.isFunction()) errs.append("postAttack must be a function");
     if (m->m_onEndMythosFunc.isValid() && !m->m_onEndMythosFunc.isFunction()) errs.append("onEndMythos must be a function");
+    if (m->m_onUnconsciousFunc.isValid() && !m->m_onUnconsciousFunc.isFunction()) errs.append("onUnconscious must be a function");
+    if (m->m_onInsaneFunc.isValid() && !m->m_onInsaneFunc.isFunction()) errs.append("onInsane must be a function");
+    if (m->m_onLostFunc.isValid() && !m->m_onLostFunc.isFunction()) errs.append("onLostInSpaceAndTime must be a function");
+    if (m->m_onDefeatMonsterFunc.isValid() && !m->m_onDefeatMonsterFunc.isFunction()) errs.append("onDefeatMonster must be a function");
 
     if (msg) *msg = errs.join("\n");
     if (errs.isEmpty()) {

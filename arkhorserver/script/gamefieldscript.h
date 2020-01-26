@@ -20,6 +20,9 @@ public:
     Q_INVOKABLE void lockUntilNextRound();
     Q_INVOKABLE bool hasMonsters() const { return m_field ? m_field->hasMonsters() : false; }
 
+    Q_PROPERTY(quint32 id READ id)
+    quint32 id() { return m_field ? m_field->id() : AH::Common::FieldData::NO_NO_FIELD; }
+
     Q_PROPERTY(QObjectList characters READ characters)
     QObjectList characters();
 

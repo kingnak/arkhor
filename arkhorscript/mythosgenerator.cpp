@@ -85,6 +85,7 @@ QList<ClassGenerator::AttributeDesc> EnvironmentGenerator::getAttributes()
             << AttributeDesc("environmentModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
             << AttributeDesc("monsterModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
             << AttributeDesc("monsterMoveModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
+            << AttributeDesc("onEndMovement", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
                ;
 }
 

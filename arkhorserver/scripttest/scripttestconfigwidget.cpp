@@ -158,6 +158,11 @@ QWidget *ScriptTestConfigWidget::buildDebug()
     l2->addLayout(g);
     g = new QHBoxLayout;
 
+    b = new QCheckBox("Mythos");
+    connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugMythos = b;});
+    b->setChecked(true);
+    g->addWidget(b);
+
     b = new QCheckBox("Display");
     connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_debugDisplay = b;});
     b->setChecked(true);

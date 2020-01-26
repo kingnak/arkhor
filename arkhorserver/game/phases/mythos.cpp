@@ -78,11 +78,14 @@ bool MythosAction::execute()
         break;
     case AH::Common::MythosData::Environment:
         if (gGame->setEnvironment(card)) {
-            GameOption *opt = card->environmentFieldOption();
-            if (opt) {
-                GameField *f = gGame->board()->field(card->environmentFieldId());
-                f->addFieldOption(opt);
+            auto fId = card->environmentFieldId();
+            if (fId != AH::Common::FieldData::NO_NO_FIELD) {
+                GameField *f = gGame->board()->field(fId);
+                GameOption *opt = card->environmentFieldOption();
                 f->setSpecialActionNr(gGame->getSpecialActionNumber());
+                if (opt) {
+                    f->addFieldOption(opt);
+                }
             }
         } else {
             gGame->returnMythos(card);

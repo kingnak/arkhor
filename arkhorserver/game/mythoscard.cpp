@@ -5,7 +5,7 @@ MythosCard::MythosCard()
 {
 }
 
-QList<AH::Common::PropertyModificationData>MythosCard::getModificationData() const
+QList<AH::Common::PropertyModificationData> MythosCard::getModificationData() const
 {
     QList<AH::Common::PropertyModificationData> ret;
     foreach (PropertyModification m, getModifications()) {

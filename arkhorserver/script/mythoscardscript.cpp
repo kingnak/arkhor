@@ -52,6 +52,11 @@ MythosCardScript *MythosCardScript::createMythosCard(QScriptContext *ctx, QScrip
         ret->m_envFieldId = static_cast<AH::Common::FieldData::FieldID> (data.property("environmentField").toInt32());
         ret->m_envType = static_cast<AH::Common::MythosData::EnvironmentType> (data.property("environmentType").toInt32());
 
+        QScriptValue endMove = data.property("onEndMovement");
+        if (endMove.isFunction()) {
+            ret->m_onEndMoveFunc = endMove;
+        }
+
         QScriptValue envMods = data.property("environmentModifications");
         if (envMods.isValid() && !envMods.isUndefined()) {
             PropertyModificationList lst;
@@ -159,6 +164,15 @@ AH::Common::FieldData::FieldID MythosCardScript::environmentFieldId()
     return m_envFieldId;
 }
 
+void MythosCardScript::onEndMovement()
+{
+    Q_ASSERT(type() == Environment);
+    QScriptValue res = gGameScript->call(GameScript::F_Mythos, m_onEndMoveFunc, m_object);
+    if (res.isError()) {
+        qCritical() << "Mythos onEndMovement Error:" << res.toString();
+    }
+}
+
 void MythosCardScript::onMythos()
 {
     Q_ASSERT(type() == Rumor);
@@ -234,11 +248,9 @@ bool MythosCardScript::verify(MythosCardScript *myth, QString *err)
     }
 
     if (myth->m_type == Environment) {
-        if (myth->m_envType == AH::Common::MythosData::Env_None) errs << "environmentType must be set";
-        if (myth->m_envFieldOptionId.isEmpty()) {
-            if (myth->m_envFieldId != AH::Common::FieldData::NO_NO_FIELD)
-                errs << "environmentOptionId must be set";
-        } else {
+        if (myth->m_envType == AH::Common::MythosData::Env_None)
+            errs << "environmentType must be set";
+        if (!myth->m_envFieldOptionId.isEmpty()) {
             if (myth->m_envFieldId == AH::Common::FieldData::NO_NO_FIELD)
                 errs << "environmentField must be set";
         }

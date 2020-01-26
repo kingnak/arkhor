@@ -136,7 +136,7 @@ public:
     enum FunctionType {
         F_Action, F_Available, F_AncientOne,
         F_Display, F_Modification, F_Inventory,
-        F_Monster, F_Rumor, F_Prevent
+        F_Monster, F_Rumor, F_Prevent, F_Mythos
     };
 
     // Central method caller

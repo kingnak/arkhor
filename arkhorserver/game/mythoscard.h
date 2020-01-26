@@ -27,6 +27,7 @@ public:
     virtual QList<AH::Common::PropertyModificationData> getModificationData() const;
     virtual GameOption *environmentFieldOption() = 0;
     virtual AH::Common::FieldData::FieldID environmentFieldId() = 0;
+    virtual void onEndMovement() = 0;
 
     // Rumors
     virtual void onMythos() = 0;

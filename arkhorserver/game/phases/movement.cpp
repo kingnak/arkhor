@@ -2,6 +2,7 @@
 #include "../../character.h"
 #include "../gameboard.h"
 #include "../player.h"
+#include "game/mythoscard.h"
 
 Movement::Movement(Game *game)
     : GamePhase(game)
@@ -43,6 +44,11 @@ void Movement::finishPhase()
 {
     int clueCt = gGame->context().player()->getCharacter()->field()->takeClues();
     gGame->context().player()->getCharacter()->addClue(clueCt);
+
+    // on end movements
+    if (gGame->context().environment()) {
+        gGame->context().environment()->onEndMovement();
+    }
 }
 
 QList<GameOption *> Movement::getPhaseOptions()

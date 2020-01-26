@@ -7,6 +7,7 @@ AncientOne Yig {
     powerTitle: "Yig's Anger";
     powerText: "While Yig stirs in his slumber, he gains a doom token whenever a "+
         "<b>Cultist</b> is defeated or an investigator is <i>Lost in Time and Space</i>. (not implemented)";
+        // TODO
         
     battleStartText: "Every investigator is <i>Cursed</i>. Any investigator that already has a Curse is <b>devoured</b>.";
     attackText: "Each investigator must pass a <b>Speed (+1) check</b> or lose 1 Sanity and 1 Stamina. "+

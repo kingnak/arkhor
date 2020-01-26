@@ -27,7 +27,7 @@ SpecialAbility Scrounge {
                 "or <b>Spell</b> deck, he may draw from either the top or the "+
                 "bottom of that deck, his choice. Pete may look at the "+
                 "bottom card of those decks at any time.";
-    // Ok, this is not 100% correct, but will do....
+    // TODO: Ok, this is not 100% correct, but will do....
     modifications: [
         DrawCard_CommonItem +1,
         DrawCard_UniqueItem +1,

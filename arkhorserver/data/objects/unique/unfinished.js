@@ -95,7 +95,7 @@ game.registerMultiObject(1, flute);
 ////////////////////////
 /* TODOS:
  * Gate Box x 1: $4 Any Phase: When you return to Arkham from an Other World, you can return to any location with an open gate, not just those leading to the Other World you were in.
- * Obsidian Statue x 1: $4 Any Phase: Discard Obsidian Statue to cancel all Stamina or Sanity loss being dealt to you from one source. 
+>* Obsidian Statue x 1: $4 Any Phase: Discard Obsidian Statue to cancel all Stamina or Sanity loss being dealt to you from one source.
  * Silver Key x 1: $4 Any Phase: Put 1 Stamina token from the bank on Silver Key before making an Evade check to automatically pass it. Discard Silver Key after using it if there are 3 Stamina tokens on it. 
  * Warding Statue x 1: $6 Any Phase: Discard Warding Statue after failing a Combat check to reduce the monster's combat damage to 0 Stamina. This can also be used to cancel an Ancient One's entire attack for 1 turn. 
  */

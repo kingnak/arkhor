@@ -4,15 +4,6 @@ Spell FindGate : 4 {
     exhaustable: true;
     castCost: 1;
     castAdjustment: -1;
-    /*
-    cast: {{{
-        this.owner.returnToArkham();
-    }}};
-    castIsAvailable: {{{
-                return this.owner.field.type == Constants.FieldType.OtherWorld;
-    }}};
-    castPhases: Movement;
-    */
     cast: <<<{
         cast: function() {
             this.owner.returnToArkham();

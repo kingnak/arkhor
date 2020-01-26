@@ -100,4 +100,3 @@ CommonItem Shotgun : 2 {
     price: 6;
     modifications: [ Damage_Physical +4 ];
 }
-

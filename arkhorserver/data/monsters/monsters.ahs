@@ -64,6 +64,9 @@ Monster Chthonian : 3 {
     toughness: 3;
     //attributes: ;
     onMove: {{{
+            var res = game.context.genericDieRollSum("Chthonian moves", this.id, 1);
+            if (res < 4)
+                return;
             var list = game.context.allCharacters;
             for (var i = 0; i < list.length; ++i) {
                 var c = list[i];

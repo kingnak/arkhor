@@ -9,14 +9,16 @@ Ally AnnaKaslow {
 Ally Duke {
     description: "Discard to immediately restore your Sanity to its maximum.";
     modifications: [ Prop_MaxSanity +1 ];
-    options: Option.DiscardDuke;
-}
-QuickOption DiscardDuke {
-    phases: Any;
-    activate: {{{
-        owner.restoreSanity();
-        this.discard();
-    }}};
+    options: {
+        QuickOption {
+            name: "Discard Duke";
+            phases: Any;
+            activate: {{{
+                owner.restoreSanity();
+                this.discard();
+            }}};
+        }
+     };
 }
 
 Ally EricColt {
@@ -48,14 +50,16 @@ Ally RyanDean {
 Ally SirWilliamBrinton {
     description: "Discard to immediately restore your Stamina to its maximum.";
     modifications: [ Prop_MaxStamina +1 ];
-    options: Option.DiscardSirWilliamBrinton;
-}
-QuickOption DiscardSirWilliamBrinton {
-    phases: Any;
-    activate: {{{
-        owner.restoreStamina();
-        this.discard();
-    }}};
+    options: {
+        QuickOption {
+            name: "Discard Sir William Brinton";
+            phases: Any;
+            activate: {{{
+                owner.restoreStamina();
+                this.discard();
+            }}};
+        }
+    };
 }
 
 Ally ThomasFMalone {

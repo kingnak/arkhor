@@ -125,7 +125,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline GhostShip {
     name: "Ghost Ship Docks by Itself!";
     description: "An ancient ghost ship arrives in Arkham, releasing 2 monsters into the Merchant Dist. streets.";
     //clueField: UT_Woods;
@@ -442,6 +442,6 @@ Fourth of July Parade!
 Miskatonic Arctic Expedition Returns!
 Missing People Return!
 Strange Lights on Campus!
-Strange Power Flux Plagues City!
-Temperence Fever Sweeps City
+Strange Power Flux Plagues City! <- POSSIBLE!
+Temperence Fever Sweeps City <- Partly POSSIBLE!
 */

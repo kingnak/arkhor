@@ -51,7 +51,7 @@ AncientOne Cthulhu {
 
     postAttack: {{{
         if (this.doomTrack < this.maxDoomTrack) {
-            increaseDoomTrack();
+            this.increaseDoomTrack(1);
         }
     }}};
 }

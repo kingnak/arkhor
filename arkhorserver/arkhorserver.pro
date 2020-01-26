@@ -40,6 +40,7 @@ HEADERS += \
     game/actions/untapaction.h \
     game/phases/arkhamencoutery.h \
     game/phases/chooseinvestigator.h \
+    game/phases/fight/choosemonsteraction.h \
     game/phases/movement.h \
     game/phases/otherworldencountery.h \
     game/phases/upkeep.h \
@@ -138,6 +139,7 @@ SOURCES += \
     game/actions/untapaction.cpp \
     game/phases/arkhamencoutery.cpp \
     game/phases/chooseinvestigator.cpp \
+    game/phases/fight/choosemonsteraction.cpp \
     game/phases/movement.cpp \
     game/phases/otherworldencountery.cpp \
     game/phases/upkeep.cpp \
@@ -315,6 +317,7 @@ DISTFILES += \
     data/characters/michael_mcglen.ahs \
     data/characters/monterey_jack.ahs \
     data/characters/vincent_lee.ahs \
+    data/mythos/ru_disturbing_the_dead.ahs \
     data/mythos/ru_southside_strangler.ahs \
     data/mythos/test.ahs \
     data/objects/common/weapons.ahs \

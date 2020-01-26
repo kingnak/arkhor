@@ -34,6 +34,7 @@ public:
 
     virtual PropertyModificationList getSlumberModifications() const { return m_slumberModifications; }
 
+    virtual void onEndMythos();
     virtual void attack();
     virtual bool postAttack();
 
@@ -45,6 +46,7 @@ private:
     static bool verify(AncientOneScript *m, QString *msg = NULL);
 
 private:
+    QScriptValue m_onEndMythosFunc;
     QScriptValue m_awakeFunc;
     QScriptValue m_attackFunc;
     QScriptValue m_postAttackFunc;

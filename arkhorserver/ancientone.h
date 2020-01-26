@@ -29,6 +29,7 @@ public:
     { Q_UNUSED(attrs) Q_UNUSED(matchAll) return PropertyModificationList(); }
     */
 
+    virtual void onEndMythos() {}
 
     using MonsterModifier::getMonsterModifications;
     using MonsterModifier::getMonsterMovementModifications;

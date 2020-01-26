@@ -1,6 +1,7 @@
 #include "mythos.h"
 #include "game/mythoscard.h"
 #include "monster.h"
+#include "ancientone.h"
 
 Mythos::Mythos(Game *game)
     : GamePhase(game), m_activeRumor(NULL)
@@ -34,6 +35,9 @@ void Mythos::finishPhase()
 {
     if (m_activeRumor) {
         m_activeRumor->onMythos();
+    }
+    if (gGame->ancientOne()) {
+        gGame->ancientOne()->onEndMythos();
     }
 }
 

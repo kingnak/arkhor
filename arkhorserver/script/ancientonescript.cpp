@@ -38,6 +38,8 @@ AncientOneScript *AncientOneScript::createAncientOne(QScriptContext *ctx, QScrip
 
     ret->m_attackFunc = data.property("attack");
 
+    ret->m_onEndMythosFunc = data.property("onEndMythos");
+
     // slumber modifications
     QScriptValue propMod = data.property("slumberModifications");
     if (propMod.isValid() && !propMod.isUndefined()) {
@@ -73,6 +75,13 @@ void AncientOneScript::awake()
     }
 }
 
+void AncientOneScript::onEndMythos()
+{
+    if (m_onEndMythosFunc.isFunction()) {
+        gGameScript->call(GameScript::F_AncientOne, m_onEndMythosFunc, m_this);
+    }
+}
+
 void AncientOneScript::attack()
 {
     gGameScript->call(GameScript::F_AncientOne, m_attackFunc, m_this);
@@ -102,6 +111,7 @@ bool AncientOneScript::verify(AncientOneScript *m, QString *msg)
     if (m->m_awakeFunc.isValid() && !m->m_awakeFunc.isFunction()) errs.append("onAwake must be a function");
     if (!m->m_attackFunc.isValid() || !m->m_attackFunc.isFunction()) errs.append("attack must be a function");
     if (m->m_postAttackFunc.isValid() && !m->m_postAttackFunc.isFunction()) errs.append("postAttack must be a function");
+    if (m->m_onEndMythosFunc.isValid() && !m->m_onEndMythosFunc.isFunction()) errs.append("onEndMythos must be a function");
 
     if (msg) *msg = errs.join("\n");
     if (errs.isEmpty()) {

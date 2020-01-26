@@ -6,7 +6,7 @@ AncientOne YogSothoth {
 
     powerTitle: "The Key and the Gate";
     powerText: "While Yog-Sothoth stirs in his slumber, the difficulty to close or seal a gate "+
-        "increases by 1. In addition, any investigator <i>Lost in Time and Space</i> is <b>devoured</b>. (not implemented)";
+        "increases by 1. In addition, any investigator <i>Lost in Time and Space</i> is <b>devoured</b>.";
         
     battleStartText: "Any investigator with no gate trophies is <b>devoured</b>.";
     attackText: "Each investigator must pass a <b>Will (+1) check</b> or lose 1 gate trophy. "+
@@ -22,11 +22,10 @@ AncientOne YogSothoth {
         }
     ];
     
-    /*
-    TODO
-    slumberModifications: [
-    ];
-    */
+    onLostInSpaceAndTime: {{{
+        c.devour();
+        return false;
+    }}};
     
     attackAdjustment: 1;
     onAwake: {{{

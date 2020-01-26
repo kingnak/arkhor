@@ -644,6 +644,17 @@ void Character::restoreSanity()
     gGame->notifier()->notifySimple("{C} restored sanity", gGame->playerForCharacter(this));
 }
 
+int Character::freeHands() const
+{
+    int hands = gGame->context().getCharacterProperty(this, PropertyValue::Prop_HandCount).finalVal();
+    for (auto o : m_inventory) {
+        if (o->isEquipped()) {
+            hands -= o->handCount();
+        }
+    }
+    return hands;
+}
+
 /*
 void Character::preventDamageStamina(int amount)
 {

@@ -22,6 +22,7 @@ public:
     Q_PROPERTY(QString id READ id)
 
     Q_PROPERTY(QObjectList inventory READ getInventoryScript)
+    Q_PROPERTY(int freeHands READ freeHands)
 
     Q_INVOKABLE void addToInventory(GameObjectScript *o) { Character::addToInventory(o); }
     Q_INVOKABLE void removeFromInventory(GameObjectScript *o) { Character::removeFromInventory(o); }

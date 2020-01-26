@@ -69,6 +69,8 @@ public:
     void addSanity(int amount);
     void restoreStamina();
     void restoreSanity();
+
+    int freeHands() const;
     //void preventDamageStamina(int amount);
     //void preventDamageSanity(int amount);
 

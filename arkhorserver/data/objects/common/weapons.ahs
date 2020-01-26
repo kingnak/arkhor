@@ -40,7 +40,7 @@ CommonItem Cross : 2 {
             }
         }
         return [
-            { property: Constants.Mods.Damage_Magical, value: dmg },
+            { property: Constants.Mods.Damage_General, value: dmg },
             { property: Constants.Mods.Skill_Horror, value: 1}
         ];
     }}};
@@ -76,8 +76,9 @@ CommonItem Axe : 2 {
     price: 3;
     description: "+3 instead if your other hand is empty";
     modifications: {{{
-        // TODO: Check if other hand is free. If so => Damage +3
         var dmg = 2;
+        if (this.owner && this.isEquipped && this.owner.freeHands > 0)
+            dmg = 3;
         return [ {property: Constants.Mods.Damage_Physical, value: dmg} ];
     }}};
 }

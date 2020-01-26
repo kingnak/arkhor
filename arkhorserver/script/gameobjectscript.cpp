@@ -173,13 +173,15 @@ PropertyModificationList GameObjectScript::getModifications() const
 {
     if (m_modsFunc.isFunction()) {
         // If called from foreign thread, return cached values
-        if (!gGameScript->isGameThread()) {
+        if (!gGameScript->isGameThread() || m_isRecursing) {
             QReadLocker r(&s_modFunctionLock);
             return m_mods + m_oldDynMods;
         }
 
         QScriptValue f = m_modsFunc;
-        QScriptValue v = gGameScript->call(GameScript::F_Modification, f);
+        m_isRecursing = true;
+        QScriptValue v = gGameScript->call(GameScript::F_Modification, f, m_this);
+        m_isRecursing = false;
         PropertyModificationList lst;
         if (PropertyModificationScript::parsePropertyModificationList(this, v, lst)) {
             QWriteLocker w(&s_modFunctionLock);

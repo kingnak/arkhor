@@ -27,6 +27,11 @@ AH::GamePhases GameOption::phases() const
     return m_phases;
 }
 
+GameOption::AutoChoose GameOption::autoChoose() const
+{
+    return AutoChoose::Never;
+}
+
 bool GameOption::execute()
 {
     if (isAvailable()) {

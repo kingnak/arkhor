@@ -45,6 +45,14 @@ QString OtherWorldEncounteryAction::notificationString(GameAction::NotificationP
     return "{C} has an encounter at {F}";
 }
 
+GameOption::AutoChoose OtherWorldEncounteryOption::autoChoose() const
+{
+    if (gGame->context().player()->getCharacter()->field()->type() != AH::Common::FieldData::FieldType::OtherWorld) {
+        return AutoChoose::Always;
+    }
+    return AutoChoose::Possible;
+}
+
 bool OtherWorldEncounteryOption::isAvailable() const
 {
     return gGame->context().player()->getCharacter()->field()->type() == AH::Common::FieldData::OtherWorld;

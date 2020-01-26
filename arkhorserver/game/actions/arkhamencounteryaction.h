@@ -29,6 +29,7 @@ public:
 
     QString id() const { return "OP_ARKHAM_ENCOUNTERY"; }
 
+    virtual AutoChoose autoChoose() const;
     virtual bool isAvailable() const { return true; }
     virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
 

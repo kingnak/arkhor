@@ -29,6 +29,7 @@ public:
 
     QString id() const { return "OP_OTHERWORLD_ENCOUNTERY"; }
 
+    virtual AutoChoose autoChoose() const;
     virtual bool isAvailable() const;
     virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
 

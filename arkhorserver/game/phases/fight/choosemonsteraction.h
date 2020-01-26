@@ -36,6 +36,7 @@ public:
     {}
     QString id() const { return "OP_CHOOSE_MONSTER"; }
 
+    virtual AutoChoose autoChoose() const { return AutoChoose::Always; }
     virtual bool isAvailable() const { return true; }
     void setMonsters(QList<Monster*> monsters) {
         cma.m_monsters = monsters;

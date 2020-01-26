@@ -5,7 +5,7 @@ namespace AH { namespace Common {
 DEFINE_ENUM_SERIALIZER(PlayerData::AutoSkipData)
 
 PlayerData::PlayerData()
-    : m_autoSkip(NoAutoSkip)
+    : m_autoSkip(NoAutoChoose)
 {
 }
 

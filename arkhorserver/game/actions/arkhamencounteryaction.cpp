@@ -43,6 +43,14 @@ QString ArkhamEncounteryAction::notificationString(GameAction::NotificationPart 
 }
 
 
+GameOption::AutoChoose ArkhamEncounteryOption::autoChoose() const
+{
+    if (gGame->context().player()->getCharacter()->field()->type() != AH::Common::FieldData::FieldType::Location) {
+        return AutoChoose::Always;
+    }
+    return AutoChoose::Possible;
+}
+
 AH::Common::ModifiedPropertyValueData ArkhamEncounteryOption::baseProperty() const
 {
     auto mods = gGame->context().getCurCharacterDrawArkhamEncounter().toModifiedPropertyValueData();

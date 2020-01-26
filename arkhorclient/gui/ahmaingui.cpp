@@ -21,7 +21,7 @@ AhMainGui::AhMainGui(QWidget *parent) :
     ui(new Ui::AhMainGui),
     m_conn(NULL),
     m_registry(NULL),
-    m_skipOption(PlayerData::NoAutoSkip)
+    m_skipOption(PlayerData::NoAutoChoose)
 {
     qRegisterMetaType<AH::Common::MonsterData>();
     qRegisterMetaType<QList<AH::Common::MonsterData>>();
@@ -527,7 +527,8 @@ void AhMainGui::on_btnSkipOptions_clicked()
     bool ok = true;
     QStringList itms = QStringList()
             << "Show all options"
-            << "End round automatically if nothing to do"
+            << "Automatically choose some options"
+            << "Automatically choose all basic options"
             << "Automatically choose option if there  is only 1";
     QString sel = QInputDialog::getItem(this, "Skip Option", "Choose skip options", itms, m_skipOption, false, &ok);
 

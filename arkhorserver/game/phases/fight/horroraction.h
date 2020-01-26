@@ -36,6 +36,7 @@ public:
     QString id() const { return "OP_HORROR"; }
     QString sourceId() const;
 
+    virtual AutoChoose autoChoose() const { return AutoChoose::Possible; }
     virtual bool isAvailable() const;
     virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
 

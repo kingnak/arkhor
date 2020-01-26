@@ -18,9 +18,10 @@ namespace AH {
             QString investigatorId() const { return m_invId; }
 
             enum AutoSkipData {
-                NoAutoSkip,
-                AutoSkip,
-                AutoChoose
+                NoAutoChoose,       // Never automatically choose options
+                AutoChooseAlways,   // Automatically choose options marked as "Always auto"
+                AutoChoosePossible, // Automatically choose options marked as "Always auto" or "Auto possible"
+                AutoChooseAll       // Automatically choose option if there is only 1
             };
             AutoSkipData autoSkip() const {  return m_autoSkip; }
 

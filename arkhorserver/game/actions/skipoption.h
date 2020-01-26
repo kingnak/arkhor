@@ -16,6 +16,7 @@ public:
     virtual QString name() const { return "Finish"; }
     virtual QString description() const { return "Finish your turn."; }
 
+    virtual AutoChoose autoChoose() const { return AutoChoose::Always; }
     virtual bool isAvailable() const { return true; }
 
     virtual bool execute() { return true; }

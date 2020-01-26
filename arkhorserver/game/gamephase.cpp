@@ -94,14 +94,18 @@ QList<GameOption *> GamePhase::getOptions()
 
 GameOption *GamePhase::autoChoose(const QList<GameOption *> &options)
 {
-    if (m_game->context().player()->autoSkip() == AH::Common::PlayerData::NoAutoSkip)
+    auto playAutoSkip = m_game->context().player()->autoSkip();
+    if (playAutoSkip == AH::Common::PlayerData::AutoSkipData::NoAutoChoose)
         return nullptr;
 
     GameOption *autoChoose = nullptr;
     for (auto o : options) {
         // This might update costs/availability:
         o->data();
-        if (o->isAvailable() && o->canPay()) {
+        if (o->isAvailable()) {
+            // Has costs, always show
+            if (!o->costs().getAlternatives().empty())
+                return nullptr;
             // If second candidate => no auto choose
             if (autoChoose)
                 return nullptr;
@@ -111,17 +115,28 @@ GameOption *GamePhase::autoChoose(const QList<GameOption *> &options)
         }
     }
 
-    // Automatic Skip
-    if (autoChoose->id() == s_skip->id())
+    if (!autoChoose)
+        return nullptr;
+
+    if (playAutoSkip == AH::Common::PlayerData::AutoSkipData::AutoChooseAll)
         return autoChoose;
 
-    // Other single option => check for auto choose
-    if (!this->canAutoChoosePhase())
-        return nullptr;
-    if (m_game->context().player()->autoSkip() != AH::Common::PlayerData::AutoChoose)
-        return nullptr;
+    // Player is now AutoChooseAlways or AutoChoosePossible
 
-    return autoChoose;
+    switch (autoChoose->autoChoose()) {
+    case GameOption::AutoChoose::Never:
+        // Can never automatically choose this option
+        return nullptr;
+    case GameOption::AutoChoose::Always:
+        // Always auto choose this option
+        return autoChoose;
+    case GameOption::AutoChoose::Possible:
+        if (playAutoSkip == AH::Common::PlayerData::AutoSkipData::AutoChoosePossible)
+            return autoChoose;
+        return nullptr;
+    default:
+        return nullptr;
+    }
 }
 
 SkipOption *GamePhase::s_skip = nullptr;

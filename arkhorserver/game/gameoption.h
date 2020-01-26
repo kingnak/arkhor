@@ -22,11 +22,18 @@ public:
     }
     virtual ~GameOption() {}
 
+    enum class AutoChoose {
+        Always,
+        Never,
+        Possible
+    };
+
     void setId(QString id) { m_id = id; }
 
     GameOptionData *data();
 
     virtual AH::GamePhases phases() const;
+    virtual AutoChoose autoChoose() const;
 
     //virtual bool isAvailable() const = 0;
 

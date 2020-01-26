@@ -45,6 +45,9 @@ public:
     bool isSpontaneous() const { return m_isSpontaneous; }
     void setSpontaneous(bool spontaneous = true) { m_isSpontaneous = spontaneous; }
 
+    void returnToDeck();
+    virtual bool hasCustomHorrorCheck() const { return false; }
+    virtual bool horrorCheck(Character *c) { Q_UNUSED(c) return true; }
     virtual void move(AH::MovementDirection dir) = 0;
     virtual void defeat(Character *byCharacter);
     virtual void endCombat();

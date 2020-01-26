@@ -111,6 +111,9 @@ void FightPhase::updatePhaseByResult(FightPhase::PhaseResult res)
     case WeaponsChosen:
         m_curPhase = ChooseWeapons;
         break;
+    case HorrorPassed:
+        m_curPhase = FightOrFlee;
+        break;
     case HorrorFailed:
         canContinueFight = damageHorror();
         m_curPhase = FightOrFlee;

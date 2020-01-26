@@ -28,6 +28,7 @@ public:
         CharacterFlown,
         EvadeFailed,
         FightChosen,
+        HorrorPassed,
         HorrorFailed,
         HorrorSuccess,
         WeaponsChosen,

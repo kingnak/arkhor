@@ -45,6 +45,7 @@ QList<ClassGenerator::AttributeDesc> MonsterGenerator::getAttributes()
             << AttributeDesc("onDefeat", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
             << AttributeDesc("onEvade", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
             << AttributeDesc("onFlee", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
+            << AttributeDesc("onHorror", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
                ;
 }
 
@@ -56,7 +57,7 @@ bool MonsterGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef
     if (desc.name == "onDamage") {
         return outputFunction(attr, cls, "type, chr");
     }
-    if (desc.name == "onDefeat" || desc.name == "onEvade" || desc.name == "onFlee") {
+    if (desc.name == "onDefeat" || desc.name == "onEvade" || desc.name == "onFlee" || desc.name == "onHorror") {
         return outputFunction(attr, cls, "chr");
     }
     if (desc.name == "attributes") {

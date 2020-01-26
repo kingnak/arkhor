@@ -3,7 +3,7 @@ Monster BlackMan : 1 {
     description: "Before making a Horror Check, "+
         "pass a <b>Luck (-1) check</b> or be devoured. "+
         "If you pass, gain 2 Clue tokens. In either "+
-        "case, return the black Man to the cup. (not implemented)";
+        "case, return the black Man to the cup.";
     //dimension: Moon;
     movementType: Normal;
     awareness: -3;
@@ -13,7 +13,18 @@ Monster BlackMan : 1 {
     combatDamage: 0;
     toughness: 1;
     attributes: ( Mask, Endless );
-    // TODO
+    onHorror: {{{
+        var res = game.context.skillTest("Horror check", this.id, Constants.Skills.Luck, -1, 1);
+        if (!res) {
+            // make devour
+            chr.damageSanity(chr.sanity);
+            chr.damageStamina(chr.stamina);
+        } else {
+            chr.addClue(2);
+        }
+        this.returnToDeck();
+        return false;
+    }}};
 }
 
 Monster BloatedWoman : 1 {
@@ -21,7 +32,7 @@ Monster BloatedWoman : 1 {
     description: "Before making a Horror "+
         "check, pass a <b>Will (-2) check</b> or "+
         "automatically fail the Horror check "+
-        "and the Combat check. (not implemented)";
+        "and the Combat check.";
     //dimension: Hexagon;
     movementType: Normal;
     awareness: -1;
@@ -31,7 +42,14 @@ Monster BloatedWoman : 1 {
     combatDamage: 2;
     toughness: 2;
     attributes: ( Mask, Endless );
-    // TODO
+    onHorror: {{{
+        var res = game.context.skillTest("Horror check", this.id, Constants.Skills.Will, -2, 1);
+        if (!res) {
+            chr.damageSanity(this.horrorDamage);
+            chr.damageStamina(this.combatDamage);
+        }
+        return true;
+    }}};
 }
 
 Monster Byakhee : 3 {

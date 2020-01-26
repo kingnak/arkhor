@@ -22,6 +22,10 @@ public:
     Q_PROPERTY(quint32 attributes READ attributes)
     Q_PROPERTY(QString name READ name)
     Q_PROPERTY(QString type READ typeId)
+    Q_PROPERTY(quint32 horrorDamage READ horrorDamage)
+    Q_PROPERTY(quint32 combatDamage READ combatDamage)
+
+    Q_INVOKABLE void returnToDeck() { Monster::returnToDeck(); }
 
     static MonsterScript *createMonster(QScriptContext *ctx, QScriptEngine *eng);
 
@@ -32,6 +36,8 @@ public:
     MonsterAttributes attributes() const;
     void move(AH::MovementDirection dir);
     void defeat(Character *byCharacter);
+    virtual bool hasCustomHorrorCheck() const;
+    virtual bool horrorCheck(Character *c);
     virtual bool damage(Character *c, DamageType t);
     virtual void evaded(Character *c);
     virtual void flown(Character *c);
@@ -46,6 +52,7 @@ private:
     QScriptValue m_onEvadeFunc;
     QScriptValue m_onFleeFunc;
     QScriptValue m_modsFunc;
+    QScriptValue m_onHorrorFunc;
     QScriptValue getThis();
 
 private:

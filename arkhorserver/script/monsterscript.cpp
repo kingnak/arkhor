@@ -26,6 +26,7 @@ Monster *MonsterScript::clone()
     c->m_onDamageFunc = m_onDamageFunc;
     c->m_onFleeFunc = m_onFleeFunc;
     c->m_onEvadeFunc = m_onEvadeFunc;
+    c->m_onHorrorFunc = m_onHorrorFunc;
     return c;
 }
 
@@ -67,6 +68,7 @@ MonsterScript *MonsterScript::createMonster(QScriptContext *ctx, QScriptEngine *
     ret->m_onDamageFunc = data.property("onDamage");
     ret->m_onEvadeFunc = data.property("onEvade");
     ret->m_onFleeFunc = data.property("onFlee");
+    ret->m_onHorrorFunc = data.property("onHorror");
     ret->m_modsFunc = data.property("modifications");
 
     QString err;
@@ -132,6 +134,23 @@ void MonsterScript::defeat(Character *byCharacter)
     } else {
         Monster::execDefeat(byCharacter);
     }
+}
+
+bool MonsterScript::hasCustomHorrorCheck() const
+{
+    return m_onHorrorFunc.isFunction();
+}
+
+bool MonsterScript::horrorCheck(Character *c)
+{
+    if (m_onHorrorFunc.isFunction()) {
+        CharacterScript *cs = dynamic_cast<CharacterScript *> (c);
+        QScriptValue res = gGameScript->call(GameScript::F_Monster, m_onHorrorFunc, getThis(), gGameScript->engine()->toScriptValue(cs));
+        if (res.isBool()) {
+            return res.toBool();
+        }
+    }
+    return true;
 }
 
 bool MonsterScript::damage(Character *c, Monster::DamageType t)
@@ -207,6 +226,7 @@ bool MonsterScript::verify(MonsterScript *m, QString *msg)
     if (m->m_onDefeatFunc.isValid() && !m->m_onDefeatFunc.isFunction()) errs.append("onDefeat must be a function");
     if (m->m_onEvadeFunc.isValid() && !m->m_onEvadeFunc.isFunction()) errs.append("onEvade must be a function");
     if (m->m_onFleeFunc.isValid() && !m->m_onFleeFunc.isFunction()) errs.append("onFlee must be a function");
+    if (m->m_onHorrorFunc.isValid() && !m->m_onHorrorFunc.isFunction()) errs.append("onHorror must be a function");
     if (m->m_modsFunc.isValid() && !m->m_modsFunc.isFunction()) errs.append("modifications must be a function");
 
     if (msg) *msg = errs.join("\n");

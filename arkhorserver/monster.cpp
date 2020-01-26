@@ -58,6 +58,11 @@ AH::Common::MonsterData::MovementType Monster::movementType() const
     return static_cast<AH::Common::MonsterData::MovementType> (gGame->context().getMonsterProperty(this, PropertyValue::Monster_Movement).finalVal());
 }
 
+void Monster::returnToDeck()
+{
+    gGame->returnMonster(this);
+}
+
 void Monster::move(AH::MovementDirection dir)
 {
     // Don't move if not on board

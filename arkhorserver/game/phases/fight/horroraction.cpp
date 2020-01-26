@@ -17,8 +17,20 @@ bool HorrorAction::execute()
     Monster *m = gGame->context().monster();
     Player *p = gGame->context().player();
 
-    if (m->horrorDamage() > 0) {
+    if (m->hasCustomHorrorCheck() || m->horrorDamage() > 0) {
         gGame->notifier()->actionStart(this);
+
+        if (m->hasCustomHorrorCheck()) {
+            if (m->horrorCheck(p->getCharacter())) {
+                gGame->notifier()->actionUpdate(this, "passed");
+                m_fight->updatePhaseByResult(FightPhase::HorrorPassed);
+            } else {
+                gGame->notifier()->actionUpdate(this, "passed");
+                m_fight->updatePhaseByResult(FightPhase::CharacterFlown);
+            }
+            return true;
+        }
+
         DieTestHelper::DieTestSpec test = DieTestHelper::createSkillTest("Horror Check", m->id(), p->getCharacter(), AH::Skill_Horror, m->horrorAdjustment());
         DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(p, test);
         if (res.boolResult) {
@@ -54,10 +66,11 @@ QString HorrorOption::sourceId() const
 bool HorrorOption::isAvailable() const
 {
     Monster *m = gGame->context().monster();
-    if (!m ||  m->horrorDamage() <= 0) {
+    if (!m)
         return false;
-    }
-    return true;
+    if (m->hasCustomHorrorCheck() || m->horrorDamage() > 0)
+        return true;
+    return false;
 }
 
 AH::Common::ModifiedPropertyValueData HorrorOption::baseProperty() const

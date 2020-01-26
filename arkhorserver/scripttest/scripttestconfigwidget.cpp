@@ -89,6 +89,21 @@ QWidget *ScriptTestConfigWidget::buildAsk()
     connect(b, &QCheckBox::toggled, [](bool b){ScriptTestConfig::m_askDrawOtherWorldEncounter = b;});
     b->setChecked(true);
     g->addWidget(b);
+    g->addStretch(1);
+    l2->addLayout(g);
+
+    g = new QHBoxLayout;
+    auto btn = new QPushButton("Toggle all");
+    connect(btn, &QPushButton::clicked, [=](){ toggleAll(ask);});
+    g->addWidget(btn);
+
+    btn = new QPushButton("Activate all");
+    connect(btn, &QPushButton::clicked, [=](){ activateAll(ask);});
+    g->addWidget(btn);
+
+    btn = new QPushButton("Deactivate all");
+    connect(btn, &QPushButton::clicked, [=](){ deactivateAll(ask);});
+    g->addWidget(btn);
 
     g->addStretch(1);
     l2->addLayout(g);
@@ -161,7 +176,41 @@ QWidget *ScriptTestConfigWidget::buildDebug()
     g->addStretch(1);
     l2->addLayout(g);
 
+    g = new QHBoxLayout;
+    auto btn = new QPushButton("Toggle all");
+    connect(btn, &QPushButton::clicked, [=](){ toggleAll(dbg);});
+    g->addWidget(btn);
+
+    btn = new QPushButton("Activate all");
+    connect(btn, &QPushButton::clicked, [=](){ activateAll(dbg);});
+    g->addWidget(btn);
+
+    btn = new QPushButton("Deactivate all");
+    connect(btn, &QPushButton::clicked, [=](){ deactivateAll(dbg);});
+    g->addWidget(btn);
+
+    g->addStretch(1);
+    l2->addLayout(g);
+
     return dbg;
+}
+
+void ScriptTestConfigWidget::toggleAll(QGroupBox *b)
+{
+    for (auto c : b->findChildren<QCheckBox*>())
+        c->toggle();
+}
+
+void ScriptTestConfigWidget::activateAll(QGroupBox *b)
+{
+    for (auto c : b->findChildren<QCheckBox*>())
+        c->setChecked(true);
+}
+
+void ScriptTestConfigWidget::deactivateAll(QGroupBox *b)
+{
+    for (auto c : b->findChildren<QCheckBox*>())
+        c->setChecked(false);
 }
 
 #endif

@@ -8,7 +8,15 @@ Environment AlienTechnology {
     monsterModifications: [
         MiGo { Monster_Toughness +2 }
     ];
-    // TODO
+    onDefeatMonster: {{{
+        if (m.type == Constants.Monster.MiGo) {
+            var objs = game.context.drawMultipleObjects(Constants.ObjectType.UniqueItem, "Get items", this.id, 2, 2, 2);
+            for (var o in objs) {
+                CHAR.addToInventory(o);
+            }
+            return false;
+        }
+    }}};
 }
 
 Environment CurfewEnforced {

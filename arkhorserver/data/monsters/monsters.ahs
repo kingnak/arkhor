@@ -331,7 +331,7 @@ Monster HoundOfTindalos : 2 {
     description: "When it moves, the Hound of "+
         "Tindalos moves directly to the nearest "+
         "investigator inside a location in Arkham "+
-        "(Other than the Hospital or Asylum). (not implemented)";
+        "(Other than the Hospital or Asylum).";
     //dimension: Square;
     movementType: Special;
     awareness: -1;
@@ -342,7 +342,11 @@ Monster HoundOfTindalos : 2 {
     toughness: 2;
     attributes: ( PhysicalImunity );
     onMove:{{{
-        // TODO
+        var fields = this.field.nearestFieldsWithCharacters([Constants.Fields.DT_ArkhamAsylum, Constants.Fields.UT_StMarysHospital]);
+        if (fields.length > 0) {
+            // TODO: detailed rules clarify that move to character with lowest sneak
+            this.placeOnField(fields[0]);
+        }
     }}};
 }
 
@@ -417,11 +421,12 @@ Monster MiGo : 3 {
 Monster NightGaunt : 2 {
     description: "When you fail a Combat "+
         "check against Nightgaunt, you are drawn "+
-        "through the nearest open gate. If two or "+
-        "more gates are the same distance from you, "+
-        "you choose which gate you are drawn through.";
+        "through the nearest open gate.";
+        /*
+        "If two or more gates are the same distance from you, "+
+        "you choose which gate you are drawn through."; // No -> random
         /* NOTE: If in Other World, nearest gate is 
-         * back to Arkham.
+         * back to Arkham. If no back gate, nothing happens
          * NOTE: If no gate open, fight ends with no effect.
          * NOTE: Also drawn through when failing evade check.
          */ 
@@ -435,7 +440,18 @@ Monster NightGaunt : 2 {
     toughness: 2;
     onDamage: {{{
         if (type == Constants.MonsterDamage.Combat) {
-            // TODO
+            if (this.field.type == Constants.FieldType.OtherWorld) {
+                chr.returnToArkham();
+                // No effect if not possible to return
+            } else {
+                var f = this.field.nearestGates();
+                if (f.length > 0) {
+                    f[0].drawThrough(chr);
+                }
+                // No effect if not possible
+            }
+            // End fight in any case
+            return false;
         }
     }}};
 }

@@ -5,6 +5,11 @@ GateScript::GateScript(Gate *g, QObject *parent) :
 {
 }
 
+void GateScript::drawThrough(CharacterScript *c)
+{
+    m_gate->drawThrough(c);
+}
+
 
 bool GateScript::seal(CharacterScript *byChar)
 {

@@ -96,11 +96,12 @@ bool MoveAction::moveOtherWorld()
         gGame->notifier()->actionExecute(this, "second");
         return true;
     case AH::OWP_SecondField:
-        if (!c->field()->backGates().isEmpty()) {
-            // TODO: Let choose gate
-            Gate *p = c->field()->backGates().at(0);
-            p->comeBack(c);
-            gGame->notifier()->actionExecute(this, p->sourceField()->name());
+        if (c->returnToArkham()) {
+            gGame->notifier()->actionExecute(this, c->field()->name());
+        } else {
+            // no back field
+            c->lostInSpaceAndTime();
+            gGame->notifier()->actionExecute(this, c->field()->name());
         }
         return true;
     default:

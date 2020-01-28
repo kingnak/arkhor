@@ -14,6 +14,7 @@ public:
     static void castFromValue(const QScriptValue &v, GateScript *&o) { o = qobject_cast<GateScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, GateScript * const &in) { return eng->newQObject(in, QScriptEngine::ScriptOwnership); }
 
+    Q_INVOKABLE void drawThrough(CharacterScript *c);
     Q_INVOKABLE bool seal(CharacterScript *byChar);
     Q_INVOKABLE bool close(CharacterScript *byChar);
 

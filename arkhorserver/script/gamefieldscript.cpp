@@ -2,6 +2,7 @@
 #include "game/game.h"
 #include "characterscript.h"
 #include "gamescript.h"
+#include "gatescript.h"
 #include <QDebug>
 
 GameFieldScript::GameFieldScript(QObject *parent) :
@@ -26,6 +27,26 @@ QScriptValue GameFieldScript::nearestFieldsWithCharacters(QScriptValue exceptFie
    return nearestFieldsWith(exceptFields, [](GameField *f) -> bool {
        return !f->characters().isEmpty();
    });
+}
+
+QScriptValue GameFieldScript::nearestGates()
+{
+    if (m_field->type() == AH::Common::FieldData::FieldType::OtherWorld) {
+        // technically, its the back fields. But that can lead to unexpected things.
+        // instead, backFields should be called directly on OtherWorld fields
+        return GameScript::makeArray(QList<int>());
+    }
+
+    QList<GameField *> fields = gGame->neareastFieldsWith(m_field, [](GameField *f) -> bool {
+        return f->gate() != nullptr;
+    });
+
+    QList<GateScript *> gates;
+    for (auto f : fields) {
+        gates << new GateScript(f->gate());
+    }
+    shuffle_list(gates);
+    return GameScript::makeArray(gates);
 }
 
 QScriptValue GameFieldScript::nearestFieldsWith(QScriptValue exceptFields, std::function<bool (GameField *)> predicate)

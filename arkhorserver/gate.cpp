@@ -38,6 +38,12 @@ void Gate::enter(Character *c)
     c->setOtherWoldPhase(AH::OWP_FirstField);
 }
 
+void Gate::drawThrough(Character *c)
+{
+    c->setDelayed(true);
+    enter(c);
+}
+
 void Gate::comeBack(Character *c)
 {
     m_sourceField->placeCharacter(c);

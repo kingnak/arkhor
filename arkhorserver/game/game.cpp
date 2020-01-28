@@ -701,9 +701,8 @@ bool Game::createGate(GameField *field)
 
         // Draw investigators
         QList<Character *> characters = field->characters();
-        foreach (Character *c, characters) {
-            c->setDelayed(true);
-            g->enter(c);
+        for (Character *c : characters) {
+            g->drawThrough(c);
         }
 
         // Create monsters

@@ -26,6 +26,7 @@ public:
     void open();
 
     void enter(Character *c);
+    void drawThrough(Character *c);
     void comeBack(Character *c);
     void close(Character *c);
     void seal(Character *c);

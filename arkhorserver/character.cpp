@@ -722,7 +722,9 @@ bool Character::returnToArkham()
 {
     if (!field()->backGates().isEmpty()) {
         // TODO: Let choose gate
-        Gate *p = field()->backGates().at(0);
+        auto l = field()->backGates();
+        shuffle_list(l);
+        Gate *p = l.at(0);
         p->comeBack(this);
         //gGame->notifier()->actionExecute(this, QString("Returned to %1").arg(p->field()->name()));
         return true;

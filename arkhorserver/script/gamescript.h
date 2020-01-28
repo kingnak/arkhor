@@ -103,6 +103,8 @@ public:
     static QScriptValueList array2list(QScriptValue ar);
     template<typename T>
     static QList<T> array2TypedList(QScriptValue ar);
+    template<typename T>
+    static QScriptValue makeArray(const QList<T> lst);
 
     static bool parseCosts(QScriptValue v, AH::Common::Cost &c);
     static bool parseCostList(QScriptValue v, AH::Common::CostList &cl);
@@ -186,7 +188,7 @@ private:
 
 
 template<typename T>
-static QList<T> GameScript::array2TypedList(QScriptValue ar)
+QList<T> GameScript::array2TypedList(QScriptValue ar)
 {
     QStringList lst = array2stringlist(ar);
     QList<T> ret;
@@ -194,6 +196,16 @@ static QList<T> GameScript::array2TypedList(QScriptValue ar)
         ret << static_cast<T> (s.toInt());
     }
     return ret;
+}
+
+template<typename T>
+QScriptValue GameScript::makeArray(const QList<T> lst)
+{
+    QScriptValue arr = s_instance->m_engine->newArray(lst.length());
+    for (int i = 0; i < lst.length(); ++i) {
+        arr.setProperty(i, s_instance->m_engine->toScriptValue(lst[i]));
+    }
+    return arr;
 }
 
 template<typename T>

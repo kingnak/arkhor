@@ -5,6 +5,7 @@
 #include "characterscript.h"
 #include "gamescript.h"
 #include "propertymodificationscript.h"
+#include "gamefieldscript.h"
 #include <QDebug>
 
 QReadWriteLock MonsterScript::s_attrFunctionLock;
@@ -13,6 +14,7 @@ QReadWriteLock MonsterScript::s_modFunctionLock;
 MonsterScript::MonsterScript(QObject *parent)
     : QObject(parent), m_oldDynAttrs(0)
 {
+    m_fieldBridge = new GameFieldScript(this);
 }
 
 Monster *MonsterScript::clone()
@@ -28,6 +30,20 @@ Monster *MonsterScript::clone()
     c->m_onEvadeFunc = m_onEvadeFunc;
     c->m_onHorrorFunc = m_onHorrorFunc;
     return c;
+}
+
+GameFieldScript *MonsterScript::fieldScript()
+{
+    m_fieldBridge->setField(this->m_field);
+    return m_fieldBridge;
+}
+
+void MonsterScript::placeOnField(int fieldId)
+{
+    GameField *f = gGame->board()->field(static_cast<AH::Common::FieldData::FieldID> (fieldId));
+    if (f) {
+        f->placeMonster(this);
+    }
 }
 
 MonsterScript *MonsterScript::createMonster(QScriptContext *ctx, QScriptEngine *eng)
@@ -108,7 +124,7 @@ void MonsterScript::move(AH::MovementDirection dir)
 {
     if (m_movement == Special) {
         gGame->notifier()->acknowledgeMonsterMovement(this);
-        gGameScript->call(GameScript::F_Action, m_specialMoveFunc, getThis());
+        gGameScript->call(GameScript::F_Monster, m_specialMoveFunc, getThis());
     } else {
         Monster::move(dir);
     }

@@ -8,6 +8,7 @@
 #include <QReadWriteLock>
 #include "monster.h"
 
+class GameFieldScript;
 class QScriptContext;
 
 class MonsterScript : public QObject, public Monster
@@ -24,7 +25,11 @@ public:
     Q_PROPERTY(QString type READ typeId)
     Q_PROPERTY(quint32 horrorDamage READ horrorDamage)
     Q_PROPERTY(quint32 combatDamage READ combatDamage)
+    Q_PROPERTY(GameFieldScript *field READ fieldScript)
 
+    GameFieldScript *fieldScript();
+
+    Q_INVOKABLE void placeOnField(int fieldId);
     Q_INVOKABLE void returnToDeck() { Monster::returnToDeck(); }
 
     static MonsterScript *createMonster(QScriptContext *ctx, QScriptEngine *eng);
@@ -57,6 +62,8 @@ private:
 
 private:
     static bool verify(MonsterScript *m, QString *msg = NULL);
+
+    GameFieldScript *m_fieldBridge;
 
 private:
     mutable MonsterAttributes m_oldDynAttrs;

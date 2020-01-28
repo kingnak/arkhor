@@ -101,6 +101,8 @@ public:
 
     void killPlayer(Player *p);
 
+    QList<GameField*> neareastFieldsWith(GameField *from, std::function<bool(GameField*)> predicate, QList<AH::Common::FieldData::FieldID> exceptFields = {});
+
     bool handleUnconscious(Character *c);
     bool handleInsane(Character *c);
     bool handleLostInSpaceAndTime(Character *c);

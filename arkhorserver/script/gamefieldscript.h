@@ -20,6 +20,9 @@ public:
     Q_INVOKABLE void lockUntilNextRound();
     Q_INVOKABLE bool hasMonsters() const { return m_field ? m_field->hasMonsters() : false; }
 
+    Q_INVOKABLE QScriptValue nearestFieldsWithCharacters();
+    Q_INVOKABLE QScriptValue nearestFieldsWithCharacters(QScriptValue exceptFields);
+
     Q_PROPERTY(quint32 id READ id)
     quint32 id() { return m_field ? m_field->id() : AH::Common::FieldData::NO_NO_FIELD; }
 
@@ -28,6 +31,9 @@ public:
 
     Q_PROPERTY(quint32 type READ type)
     quint32 type() { return m_field ? m_field->type() : 0; }
+
+private:
+    QScriptValue nearestFieldsWith(QScriptValue exceptFields, std::function<bool(GameField*)> predicate);
 
 private:
     GameField *m_field;

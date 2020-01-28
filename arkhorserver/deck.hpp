@@ -68,12 +68,18 @@ T *Deck<T>::drawSpecificByTypeId(QString tid)
 }
 
 template<typename T>
+void shuffle_list(QList<T> &l)
+{
+    for (int i = l.size()-1; i >= 0; --i) {
+        int n = RandomSource::instance().nextUint(0, i);
+        l.swap(n, i);
+    }
+}
+
+template<typename T>
 void Deck<T>::shuffle()
 {
-    for (int i = m_deck.size()-1; i >= 0; --i) {
-        int n = RandomSource::instance().nextUint(0, i);
-        m_deck.swap(n, i);
-    }
+    shuffle_list(m_deck);
 }
 
 #endif // DECK_HPP

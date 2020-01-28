@@ -1,6 +1,7 @@
 #include "gamefieldscript.h"
 #include "game/game.h"
 #include "characterscript.h"
+#include "gamescript.h"
 #include <QDebug>
 
 GameFieldScript::GameFieldScript(QObject *parent) :
@@ -13,6 +14,34 @@ void GameFieldScript::lockUntilNextRound()
     Q_ASSERT(m_field);
     quint32 lockFlag = gGame->context().phase();
     m_field->lock(lockFlag);
+}
+
+QScriptValue GameFieldScript::nearestFieldsWithCharacters()
+{
+    return nearestFieldsWithCharacters({});
+}
+
+QScriptValue GameFieldScript::nearestFieldsWithCharacters(QScriptValue exceptFields)
+{
+   return nearestFieldsWith(exceptFields, [](GameField *f) -> bool {
+       return !f->characters().isEmpty();
+   });
+}
+
+QScriptValue GameFieldScript::nearestFieldsWith(QScriptValue exceptFields, std::function<bool (GameField *)> predicate)
+{
+    QList<AH::Common::FieldData::FieldID> except;
+    if (exceptFields.isArray()) {
+        except = GameScript::array2TypedList<AH::Common::FieldData::FieldID>(exceptFields);
+    } else if (exceptFields.isNumber()) {
+        except << static_cast<AH::Common::FieldData::FieldID> (exceptFields.toInt32());
+    }
+
+    QList<GameField *> ret = gGame->neareastFieldsWith(m_field, predicate, except);
+    QList<qint32> retIds;
+    for (auto f : ret) retIds << f->id();
+    shuffle_list(retIds);
+    return GameScript::makeArray(retIds);
 }
 
 QObjectList GameFieldScript::characters()
@@ -30,3 +59,5 @@ QObjectList GameFieldScript::characters()
 
     return ret;
 }
+
+

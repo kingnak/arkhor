@@ -456,6 +456,32 @@ void Game::killPlayer(Player *p)
     removePlayer(p);
 }
 
+QList<GameField *> Game::neareastFieldsWith(GameField *from, std::function<bool (GameField *)> predicate, QList<AH::Common::FieldData::FieldID> exceptFields)
+{
+    QList<GameField *> ret;
+    QSet<GameField *> toCheck;
+    QSet<GameField *> checked;
+    toCheck << from;
+    checked << from;
+    while (ret.isEmpty() && !toCheck.isEmpty()) {
+        auto thisCheck = toCheck;
+        toCheck.clear();
+        for (GameField *f : thisCheck) {
+            if (predicate(f)) {
+                if (!exceptFields.contains(f->id())) {
+                    ret << f;
+                }
+            }
+
+            QSet<GameField *> n = f->neighbours();
+            toCheck.unite(n - checked);
+            checked.unite(n);
+        }
+    }
+
+    return ret;
+}
+
 bool Game::handleUnconscious(Character *c)
 {
     if (!c->onUnconscious())

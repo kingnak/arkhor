@@ -37,14 +37,14 @@ public:
     ~AhMainGui();
 
     void initConnection(ConnectionHandler *conn);
-    void setThisPlayerId(QString id);
-    void setThisCharacterId(QString id);
 
     enum {
         ObjectIdRole = Qt::UserRole
     };
 
 public slots:
+    void setThisPlayerId(QString id);
+    void setThisCharacterId(QString id);
     void start();
     void refitGui();
     void dismissInfoPane();

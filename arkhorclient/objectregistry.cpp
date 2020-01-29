@@ -36,7 +36,8 @@ void ObjectRegistry::setThisCharacterId(QString id)
     if (id != m_thisCharacterId) {
         m_thisCharacterId = id;
         m_registry.remove(id);
-        //getObject(id);
+        //m_thisCharacter = get
+        getObject(id);
     }
 }
 

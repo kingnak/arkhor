@@ -150,6 +150,7 @@ void Game::play()
 
     commitUpdates();
     m_notifier->firstPlayerChanged(getFirstPlayer());
+    m_notifier->currentPlayerChanged(getFirstPlayer());
     mythos();
     bool cont = true;
     while (cont) {
@@ -1274,6 +1275,7 @@ void Game::initInvestigators()
     // INITIAL FOCUS
     foreach (Player *p, m_playerList)
     {
+        m_notifier->currentPlayerChanged(p);
         FocusAction fa;
         int amount = 100;
         m_context.m_player = p;

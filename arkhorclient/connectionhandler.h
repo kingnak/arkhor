@@ -17,12 +17,15 @@
 #include <choicedata.h>
 #include <gamesettingdata.h>
 #include <monsterdata.h>
+#include <QStack>
+
+class QTcpSocket;
 
 class ConnectionHandler : public QObject
 {
     Q_OBJECT
 public:
-    ConnectionHandler(QString host, int port);
+    ConnectionHandler(QString host, int port, int ct);
 
     void confirmActive();
     void registerPlayer();
@@ -57,6 +60,9 @@ public slots:
 signals:
     void connected();
     void disconnected();
+
+    void overridePlayerId(QString id);
+    void overrideCharacterId(QString id);
 
     void versionMismatch(quint32 thisVersion, quint32 serverVersion);
     void textMessage(const QString &text);
@@ -107,16 +113,24 @@ private slots:
     void handleMessage(AH::Common::Message msg);
     void sockError();
     void established();
+    void rsend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, QVariant data = QVariant());
     void send(AH::Common::Message::Type type, QVariant data = QVariant());
 
 private:
-    Q_INVOKABLE void doSend(AH::Common::Message::Type type, QVariant data);
+    Q_INVOKABLE void doSend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, QVariant data);
 
 private:
     QString m_host;
     int m_port;
 
-    AH::Common::NetworkConnection *m_conn;
+    int m_ct;
+    QMap<QTcpSocket*, AH::Common::NetworkConnection *> m_conns;
+    AH::Common::NetworkConnection *m_mc = nullptr;
+    QStack<AH::Common::NetworkConnection*> m_rc;
+    AH::Common::NetworkConnection *m_ret = nullptr;
+
+    QMap<QString, AH::Common::PlayerData> m_thisPlayers;
+    QMap<QString, QString> m_thisChars;
 };
 
 #endif // CONNECTIONHANDLER_H

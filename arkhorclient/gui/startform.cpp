@@ -28,8 +28,9 @@ void StartForm::on_btnConnect_clicked()
 {
     QString h = ui->txtHost->text();
     int p = ui->spnPort->value();
+    int ct = ui->spnNrPlayers->value();
 
-    m_conn = new ConnectionHandler(h, p);
+    m_conn = new ConnectionHandler(h, p, ct);
     AH::Common::CleanupThread *t = new AH::Common::CleanupThread;
     m_conn->moveToThread(t);
     connect(t, SIGNAL(started()), m_conn, SLOT(startup()));
@@ -113,6 +114,7 @@ void StartForm::setPlayerData(AH::Common::PlayerData d)
 void StartForm::setInvestigatorList(QList<AH::Common::InvestigatorData> l)
 {
     ui->grpInvestigator->setEnabled(true);
+    ui->btnSelectInv->setEnabled(true);
     ui->cmbInvestigators->clear();
     ui->cmbInvestigators->addItem(QString::null, QVariant());
     foreach (AH::Common::InvestigatorData i, l) {

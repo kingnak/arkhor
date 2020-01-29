@@ -74,9 +74,13 @@ AhMainGui::~AhMainGui()
 
 void AhMainGui::initConnection(ConnectionHandler *conn)
 {
+    if (m_conn) return;
     m_conn = conn;
     m_registry = ObjectRegistry::instance();
     m_registry->init(conn);
+
+    connect(m_conn, &ConnectionHandler::overridePlayerId, this, &AhMainGui::setThisPlayerId);
+    connect(m_conn, &ConnectionHandler::overrideCharacterId, this, &AhMainGui::setThisCharacterId);
 
     //connect(m_registry, SIGNAL(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)), this, SLOT(updateObject(AH::Common::DescribeObjectsData::ObjectDescription)));
     connect(m_registry, SIGNAL(thisCharacterUpdated(AH::Common::CharacterData)), this, SLOT(updateCharacter(AH::Common::CharacterData)));
@@ -159,6 +163,7 @@ void AhMainGui::setThisPlayerId(QString id)
 void AhMainGui::setThisCharacterId(QString id)
 {
     m_registry->setThisCharacterId(id);
+    updateCharacter(m_registry->thisCharacter());
 }
 
 void AhMainGui::start()
@@ -514,8 +519,10 @@ void AhMainGui::phaseChange(AH::GamePhase ph)
 void AhMainGui::playerChange(QString id)
 {
     if (id == m_registry->thisPlayerId()) {
+        this->updateCharacter(m_registry->thisCharacter());
         ui->stkWhichPlayer->setCurrentWidget(ui->pageThisPlayer);
-        textMessage("You are the current player");
+        //textMessage("You are the current player");
+        textMessage(QString("The current player is %1").arg(id));
     } else {
         ui->stkWhichPlayer->setCurrentWidget(ui->pageOtherPlayer);
         textMessage(QString("The current player is %1").arg(id));

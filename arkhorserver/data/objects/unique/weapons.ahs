@@ -28,7 +28,7 @@ UniqueItem PowderOfIbnGhazi : 2 {
     description: "Lose 1 sanity and discard after use.";
     hands: 2;
     price: 6;
-    modifications: [ Damage_magical +6 ];
+    modifications: [ Damage_Magical +6 ];
     attributes: DiscardAfterAttack;
     // TODO: After Attack: Lose 1 sanity
 }

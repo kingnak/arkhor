@@ -16,7 +16,7 @@ AncientOne ShubNiggurath {
     doomTrack: 12;
     defenses: PhysicalImmunity;
     monsterModifications: [
-        DarkYount { Monster_Attributes |"+Constants.Monster.Endless+" },
+        DarkYoung { Monster_Attributes |"+Constants.Monster.Endless+" },
         * { Monster_Toughness +1 }
     ];
     

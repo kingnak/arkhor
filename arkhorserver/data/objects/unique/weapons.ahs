@@ -36,5 +36,5 @@ UniqueItem PowderOfIbnGhazi : 2 {
 UniqueItem SwordOfGlory : 1 {
     hands: 2;
     price: 8;
-    modifications: [ Damage_magical +6 ];
+    modifications: [ Damage_Magical +6 ];
 }

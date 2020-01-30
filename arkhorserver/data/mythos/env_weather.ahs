@@ -36,7 +36,6 @@ Environment RainingCats_andDogs {
     //gateField: ET_HibbsRoadhouse;
     environmentModifications: [
         Skill_Speed -1,
-        Prop_Movement -1,
         Skill_Sneak +1
     ];
     activateEnvironment: {{{

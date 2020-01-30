@@ -2,6 +2,7 @@ QuickOption CatchSouthsideStrangler {
     phases: ArkhamEncountery;
     description: "Catch the Southside strangler to pass the Rumor";
     continueType: CannotContinue;
+    costs: [ Clue 5 ];
     activate: {{{
         game.context.rumor.pass();
     }}};

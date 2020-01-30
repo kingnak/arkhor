@@ -18,7 +18,7 @@ CommonItem Automatic : 2 {
     name: ".45 Automatic";
     hands: 1;
     price: 5;
-    modifications: [ Damage_Phsyical +4 ];
+    modifications: [ Damage_Physical +4 ];
 }
 
 CommonItem CavalrySaber : 2 {

@@ -22,7 +22,7 @@ Rumor Disturbing_theDead {
     teardownRumor: {{{}}};
     
     onMythos: {{{
-        var res = game.context.genericDieRollSum("Disturbing the Dead Rumor", 1);
+        var res = game.context.genericDieRollSum("Disturbing the Dead Rumor", this.id, 1);
         if (res == 1 || res == 2) {
             game.context.increaseTerrorLevel();
         }
@@ -32,7 +32,9 @@ Rumor Disturbing_theDead {
     }}};
     
     onPass: {{{
-        for (var c in game.allCharacters) {
+        list = game.context.allCharacters;
+        for (var i = 0; i < list.length; ++i) {
+            var c = list[i];
             var obj = game.drawSingleObject(Constants.ObjectType.Spell);
             c.addToInventory(obj);
         }
@@ -40,7 +42,9 @@ Rumor Disturbing_theDead {
     }}};
     
     onFail: {{{
-        for (var c in game.allCharacters) {
+        list = game.context.allCharacters;
+        for (var i = 0; i < list.length; ++i) {
+            var c = list[i];
             game.utility.curseCharacter(c);
         }
         this.removeFromGame();

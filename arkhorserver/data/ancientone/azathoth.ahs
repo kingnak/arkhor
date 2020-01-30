@@ -12,11 +12,11 @@ AncientOne Azathoth {
         Maniac { Monster_Toughness +1 }
     ];
     onAwake: {{{
-                // Devour all characters
-                var list = game.context.allCharacters;
-                for (var i = 0; i < list.length; ++i) {
-                    var c = list[i];
-                    c.devour();
+        // Devour all characters
+        var list = game.context.allCharacters;
+        for (var i = 0; i < list.length; ++i) {
+            var c = list[i];
+            c.devour();
         }
     }}};
 

@@ -9,10 +9,10 @@ Environment AlienTechnology {
         MiGo { Monster_Toughness +2 }
     ];
     onDefeatMonster: {{{
-        if (m.type == Constants.Monster.MiGo) {
-            var objs = game.context.drawMultipleObjects(Constants.ObjectType.UniqueItem, "Get items", this.id, 2, 2, 2);
+        if (m.type == Monster.MiGo) {
+            var objs = game.context.drawMultipleObjects(Constants.ObjectType.UniqueItem, "Defeated Mi-Go", this.id, 2, 2, 2);
             for (var o in objs) {
-                CHAR.addToInventory(o);
+                CHAR.addToInventory(objs[o]);
             }
             return false;
         }

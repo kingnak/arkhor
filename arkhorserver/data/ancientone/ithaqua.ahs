@@ -36,7 +36,7 @@ AncientOne Ithaqua {
         for (var i = 0; i < list.length; ++i) {
             var c = list[i];
             for (var o in c.inventory) {
-                switch (o.type) {
+                switch (c.inventory[o].type) {
                 case Constants.ObjectType.Ally:
                 case Constants.ObjectType.CommonItem:
                 case Constants.ObjectType.UniqueItem:

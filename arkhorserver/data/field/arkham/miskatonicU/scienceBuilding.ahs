@@ -25,7 +25,7 @@ AEOption Science_Enc1 {
     activate: {{{
         var res = game.context.skillTest("Drink", this.id, Constants.Skills.Luck, 0, 1);
         if (res) {
-            var ct = game.context.genericDieRullSum("Points to gain", 1);
+            var ct = game.context.genericDieRollSum("Points to gain", this.id, 1);
 
             // Ask how much stamina
             var options = new Array(ct+1);

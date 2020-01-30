@@ -17,13 +17,20 @@ QList<GameOption *> ArkhamEncoutery::getPhaseOptions()
     QList<GameOption *> opts;
     bool isSetOut = gGame->context().player()->getCharacter()->isSetOut();
     GameField *field = gGame->context().player()->getCharacter()->field();
-    if (!isSetOut && field->type() == AH::Common::FieldData::Location) {
+
+    if (!isSetOut) {
         opts = field->getFieldOptions();
-        opts << m_enter;
-        opts << m_enc;
-        opts << m_close;
-        opts << m_seal;
-    } else {
+        if (field->type() == AH::Common::FieldData::Location) {
+            opts << m_enter;
+            opts << m_enc;
+            opts << m_close;
+            opts << m_seal;
+        } else {
+            opts << getSkipOption();
+        }
+    }
+
+    if (opts.empty()) {
         opts << getSkipOption();
     }
 

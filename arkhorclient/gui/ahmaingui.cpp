@@ -153,6 +153,9 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(m_conn, SIGNAL(playerChange(QString)), this, SLOT(playerChange(QString)));
 
     connect(m_conn, SIGNAL(clearTempData()), this, SLOT(clearTempObject()));
+
+    m_skipOption = PlayerData::AutoSkipData::AutoChooseAlways;
+    m_conn->setSkipOption(m_skipOption);
 }
 
 void AhMainGui::setThisPlayerId(QString id)

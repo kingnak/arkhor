@@ -28,6 +28,7 @@ public:
     Q_INVOKABLE void removeFromInventory(GameObjectScript *o) { Character::removeFromInventory(o); }
 
     Q_INVOKABLE bool hasObject(QString typeId);
+    Q_INVOKABLE bool removeTypeFromInventory(QString typeId);
 
     Q_PROPERTY(int sanity READ curSanity)
     Q_INVOKABLE void restoreSanity() { Character::restoreSanity(); }

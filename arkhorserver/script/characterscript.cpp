@@ -13,12 +13,26 @@ CharacterScript::CharacterScript(Investigator *i, QObject *parent) :
 
 bool CharacterScript::hasObject(QString typeId)
 {
-    foreach (GameObject *o, inventory()) {
+    for (GameObject *o : inventory()) {
         if (o->typeId() == typeId) {
             return true;
         }
     }
     return false;
+}
+
+bool CharacterScript::removeTypeFromInventory(QString typeId)
+{
+    QList<GameObject*> toRemove;
+    for (GameObject *o : inventory()) {
+        if (o->typeId() == typeId) {
+            toRemove << o;
+        }
+    }
+    for (GameObject *o : toRemove) {
+        o->returnToDeck();
+    }
+    return !toRemove.empty();
 }
 
 GameFieldScript *CharacterScript::fieldScript()

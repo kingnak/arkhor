@@ -194,7 +194,7 @@ bool MythosCardScript::onDefeatMonster(Character *byCharacter, Monster *m)
     QScriptValueList args;
     args << gGameScript->engine()->toScriptValue(dynamic_cast<CharacterScript*>(byCharacter));
     args << gGameScript->engine()->toScriptValue(dynamic_cast<MonsterScript*>(m));
-    QScriptValue res = gGameScript->call(GameScript::F_Mythos, m_onDefeatMonsterFunc, m_object);
+    QScriptValue res = gGameScript->call(GameScript::F_Mythos, m_onDefeatMonsterFunc, m_object, args);
     if (res.isBool())
         return res.toBool();
     return true;

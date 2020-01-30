@@ -18,7 +18,7 @@ Headline QUIET_IN_ARKHAM {
     }}};
 }
 
-Headline {
+Headline BigStorm {
     name: "Big Storm Sweeps Arkham!";
     description: "All monsters in the Sky and Outskirts are returned to the cup.";
     //clueField: MD_TheUnnamable;
@@ -33,7 +33,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline BizzareDreams {
     name: "Bizarre Dreams Plague Citizens!";
     description: "All Gugs and Nightgaunts in Arkham are returned to the cup. "+
         "If at least one monster returns to the cup, raise the terror level by 1.";
@@ -50,7 +50,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline CampusSecurity {
     name: "Campus Security Increased!";
     description: "All monsters in the Miskatonic U. Streets or Locations are returned to the cup.";
     //clueField: MD_TheUnnamable;
@@ -67,7 +67,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline ChurchGroup {
     name: "Church Group Reclaims Southside!";
     description: "All monsters in the Southside streets or locations are returned to the cup.";
     //clueField: ET_HibbsRoadhouse;
@@ -84,7 +84,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline FamilyFoundButchered {
     name: "Family Found Butchered!";
     description: "The terror level increases by 1 in light of this tragic news.";
     //clueField: MD_UnvisitedIsle;
@@ -96,7 +96,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline FedsRaid {
     name: "Feds Raid Arkham!";
     description: "All monsters in the streets are returned to the cup.";
     //clueField: ET_HibbsRoadhouse;
@@ -108,7 +108,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline GangsCleanupEasttown {
     name: "Gangs Clean Up Easttown!";
     description: "All monsters in the Easttown streets or locations are returned to the cup.";
     //clueField: RT_BlackCave;
@@ -138,7 +138,7 @@ Headline GhostShip {
     }}};
 }
 
-Headline {
+Headline GoatLikeCreature {
     name: "Goat-like Creature Spotted in Woods!";
     description: "All Dark Young in Arkham are returned to the cup. If at least one monster returns to the cup, raise the terror level by 1.";
     //clueField: MD_TheUnnamable;
@@ -153,7 +153,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline HorrorAtGroundbreaking {
     name: "Horror at Groundbreaking!";
     description: "An ancient stone is disturbed by the construction, releasing 2 monsters into the Miskatonic U. streets.";
     //clueField: FH_SilverTwilightLodge;
@@ -167,7 +167,7 @@ Headline {
 }
 
 
-Headline {
+Headline IllWind {
     name: "Ill Wind Grips Arkham!";
     description: "The first player must pass a <b>Luck (-1) check</b> or be <i>Cursed</i>";
     //clueField: MD_UnvisitedIsle;
@@ -182,7 +182,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline LodgeMemberQuestioning {
     name: "Lodge Member Held for Questioning!";
     description: "A Silver Lodge ritual lets 2 monsters loose in the French Hill streets.";
     //clueField: ET_HibbsRoadhouse;
@@ -195,7 +195,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline LodgeMembersWatchNight {
     name: "Lodge Members Watch the Night!";
     description: "All monsters in the French Hill streets or locations are returned to the cup.";
     //clueField: MU_ScienceBuilding;
@@ -212,7 +212,7 @@ Headline {
 }
 
 
-Headline {
+Headline Manhunt {
     name: "Manhunt in Arkham!";
     description: "All monsters in locations are returned to the cup.";
     //clueField: DT_IndependenceSquare;
@@ -224,7 +224,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline MerchantsMarch {
     name: "Merchants March on Crime!";
     description: "All monsters in the Merchant Dist. streets or locations are returned to the cup.";
     //clueField: MD_TheUnnamable;
@@ -241,7 +241,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline PicnickersPanic {
     name: "Picnickers Panic!";
     description: "A careless picnicker unleashes 2 monsters on the Downtown streets.";
     //clueField: MU_ScienceBuilding;
@@ -254,7 +254,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline PolicePatrolNorthside {
     name: "Police Step Up Patrols in Northside!";
     description: "All monsters in the Northside streets or locations are returned to the cup.";
     //clueField: RT_Graveyard;
@@ -271,7 +271,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline PrivateSecurityUptown {
     name: "Private Security Hired in Uptown!";
     description: "All monsters in the Uptown streets or locations are returned to the cup.";
     //clueField: SS_HistoricalSociety;
@@ -288,7 +288,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline RivertownTakeBack {
     name: "Rivertown Residents Take Back Streets!";
     description: "All monsters in the Rivertown streets or locations are returned to the cup.";
     //clueField: RT_BlackCave;
@@ -305,7 +305,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline ScientistWarnDimensinalRift {
     name: "Scientist Warns of Dimensional Rift!";
     description: "All Dimensional Shamblers and Hounds of Tindalos are returned to the cup. "+
         "If one or more monster is returned to the cup, raise the terror level by 1.";
@@ -322,7 +322,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline SheldonGangPoliceAid {
     name: "Sheldon Gang Turns to Police for Aid!";
     description: "The Sheldon Gang disturbs a burial mound, releasing 2 monsters into the Uptown Streets.";
     //clueField: MD_UnvisitedIsle;
@@ -335,7 +335,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline SlumMurders {
     name: "Slum Murders Continue!";
     description: "An old basement is opened, releasing 2 monsters into the Easttown Streets.";
     //clueField: SS_HistoricalSociety;
@@ -348,7 +348,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline SouthsideStranglerSuspected {
     name: "Southside Strangler Suspected!";
     description: "However, the press is mistaken, and the murders were caused by 2 monsters that are released into the Southside streets.";
     //clueField: SS_HistoricalSociety;
@@ -361,20 +361,24 @@ Headline {
     }}};
 }
 
-Headline {
-    name: "Southside Strangler Suspected!";
-    description: "However, the press is mistaken, and the murders were caused by 2 monsters that are released into the Southside streets.";
-    //clueField: SS_HistoricalSociety;
-    //moveWhite: Circle;
-    //moveBlack: (Diamond,Square);
-    //gateField: UT_Woods;
+Headline StrangePowerFlux {
+    name: "Strange Power Flux Plagues City!";
+    description: "All investigators in Other World areas may immediately return to Arkham.";
+    //clueField: MD_TheUnnamable;
+    //gateField: DT_IndependenceSquare;
+    //moveWhite: (Slash, Star, Triangle);
+    //moveBlack: Hexagon;
     executeHeadline: {{{
-        game.spawnMonster(Constants.Fields.SS_Southside);
-        game.spawnMonster(Constants.Fields.SS_Southside);
+        for (var i in game.allCharacters) {
+            var c = game.allCharacters[i];
+            if (c.field.type == Constants.FieldType.OtherWorld) {
+                c.returnToArkham();
+            }
+        }
     }}};
 }
 
-Headline {
+Headline StrangeTremorsCease {
     name: "Strange Tremors Cease!";
     description: "All Chthonians and Dholes in Arkham are returned to the cup. "+
         "If at least one monster returns to the cup, raise the terror level by 1.";
@@ -391,7 +395,31 @@ Headline {
     }}};
 }
 
-Headline {
+Headline TemperenceFever {
+    name: "Temperence Fever Sweeps City";
+    description: "Any investigator with Whiskey must pass a Sneak (-1) check or get arrested and taken to the Police Station. "+
+                 "If this occurs, they must discard their Whiskey. ";
+                 //+"In addition, Hibb's Roadhouse is closed until the end of next turn. Leave this card in play until then to indicate this.";
+    // TODO: close Hibb's Roadhouse
+    //clueField: RT_BlackCave;
+    //gateField: FH_TheWitchHouse;
+    //moveWhite: Hexagon;
+    //moveBlack: (Slash, Star, Triangle);
+    executeHeadline: {{{
+        for (var i in game.context.allCharacters) {
+            var c = game.context.allCharacters[i];
+            if (c.hasObject(CommonItem.Whiskey)) {
+                var res = c.skillTest("Sneak from Police", this.id, Constants.Skills.Sneak, -1, 1);
+                if (!res) {
+                    c.arrest();
+                    c.removeTypeFromInventory(CommonItem.Whiskey);
+                }
+            }
+        }
+    }}};
+}
+
+Headline TerrorTrainStation {
     name: "Terror at the Train Station!";
     description: "A rusty train arrives in Arkham, disgorging 2 monsters into the Northside streets.";
     //clueField: RT_BlackCave;
@@ -404,7 +432,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline VigilanteGuard {
     name: "Vigilante Guards the Night!";
     description: "All monsters in the Downtown streets or locations are returned to the cup.";
     //clueField: UT_Woods;
@@ -421,7 +449,7 @@ Headline {
     }}};
 }
 
-Headline {
+Headline WitchBurning {
     name: "Witch Burning Anniversary!";
     description: "An ancient curse strikes Arkham, releasing 2 monsters into the Rivertown streets.";
     //clueField: MU_ScienceBuilding;
@@ -442,6 +470,4 @@ Fourth of July Parade!
 Miskatonic Arctic Expedition Returns!
 Missing People Return!
 Strange Lights on Campus!
-Strange Power Flux Plagues City! <- POSSIBLE!
-Temperence Fever Sweeps City <- Partly POSSIBLE!
 */

@@ -1,9 +1,8 @@
 Environment Sunny_andClear {
     description: "Sneak checks in Arkham are made at a -1 penalty.\n"+
-        "Will checks in Arkham are made at a +1 bonus.\n";
-        //+"If the Hunter in Darkness is in play, return it to the cup."
-        //+"If the Hunter in Darkness enters play, return it to the cup and draw a different monster.";
-        // TODO
+        "Will checks in Arkham are made at a +1 bonus.\n"+
+        "If the Haunter of the Dark is in play, return it to the cup. "+
+        "If the Haunter of the Dark enters play, return it to the cup and draw a different monster.";
     environmentType: Weather;
     //clueField: ET_HibbsRoadhouse;
     //moveWhite: Cross;
@@ -13,14 +12,23 @@ Environment Sunny_andClear {
         Skill_Sneak -1,
         Skill_Will +1
     ];
+    activateEnvironment: {{{
+        game.returnMonsterTypeFromBoard(Monster.HaunterOfTheDark);
+    }}};
+    onAppearMonster: {{{
+        if (m.type == Monster.HaunterOfTheDark) {
+            game.spawnMonster(f.id);
+            return false;
+        }
+        return true;
+    }}};
 }
 
 Environment RainingCats_andDogs {
     description: "Speed checks in Arkham are made at a -1 penalty, and players receive one less movement point during the Movement Phase.\n"+
-        "Sneak checks in Arkham are made at a +1 bonus.\n";
-        //+"Return any Fire Vampires in play to the cup."
-        //+"If a Fire Vampire enters play, return it to the cup and draw a different monster.";
-        // TODO
+        "Sneak checks in Arkham are made at a +1 bonus.\n"+
+        "Return any Fire Vampires in play to the cup. "+
+        "If a Fire Vampire enters play, return it to the cup and draw a different monster.";
     environmentType: Weather;
     //clueField: DT_IndependenceSquare;
     //moveWhite: Cross;
@@ -31,6 +39,16 @@ Environment RainingCats_andDogs {
         Prop_Movement -1,
         Skill_Sneak +1
     ];
+    activateEnvironment: {{{
+        game.returnMonsterTypeFromBoard(Monster.FireVampire);
+    }}};
+    onAppearMonster: {{{
+        if (m.type == Monster.FireVampire) {
+            game.spawnMonster(f.id);
+            return false;
+        }
+        return true;
+    }}};
 }
 
 Environment IcyConditions {

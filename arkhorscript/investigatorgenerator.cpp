@@ -46,6 +46,8 @@ QList<ClassGenerator::AttributeDesc> InvestigatorGenerator::getAttributes()
             << AttributeDesc("onUnconscious", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
             << AttributeDesc("onInsane", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
             << AttributeDesc("onLostInSpaceAndTime", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
+            << AttributeDesc("onOpenGate", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
+            << AttributeDesc("onAppearMonster", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
                ;
 }
 
@@ -73,6 +75,13 @@ bool InvestigatorGenerator::outputSpecialAttribute(AttributeDesc desc, const Cla
         } else {
             return setError("attributes must be Complex or Literal", cls);
         }
+    }
+
+    if (desc.name == "onAppearMonster") {
+        return outputFunction(attr, cls, "m");
+    }
+    if (desc.name == "onOpenGate") {
+        return outputFunction(attr, cls, "g");
     }
 
     Q_ASSERT_X(false, "Investigator Generator", qPrintable(QString("Special Attribute '%1' not handled").arg(desc.name)));

@@ -107,6 +107,8 @@ public:
     bool handleInsane(Character *c);
     bool handleLostInSpaceAndTime(Character *c);
     bool handleDefeatMonster(Character *byCharacter, Monster *m);
+    bool handleAppearMonster(GameField *f, Monster *m);
+    bool handleOpenGate(GameField *f, Gate *g);
 
     void returnMonster(Monster *m);
     Monster *drawMonster();

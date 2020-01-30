@@ -54,8 +54,10 @@ MythosCardScript *MythosCardScript::createMythosCard(QScriptContext *ctx, QScrip
         ret->m_envFieldId = static_cast<AH::Common::FieldData::FieldID> (data.property("environmentField").toInt32());
         ret->m_envType = static_cast<AH::Common::MythosData::EnvironmentType> (data.property("environmentType").toInt32());
 
+        ret->m_activateEnvFunc = data.property("activateEnvironment");
         ret->m_onEndMoveFunc = data.property("onEndMovement");
         ret->m_onDefeatMonsterFunc = data.property("onDefeatMonster");
+        ret->m_onAppearMonsterFunc = data.property("onAppearMonster");
 
         QScriptValue envMods = data.property("environmentModifications");
         if (envMods.isValid() && !envMods.isUndefined()) {
@@ -164,9 +166,19 @@ AH::Common::FieldData::FieldID MythosCardScript::environmentFieldId()
     return m_envFieldId;
 }
 
+void MythosCardScript::activateEnvironment()
+{
+    Q_ASSERT(type() == Environment);
+    if (m_activateEnvFunc.isFunction())
+        gGameScript->call(GameScript::F_Mythos, m_activateEnvFunc, m_object);
+}
+
 void MythosCardScript::onEndMovement()
 {
     Q_ASSERT(type() == Environment);
+    if (!m_onEndMoveFunc.isFunction())
+        return;
+
     QScriptValue res = gGameScript->call(GameScript::F_Mythos, m_onEndMoveFunc, m_object);
     if (res.isError()) {
         qCritical() << "Mythos onEndMovement Error:" << res.toString();
@@ -176,13 +188,30 @@ void MythosCardScript::onEndMovement()
 bool MythosCardScript::onDefeatMonster(Character *byCharacter, Monster *m)
 {
     Q_ASSERT(type() == Environment);
+    if (!m_onDefeatMonsterFunc.isFunction())
+        return true;
+
     QScriptValueList args;
     args << gGameScript->engine()->toScriptValue(dynamic_cast<CharacterScript*>(byCharacter));
     args << gGameScript->engine()->toScriptValue(dynamic_cast<MonsterScript*>(m));
     QScriptValue res = gGameScript->call(GameScript::F_Mythos, m_onDefeatMonsterFunc, m_object);
-    if (res.isError()) {
-        qCritical() << "Mythos onDefeatMonster Error:" << res.toString();
-    }
+    if (res.isBool())
+        return res.toBool();
+    return true;
+}
+
+bool MythosCardScript::onAppearMonster(GameField *f, Monster *m)
+{
+    Q_ASSERT(type() == Environment);
+    if (!m_onAppearMonsterFunc.isFunction())
+        return true;
+
+    QScriptValueList args;
+    GameFieldScript fs;
+    fs.setField(f);
+    args << gGameScript->engine()->toScriptValue(dynamic_cast<GameFieldScript*>(&fs));
+    args << gGameScript->engine()->toScriptValue(dynamic_cast<MonsterScript*>(m));
+    QScriptValue res = gGameScript->call(GameScript::F_Mythos, m_onAppearMonsterFunc, m_object, args);
     if (res.isBool())
         return res.toBool();
     return true;
@@ -269,8 +298,10 @@ bool MythosCardScript::verify(MythosCardScript *myth, QString *err)
             if (myth->m_envFieldId == AH::Common::FieldData::NO_NO_FIELD)
                 errs << "environmentField must be set";
         }
+        if (myth->m_activateEnvFunc.isValid() && !myth->m_activateEnvFunc.isFunction()) errs << "activateEnvironment must be a function";
         if (myth->m_onEndMoveFunc.isValid() && !myth->m_onEndMoveFunc.isFunction()) errs << "onEndMovement must be a function";
         if (myth->m_onDefeatMonsterFunc.isValid() && !myth->m_onDefeatMonsterFunc.isFunction()) errs << "onDefeatMonster must be a function";
+        if (myth->m_onAppearMonsterFunc.isValid() && !myth->m_onAppearMonsterFunc.isFunction()) errs << "onAppearMonster must be a function";
     }
 
     if (myth->m_type == Rumor) {

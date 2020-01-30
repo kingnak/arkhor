@@ -29,6 +29,8 @@ private:
     QScriptValue m_unconsciousFunc;
     QScriptValue m_insaneFunc;
     QScriptValue m_lostFunc;
+    QScriptValue m_appearMonsterFunc;
+    QScriptValue m_openGateFunc;
 
 signals:
 

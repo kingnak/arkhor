@@ -63,6 +63,8 @@ QScriptValue InvestigatorScript::createInvestigator(QScriptContext *ctx, QScript
     ret->m_unconsciousFunc = data.property("onUnconscious");
     ret->m_insaneFunc = data.property("onInsane");
     ret->m_lostFunc = data.property("onLostInSpaceAndTime");
+    ret->m_appearMonsterFunc = data.property("onAppearMonster");
+    ret->m_openGateFunc = data.property("onOpenGate");
 
     QString err;
     if (!verify(ret.data(), &err)) {
@@ -131,6 +133,8 @@ bool InvestigatorScript::verify(InvestigatorScript *inv, QString *msg)
     if (inv->m_unconsciousFunc.isValid() && !inv->m_unconsciousFunc.isFunction()) errs.append("onUnconscious mut be a function");
     if (inv->m_insaneFunc.isValid() && !inv->m_insaneFunc.isFunction()) errs.append("onInsane mut be a function");
     if (inv->m_lostFunc.isValid() && !inv->m_lostFunc.isFunction()) errs.append("onLostInSpaceAndTime mut be a function");
+    if (inv->m_openGateFunc.isValid() && !inv->m_openGateFunc.isFunction()) errs.append("onOpenGate mut be a function");
+    if (inv->m_appearMonsterFunc.isValid() && !inv->m_appearMonsterFunc.isFunction()) errs.append("onAppearMonster mut be a function");
 
     if (msg) *msg = errs.join("\n");
     if (errs.isEmpty()) {

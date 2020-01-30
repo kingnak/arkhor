@@ -511,6 +511,30 @@ bool Game::handleDefeatMonster(Character *byCharacter, Monster *m)
     return m_ancientOne->onDefeatMonster(byCharacter, m);
 }
 
+bool Game::handleAppearMonster(GameField *f, Monster *m)
+{
+    if (m_environment && !m_environment->onAppearMonster(f, m)) {
+        return false;
+    }
+    for (Character *c : f->characters()) {
+        if (!c->onAppearMonster(m)) {
+            returnMonster(m);
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Game::handleOpenGate(GameField *f, Gate *g)
+{
+    for (Character *c : f->characters()) {
+        if (!c->onOpenGate(g)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void Game::returnMonster(Monster *m)
 {
     if (!m) return;
@@ -664,8 +688,7 @@ bool Game::createGate(GameField *field)
 
         return false;
     } else {
-        // Place doom token
-        m_ancientOne->increaseDoomTrack();
+
 
         // Create gate
         int fid = 0;
@@ -693,6 +716,14 @@ bool Game::createGate(GameField *field)
 
         GameField *fld = m_board->field(f);
         Gate *g = new Gate(d, adj, fld);
+
+        if (!handleOpenGate(field, g)) {
+            delete g;
+            return false;
+        }
+
+        // Place doom token
+        m_ancientOne->increaseDoomTrack();
 
         m_registry->registerGate(g);
         field->setGate(g);
@@ -725,6 +756,11 @@ bool Game::createMonster(GameField *field)
     if (m->dimension() == AH::NoDimension) {
         // Set random dimension
         m->setDimension(randomDimension());
+    }
+
+    if (!handleAppearMonster(field, m)) {
+        returnMonster(m);
+        return false;
     }
 
     if (!canPlaceMonster()) {

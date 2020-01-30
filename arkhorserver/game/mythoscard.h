@@ -27,8 +27,10 @@ public:
     virtual QList<AH::Common::PropertyModificationData> getModificationData() const;
     virtual GameOption *environmentFieldOption() = 0;
     virtual AH::Common::FieldData::FieldID environmentFieldId() = 0;
+    virtual void activateEnvironment() = 0;
     virtual void onEndMovement() = 0;
     virtual bool onDefeatMonster(Character *byCharacter, Monster *m) = 0;
+    virtual bool onAppearMonster(GameField *f, Monster *m) = 0;
 
     // Rumors
     virtual void onMythos() = 0;

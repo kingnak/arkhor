@@ -109,6 +109,8 @@ public:
     virtual bool onUnconscious() { return true; }
     virtual bool onInsane() { return true; }
     virtual bool onLostInSpaceAndTime() { return true; }
+    virtual bool onOpenGate(Gate *g) { Q_UNUSED(g) return true; }
+    virtual bool onAppearMonster(Monster *m) { Q_UNUSED(m) return true; }
 
 protected:
     virtual void instantiateFromInvestigator();

@@ -99,6 +99,7 @@ bool MythosAction::execute()
                         f->addFieldOption(opt);
                     }
                 }
+                card->activateEnvironment();
             } else {
                 gGame->returnMythos(card);
             }

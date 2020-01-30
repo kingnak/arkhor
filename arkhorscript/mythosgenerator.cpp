@@ -85,8 +85,10 @@ QList<ClassGenerator::AttributeDesc> EnvironmentGenerator::getAttributes()
             << AttributeDesc("environmentModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
             << AttributeDesc("monsterModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
             << AttributeDesc("monsterMoveModifications", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Complex)
+            << AttributeDesc("activateEnvironment", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
             << AttributeDesc("onEndMovement", AttributeDesc::R_Optional, AttributeDesc::H_Simple, AttributeDesc::V_Function)
             << AttributeDesc("onDefeatMonster", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
+            << AttributeDesc("onAppearMonster", AttributeDesc::R_Optional, AttributeDesc::H_Special, AttributeDesc::V_Function)
                ;
 }
 
@@ -109,6 +111,9 @@ bool EnvironmentGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc 
     }
     if (desc.name == "onDefeatMonster") {
         return outputFunction(attr, cls, "c, m");
+    }
+    if (desc.name == "onAppearMonster") {
+        return outputFunction(attr, cls, "f,m");
     }
     return MythosGenerator::outputSpecialAttribute(desc, cls, attr);
 }

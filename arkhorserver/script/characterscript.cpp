@@ -1,6 +1,8 @@
 #include "characterscript.h"
 #include <QDebug>
 #include "gamescript.h"
+#include "gatescript.h"
+#include "monsterscript.h"
 #include "investigatorscript.h"
 
 CharacterScript::CharacterScript(Investigator *i, QObject *parent) :
@@ -126,6 +128,30 @@ bool CharacterScript::onLostInSpaceAndTime()
     return true;
 }
 
+bool CharacterScript::onOpenGate(Gate *g)
+{
+    if (m_openGateFunc.isFunction()) {
+        GateScript gs(g);
+        QScriptValue res = gGameScript->call(GameScript::F_Character, m_openGateFunc, gGameScript->getCharacter(this), gGameScript->engine()->toScriptValue(&gs));
+        if (res.isBool())
+            return res.toBool();
+    }
+    return true;
+}
+
+bool CharacterScript::onAppearMonster(Monster *m)
+{
+    if (m_appearMonsterFunc.isFunction()) {
+        MonsterScript *ms = dynamic_cast<MonsterScript*>(m);
+        Q_ASSERT(ms);
+        if (!ms) return true;
+        QScriptValue res = gGameScript->call(GameScript::F_Character, m_appearMonsterFunc, gGameScript->getCharacter(this), gGameScript->engine()->toScriptValue(ms));
+        if (res.isBool())
+            return res.toBool();
+    }
+    return true;
+}
+
 void CharacterScript::instantiateFromInvestigator()
 {
     Character::instantiateFromInvestigator();
@@ -133,6 +159,8 @@ void CharacterScript::instantiateFromInvestigator()
     m_unconsciousFunc = is->m_unconsciousFunc;
     m_insaneFunc = is->m_insaneFunc;
     m_lostFunc = is->m_lostFunc;
+    m_appearMonsterFunc = is->m_appearMonsterFunc;
+    m_openGateFunc = is->m_openGateFunc;
 }
 
 QObjectList CharacterScript::getInventoryScript() const

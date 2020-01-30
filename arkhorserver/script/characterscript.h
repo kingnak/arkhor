@@ -84,6 +84,8 @@ public:
     virtual bool onUnconscious();
     virtual bool onInsane();
     virtual bool onLostInSpaceAndTime();
+    virtual bool onOpenGate(Gate *g);
+    virtual bool onAppearMonster(Monster *m);
 
 signals:
 
@@ -101,6 +103,8 @@ private:
     QScriptValue m_unconsciousFunc;
     QScriptValue m_insaneFunc;
     QScriptValue m_lostFunc;
+    QScriptValue m_openGateFunc;
+    QScriptValue m_appearMonsterFunc;
 
     friend class InvestigatorScript;
 };

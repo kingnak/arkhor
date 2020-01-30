@@ -28,6 +28,6 @@ AH::Skill ChooseSkillHelper::chooseSkillDieRoll(Player *p, QList<AH::Skill> opti
     }
 
     AH::Common::PropertyValueData::Property ret = p->chooseSkill(opts);
-    AH::Skill s = PropertyValue::dieRoll2Skill(ret);
+    AH::Skill s = PropertyValue::property2Skill(ret);
     return s;
 }

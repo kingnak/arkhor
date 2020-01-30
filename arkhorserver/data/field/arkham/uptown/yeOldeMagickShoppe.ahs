@@ -6,11 +6,7 @@ FieldOption Magick_Lessons {
         "discard the other.";
     costs: [ Money 5 ];
     activate: {{{
-        var res = game.context.drawMultipleObjects(Constants.ObjectType.Spell, "Select spell", thid.id, 2, 1, 1);
-        if (res.length > 0) {
-            var item = res[0];
-            CHAR.addToInventory(item);
-        }
+        game.utility.selectRandomItem(Constants.ObjectType.Spell, "Select spell", thid.id, 2);
     }}};
 }
 

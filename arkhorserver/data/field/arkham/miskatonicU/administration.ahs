@@ -6,9 +6,7 @@ FieldOption Administration_Classes {
         "discard the other.";
     costs: [ Money 8 ];
     activate: {{{
-        var sk = game.context.drawMultipleObjects(Constants.ObjectType.Skill, "Select Skill", this.id, 2, 1, 1);
-        if (sk.length > 0)
-            CHAR.addToInventory(sk[0]);
+        game.utility.selectRandomItem(Constants.ObjectType.Skill, "Learn Skill", this.id, 2);
     }}};
 }
 

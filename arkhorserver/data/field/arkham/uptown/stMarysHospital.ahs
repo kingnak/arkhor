@@ -58,8 +58,7 @@ AEOption Hosp_Enc2 {
     activate: {{{
         var res = game.context.skillTest("Sneak", this.id, Constants.Skills.Sneak, -1, 1);
         if (res) {
-            var ob = game.context.drawObject(Constants.ObjectType.Spell);
-            CHAR.addToInventory(ob);
+            game.utility.drawRandomItem(Constants.ObjectType.Spell, "Take Spell", this.id);
         }
     }}};
 }

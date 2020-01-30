@@ -32,8 +32,7 @@ AEOption Cave_Enc2 {
         } else if (res == 1) {
             CHAR.damageSanity(1);
         } else {
-            var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
-            CHAR.addToInventory(ob);
+            game.utility.drawRandomItem(Constants.ObjectType.CommonItem, "Take item", this.id);
         }
     }}};
 }

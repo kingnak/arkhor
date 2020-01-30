@@ -161,8 +161,7 @@ Environment ManInBlack {
                 CHAR.damageSanity(san - res);
                 if (CHAR.commitDamage()) {
                     CHAR.addClue(1);
-                    var ob = game.context.drawObject(Constants.ObjectType.Spell);
-                    CHAR.addToInventory(ob);
+                    game.utility.drawRandomItem(Constants.ObjectType.Spell, "Gain power", this.id);
                 } else {
                     CHAR.devour();
                 }

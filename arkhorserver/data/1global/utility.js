@@ -35,3 +35,16 @@ game.utility.isCharacterCursed = function(chr) {
     }
     return false;
 };
+
+game.utility.drawRandomItem = function(type, message, id) {
+    return game.utility.selectRandomItem(type, message, id, 1);
+}
+
+game.utility.selectRandomItem = function(type, message, id, count) {
+    var objs = game.context.drawMultipleObjects(type, message, id, count, 1, 1);
+    if (objs.length > 0) {
+        CHAR.addToInventory(objs[0]);
+        return objs[0];
+    }
+    return null;
+}

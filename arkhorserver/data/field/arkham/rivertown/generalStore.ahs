@@ -29,8 +29,7 @@ ArkhamEncounter Store_Enc1 {
 }
 AEOption Store_Enc1 {
     activate: {{{
-        var ob = game.context.drawObject(Constants.ObjectType.CommonItem);
-        CHAR.addToInventory(ob);
+        game.utility.drawRandomItem(Constants.ObjectType.CommonItem, "Get item", this.id);
     }}};
 }
 

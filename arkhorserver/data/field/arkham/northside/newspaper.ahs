@@ -16,7 +16,7 @@ ArkhamEncounter News_Enc2 {
 }
 AEOption News_Enc2 {
     activate: {{{
-        var ob = game.drawSpecificObject("OBJ_RETAINER");
+        var ob = game.drawSpecificObject(SpecialObject.Retainer);
         CHAR.addToInventory(ob);
     }}};
 }

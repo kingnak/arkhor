@@ -35,8 +35,7 @@ AEOption Docks_Enc1 {
         }
         var ok = CHAR.commitDamage();
         if (ok) {
-            var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
-            CHAR.addToInventory(ob);
+            game.utility.drawRandomItem(Constants.ObjectType.UniqueItem, "Get item", this.id);
         }
     }}};
 }

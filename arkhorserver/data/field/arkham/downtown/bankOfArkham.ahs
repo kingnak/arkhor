@@ -4,7 +4,7 @@ FieldOption Bank_Loan {
         "you may take out a Bank Loan if you don't have "+
         "one yet";
     activate: {{{
-        var loan = game.drawSpecificObject("OBJ_BANK_LOAN");
+        var loan = game.drawSpecificObject(SpecialObject.BankLoan);
         CHAR.addToInventory(loan);
     }}};
     field: DT_BankOfArkham;

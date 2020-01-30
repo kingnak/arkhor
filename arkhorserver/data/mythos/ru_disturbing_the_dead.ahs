@@ -35,6 +35,7 @@ Rumor Disturbing_theDead {
         list = game.context.allCharacters;
         for (var i = 0; i < list.length; ++i) {
             var c = list[i];
+            // Cannot use conext.drawMultiple... because that acts on current player
             var obj = game.drawSingleObject(Constants.ObjectType.Spell);
             c.addToInventory(obj);
         }

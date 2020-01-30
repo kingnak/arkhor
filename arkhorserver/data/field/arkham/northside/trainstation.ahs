@@ -14,8 +14,7 @@ AEOption Train_Enc1 {
     activate: {{{
         var res = game.context.skillTest("Let him draw", this.id, this.id, Constants.Skills.Luck, -1, 1);
         if (res) {
-            var ob = game.context.drawObject(Constants.ObjectType.UniqueItem);
-            CHAR.addToInventory(ob);
+            game.utility.drawRandomItem(Constants.ObjectType.UniqueItem, "Get item", this.id);
         } else {
             var dmg = game.context.genericDieRollSum("Damage by poisoned blade", this.id, 1);
             CHAR.damageStamina(dmg);
@@ -43,8 +42,7 @@ AEOption Train_Enc2 {
     activate: {{{
         var res = game.context.skillTest("Catch stranger", this.id, Constants.Skills.Speed, -1, 1);
         if (res) {
-            var ob = game.context.drawObject(Constants.ObjectType.Spell);
-            CHAR.addToInventory(ob);
+            game.utility.drawRandomItem(Constants.ObjectType.Spell, "Take spell", this.id);
         } else {
             var dmg = game.context.genericDieRollSum("Damage by watching him die", this.id, 1);
             CHAR.damageSanity(dmg);

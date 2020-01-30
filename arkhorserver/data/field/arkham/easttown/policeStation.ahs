@@ -8,7 +8,7 @@ FieldOption Police_Deputize {
     field: ET_PoliceStation;
     costs: [ MonsterToughness 10, GateTrophy 2, MonsterToughness 5 + GateTrophy 1 ];
     activate: {{{
-        var dep = game.drawSpecificObject("OB_DEPUTY_OF_ARKHAM");
+        var dep = game.drawSpecificObject(SpecialObject.DeputyOfArkham);
         if (dep) {
             CHAR.addToInventory(dep);
         }
@@ -28,7 +28,7 @@ ArkhamEncounter Police_Enc1 {
             activate: {{{
                 var res = game.context.skillTest("Take case file", this.id, Constants.Skills.Sneak, 0, 1);
                 if (res) {
-                    var ob = game.drawSpecificObject("OBJ_RESEARCH_MATERIAL");
+                    var ob = game.drawSpecificObject(CommonItem.ResearchMaterials);
                     CHAR.addToInventory(ob);
                 }
             }}};

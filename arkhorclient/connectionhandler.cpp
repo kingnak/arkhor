@@ -128,6 +128,18 @@ void ConnectionHandler::choiceCanceled()
     S_RET(send(AH::Common::Message::C_CANCEL_CHOICE);)
 }
 
+void ConnectionHandler::tradeSelected(AH::Common::TradeData trade)
+{
+    QVariant v;
+    v << trade;
+    S_RET(send(AH::Common::Message::C_TRADE, v);)
+}
+
+void ConnectionHandler::tradeCanceled()
+{
+    S_RET(send(AH::Common::Message::C_CANCEL_TRADE);)
+}
+
 void ConnectionHandler::setSkipOption(AH::Common::PlayerData::AutoSkipData skipOption)
 {
     S_ALL(send(AH::Common::Message::C_SET_AUTOSKIP, skipOption);)
@@ -523,6 +535,23 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         emit playerChange(id);
         )
         break;
+
+    case AH::Common::Message::S_TRADE:
+    {
+        M_RET(
+        AH::Common::TradeData td;
+        msg.payload >> td;
+        emit offerTrade(td);
+        )
+        break;
+    }
+
+    case AH::Common::Message::S_CANCEL_TRADE:
+        M_RET(
+        QString name = msg.payload.toString();
+        emit canceledTrade(name);
+        )
+        break;
     }
 
     default:
@@ -541,7 +570,6 @@ void ConnectionHandler::sockError()
 
 void ConnectionHandler::established()
 {
-    QObject *s__=sender();
     AH::Common::NetworkConnection *c = m_conns[(QTcpSocket*)sender()];
     c->startup();
     connect(c, SIGNAL(messageReceived(AH::Common::Message)), this, SLOT(handleMessage(AH::Common::Message)));

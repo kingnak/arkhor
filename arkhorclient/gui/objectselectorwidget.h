@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <objectdata.h>
 
+class QListWidget;
 class QListWidgetItem;
 
 namespace Ui {
@@ -27,6 +28,7 @@ public slots:
     void clearItems();
     void setMinItems(int min);
     void setMaxItems(int max);
+    void showCounts(bool show);
 
 signals:
     void requestObjectInfo(QString id);
@@ -47,6 +49,9 @@ private:
 
 private:
     void checkItemCount();
+    void selectMoney(int row, QListWidgetItem *itm);
+    void updateMoney(QListWidget *lst, int add);
+    void updateMoney(QListWidgetItem *itm, int add);
 
 private:
     Ui::ObjectSelectorWidget *ui;

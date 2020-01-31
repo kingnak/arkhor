@@ -99,6 +99,11 @@ namespace AH{
 
                 C_SET_AUTOSKIP,
 
+                S_TRADE,
+                C_TRADE,
+                S_CANCEL_TRADE,
+                C_CANCEL_TRADE,
+
                 DONT_UNDERSTAND = 0xFFFFFFFE,
                 INVALID_MESSAGE = 0xFFFFFFFF
             } type;

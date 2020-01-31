@@ -14,6 +14,7 @@
 #include "choicedata.h"
 #include "gamesettingdata.h"
 #include "monsterdata.h"
+#include "tradedata.h"
 
 namespace AH {
     Attribute attributeForSkillTest(Skill skill)
@@ -80,6 +81,7 @@ namespace AH {
         qRegisterMetaType<AH::Common::GameSettingData>("AH::Common::GameSettingData");
         qRegisterMetaType<AH::Common::RequestObjectsData::ObjectType>("AH::Common::RequestObjectsData::ObjectType");
         qRegisterMetaType<AH::Common::MonsterData>("AH::Common::MonsterData");
+        qRegisterMetaType<AH::Common::TradeData>("AH::Common::TradeData");
     }
 
     void operator <<(QVariant &data, const ObjectTypeCount &c) {

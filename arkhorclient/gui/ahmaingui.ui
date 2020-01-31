@@ -218,6 +218,13 @@
              </item>
             </layout>
            </widget>
+           <widget class="QWidget" name="pageTrade">
+            <layout class="QVBoxLayout" name="verticalLayout_20">
+             <item>
+              <widget class="TradeWidget" name="wgtTrade" native="true"/>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </item>
         </layout>
@@ -473,6 +480,15 @@
    <header>gui/monstermovementwidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>TradeWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/tradewidget.h</header>
+   <container>1</container>
+   <slots>
+    <signal>itemInfoRequested(QString)</signal>
+   </slots>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../../arkhorclientstaticres/client_resources.qrc"/>
@@ -517,8 +533,8 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>358</x>
-     <y>389</y>
+     <x>369</x>
+     <y>61</y>
     </hint>
     <hint type="destinationlabel">
      <x>302</x>

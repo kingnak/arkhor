@@ -37,6 +37,7 @@ HEADERS += \
     game/actions/moveaction.h \
     game/actions/otherworldencounteryaction.h \
     game/actions/skipoption.h \
+    game/actions/tradeaction.h \
     game/actions/untapaction.h \
     game/phases/arkhamencoutery.h \
     game/phases/chooseinvestigator.h \
@@ -136,6 +137,7 @@ SOURCES += \
 	game/actions/focusaction.cpp \
     game/actions/moveaction.cpp \
     game/actions/otherworldencounteryaction.cpp \
+    game/actions/tradeaction.cpp \
     game/actions/untapaction.cpp \
     game/phases/arkhamencoutery.cpp \
     game/phases/chooseinvestigator.cpp \

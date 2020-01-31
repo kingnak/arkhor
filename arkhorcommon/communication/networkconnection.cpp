@@ -69,6 +69,10 @@ QString msg_to_str(AH::Common::Message::Type t) {
     case AH::Common::Message::Type::S_DIED: return "S_DIED";
     case AH::Common::Message::Type::S_GAME_ALERT: return "S_GAME_ALERT";
     case AH::Common::Message::Type::C_SET_AUTOSKIP: return "C_SET_AUTOSKIP";
+    case AH::Common::Message::Type::S_TRADE: return "S_TRADE";
+    case AH::Common::Message::Type::C_TRADE: return "C_TRADE";
+    case AH::Common::Message::Type::S_CANCEL_TRADE: return "S_CANCEL_TRADE";
+    case AH::Common::Message::Type::C_CANCEL_TRADE: return "C_CANCEL_TRADE";
     case AH::Common::Message::Type::DONT_UNDERSTAND: return "DONT_UNDERSTAND";
     case AH::Common::Message::Type::INVALID_MESSAGE: return "INVALID_MESSAGE";
     default: return QString("?? %d").arg(t);

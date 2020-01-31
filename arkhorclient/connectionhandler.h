@@ -17,6 +17,7 @@
 #include <choicedata.h>
 #include <gamesettingdata.h>
 #include <monsterdata.h>
+#include <tradedata.h>
 #include <QStack>
 
 class QTcpSocket;
@@ -50,6 +51,9 @@ public:
 
     void choiceSelected(AH::Common::ChoiceResponseData resp);
     void choiceCanceled();
+
+    void tradeSelected(AH::Common::TradeData trade);
+    void tradeCanceled();
 
     void setSkipOption(AH::Common::PlayerData::AutoSkipData skipOption);
 
@@ -101,6 +105,8 @@ signals:
     void finishAcknowledge();
 
     void offerChoice(AH::Common::ChoiceData choice);
+    void offerTrade(AH::Common::TradeData trade);
+    void canceledTrade(QString name);
 
     void died(QString msg);
     void won(QString msg);

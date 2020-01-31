@@ -8,6 +8,7 @@
 #include "resourcepool.h"
 #include <QtWidgets>
 #include "utils.h"
+#include "objectlistitem.h"
 
 #define MAXIMUM_WIDGET_WIDTH 16777215
 
@@ -65,6 +66,8 @@ AhMainGui::AhMainGui(QWidget *parent) :
     connect(ui->wgtChoice, SIGNAL(objectInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtWeaponChooser, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtOptionChooser, SIGNAL(objectDescriptionRequested(QString)), this, SLOT(displayItemInfo(QString)));
+    connect(ui->wgtTrade, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
+
 }
 
 AhMainGui::~AhMainGui()
@@ -143,6 +146,12 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     connect(m_conn, SIGNAL(offerChoice(AH::Common::ChoiceData)), this, SLOT(offerChoice(AH::Common::ChoiceData)));
     connect(ui->wgtChoice, SIGNAL(choiceSelected(AH::Common::ChoiceResponseData)), this, SLOT(choiceSelected(AH::Common::ChoiceResponseData)));
     connect(ui->wgtChoice, SIGNAL(choiceCanceled()), this, SLOT(choiceCanceled()));
+
+    // TRADE
+    connect(m_conn, SIGNAL(offerTrade(AH::Common::TradeData)), this, SLOT(offerTrade(AH::Common::TradeData)));
+    connect(m_conn, SIGNAL(canceledTrade(QString)), this, SLOT(tradeCanceled(QString)));
+    connect(ui->wgtTrade, SIGNAL(cancelTrade()), this, SLOT(cancelTrade()));
+    connect(ui->wgtTrade, SIGNAL(selectedTrade(AH::Common::TradeData)), this, SLOT(tradeSelected(AH::Common::TradeData)));
 
 
     connect(m_conn, SIGNAL(died(QString)), this, SLOT(showAlert(QString)));
@@ -245,7 +254,7 @@ void AhMainGui::displayItemInfo(const QString &id)
 void AhMainGui::displayInventoryData(QListWidgetItem *itm)
 {
     if (itm) {
-        QString id = itm->data(ObjectIdRole).toString();
+        QString id = itm->data(ObjectListItem::ObjectIdRole).toString();
         displayItemInfo(id);
     }
 }
@@ -490,6 +499,37 @@ void AhMainGui::choiceCanceled()
      refitGui();
 }
 
+void AhMainGui::offerTrade(TradeData trade)
+{
+    ui->wgtTrade->showTrade(trade);
+    ui->stkInteraction->setCurrentWidget(ui->pageTrade);
+    ui->tabInteract->setCurrentWidget(ui->tabInteraction);
+}
+
+void AhMainGui::tradeSelected(TradeData trade)
+{
+    m_conn->tradeSelected(trade);
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
+}
+
+void AhMainGui::tradeCanceled(QString name)
+{
+    QMessageBox::information(this, "Trade", name + " canceled the trade");
+    m_conn->acknowledge();
+    /*
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
+    */
+}
+
+void AhMainGui::cancelTrade()
+{
+    m_conn->tradeCanceled();
+    ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
+    refitGui();
+}
+
 void AhMainGui::clearTempObject()
 {
     if (ui->wgtObjectInfo->isDisplayingTempData()) {
@@ -550,20 +590,4 @@ void AhMainGui::on_btnSkipOptions_clicked()
         m_skipOption = static_cast<PlayerData::AutoSkipData> (idx);
         m_conn->setSkipOption(m_skipOption);
     }
-}
-
-//////////////////////////////
-
-InventoryListItem::InventoryListItem(QString objectId)
-{
-    setData(AhMainGui::ObjectIdRole, objectId);
-    ObjectRegistry::instance()->asyncSubscribeObject(this, objectId, AH::Common::RequestObjectsData::Object);
-}
-
-void InventoryListItem::objectDescribed(const DescribeObjectsData::ObjectDescription &desc)
-{
-    AH::Common::GameObjectData o;
-    desc.data >> o;
-    setText(o.name());
-    setIcon(ResourcePool::instance()->loadObjectImage(o.id(), o.type()));
 }

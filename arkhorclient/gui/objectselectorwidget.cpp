@@ -3,6 +3,7 @@
 #include "objectregistry.h"
 #include "resourcepool.h"
 #include <gameobjectdata.h>
+#include <QInputDialog>
 
 using namespace AH::Common;
 
@@ -55,7 +56,10 @@ void ObjectSelectorWidget::setItems(QStringList objectIds)
         itm->setData(IdRole, id);
         m_items.insert(id, itm);
         ui->lstAvailable->addItem(itm);
-        reqs.addRequest(qMakePair(RequestObjectsData::Unknown, id));
+        if (id.startsWith("$:"))
+            updateMoney(itm, 0);
+        else
+            reqs.addRequest(qMakePair(RequestObjectsData::Unknown, id));
     }
 
     activate();
@@ -81,6 +85,11 @@ void ObjectSelectorWidget::setMaxItems(int max)
     m_max = qMin(m_items.size(), max);
     ui->lblMax->setText(QString::number(m_max));
     checkItemCount();
+}
+
+void ObjectSelectorWidget::showCounts(bool show)
+{
+    ui->frmCounts->setVisible(show);
 }
 
 void ObjectSelectorWidget::describeItem(DescribeObjectsData::ObjectDescription desc)
@@ -122,6 +131,12 @@ void ObjectSelectorWidget::selectItem()
     if (row < 0) return;
     //if (ui->lstSelected->count() < m_max) {
     QListWidgetItem *itm = ui->lstAvailable->takeItem(row);
+
+    if (itm->data(IdRole).toString().startsWith("$:")) {
+        selectMoney(row, itm);
+        checkItemCount();
+        return;
+    }
     ui->lstSelected->addItem(itm);
     //}
     checkItemCount();
@@ -132,6 +147,12 @@ void ObjectSelectorWidget::deselectItem()
     int row = ui->lstSelected->currentRow();
     if (row < 0) return;
     QListWidgetItem *itm = ui->lstSelected->takeItem(row);
+    if (itm->data(IdRole).toString().startsWith("$:")) {
+        updateMoney(ui->lstAvailable, itm->data(IdRole).toString().mid(2).toInt());
+        delete itm;
+        checkItemCount();
+        return;
+    }
     ui->lstAvailable->addItem(itm);
     checkItemCount();
 }
@@ -149,4 +170,54 @@ void ObjectSelectorWidget::checkItemCount()
     bool ok = (m_min <= selCount && selCount <= m_max);
     emit selectionOk(ok);
     emit selectionWrong(!ok);
+}
+
+void ObjectSelectorWidget::selectMoney(int row, QListWidgetItem *itm)
+{
+    int max = itm->data(IdRole).toString().mid(2).toInt();
+    int sel = (max > 1)
+            ? QInputDialog::getInt(this, "Select amount", "How much money you want to spend?", 1, 0, max)
+            : max;
+    if (sel <= 0) {
+        ui->lstAvailable->insertItem(row, itm);
+        return;
+    }
+
+    if (sel < max) {
+        ui->lstAvailable->insertItem(row, itm);
+        updateMoney(itm, -sel);
+    } else {
+        delete itm;
+    }
+    itm = nullptr;
+
+    updateMoney(ui->lstSelected, sel);
+}
+
+void ObjectSelectorWidget::updateMoney(QListWidget *lst, int add)
+{
+    QListWidgetItem *itm = nullptr;
+    for (int i = 0; i < lst->count(); ++i) {
+        if (lst->item(i)->data(IdRole).toString().startsWith("$:")) {
+            itm = lst->item(i);
+            break;
+        }
+    }
+
+    if (!itm) {
+        if (add == 0) return;
+        itm = new QListWidgetItem;
+        itm->setData(IdRole, "$:0");
+        lst->addItem(itm);
+    }
+
+    updateMoney(itm, add);
+}
+
+void ObjectSelectorWidget::updateMoney(QListWidgetItem *itm, int add)
+{
+    int amount = itm->data(IdRole).toString().mid(2).toInt() + add;
+    itm->setData(IdRole, QString("$:%1").arg(amount));
+    itm->setText(QString("$%1").arg(amount));
+    itm->setIcon(QPixmap(":/core/marker/dollar"));
 }

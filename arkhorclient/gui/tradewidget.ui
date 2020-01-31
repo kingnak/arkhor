@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TradeWidget</class>
+ <widget class="QWidget" name="TradeWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>138</width>
+    <height>344</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <widget class="QLabel" name="lblTitel">
+     <property name="text">
+      <string>Trade with %1</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="pageInitial">
+      <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0,0">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Offer items to trade:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="ObjectSelectorWidget" name="wgtInitialOffer" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnInitialOffer">
+         <property name="text">
+          <string>Offer</string>
+         </property>
+         <property name="default">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnInitalCancel">
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageCounter">
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,1,0,0">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Offered items:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="lstOfferInitial"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Offer items to trade:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="ObjectSelectorWidget" name="wgtCounterOffer" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnCounterOffer">
+         <property name="text">
+          <string>Offer</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnCancelCounterOffer">
+         <property name="text">
+          <string>Decline</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageFinal">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>You offered:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="lstFinalOffer"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>You get:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="lstFinalCounter"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnAcceptFinal">
+         <property name="text">
+          <string>Accept</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnCancelFinal">
+         <property name="text">
+          <string>Decline</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ObjectSelectorWidget</class>
+   <extends>QWidget</extends>
+   <header>objectselectorwidget.h</header>
+   <container>1</container>
+   <slots>
+    <signal>selectionOk(bool)</signal>
+    <signal>requestObjectInfo(QString)</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>wgtInitialOffer</sender>
+   <signal>selectionOk(bool)</signal>
+   <receiver>btnInitialOffer</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>81</x>
+     <y>150</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>98</x>
+     <y>282</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>wgtCounterOffer</sender>
+   <signal>selectionOk(bool)</signal>
+   <receiver>btnCounterOffer</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>78</x>
+     <y>267</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>92</x>
+     <y>296</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnInitialOffer</sender>
+   <signal>clicked()</signal>
+   <receiver>TradeWidget</receiver>
+   <slot>doOffer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>42</x>
+     <y>283</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>294</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnInitalCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>TradeWidget</receiver>
+   <slot>doCancel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>67</x>
+     <y>317</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>133</x>
+     <y>317</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnCounterOffer</sender>
+   <signal>clicked()</signal>
+   <receiver>TradeWidget</receiver>
+   <slot>doOffer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>42</x>
+     <y>296</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>287</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnCancelCounterOffer</sender>
+   <signal>clicked()</signal>
+   <receiver>TradeWidget</receiver>
+   <slot>doCancel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>325</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>133</x>
+     <y>286</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnAcceptFinal</sender>
+   <signal>clicked()</signal>
+   <receiver>TradeWidget</receiver>
+   <slot>doAccept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>102</x>
+     <y>296</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>6</x>
+     <y>273</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnCancelFinal</sender>
+   <signal>clicked()</signal>
+   <receiver>TradeWidget</receiver>
+   <slot>doCancel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>325</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>131</x>
+     <y>311</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>wgtInitialOffer</sender>
+   <signal>requestObjectInfo(QString)</signal>
+   <receiver>TradeWidget</receiver>
+   <slot>displayItem(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>78</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>136</x>
+     <y>91</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>wgtCounterOffer</sender>
+   <signal>requestObjectInfo(QString)</signal>
+   <receiver>TradeWidget</receiver>
+   <slot>displayItem(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>259</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>135</x>
+     <y>247</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lstOfferInitial</sender>
+   <signal>currentItemChanged(QListWidgetItem*,QListWidgetItem*)</signal>
+   <receiver>TradeWidget</receiver>
+   <slot>displayItem(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>119</x>
+     <y>78</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>137</x>
+     <y>55</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lstFinalOffer</sender>
+   <signal>currentItemChanged(QListWidgetItem*,QListWidgetItem*)</signal>
+   <receiver>TradeWidget</receiver>
+   <slot>displayItem(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>82</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>140</x>
+     <y>23</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lstFinalCounter</sender>
+   <signal>currentItemChanged(QListWidgetItem*,QListWidgetItem*)</signal>
+   <receiver>TradeWidget</receiver>
+   <slot>displayItem(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>110</x>
+     <y>218</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>143</x>
+     <y>194</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>doOffer()</slot>
+  <slot>doCancel()</slot>
+  <slot>doAccept()</slot>
+  <slot>displayItem(QListWidgetItem*)</slot>
+  <slot>displayItem(QString)</slot>
+ </slots>
+</ui>

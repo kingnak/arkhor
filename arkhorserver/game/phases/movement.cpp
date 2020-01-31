@@ -11,6 +11,7 @@ Movement::Movement(Game *game)
     m_move = new MoveOption(this);
     m_fight = new FightPhase;
     m_place = new PlaceOnFieldOption;
+    m_trade = new TradeOption;
     m_outcome = FightPhase::EndUnknown;
 }
 
@@ -20,6 +21,7 @@ Movement::~Movement()
     delete m_move;
     delete m_fight;
     delete m_place;
+    delete m_trade;
 }
 
 void Movement::characterMoved()
@@ -81,10 +83,12 @@ QList<GameOption *> Movement::getPhaseOptions()
 
         return QList<GameOption *>()
                 << m_move
+                << m_trade
                 << getSkipOption();
     case AH::Common::FieldData::OtherWorld:
         return QList<GameOption *>()
-                << m_move;
+                << m_move
+                << m_trade;
 
     case AH::Common::FieldData::SpaceAndTime:
     {

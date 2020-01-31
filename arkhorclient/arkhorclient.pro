@@ -8,6 +8,8 @@ HEADERS += \
     ahboardfillerhelper.h \
     gui/modifiedpropertyinfowidget.h \
     gui/modifierinfowidget.h \
+    gui/objectlistitem.h \
+    gui/tradewidget.h \
     objectregistry.h \
     resourcepool.h \
     utils.h \
@@ -50,6 +52,8 @@ SOURCES += \
     connectionhandler.cpp \
     gui/modifiedpropertyinfowidget.cpp \
     gui/modifierinfowidget.cpp \
+    gui/objectlistitem.cpp \
+    gui/tradewidget.cpp \
     main.cpp \
     ahboardscene.cpp \
     ahboardfillerhelper.cpp \
@@ -101,6 +105,7 @@ FORMS += \
     gui/movementchooser.ui \
     gui/optionchooser.ui \
     gui/startform.ui \
+    gui/tradewidget.ui \
     gui/weaponchooser.ui \
     gui/gameobjectwidget.ui \
     gui/mythosdatawidget.ui \

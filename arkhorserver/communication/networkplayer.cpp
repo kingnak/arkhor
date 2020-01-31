@@ -483,6 +483,32 @@ ChoiceResponseData NetworkPlayer::offerChoice(ChoiceData choice)
     return ChoiceResponseData();
 }
 
+TradeData NetworkPlayer::offerTrade(TradeData trade)
+{
+    QVariant m;
+    m << trade;
+    m_conn->sendMessage(AH::Common::Message::S_TRADE, m);
+
+    AH::Common::Message resp;
+    QList<Message::Type> l;
+    l << Message::C_CANCEL_TRADE << Message::C_TRADE;
+    bool ok = awaitResponse(resp, l);
+    TradeData ret;
+    if (ok) {
+        if (resp.type == Message::C_TRADE) {
+            resp.payload >> ret;
+        }
+    }
+    return ret;
+}
+
+void NetworkPlayer::tradeCanceled(QString name)
+{
+    m_conn->sendMessage(AH::Common::Message::S_CANCEL_TRADE, name);
+    //Message r;
+    //awaitResponse(r, QList<Message::Type>() << Message::C_ACKNOWLEDGED);
+}
+
 void NetworkPlayer::handleMessage(Message msg)
 {
     Qt::ConnectionType t = (QThread::currentThread() == this->thread()) ? Qt::DirectConnection : Qt::QueuedConnection;

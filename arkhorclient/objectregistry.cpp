@@ -28,7 +28,7 @@ void ObjectRegistry::init(ConnectionHandler *c)
     connect(m_conn, SIGNAL(characterUpdate(AH::Common::CharacterData)), this, SLOT(updateCharacter(AH::Common::CharacterData)));
     connect(m_conn, SIGNAL(setTempData(QString)), this, SLOT(setTempData(QString)));
     connect(m_conn, SIGNAL(clearTempData()), this, SLOT(clearTempData()));
-    connect(m_conn, SIGNAL(chooseMonster(QList<AH::Common::MonsterData>)), this, SLOT(receivedMonsters(QList<AH::Common::MonsterData>)));
+    connect(m_conn, &ConnectionHandler::chooseMonster, this, [=](QString, QList<AH::Common::MonsterData> m) {receivedMonsters(m); });
 }
 
 void ObjectRegistry::setThisCharacterId(QString id)

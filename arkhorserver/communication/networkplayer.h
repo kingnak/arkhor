@@ -84,6 +84,9 @@ public:
 
     virtual AH::Common::ChoiceResponseData offerChoice(AH::Common::ChoiceData choice);
 
+    virtual AH::Common::TradeData offerTrade(AH::Common::TradeData trade);
+    virtual void tradeCanceled(QString name);
+
     // interface to network
     void handleMessage(AH::Common::Message msg);
 

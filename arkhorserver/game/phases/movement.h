@@ -6,6 +6,7 @@
 #include "../actions/moveaction.h"
 #include "../actions/undelayaction.h"
 #include "../actions/placeonfieldaction.h"
+#include "../actions/tradeaction.h"
 #include "fight/fightphase.h"
 
 class Movement : public GamePhase
@@ -25,6 +26,7 @@ private:
     UndelayOption *m_undelay;
     MoveOption *m_move;
     PlaceOnFieldOption *m_place;
+    TradeOption *m_trade;
     FightPhase *m_fight;
 
     FightPhase::FightOutcome m_outcome;

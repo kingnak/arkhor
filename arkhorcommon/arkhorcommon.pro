@@ -8,6 +8,7 @@ DEFINES += ARKHOR_COMMON_DLL
 HEADERS += \
     communication/message.h \
     communication/networkconnection.h \
+    tradedata.h \
     utils/cleanupthread.h \
     ahglobal.h \
     arkhorcommonglobal.h \
@@ -37,6 +38,7 @@ HEADERS += \
 SOURCES += \
     communication/message.cpp \
     communication/networkconnection.cpp \
+    tradedata.cpp \
     utils/cleanupthread.cpp \
     ahglobal.cpp \
     characterdata.cpp \

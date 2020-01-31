@@ -17,6 +17,7 @@
 #include <gamesettingdata.h>
 #include <QListWidgetItem>
 #include <playerdata.h>
+#include <tradedata.h>
 #include "asyncobjectreceiver.h"
 
 class ObjectRegistry;
@@ -37,10 +38,6 @@ public:
     ~AhMainGui();
 
     void initConnection(ConnectionHandler *conn);
-
-    enum {
-        ObjectIdRole = Qt::UserRole
-    };
 
 public slots:
     void setThisPlayerId(QString id);
@@ -103,6 +100,11 @@ private slots:
     void choiceSelected(AH::Common::ChoiceResponseData resp);
     void choiceCanceled();
 
+    void offerTrade(AH::Common::TradeData trade);
+    void tradeSelected(AH::Common::TradeData trade);
+    void tradeCanceled(QString name);
+    void cancelTrade();
+
     void clearTempObject();
 
     void won(QString msg);
@@ -122,14 +124,6 @@ private:
     AH::Common::PlayerData::AutoSkipData m_skipOption;
 
     //QString m_pendingDisplayId;
-};
-
-class InventoryListItem : public QListWidgetItem, public AsyncObjectReceiver
-{
-public:
-    explicit InventoryListItem(QString objectId);
-
-    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
 };
 
 #include <QAbstractAnimation>

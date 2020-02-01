@@ -94,7 +94,7 @@ CommonItem Bullwhip : 2 {
 }
 
 CommonItem Shotgun : 2 {
-    // TODO
+    // TODO 6 counts as 2 successes
     description: "<b>Any:</b> When using Shotgun in Combat, all 6's rolled count as 2 successes. (Not implemented!)";
     hands: 2;
     price: 6;

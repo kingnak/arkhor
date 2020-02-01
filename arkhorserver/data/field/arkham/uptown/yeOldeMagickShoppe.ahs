@@ -22,7 +22,7 @@ AEOption Magick_Enc1 {
         CHAR.damageSanity(1);
     }}};
 }
-
+/*
 ArkhamEncounter Magick_Enc2 {
     field: UT_YeOldeMagickShoppe;
     description: "Looking into a glass ball, you receive "+
@@ -35,6 +35,7 @@ ArkhamEncounter Magick_Enc2 {
 AEOption Magick_Enc2 {
     name: "Look (not implemented)";
     activate: {{{
-        // TODO
+        // TODO Peek encounter
     }}};
 }
+*/

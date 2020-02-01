@@ -1,6 +1,6 @@
 /*
 Environment AStrangePlague {
-// TODO
+// TODO prevent gain stamina
     description: "Investigators cannot gain Stamina except by receiving medical care in St. Mary's Hospital (or from Vincent Lee).";
     environmentType: Mystic;
     //clueField: MD_TheUnnamable;
@@ -99,7 +99,7 @@ Environment RlyehRising {
     description: "Star Spawn and Maniacs have their toughness increased by 1. "+
         "The difficulty to seal or close gates to R'lyeh is increased by 1.";
     environmentType: Mystic;
-    // TODO
+    // TODO Seal gate cost for specific OW
     
     //clueField: SS_HistoricalSociety;
     //moveWhite: (Slash,Star,Triangle);

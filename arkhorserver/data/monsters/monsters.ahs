@@ -123,7 +123,7 @@ Monster DarkPharao : 1 {
     combatDamage: 3;
     toughness: 2;
     attributes: ( Mask, Endless );
-    // TODO
+    // TODO change combat attribute
 }
 
 Monster DarkYoung : 3 {

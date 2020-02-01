@@ -22,7 +22,7 @@ Investigator MandyThompson {
 }
 
 SpecialAbility Research {
-    // TODO
+    // TODO: other player round die roll
     description: "<b>Any Phase:</b> Once per turn, Mandy can activate this ability after "+
         "any investigator (including herself) makes a skill check. That investigator then "+
         "re-rolls all of the dice rolled for that check that did not result in successes. (Only implemented for herself)";

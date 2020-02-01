@@ -29,6 +29,7 @@ ArkhamEncounter Hist_Enc2 {
     options: ( Option.Hist_Enc2_Pay, Option.Hist_Enc2_Refuse );
 }
 AEOption Hist_Enc2_Pay {
+    name: "Pay to enter library";
     costs: [ Money 3 ];
     baseProperty: DieRoll_Luck;
     activate: {{{
@@ -41,6 +42,7 @@ AEOption Hist_Enc2_Pay {
     }}};
 }
 AEOption Hist_Enc2_Refuse {
+    name: "Refuse to pay";
     activate: {{{
         CHAR.placeOnField(Constants.Fields.SS_SouthSide);
     }}};

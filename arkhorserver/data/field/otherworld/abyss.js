@@ -4,7 +4,7 @@ var testEncounterOption = game.quickOption({
     phases: Constants.GamePhases.OtherWorldEncountery,
     baseProperty: Constants.Mods.DieRoll_Luck,
     activate: function() {
-		var res = game.context.skillTest("Check Light", this.id, Constants.Skills.Luck, -2, 1);
+        var res = game.context.skillTest("Check Light", this.id, Constants.Skills.Luck, -1, 1);
         if (res) {
             game.context.character.returnToArkham();
         } else {

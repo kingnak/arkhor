@@ -320,6 +320,7 @@ DISTFILES += \
     data/characters/monterey_jack.ahs \
     data/characters/vincent_lee.ahs \
     data/mythos/ru_disturbing_the_dead.ahs \
+    data/mythos/ru_good_work_undone.ahs \
     data/mythos/ru_southside_strangler.ahs \
     data/mythos/test.ahs \
     data/objects/common/weapons.ahs \

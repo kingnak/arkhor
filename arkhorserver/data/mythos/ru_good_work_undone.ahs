@@ -1,0 +1,86 @@
+Rumor GoodWorkUndone {
+    description: "When this card enters play, place 6 Clue tokens on it. Any player may spend Clue tokens during the "+
+                "<b>Arkham Encounter Phase</b> while in the Easttown streets to discard Clue tokens from this card on a 1-for-1 basis.\n"+
+                "<b>Ongoing Effect: </b>Roll two dice at the end of every "+
+                "Mythos Phase (beginning the turn after it entered play). \n"+
+                "For every 1 or 2 rolled, place one Clue token on this card.\n"+
+                "<b>Pass: </b>If there are no Clue tokens on this card, return it to the box. Each player draws one unique item.\n"+
+                "<b>Fail: </b>If there are 10 Clue tokens on this card, return it to the box. All elder sign tokens are removed from the board.";
+
+    shortDescription: "<b>Pass: </b>Remove all clue tokens from this card on 1-for-1 basis.\n"+
+                      "<b>Fail: </b>10 clue tokens are on card";
+
+
+    //clueField: keines...
+    //gateField: MD_UnvisitedIsle;
+    //moveWhite: (Slash, Star, Triangle);
+    //moveBlack: Hexagon;
+
+    rumorField: ET_Easttown;
+    rumorFieldOptionId: Option.GoodWorkUndone;
+
+    setupRumor: {{{
+        this.clueTokens = 6;
+    }}};
+    teardownRumor: {{{}}};
+
+    onMythos: {{{
+        // Make 3-6 successes, so 1 and 2 are fails
+        var res = game.context.genericDieRollCountSuccess("Good Work Undone Rumor", this.id, 2, [3,4,5,6]);
+        this.clueTokens += (2-res);
+        if (this.clueTokens >= 10) {
+            this.fail();
+        }
+    }}};
+
+    onPass: {{{
+        list = game.context.allCharacters;
+        for (var i = 0; i < list.length; ++i) {
+            var c = list[i];
+            // Cannot use conext.drawMultiple... because that acts on current player
+            var obj = game.drawSingleObject(Constants.ObjectType.UniqueItem);
+            c.addToInventory(obj);
+        }
+        this.removeFromGame();
+    }}};
+
+    onFail: {{{
+        var fields = game.context.allFields(Constants.FieldType.Location);
+        for (var f in fields) {
+            fields[f].unseal();
+        }
+    }}};
+
+    properties: <<<{
+        clueTokens: { display: "Clue tokens on card" }
+    }>>>;
+}
+
+QuickOption GoodWorkUndone {
+    phases: ArkhamEncountery;
+    chooseType: Optional;
+    continueType: CannotContinue;
+    description: "Remove clue token from Good Work Undone card";
+    isAvailable: {{{
+        return CHAR.canPay({type: Constants.Costs.Clue, amount: 1});
+    }}};
+    activate: {{{
+        var opts = [];
+        for (var i = 1; i <= game.context.rumor.clueTokens; ++i) {
+            if (CHAR.canPay({type: Constants.Costs.Clue, amount: i})) {
+                opts.push([i, (i==1) ? "1 clue token" : i+" clue tokens"]);
+            }
+        }
+
+        var o = game.context.selectChoice("Remove clue tokens from Good Work Undone", this.id, opts, true);
+        if (!o)
+            return;
+        if (!CHAR.pay({type: Constants.Costs.Clue, amount: o}))
+            return;
+
+        game.context.rumor.clueTokens -= o;
+        if (game.context.rumor.clueTokens <= 0) {
+            game.context.rumor.pass();
+        }
+    }}};
+}

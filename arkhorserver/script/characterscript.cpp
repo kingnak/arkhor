@@ -98,6 +98,14 @@ int CharacterScript::genericDieRollCount(QString desc, QString sourceId, int die
     return res.intResult;
 }
 
+int CharacterScript::genericDieRollCountSuccess(QString desc, QString sourceId, int dieCount, QScriptValue successes)
+{
+    QList<quint32> successesInt = GameScript::array2TypedList<quint32>(successes);
+    DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericCounter(desc, sourceId, dieCount, successesInt);
+    DieTestHelper::DieTestResult res = DieTestHelper::executeDieTest(gGame->playerForCharacter(this), spec);
+    return res.intResult;
+}
+
 bool CharacterScript::skillTest(QString desc, QString sourceId, AH::Skill skill, int adjust, int target)
 {
     DieTestHelper::DieTestSpec spec = DieTestHelper::createSkillTest(desc, sourceId, this, skill, adjust, target);

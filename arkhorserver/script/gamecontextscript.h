@@ -42,6 +42,7 @@ public:
     Q_INVOKABLE int genericDieRollSum(QString desc, QString sourceId, int dieCount);
     Q_INVOKABLE bool genericDieRollTest(QString desc, QString sourceId, int dieCount, int target);
     Q_INVOKABLE int genericDieRollCount(QString desc, QString sourceId, int dieCount);
+    Q_INVOKABLE int genericDieRollCountSuccess(QString desc, QString sourceId, int dieCount, QScriptValue successes);
     Q_INVOKABLE bool skillTest(QString desc, QString sourceId, AH::Skill skill, int adjust, int target);
     Q_INVOKABLE int dieRollSkillCount(QString desc, QString sourceId, AH::Skill skill, int adjust);
 

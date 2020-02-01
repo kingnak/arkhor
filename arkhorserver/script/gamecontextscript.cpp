@@ -94,6 +94,11 @@ int GameContextScript::genericDieRollCount(QString desc, QString sourceId, int d
     return curCharacter()->genericDieRollCount(desc, sourceId, dieCount);
 }
 
+int GameContextScript::genericDieRollCountSuccess(QString desc, QString sourceId, int dieCount, QScriptValue successes)
+{
+    return curCharacter()->genericDieRollCountSuccess(desc, sourceId, dieCount, successes);
+}
+
 bool GameContextScript::skillTest(QString desc, QString sourceId, AH::Skill skill, int adjust, int target)
 {
     return curCharacter()->skillTest(desc, sourceId, skill, adjust, target);

@@ -7,6 +7,7 @@
 #include "phases/mythos.h"
 #include "phases/ancientoneattack.h"
 #include "phases/attackancientonephase.h"
+#include "actions/otherworldencounteryaction.h"
 #include "gameboard.h"
 #include "player.h"
 #include "investigator.h"
@@ -846,6 +847,20 @@ void Game::overrunArkham()
 void Game::requestAwakeAncientOne()
 {
     m_reqAwake = true;
+}
+
+bool Game::fieldEncounter(Character *c, AH::Common::FieldData::FieldID fieldId)
+{
+    GameField *f = m_board->field(fieldId);
+    if (!f) return false;
+    if (f->type() == AH::Common::FieldData::FieldType::Location) {
+        ArkhamEncounteryAction aea;
+        return aea.executeOnPlayer(playerForCharacter(c), fieldId);
+    } else if (f->type() == AH::Common::FieldData::FieldType::OtherWorld) {
+        OtherWorldEncounteryAction owea;
+        return owea.executeOnPlayer(playerForCharacter(c), fieldId);
+    }
+    return false;
 }
 
 GameContext &Game::context()

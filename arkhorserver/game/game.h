@@ -134,6 +134,8 @@ public:
 
     void requestAwakeAncientOne();
 
+    bool fieldEncounter(Character *c, AH::Common::FieldData::FieldID fieldId);
+
     GameContext &context();
     GameBoard *board();
 

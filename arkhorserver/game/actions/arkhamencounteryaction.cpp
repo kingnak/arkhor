@@ -9,9 +9,14 @@
 bool ArkhamEncounteryAction::execute()
 {
     Player *p = gGame->context().player();
+    return executeOnPlayer(p, p->getCharacter()->fieldId());
+}
+
+bool ArkhamEncounteryAction::executeOnPlayer(Player *p, AH::Common::FieldData::FieldID fieldId)
+{
     DrawCardHelper hlp;
-    ModifiedPropertyValue mods = gGame->context().getCurCharacterDrawArkhamEncounter();
-    ArkhamEncounter *enc = hlp.drawArkhamEncounter(p, p->getCharacter()->fieldId(), mods.finalVal());
+    ModifiedPropertyValue mods = gGame->context().getCharacterDrawArkhamEncounter(p->getCharacter());
+    ArkhamEncounter *enc = hlp.drawArkhamEncounter(p, fieldId, mods.finalVal());
     if (!enc) {
         return false;
     }

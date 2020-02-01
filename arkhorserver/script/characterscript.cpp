@@ -74,6 +74,11 @@ bool CharacterScript::canCloseGate()
     return false;
 }
 
+void CharacterScript::otherFieldEncounter(AH::Common::FieldData::FieldID fieldId)
+{
+    gGame->fieldEncounter(this, fieldId);
+}
+
 int CharacterScript::genericDieRollSum(QString desc, QString sourceId, int dieCount)
 {
     DieTestHelper::DieTestSpec spec = DieTestHelper::createGenericSummer(desc, sourceId, dieCount);

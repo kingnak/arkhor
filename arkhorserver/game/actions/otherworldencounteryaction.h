@@ -3,6 +3,9 @@
 
 #include "../gameaction.h"
 #include "../gameoption.h"
+#include <fielddata.h>
+
+class Player;
 
 class OtherWorldEncounteryAction : public GameAction
 {
@@ -14,6 +17,7 @@ public:
     virtual AH::GamePhases phases() const { return AH::OtherWorldEncountery; }
 
     virtual bool execute();
+    bool executeOnPlayer(Player *p, AH::Common::FieldData::FieldID fieldId);
     virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
 
     virtual QString name() const { return "Other World Encoutnery"; }

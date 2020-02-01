@@ -12,9 +12,14 @@ OtherWorldEncounteryAction::OtherWorldEncounteryAction()
 bool OtherWorldEncounteryAction::execute()
 {
     Player *p = gGame->context().player();
+    return executeOnPlayer(p, p->getCharacter()->fieldId());
+}
+
+bool OtherWorldEncounteryAction::executeOnPlayer(Player *p, AH::Common::FieldData::FieldID fieldId)
+{
     DrawCardHelper hlp;
-    ModifiedPropertyValue mods = gGame->context().getCurCharacterDrawOtherWorldEncounter();
-    OtherWorldEncounter *enc = hlp.drawOtherWorldEncounter(p, p->getCharacter()->fieldId(), mods.finalVal());
+    ModifiedPropertyValue mods = gGame->context().getCharacterDrawOtherWorldEncounter(p->getCharacter());
+    OtherWorldEncounter *enc = hlp.drawOtherWorldEncounter(p, fieldId, mods.finalVal());
     if (!enc) {
         return false;
     }

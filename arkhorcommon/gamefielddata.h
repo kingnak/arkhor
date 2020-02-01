@@ -33,6 +33,7 @@ namespace AH {
 
             virtual bool hasSpecialAction() const { return m_specialActionNr != 0; }
             virtual int specialActionNumber() const { return m_specialActionNr; }
+            virtual QStringList fieldOptionIds() const { return m_fieldOptionIds; }
 
         protected:
             FieldData::FieldID m_id;
@@ -43,6 +44,7 @@ namespace AH {
             bool m_locked;
             int m_specialActionNr;
 
+            QStringList m_fieldOptionIds;
             QStringList m_characterIds;
             QStringList m_secondPhaseCharacterIds;
             QStringList m_monsterIds;

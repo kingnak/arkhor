@@ -23,6 +23,7 @@ AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, 
     m_characters(NULL),
     m_secondPhaseCharacters(NULL),
 //    m_secondPhaseCharacters(NULL),
+    m_infoArea(NULL),
     m_fieldArea(NULL),
     m_clues(NULL),
     m_gate(NULL),
@@ -68,6 +69,7 @@ void AhFieldItem::initSubItems()
         m_fieldRect = boundingRect();
     }
 
+    initInfoItem();
     initCharacterItem();
     initMonsterItem();
     initSpecialItem();
@@ -263,9 +265,10 @@ void AhFieldItem::initGateItem()
 
 void AhFieldItem::fieldAreaClicked()
 {
-    //QMessageBox::information(NULL, "field", QString::number(this->id()));
-    if (m_fieldArea->isActive()) {
+    if (m_fieldArea && m_fieldArea->isActive()) {
         emit fieldClicked(m_id);
+    } else if (m_infoArea) {
+        emit fieldInfoRequested(m_id);
     }
 }
 
@@ -295,6 +298,14 @@ void AhFieldItem::gateClicked(const GateItem *itm)
         emit itemInfoRequested(itm->gateId());
 }
 
+void AhFieldItem::initInfoItem()
+{
+    m_infoArea = new ClickAreaItem(m_fieldRect, this);
+    m_infoArea->setNoHighlight(true);
+    m_infoArea->setActive(true);
+    m_infoArea->setZValue(-3);
+}
+
 ////////////////////////////////
 
 ClickAreaItem::ClickAreaItem(QRectF r, AhFieldItem *parent)
@@ -316,6 +327,12 @@ void ClickAreaItem::setCurrent(bool cur)
 void ClickAreaItem::setActive(bool active)
 {
     m_isActive = active;
+    updateColor();
+}
+
+void ClickAreaItem::setNoHighlight(bool noHighlight)
+{
+    m_noHighlight = noHighlight;
     updateColor();
 }
 
@@ -365,7 +382,9 @@ void ClickAreaItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 
 void ClickAreaItem::updateColor()
 {
-    if (m_isActive) {
+    if (m_noHighlight) {
+        setBrush(QBrush(QColor(0,0,255,0)));
+    } else if (m_isActive) {
         if (m_mouseIn) {
             setBrush(QBrush(QColor(0,0,255,128)));
         } else {
@@ -430,6 +449,7 @@ void GateItem::setGateId(const QString id)
 
     if (!m_gateId.isEmpty()) {
         ObjectRegistry::instance()->unsubscribe(this, id);
+        //this->setFlag(GraphicsItemFlag::Item)
     }
     m_gateId = id;
     if (m_gateId.isEmpty()) {
@@ -451,6 +471,8 @@ void GateItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
     Q_UNUSED(event)
     if (!m_gateId.isEmpty()) {
         m_parent->gateClicked(this);
+    } else {
+        QGraphicsItem::mousePressEvent(event);
     }
 }
 

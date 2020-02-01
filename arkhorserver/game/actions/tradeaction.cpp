@@ -22,7 +22,7 @@ bool TradeAction::execute()
 
     gGame->notifier()->actionStart(this);
     Character *partner = chooseTradingPartner(p, traders);
-    bool ret = doTrade(partner);
+    doTrade(partner);
     gGame->notifier()->actionFinish(this);
 
     return true;

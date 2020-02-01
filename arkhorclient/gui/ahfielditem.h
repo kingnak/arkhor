@@ -50,6 +50,7 @@ public:
 signals:
     void itemInfoRequested(QString id);
     void fieldClicked(AH::Common::FieldData::FieldID id);
+    void fieldInfoRequested(AH::Common::FieldData::FieldID id);
 
 private slots:
     void characterClicked(const StackItem *itm);
@@ -57,6 +58,7 @@ private slots:
     void gateClicked(const GateItem *itm);
 
 private:
+    void initInfoItem();
     void initCharacterItem();
     void initMonsterItem();
     void initSpecialItem();
@@ -83,6 +85,7 @@ private:
 
     //ItemStacker *m_secondPhaseCharacters;
 
+    ClickAreaItem *m_infoArea;
     ClickAreaItem *m_fieldArea;
     ClueAreaItem *m_clues;
     GateItem *m_gate;
@@ -100,6 +103,7 @@ public:
     bool isCurrent() const { return m_isCurrent; }
     void setActive(bool active);
     bool isActive() const { return m_isActive; }
+    void setNoHighlight(bool noHighlight);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -111,6 +115,7 @@ private:
     void updateColor();
 
 private:
+    bool m_noHighlight = false;
     bool m_isActive;
     bool m_isCurrent;
     bool m_mouseIn;

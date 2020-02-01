@@ -2,6 +2,7 @@
 #include "../monster.h"
 #include "../gate.h"
 #include "../character.h"
+#include "gameoption.h"
 
 GameField::GameField(AH::Common::FieldData::FieldID id, const QString &name, AH::Common::FieldData::FieldType type)
 :   m_gate(NULL),
@@ -161,6 +162,15 @@ void GameField::removeMonster(Monster *m)
             gGame->boardDirty();
         }
     }
+}
+
+QStringList GameField::fieldOptionIds() const
+{
+    QStringList ret;
+    for (auto o : m_options) {
+        ret << o->id();
+    }
+    return ret;
 }
 
 

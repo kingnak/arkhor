@@ -36,7 +36,7 @@ AEOption Hist_Enc2_Pay {
         if (res) {
             game.utility.drawRandomItem(Constants.ObjectType.Spell, "Learn Spell", this.id);
         } else {
-            // TODO
+            CHAR.otherFieldEncounter(Constants.Fields.OW_TheDreamlands);
         }
     }}};
 }

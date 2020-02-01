@@ -33,7 +33,7 @@ AEOption Shoppe_Enc1 {
     activate: {{{
         var res = game.context.skillTest("Resist", this.id, Constants.Skills.Fight, -1, 1);
         if (!res) {
-            // TODO
+            CHAR.otherFieldEncounter(Constants.Fields.OW_Abyss);
         }
     }}};
 }

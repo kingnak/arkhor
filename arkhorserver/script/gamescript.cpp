@@ -1104,6 +1104,17 @@ QScriptValue GameScript::getTempObject()
     return obj;
 }
 
+GameFieldScript *GameScript::getField(GameField *field)
+{
+    if (!m_fieldCache.contains(field->id())) {
+        GameFieldScript *fs = new GameFieldScript(m_engine);
+        m_fieldCache[field->id()] = fs;
+    }
+    auto fs = m_fieldCache[field->id()];
+    fs->setField(field);
+    return fs;
+}
+
 bool GameScript::isGameThread() const
 {
     return QThread::currentThread() == gGame->thread();

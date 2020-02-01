@@ -143,6 +143,16 @@ bool GameContextScript::createGateAtCharacterField()
     return gGame->createGate(gGame->context().player()->getCharacter()->field());
 }
 
+QScriptValue GameContextScript::allFields(int type)
+{
+    auto fields = gGame->board()->fields(static_cast<AH::Common::FieldData::FieldType> (type));
+    QList<GameFieldScript*> ret;
+    for (auto f : fields) {
+        ret << gGameScript->getField(f);
+    }
+    return GameScript::makeArray(ret);
+}
+
 GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type)
 {
     return drawObject(type, "Select Object", QString::null);

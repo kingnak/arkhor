@@ -23,6 +23,7 @@ public:
     Q_INVOKABLE QScriptValue nearestFieldsWithCharacters();
     Q_INVOKABLE QScriptValue nearestFieldsWithCharacters(QScriptValue exceptFields);
     Q_INVOKABLE QScriptValue nearestGates();
+    Q_INVOKABLE bool unseal();
 
     Q_PROPERTY(quint32 id READ id)
     quint32 id() { return m_field ? m_field->id() : AH::Common::FieldData::NO_NO_FIELD; }

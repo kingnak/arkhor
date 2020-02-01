@@ -49,6 +49,15 @@ QScriptValue GameFieldScript::nearestGates()
     return GameScript::makeArray(gates);
 }
 
+bool GameFieldScript::unseal()
+{
+    if (m_field->isSealed()) {
+        m_field->setSealed(false);
+        return true;
+    }
+    return false;
+}
+
 QScriptValue GameFieldScript::nearestFieldsWith(QScriptValue exceptFields, std::function<bool (GameField *)> predicate)
 {
     QList<AH::Common::FieldData::FieldID> except;

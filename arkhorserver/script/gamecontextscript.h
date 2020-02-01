@@ -55,6 +55,8 @@ public:
     Q_INVOKABLE bool spontaneousMonsterFight();
     Q_INVOKABLE bool createGateAtCharacterField();
 
+    Q_INVOKABLE QScriptValue allFields(int type);
+
     Q_INVOKABLE GameObjectScript *drawObject(AH::GameObjectType type);
     Q_INVOKABLE GameObjectScript *drawObject(AH::GameObjectType type, QString desc, QString sourceId = QString::null);
 

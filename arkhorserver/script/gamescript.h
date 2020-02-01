@@ -23,6 +23,8 @@ class OtherWorldEncounterScript;
 class MonsterScript;
 class MythosCardScript;
 class AncientOneScript;
+class GameField;
+class GameFieldScript;
 
 class QScriptEngineDebugger;
 
@@ -151,6 +153,8 @@ public:
     // Helper for TMP id object
     QScriptValue getTempObject();
 
+    GameFieldScript *getField(GameField *field);
+
     bool isGameThread() const;
 
 signals:
@@ -178,6 +182,8 @@ private:
 
     Game *m_game;
     GameContextScript *m_ctx;
+
+    QMap<AH::Common::FieldData::FieldID, GameFieldScript *> m_fieldCache;
 
 #ifdef DEBUG_SCRIPT_BUILD
     QScriptEngineDebugger *m_debugger;

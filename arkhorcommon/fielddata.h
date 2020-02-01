@@ -43,6 +43,7 @@ namespace AH {
                 FH_FrenchHill = 0x0700,
                 FH_TheWitchHouse,
                 FH_SilverTwilightLodge,
+                FH_InnerSanctum,
 
                 UT_Uptown = 0x0800,
                 UT_StMarysHospital,

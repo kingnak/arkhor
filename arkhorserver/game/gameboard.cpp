@@ -58,6 +58,7 @@ void GameBoard::init()
     addField(new GameField(AH::Common::FieldData::FH_FrenchHill, "French Hill", AH::Common::FieldData::Street));
     addField(new GameField(AH::Common::FieldData::FH_SilverTwilightLodge, "Silver Twilight Lodge", AH::Common::FieldData::Location));
     addField(new GameField(AH::Common::FieldData::FH_TheWitchHouse, "The Witch House", AH::Common::FieldData::Location));
+    addField(new GameField(AH::Common::FieldData::FH_InnerSanctum, "Inner Sanctum", AH::Common::FieldData::Location));
     connectfield(AH::Common::FieldData::FH_SilverTwilightLodge, AH::Common::FieldData::FH_FrenchHill, true, true);
     connectfield(AH::Common::FieldData::FH_TheWitchHouse, AH::Common::FieldData::FH_FrenchHill, true, true);
 

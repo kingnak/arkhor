@@ -456,6 +456,7 @@ void GameScript::initFieldConstants(QScriptValue &consts)
     fld.setProperty("FH_FrenchHill", AH::Common::FieldData::FH_FrenchHill, QScriptValue::ReadOnly);
     fld.setProperty("FH_TheWitchHouse", AH::Common::FieldData::FH_TheWitchHouse, QScriptValue::ReadOnly);
     fld.setProperty("FH_SilverTwilightLodge", AH::Common::FieldData::FH_SilverTwilightLodge, QScriptValue::ReadOnly);
+    fld.setProperty("FH_InnerSanctum", AH::Common::FieldData::FH_InnerSanctum, QScriptValue::ReadOnly);
 
     fld.setProperty("UT_Uptown", AH::Common::FieldData::UT_Uptown, QScriptValue::ReadOnly);
     fld.setProperty("UT_StMarysHospital", AH::Common::FieldData::UT_StMarysHospital, QScriptValue::ReadOnly);

@@ -1127,7 +1127,7 @@ AH::Common::FieldData::FieldID Game::randomLocation(bool onlyStable) const
     int district = RandomSource::instance().nextUint(1, 9) * 0x0100;
     int fld = RandomSource::instance().nextUint(1,3);
     int id = district | fld;
-    if (id == 0x0703) {
+    if (id == AH::Common::FieldData::FieldID::FH_InnerSanctum) {
         return randomLocation(onlyStable);
     }
 

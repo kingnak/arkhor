@@ -1,0 +1,28 @@
+ArkhamEncounter InnerSanctum_Enc1 {
+    field: FH_InnerSanctum;
+    description: "Carl Sanford does not trust you and at the climax of the monthly ceremony spits a spell at you. Pass a <b>Luck (-2) check</b> or you are Cursed.";
+    options: {
+        AEOption{
+            activate: {{{
+                var res = game.context.skillTest("Evade spell", this.id, Constants.Skills.Luck, -2, 1);
+                if (!res)
+                    game.utility.curseCharacter(CHAR);
+            }}};
+        }
+    };
+}
+
+ArkhamEncounter InnerSanctum_Enc2 {
+    field: FH_InnerSanctum;
+    description: "Participating in the monthly ceremony, you witness great power and great evil. Lose up to 3 Sanity and gain that many Clue tokens.";
+    options: {
+        AEOption{
+            activate: {{{
+                var opts = [[1, "Lose 1 Santiy for 1 Clue"], [2, "Lose 2 Santiy for 2 Clue"], [3, "Lose 3 Santiy for 3 Clues"]];
+                var res = game.context.selectChoice("Witness great power and great evil", this.id, opts);
+                CHAR.damageSanity(res);
+                CHAR.addClue(res);
+            }}};
+        }
+    };
+}

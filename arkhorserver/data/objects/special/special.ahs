@@ -68,7 +68,7 @@ SpecialObject DeputysRevolver : 1 {
 }
 /*
 SpecialObject PatrolWagon : 1 {
-    // TODO
+    // TODO Jump movement, endCombat, returnToArkham
     description: "<b>Movement:</b> If you are in Arkham, you may move to any street area or "+
         "location in Arkham instead of your normal movement.\n"+
         "Roll a die at the end of each Combat and whenever you return to Arkham from an "+
@@ -91,11 +91,27 @@ Action Retainer {
     }}};
 }
 
-/*
 SpecialObject LodgeMembership {
-    // TODO
     name: "Silver Twilight Lodge Membership";
     description: "<b>Any Phase:</b> Whenever you have an encounter at the Silver Twilight Lodge, "+
         "you have an encounter at the Inner Sanctum instead.";
+    options: {
+        QuickOption {
+            name: "Have an encouter at the Inner Sanctum";
+            phases: ArkhamEncountery;
+            chooseType: Optional;
+            continueType: CannotContinue;
+            isAvailable: {{{
+                return (
+                    // must be in Silver Twilight Lodge
+                    this.owner.field.id == Constants.Fields.FH_SilverTwilightLodge &&
+                    // And there must be no gate, or character has already visited it
+                    (!game.context.gate || this.owner.canCloseGate())
+                 );
+            }}};
+            activate: {{{
+                CHAR.otherFieldEncounter(Constants.Fields.FH_InnerSanctum);
+            }}};
+        }
+    };
 }
-*/

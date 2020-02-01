@@ -9,15 +9,16 @@ ArkhamEncounter Lodge_Enc1 {
     options: ( Option.Lodge_Enc1_Accept, Option.Lodge_Enc1_Decline );
 }
 AEOption Lodge_Enc1_Accept {
-    name: "Accept (Not implemented)";
+    name: "Accept Lodge Membership";
     baseProperty: DieRoll_Will;
     costs: [ Money 3 ];
     activate: {{{
-        // TODO
+        var o = game.drawSpecificObject(SpecialObject.LodgeMembership);
+        CHAR.addToInventory(o);
     }}};
 }
 AEOption Lodge_Enc1_Decline {
-    name: "Decline";
+    name: "Decline and go out";
     baseProperty: DieRoll_Will;
     activate: {{{
         var res = game.context.skillTest("Go out camly", this.id, Constants.Skills.Will, -1, 1);

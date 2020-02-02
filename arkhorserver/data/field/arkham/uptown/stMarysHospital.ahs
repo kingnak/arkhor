@@ -62,3 +62,11 @@ AEOption Hosp_Enc2 {
         }
     }}};
 }
+
+/*
+One of the staff physicians talks some sense into you. You are disabused of certain crazy but accurate notions. Lose 1 Clue token.
+The corpse you are examining isn't quite dead yet. It reaches out and grabs you by the throat. Lose 1 Sanity. Then, you must fight the corpse. If you pass a Combat (-1) check, you defeat it and gain 1 Clue token. Otherwise, move to the street.	Combat -1
+The Doctor escorts you behind a curtain where the body of some other unfortunate investigator has been laid. The corpse has been torn to shreds. Pass a Will (-1) check or lose 1 Sanity. If you pass, you may also search the body and find a helpful item. Draw 1 Unique Item. If you fail, you run away screaming. Move to the street.	Will -1
+You agree to undergo an experimental treatment. Roll a die. On a 1-3, gain that many Stamina. On a 4-6, nothing happens.
+You sneak a peek at the medical records for a recent admission who was involved in a cult ritual. Pass a Lore (+0) check to learn something about the cult's methods Gain 1 Clue token.	Lore +0
+*/

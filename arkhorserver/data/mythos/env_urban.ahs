@@ -87,13 +87,13 @@ Environment EstateSale {
     description: "Investigators who end their movement in the Uptown streets "+
                  "may draw 2 Unique Items and purchase one, none, or both of them "+
                  "at list price, discarding any that are not purchased.";
-     environmentType: Urban;
-     //clueField: RT_BlackCave;
-     //moveWhite: (Diamond,Square);
-     //moveBlack: Circle;
-     //gateField: FH_TheWitchHouse;
-     environmentField: UT_Uptown;
-     onEndMovement: {{{
+    environmentType: Urban;
+    //clueField: RT_BlackCave;
+    //moveWhite: (Diamond,Square);
+    //moveBlack: Circle;
+    //gateField: FH_TheWitchHouse;
+    environmentField: UT_Uptown;
+    onEndMovement: {{{
         if (CHAR.field.id == Constants.Fields.UT_Uptown) {
             var res = game.context.drawMultipleObjects(Constants.ObjectType.UniqueItem, "Buy items", this.id, 2, 0, 1000);
             for (var i = 0; i < res.length; ++i) {
@@ -106,7 +106,7 @@ Environment EstateSale {
                 }
             }
         }
-     }}};
+    }}};
 }
 
 Environment TheFestival {

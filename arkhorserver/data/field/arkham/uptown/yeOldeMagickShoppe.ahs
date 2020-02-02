@@ -39,3 +39,26 @@ AEOption Magick_Enc2 {
     }}};
 }
 */
+
+
+ArkhamEncounter {
+    field: UT_YeOldeMagickShoppe;
+    description: "Miriam Beecher talks to you for awhile, explaining some very interesting theories she has concerning the Mythos. Gain 1 Clue token.";
+    options: {AEOption {
+        activate: {{{ CHAR.addClue(1); }}};
+    }};
+}
+
+/*
+Miriam Beecher talks to you for awhile, explaining some very interesting theories she has concerning the Mythos. Gain 1 Clue token.
+Miriam Beecher, the shopkeeper, peers closely at your face, then screams, "They've marked you! Get out! Get out!" and throws you out. Move to the street and lose 1 Sanity from this unsettling incident.
+Pass a Lore (-1) check to recognize an item that Miriam Beecher has underpriced. If you do so, draw 1 Unique Item. You may purchase it for half its list price (rounded up).	Lore -1
+There is an old, locked trunk for sale for $5. If you buy it, make a Luck (+0) check and consult the chart below:
+Successes:
+
+0) Empty!
+1) Gold coins! Roll 2 dice, add them together, and gain that much money.
+2+) Jackpot! Draw 2 Unique Items!
+Luck +0
+You see an interesting book sitting open on Miriam Beecher's desk. Pass a Lore (-1) check or you peer closely at its pages only to realize too late that the book is Cursed... and now, so are you.	Lore -1
+*/

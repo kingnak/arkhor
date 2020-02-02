@@ -52,3 +52,11 @@ AEOption Store_Enc2 {
         }
     }}};
 }
+
+/*
+Make a Will (-2) check. If you pass, you gain the ear of the shopkeeper. Seeing your valiant cause, he takes you into the back room and offers some special equipment. Draw 3 Common Items. You may take 1 of them for free as a gift to help thwart the evil in Arkham! Discard the other 2. If you fail, nothing happens	Will -2
+Noticing a glint on the floor, you discover a silver dollar someone must have dropped. Gain $1.
+The shopkeeper notices one of the items you're carrying and his face lights up. "Say, I've been looking for one of those. You wouldn't mind parting with it, would ya? I can pay well." You may sell any of your Common Items for twice its listed price.
+You notice that some of the locals have an odd, fish-like quality that sets your teeth on edge. The shopkeeper notices your gaze and nods. "Marsh stock, from over in Innsmouth. Watch yourself around them." Shivering, you lose 1 Sanity.
+You try talking to the elderly locals gathered around the potbellied stove playing checkers, but you gain nothing but stares and few befuddled grunts for your trouble. Apparently they don't like outsiders. No encounter.
+*/

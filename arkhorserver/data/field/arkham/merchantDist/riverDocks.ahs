@@ -57,3 +57,11 @@ AEOption Docks_Enc2 {
         }
     }}};
 }
+
+/*
+The dock workers are short-handed and offer you a job as a stevedore for the day. Make a Fight (+0) check. If you pass, gain $3 for every success you rolled. If you fail, the boss gets tired of your lollygagging and throws you out. Lose 1 Stamina and move to the street.	Fight +0
+Walking along the dock you see something floating in the water near the edge of the dock. You reach for it - make a Luck (-1) check. If you pass, you dredge up something useful. Draw 1 Common Item. If you fail, you pull to the surface the tentacle that immediately wraps around your neck and drags you under the water and out to sea. Lose 1 Sanity and 3 Stamina before you break free.	Luck -1
+You bump into Abner Weems, the local drunk. You help him find a place to sleep for the night, and he mumbles something to you over and over. Make a Luck (-1) check. If you pass, his mumbling is a magical chant. Draw 1 Spell. If you fail, it's gibberish. Nothing happens.	Luck -1
+You notice a piece of wood floating in the water; carved into it is the name of a ship long since sunk. As you touch it, visions of the drowning passengers' last moments of life flood through your mind. Pass a Speed (-1) check to hurl it away from you. If you fail, you fall to the ground with a cry. Lose 1 Sanity.	Speed -1
+You open some crates on the dock. Inside you find some useful things. Draw 2 Common Items. Next, make a Luck (-1) check. If you pass, you get away without being seen. If you fail, you are arrested and taken to the Police Station.	Luck -1
+*/

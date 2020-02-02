@@ -10,7 +10,7 @@ FieldOption Bank_Loan {
     field: DT_BankOfArkham;
 }
 
-ArkhamEncounter Bank_Enc1 {
+ArkhamEncounter Bank_Robbery {
     field: DT_BankOfArkham;
     description: "\"This is a stick-up, see? Nobody move!\" "+
         "Three men armed with tommy guns rob the bank while "+
@@ -30,7 +30,7 @@ ArkhamEncounter Bank_Enc1 {
     };
 }
 
-ArkhamEncounter Bank_Enc2 {
+ArkhamEncounter Bank_StrangeLady {
     field: DT_BankOfArkham;
     description: "A little old lady stands in front "+
         "of you in line counting out a bag of pennies "+
@@ -40,3 +40,11 @@ ArkhamEncounter Bank_Enc2 {
 AEOption Bank_Enc2 {
     activate: {{{ CHAR.damageSanity(1); }}};
 }
+
+/*
+A man wearing dirty and tattered clothing is loitering outside the bank. He offers to sell you his last possession to get some food money for him and his family. If you accept, pay $2 and make a Luck (-1) check. If you pass, draw 1 Unique Item. If you fail, draw 1 Common Item.	Luck -1
+A teller you've never seen before insists she just saw you come in and make a deposit the day before. She proves it by showing you your signature. Gain $5, but lose 1 Sanity.
+One of the other customers in the bank recognizes you and offers you a lift. Move to any location or street area in Arkham. If you move to a location, immediately have an encounter there.
+You find a penny with a strange sigil carved into it. Amused, you flip it in the air, then gasp as you feel the sudden gathering of magical forces around you. Make a Luck (-2) check. If you pass, the penny comes up heads. You are Blessed. If you fail, it comes up tails. You are Cursed.	Luck -2
+You see a richly dressed man making a large withdrawal. On the way out, he lights his cigar with a piece of green paper which he then drops on the ground. Pass a Speed (-1) check to stub it out with your toe before it burns up. You discover it to be a slightly singed two dollar bill. Gain $2.	Speed -1
+*/

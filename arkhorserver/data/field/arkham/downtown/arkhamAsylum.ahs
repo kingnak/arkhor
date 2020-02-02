@@ -18,7 +18,7 @@ FieldOption Asylum_PsychatricCare_All {
     field: DT_ArkhamAsylum;
 }
 
-ArkhamEncounter Asylum_Enc1 {
+ArkhamEncounter Asylum_DoctorsStudy {
     field: DT_ArkhamAsylum;
     description: "In the Doctor's study, you find a book of "+
                 "helpful notes gathered from inmate interviews. "+
@@ -53,7 +53,7 @@ ArkhamEncounter Asylum_Enc1 {
         }
     };
 }
-ArkhamEncounter Asylum_Enc2 {
+ArkhamEncounter Asylum_NurseHeather {
     field: DT_ArkhamAsylum;
     description: "Nurse Heather accidentally injects "+
         "you with a sleeping draught. You may make a "+
@@ -82,3 +82,11 @@ ArkhamEncounter Asylum_Enc2 {
         }}
     );
 }
+
+/*
+Nurse Heather is coming! Make a Speed (-1) check to hide in time. If you pass you see her drop something as she walks by. Draw 1 Unique Item. If you fail, she throws you out. Move to the street.	Speed -1
+The guards of the sanitarium are aware that there is an intruder. Make a Sneak (-1) check to escape. If you pass, move to the street. If you fail, you are arrested and taken to the Police Station.	Sneak -1
+You are mistaken for an inmate. Doctor Mintz has the guards subdue you and conducts an experiment. Make a Will (-1) [2] check to discover the results. If you pass, the injections seem to increase your capacity for learning. Draw 1 Skill. If you fail, his memory drug fails miserably, resulting in lost knowledge. You must discard one of the following (your choice), if able: 4 Clue tokens, or 2 Spells, or 1 Skill.	Will -1 [2]
+You find some strange medicine labeled "Dream Enhancers" in a dusty cabinet. If you choose to take it, make a Lore (-1) check. If you pass, your visions show you how to perform a ritual. Draw 1 Spell. Otherwise, nothing happens.	Lore -1
+You hear screaming. When you open a heavy cell door to investigate, a dark shape leaps out at you! It's an insane man in a straightjacket babbling about invisible horrors. Make a Lore (-2) check to glean some useful information from him. If you pass, gain 2 Clue tokens. If you fail, lose 1 Stamina as he attacks you.
+*/

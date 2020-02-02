@@ -28,3 +28,11 @@ ArkhamEncounter {
         }
     };
 }
+
+/*
+Make a Will (-1) check. If you pass it, Anna Kaslow the fortune teller offers her help in your investigation. Take her Ally card if it is still available. Otherwise, gain 2 Clue tokens. If you fail, nothing happens.	Will -1
+Pass a Fight (-1) check to intimidate a policeman or he rousts you from the park. Move to the street.	Fight -1
+There are gypsies camped in the park. Make a Luck (-1) check if you wish to interact with them. If you pass, an old man has spread several items on a blanket for sale. Draw 1 Unique Item and you may buy it for $1 less than the list price. If you fail, a hag comes up to you and tells you that death shadows you. You scoff at her and she cuts the side of your face with her fingernail, drawing blood. Lose 1 Stamina and you are Cursed.	Luck -1
+There are gypsies camped out in the park. They are master thieves and you are their target. Pass a Luck (-2) check or lose 1 item of your choice.	Luck -2
+You touch Founder's Rock. Make a Luck (-1) check. If you pass, there is an electrifying shock that opens your mind to the elder things of eons past. Lose 1 Stamina, but gain 2 Clue tokens and draw 1 Spell. If you fail, you find a strange carving. As you finger the grooves, a gate opens here and you are drawn through it.	Luck -1
+*/

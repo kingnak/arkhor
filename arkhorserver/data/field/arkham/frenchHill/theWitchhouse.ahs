@@ -32,3 +32,18 @@ ArkhamEncounter Witchhouse_Enc2 {
     description: "A gate and a monster appear!";
     options: Option.GateAndMonsterAppears;
 }
+
+/*
+In an old journal you learn some horrible eldritch secrets. Roll a die. Lose that much Sanity and gain that many Clue tokens.
+Pass a Luck (-1) check to find an odd-looking item in an old dusty display case. Draw 1 Unique Item.	Luck -1
+You are overcome by the echoing chants of the long-gone witches who have lived and died here - you pass out. Make a Will (-2) check. If you pass, you learn an ancient spell in your dreams. Draw 1 Spell. If you fail, you are missing half your items when you wake up. Discard half of your items (your choice, round down).	Will -2
+You feel the house actually breathe and speak your name. Lose 1 Sanity.
+You find a banquet laid out in the dining room and feel compelled to sit down and eat. Make a Luck (+0) check and consult the following chart:
+Successes:
+
+0) You suddenly realize what you've been eating. Lose 3 Sanity.
+1) You gorge yourself, unable to stop eating. Stay here next turn.
+2) The food makes you feel sick. Lose 1 Stamina.
+3+) The meal refreshes you. Gain 3 Stamina.
+Luck +0
+*/

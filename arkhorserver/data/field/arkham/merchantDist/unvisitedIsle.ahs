@@ -35,3 +35,11 @@ AEOption Isle_Enc2 {
         }
     }}};
 }
+
+/*
+As you start to climb back into your canoe and row to shore, you see a huge, shadowy shape disturb the water near the island. Waves of intense dread grip you, and you must pass a Will (-1) check or be Cursed.	Will -1
+Looking up at the night sky from the island, you see constellations that you've never seen before. The entire sky is different here! Lose 1 Sanity and gain 1 Clue token.
+The willows sway in a wind that you cannot hear or feel, and for a moment, the hatred of these ancient trees for the invader who has come to their island drives you to your knees. Pass a Will (-2) check or lose 3 Sanity.	Will -2
+You come across a large pile of human bones under the boughs of one of the willows on the isle. Lose 1 Sanity, but find a scroll among the bones. Draw 1 Spell.
+You come across a man examining some old bones. Pass a Sneak (-1) check to get close enough to see what he's doing. He finally notices you and is impressed with your skills, introducing himself as John Legrasse. Take his Ally card if it's available, otherwise he shares a meal with you. Restore your Sanity and Stamina to their maximum value.	Sneak -1
+*/

@@ -29,3 +29,11 @@ ArkhamEncounter Hibbs_Enc2 {
     description: "A horrible monster appears!";
     options: Option.MonsterAppearsARK;
 }
+
+/*
+A stranger buys you a drink. You may search the Common Item deck for a Whiskey card and take it.
+Joey "The Rat" Vigil slips into an empty chair at your table and whispers, "Pssst! Wanna buy something?" Look at the top 3 cards of the Common Item deck. You may purchase any or all of them for $1 above the list price. "Hey, I've got overhead!" the Rat explains
+Pass a Luck (-1) check or a pickpocket cleans you out! Lose all your money.	Luck -1
+Prohibition failed to influence the proprietor of Hibb's. You drink heavily while quizzing the locals about the strange goings-on in Arkham. Make a Will (-1) check. If you pass, you hold your liquor and learn something. Gain 2 Clue tokens. If you fail, you pass out. Move to the street and either have 1 item (your choice) or all of your money stolen.	Will (-1)
+You enter a "friendly" card game. Make a Luck (-1) check. If you pass, you win $5. If you fail, you lose $3. If you lose and can't pay, the boys rough you up and throw you outside. Lose 1 Stamina and move to the street.	Luck -1
+*/

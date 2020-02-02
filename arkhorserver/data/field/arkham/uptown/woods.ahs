@@ -21,3 +21,18 @@ AEOption Woods_Enc2 {
         }
     }}};
 }
+
+/*
+You come across a cringing dog. Pass a Speed (-2) check to catch and calm him. If you have Food, you can discard that to automatically pass the check instead of rolling. You see by his collar that he is named Duke. Take his Ally card. If it isn't available, gain $3 as a reward for returning him to his owner, instead.	Speed -2
+You find a sleeping Sheldon Gang member near the still. Make a Sneak (-2) check to try to swipe the shotgun he has dropped on the ground. If you pass, take a Shotgun from the Common Item deck if there is one. If you fail, the guard awakens. You are caught and beaten, losing 2 Stamina, but you escape with your life. Move to the street.	Sneak -2
+You have stumbled on a still owned by the Sheldon Gang. Make a Sneak (-1) check. If you pass, skulk away without being seen. If you fail, lose 2 Stamina as the Sheldon Gang works you over while escorting you from the woods. In either case, move to the street.	Sneak -1
+You meet an old wise man in the grove who offers to share his wisdom with you. If you accept, lose your next turn and make a Lore (-2) check. If you pass, you may draw 1 Skill, or draw 2 Spells, or gain 4 Clue tokens. If you fail, nothing happens.	Lore -2
+You trip over an object which turns out to be a rusty lockbox. If you open it, make a Luck (+0) check and consult the following chart:
+Successes:
+
+0) A rotted human foot. Lose 1 Sanity.
+1) Draw 1 Common Item.
+2) Draw 1 Unique Item.
+3+) $10 in jewelry.
+Luck +0
+*/

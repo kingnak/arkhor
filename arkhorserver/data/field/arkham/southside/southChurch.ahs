@@ -42,3 +42,17 @@ AEOption Church_Enc2 {
         game.utility.blessCharacter(CHAR);
     }}};
 }
+
+/*
+Noticing you eying the holy water, Father Michael tells you, "Take what you need, my child." You may search the Unique Item deck for a Holy Water card and take it.
+Upon entering the church, you are attacked by Father Michael with a giant cross, who for some reason believes you to be in league with the devil. Make a Speed (-1) check. If you pass, you escape. If you fail, lose 2 Stamina. In either case, move to the street.	Speed -1
+You could swear a drain pipe gargoyle moved. Lose 1 Sanity.
+You enter the confessional. "Bless me, Father, for I have sinned." Make a Luck (+0) check and consult the chart below:
+Successes:
+
+0) "Father? Are you there?" You hear a scream in the next compartment! Lose 3 Sanity and move to the street.
+1) "Father?" There is no answer. Sighing, you leave. Move to the street.
+2+) "I don't remember my last confession." Raise your Sanity to its maximum value.
+Luck +0
+You join in the morning mass. Spend 1 Clue token to ask for heavenly aid. If you do so, roll a die. On a success, your prayers are answered. Remove 1 doom token from the Ancient One's doom track.
+*/

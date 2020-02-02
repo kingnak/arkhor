@@ -28,3 +28,11 @@ AEOption Unname_Enc2 {
         }
     }}};
 }
+
+/*
+Pass a Luck (-1) check to find a hidden cache concealed in the wall of an upstairs bedroom. Draw 1 Unique Item.	Luck -1
+The ceiling beam suddenly buckles. Make a Speed (-1) check. If you pass, move to the street. If you fail, lose 2 Stamina.	Speed -1
+You bump into Eric Colt. He tells you a horrible tale of the Mythos to test your nerve. If you listen, lose 2 Sanity. If this doesn't drive you insane, take his Ally card if it is available. If it is not available, you may pump him for information instead. Gain 3 Clue tokens.
+You hear scurrying and squeaking of a horde of rats from inside the walls. Abruptly, you realize that they are moving to surround you. Pass a Speed (-1) check to make it to the front door first. If you fail, you are lost in time and space.	Speed -1
+You notice a glint of light in a crevice. If you reach in, make a Luck (-1) check. If you pass, draw 1 Unique Item. If you fail, you feel a sharp pain as teeth clamp down on your hand. You manage to pull free, but you lose 2 Stamina and 1 Sanity.	Luck -1
+*/

@@ -329,6 +329,12 @@ void ClassGenerator::outputRegisterConstant(const ClassGenerator::ClassDef &cls)
     m_out << "game.registerConstant('" << scope << "', '" << cls.elemName << "', '" << idPrefixForClass(cls.elemType) << '_' << cls.elemName << "');\n";
 }
 
+bool ClassGenerator::outputPrimitive(const ClassGenerator::AttrDef &attr, const ClassGenerator::ClassDef &cls)
+{
+    Q_ASSERT(attr.type == AttrDef::Type::Primitive);
+    m_out << attr.content.first;
+    return true;
+}
 
 bool ClassGenerator::outputModifications(const AttrDef &attr, const ClassDef &cls)
 {

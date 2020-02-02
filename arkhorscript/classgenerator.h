@@ -72,6 +72,7 @@ protected:
     void outputRegisterSingle(QString type, const ClassDef &cls);
     void outputRegisterConstant(const ClassDef &cls);
 
+    bool outputPrimitive(const AttrDef &attr, const ClassDef &cls);
     bool outputIDRef(const AttrDef &attr, const ClassDef &cls);
     bool outputIDRefArray(const AttrDef &attr, const ClassDef &cls);
     bool outputEnumValue(QString prefix, const AttrDef &attr, const ClassDef &cls);

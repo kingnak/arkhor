@@ -42,7 +42,7 @@ bool OptionGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef 
 {
     if (desc.name == "isAvailable") {
         if (attr.type == ArkhorScriptParser::Primitive) {
-            return outputAttribute(cls, AttrDef("isAvailable", ArkhorScriptParser::Primitive, attr.content), false);
+            return outputPrimitive(AttrDef("isAvailable", ArkhorScriptParser::Primitive, attr.content), cls);
         } else {
             return outputFunction(attr, cls);
         }

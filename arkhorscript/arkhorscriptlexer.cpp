@@ -163,7 +163,7 @@ bool ArkhorScriptLexer::parse()
                 return true;
             }
             if (img == "false") {
-                m_symbol = makeSymbol(Symbol::False, m_lineCount, m_linePos, "true");
+                m_symbol = makeSymbol(Symbol::False, m_lineCount, m_linePos, "false");
                 return true;
             }
             m_symbol = makeSymbol(Symbol::Identifier, m_lineCount, m_linePos, img);

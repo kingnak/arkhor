@@ -1,8 +1,35 @@
+OtherWorldEncounter CityChasingBeasts {
+    field: OW_CityOfGreatRace;
+    color: Yellow;
+    description: "Glancing behind you, you see that the beasts are still chasing you. Pass a <b>Speed (-1) check</b> or be lost in time and space.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Speed;
+            activate: {{{
+                var res = game.context.skillTest("Run away", this.id, Constants.Speed.Luck, -1, 1);
+                if (!res) {
+                    CHAR.lostInSpaceAndTime();
+                }
+            }}};
+        }
+    };
+}
+
+OtherWorldEncounter CityInsight {
+    field: OW_CityOfGreatRace;
+    color: Yellow;
+    description: "In a flash of insight, you realize the purpose of the bladed artifact. Shivering, you put it back where you found it. Lose 1 Sanity but gain 1 Clue token.";
+    options: {
+        OWEOption {
+            activate: {{{
+                CHAR.damageSanity(1);
+                CHAR.addClue(1);
+            }}};
+        }
+    };
+}
+
 /*
-y	Glancing behind you, you see that the beasts are still chasing you. Pass a Speed (-1) check or be lost in time and space.
-
-y	In a flash of insight, you realize the purpose of the bladed artifact. Shivering, you put it back where you found it. Lose 1 Sanity but gain 1 Clue token.
-
 g	Pass a Luck (-1) check to find something useful among the incomprehensible artifacts. If so, draw 1 Unique Item.
 
 g	Sometimes, violence is the answer. Pass a Fight (-1) check to break free of your captors and return to Arkham.

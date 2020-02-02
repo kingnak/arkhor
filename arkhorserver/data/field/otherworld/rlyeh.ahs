@@ -1,8 +1,29 @@
+OtherWorldEncounter RlyehGlowingLight {
+    field: OW_R_lyeh;
+    color: Yellow;
+    description: "A horrible visage captures your gaze. Pass a <b>Will (+0) check</b> to look away or lose 1 Stamina and stay here next turn.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Will;
+            activate: {{{
+                var res = game.context.skillTest("Look away", this.id, Constants.Skills.Will, 0, 1);
+                if (!res) {
+                    CHAR.damageStamina(1);
+                    CHAR.delay(); // TODO: Set out?
+                }
+            }}};
+        }
+    };
+}
+
+OtherWorldEncounter RlyehMonster1 {
+    field: OW_R_lyeh;
+    color: Red;
+    description: "A slimy monster appears!";
+    options: Option.MonsterAppearsOW;
+}
+
 /*
-y	A horrible visage captures your gaze. Pass a Will (+0) check to look away or lose 1 Stamina and stay here next turn.
-
-r	A slimy monster appears!
-
 r	Hurricane winds smash you against the cyclopean stones. Pass a Fight (-1) check or lose 3 Stamina.
 
 r	Pass a Speed (-1) check or you slip and slide down a barnacled surface, slashing your skin to ribbons. Lose 3 Stamina.

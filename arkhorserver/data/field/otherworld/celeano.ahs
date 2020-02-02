@@ -1,8 +1,28 @@
+OtherWorldEncounter CeleanoMonster {
+    field: OW_Celeano;
+    color: Blue;
+    description: "A lurking monster appears!";
+    options: Option.MonsterAppearsOW;
+}
+
+OtherWorldEncounter CeleanoProfessor {
+    field: OW_Celeano;
+    color: Green;
+    description: "An old professor from Earth teaches you a thing or two. Pass a <b>Luck (-1) [2] check</b> to draw 1 Skill.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Luck;
+            activate: {{{
+                var res = game.context.skillTest("Learn from professor", this.id, Constants.Skills.Luck, -1, 2);
+                if (res) {
+                    game.utility.drawRandomItem(Constants.ObjectType.Skill, "Learn skill", this.id);
+                }
+            }}};
+        }
+    };
+}
+
 /*
-b	A lurking monster appears!
-
-g	An old professor from Earth teaches you a thing or two. Pass a Luck (-1) [2] check to draw 1 Skill.
-
 b	As you read the page, you realize that you have stumbled into a written trap. Pass a Lore (-1) check or you are Cursed.
 
 b	Pass a Luck (-1) check or the book is a prison. If you fail, roll a die. On a failure, a monster appears from the book. On a success, you are drawn into the book for a time. Stay here next turn.

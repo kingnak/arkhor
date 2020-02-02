@@ -1,12 +1,40 @@
+OtherWorldEncounter OtherGold {
+    color: Yellow;
+    description: "A glimmer of gold catches your eye. Gain $2.";
+    options: {
+        OWEOption {
+            activate: {{{
+                CHAR.addMoney(2);
+            }}};
+        }
+    };
+}
+
+OtherWorldEncounter OtherHome {
+    color: Green;
+    description: "A glimpse of home gives you hope. Gain 1 Sanity.";
+    options: {
+        OWEOption {
+            activate: {{{
+                CHAR.addSanity(1);
+            }}};
+        }
+    };
+}
+
+OtherWorldEncounter OtherMonsterB {
+    color: Blue;
+    description: "A hideous monster appears!";
+    options: Option.MonsterAppearsOW;
+}
+
+OtherWorldEncounter OtherMonsterR {
+    color: Red;
+    description: "A lurking monster appears!";
+    options: Option.MonsterAppearsOW;
+}
+
 /*
-y	A glimmer of gold catches your eye. Gain $2.
-
-g	A glimpse of home gives you hope. Gain 1 Sanity.
-
-b	A hideous monster appears!
-
-r	A lurking monster appears!
-
 b	A monster appears!
 
 y	A monster appears!

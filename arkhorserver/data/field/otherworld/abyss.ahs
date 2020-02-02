@@ -1,4 +1,4 @@
-OtherWorldEncounter GlowingLight {
+OtherWorldEncounter AbyssGlowingLight {
     field: OW_Abyss;
     color: Blue;
     description: "A glowing light ahead draws you towards it. "+
@@ -8,6 +8,7 @@ OtherWorldEncounter GlowingLight {
         "A monster appears!";
     options: {
         OWEOption {
+            baseProperty: DieRoll_Luck;
             activate: {{{
                 var res = game.context.skillTest("Check Light", this.id, Constants.Skills.Luck, -1, 1);
                 if (res) {

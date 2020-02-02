@@ -1,8 +1,38 @@
+OtherWorldEncounter DreamlandsThief {
+    field: OW_TheDreamlands;
+    color: Blue;
+    description: "A thief attempts to rob you. Pass a <b>Sneak (+0) check</b> to notice him. If you fail, lose half your items (your choice) and half your money (rounded up).";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Sneak;
+            activate: {{{
+                var res = game.context.skillTest("Noice thief", this.id, Constants.Skills.Sneak, 0, 1);
+                if (!res) {
+                    CHAR.loseHalfPossessions();
+                }
+            }}};
+        }
+    };
+}
+
+OtherWorldEncounter DreamlandsCliff {
+    field: OW_TheDreamlands;
+    color: Blue;
+    description: "As you are climbing the cliffs in the underworld, your pocket gets caught and tears open. Pass a <b>Speed (-1) check</b> or lose all your money.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Speed;
+            activate: {{{
+                var res = game.context.skillTest("Catch money", this.id, Constants.Skills.Speed, 1, 1);
+                if (!res) {
+                    CHAR.loseMoney(CHAR.money);
+                }
+            }}};
+        }
+    };
+}
+
 /*
-b	A thief attempts to rob you. Pass a Sneak (+0) check to notice him. If you fail, lose half your items (your choice) and half your money (rounded up).
-
-b	As you are climbing the cliffs in the underworld, your pocket gets caught and tears open. Pass a Speed (-1) check or lose all your money.
-
 b	At the south gate of Thran, you are stopped by a red-robed sentry until you can tell three dreams beyond belief. Pass a Luck (-1) check to tour the golden spires of Thran, gaining 2 Clue tokens in the process. If you fail, stay here next turn.
 
 r	Avalanche! Pass a Speed (-1) check or lose 3 Stamina.

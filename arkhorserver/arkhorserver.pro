@@ -223,7 +223,6 @@ OTHER_FILES += \
     data/field/arkham/miskatonicU/administration.js \
     data/objects/common/weapons.js \
     data/monsters/monsters.js \
-    data/field/otherworld/abyss.js \
     data/mythos/mythos.js \
     data/monsters/unfinished.js \
     data/objects/common/other.js \

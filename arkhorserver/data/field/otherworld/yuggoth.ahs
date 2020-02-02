@@ -1,8 +1,34 @@
+OtherWorldEncounter YuggothMonster1 {
+    field: OW_Yuggoth;
+    color: Blue;
+    description: "A monster appears from the darkness!";
+    options: Option.MonsterAppearsOW;
+}
+
+OtherWorldEncounter YuggothStrangeCreature {
+    field: OW_Yuggoth;
+    color: Yellow;
+    description: "A strange creature stares at you with burning eyes. It is as if its gaze were stealing your soul. "+
+                 "Pass a <b>Luck (-1) check</b> or roll a die and subtract 2 from it (minimum 0), then lose that much Stamina and Sanity.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Luck;
+            activate: {{{
+                var res = game.context.skillTest("Withstand stare", this.id, Constants.Skills.Luck, -1, 1);
+                if (!res) {
+                    res = game.context.genericDieRollSum("Creature stares at you", this.id, 1);
+                    res -= 2;
+                    if (res > 0) {
+                        CHAR.damageStamina(res);
+                        CHAR.damageSanity(res);
+                    }
+                }
+            }}};
+        }
+    };
+}
+
 /*
-b	A monster appears from the darkness!
-
-y	A strange creature stares at you with burning eyes. It is as if its gaze were stealing your soul. Pass a Luck (-1) check or roll a die and subtract 2 from it (minimum 0), then lose that much Stamina and Sanity.
-
 y	An alien mind forces its way into your body. Pass a Luck (-2) check to guess a way to drive it out, gaining 2 Clue tokens in the process, or else stay here next turn, serving as its host body.
 
 y	Breathing hard, you stay huddled against the rock until the sounds of pursuit fade into the distance. No encounter.

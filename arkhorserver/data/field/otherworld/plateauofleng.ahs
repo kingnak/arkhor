@@ -1,8 +1,29 @@
+OtherWorldEncounter LengMonster1 {
+    field: OW_PlateauOfLeng;
+    color: Red;
+    description: "A monster appears from the shadows!";
+    options: Option.MonsterAppearsOW;
+}
+
+OtherWorldEncounter LengRumble {
+    field: OW_PlateauOfLeng;
+    color: Red;
+    description: "A vast stirring rumbles through the plateau. Pass a <b>Sneak (+0) check</b> or roll a die and lose that much Stamina.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Sneak;
+            activate: {{{
+                var res = game.context.skillTest("Keep standing", this.id, Constants.Skills.Sneak, 0, 1);
+                if (!res) {
+                    res = game.context.genericDieRollSum("Loose Stamina", this.id, 1);
+                    CHAR.damageStamina(res);
+                }
+            }}};
+        }
+    };
+}
+
 /*
-r	A monster appears from the shadows!
-
-r	A vast stirring rumbles through the plateau. Pass a Sneak (+0) check or roll a die and lose that much Stamina.
-
 g	Pass a Luck (-2) check to find some useful things among the bones. If so, draw 1 Common Item and 1 Spell.
 
 g	The hooved, wide-mouthed traders of this land are wealthy, but dangerous. You may make a Lore (-2) check to trade with them. If you pass, gain $6. If you fail, you are lost in time and space.

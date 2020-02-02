@@ -1,0 +1,26 @@
+/*
+y	A horrible visage captures your gaze. Pass a Will (+0) check to look away or lose 1 Stamina and stay here next turn.
+
+r	A slimy monster appears!
+
+r	Hurricane winds smash you against the cyclopean stones. Pass a Fight (-1) check or lose 3 Stamina.
+
+r	Pass a Speed (-1) check or you slip and slide down a barnacled surface, slashing your skin to ribbons. Lose 3 Stamina.
+
+r	Slip on wet stones and slide into a pit. Pass a Luck (+0) check to climb out. If you fail, lose 1 Sanity and stay here next turn.
+
+y	The city is filled with unnerving alien angles. Pass a Speed (-1) check to avoid touching them or lose 1 Sanity.
+
+y	The night stars change and the brazen temple doors open, pouring forth a vast, black corpulence. Roll a die and lose that much Sanity.
+
+r	The shadow tries to force its way between your lips. Pass a Fight (-2) check or lose 2 Stamina and stay here next turn.
+
+y	The stink of this place is unbearable. Pass a Will (-1) check or lose 1 Stamina, 1 Sanity, and your lunch.
+
+r	You become tangled in the damp seaweed. Pass a Luck (-1) check to pull free before something finds you while you're helpless. If you fail, roll a die and lose that much Stamina.
+
+y	You run for the boat. Pass a Speed (-1) [2] check to reach it in time. If you do, you escape with vital information. Gain 5 Clue tokens. If you fail, stay here next turn, hiding from your pursuer.
+
+y	You trip over a stone outcropping that shouldn't be there. Pass a Speed (-1) check or you are lost in time and space.
+
+*/

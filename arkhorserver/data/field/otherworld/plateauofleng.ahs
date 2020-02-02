@@ -1,0 +1,26 @@
+/*
+r	A monster appears from the shadows!
+
+r	A vast stirring rumbles through the plateau. Pass a Sneak (+0) check or roll a die and lose that much Stamina.
+
+g	Pass a Luck (-2) check to find some useful things among the bones. If so, draw 1 Common Item and 1 Spell.
+
+g	The hooved, wide-mouthed traders of this land are wealthy, but dangerous. You may make a Lore (-2) check to trade with them. If you pass, gain $6. If you fail, you are lost in time and space.
+
+r	The loathsome villagers send out their strongest warrior to fight you in unarmed combat. Pass a Fight (-1) [2] check to defeat him and draw 1 Unique Item and gain 1 Clue token. Otherwise lose 1 Sanity and 2 Stamina.
+
+g	The rickety bridge collapses as you cross it. Pass a Fight (-1) check to hang on, finding a relic on the other side. Draw 1 Unique Item. If you fail, you plummet into darkness. you are lost in time and space.
+
+r	The villagers leap around a bonfire on the hoary plain. Pass a Sneak (-1) check or you are captured and subjected to terrible rites. Lose 3 Sanity and 3 Stamina, then stay here next turn.
+
+r	While you are climbing a high cliff, you begin to slip. Pass a Speed (-1) check or crash down the mountain, losing 2 Stamina.
+
+r	You are taken to a prehistoric monastery, where a high priest in a yellow silken mask questions you. Pass a Lore (-2) check to answer him to his satisfaction. Gain your freedom and 1 Spell. Otherwise, you are lost in time and space.
+
+g	You wander the frozen wastes. No encounter.
+
+g	Your mind and body are toughened by your experiences. Pass a Will (+0) [2] check to draw 1 Skill.
+
+g	Your peril clears your mind. Pass a Will (+0) check to restore your Sanity to its maximum value.
+
+*/

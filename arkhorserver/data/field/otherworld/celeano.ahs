@@ -1,0 +1,25 @@
+/*
+b	A lurking monster appears!
+
+g	An old professor from Earth teaches you a thing or two. Pass a Luck (-1) [2] check to draw 1 Skill.
+
+b	As you read the page, you realize that you have stumbled into a written trap. Pass a Lore (-1) check or you are Cursed.
+
+b	Pass a Luck (-1) check or the book is a prison. If you fail, roll a die. On a failure, a monster appears from the book. On a success, you are drawn into the book for a time. Stay here next turn.
+
+g	Pass a Luck (-2) check to find a book small enough to carry. Search the Unique Item deck and take the first Tome you find.
+
+g	Pass a Luck (-2) check to find a valuable book. If so, search the Unique Item deck and take the first Tome you find.
+
+b	That's it! That's the document you need! Quietly, you reach for it, trying not to disturb its guardian. Make a Sneak (-2) check. If you pass, search the Spell deck and take 1 Spell of your choice. If you fail, lose 2 Stamina.
+
+b	The huge book opens noiselessly at your approach. If you choose, you may read it, in which case you must pass a Fight (-1) [2] check to defeat its guardian. If you do, draw 3 Spells and keep 2 of them. If you fail, lose 3 Stamina.
+
+b	The symbol above the doorway glows. Make a Luck (-1) check. If you pass, gain 2 Stamina and 2 Sanity. If you fail, lose 2 items of your choice.
+
+g	You come across a wizened old creature who debates with you for some time. If you pass a Lore (-1) check, the creature is amused by your discussion and you are Blessed.
+
+g	You find secret lore hidden in the mosaics on the wall. Make a Lore (+2) check and gain Clue tokens equal to your successes.
+
+g	Your red-eyed reflection in the mirror captures your attention. Stay here next turn.
+*/

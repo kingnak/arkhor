@@ -7,3 +7,8 @@ AEOption GateAndMonsterAppears {
     name: "Gate and Monster Appears";
     activate: {{{ game.context.createGateAtCharacterField(); }}};
 }
+
+OWEOption MonsterAppearsOW {
+    name: "Monster Appears";
+    activate: {{{ game.context.spontaneousMonsterFight(); }}};
+}

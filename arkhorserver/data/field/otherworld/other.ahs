@@ -1,0 +1,98 @@
+/*
+y	A glimmer of gold catches your eye. Gain $2.
+
+g	A glimpse of home gives you hope. Gain 1 Sanity.
+
+b	A hideous monster appears!
+
+r	A lurking monster appears!
+
+b	A monster appears!
+
+y	A monster appears!
+
+y	A monster appears from the shadows!
+
+y	A ripple in the air passes over you. Pass a Lore (-1) check or lose 1 Spell of your choice as it is burned from your mind.
+
+g	Carefully, you avoid the gaze of a gigantic eye watching an alter. You may try to pass a Sneak (-1) check to steal a scroll from the dais. Draw 1 Spell. If you fail, you are racked by pain and lose 3 Sanity.
+
+b	Luck is with you. You stumble on a cache of supplies. Draw 1 Common Item.
+
+b	Monsters lurk everywhere. Pass a Sneak (-2) check or stay here next turn.
+
+b	Pass a Fight (-1) check to hang on to your prize despite the wind. Draw 1 Spell.
+
+b	Pass a Fight (-2) check to lever back the lid of the stone chest. Inside, you find $8. If you fail, lose 1 Stamina.
+
+g	Pass a Fight (-2) check to pry open a grate you find built into the wall. Inside, you find something fascinating. Draw 1 Unique Item.
+
+b	Pass a Luck (-1) check to discover a cache of ancient papers containing valuable information about the Mythos. Gain 1 Clue token for every success you rolled on your Luck check.
+
+r	Pass a Luck (-1) check to discover a useful object in your wanderings. Draw 1 Unique Item.
+
+g	Pass a Luck (-1) check to discover a vital document. Gain 2 Clue tokens.
+
+r	Pass a Luck (-1) check to find a quiet spot to rest. Gain 2 Stamina and 2 Sanity.
+
+b	Pass a Luck (-1) check to find something to defend yourself with. Take the first Weapon from the Common Item deck.
+
+g	Pass a Luck (-1) check to find the gate back. If so, immediately return to Arkham.
+
+r	Pass a Speed (-1) check to grab the carving before it falls. Draw 1 Spell.
+
+y	Suddenly, the things you've seen make sense! Gain 1 Clue token.
+
+y	Suddenly you notice something that you had previously missed. Gain 1 Clue token.
+
+r	The colors are blinding. Pass a Lore (-1) check or stay here next turn.
+
+r	The humidity and heat is exhausting. Lose 1 Stamina.
+
+b	The insanity of this place finally hits you. Lose 1 Sanity.
+
+r	The obsidian door refuses to open. Pass a Fight (-1) check or stay here next turn, struggling with it.
+
+r	The pinkish rays nearly get you. Pass a Sneak (+0) check or lose 2 Stamina.
+
+g	The rope seems to extend upwards forever, but it's the only way out of the crevasse you find yourself in. Pass a Fight (-1) check to climb it and return to Arkham. If you fail, you fall, losing 2 Stamina and staying here next turn.
+
+r	The shadowy entity gives up the chase. Lose 1 Stamina from exhaustion.
+
+y	The sky is spinning. Pass a Will (-2) check or pass out and stay here next turn.
+
+b	The strain is too much for your mind. Lose 1 Sanity.
+
+y	The unending blackness terrifies you. Pass a Will (-1) check or lose 1 Sanity and 1 Stamina from fear and exhaustion.
+
+r	There is nothing here but barren wastes. No encounter.
+
+y	Time and space bend around you. Make a Luck (-1) check. If you pass, return to Arkham. If you fail, stay here next turn.
+
+g	Wedged beneath a fallen stone is a scroll. Draw 1 Spell.
+
+g	You are beginning to understand the strange creatures here. Gain 1 Clue token.
+
+b	You are lost in a labyrinth of high walls. Pass a Lore (-1) check or stay here next turn.
+
+y	You are not safe here. A monster appears!
+
+g	You come across a slaughtered creature. Pass a Luck (-1) check to claim a monster trophy from the cup (even if it is Endless) and gain 2 Clue tokens.
+
+g	You come across a sleeping horror with a tentacle draped across a small gold idol. Silence is of the essence as you attempt to gently ease the idol out from under the creature's pseudopod. Make a Sneak (-1) check. If you pass, gain $3. If you fail, lose 2 Stamina.
+
+g	You find a quiet spot to rest and recuperate. Gain 1 Stamina.
+
+g	You find some valuable items that you can sell back in Arkham. Gain $3.
+
+r	You push yourself to the limit. Roll one die for each point of Stamina you have. Lose 1 Stamina for each die that does not roll a success. If you do not fall unconscious, gain 1 Clue token for each die that rolled a success.
+
+r	You sleep, fitfully, and awaken to the sound of your own voice, chanting something. Make a Lore (-2) check. If you pass, you are able to retain what you are saying. Draw 1 Spell and gain 2 Clue tokens. If you fail, the chant attracts something unsavory. A monster appears!
+
+y	You stare into the face of madness. Roll 1 die for each point of Sanity you have. Lose 1 Sanity for each die that does not roll a success. If you do not go insane, gain 1 Clue token for each die that rolled a success.
+
+b	You've completed your task, but now you must escape before the portal closes! Pass a Speed (-2) check to return to Arkham. If you fail, you are lost in time and space. In either event, you automatically close the gate you entered through.
+
+y	Your mind is flooded with knowledge. Make a Lore (-2) check. If you pass it, draw 1 Spell, but lose 1 Sanity.
+
+*/

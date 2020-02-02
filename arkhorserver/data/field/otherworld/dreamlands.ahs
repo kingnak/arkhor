@@ -1,0 +1,51 @@
+/*
+b	A thief attempts to rob you. Pass a Sneak (+0) check to notice him. If you fail, lose half your items (your choice) and half your money (rounded up).
+
+b	As you are climbing the cliffs in the underworld, your pocket gets caught and tears open. Pass a Speed (-1) check or lose all your money.
+
+b	At the south gate of Thran, you are stopped by a red-robed sentry until you can tell three dreams beyond belief. Pass a Luck (-1) check to tour the golden spires of Thran, gaining 2 Clue tokens in the process. If you fail, stay here next turn.
+
+r	Avalanche! Pass a Speed (-1) check or lose 3 Stamina.
+
+r	In the valley of Pnoth, where the dholes crawl and burrow nastily, you hear a slithering among the mountains of bone. Make a Sneak (-1) check. If you fail, you are devoured. If you pass, gain 3 Clue tokens and return immediately to Arkham.
+
+g	Make a Luck (-1) check. If you pass, then, waving goodbye, the happy villagers bestow a gift upon you. Draw 1 Common Item.
+
+b	Pass a Lore (+0) check to fight off your desire to sleep. If you fail, you freeze in the night. You are lost in time and space. If you succeed, return to Arkham.
+
+y	Pass a Luck (+0) check or stumble into a spider's web. Lose 2 Sanity and stay here next turn while struggling to get free.
+
+g	Pass a Luck (-1) check to chance across one of the little red singing birds of Celephais. Its song brings solace and strength to your heart. Restore your Sanity and Stamina to their maximum values.
+
+g	Pass a Luck (-1) check to come across a riding zebra and save some traveling time. If you are in the first area of the Dreamlands, move to the second area. If you are in the second area, return to Arkham.
+
+g	Pass a Will (-1) check to convince the Rulers of Rokol to share their wealth with you. If so, roll two dice and add them together. Gain that much money.
+
+y	The golden city of your dreams is threatening to become an obsession. Pass a Luck (-1) check or stay here next turn to hunt for it.
+
+r	The ice bridge begins to crack. Pass a Luck (-1) check or fall into the icy depths. If you fall, you are lost in time and space.
+
+y	The meeping of the ghouls in the tunnels echoes in your ears. Pass a Will (-2) check or lose 2 Sanity.
+
+r	The shantak claws at you as it swoops past overhead. Pass a Speed (-2) check or lose 2 Stamina as its claws rake your chest.
+
+y	The stone face reveals to you one of the deepest secrets of the Dreamlands. Pass a Lore (-1) [2] check to gain 4 Clue tokens. If you fail the check, however, the sight claims your last shred of sanity. Lose all your Sanity.
+
+r	The wind increases, and you feel your feet go numb. Pass a Fight (-1) check or lose 2 Stamina.
+
+g	Touring the perfumed jungles of Kied, you come across an ancient ivory palace. Pass a Luck (-1) check to explore it without getting caught. Draw 1 Spell. If you fail the check, lose 1 item of your choice.
+
+r	While wandering the phosphorescent woods, you are surrounded by hungry zoogs! Make a Luck (-2) check. If you pass, they take a liking to you and give you a gourd of moon-tree wine. Gain 1 Sanity and 1 Clue token. If you fail, the zoogs close in around you, their teeth gleaming. You are lost in time and space.
+
+y	You come across an abandoned onyx quarry whose chiselled vacancies are so vast that it staggers your mind. Pass a Lore (-1) check to avoid awakening anything here, or else lose 3 Sanity.
+
+b	You drink impure water from the River Kra. Pass a Luck (-1) check or lose 1 Stamina and stay here next turn due to illness.
+
+g	You encounter the talking cats of Ulthar. Pass a Will (+0) check to draw 1 Spell.
+
+y	You see the mountains move. Lose 1 Sanity from the terror.
+
+b	You wander in the frozen wastes. No encounter.
+
+
+*/

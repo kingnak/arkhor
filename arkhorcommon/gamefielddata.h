@@ -14,6 +14,15 @@ namespace AH {
             GameFieldData();
             virtual ~GameFieldData() {}
 
+            // Id, Name, Description/SourceId
+            //typedef QPair<QString, QPair<QString, QString>> FieldOptionDescription;
+            struct ARKHOR_COMMON_EXPORTS FieldOptionDescription {
+                QString id;
+                QString name;
+                QString detail;
+                DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, GameFieldData::FieldOptionDescription);
+            };
+
             GameFieldData *data() { return this; }
 
             FieldData::FieldID id() const { return m_id; }
@@ -33,7 +42,7 @@ namespace AH {
 
             virtual bool hasSpecialAction() const { return m_specialActionNr != 0; }
             virtual int specialActionNumber() const { return m_specialActionNr; }
-            virtual QStringList fieldOptionIds() const { return m_fieldOptionIds; }
+            virtual QList<FieldOptionDescription> fieldOptions() const { return m_fieldOptions; }
 
         protected:
             FieldData::FieldID m_id;
@@ -44,7 +53,7 @@ namespace AH {
             bool m_locked;
             int m_specialActionNr;
 
-            QStringList m_fieldOptionIds;
+            QList<FieldOptionDescription> m_fieldOptions;
             QStringList m_characterIds;
             QStringList m_secondPhaseCharacterIds;
             QStringList m_monsterIds;

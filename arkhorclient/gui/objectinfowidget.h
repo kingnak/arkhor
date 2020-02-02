@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <objectdata.h>
+#include <gamefielddata.h>
 
 namespace AH { namespace Common {
 class AncientOneData;
@@ -20,6 +21,7 @@ class GameObjectWidget;
 class MythosCardWidget;
 class AncientOneWidget;
 class CharacterWidget;
+class FieldInfoWidget;
 
 class MinSizeStack;
 
@@ -36,9 +38,11 @@ public:
     bool isDisplayingTempData() const;
 
 signals:
+    void objectInfoRequested(QString id);
 
 public slots:
     void displayItemInfo(const QString &id);
+    void displayFieldInfo(const AH::Common::GameFieldData fd);
     void displayNothing();
 
 private slots:
@@ -64,6 +68,7 @@ private:
     AncientOneWidget *m_ancientOne;
     CharacterWidget *m_character;
     QLabel *m_text;
+    FieldInfoWidget *m_fieldInfo;
 };
 
 #endif // OBJECTINFOWIDGET_H

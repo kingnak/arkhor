@@ -31,12 +31,7 @@ void AhBoardScene::initBoard()
 
 void AhBoardScene::updateBoardFromData(QVariantMap boardMap)
 {
-    // Initialize neighbourhood if not done yet
-    if (m_neighbours.isEmpty()) {
-        initNeighbourHoodFromBoardData(boardMap);
-    }
-
-    foreach (QString k, boardMap.keys()) {
+    for (QString k : boardMap.keys()) {
         int id = k.toInt();
         AH::Common::FieldData::FieldID fId = static_cast<FieldData::FieldID> (id);
         if (m_fieldMap.contains(fId)) {
@@ -70,16 +65,13 @@ void AhBoardScene::setTerrorLevel(int level)
     m_terrorItem->setVisible(true);
 }
 
-void AhBoardScene::initNeighbourHoodFromBoardData(QVariantMap boardMap)
+void AhBoardScene::initNeighbourHoodFromBoardData(QList<AH::Common::GameFieldData> boardMap)
 {
-    foreach (QString k, boardMap.keys()) {
-        int id = k.toInt();
-        AH::Common::FieldData::FieldID fId = static_cast<FieldData::FieldID> (id);
-        GameFieldData d;
-        boardMap[k] >> d;
-        foreach (int nid, d.neighbourIds()) {
+    if (!m_neighbours.isEmpty()) return;
+    for (auto d : boardMap) {
+        for (int nid : d.neighbourIds()) {
             AH::Common::FieldData::FieldID nfId = static_cast<FieldData::FieldID> (nid);
-            m_neighbours[fId] << nfId;
+            m_neighbours[d.id()] << nfId;
         }
     }
 }

@@ -68,6 +68,7 @@ void AhBoardfillerHelper::initFields(AhBoardScene *scene, QGraphicsItem *parent,
         f->initSubItems();
         QObject::connect(f, SIGNAL(itemInfoRequested(QString)), scene, SIGNAL(itemInfoRequested(QString)));
         QObject::connect(f, SIGNAL(fieldClicked(AH::Common::FieldData::FieldID)), scene, SIGNAL(fieldClicked(AH::Common::FieldData::FieldID)));
+        QObject::connect(f, SIGNAL(fieldInfoRequested(AH::Common::FieldData::FieldID)), scene, SIGNAL(fieldInfoRequested(AH::Common::FieldData::FieldID)));
         scene->m_fieldMap[f->id()] = f;
     }
 }

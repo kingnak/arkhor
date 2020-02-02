@@ -107,6 +107,7 @@ bool MythosCardScript::resolveDependencies()
             qCritical() << "Cannot resolve rumor field option:" << m_rumorFieldOptionId;
             return false;
         }
+        dynamic_cast<GameOptionScript*>(opt)->setSourceId(this->id());
         m_rumorFieldOption = opt;
     }
     if (type() == Environment && !m_envFieldOptionId.isEmpty()) {
@@ -115,6 +116,7 @@ bool MythosCardScript::resolveDependencies()
             qCritical() << "Cannot resolve environment field option:" << m_envFieldOptionId;
             return false;
         }
+        dynamic_cast<GameOptionScript*>(opt)->setSourceId(this->id());
         m_envFieldOption = opt;
     }
 

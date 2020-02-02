@@ -27,7 +27,7 @@ void operator <<(QVariant &data, const GameFieldData &target)
     map["monsters"] << target.monsterIds();
     map["gate"] << target.gateId();
     map["specialActionNr"] << target.specialActionNumber();
-    map["fieldOptionIds"] << target.fieldOptionIds();
+    map["fieldOptions"] << target.fieldOptions();
     data << map;
 }
 
@@ -47,7 +47,25 @@ void operator >>(const QVariant &data, GameFieldData &target)
     map["monsters"] >> target.m_monsterIds;
     map["gate"] >> target.m_gateId;
     map["specialActionNr"] >> target.m_specialActionNr;
-    map["fieldOptionIds"] >> target.m_fieldOptionIds;
+    map["fieldOptions"] >> target.m_fieldOptions;
+}
+
+void operator <<(QVariant &data, const GameFieldData::FieldOptionDescription &target)
+{
+    QVariantMap map;
+    map["id"] << target.id;
+    map["name"] << target.name;
+    map["detail"] << target.detail;
+    data << map;
+}
+
+void operator >>(const QVariant &data, GameFieldData::FieldOptionDescription &target)
+{
+    QVariantMap map;
+    data >> map;
+    map["id"] >> target.id;
+    map["name"] >> target.name;
+    map["detail"] >> target.detail;
 }
 
 }}

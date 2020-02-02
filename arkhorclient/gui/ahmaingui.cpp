@@ -67,7 +67,7 @@ AhMainGui::AhMainGui(QWidget *parent) :
     connect(ui->wgtWeaponChooser, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtOptionChooser, SIGNAL(objectDescriptionRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtTrade, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
-
+    connect(ui->wgtObjectInfo, &ObjectInfoWidget::objectInfoRequested, this, &AhMainGui::displayItemInfo);
 }
 
 AhMainGui::~AhMainGui()
@@ -94,6 +94,8 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
 
     // BOARD
     connect(m_conn, SIGNAL(boardContent(QVariantMap)), m_scene, SLOT(updateBoardFromData(QVariantMap)));
+    connect(m_registry, &ObjectRegistry::boardDescriptionUpdated, this, &AhMainGui::updateSceneNeighbours);
+    connect(m_scene, &AhBoardScene::fieldInfoRequested, this, &AhMainGui::fieldInfoRequested);
 
     // SETTING
     connect(m_conn, SIGNAL(settingUpdate(AH::Common::GameSettingData)), this, SLOT(gameSettingUpdate(AH::Common::GameSettingData)));
@@ -194,35 +196,9 @@ void AhMainGui::dismissInfoPane()
     m_dismissTimer->start();
 }
 
-void AhMainGui::doDismissInfoPane()
-{
-    if (ui->wgtObjectInfo->isVisible()) {
-        QSize s = ui->wgtObjectInfo->size();
-        QSequentialAnimationGroup *grp = new QSequentialAnimationGroup;
-        QPropertyAnimation *anim = new QPropertyAnimation(ui->wgtObjectInfo, "maximumWidth");
-        anim->setStartValue(s.width());
-        anim->setEndValue(0);
-        anim->setDuration(150);
-        grp->addAnimation(anim);
-
-        VisibilityAnimation *v = new VisibilityAnimation(ui->wgtObjectInfo, false);
-        grp->addAnimation(v);
-        grp->start(QAbstractAnimation::DeleteWhenStopped);
-    }
-    //ui->wgtObjectInfo->setVisible(false);
-}
-
-void AhMainGui::characterInstantiated(QString playerId, QString characterId)
-{
-    if (playerId == m_registry->thisPlayerId()) {
-        setThisCharacterId(characterId);
-    }
-}
-
-void AhMainGui::displayItemInfo(const QString &id)
+void AhMainGui::expandInfoPane()
 {
     m_dismissTimer->stop();
-    ui->wgtObjectInfo->displayItemInfo(id);
     if (!ui->wgtObjectInfo->isVisible()) {
         ui->wgtObjectInfo->setMaximumWidth(MAXIMUM_WIDGET_WIDTH);
         ui->wgtObjectInfo->setAttribute(Qt::WA_DontShowOnScreen);
@@ -249,6 +225,54 @@ void AhMainGui::displayItemInfo(const QString &id)
     }
     //ui->wgtInfo->displayItemInfo(id);
     //ui->tabIntInfInv->setCurrentWidget(ui->tabInfo);
+}
+
+void AhMainGui::doDismissInfoPane()
+{
+    if (ui->wgtObjectInfo->isVisible()) {
+        QSize s = ui->wgtObjectInfo->size();
+        QSequentialAnimationGroup *grp = new QSequentialAnimationGroup;
+        QPropertyAnimation *anim = new QPropertyAnimation(ui->wgtObjectInfo, "maximumWidth");
+        anim->setStartValue(s.width());
+        anim->setEndValue(0);
+        anim->setDuration(150);
+        grp->addAnimation(anim);
+
+        VisibilityAnimation *v = new VisibilityAnimation(ui->wgtObjectInfo, false);
+        grp->addAnimation(v);
+        grp->start(QAbstractAnimation::DeleteWhenStopped);
+    }
+    //ui->wgtObjectInfo->setVisible(false);
+}
+
+void AhMainGui::updateSceneNeighbours(QList<ObjectRegistry::FieldDescription> descs)
+{
+    QList<AH::Common::GameFieldData> fd;
+    for (auto f : descs) {
+        fd << f.fieldData;
+    }
+    m_scene->initNeighbourHoodFromBoardData(fd);
+}
+
+void AhMainGui::characterInstantiated(QString playerId, QString characterId)
+{
+    if (playerId == m_registry->thisPlayerId()) {
+        setThisCharacterId(characterId);
+    }
+}
+
+void AhMainGui::displayItemInfo(const QString &id)
+{
+    ui->wgtObjectInfo->displayItemInfo(id);
+    expandInfoPane();
+}
+
+void AhMainGui::fieldInfoRequested(FieldData::FieldID id)
+{
+    m_dismissTimer->stop();
+    auto fd = m_registry->getFieldDescription(id);
+    ui->wgtObjectInfo->displayFieldInfo(fd.fieldData);
+    expandInfoPane();
 }
 
 void AhMainGui::displayInventoryData(QListWidgetItem *itm)

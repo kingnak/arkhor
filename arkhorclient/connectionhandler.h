@@ -89,6 +89,7 @@ signals:
     void dieRollInfo(AH::Common::DieRollTestData data);
 
     void boardContent(QVariantMap boardMap);
+    void boardDescription(QVariantMap boardMap, QVariantMap boardDesc);
     void characterUpdate(AH::Common::CharacterData c);
     void settingUpdate(AH::Common::GameSettingData d);
 

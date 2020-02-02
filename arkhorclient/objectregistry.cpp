@@ -29,6 +29,8 @@ void ObjectRegistry::init(ConnectionHandler *c)
     connect(m_conn, SIGNAL(setTempData(QString)), this, SLOT(setTempData(QString)));
     connect(m_conn, SIGNAL(clearTempData()), this, SLOT(clearTempData()));
     connect(m_conn, &ConnectionHandler::chooseMonster, this, [=](QString, QList<AH::Common::MonsterData> m) {receivedMonsters(m); });
+    connect(m_conn, &ConnectionHandler::boardDescription, this, &ObjectRegistry::receivedBoardDescription);
+    connect(m_conn, &ConnectionHandler::boardContent, this, &ObjectRegistry::receivedBoardUpdate);
 }
 
 void ObjectRegistry::setThisCharacterId(QString id)
@@ -223,6 +225,43 @@ bool ObjectRegistry::hasTempObject()
 {
     QReadLocker lock(&m_lock);
     return m_registry.contains(TempObjectId);
+}
+
+void ObjectRegistry::receivedBoardDescription(QVariantMap board, QVariantMap desc)
+{
+    m_fieldDescs.clear();
+    for (QString field : desc.keys()) {
+        AH::Common::FieldData::FieldID fId = static_cast<AH::Common::FieldData::FieldID> (field.toInt());
+        QList<AH::Common::GameFieldData::FieldOptionDescription> opts;
+        desc[field] >> opts;
+        GameFieldData fd;
+        board[field] >> fd;
+        FieldDescription d;
+        d.fieldData = fd;
+        d.fieldOptions = opts;
+        m_fieldDescs[fId] = d;
+    }
+    emit boardDescriptionUpdated(m_fieldDescs.values());
+}
+
+void ObjectRegistry::receivedBoardUpdate(QVariantMap board)
+{
+    for (QString fId : board.keys()) {
+        AH::Common::GameFieldData f;
+        board[fId] >> f;
+        if (f.id() == AH::Common::FieldData::NO_NO_FIELD) continue;
+        FieldDescription fd = m_fieldDescs[f.id()];
+        fd.fieldData = f;
+
+        fd.additionalOptions.clear();
+        for (auto o : f.fieldOptions()) {
+            if (!o.id.startsWith("FIELD_")) {
+                fd.additionalOptions << o;
+            }
+        }
+
+        m_fieldDescs[f.id()] = fd;
+    }
 }
 
 void ObjectRegistry::clearTempData()

@@ -19,6 +19,7 @@
 #include <playerdata.h>
 #include <tradedata.h>
 #include "asyncobjectreceiver.h"
+#include "objectregistry.h"
 
 class ObjectRegistry;
 class ConnectionHandler;
@@ -47,11 +48,14 @@ public slots:
     void dismissInfoPane();
 
 private slots:
+    void expandInfoPane();
     void doDismissInfoPane();
+    void updateSceneNeighbours(QList<ObjectRegistry::FieldDescription> descs);
 
     void characterInstantiated(QString playerId, QString characterId);
 
     void displayItemInfo(const QString &id);
+    void fieldInfoRequested(AH::Common::FieldData::FieldID id);
 
     void displayInventoryData(QListWidgetItem *itm);
 

@@ -35,6 +35,8 @@ namespace AH{
                 C_START_GAME,
                 S_GAME_STARTED,
 
+                S_BOARD_DESCRIPTION,
+
                 S_BOARD_CONTENT,
                 S_CHARACTER_DATA,
                 S_SETTING_DATA,

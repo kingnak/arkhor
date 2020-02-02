@@ -6,6 +6,7 @@ HEADERS += \
     connectionhandler.h \
     ahboardscene.h \
     ahboardfillerhelper.h \
+    gui/fieldinfowidget.h \
     gui/modifiedpropertyinfowidget.h \
     gui/modifierinfowidget.h \
     gui/objectlistitem.h \
@@ -50,6 +51,7 @@ HEADERS += \
 
 SOURCES += \
     connectionhandler.cpp \
+    gui/fieldinfowidget.cpp \
     gui/modifiedpropertyinfowidget.cpp \
     gui/modifierinfowidget.cpp \
     gui/objectlistitem.cpp \
@@ -98,6 +100,7 @@ SOURCES += \
 FORMS += \
     gui/characterwidget.ui \
     gui/dierollwidget.ui \
+    gui/fieldinfowidget.ui \
     gui/focuschooser.ui \
     gui/gatedatawidget.ui \
     gui/modifiedpropertyinfowidget.ui \

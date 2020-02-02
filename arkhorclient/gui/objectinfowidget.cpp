@@ -7,6 +7,7 @@
 #include "mythoscardwidget.h"
 #include "ancientonewidget.h"
 #include "characterwidget.h"
+#include "fieldinfowidget.h"
 #include "minsizetab.h"
 
 using namespace AH::Common;
@@ -22,6 +23,7 @@ ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
     m_mythos = new MythosCardWidget;
     m_ancientOne = new AncientOneWidget;
     m_character = new CharacterWidget;
+    m_fieldInfo = new FieldInfoWidget;
     m_text = new QLabel;
     m_text->setWordWrap(true);
     m_text->setMinimumWidth(200);
@@ -37,11 +39,13 @@ ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
     m_stack->addWidget(m_ancientOne);
     m_stack->addWidget(m_character);
     m_stack->addWidget(m_text);
+    m_stack->addWidget(m_fieldInfo);
 
     QHBoxLayout *l = new QHBoxLayout(this);
     l->addWidget(m_stack);
 
     connect(ObjectRegistry::instance(), SIGNAL(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)), this, SLOT(receivedDescription(AH::Common::DescribeObjectsData::ObjectDescription)));
+    connect(m_fieldInfo, &FieldInfoWidget::objectDescriptionRequested, this, &ObjectInfoWidget::objectInfoRequested);
 }
 
 QSize ObjectInfoWidget::sizeHint() const
@@ -178,5 +182,11 @@ void ObjectInfoWidget::displayString(const QString &text)
 {
     m_text->setText(text);
     m_stack->setCurrentWidget(m_text);
+}
+
+void ObjectInfoWidget::displayFieldInfo(const GameFieldData fd)
+{
+    m_fieldInfo->displayField(fd);
+    m_stack->setCurrentWidget(m_fieldInfo);
 }
 

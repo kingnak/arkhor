@@ -36,6 +36,12 @@ void BroadcastNotifier::sendBoard(GameBoard *board)
     }
 }
 
+void BroadcastNotifier::sendBoardDescription(GameBoard *board, QVariantMap descriptions)
+{
+    for (Player *p : m_game->getPlayers())
+        p->sendBoardDescription(board, descriptions);
+}
+
 void BroadcastNotifier::sendCharacter(Character *c)
 {
     foreach (Player *p, m_game->getPlayers()) {

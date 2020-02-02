@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QVariantMap>
 #include <fielddata.h>
+#include <gamefielddata.h>
 
 class AhFieldItem;
 
@@ -30,15 +31,12 @@ public:
 public slots:
     void updateBoardFromData(QVariantMap boardMap);
     void setTerrorLevel(int level);
+    void initNeighbourHoodFromBoardData(QList<AH::Common::GameFieldData> boardMap);
 
 signals:
     void itemInfoRequested(QString id);
     void fieldClicked(AH::Common::FieldData::FieldID id);
-
-public slots:
-
-private:
-    void initNeighbourHoodFromBoardData(QVariantMap boardMap);
+    void fieldInfoRequested(AH::Common::FieldData::FieldID id);
 
 private:
     QMap<AH::Common::FieldData::FieldID, AhFieldItem *> m_fieldMap;

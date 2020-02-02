@@ -17,6 +17,7 @@ struct Utils {
     static QString stringForDimension(AH::Dimension dim);
     static QStringList stringsForDimensions(AH::Dimensions dims);
     static QString stringForField(AH::Common::FieldData::FieldID fid);
+    static QString stringForFieldType(AH::Common::FieldData::FieldType fType);
     static QString stringForMovement(AH::Common::MonsterData::MovementType m);
     static QString stringForMonsterAttribute(AH::Common::MonsterData::MonsterAttribute a);
     static QStringList stringsForMonsterAttributes(AH::Common::MonsterData::MonsterAttributes attrs);

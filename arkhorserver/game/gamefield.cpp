@@ -164,11 +164,11 @@ void GameField::removeMonster(Monster *m)
     }
 }
 
-QStringList GameField::fieldOptionIds() const
+QList<AH::Common::GameFieldData::FieldOptionDescription> GameField::fieldOptions() const
 {
-    QStringList ret;
+    QList<FieldOptionDescription> ret;
     for (auto o : m_options) {
-        ret << o->id();
+        ret << FieldOptionDescription{o->id(), o->name(), o->sourceId()};
     }
     return ret;
 }

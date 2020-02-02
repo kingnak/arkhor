@@ -269,6 +269,18 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
         break;
     }
 
+    case AH::Common::Message::S_BOARD_DESCRIPTION:
+    {
+        QVariantMap m, b, d;
+        msg.payload >> m;
+        m["board"] >> b;
+        m["descriptions"] >> d;
+        M_MAIN(
+        emit boardDescription(b, d);
+        )
+        break;
+    }
+
     case AH::Common::Message::S_SETTING_DATA:
     {
         M_MAIN(

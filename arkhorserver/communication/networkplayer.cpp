@@ -91,6 +91,18 @@ void NetworkPlayer::sendBoard(GameBoard *board)
     m_conn->sendMessage(Message::S_BOARD_CONTENT, m);
 }
 
+void NetworkPlayer::sendBoardDescription(GameBoard *board, QVariantMap descriptions)
+{
+    QVariantMap boardMap;
+    foreach (GameField *f, board->allFields()) {
+        boardMap[QString::number(f->id())] << *f->data();
+    }
+    QVariantMap map;
+    map["board"] << boardMap;
+    map["descriptions"] << descriptions;
+    m_conn->sendMessage(Message::S_BOARD_DESCRIPTION, map);
+}
+
 void NetworkPlayer::sendCharacter(Character *c)
 {
     QVariant v;

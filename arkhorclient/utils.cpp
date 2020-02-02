@@ -174,6 +174,19 @@ QString Utils::stringForField(FieldData::FieldID fid)
     return "";
 }
 
+QString Utils::stringForFieldType(FieldData::FieldType fType)
+{
+    switch (fType) {
+    case FieldData::FieldType::Sky: return "Sky";
+    case FieldData::FieldType::Street: return "Street";
+    case FieldData::FieldType::Location: return "Location";
+    case FieldData::FieldType::Outskirts: return "Outskirts";
+    case FieldData::FieldType::OtherWorld: return "Other World";
+    case FieldData::FieldType::SpaceAndTime: return "Time and Space";
+    }
+    return "";
+}
+
 QString Utils::stringForMovement(MonsterData::MovementType m)
 {
     switch (m)

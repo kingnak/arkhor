@@ -226,6 +226,7 @@ private:
     int countActivePlayers() const;
 
     void sendBoard();
+    void sendBoardDescription();
     void sendSetting();
 
 private:

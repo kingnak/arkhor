@@ -31,6 +31,7 @@ public:
     virtual void startGame() = 0;
 
     virtual void sendBoard(GameBoard *board) = 0;
+    virtual void sendBoardDescription(GameBoard *board, QVariantMap descriptions) = 0;
     virtual void sendCharacter(Character *c) = 0;
     virtual void sendSetting(AH::Common::GameSettingData data) = 0;
 

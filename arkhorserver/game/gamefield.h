@@ -59,7 +59,7 @@ public:
     void removeCharacter(Character *c);
     void removeMonster(Monster *m);
 
-    virtual QStringList fieldOptionIds() const override;
+    virtual QList<FieldOptionDescription> fieldOptions() const override;
     virtual QStringList characterIds() const;
     virtual QStringList secondPhaseCharacterIds() const;
     virtual QStringList monsterIds() const;

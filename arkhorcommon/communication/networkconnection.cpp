@@ -24,6 +24,7 @@ QString msg_to_str(AH::Common::Message::Type t) {
     case AH::Common::Message::Type::C_START_GAME: return "C_START_GAME";
     case AH::Common::Message::Type::S_GAME_STARTED: return "S_GAME_STARTED";
     case AH::Common::Message::Type::S_BOARD_CONTENT: return "S_BOARD_CONTENT";
+    case AH::Common::Message::Type::S_BOARD_DESCRIPTION: return "S_BOARD_DESCRIPTION";
     case AH::Common::Message::Type::S_CHARACTER_DATA: return "S_CHARACTER_DATA";
     case AH::Common::Message::Type::S_SETTING_DATA: return "S_SETTING_DATA";
     case AH::Common::Message::Type::C_REQUEST_OBJECTS: return "C_REQUEST_OBJECTS";

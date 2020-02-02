@@ -132,6 +132,7 @@ void Game::start()
     m_notifier->startGame();
 
     initInvestigators();
+    sendBoardDescription();
 
     initPhases();
     play();
@@ -1756,6 +1757,21 @@ int Game::countActivePlayers() const
 void Game::sendBoard()
 {
     m_notifier->sendBoard(m_board);
+}
+
+void Game::sendBoardDescription()
+{
+    QVariantMap descs;
+    for (auto f : m_board->allFields()) {
+        QList<AH::Common::GameFieldData::FieldOptionDescription> opts;
+        for (auto o : f->getFieldOptions()) {
+            if (o->id().startsWith("FIELD_")) {
+                opts << AH::Common::GameFieldData::FieldOptionDescription{o->id(), o->name(), o->description()};
+            }
+        }
+        descs[QString::number(f->id())] << opts;
+    }
+    m_notifier->sendBoardDescription(m_board, descs);
 }
 
 void Game::sendSetting()

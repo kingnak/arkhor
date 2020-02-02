@@ -1,4 +1,4 @@
-OtherWorldEncounter RlyehGlowingLight {
+OtherWorldEncounter {
     field: OW_R_lyeh;
     color: Yellow;
     description: "A horrible visage captures your gaze. Pass a <b>Will (+0) check</b> to look away or lose 1 Stamina and stay here next turn.";
@@ -23,9 +23,24 @@ OtherWorldEncounter RlyehMonster1 {
     options: Option.MonsterAppearsOW;
 }
 
-/*
-r	Hurricane winds smash you against the cyclopean stones. Pass a Fight (-1) check or lose 3 Stamina.
+OtherWorldEncounter {
+    field: OW_R_lyeh;
+    color: Red;
+    description: "Hurricane winds smash you against the cyclopean stones. Pass a <b>Fight (-1) check</b> or lose 3 Stamina.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Fight;
+            activate: {{{
+                var res = game.context.skillTest("Withstand wind", this.id, Constants.Skills.Fight, -1, 1);
+                if (!res) {
+                    CHAR.damageStamina(3);
+                }
+            }}};
+        }
+    };
+}
 
+/*
 r	Pass a Speed (-1) check or you slip and slide down a barnacled surface, slashing your skin to ribbons. Lose 3 Stamina.
 
 r	Slip on wet stones and slide into a pit. Pass a Luck (+0) check to climb out. If you fail, lose 1 Sanity and stay here next turn.

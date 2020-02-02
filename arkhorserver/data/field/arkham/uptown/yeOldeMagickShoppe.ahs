@@ -52,7 +52,7 @@ ArkhamEncounter {
 ArkhamEncounter {
     field: UT_YeOldeMagickShoppe;
     description: 'Miriam Beecher, the shopkeeper, peers closely at your face, then screams, '+
-                 '"They've marked you! Get out! Get out!" and throws you out. '+
+                 '"They\'ve marked you! Get out! Get out!" and throws you out. '+
                  'Move to the street and lose 1 Sanity from this unsettling incident.';
     options: {AEOption {
         activate: {{{

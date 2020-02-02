@@ -23,9 +23,32 @@ OtherWorldEncounter LengRumble {
     };
 }
 
-/*
-g	Pass a Luck (-2) check to find some useful things among the bones. If so, draw 1 Common Item and 1 Spell.
+OtherWorldEncounter {
+    field: OW_PlateauOfLeng;
+    color: Green;
+    description: "Pass a <b>Luck (-2) check</b> to find some useful things among the bones. If so, draw 1 Common Item and 1 Spell.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Luck;
+            activate: {{{
+                var res = game.context.skillTest("Find something usefull", this.id, Constants.Skills.Luck, -2, 1);
+                if (res) {
+                    var types = [
+                        {type: Constants.ObjectType.CommonItem, amount: 1},
+                        {type: Constants.ObjectType.Spell, amount: 1},
+                    ];
+                    var sels = game.context.drawMixedObjects("Found Items", this.id, types, 0, 1000);
+                    for (var i = 0; i < sels.length; ++i) {
+                        var item = sels[i];
+                        CHAR.addToInventory(item);
+                    }
+                }
+            }}};
+        }
+    };
+}
 
+/*
 g	The hooved, wide-mouthed traders of this land are wealthy, but dangerous. You may make a Lore (-2) check to trade with them. If you pass, gain $6. If you fail, you are lost in time and space.
 
 r	The loathsome villagers send out their strongest warrior to fight you in unarmed combat. Pass a Fight (-1) [2] check to defeat him and draw 1 Unique Item and gain 1 Clue token. Otherwise lose 1 Sanity and 2 Stamina.

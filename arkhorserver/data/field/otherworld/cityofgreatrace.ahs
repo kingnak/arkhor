@@ -29,9 +29,21 @@ OtherWorldEncounter CityInsight {
     };
 }
 
-/*
-g	Pass a Luck (-1) check to find something useful among the incomprehensible artifacts. If so, draw 1 Unique Item.
+OtherWorldEncounter {
+    field: OW_CityOfGreatRace;
+    color: Green;
+    description: "Pass a <b>Luck (-1) check</b> to find something useful among the incomprehensible artifacts. If so, draw 1 Unique Item.";
+    options: {OWEOption {
+        baseProperty: DieRoll_Luck;
+        activate: {{{
+            var res = game.context.skillTest("Find something usefull", this.id, Constants.Lore.Luck, -1, 1);
+            if (res)
+                game.utility.drawRandomItem(Constants.ObjectType.UniqueItem, "Find Item", this.id);
+        }}};
+    }};
+}
 
+/*
 g	Sometimes, violence is the answer. Pass a Fight (-1) check to break free of your captors and return to Arkham.
 
 y	The buzzing language of your captors begins to make sense to you. Gain 2 Clue tokens. The you must pass a Luck (-1) check to avoid hearing about the origins of mankind and thereby lose 2 Sanity.

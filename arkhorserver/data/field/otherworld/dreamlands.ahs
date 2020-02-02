@@ -32,9 +32,25 @@ OtherWorldEncounter DreamlandsCliff {
     };
 }
 
-/*
-b	At the south gate of Thran, you are stopped by a red-robed sentry until you can tell three dreams beyond belief. Pass a Luck (-1) check to tour the golden spires of Thran, gaining 2 Clue tokens in the process. If you fail, stay here next turn.
+OtherWorldEncounter {
+    field: OW_TheDreamlands;
+    color: Blue;
+    description: "At the south gate of Thran, you are stopped by a red-robed sentry until you can tell three dreams beyond belief. "+
+                 "Pass a <b>Luck (-1) check</b> to tour the golden spires of Thran, gaining 2 Clue tokens in the process. "+
+                 "If you fail, stay here next turn.";
+    options: {OWEOption {
+        baseProperty: DieRoll_Luck;
+        activate: {{{
+            var res = game.context.skillTest("Tour Thran", this.id, Constants.Lore.Luck, -1, 1);
+            if (res)
+                CHAR.addClue(2);
+            else
+                CHAR.delay(); // TODO: Set out?
+        }}};
+    }};
+}
 
+/*
 r	Avalanche! Pass a Speed (-1) check or lose 3 Stamina.
 
 r	In the valley of Pnoth, where the dholes crawl and burrow nastily, you hear a slithering among the mountains of bone. Make a Sneak (-1) check. If you fail, you are devoured. If you pass, gain 3 Clue tokens and return immediately to Arkham.

@@ -21,23 +21,29 @@ OtherWorldEncounter AbyssGlowingLight {
     };
 }
 
-OtherWorldEncounter AbyssMonster1 {
-    field: OW_Abyss;
-    color: Blue;
-    description: "A monster appears!";
-    options: Option.MonsterAppearsOW;
-}
-
-OtherWorldEncounter AbyssMonster2 {
+OtherWorldEncounter AbyssMonsterR {
     field: OW_Abyss;
     color: Red;
     description: "A monster appears!";
     options: Option.MonsterAppearsOW;
 }
 
-/*
-rr	Pass a Luck (-1) check or you are faced with an enormous mountain with a strange symbol carved into it, as if by the claw of a gigantic creature. THe world swims around you and you lose 3 Sanity.
+OtherWorldEncounter {
+    field: OW_Abyss;
+    color: Red;
+    description: "Pass a <b>Luck (-1) check</b> or you are faced with an enormous mountain with a strange symbol carved into it, "+
+                 "as if by the claw of a gigantic creature. The world swims around you and you lose 3 Sanity.";
+    options: {OWEOption {
+        baseProperty: DieRoll_Luck;
+        activate: {{{
+            var res = game.context.skillTest("Avoid mountain", this.id, Constants.Skills.Luck, -1, 1);
+            if (!res)
+                CHAR.damageSanity(3);
+        }}};
+    }};
+}
 
+/*
 r	Pass a Speed (-1) check to avoid a monstrous mass. If you fail, you are lost in time and space.
 
 r	Starving, you consider eating some of the glowing mushrooms. If you decide to do so, make a Luck (-1) check. If you fail, roll a die and lose that much Stamina. If you succeed, roll a die and gain that much Stamina.

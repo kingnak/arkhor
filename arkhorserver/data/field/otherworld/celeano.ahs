@@ -22,9 +22,21 @@ OtherWorldEncounter CeleanoProfessor {
     };
 }
 
-/*
-b	As you read the page, you realize that you have stumbled into a written trap. Pass a Lore (-1) check or you are Cursed.
+OtherWorldEncounter {
+    field: OW_Celeano;
+    color: Blue;
+    description: "As you read the page, you realize that you have stumbled into a written trap. Pass a <b>Lore (-1) check</b> or you are Cursed.";
+    options: {OWEOption {
+        baseProperty: DieRoll_Lore;
+        activate: {{{
+            var res = game.context.skillTest("Read page", this.id, Constants.Lore.Luck, -1, 1);
+            if (!res)
+                game.utility.curseCharacter(CHAR);
+        }}};
+    }};
+}
 
+/*
 b	Pass a Luck (-1) check or the book is a prison. If you fail, roll a die. On a failure, a monster appears from the book. On a success, you are drawn into the book for a time. Stay here next turn.
 
 g	Pass a Luck (-2) check to find a book small enough to carry. Search the Unique Item deck and take the first Tome you find.

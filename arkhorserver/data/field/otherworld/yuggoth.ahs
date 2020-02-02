@@ -28,9 +28,27 @@ OtherWorldEncounter YuggothStrangeCreature {
     };
 }
 
-/*
-y	An alien mind forces its way into your body. Pass a Luck (-2) check to guess a way to drive it out, gaining 2 Clue tokens in the process, or else stay here next turn, serving as its host body.
+OtherWorldEncounter {
+    field: OW_Yuggoth;
+    color: Yellow;
+    description: "An alien mind forces its way into your body. Pass a <b>Luck (-2) check</b> to guess a way to drive it out, "+
+                 "gaining 2 Clue tokens in the process, or else stay here next turn, serving as its host body.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Luck;
+            activate: {{{
+                var res = game.context.skillTest("Drive out alien mind", this.id, Constants.Skills.Luck, -2, 1);
+                if (res) {
+                    CHAR.addClue(2);
+                } else {
+                    CHAR.delay(); // TODO : Set out?
+                }
+            }}};
+        }
+    };
+}
 
+/*
 y	Breathing hard, you stay huddled against the rock until the sounds of pursuit fade into the distance. No encounter.
 
 b	Exposure and fear weaken your mind. Pass a Will (-2) check or you must lose either 2 Spells of your choice or lose 2 Sanity.

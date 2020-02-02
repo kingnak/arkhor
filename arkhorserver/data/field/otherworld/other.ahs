@@ -34,16 +34,56 @@ OtherWorldEncounter OtherMonsterR {
     options: Option.MonsterAppearsOW;
 }
 
+OtherWorldEncounter OtherMonsterB2 {
+    color: Blue;
+    description: "A monster appears!";
+    options: Option.MonsterAppearsOW;
+}
+
+OtherWorldEncounter OtherMonsterY {
+    color: Yellow;
+    description: "A monster appears!";
+    options: Option.MonsterAppearsOW;
+}
+
+OtherWorldEncounter {
+    color: Green;
+    description: "Carefully, you avoid the gaze of a gigantic eye watching an alter. "+
+                 "You may try to pass a <b>Sneak (-1) check</b> to steal a scroll from the dais. "+
+                 "Draw 1 Spell. If you fail, you are racked by pain and lose 3 Sanity.";
+    options: (Option.SKIP, {
+        OWEOption {
+            baseProperty: DieRoll_Sneak;
+            activate: {{{
+                var res = game.context.skillTest("Sneak to altar", this.id, Constants.Skills.Sneak, -1, 1);
+                if (res)
+                    game.utility.drawRandomItem(Constants.ObjectType.Spell, "Get Spell", this.id);
+                else
+                    CHAR.damageSanity(3);
+            }}};
+        }
+    });
+}
+
+OtherWorldEncounter {
+    color: Red;
+    description: "Pass a <b>Luck (-1) check</b> to discover a useful object in your wanderings. Draw 1 Unique Item.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Luck;
+            activate: {{{
+                var res = game.context.skillTest("Discover useful object", this.id, Constants.Skills.Luck, -1, 1);
+                if (res)
+                    game.utility.drawRandomItem(Constants.ObjectType.UniqueItem, "Found Item", this.id);
+            }}};
+        }
+    };
+}
+
 /*
-b	A monster appears!
-
-y	A monster appears!
-
 y	A monster appears from the shadows!
 
 y	A ripple in the air passes over you. Pass a Lore (-1) check or lose 1 Spell of your choice as it is burned from your mind.
-
-g	Carefully, you avoid the gaze of a gigantic eye watching an alter. You may try to pass a Sneak (-1) check to steal a scroll from the dais. Draw 1 Spell. If you fail, you are racked by pain and lose 3 Sanity.
 
 b	Luck is with you. You stumble on a cache of supplies. Draw 1 Common Item.
 
@@ -56,8 +96,6 @@ b	Pass a Fight (-2) check to lever back the lid of the stone chest. Inside, you 
 g	Pass a Fight (-2) check to pry open a grate you find built into the wall. Inside, you find something fascinating. Draw 1 Unique Item.
 
 b	Pass a Luck (-1) check to discover a cache of ancient papers containing valuable information about the Mythos. Gain 1 Clue token for every success you rolled on your Luck check.
-
-r	Pass a Luck (-1) check to discover a useful object in your wanderings. Draw 1 Unique Item.
 
 g	Pass a Luck (-1) check to discover a vital document. Gain 2 Clue tokens.
 

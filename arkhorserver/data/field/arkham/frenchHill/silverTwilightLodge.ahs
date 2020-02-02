@@ -1,3 +1,12 @@
+FieldOption Lodge_Membership {
+    name: "Inner Sanctum";
+    description: "If you have a Silver Twilight Membership, then you look at the Inner Sanctum entry when having encounters here.";
+    field: FH_SilverTwilightLodge;
+    activate: {{{}}};
+    isAvailable: false;
+    chooseType: Supplemental;
+}
+
 ArkhamEncounter Lodge_Enc1 {
     field: FH_SilverTwilightLodge;
     description: "\"Care to join the Order?\" Carl Sanford "+

@@ -937,7 +937,9 @@ PropertyModificationList Game::getGameModifiers()
     if (m_environment) {
         ret = m_environment->getModifications();
     }
-    ret += ancientOne()->getSlumberModifications();
+    if (ancientOne()) {
+        ret += ancientOne()->getSlumberModifications();
+    }
     return ret;
 }
 

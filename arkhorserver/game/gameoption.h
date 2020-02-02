@@ -29,6 +29,7 @@ public:
     };
 
     void setId(QString id) { m_id = id; }
+    void setSourceId(QString id) { m_sourceId = id; }
 
     GameOptionData *data();
 

@@ -30,6 +30,7 @@ HEADERS += \
     die/dierollresult.h \
     die/dierollsumevaluator.h \
     die/dierolltest.h \
+    game/fakegameoption.h \
     game/actions/arkhamencounteryaction.h \
     game/actions/closegateaction.h \
     game/actions/entergateaction.h \
@@ -131,6 +132,7 @@ SOURCES += \
     die/dierollresult.cpp \
     die/dierollsumevaluator.cpp \
     die/dierolltest.cpp \
+    game/fakegameoption.cpp \
     game/actions/arkhamencounteryaction.cpp \
     game/actions/closegateaction.cpp \
     game/actions/entergateaction.cpp \

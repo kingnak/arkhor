@@ -5,6 +5,7 @@
 #include "monstermodifierscript.h"
 #include "characterscript.h"
 #include "monsterscript.h"
+#include "game/fakegameoption.h"
 #include <QDebug>
 
 MythosCardScript::MythosCardScript(QObject *parent) : DynamicScriptableObject(parent)
@@ -71,6 +72,14 @@ MythosCardScript *MythosCardScript::createMythosCard(QScriptContext *ctx, QScrip
 
         // Monster Modifications
         MonsterModifierScript::parseMonsterModifications(data, *ret, ret.data());
+
+        if (ret->m_envFieldId != AH::Common::FieldData::NO_NO_FIELD && ret->m_envFieldOptionId.isEmpty()) {
+            //auto fo = GameOptionScript::createFakeGameOption(ret->name(), ret->description());
+            auto fo = new FakeGameOption("FOP_"+ret->m_id, ret->m_name, ret->m_desc);
+            gGame->registerAction(fo->action());
+            gGame->registerOption(fo);
+            ret->m_envFieldOptionId = fo->id();
+        }
     }
 
     // Rumor
@@ -107,7 +116,7 @@ bool MythosCardScript::resolveDependencies()
             qCritical() << "Cannot resolve rumor field option:" << m_rumorFieldOptionId;
             return false;
         }
-        dynamic_cast<GameOptionScript*>(opt)->setSourceId(this->id());
+        opt->setSourceId(this->id());
         m_rumorFieldOption = opt;
     }
     if (type() == Environment && !m_envFieldOptionId.isEmpty()) {
@@ -116,7 +125,7 @@ bool MythosCardScript::resolveDependencies()
             qCritical() << "Cannot resolve environment field option:" << m_envFieldOptionId;
             return false;
         }
-        dynamic_cast<GameOptionScript*>(opt)->setSourceId(this->id());
+        opt->setSourceId(this->id());
         m_envFieldOption = opt;
     }
 

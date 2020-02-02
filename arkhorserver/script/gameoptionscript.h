@@ -26,8 +26,6 @@ public:
 
     bool isAvailableWithObject(QScriptValue obj) const;
 
-    void setSourceId(QString id) { m_sourceId = id; }
-
 signals:
 
 public slots:

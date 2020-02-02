@@ -43,8 +43,17 @@ AEOption Church_Enc2 {
     }}};
 }
 
+ArkhamEncounter {
+    field: SS_SouthChurch;
+    description: 'Noticing you eying the holy water, Father Michael tells you, "Take what you need, my child." You may search the Unique Item deck for a Holy Water card and take it.';
+    options: {AEOption {
+        activate: {{{
+            CHAR.addToInventory(game.drawSpecificObject(UniqueItem.HolyWater));
+        }}};
+    }};
+}
+
 /*
-Noticing you eying the holy water, Father Michael tells you, "Take what you need, my child." You may search the Unique Item deck for a Holy Water card and take it.
 Upon entering the church, you are attacked by Father Michael with a giant cross, who for some reason believes you to be in league with the devil. Make a Speed (-1) check. If you pass, you escape. If you fail, lose 2 Stamina. In either case, move to the street.	Speed -1
 You could swear a drain pipe gargoyle moved. Lose 1 Sanity.
 You enter the confessional. "Bless me, Father, for I have sinned." Make a Luck (+0) check and consult the chart below:

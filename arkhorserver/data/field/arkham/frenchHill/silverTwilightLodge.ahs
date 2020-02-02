@@ -57,9 +57,28 @@ AEOption Lodge_Enc2 {
     }}};
 }
 
+ArkhamEncounter {
+    field: FH_SilverTwilightLodge;
+    description: "Carl Sanford draws you into the study to talk and you feel the cold creep of dread listening to him. "+
+                 "Make a <b>Lore (-1) check</b>. If you pass, your willpower stands up to the test of the ancient wizard "+
+                 "and you even learn something of value. Gain 3 Clue tokens. If you fail, his hypnotic tones lull you into a trance. "+
+                 "The conversation seems short, but when you leave the study, much time has passed and your thoughts are confused. "+
+                 "Lose all of your Clue tokens and move to the street.";
+    options: {AEOption {
+        baseProperty: DieRoll_Lore;
+        activate: {{{
+            var res = game.context.skillTest("Take test", this.id, Constants.Skills.Lore, -1, 1);
+            if (res) {
+                CHAR.addClue(3);
+            } else {
+                CHAR.loseClue(CHAR.clues);
+                CHAR.placeOnField(FH_FrenchHill);
+            }
+        }}};
+    }};
+}
+
 /*
-Carl Sanford draws you into the study to talk and you feel the cold creep of dread listening to him. Make a Lore (-1) check. If you pass, your willpower stands up to the test of the ancient wizard and you even learn something of value. Gain 3 Clue tokens. If you fail, his hypnotic tones lull you into a trance. The conversation seems short, but when you leave the study, much time has passed and your thoughts are confused. Lose all of your Clue tokens and move to the street.	Lore -1
-Make a Sneak (-2) check. If you pass, you slip into the temple area of the Lodge and find 2 items of interest. Roll a die for each item. On a success, draw a Unique Item, otherwise draw a Common Item.	Sneak -2
 You find an old parchment in the study. Pass a Lore (-1) check to draw 2 Spells and keep one of your choice.	Lore -1
 You hear the quiet sounds of an intruder. If you investigate, you find a woman dressed in black. She attacks you as soon as she sees you. Pass a Fight (-1) check to subdue her long enough to explain your investigation. You find out that her name is Ruby Standish and that she was robbing the Lodge. However, upon hearing your tale, she agrees to join you. Take her Ally card. If it is not available, draw a Unique Item instead.
 */

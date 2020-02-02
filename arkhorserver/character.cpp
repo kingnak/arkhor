@@ -307,7 +307,7 @@ bool Character::pay(const CostList &cost)
     return res;
 }
 
-void Character::loseClues()
+void Character::loseHalfClues()
 {
     int cluesOld = m_clues;
     m_clues = (m_clues+1)/2;
@@ -327,7 +327,7 @@ void Character::losePossessions(int count, const QString &sourceId)
 
 void Character::arrest()
 {
-    loseClues();
+    loseHalfClues();
     gGame->board()->field(AH::Common::FieldData::ET_PoliceStation)->placeCharacter(this);
     setDelayed(true);
     setSetout(true);
@@ -499,6 +499,13 @@ void Character::addClue(int amount)
     m_clues += amount;
     gGame->characterDirty(this);
     gGame->notifier()->notifySimple("{C} gained {D}", gGame->playerForCharacter(this), QString("%1 clues").arg(amount));
+}
+
+void Character::loseClue(int amount)
+{
+    m_clues -= amount;
+    gGame->characterDirty(this);
+    gGame->notifier()->notifySimple("{C} lost {D}", gGame->playerForCharacter(this), QString("%1 clues").arg(amount));
 }
 
 void Character::addMoney(int amount)

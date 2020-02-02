@@ -44,7 +44,10 @@ public:
 
     Q_INVOKABLE bool commitDamage() { return Character::commitDamage(); }
 
+    Q_PROPERTY(int clues READ clues)
     Q_INVOKABLE void addClue(int amount) { Character::addClue(amount); }
+    Q_INVOKABLE void loseClue(int amount) { Character::loseClue(amount); }
+    Q_PROPERTY(int money READ money)
     Q_INVOKABLE void addMoney(int amount) { Character::addMoney(amount); }
     Q_INVOKABLE void loseMoney(int amount) { Character::loseMoney(amount); }
     Q_INVOKABLE void loseHalfMoney() { Character::loseMoney(money()/2); }

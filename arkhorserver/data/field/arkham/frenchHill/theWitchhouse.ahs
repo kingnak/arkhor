@@ -33,8 +33,19 @@ ArkhamEncounter Witchhouse_Enc2 {
     options: Option.GateAndMonsterAppears;
 }
 
+ArkhamEncounter {
+    field: FH_TheWitchHouse;
+    description: "In an old journal you learn some horrible eldritch secrets. Roll a die. Lose that much Sanity and gain that many Clue tokens.";
+    options: {AEOption {
+        activate: {{{
+            var res = game.context.genericDieRollSum("Learn horrible secrets", this.id, 1);
+            CHAR.damageSanity(res);
+            CHAR.addClue(res);
+        }}};
+    }};
+}
+
 /*
-In an old journal you learn some horrible eldritch secrets. Roll a die. Lose that much Sanity and gain that many Clue tokens.
 Pass a Luck (-1) check to find an odd-looking item in an old dusty display case. Draw 1 Unique Item.	Luck -1
 You are overcome by the echoing chants of the long-gone witches who have lived and died here - you pass out. Make a Will (-2) check. If you pass, you learn an ancient spell in your dreams. Draw 1 Spell. If you fail, you are missing half your items when you wake up. Discard half of your items (your choice, round down).	Will -2
 You feel the house actually breathe and speak your name. Lose 1 Sanity.

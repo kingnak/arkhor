@@ -22,8 +22,42 @@ AEOption Woods_Enc2 {
     }}};
 }
 
+ArkhamEncounter {
+    field: UT_Woods;
+    description: "You come across a cringing dog. Pass a <b>Speed (-2) check</b> to catch and calm him. "+
+                 "If you have Food, you can discard that to automatically pass the check instead of rolling. "+
+                 "You see by his collar that he is named Duke. Take his Ally card. If it isn't available, "+
+                 "gain $3 as a reward for returning him to his owner, instead.";
+    options: (
+        {AEOption {
+            baseProperty: DieRoll_Speed;
+            activate: {{{
+                var res = game.context.skillTest("Catch the dog", this.id, Constants.Skills.Speed, -2, 1);
+                if (!res) return;
+                var duke = game.drawSpecificObject(Ally.Duke);
+                if (duke) {
+                    CHAR.addToInventory(duke);
+                } else {
+                    CHAR.addMoney(3);
+                }
+            }}};
+        }},
+        {AEOption {
+            isAvailable: {{{ return game.utility.hasObject(CHAR, CommonItem.Food); }}};
+            activate: {{{
+                CHAR.removeTypeFromInventory(CommonItem.Food);
+                var duke = game.drawSpecificObject(Ally.Duke);
+                if (duke) {
+                    CHAR.addToInventory(duke);
+                } else {
+                    CHAR.addMoney(3);
+                }
+            }}};
+        }}
+    );
+}
+
 /*
-You come across a cringing dog. Pass a Speed (-2) check to catch and calm him. If you have Food, you can discard that to automatically pass the check instead of rolling. You see by his collar that he is named Duke. Take his Ally card. If it isn't available, gain $3 as a reward for returning him to his owner, instead.	Speed -2
 You find a sleeping Sheldon Gang member near the still. Make a Sneak (-2) check to try to swipe the shotgun he has dropped on the ground. If you pass, take a Shotgun from the Common Item deck if there is one. If you fail, the guard awakens. You are caught and beaten, losing 2 Stamina, but you escape with your life. Move to the street.	Sneak -2
 You have stumbled on a still owned by the Sheldon Gang. Make a Sneak (-1) check. If you pass, skulk away without being seen. If you fail, lose 2 Stamina as the Sheldon Gang works you over while escorting you from the woods. In either case, move to the street.	Sneak -1
 You meet an old wise man in the grove who offers to share his wisdom with you. If you accept, lose your next turn and make a Lore (-2) check. If you pass, you may draw 1 Skill, or draw 2 Spells, or gain 4 Clue tokens. If you fail, nothing happens.	Lore -2

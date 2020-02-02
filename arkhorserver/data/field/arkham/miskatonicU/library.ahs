@@ -35,8 +35,18 @@ AEOption Lib_Enc2 {
     }}};
 }
 
+ArkhamEncounter {
+    field: MU_Library;
+    description: "Overdue book fines of $4. Pay up, or move to the street!";
+    options: {AEOption {
+        activate: {{{
+            if (!CHAR.pay({type: Constants.Costs.Money, amount: 4}))
+                CHAR.placeOnField(MU_MiskatonicU);
+        }}};
+    }};
+}
+
 /*
-Overdue book fines of $4. Pay up, or move to the street!
 Pass a Luck (-2) check to find $5 someone was using as a bookmark.	Luck -2
 You doze off and enter the Dreamlands. Have an encounter there, then immediately return here.
 You find an unusual book that radiates evil at the touch. You begin to read and are drawn to it. Make a Lore (-2) check. If you pass, you obtain vast knowledge of the eldritch threat. Roll a die and gain that many Clue tokens. If you fail, the book consumes you-- mind and soul-- lose 2 Sanity and 2 Stamina.	Lore -2

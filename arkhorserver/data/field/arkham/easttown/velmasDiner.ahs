@@ -67,8 +67,17 @@ AEOption Velmas_Enc2 {
     }}};
 }
 
+ArkhamEncounter {
+    field: ET_VelmasDiner;
+    description: "Velma comments on how skinny you look and gives you a sandwich on the house. You may search the Common Item deck for a Food and take it.";
+    options: {AEOption {
+        activate: {{{
+            CHAR.addToInventory(game.drawSpecificObject(CommonItem.Food));
+        }}};
+    }};
+}
+
 /*
-Velma comments on how skinny you look and gives you a sandwich on the house. You may search the Common Item deck for a Food and take it.
 Velma reads the tea leaves left in your cup. Make a Luck (-1) check. If you pass, the formation of the leaves indicates hope, you are Blessed. If you fail, the future looks bleak, you are Cursed.	Luck -1
 You find some money on the floor under the back booth. If you take it, make a Sneak (-1) check. If you pass, roll a die and gain that much money. If you fail, Velma sees you pick up the money. She comes over and swipes it out of your hands screaming, "Stealing my tips!" so loudly that you flee the diner. Move to the street	Sneak -1
 You get food poisoning! Pass a Luck (-1) check or lose 2 Stamina.	Luck -1

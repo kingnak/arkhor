@@ -56,6 +56,7 @@ public:
     // Fixed values
     int getMaximumFocus() const { return m_maxFocus; }
     void addClue(int amount);
+    void loseClue(int amount);
     void addMoney(int amount);
     void setMovementAmount(int amount) { m_movementPoints = amount; gGame->characterDirty(this); }
     void addMovementPoint(int amount) { m_movementPoints += amount; gGame->characterDirty(this); }
@@ -96,7 +97,7 @@ public:
     bool pay(const AH::Common::Cost &cost);
     bool pay(const AH::Common::CostList &cost);
 
-    void loseClues();
+    void loseHalfClues();
     void loseHalfPossessions(const QString &sourceId = QString::null);
     void losePossessions(int count, const QString &sourceId = QString::null);
     void arrest();

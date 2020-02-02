@@ -27,8 +27,21 @@ ArkhamEncounter InnerSanctum_Enc2 {
     };
 }
 
+ArkhamEncounter {
+    field: FH_InnerSanctum;
+    description: "Pay your monthly dues of $3 or lose 2 Sanity from strange dreams sent to you by Carl Sanford when he kicks you out of the Order. "+
+                 "If you are kicked out, lose your Silver Twilight Lodge Membership.";
+    options: {AEOption {
+        activate: {{{
+            if (!CHAR.pay({type: Constants.Costs.Money, amount: 3})) {
+                CHAR.damageSanity(2);
+                CHAR.removeTypeFromInventory(SpecialObject.LodgeMembership);
+            }
+        }}};
+    }};
+}
+
 /*
-Pay your monthly dues of $3 or lose 2 Sanity from strange dreams sent to you by Carl Sanford when he kicks you out of the Order. If you are kicked out, lose your Silver Twilight Lodge Membership.
 The Order of the Silver Twilight casts a banishment spell in their monthly ceremony. Spend 1 Sanity to make a Luck (-1) check. If you pass, claim any one monster on the board as a trophy. If you fail, nothing happens.	Luck -1
 You are allowed into the vault of Silver Secrets. Pass a Luck (-2) check to steal a very unusual item. Search the Unique Item deck and take any one Unique Item you want.	Luck -2
 You attend a ceremony in which the order opens a gate and a monster bursts out of it before the gate closes once more. A monster appears!

@@ -29,6 +29,27 @@ ArkhamEncounter {
     };
 }
 
+ArkhamEncounter {
+    field: DT_IndependenceSquare;
+    description: "Make a <b>Will (-1) check</b>. If you pass it, Anna Kaslow the fortune teller offers "+
+                 "her help in your investigation. Take her Ally card if it is still available. "+
+                 "Otherwise, gain 2 Clue tokens. If you fail, nothing happens.";
+    options: {AEOption {
+        baseProperty: DieRoll_Will;
+        activate: {{{
+            var res = game.context.skillTest("Get help from Anna", this.id, Constants.Skills.Will, -1, 1);
+            if (res) {
+                var o = game.drawSpecificObject(Ally.AnnaKaslow);
+                if (o) {
+                    CHAR.addToInventory(o);
+                } else {
+                    CHAR.addClue(2);
+                }
+            }
+        }}};
+    }};
+}
+
 /*
 Make a Will (-1) check. If you pass it, Anna Kaslow the fortune teller offers her help in your investigation. Take her Ally card if it is still available. Otherwise, gain 2 Clue tokens. If you fail, nothing happens.	Will -1
 Pass a Fight (-1) check to intimidate a policeman or he rousts you from the park. Move to the street.	Fight -1

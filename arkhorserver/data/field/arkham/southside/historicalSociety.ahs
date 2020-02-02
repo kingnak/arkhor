@@ -48,8 +48,15 @@ AEOption Hist_Enc2_Refuse {
     }}};
 }
 
+ArkhamEncounter {
+    field: SS_HistoricalSociety;
+    description: "Perusing the county records, you discover something horrifying about your family tree. Lose 1 Sanity.";
+    options: {AEOption {
+        activate: {{{ CHAR.damageSanity(1); }}};
+    }};
+}
+
 /*
-Perusing the county records, you discover something horrifying about your family tree. Lose 1 Sanity.
 The Society members are bird watching in the woods. The janitor offers you a ride there. If you accept, move to the Woods and draw 2 cards, encountering one card of your choice and discarding the other.
 You encounter a friendly old professor from Miskatonic University. If you spend 1 gate trophy, he introduces himself as Professor Armitage and offers to join forces with you. Take his Ally card if it is available, otherwise draw 1 Unique Item.
 You meet Cindy Fleming, a young geology professor at the University. She offers to show you some interesting formations at the Black Cave. If you accept, move to the Black Cave and draw 2 cards, encountering one card of your choice and discarding the other.

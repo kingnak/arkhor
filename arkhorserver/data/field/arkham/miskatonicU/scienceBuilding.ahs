@@ -95,9 +95,18 @@ ArkhamEncounter {
     }};
 }
 
+ArkhamEncounter {
+    field: MU_ScienceBuilding;
+    description: "As you enter the Department of Alchemy, a professor looks up in horror. He grabs an ancient artifact from a "+
+                 "locked drawer in his desk and holds it up before your face, chanting and making symbolic motions with the item. "+
+                 "If you are Cursed, discard the Curse. If you are not Cursed, then you are Blessed.";
+    options: {AEOption {
+        activate: {{{ game.utility.blessCharacter(CHAR); }}};
+    }};
+}
+
 /*
 
-As you enter the Department of Alchemy, a professor looks up in horror. He grabs an ancient artifact from a locked drawer in his desk and holds it up before your face, chanting and making symbolic motions with the item. If you are Cursed, discard the Curse. If you are not Cursed, then you are Blessed.
 Assisting a professor in his research, you find a valuable Spell. Draw 1 Spell. However, you must make a Fight (-1) check or some sticky-fingered student steals one of your items. Lose 1 Item of your choice.	Fight -1
 You find a muscular, bored-looking man who challenges you to an arm wrestling match. Lose 2 Stamina if you accept. If this does not knock you unconscious, Sir William Brinton laughs and slaps your shoulder, offering to join your investigation. Take his Ally card. If it is not available, gain $5 instead.
 You find a student pounding on a strange device that he has hooked up to massive machinery. He states that it is a dimensional beam machine. If you offer to help him, make a Lore (-2) check. If you pass, beams shoot out in all directions, disrupting the gates open throughout the board. Roll a die for each open gate one at a time. On a success the gate is closed. However, you may not take it as a trophy, but instead return it to the pile of gate markers. If you fail, the machinery overheats and explodes. Roll a die and lose that much Stamina, then move to St. Mary's Hospital.

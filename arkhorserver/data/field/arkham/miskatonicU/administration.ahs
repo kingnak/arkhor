@@ -50,8 +50,20 @@ AEOption Admin_Enc2 {
     }}};
 }
 
+ArkhamEncounter {
+    field: MU_Administration;
+    description: "Pass a <b>Will (-1) check</b> to get the Dean to offer you a retainer to write a manuscript for the college. Gain a Retainer card.";
+    options: {AEOption {
+        baseProperty: DieRoll_Will;
+        activate: {{{
+            var res = game.context.skillTest("Take offer", this.id, Constants.Skills.Will, -1, 1);
+            if (res)
+                CHAR.addToInventory(game.drawSpecificObject(SpecialObject.Retainer));
+        }}};
+    }};
+}
+
 /*
-Pass a Will (-1) check to get the Dean to offer you a retainer to write a manuscript for the college. Gain a Retainer card.	Will -1
 The Dean introduces you to an anthropology professor who gives you some insight into your investigation. Gain 1 Clue token.
 You may choose to help an anthropology professor and his students decipher an ancient stone tablet. If so, make a Lore (-2) check. If you pass, you correctly interpret it, draw 1 Spell. If you fail, you mispronounce a word and are Cursed.	Lore -2
 Your discussions on the Mythos lead campus security to conclude that you are off your rocker, and they escort you off campus. Move to Arkham Asylum and immediately have an encounter there.

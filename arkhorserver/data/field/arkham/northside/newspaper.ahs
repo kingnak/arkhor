@@ -22,8 +22,22 @@ AEOption News_Enc2 {
     }}};
 }
 
+ArkhamEncounter {
+    field: NS_Newspaper;
+    description: "Flipping through the early edition, you are surprised to see that one of the classified ads "+
+                 "begins with your name. Reading it, you realize that it contains several coded clues to the nature of "+
+                 "the threat that faces Arkham. Pass a <b>Lore (-1) check</b> to gain 3 Clue tokens.";
+    options: {AEOption {
+        baseProperty: DieRoll_Lore;
+        activate: {{{
+            var res = game.context.skillTest("Read ads", Constants.Skills.Lore, this.id, -1, 1);
+            if (res)
+                CHAR.addClue(3);
+        }}};
+    }};
+}
+
 /*
-Flipping through the early edition, you are surprised to see that one of the classified ads begins with your name. Reading it, you realize that it contains several coded clues to the nature of the threat that faces Arkham. Pass a Lore (-1) check to gain 3 Clue tokens.	Lore -1
 Pass a Luck (-1) check to find an article that a local citizen told you would shed light on the recent strange activities. Gain 1 Clue token.
 You accidentally tip over a bottle of ink and are aghast at the pattern the ink forms on the newsroom floor. Lose 1 Sanity.
 You earn a hefty fee for a story and get a ride with Doyle Jefferies, the editior. Gain $2 and move to any location or street area in Arkham. If you move to a location, immediately have an encounter there.

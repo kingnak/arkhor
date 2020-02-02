@@ -56,8 +56,22 @@ ArkhamEncounter Police_Enc2 {
     };
 }
 
+ArkhamEncounter {
+    field: ET_PoliceStation;
+    description: "If you succeed at a <b>Luck (-1) check</b>, then Deputy Dingby absentmindedly leaves you holding his gun. "+
+                 "You may search the Common Item deck for a .38 Revolver card and take it.";
+    options: {AEOption {
+        baseProperty: DieRoll_Luck;
+        activate: {{{
+            var res = game.skillTest("Walk out with gun", this.id, Constants.Skills.Luck, -1, 1);
+            if (res) {
+                CHAR.addToInventory(game.drawSpecificObject(CommonItem.Revolver));
+            }
+        }}};
+    }};
+}
+
 /*
-If you succeed at a Luck (-1) check, then Deputy Dingby absentmindedly leaves you holding his gun. You may search the Common Item deck for a .45 Revolver (errata: should read .38 Revolver) card and take it.	Luck -1
 One of the men in the holding cells tries to intimidate you with stories about the things he's seen. Make a Will (-1) check. If you pass, gain 1 Clue Token. If you fail, move to the street and lose 1 Sanity as the man laughs at your retreating back.	Will -1
 Pass a Will (-1) check to convince Deputy Dingby to share some files with you that are very interesting. Gain 2 Clue Tokens.	Will -1
 Sheriff Engle notes that you're carrying an awful lot of weapons. Either pay him $5 or discard all of your Weapons.

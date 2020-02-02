@@ -69,10 +69,35 @@ AEOption Shoppe_Enc2 {
     }}};
 }
 
+ArkhamEncounter {
+    field: NS_CuriositieShoppe;
+    description: "You weed through piles of junk looking for something useful. "+
+                 "Make a <b>Luck (-1) check</b> to see what you find. If you pass, your search has resulted in success. "+
+                 "You may look at the top cards of both the Common and Unique Item decks. You may purchase one, both, or neither at list price. "+
+                 "If you fail, there is little of interest here, but you may look at the top card of the Common Item deck and purchase it for its list price.";
+    options: {AEOption {
+        baseProperty: DieRoll_Luck;
+        activate: {{{
+            var res = game.context.skillTest("Look for items", this.id, -1, 1);
+            var objs = [];
+            objs.push({type:Constants.ObjectType.CommonItem, amount: 1});
+            if (res)
+                objs.push({type:Constants.ObjectType.CommonItem, amount: 1});
+            var sels = game.context.drawMixedObjects("Buy Items", this.id, objs, 0, 1000);
+            for (var i in sels) {
+                var costs = { type: Constants.Costs.Money, amount: sels[i].price };
+                if (CHAR.pay(costs))
+                    CHAR.addToInventory(sels[i]);
+                else
+                    sels[i].returnToDeck();
+            }
+        }}};
+    }};
+}
+
 /*
 As you wander into the back of the shop, you hear a noise. Pass a Speed (-1) check or you look up just in time to see a descending club. Everything goes black. When you awaken, you are somewhere else. Draw a mythos card and move to the gate location shown on it, then immediately have an encounter there.	Speed -1
 Jackpot! You find just what you've been looking for. Search either the Common or Unique Item deck and purchase any one item of your choice at list price.
 Pass a Luck (-1) check or you accidentally drop an item. Discard 1 item of your choice. If you have no items to drop, then draw again for a different encounter.	Luck -1
 You examine an obscene statue. Pass a Luck (-2) check or else you feel a cold dread spread through your body as you hold it. You are Cursed.	Luck -2
-You weed through piles of junk looking for something useful. Make a Luck (-1) check to see what you find. If you pass, your search has resulted in success. You may look at the top cards of both the Common and Unique Item decks. You may purchase one, both, or neither at list price. If you fail, there is little of interest here, but you may look at the top card of the Common Item deck and purchase it for its list price.	Luck -1
 */

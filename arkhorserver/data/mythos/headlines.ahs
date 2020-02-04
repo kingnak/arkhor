@@ -84,6 +84,20 @@ Headline ChurchGroup {
     }}};
 }
 
+Headline CityBlackouts {
+    name: "City Gripped by Blackouts!";
+    description: "The General Store, Curiositie Shoppe, and Ye Olde Magick Shoppe are closed until the end of next turn.";
+    //clueField: MU_ScienceBuilding;
+    //gateField: MD_UnvisitedIsle;
+    //moveWhite: Hexagon;
+    //moveBlack: (Slash, Star, Triangle);
+    executeHeadline: {{{
+        game.lockFieldUntilNextRound(Constants.Fields.RT_GeneralStore);
+        game.lockFieldUntilNextRound(Constants.Fields.NS_CuriositieShoppe);
+        game.lockFieldUntilNextRound(Constants.Fields.UT_YeOldeMagickShoppe);
+    }}};
+}
+
 Headline FamilyFoundButchered {
     name: "Family Found Butchered!";
     description: "The terror level increases by 1 in light of this tragic news.";
@@ -105,6 +119,24 @@ Headline FedsRaid {
     //gateField: RT_BlackCave;
     executeHeadline: {{{
         game.returnMonstersFromFieldType(Constants.FieldType.Street);
+    }}};
+}
+
+Headline FourthOfJuly {
+    name: "Fourth of July Parade!";
+    description: "Investigators cannot move into or out of the Merchant Dist. streets until the end of next turn.";
+    //clueField: RT_BlackCave;
+    //gateField: FH_TheWitchHouse;
+    //moveWhite: Moon;
+    //moveBlack: Plus;
+    executeHeadline: {{{
+        var chars = game.context.allCharacters;
+        for (var i in chars) {
+            if (chars[i].field.id == Constants.Fields.MD_MerchantDist) {
+                chars[i].delay();
+            }
+        }
+        game.lockFieldUntilNextRound(Constants.Fields.MD_MerchantDist);
     }}};
 }
 
@@ -361,6 +393,20 @@ Headline SouthsideStranglerSuspected {
     }}};
 }
 
+Headline StrangeLights {
+    name: "Strange Lights on Campus!";
+    description: "The Library, Administration Building and Science Building are all closed until the end of next turn.";
+    //clueField: SS_HistoricalSociety;
+    //gateField: UT_Woods;
+    //moveWhite: Hexagon;
+    //moveBlack: (Slash, Star, Triangle);
+    executeHeadline: {{{
+        game.lockFieldUntilNextRound(Constants.Fields.MU_Library);
+        game.lockFieldUntilNextRound(Constants.Fields.MU_Administration);
+        game.lockFieldUntilNextRound(Constants.Fields.MU_ScienceBuilding);
+    }}};
+}
+
 Headline StrangePowerFlux {
     name: "Strange Power Flux Plagues City!";
     description: "All investigators in Other World areas may immediately return to Arkham.";
@@ -369,8 +415,8 @@ Headline StrangePowerFlux {
     //moveWhite: (Slash, Star, Triangle);
     //moveBlack: Hexagon;
     executeHeadline: {{{
-        for (var i in game.allCharacters) {
-            var c = game.allCharacters[i];
+        for (var i in game.context.allCharacters) {
+            var c = game.context.allCharacters[i];
             if (c.field.type == Constants.FieldType.OtherWorld) {
                 c.returnToArkham();
             }
@@ -465,9 +511,6 @@ Headline WitchBurning {
 /*
 TODOS:
 Blue Flu!
-City Gripped by Blackouts!
-Fourth of July Parade!
 Miskatonic Arctic Expedition Returns!
 Missing People Return!
-Strange Lights on Campus!
 */

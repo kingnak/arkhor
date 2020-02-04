@@ -87,6 +87,9 @@ void Monster::move(AH::MovementDirection dir)
         } else {
             curField = curField->whiteField();
         }
+        if (curField->isLocked()) {
+            break;
+        }
         // Stop after 1 field if there is a character
         if (curField->hasCharacters()) {
             curField->placeMonster(this);
@@ -98,6 +101,9 @@ void Monster::move(AH::MovementDirection dir)
             curField = curField->blackField();
         } else {
             curField = curField->whiteField();
+        }
+        if (curField->isLocked()) {
+            break;
         }
         curField->placeMonster(this);
         break;
@@ -124,6 +130,8 @@ void Monster::move(AH::MovementDirection dir)
         int minSneak = std::numeric_limits<int>::max();
         QSet<GameField*> candidates;
         for (auto f : checkFields) {
+            if (f->isLocked())
+                continue;
             for (auto c : f->characters()) {
                 int curSneak = gGame->context().getCharacterSkill(c, AH::Skill_Sneak).finalVal();
                 if (curSneak == minSneak) {

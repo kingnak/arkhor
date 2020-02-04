@@ -59,6 +59,8 @@ public:
 
     Q_INVOKABLE void createGate(AH::Common::FieldData::FieldID fieldId);
 
+    Q_INVOKABLE void lockFieldUntilNextRound(AH::Common::FieldData::FieldID fieldId);
+
     Q_INVOKABLE void awakeAncientOne();
 
     ////////// SETUP

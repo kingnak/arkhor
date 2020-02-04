@@ -162,7 +162,7 @@ bool GameBoard::validatePath(MovementPath p)
     return true;
 }
 
-void GameBoard::unlockFields(quint32 unlockFlags)
+void GameBoard::unlockFields(GameField::LockReason unlockFlags)
 {
     foreach (GameField *f, m_fields) {
         f->unlock(unlockFlags);

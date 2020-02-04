@@ -17,7 +17,6 @@ GamePhase::~GamePhase()
 void GamePhase::execute()
 {
     enterPhase();
-    gGame->board()->unlockFields(gGame->context().phase());
     gGame->commitUpdates();
 
     Player *player = gGame->getCurrentPlayer();

@@ -67,20 +67,25 @@ void GameField::setSealed(bool sealed)
     }
 }
 
-void GameField::lock(quint32 lockFlag)
+void GameField::lockRound()
 {
-    if (lockFlag != 0 && (m_lockFlags & lockFlag) == 0) {
-        // New lock
-        m_lockFlags |= lockFlag;
+    lock(LockReason::LOCK_ROUND);
+}
+
+void GameField::lock(LockReason lockFlag)
+{
+    if (!m_lockFlags.testFlag(lockFlag)) {
+        // Set lock
+        m_lockFlags.setFlag(lockFlag);
         gGame->boardDirty();
     }
 }
 
-void GameField::unlock(quint32 lockFlag)
+void GameField::unlock(LockReason lockFlag)
 {
-    if (lockFlag != 0 && (m_lockFlags & lockFlag) != 0) {
+    if (m_lockFlags.testFlag(lockFlag)) {
         // Remove lock
-        m_lockFlags |= ~lockFlag;
+        m_lockFlags.setFlag(lockFlag, false);
         gGame->boardDirty();
     }
 }

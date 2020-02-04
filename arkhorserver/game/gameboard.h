@@ -15,7 +15,7 @@ public:
 
     bool validatePath(MovementPath p);
 
-    void unlockFields(quint32 unlockFlags);
+    void unlockFields(GameField::LockReason unlockFlags);
 
     GameField *field(AH::Common::FieldData::FieldID id) { return m_fields.value(id); }
 

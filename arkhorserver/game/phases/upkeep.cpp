@@ -11,6 +11,7 @@ Upkeep::Upkeep(Game *game)
     m_setout = new SetOutAction;
     m_untap = new UntapAction;
     m_focus = new FocusOption;
+    m_unlock = new UnlockAction;
 }
 
 Upkeep::~Upkeep()
@@ -18,13 +19,15 @@ Upkeep::~Upkeep()
     delete m_setout;
     delete m_untap;
     delete m_focus;
+    delete m_unlock;
 }
 
 QList<GameAction *> Upkeep::getPhaseActions()
 {
     return QList<GameAction *>()
             << m_setout
-            << m_untap;
+            << m_untap
+            << m_unlock;
 }
 
 QList<GameOption *> Upkeep::getPhaseOptions()

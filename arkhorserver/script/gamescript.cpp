@@ -635,6 +635,13 @@ void GameScript::createGate(AH::Common::FieldData::FieldID fieldld)
         gGame->createGate(field);
 }
 
+void GameScript::lockFieldUntilNextRound(AH::Common::FieldData::FieldID fieldId)
+{
+    GameField *field = gGame->board()->field(fieldId);
+    if (field)
+        field->lockRound();
+}
+
 void GameScript::awakeAncientOne()
 {
     gGame->requestAwakeAncientOne();

@@ -16,8 +16,15 @@ class GameField : public AH::Common::GameFieldData
 public:
     GameField(AH::Common::FieldData::FieldID id, const QString &name, AH::Common::FieldData::FieldType type);
 
-    static const quint32 LOCK_PERMANENT = 0x1000;
-    static const quint32 LOCK_TERROR = 0x0800;
+    enum LockReason {
+        LOCK_ROUND_1    = 0x0001,
+        LOCK_ROUND_2    = 0x0002,
+        LOCK_ROUND      = LOCK_ROUND_1|LOCK_ROUND_2,
+        LOCK_TERROR     = 0x0800,
+        LOCK_PERMANENT  = 0x1000
+    };
+
+    Q_DECLARE_FLAGS(LockReasons, LockReason)
 
     void putClue(int amount = 1);
     int takeClues();
@@ -35,9 +42,11 @@ public:
 
     void setSealed(bool sealed);
 
-    void lock(quint32 lockFlag);
-    void unlock(quint32 lockFlag);
+    void lockRound();
+    void lock(LockReason lockFlag);
+    void unlock(LockReason lockFlag);
     bool isLocked() const;
+    LockReasons lockReason() const { return m_lockFlags; }
 
     QSet<GameField *> neighbours() { return m_neighbours; }
     GameField *whiteField() { return m_whiteField; }
@@ -76,9 +85,11 @@ private:
     GameField *m_whiteField;
     GameField *m_blackField;
 
-    quint32 m_lockFlags;
+    LockReasons m_lockFlags;
 
     friend class GameBoard;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(GameField::LockReasons)
 
 #endif // GAMEFIELD_H

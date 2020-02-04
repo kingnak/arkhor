@@ -13,8 +13,7 @@ GameFieldScript::GameFieldScript(QObject *parent) :
 void GameFieldScript::lockUntilNextRound()
 {
     Q_ASSERT(m_field);
-    quint32 lockFlag = gGame->context().phase();
-    m_field->lock(lockFlag);
+    m_field->lockRound();
 }
 
 QScriptValue GameFieldScript::nearestFieldsWithCharacters()

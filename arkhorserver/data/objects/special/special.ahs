@@ -99,7 +99,7 @@ SpecialObject LodgeMembership {
         QuickOption {
             name: "Have an encouter at the Inner Sanctum";
             phases: ArkhamEncountery;
-            chooseType: Optional;
+            chooseType: Supplemental;
             continueType: CannotContinue;
             isAvailable: {{{
                 return (

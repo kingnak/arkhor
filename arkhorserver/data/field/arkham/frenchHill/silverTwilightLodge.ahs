@@ -20,7 +20,6 @@ ArkhamEncounter Lodge_Enc1 {
 }
 AEOption Lodge_Enc1_Accept {
     name: "Accept Lodge Membership";
-    baseProperty: DieRoll_Will;
     costs: [ Money 3 ];
     activate: {{{
         var o = game.drawSpecificObject(SpecialObject.LodgeMembership);

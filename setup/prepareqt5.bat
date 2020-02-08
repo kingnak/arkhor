@@ -2,7 +2,7 @@
 pushd %~dp0
 
 IF "%Qt5Dir64%" == "" (
-	set QT5SRC=D:\Qt\Qt5.9.0\5.9\msvc2017_64
+	set QT5SRC=D:\Qt\5.12.6\msvc2017_64
 ) ELSE (
 	set QT5SRC=%Qt5Dir64%
 )

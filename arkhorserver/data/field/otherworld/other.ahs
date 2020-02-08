@@ -53,6 +53,7 @@ OtherWorldEncounter {
                  "Draw 1 Spell. If you fail, you are racked by pain and lose 3 Sanity.";
     options: (Option.SKIP, {
         OWEOption {
+            name: "Sneak to altar";
             baseProperty: DieRoll_Sneak;
             activate: {{{
                 var res = game.context.skillTest("Sneak to altar", this.id, Constants.Skills.Sneak, -1, 1);

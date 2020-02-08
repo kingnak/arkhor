@@ -62,8 +62,8 @@ QList<GameOption *> GamePhase::getOptions()
     Player *player = gGame->getCurrentPlayer();
 
     QList<GameOption *> options;
-    options << player->getCharacter()->getOptions(gGame->context().phase());
     options << getPhaseOptions();
+    options << player->getCharacter()->getOptions(gGame->context().phase());
 
     // Get mandatory and other options
     QList<GameOption *> mandatory;

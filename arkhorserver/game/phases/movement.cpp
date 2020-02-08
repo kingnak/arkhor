@@ -82,9 +82,9 @@ QList<GameOption *> Movement::getPhaseOptions()
         }
 
         return QList<GameOption *>()
+                << getSkipOption()
                 << m_move
-                << m_trade
-                << getSkipOption();
+                << m_trade;
     case AH::Common::FieldData::OtherWorld:
         return QList<GameOption *>()
                 << m_move

@@ -33,8 +33,8 @@ QList<GameAction *> Upkeep::getPhaseActions()
 QList<GameOption *> Upkeep::getPhaseOptions()
 {
     QList<GameOption *> op;
-    op << m_focus;
     op << getSkipOption();
+    op << m_focus;
     return op;
 }
 

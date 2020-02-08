@@ -28,15 +28,15 @@ void TradeWidget::showTrade(AH::Common::TradeData td)
     m_trade = td;
     if (td.phase == AH::Common::TradeData::InitialOffer) {
         ui->stackedWidget->setCurrentWidget(ui->pageInitial);
+        ui->wgtInitialOffer->setItems(td.originOffer);
         ui->wgtInitialOffer->setMinItems(1);
         ui->wgtInitialOffer->setMaxItems(1000);
-        ui->wgtInitialOffer->setItems(td.originOffer);
         ui->lblTitel->setText(QString("Trade with %1").arg(getName(td.destChar)));
     } else if (td.phase == AH::Common::TradeData::CounterOffer) {
         ui->stackedWidget->setCurrentWidget(ui->pageCounter);
+        ui->wgtCounterOffer->setItems(td.destOffer);
         ui->wgtCounterOffer->setMinItems(1);
         ui->wgtCounterOffer->setMaxItems(1000);
-        ui->wgtCounterOffer->setItems(td.destOffer);
         fillList(ui->lstOfferInitial, td.originOffer);
         ui->lblTitel->setText(QString("Trade with %1").arg(getName(td.originChar)));
     } else if (td.phase == AH::Common::TradeData::AcceptOffer) {

@@ -38,6 +38,7 @@
         <file alias="inv_template">client_resources/inv_template.png</file>
         <file alias="ao_template">client_resources/ao_tmpl.png</file>
         <file alias="gameboard">client_resources/ArkH_Board.jpg</file>
+        <file alias="unknown_ao">client_resources/unknown_ao.png</file>
     </qresource>
     <qresource prefix="/core/marker">
         <file alias="activity_1">client_resources/activity_marker_1.png</file>

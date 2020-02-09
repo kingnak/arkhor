@@ -22,6 +22,7 @@ public:
     QPixmap loadDimensionSymbol(AH::Dimension dim);
     QPixmap loadOtherWorldGate(AH::Common::FieldData::FieldID id);
     QPixmap loadObjectImage(QString id, AH::GameObjectType type);
+    QPixmap loadAncientOne(QString id);
 
 private:
     struct ResourceDef {

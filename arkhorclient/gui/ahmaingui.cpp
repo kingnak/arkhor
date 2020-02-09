@@ -9,6 +9,7 @@
 #include <QtWidgets>
 #include "utils.h"
 #include "objectlistitem.h"
+#include "detailcardwidget.h"
 
 #define MAXIMUM_WIDGET_WIDTH 16777215
 
@@ -60,7 +61,7 @@ AhMainGui::AhMainGui(QWidget *parent) :
 
     connect(m_scene, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtDieRoll, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
-    connect(ui->wgtAncientOne, SIGNAL(ancientOneInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
+    connect(ui->wgtAncientOne, SIGNAL(ancientOneInfoRequested(QString)), this, SLOT(displayAncientOne(QString)));
     connect(ui->wgtRumor, SIGNAL(rumorInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtEnvironment, SIGNAL(environmentInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtChoice, SIGNAL(objectInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
@@ -68,6 +69,10 @@ AhMainGui::AhMainGui(QWidget *parent) :
     connect(ui->wgtOptionChooser, SIGNAL(objectDescriptionRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtTrade, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtObjectInfo, &ObjectInfoWidget::objectInfoRequested, this, &AhMainGui::displayItemInfo);
+
+    m_cardWidget = new DetailCardWidget(this);
+    m_cardWidget->setVisible(false);
+    m_cardWidget->clear();
 }
 
 AhMainGui::~AhMainGui()
@@ -194,6 +199,14 @@ void AhMainGui::refitGui()
 void AhMainGui::dismissInfoPane()
 {
     m_dismissTimer->start();
+    m_cardWidget->setVisible(false);
+}
+
+void AhMainGui::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event)
+    if (m_cardWidget->isVisible())
+        readjustDetailCard();
 }
 
 void AhMainGui::expandInfoPane()
@@ -273,6 +286,16 @@ void AhMainGui::fieldInfoRequested(FieldData::FieldID id)
     auto fd = m_registry->getFieldDescription(id);
     ui->wgtObjectInfo->displayFieldInfo(fd.fieldData);
     expandInfoPane();
+}
+
+void AhMainGui::displayAncientOne(const QString &id)
+{
+    auto ao = m_registry->getObject<AH::Common::AncientOneData>(id);
+    if (!ao.id().isEmpty()) {
+        m_cardWidget->displayAncientOne(&ao);
+        readjustDetailCard();
+        m_cardWidget->setVisible(true);
+    }
 }
 
 void AhMainGui::displayInventoryData(QListWidgetItem *itm)
@@ -614,4 +637,24 @@ void AhMainGui::on_btnSkipOptions_clicked()
         m_skipOption = static_cast<PlayerData::AutoSkipData> (idx);
         m_conn->setSkipOption(m_skipOption);
     }
+}
+
+void AhMainGui::readjustDetailCard()
+{
+    m_cardWidget->adjustSize();
+    auto ss = m_cardWidget->size();
+
+    auto ms = m_cardWidget->minimumSizeHint();
+    auto as = this->size();
+
+    auto dx = double(as.width())/ss.width();
+    auto dy = double(as.height())/ss.height();
+    if (dx < 1 || dy < 1) {
+        auto dd = qMin(dx, dy);
+        as = ss*dd;
+        if (as.width()<ms.width() || as.height()<ms.height()) as = ms;
+    } else {
+        as = ss;
+    }
+    m_cardWidget->setGeometry((ui->grvBoard->width()-as.width())/2, (this->height()-as.height())/2, as.width(), as.height());
 }

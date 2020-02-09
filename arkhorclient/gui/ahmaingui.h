@@ -25,6 +25,7 @@ class ObjectRegistry;
 class ConnectionHandler;
 class AhBoardScene;
 class QListWidgetItem;
+class DetailCardWidget;
 
 namespace Ui {
 class AhMainGui;
@@ -47,6 +48,9 @@ public slots:
     void refitGui();
     void dismissInfoPane();
 
+protected:
+    void resizeEvent(QResizeEvent *event) override;
+
 private slots:
     void expandInfoPane();
     void doDismissInfoPane();
@@ -56,6 +60,7 @@ private slots:
 
     void displayItemInfo(const QString &id);
     void fieldInfoRequested(AH::Common::FieldData::FieldID id);
+    void displayAncientOne(const QString &id);
 
     void displayInventoryData(QListWidgetItem *itm);
 
@@ -120,6 +125,9 @@ private slots:
     void on_btnSkipOptions_clicked();
 
 private:
+    void readjustDetailCard();
+
+private:
     Ui::AhMainGui *ui;
     AhBoardScene *m_scene;
     ConnectionHandler *m_conn;
@@ -127,6 +135,7 @@ private:
     QTimer *m_dismissTimer;
     AH::Common::PlayerData::AutoSkipData m_skipOption;
 
+    DetailCardWidget *m_cardWidget;
     //QString m_pendingDisplayId;
 };
 

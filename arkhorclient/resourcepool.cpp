@@ -149,6 +149,13 @@ QPixmap ResourcePool::loadObjectImage(QString id, AH::GameObjectType type)
     return QPixmap();
 }
 
+QPixmap ResourcePool::loadAncientOne(QString id)
+{
+    QPixmap ret = intLoadPixmap(id);
+    if (ret.isNull()) return QPixmap(":/core/images/unknown_ao");
+    return ret;
+}
+
 bool ResourcePool::addEntry(QString e, ResourcePool::ResourceDef d)
 {
     QPair<QString, QString> data = getIdFromEntry(e);

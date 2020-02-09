@@ -6,6 +6,8 @@ HEADERS += \
     connectionhandler.h \
     ahboardscene.h \
     ahboardfillerhelper.h \
+    gui/ancientonecardwidget.h \
+    gui/detailcardwidget.h \
     gui/fieldinfowidget.h \
     gui/modifiedpropertyinfowidget.h \
     gui/modifierinfowidget.h \
@@ -51,6 +53,8 @@ HEADERS += \
 
 SOURCES += \
     connectionhandler.cpp \
+    gui/ancientonecardwidget.cpp \
+    gui/detailcardwidget.cpp \
     gui/fieldinfowidget.cpp \
     gui/modifiedpropertyinfowidget.cpp \
     gui/modifierinfowidget.cpp \

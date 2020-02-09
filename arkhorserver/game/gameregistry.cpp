@@ -295,6 +295,11 @@ bool GameRegistry::resolveDependencies()
         ok &= o->resolveDependencies(this);
     }
 
+    // Resolve Investigators:
+    for (auto *i : m_investigators) {
+        ok &= i->resolveDependecies(this);
+    }
+
     // Resolve Encounters:
     foreach (ArkhamEncounter *ae, m_arkEncounters) {
         ok &= ae->resolveDependencies(this);

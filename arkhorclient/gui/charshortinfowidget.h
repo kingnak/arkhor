@@ -20,6 +20,12 @@ public:
 public slots:
     void displayCharacter(const AH::Common::CharacterData *chr);
 
+private slots:
+    void requestCharacterDetail(const QString &id);
+
+signals:
+    void characterDetailRequested(const QString &id);
+
 private:
     Ui::CharShortInfoWidget *ui;
 };

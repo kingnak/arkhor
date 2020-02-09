@@ -76,20 +76,6 @@ QScriptValue InvestigatorScript::createInvestigator(QScriptContext *ctx, QScript
     return object;
 }
 
-QString InvestigatorScript::uniqueAbilityName() const
-{
-    GameObject *ua = gGame->registry()->findObjectById(uniqueAbilityId());
-    if (ua) return ua->name();
-    return "";
-}
-
-QString InvestigatorScript::uniqueAbilityDescription() const
-{
-    GameObject *ua = gGame->registry()->findObjectById(uniqueAbilityId());
-    if (ua) return ua->description();
-    return "";
-}
-
 QStringList InvestigatorScript::fixedPossessionNames() const
 {
     QStringList ret;

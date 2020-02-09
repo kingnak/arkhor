@@ -39,6 +39,7 @@ public:
 
 signals:
     void objectInfoRequested(QString id);
+    void characterDetailRequested(QString id);
 
 public slots:
     void displayItemInfo(const QString &id);

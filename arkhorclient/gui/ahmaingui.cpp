@@ -69,6 +69,9 @@ AhMainGui::AhMainGui(QWidget *parent) :
     connect(ui->wgtOptionChooser, SIGNAL(objectDescriptionRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtTrade, SIGNAL(itemInfoRequested(QString)), this, SLOT(displayItemInfo(QString)));
     connect(ui->wgtObjectInfo, &ObjectInfoWidget::objectInfoRequested, this, &AhMainGui::displayItemInfo);
+    connect(ui->wgtCharShortInfo, &CharShortInfoWidget::characterDetailRequested, this, &AhMainGui::displayCharacterDetail);
+    connect(ui->wgtCharacter, &CharacterWidget::characterDetailRequested, this, &AhMainGui::displayCharacterDetail);
+    connect(ui->wgtObjectInfo, &ObjectInfoWidget::characterDetailRequested, this, &AhMainGui::displayCharacterDetail);
 
     m_cardWidget = new DetailCardWidget(this);
     m_cardWidget->setVisible(false);
@@ -293,6 +296,16 @@ void AhMainGui::displayAncientOne(const QString &id)
     auto ao = m_registry->getObject<AH::Common::AncientOneData>(id);
     if (!ao.id().isEmpty()) {
         m_cardWidget->displayAncientOne(&ao);
+        readjustDetailCard();
+        m_cardWidget->setVisible(true);
+    }
+}
+
+void AhMainGui::displayCharacterDetail(const QString &id)
+{
+    auto chr = m_registry->getObject<AH::Common::CharacterData>(id);
+    if (!chr.id().isEmpty()) {
+        m_cardWidget->displayCharacter(&chr);
         readjustDetailCard();
         m_cardWidget->setVisible(true);
     }

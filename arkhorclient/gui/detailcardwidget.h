@@ -3,8 +3,10 @@
 
 #include <QStackedWidget>
 #include <ancientonedata.h>
+#include <characterdata.h>
 
 class AncientOneCardWidget;
+class InvestigatorWidget;
 
 class DetailCardWidget : public QWidget
 {
@@ -18,12 +20,14 @@ public:
 public slots:
     void clear();
     void displayAncientOne(AH::Common::AncientOneData *ao);
+    void displayCharacter(AH::Common::CharacterData *chr);
 
 signals:
 
 private:
     QStackedWidget *m_stack;
     AncientOneCardWidget *m_ao;
+    InvestigatorWidget *m_inv;
 };
 
 #endif // DETAILCARDWIDGET_H

@@ -25,6 +25,12 @@ public slots:
     void displayCharacterData(const AH::Common::CharacterData *data);
     void updateCharacterData(const AH::Common::CharacterData *data);
 
+private slots:
+    void requestCharacterDetail(const QString &id);
+
+signals:
+    void characterDetailRequested(const QString &id);
+
 private:
     QString m_curCharId;
     Ui::CharacterWidget *ui;

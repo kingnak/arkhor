@@ -61,6 +61,7 @@ private slots:
     void displayItemInfo(const QString &id);
     void fieldInfoRequested(AH::Common::FieldData::FieldID id);
     void displayAncientOne(const QString &id);
+    void displayCharacterDetail(const QString &id);
 
     void displayInventoryData(QListWidgetItem *itm);
 

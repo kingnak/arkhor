@@ -293,5 +293,25 @@ font-weight: bold;</string>
  <resources>
   <include location="../../arkhorclientstaticres/client_resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>lblName</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>CharShortInfoWidget</receiver>
+   <slot>requestCharacterDetail(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>48</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>72</x>
+     <y>1</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>requestCharacterDetail(QString)</slot>
+ </slots>
 </ui>

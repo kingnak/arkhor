@@ -82,7 +82,7 @@ void CharacterWidget::displayCharacterData(const AH::Common::CharacterData *data
 void CharacterWidget::updateCharacterData(const AH::Common::CharacterData *data)
 {
     if (data) {
-        ui->lblName->setText(data->investigatorData().name());
+        ui->lblName->setText(QString("<a href=\"%1\">%2</a>").arg(data->id(), data->investigatorData().name()));
         ui->lblClue->setText(QString::number(data->clues()));
         ui->lblStamina->setText(QString("%1 / %2").arg(data->curStamina()).arg(data->maxStamina()));
         ui->lblSanity->setText(QString("%1 / %2").arg(data->curSanity()).arg(data->maxSanity()));
@@ -113,4 +113,9 @@ void CharacterWidget::updateCharacterData(const AH::Common::CharacterData *data)
         ui->lblMonsterToughness->setText("");
         ui->lblField->setText("");
     }
+}
+
+void CharacterWidget::requestCharacterDetail(const QString &id)
+{
+    emit characterDetailRequested(id);
 }

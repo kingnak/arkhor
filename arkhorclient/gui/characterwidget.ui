@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>302</height>
+    <height>314</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -338,5 +338,25 @@
  <resources>
   <include location="../../arkhorclientstaticres/client_resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>lblName</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>CharacterWidget</receiver>
+   <slot>requestCharacterDetail(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>16</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>8</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>requestCharacterDetail(QString)</slot>
+ </slots>
 </ui>

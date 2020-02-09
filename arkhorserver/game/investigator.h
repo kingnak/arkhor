@@ -16,7 +16,7 @@ public:
     //void setInstantiated( bool instantiated ) { m_instantiated = instantiated; }
     void reset() { m_isInstantiated = false; }
 
-    bool resolveDependecies(GameRegistry *reg) const;
+    bool resolveDependecies(GameRegistry *reg);
 
 protected:
     bool m_isInstantiated;

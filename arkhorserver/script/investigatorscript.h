@@ -21,8 +21,6 @@ public:
     static QScriptValue createInvestigator(QScriptContext *ctx, QScriptEngine *eng);
 
     // For pre-game display
-    virtual QString uniqueAbilityName() const;
-    virtual QString uniqueAbilityDescription() const;
     virtual QStringList fixedPossessionNames() const;
 
 private:

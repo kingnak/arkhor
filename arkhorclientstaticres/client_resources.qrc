@@ -54,6 +54,7 @@
         <file alias="doom_token_red">client_resources/doom_token_red.png</file>
         <file alias="dollar">client_resources/dollar.png</file>
         <file alias="terror_marker">client_resources/terror_marker.png</file>
+        <file alias="slider">client_resources/slider.png</file>
     </qresource>
     <qresource prefix="/core/data">
         <file alias="boardfields">client_resources/boardfields.txt</file>

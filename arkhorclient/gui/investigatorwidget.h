@@ -28,9 +28,10 @@ private:
     void drawFixedLineHeightText(QPainter *p, QString t, QRect r, int lineHeight);
     void paintInvestigator();
     void paintCharacter();
-    void paintBase(QPainter &p);
+    QPainter *paintBase();
+    QVector<QVector<QRect> > paintAttributeSliders(QPainter &p, int totalWidth);
 
-    QPainter *createBase();
+    QPainter *createBase(const QSize base);
 
 private:
     QPixmap m_img;

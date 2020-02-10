@@ -729,6 +729,7 @@ bool Game::createGate(GameField *field)
 
         m_registry->registerGate(g);
         field->setGate(g);
+        changeGateAppear(g);
 
         // remove clues
         field->takeClues();
@@ -772,6 +773,8 @@ bool Game::createMonster(GameField *field)
     }
 
     field->placeMonster(m);
+    changeMonsterAppear(m);
+
     return true;
 }
 
@@ -791,6 +794,7 @@ bool Game::putOutskirtsMonster(Monster *m)
     }
 
     m_board->field(AH::Common::FieldData::Sp_Outskirts)->placeMonster(m);
+    changeMonsterAppear(m);
     return true;
 }
 
@@ -798,12 +802,14 @@ void Game::returnOutskirtsMonsters()
 {
     QList<Monster *> outskirtsMonsters = m_board->field(AH::Common::FieldData::Sp_Outskirts)->monsters();
     foreach (Monster *mm, outskirtsMonsters) {
+        changeMonsterDisappear(mm);
         returnMonster(mm);
     }
 }
 
 void Game::closeGate(Gate *g, Character *c)
 {
+    changeGateDisappear(g);
     g->close(c);
 }
 
@@ -1492,6 +1498,41 @@ void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity,
 
 }
 
+void Game::changeMonsterAppear(Monster *m)
+{
+    m_boardChange.monsterAppear << AH::Common::GameBoardChangeData::LocatedChange{m->id(), m->fieldId()};
+}
+
+void Game::changeMonsterDisappear(Monster *m)
+{
+    m_boardChange.monsterDisappear << AH::Common::GameBoardChangeData::LocatedChange{m->id(), m->fieldId()};
+}
+
+void Game::changeMonsterMove(Monster *m, QList<AH::Common::FieldData::FieldID> path)
+{
+    AH::Common::GameBoardChangeData::Movement move;
+    move.id = m->id();
+    //move.start = path.first();
+    //move.end = path.last();
+    move.path = path;
+    m_boardChange.monsterMovements << move;
+}
+
+void Game::changeGateAppear(Gate *g)
+{
+    m_boardChange.gateAppear << AH::Common::GameBoardChangeData::LocatedChange{g->id(), g->sourceField()->id()};
+}
+
+void Game::changeGateDisappear(Gate *g)
+{
+    m_boardChange.gateDisappear << AH::Common::GameBoardChangeData::LocatedChange{g->id(), g->sourceField()->id()};
+}
+
+void Game::changeGateOpen(Gate *g)
+{
+    m_boardChange.gateOpen << AH::Common::GameBoardChangeData::LocatedChange{g->id(), g->sourceField()->id()};
+}
+
 //private below:
 
 void Game::upkeep()
@@ -1756,7 +1797,8 @@ int Game::countActivePlayers() const
 
 void Game::sendBoard()
 {
-    m_notifier->sendBoard(m_board);
+    m_notifier->sendBoard(m_board, m_boardChange);
+    m_boardChange = {};
 }
 
 void Game::sendBoardDescription()

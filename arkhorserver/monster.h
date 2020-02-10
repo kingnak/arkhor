@@ -41,6 +41,7 @@ public:
 
     GameField *field() { return m_field; }
     void setField(GameField *f) { m_field = f; }
+    AH::Common::FieldData::FieldID fieldId() const override;
 
     bool isSpontaneous() const { return m_isSpontaneous; }
     void setSpontaneous(bool spontaneous = true) { m_isSpontaneous = spontaneous; }

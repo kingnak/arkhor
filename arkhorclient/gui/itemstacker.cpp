@@ -72,6 +72,21 @@ void ItemStacker::setFont(QFont f)
     m_lblCount->setFont(f);
 }
 
+bool ItemStacker::removeById(QString id)
+{
+    QList<int> idx;
+    for (int i = 0; i < m_items.size(); ++i) {
+        if (m_items[i]->id() == id) {
+            idx << i;
+        }
+    }
+
+    for (int i = idx.size()-1; i >= 0; --i) {
+        removeAt(idx[i]);
+    }
+    return !idx.empty();
+}
+
 void ItemStacker::addItem(StackItem *itm)
 {
     m_items.prepend(itm);

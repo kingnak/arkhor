@@ -72,8 +72,11 @@ AhMainGui::AhMainGui(QWidget *parent) :
     connect(ui->wgtCharShortInfo, &CharShortInfoWidget::characterDetailRequested, this, &AhMainGui::displayCharacterDetail);
     connect(ui->wgtCharacter, &CharacterWidget::characterDetailRequested, this, &AhMainGui::displayCharacterDetail);
     connect(ui->wgtObjectInfo, &ObjectInfoWidget::characterDetailRequested, this, &AhMainGui::displayCharacterDetail);
-    connect(ui->wgtCharacter, &CharacterWidget::requestCenterOnField, ui->grvBoard, &AhGraphicsView::centerOnField);
-    connect(ui->wgtObjectInfo, &ObjectInfoWidget::requestCenterOnField, ui->grvBoard, &AhGraphicsView::centerOnField);
+    connect(ui->wgtCharacter, &CharacterWidget::requestCenterOnField, ui->grvBoard, &AhGraphicsView::centerOnFieldAnimated);
+    connect(ui->wgtObjectInfo, &ObjectInfoWidget::requestCenterOnField, ui->grvBoard, &AhGraphicsView::centerOnFieldAnimated);
+
+    connect(m_scene, qOverload<AH::Common::FieldData::FieldID>(&AhBoardScene::requestCenterOn), ui->grvBoard, &AhGraphicsView::centerOnFieldAnimated);
+    connect(m_scene, qOverload<const QPointF&>(&AhBoardScene::requestCenterOn), ui->grvBoard, &AhGraphicsView::centerOnPointStatic);
 
     m_cardWidget = new DetailCardWidget(this);
     m_cardWidget->setVisible(false);

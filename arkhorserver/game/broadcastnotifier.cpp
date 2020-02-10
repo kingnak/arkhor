@@ -29,10 +29,10 @@ void BroadcastNotifier::startGame()
     }
 }
 
-void BroadcastNotifier::sendBoard(GameBoard *board)
+void BroadcastNotifier::sendBoard(GameBoard *board, AH::Common::GameBoardChangeData changes)
 {
     foreach (Player *p, m_game->getPlayers()) {
-        p->sendBoard(board);
+        p->sendBoard(board, changes);
     }
 }
 

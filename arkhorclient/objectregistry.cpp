@@ -1,4 +1,6 @@
 #include "objectregistry.h"
+#include <QEventLoop>
+#include <list>
 
 using namespace AH::Common;
 
@@ -51,12 +53,51 @@ bool ObjectRegistry::hasObject(QString id)
 
 DescribeObjectsData ObjectRegistry::getObjects(RequestObjectsData reqs)
 {
+    RequestObjectsData pendingRequests;
+    auto ret = doGetObjects(reqs, pendingRequests);
+    if (!pendingRequests.getRequests().isEmpty()) {
+        m_conn->requestObjects(pendingRequests);
+    }
+    return ret;
+}
+
+DescribeObjectsData ObjectRegistry::getObjectsBlocking(RequestObjectsData reqs)
+{
+    RequestObjectsData pendingRequests;
+    auto ret = doGetObjects(reqs, pendingRequests);
+    if (!pendingRequests.getRequests().isEmpty()) {
+        QEventLoop loop;
+        auto pend = pendingRequests.getRequests().toStdList();
+        auto conn = connect(this, &ObjectRegistry::objectDescribed, &loop, [&](DescribeObjectsData::ObjectDescription desc) {
+            auto it = pend.begin();
+            while (it != pend.end()) {
+                if (it->second == desc.id) {
+                    ret.addDescription(desc);
+                    it = pend.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+            if (pend.empty())
+                loop.quit();
+        });
+        QTimer::singleShot(1000, &loop, &QEventLoop::quit);
+        m_conn->requestObjects(pendingRequests);
+        loop.exec();
+        this->disconnect(conn);
+    }
+
+    return ret;
+}
+
+DescribeObjectsData ObjectRegistry::doGetObjects(AH::Common::RequestObjectsData requests, RequestObjectsData &pending)
+{
     DescribeObjectsData descs;
     RequestObjectsData pendingRequests;
 
     {
         QReadLocker r(&m_lock);
-        foreach (RequestObjectsData::ObjectRequest r, reqs.getRequests())
+        foreach (RequestObjectsData::ObjectRequest r, requests.getRequests())
         {
             if (m_registry.contains(r.second)) {
                 DescribeObjectsData::ObjectDescription d = m_registry[r.second];
@@ -67,9 +108,7 @@ DescribeObjectsData ObjectRegistry::getObjects(RequestObjectsData reqs)
         }
     }
 
-    if (!pendingRequests.getRequests().isEmpty()) {
-        m_conn->requestObjects(pendingRequests);
-    }
+    pending = pendingRequests;
 
     return descs;
 }

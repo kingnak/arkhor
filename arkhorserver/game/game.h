@@ -15,6 +15,7 @@
 #include "gameregistry.h"
 #include "deck.hpp"
 #include <objectdata.h>
+#include <gamestatechangedata.h>
 
 class GamePhase;
 class GameBoard;
@@ -176,6 +177,16 @@ public:
 
     void preventDamageHelper(Player *p, int &damageStamina, int &damageSanity, int &preventStamina, int &preventSanity);
 
+
+    //// CHANGE
+    void changeMonsterAppear(Monster *m);
+    void changeMonsterDisappear(Monster *m);
+    void changeMonsterMove(Monster *m, QList<AH::Common::FieldData::FieldID> path);
+    void changeGateAppear(Gate *g);
+    void changeGateDisappear(Gate *g);
+    void changeGateOpen(Gate *g);
+
+
 protected:
     void initBoard();
     void initDecks();
@@ -280,6 +291,8 @@ private:
     int m_nextSpecialActionNr;
 
     bool m_reqAwake;
+
+    AH::Common::GameBoardChangeData m_boardChange;
 
     mutable QReadWriteLock m_lock;
 };

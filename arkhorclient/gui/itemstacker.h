@@ -27,10 +27,12 @@ public:
     QString description() const { return m_desc; }
     QPixmap pixmap() const { return m_pixmap; }
     QVariant data() const { return m_data; }
+    QString id() const { return m_id; }
 
     void setDescription(const QString &desc) { m_desc = desc; }
     void setPixmap(const QPixmap &pixmap);
     void setData(const QVariant &data) { m_data = data; }
+    void setId(const QString &id) { m_id = id; }
 
     void setStacker(ItemStacker *s) { m_stacker = s; }
 
@@ -38,6 +40,7 @@ protected:
     QString m_desc;
     QPixmap m_pixmap;
     QVariant m_data;
+    QString m_id;
     ItemStacker *m_stacker;
 };
 
@@ -58,6 +61,8 @@ public:
     void setDisplayOffset(int off);
     void setDisplayCount(bool on = true);
     void setFont(QFont f);
+
+    bool removeById(QString id);
 
 signals:
     void itemAdded(const StackItem *item);

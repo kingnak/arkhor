@@ -21,7 +21,12 @@ signals:
 public slots:
     void zoomIn();
     void zoomOut();
-    void centerOnField(AH::Common::FieldData::FieldID id);
+    void centerOnFieldAnimated(AH::Common::FieldData::FieldID id);
+    void centerOnPointAnimated(QPointF p);
+    void centerOnFieldStatic(AH::Common::FieldData::FieldID id);
+    void centerOnPointStatic(QPointF p);
+    void centerOnField(AH::Common::FieldData::FieldID id, bool animate);
+    void centerOnPoint(QPointF p, bool animate);
 
 protected:
     void wheelEvent(QWheelEvent *event);

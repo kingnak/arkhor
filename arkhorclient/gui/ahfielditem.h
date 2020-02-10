@@ -5,13 +5,17 @@
 #include <fielddata.h>
 #include <gamefielddata.h>
 #include "asyncobjectreceiver.h"
+#include "monsterdata.h"
 
+class QGraphicsProxyWidget;
 class ItemStacker;
 class StackItem;
 
 class ClueAreaItem;
 class ClickAreaItem;
 class GateItem;
+
+class QAbstractAnimation;
 
 class AhFieldItem : public QGraphicsObject
 {
@@ -46,6 +50,13 @@ public:
     void updateFromData(AH::Common::GameFieldData data);
 
     static QFont getItemFont(int pxSize = 24, bool bold = true);
+    void animateGateAppear(QString id);
+    void animateGateDisappear();
+    void animateGateOpen(QString id);
+
+    void animateMonsterAppear(AH::Common::MonsterData m);
+    void animateMonsterDisappear(AH::Common::MonsterData m);
+    void animateMonsterMove(AH::Common::MonsterData m, QList<AH::Common::FieldData::FieldID> path);
 
 signals:
     void itemInfoRequested(QString id);
@@ -69,6 +80,12 @@ private:
 
     void fieldAreaClicked();
 
+    void runAnimation(const QVariant &start, const QVariant &end, int duration, std::function<void(const QVariant &)> update);
+    void runAnimation(QAbstractAnimation *anim);
+
+    QGraphicsItem *createOverlayMonster(AH::Common::MonsterData m);
+    QPointF getMonstersGlobalPos();
+
 private:
     friend class ClickAreaItem;
     friend class GateItem;
@@ -82,6 +99,8 @@ private:
     ItemStacker *m_monsters;
     ItemStacker *m_characters;
     ItemStacker *m_secondPhaseCharacters; // For other world
+
+    QGraphicsProxyWidget *m_prxMonst;
 
     //ItemStacker *m_secondPhaseCharacters;
 

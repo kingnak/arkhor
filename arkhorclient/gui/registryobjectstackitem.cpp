@@ -35,6 +35,7 @@ MonsterStackItem::MonsterStackItem(QString id, double scale)
     : RegistryObjectStackItem(id)
     , m_scale(scale)
 {
+    setId(id);
     setData(id);
 }
 
@@ -62,6 +63,7 @@ CharacterStackItem::CharacterStackItem(QString id, double scale)
     : RegistryObjectStackItem(id, true)
     , m_scale(scale)
 {
+    setId(id);
     setData(id);
     setPixmap(ResourcePool::instance()->loadCharacterFigure(id));
 }

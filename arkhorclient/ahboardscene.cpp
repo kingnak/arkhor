@@ -1,6 +1,11 @@
 #include "ahboardscene.h"
 #include "gui/ahfielditem.h"
 #include "ahboardfillerhelper.h"
+#include <gamestatechangedata.h>
+#include <objectdata.h>
+#include <gatedata.h>
+#include <monsterdata.h>
+#include "objectregistry.h"
 
 using namespace AH::Common;
 
@@ -29,8 +34,22 @@ void AhBoardScene::initBoard()
     setTerrorLevel(-1);
 }
 
+void AhBoardScene::centerOn(AhFieldItem *f)
+{
+    emit requestCenterOn(f->id());
+}
+
+void AhBoardScene::centerOn(QPointF p)
+{
+    emit requestCenterOn(p);
+}
+
 void AhBoardScene::updateBoardFromData(QVariantMap boardMap)
 {
+    AH::Common::GameBoardChangeData changes;
+    boardMap["_changes"] >> changes;
+    animateChanges(changes);
+
     for (QString k : boardMap.keys()) {
         int id = k.toInt();
         AH::Common::FieldData::FieldID fId = static_cast<FieldData::FieldID> (id);
@@ -73,5 +92,56 @@ void AhBoardScene::initNeighbourHoodFromBoardData(QList<AH::Common::GameFieldDat
             AH::Common::FieldData::FieldID nfId = static_cast<FieldData::FieldID> (nid);
             m_neighbours[d.id()] << nfId;
         }
+    }
+}
+
+void AhBoardScene::ensureAnimationObjectsKnown(const GameBoardChangeData &changes)
+{
+    AH::Common::RequestObjectsData reqs;
+    for (auto m : changes.monsterAppear) {
+        reqs.addRequest({AH::Common::RequestObjectsData::Monster, m.id});
+    }
+    // Monster disappear and move should be known
+    // Gate disappear and open should be kown
+    for (auto g : changes.gateAppear) {
+        reqs.addRequest({AH::Common::RequestObjectsData::Gate, g.id});
+    }
+
+    // Return can be ignored, will ask later
+    ObjectRegistry::instance()->getObjectsBlocking(reqs);
+}
+
+void AhBoardScene::animateChanges(GameBoardChangeData changes)
+{
+    ensureAnimationObjectsKnown(changes);
+    auto reg = ObjectRegistry::instance();
+
+    //GateItem *gate = new GateItem({}, nullptr);
+
+    for (auto g : changes.gateDisappear) {
+        auto f = this->getField(g.location);
+        f->animateGateDisappear();
+    }
+
+    for (auto g : changes.gateAppear) {
+        auto f = this->getField(g.location);
+        f->animateGateAppear(g.id);
+    }
+
+    for (auto g : changes.gateOpen) {
+        auto f = this->getField(g.location);
+        f->animateGateOpen(g.id);
+    }
+
+    for (auto m : changes.monsterAppear) {
+        auto f = this->getField(m.location);
+        auto monster = reg->getObject<MonsterData>(m.id);
+        f->animateMonsterAppear(monster);
+    }
+
+    for (auto m : changes.monsterMovements) {
+        auto f = this->getField(m.path.first());
+        auto monster = reg->getObject<MonsterData>(m.id);
+        f->animateMonsterMove(monster, m.path);
     }
 }

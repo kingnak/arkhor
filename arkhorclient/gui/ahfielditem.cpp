@@ -6,6 +6,8 @@
 #include "gatewidget.h"
 #include <QtGui>
 #include <QtWidgets>
+#include "ahboardscene.h"
+#include "monsterwidget.h"
 
 static const double STACK_ITEM_SIZE = 75;
 static const double SPECLIAL_ITEM_SIZE = 25;
@@ -19,6 +21,7 @@ AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, 
     m_id(id),
     m_locked(false),
     m_type(type),
+    m_prxMonst(NULL),
     m_monsters(NULL),
     m_characters(NULL),
     m_secondPhaseCharacters(NULL),
@@ -179,8 +182,8 @@ void AhFieldItem::initMonsterItem()
     m_monsters->setAutoFillBackground(false);
     m_monsters->setAttribute(Qt::WA_TranslucentBackground);
     connect(m_monsters, SIGNAL(itemActivated(const StackItem*)), this, SLOT(monsterClicked(const StackItem*)));
-    QGraphicsProxyWidget *prxMonst = new QGraphicsProxyWidget(this);
-    prxMonst->setWidget(m_monsters);
+    m_prxMonst = new QGraphicsProxyWidget(this);
+    m_prxMonst->setWidget(m_monsters);
 
     QRectF bound = boundingRect();
     qreal stkSize;
@@ -189,12 +192,12 @@ void AhFieldItem::initMonsterItem()
 
     //prxMonst->resize(stkSize, stkSize);
 
-    prxMonst->resize(200,200);
+    m_prxMonst->resize(200,200);
     double fact = stkSize/200.;
     //prxMonst->scale(fact, fact);
-    prxMonst->setScale(fact);
+    m_prxMonst->setScale(fact);
 
-    prxMonst->setPos(bound.topRight().x()-stkSize, bound.topRight().y());
+    m_prxMonst->setPos(bound.topRight().x()-stkSize, bound.topRight().y());
 }
 
 void AhFieldItem::initSpecialItem()
@@ -257,10 +260,10 @@ void AhFieldItem::initGateItem()
     if (m_type != Location)
         return;
     //m_gate = new GateItem(QRectF(0,0,PORTAL_SIZE*m_scale,PORTAL_SIZE*m_scale), this);
-    m_gate = new GateItem(QRectF(0,0,160,160), this);
+    m_gate = new GateItem(QRectF(-80,-80,160,160), this);
     m_gate->setScale(PORTAL_SIZE*m_scale/160.);
     m_gate->setZValue(-2);
-    m_gate->setPos(-PORTAL_SIZE*m_scale/2,-PORTAL_SIZE*m_scale/2);
+    //m_gate->setPos(-PORTAL_SIZE*m_scale/2,-PORTAL_SIZE*m_scale/2);
 }
 
 void AhFieldItem::fieldAreaClicked()
@@ -272,12 +275,162 @@ void AhFieldItem::fieldAreaClicked()
     }
 }
 
+void AhFieldItem::runAnimation(const QVariant &start, const QVariant &end, int duration, std::function<void (const QVariant &)> update)
+{
+    QVariantAnimation anim;
+    anim.setDuration(duration);
+    anim.setStartValue(start);
+    anim.setEndValue(end);
+    connect(&anim, &QVariantAnimation::valueChanged, update);
+    runAnimation(&anim);
+}
+
+void AhFieldItem::runAnimation(QAbstractAnimation *anim)
+{
+    QEventLoop loop;
+    connect(anim, &QVariantAnimation::finished, &loop, &QEventLoop::quit);
+    anim->start();
+    loop.exec();
+}
+
 QFont AhFieldItem::getItemFont(int pxSize, bool bold)
 {
     QFont f = ResourcePool::instance()->loadMainFont();
     f.setBold(bold);
     f.setPixelSize(pxSize);
     return f;
+}
+
+void AhFieldItem::animateGateAppear(QString id)
+{
+    if (!m_gate) return;
+    if (!m_gate->gateId().isEmpty()) return;
+    qobject_cast<AhBoardScene*>(scene())->centerOn(this);
+    m_gate->setOpacity(0);
+    m_gate->setGateId(id);
+    runAnimation(0., 1., 500, [=](auto v) {
+        m_gate->setOpacity(v.toDouble());
+        m_gate->setRotation(180-v.toDouble()*180);
+        m_gate->setScale(v.toDouble());
+        m_gate->update();
+    });
+}
+
+void AhFieldItem::animateGateDisappear()
+{
+    if (!m_gate) return;
+    if (m_gate->gateId().isEmpty()) return;
+    qobject_cast<AhBoardScene*>(scene())->centerOn(this);
+    runAnimation(1., 0., 500, [=](auto v) {
+        m_gate->setOpacity(v.toDouble());
+        m_gate->setScale(1.-v.toDouble());
+        m_gate->update();
+    });
+    m_gate->unsetGate();
+    m_gate->setOpacity(1);
+}
+
+void AhFieldItem::animateGateOpen(QString id)
+{
+    if (!m_gate) return;
+    if (m_gate->gateId().isEmpty()) return;
+
+    // Make a dummy overlay
+    QGraphicsPixmapItem itm(this);
+    itm.setPos(m_gate->pos());
+    itm.moveBy(-m_gate->boundingRect().width()/2, -m_gate->boundingRect().height()/2);
+    itm.setScale(m_gate->scale());
+    AH::Common::GateData g;
+    QPixmap src = GateWidget::drawGate(&g).scaled(m_gate->boundingRect().size().toSize());
+    itm.setPixmap(src);
+
+    qobject_cast<AhBoardScene*>(scene())->centerOn(this);
+    runAnimation(0., 1., 500, [&](auto v) {
+        QRadialGradient gr(QPointF(src.width()/2., src.height()/2.), src.width()/2.);
+        gr.setColorAt(1, Qt::transparent);
+        gr.setColorAt(v.toDouble()+.25, Qt::transparent);
+        gr.setColorAt(v.toDouble(), qRgba(0,0,0,128));
+        gr.setColorAt(v.toDouble()-2.5, Qt::black);
+        gr.setColorAt(0, Qt::black);
+
+        QPixmap res(src.size());
+        res.fill(Qt::transparent);
+        QPainter p(&res);
+        p.drawPixmap(0, 0, src);
+        p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+        p.fillRect(res.rect(), gr);
+        itm.setPixmap(res);
+    });
+}
+
+void AhFieldItem::animateMonsterAppear(AH::Common::MonsterData m)
+{
+    // Dummy item
+    auto itm = createOverlayMonster(m);
+    itm->setOpacity(0);
+    scene()->addItem(itm);
+    qobject_cast<AhBoardScene*>(scene())->centerOn(this);
+    runAnimation(0., 1., 500, [&](auto v) { itm->setOpacity(v.toDouble()); });
+    m_monsters->addItem(new MonsterStackItem(m.id(), m_scale));
+    delete itm;
+}
+
+void AhFieldItem::animateMonsterDisappear(AH::Common::MonsterData m)
+{
+    // TODO: needed? or different way in defeat?
+}
+
+void AhFieldItem::animateMonsterMove(AH::Common::MonsterData m, QList<AH::Common::FieldData::FieldID> path)
+{
+    // Dummy item
+    auto itm = createOverlayMonster(m);
+    scene()->addItem(itm);
+
+    m_monsters->removeById(m.id());
+
+    auto scn = qobject_cast<AhBoardScene*>(scene());
+    scn->centerOn(this);
+
+    QSequentialAnimationGroup grp;
+    // 1st element is start
+    for (int i = 1; i < path.size(); ++i) {
+        QVariantAnimation *anim = new QVariantAnimation;
+        anim->setDuration(500);
+
+        QPointF s = scn->getField(path[i-1])->getMonstersGlobalPos();
+        QPointF e = scn->getField(path[i])->getMonstersGlobalPos();
+
+        anim->setStartValue(s);
+        anim->setEndValue(e);
+        connect(anim, &QVariantAnimation::valueChanged, [&](auto v) {
+           itm->setPos(v.toPointF());
+           scn->centerOn(v.toPointF());
+        });
+
+        grp.addAnimation(anim);
+        grp.addPause(500);
+    }
+
+    runAnimation(&grp);
+    scn->getField(path.last())->m_monsters->addItem(new MonsterStackItem(m.id(), m_scale));
+    delete itm;
+}
+
+QGraphicsItem *AhFieldItem::createOverlayMonster(AH::Common::MonsterData m)
+{
+    QGraphicsPixmapItem *itm = new QGraphicsPixmapItem;
+
+    auto s = m_prxMonst->mapToScene(m_prxMonst->boundingRect()).boundingRect().adjusted(0,0,-5,-5).size().toSize();
+    auto p = getMonstersGlobalPos();
+
+    itm->setPos(p);
+    itm->setPixmap(MonsterFrontWidget::drawMonster(&m, m_scale).scaled(s));
+    return itm;
+}
+
+QPointF AhFieldItem::getMonstersGlobalPos()
+{
+    return m_prxMonst->mapToScene(m_prxMonst->boundingRect().topLeft());
 }
 
 void AhFieldItem::characterClicked(const StackItem *itm)
@@ -480,5 +633,6 @@ void GateItem::init()
 {
     setPen(Qt::NoPen);
     m_pixmap = new QGraphicsPixmapItem(this);
+    m_pixmap->moveBy(-boundingRect().width()/2, -boundingRect().height()/2);
     setFlag(QGraphicsItem::ItemClipsChildrenToShape, true);
 }

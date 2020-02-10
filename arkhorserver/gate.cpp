@@ -28,6 +28,7 @@ void Gate::open()
         m_open = true;
         m_destField->addBackGate(this);
         gGame->invalidateObject(m_id);
+        gGame->changeGateOpen(this);
     }
 }
 

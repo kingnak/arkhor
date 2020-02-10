@@ -42,7 +42,9 @@ void MonsterScript::placeOnField(int fieldId)
 {
     GameField *f = gGame->board()->field(static_cast<AH::Common::FieldData::FieldID> (fieldId));
     if (f) {
+        gGame->changeMonsterDisappear(this);
         f->placeMonster(this);
+        gGame->changeMonsterAppear(this);
     }
 }
 

@@ -82,9 +82,10 @@ void NetworkPlayer::startGame()
     m_conn->sendMessage(Message::S_GAME_START, QVariant());
 }
 
-void NetworkPlayer::sendBoard(GameBoard *board)
+void NetworkPlayer::sendBoard(GameBoard *board, GameBoardChangeData changes)
 {
     QVariantMap m;
+    m["_changes"] << changes;
     foreach (GameField *f, board->allFields()) {
         m[QString::number(f->id())] << *f->data();
     }

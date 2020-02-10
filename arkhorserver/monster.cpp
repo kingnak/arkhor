@@ -58,6 +58,12 @@ AH::Common::MonsterData::MovementType Monster::movementType() const
     return static_cast<AH::Common::MonsterData::MovementType> (gGame->context().getMonsterProperty(this, PropertyValue::Monster_Movement).finalVal());
 }
 
+AH::Common::FieldData::FieldID Monster::fieldId() const
+{
+    if (m_field) return m_field->id();
+    return MonsterData::fieldId();
+}
+
 void Monster::returnToDeck()
 {
     gGame->returnMonster(this);
@@ -75,7 +81,9 @@ void Monster::move(AH::MovementDirection dir)
         return;
     }
 
+    QList<AH::Common::FieldData::FieldID> path;
     GameField *curField = m_field;
+    path << curField->id();
     MovementType movementType = this->movementType();
     switch (movementType) {
     case Stationary:
@@ -90,6 +98,7 @@ void Monster::move(AH::MovementDirection dir)
         if (curField->isLocked()) {
             break;
         }
+        path << curField->id();
         // Stop after 1 field if there is a character
         if (curField->hasCharacters()) {
             curField->placeMonster(this);
@@ -105,6 +114,7 @@ void Monster::move(AH::MovementDirection dir)
         if (curField->isLocked()) {
             break;
         }
+        path << curField->id();
         curField->placeMonster(this);
         break;
 
@@ -146,14 +156,22 @@ void Monster::move(AH::MovementDirection dir)
 
         if (candidates.count() > 0) {
             int i = RandomSource::instance().nextUint(0, candidates.count()-1);
-            (*(candidates.begin()+i))->placeMonster(this);
+            curField = *(candidates.begin()+i);
+            curField->placeMonster(this);
+            path << curField->id();
         } else if (curField->type() != AH::Common::FieldData::Sky) {
-            gGame->board()->field(AH::Common::FieldData::Sp_Sky)->placeMonster(this);
+            curField = gGame->board()->field(AH::Common::FieldData::Sp_Sky);
+            curField->placeMonster(this);
+            path << curField->id();
         }
     }
         break;
     case Special:
         Q_ASSERT_X(false, "Monster::move", "Cannot handle special movement here");
+    }
+
+    if (path.length() > 1) {
+        gGame->changeMonsterMove(this, path);
     }
 }
 

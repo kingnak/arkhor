@@ -40,6 +40,7 @@ public:
 
     bool hasObject(QString id);
     AH::Common::DescribeObjectsData getObjects(AH::Common::RequestObjectsData reqs);
+    AH::Common::DescribeObjectsData getObjectsBlocking(AH::Common::RequestObjectsData reqs);
     AH::Common::DescribeObjectsData::ObjectDescription getObject(QString id, AH::Common::RequestObjectsData::ObjectType type = AH::Common::RequestObjectsData::Unknown);
     template<typename T>
     T getObject(QString id);
@@ -69,6 +70,9 @@ private slots:
     void receivedMonsters(QList<AH::Common::MonsterData> monsters);
     void setTempData(const QString &data);
     void clearTempData();
+
+private:
+    AH::Common::DescribeObjectsData doGetObjects(AH::Common::RequestObjectsData requests, AH::Common::RequestObjectsData &pending);
 
 private:
     ObjectRegistry();

@@ -5,8 +5,8 @@
 #include <QVariantMap>
 #include <fielddata.h>
 #include <gamefielddata.h>
-
-class AhFieldItem;
+#include <gamestatechangedata.h>
+#include "gui/ahfielditem.h"
 
 class AhBoardScene : public QGraphicsScene
 {
@@ -28,6 +28,9 @@ public:
     AhFieldItem *getField(AH::Common::FieldData::FieldID id) { return m_fieldMap.value(id); }
     QList<AhFieldItem *> allFields() { return m_fieldMap.values(); }
 
+    void centerOn(AhFieldItem *f);
+    void centerOn(QPointF p);
+
 public slots:
     void updateBoardFromData(QVariantMap boardMap);
     void setTerrorLevel(int level);
@@ -37,6 +40,12 @@ signals:
     void itemInfoRequested(QString id);
     void fieldClicked(AH::Common::FieldData::FieldID id);
     void fieldInfoRequested(AH::Common::FieldData::FieldID id);
+    void requestCenterOn(AH::Common::FieldData::FieldID id);
+    void requestCenterOn(const QPointF &p);
+
+private:
+    void ensureAnimationObjectsKnown(const AH::Common::GameBoardChangeData &changes);
+    void animateChanges(AH::Common::GameBoardChangeData changes);
 
 private:
     QMap<AH::Common::FieldData::FieldID, AhFieldItem *> m_fieldMap;

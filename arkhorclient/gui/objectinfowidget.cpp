@@ -47,6 +47,7 @@ ObjectInfoWidget::ObjectInfoWidget(QWidget *parent) :
     connect(ObjectRegistry::instance(), SIGNAL(objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription)), this, SLOT(receivedDescription(AH::Common::DescribeObjectsData::ObjectDescription)));
     connect(m_fieldInfo, &FieldInfoWidget::objectDescriptionRequested, this, &ObjectInfoWidget::objectInfoRequested);
     connect(m_character, &CharacterWidget::characterDetailRequested, this, &ObjectInfoWidget::characterDetailRequested);
+    connect(m_character, &CharacterWidget::requestCenterOnField, this, &ObjectInfoWidget::requestCenterOnField);
 }
 
 QSize ObjectInfoWidget::sizeHint() const

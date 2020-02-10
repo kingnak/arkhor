@@ -30,6 +30,7 @@ private slots:
 
 signals:
     void characterDetailRequested(const QString &id);
+    void requestCenterOnField(AH::Common::FieldData::FieldID id);
 
 private:
     QString m_curCharId;

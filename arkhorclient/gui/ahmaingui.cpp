@@ -72,6 +72,8 @@ AhMainGui::AhMainGui(QWidget *parent) :
     connect(ui->wgtCharShortInfo, &CharShortInfoWidget::characterDetailRequested, this, &AhMainGui::displayCharacterDetail);
     connect(ui->wgtCharacter, &CharacterWidget::characterDetailRequested, this, &AhMainGui::displayCharacterDetail);
     connect(ui->wgtObjectInfo, &ObjectInfoWidget::characterDetailRequested, this, &AhMainGui::displayCharacterDetail);
+    connect(ui->wgtCharacter, &CharacterWidget::requestCenterOnField, ui->grvBoard, &AhGraphicsView::centerOnField);
+    connect(ui->wgtObjectInfo, &ObjectInfoWidget::requestCenterOnField, ui->grvBoard, &AhGraphicsView::centerOnField);
 
     m_cardWidget = new DetailCardWidget(this);
     m_cardWidget->setVisible(false);

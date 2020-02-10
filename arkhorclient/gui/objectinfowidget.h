@@ -40,6 +40,7 @@ public:
 signals:
     void objectInfoRequested(QString id);
     void characterDetailRequested(QString id);
+    void requestCenterOnField(AH::Common::FieldData::FieldID id);
 
 public slots:
     void displayItemInfo(const QString &id);

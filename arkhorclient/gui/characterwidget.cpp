@@ -10,6 +10,10 @@ CharacterWidget::CharacterWidget(QWidget *parent) :
     ui(new Ui::CharacterWidget)
 {
     ui->setupUi(this);
+    connect(ui->lblField, &QLabel::linkActivated, [=](const QString &l) {
+        auto id = static_cast<AH::Common::FieldData::FieldID>(l.toInt());
+        emit requestCenterOnField(id);
+    });
 }
 
 CharacterWidget::~CharacterWidget()
@@ -97,7 +101,7 @@ void CharacterWidget::updateCharacterData(const AH::Common::CharacterData *data)
         ui->lblMonsterTrophies->setText(QString::number(data->monsterMarkerIds().count()));
         ui->lblGateTrophies->setText(QString::number(data->gateMarkerIds().count()));
         ui->lblMonsterToughness->setText(QString::number(data->getMonsterToughness()));
-        ui->lblField->setText(Utils::stringForField(data->fieldId()));
+        ui->lblField->setText(QString("<a href=\"%1\">%2</a>").arg(data->fieldId()).arg(Utils::stringForField(data->fieldId())));
     } else {
         ui->lblName->setText("");
         ui->lblClue->setText("");

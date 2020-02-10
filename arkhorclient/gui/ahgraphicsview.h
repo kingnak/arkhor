@@ -2,6 +2,9 @@
 #define AHGRAPHICSVIEW_H
 
 #include <QGraphicsView>
+#include <fielddata.h>
+
+class QVariantAnimation;
 
 class AhGraphicsView : public QGraphicsView
 {
@@ -18,15 +21,19 @@ signals:
 public slots:
     void zoomIn();
     void zoomOut();
+    void centerOnField(AH::Common::FieldData::FieldID id);
 
 protected:
     void wheelEvent(QWheelEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
 private:
+    qreal currentScaleFactor() const;
     void scaleView(qreal scaleFactor);
-private:
-    double m_zoom;
+    void scaleTo(qreal scaleFactor);
+
+    QVariantAnimation *zoomAnimation(qreal toFactor, int duration = 500);
+    QVariantAnimation *translateAnimation(QPointF center, int duration = 500);
 
 };
 

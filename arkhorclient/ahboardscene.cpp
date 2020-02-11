@@ -13,6 +13,7 @@ AhBoardScene::AhBoardScene(QObject *parent) :
     QGraphicsScene(parent)
   , m_terrorItem(nullptr)
   , m_scale(1.0)
+  , m_inUpdate(false)
 {
 }
 
@@ -53,19 +54,19 @@ void AhBoardScene::centerOn(QPointF p)
 
 void AhBoardScene::updateBoardFromData(QVariantMap boardMap)
 {
-    AH::Common::GameBoardChangeData changes;
-    boardMap["_changes"] >> changes;
-    animateChanges(changes);
-
-    for (QString k : boardMap.keys()) {
-        int id = k.toInt();
-        AH::Common::FieldData::FieldID fId = static_cast<FieldData::FieldID> (id);
-        if (m_fieldMap.contains(fId)) {
-            GameFieldData d;
-            boardMap[k] >> d;
-            m_fieldMap[fId]->updateFromData(d);
-        }
+    m_pendingUpdates << boardMap;
+    if (m_inUpdate) {
+        return;
     }
+
+    m_inUpdate = true;
+    emit beginAnimation();
+    while (!m_pendingUpdates.empty()) {
+        auto u = m_pendingUpdates.takeFirst();
+        applyUpdate(u);
+    }
+    emit endAnimation();
+    m_inUpdate = false;
 }
 
 void AhBoardScene::setTerrorLevel(int level)
@@ -102,6 +103,23 @@ void AhBoardScene::initNeighbourHoodFromBoardData(QList<AH::Common::GameFieldDat
     }
 }
 
+void AhBoardScene::applyUpdate(QVariantMap boardMap)
+{
+    AH::Common::GameBoardChangeData changes;
+    boardMap["_changes"] >> changes;
+    animateChanges(changes);
+
+    for (QString k : boardMap.keys()) {
+        int id = k.toInt();
+        AH::Common::FieldData::FieldID fId = static_cast<FieldData::FieldID> (id);
+        if (m_fieldMap.contains(fId)) {
+            GameFieldData d;
+            boardMap[k] >> d;
+            m_fieldMap[fId]->updateFromData(d);
+        }
+    }
+}
+
 void AhBoardScene::ensureAnimationObjectsKnown(const GameBoardChangeData &changes)
 {
     AH::Common::RequestObjectsData reqs;
@@ -124,7 +142,6 @@ void AhBoardScene::ensureAnimationObjectsKnown(const GameBoardChangeData &change
 
 void AhBoardScene::animateChanges(GameBoardChangeData changes)
 {
-    emit beginAnimation();
     ensureAnimationObjectsKnown(changes);
     auto reg = ObjectRegistry::instance();
 
@@ -171,6 +188,4 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
         auto f = this->getField(fc.location);
         f->animateFieldStateChange(fc);
     }
-
-    emit endAnimation();
 }

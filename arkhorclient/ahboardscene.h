@@ -47,6 +47,7 @@ signals:
     void endAnimation();
 
 private:
+    void applyUpdate(QVariantMap boardMap);
     void ensureAnimationObjectsKnown(const AH::Common::GameBoardChangeData &changes);
     void animateChanges(AH::Common::GameBoardChangeData changes);
 
@@ -58,6 +59,9 @@ private:
     QGraphicsItem *m_terrorItem;
 
     double m_scale;
+
+    QList<QVariantMap> m_pendingUpdates;
+    bool m_inUpdate;
 
     friend class AhBoardfillerHelper;
 };

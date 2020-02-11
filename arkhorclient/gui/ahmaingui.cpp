@@ -72,11 +72,22 @@ AhMainGui::AhMainGui(QWidget *parent) :
     connect(ui->wgtCharShortInfo, &CharShortInfoWidget::characterDetailRequested, this, &AhMainGui::displayCharacterDetail);
     connect(ui->wgtCharacter, &CharacterWidget::characterDetailRequested, this, &AhMainGui::displayCharacterDetail);
     connect(ui->wgtObjectInfo, &ObjectInfoWidget::characterDetailRequested, this, &AhMainGui::displayCharacterDetail);
-    connect(ui->wgtCharacter, &CharacterWidget::requestCenterOnField, ui->grvBoard, &AhGraphicsView::centerOnFieldAnimated);
-    connect(ui->wgtObjectInfo, &ObjectInfoWidget::requestCenterOnField, ui->grvBoard, &AhGraphicsView::centerOnFieldAnimated);
+    connect(ui->wgtCharacter, &CharacterWidget::requestCenterOnField, this, [&](auto f) { ui->grvBoard->centerOnFieldAnimated(f); });
+    connect(ui->wgtObjectInfo, &ObjectInfoWidget::requestCenterOnField, this, [&](auto f) { ui->grvBoard->centerOnFieldAnimated(f); });
 
-    connect(m_scene, qOverload<AH::Common::FieldData::FieldID>(&AhBoardScene::requestCenterOn), ui->grvBoard, &AhGraphicsView::centerOnFieldAnimated);
-    connect(m_scene, qOverload<const QPointF&>(&AhBoardScene::requestCenterOn), ui->grvBoard, &AhGraphicsView::centerOnPointStatic);
+    connect(m_scene, qOverload<AH::Common::FieldData::FieldID>(&AhBoardScene::requestCenterOn), this, [&](auto f) { ui->grvBoard->centerOnFieldAnimated(f); });
+    connect(m_scene, qOverload<const QPointF&>(&AhBoardScene::requestCenterOn), this, [&](auto p) { ui->grvBoard->centerOnPointStatic(p); });
+
+    connect(m_scene, &AhBoardScene::beginAnimation, this, [=]() {
+        ui->grvBoard->setInteractive(false);
+        ui->grvBoard->storeViewport();
+        ui->stkInteraction->setEnabled(false);
+    });
+    connect(m_scene, &AhBoardScene::endAnimation, this, [=](){
+        QTimer::singleShot(500, ui->grvBoard, &AhGraphicsView::restoreViewport);
+        ui->grvBoard->setInteractive(true);
+        ui->stkInteraction->setEnabled(true);
+    });
 
     m_cardWidget = new DetailCardWidget(this);
     m_cardWidget->setVisible(false);
@@ -359,6 +370,7 @@ void AhMainGui::chooseMove(AH::Common::FieldData::FieldID startId, int movementP
     ui->stkInteraction->setCurrentWidget(ui->pageMovementChooser);
     ui->tabInteract->setCurrentWidget(ui->tabInteraction);
     refitGui();
+    ui->grvBoard->centerOnFieldAnimated(startId, 1);
 }
 
 void AhMainGui::movementChosen(QList<FieldData::FieldID> path)

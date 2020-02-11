@@ -101,6 +101,9 @@ void AhBoardScene::ensureAnimationObjectsKnown(const GameBoardChangeData &change
     for (auto m : changes.monsterAppear) {
         reqs.addRequest({AH::Common::RequestObjectsData::Monster, m.id});
     }
+    for (auto m : changes.monsterMovements) {
+        reqs.addRequest({AH::Common::RequestObjectsData::Monster, m.id});
+    }
     // Monster disappear and move should be known
     // Gate disappear and open should be kown
     for (auto g : changes.gateAppear) {
@@ -113,10 +116,9 @@ void AhBoardScene::ensureAnimationObjectsKnown(const GameBoardChangeData &change
 
 void AhBoardScene::animateChanges(GameBoardChangeData changes)
 {
+    emit beginAnimation();
     ensureAnimationObjectsKnown(changes);
     auto reg = ObjectRegistry::instance();
-
-    //GateItem *gate = new GateItem({}, nullptr);
 
     for (auto g : changes.gateDisappear) {
         auto f = this->getField(g.location);
@@ -144,4 +146,5 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
         auto monster = reg->getObject<MonsterData>(m.id);
         f->animateMonsterMove(monster, m.path);
     }
+    emit endAnimation();
 }

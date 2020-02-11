@@ -4,11 +4,12 @@
 #include "ahfielditem.h"
 #include <math.h>
 #include <QtGui>
-#include <QTimeLine>
 
-AhGraphicsView::AhGraphicsView(QWidget *parent) :
-    QGraphicsView(parent)
+AhGraphicsView::AhGraphicsView(QWidget *parent)
+    : QGraphicsView(parent)
+    , m_vpZoom(1)
 {
+    setDragMode(QGraphicsView::DragMode::ScrollHandDrag);
 }
 
 QSize AhGraphicsView::sizeHint() const
@@ -26,50 +27,61 @@ void AhGraphicsView::zoomOut()
     scaleView(qreal(1/1.2));
 }
 
-void AhGraphicsView::centerOnFieldAnimated(AH::Common::FieldData::FieldID id)
+void AhGraphicsView::centerOnFieldAnimated(AH::Common::FieldData::FieldID id, qreal zoom)
 {
-    centerOnField(id, true);
+    centerOnField(id, zoom, true);
 }
 
-void AhGraphicsView::centerOnPointAnimated(QPointF p)
+void AhGraphicsView::centerOnPointAnimated(QPointF p, qreal zoom)
 {
-    centerOnPoint(p, true);
+    centerOnPoint(p, zoom, true);
 }
 
-void AhGraphicsView::centerOnFieldStatic(AH::Common::FieldData::FieldID id)
+void AhGraphicsView::centerOnFieldStatic(AH::Common::FieldData::FieldID id, qreal zoom)
 {
-    centerOnField(id, false);
+    centerOnField(id, zoom, false);
 }
 
-void AhGraphicsView::centerOnPointStatic(QPointF p)
+void AhGraphicsView::centerOnPointStatic(QPointF p, qreal zoom)
 {
-    centerOnPoint(p, false);
+    centerOnPoint(p, zoom, false);
 }
 
-void AhGraphicsView::centerOnField(AH::Common::FieldData::FieldID id, bool animate)
+void AhGraphicsView::centerOnField(AH::Common::FieldData::FieldID id, qreal zoom, bool animate)
 {
     auto f = qobject_cast<AhBoardScene*>(scene())->getField(id);
     if (f) {
         auto cEnd = f->mapToScene(f->boundingRect().center());
-        centerOnPoint(cEnd, animate);
+        centerOnPoint(cEnd, zoom, animate);
     }
 }
 
-void AhGraphicsView::centerOnPoint(QPointF p, bool animate)
+void AhGraphicsView::centerOnPoint(QPointF p, qreal zoom, bool animate)
 {
     if (!animate) {
         centerOn(p);
-        scaleTo(1.5);
+        scaleTo(zoom);
         return;
     }
 
     QParallelAnimationGroup *anim = new QParallelAnimationGroup;
     anim->addAnimation(translateAnimation(p));
-    anim->addAnimation(zoomAnimation(1.5));
+    anim->addAnimation(zoomAnimation(zoom));
     QEventLoop l;
     connect(anim, &QAbstractAnimation::finished, &l, &QEventLoop::quit);
     anim->start(QAbstractAnimation::DeleteWhenStopped);
     l.exec();
+}
+
+void AhGraphicsView::storeViewport()
+{
+    m_vpCenter = this->mapToScene(viewport()->rect().center());
+    m_vpZoom = currentScaleFactor();
+}
+
+void AhGraphicsView::restoreViewport()
+{
+    centerOnPointAnimated(m_vpCenter, m_vpZoom);
 }
 
 void AhGraphicsView::wheelEvent(QWheelEvent *event)

@@ -43,6 +43,9 @@ signals:
     void requestCenterOn(AH::Common::FieldData::FieldID id);
     void requestCenterOn(const QPointF &p);
 
+    void beginAnimation();
+    void endAnimation();
+
 private:
     void ensureAnimationObjectsKnown(const AH::Common::GameBoardChangeData &changes);
     void animateChanges(AH::Common::GameBoardChangeData changes);

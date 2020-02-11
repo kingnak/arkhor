@@ -179,6 +179,7 @@ public:
 
 
     //// CHANGE
+    void ignoreChanges(bool ignore);
     void changeMonsterAppear(Monster *m);
     void changeMonsterDisappear(Monster *m);
     void changeMonsterMove(Monster *m, QList<AH::Common::FieldData::FieldID> path);
@@ -186,7 +187,7 @@ public:
     void changeGateDisappear(Gate *g);
     void changeGateOpen(Gate *g);
     void changeCharacterMove(Character *c, QList<AH::Common::FieldData::FieldID> path);
-
+    void changeField(AH::Common::GameBoardChangeData::FieldChange change);
 
 protected:
     void initBoard();
@@ -293,6 +294,7 @@ private:
 
     bool m_reqAwake;
 
+    bool m_ignoreChanges;
     AH::Common::GameBoardChangeData m_boardChange;
 
     mutable QReadWriteLock m_lock;

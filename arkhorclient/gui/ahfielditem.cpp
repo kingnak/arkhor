@@ -118,6 +118,7 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
     m_locked = data.isLocked();
     if (m_specialMarker) {
         m_specialMarker->setVisible(false);
+        m_specialMarker->setOpacity(1);
         if (data.isSealed()) {
             m_specialMarker->setPixmap(QPixmap(":/core/marker/elder_sign").scaled(SPECLIAL_ITEM_SIZE*m_scale, SPECLIAL_ITEM_SIZE*m_scale));
             m_specialMarker->setVisible(true);
@@ -460,6 +461,158 @@ void AhFieldItem::animateCharacterMove(AH::Common::CharacterData c, QList<AH::Co
     else
         endField->m_characters->addItem(new CharacterStackItem(c.id(), m_scale));
     delete itm;
+}
+
+void AhFieldItem::animateFieldStateChange(AH::Common::GameBoardChangeData::FieldChange change)
+{
+    bool hasChange = false;
+    QSequentialAnimationGroup grp;
+
+    QGraphicsItem *itm = nullptr;
+    if (change.clue > 0 && m_clues) {
+        // Don't animate clue loss, it is due to character take it, or gate open
+        hasChange = true;
+        auto r = m_clues->mapToScene(m_clues->boundingRect()).boundingRect();
+        auto citm = new ClueAreaItem(QRectF({}, r.size()), m_scale, nullptr);
+        citm->setPos(r.topLeft());
+        citm->setClueCount(change.clue);
+        itm = citm;
+        itm->moveBy(0, -50);
+        itm->setVisible(false);
+        scene()->addItem(itm);
+
+        QVariantAnimation *anim = new QVariantAnimation;
+        anim->setStartValue(50.);
+        anim->setEndValue(0.);
+        anim->setDuration(500);
+        connect(anim, &QVariantAnimation::stateChanged, [=](auto s) {
+            if (s == QAbstractAnimation::Running) {
+                itm->setVisible(true);
+            }
+            if (s == QAbstractAnimation::Stopped) {
+                itm->setVisible(false);
+            }
+        });
+        connect(anim, &QVariantAnimation::valueChanged, [=](auto v) {
+            itm->setY(r.top()-v.toDouble());
+        });
+        grp.addPause(500);
+        grp.addAnimation(anim);
+    }
+
+    if (m_specialMarker) {
+        if (change.lock) {
+            hasChange = true;
+            m_specialMarker->setVisible(false);
+            QVariantAnimation *anim = new QVariantAnimation;
+            anim->setStartValue(1.25);
+            anim->setEndValue(1.);
+            anim->setDuration(150);
+            connect(anim, &QVariantAnimation::stateChanged, [=](auto s) {
+                if (s == QAbstractAnimation::Running) {
+                    m_specialMarker->setPixmap(QPixmap(":/core/marker/location_locked"));
+                    m_specialMarker->setScale(1.25);
+                    m_specialMarker->setVisible(true);
+                }
+            });
+            connect(anim, &QVariantAnimation::valueChanged, [=](auto v) {
+                m_specialMarker->setScale(v.toDouble());
+            });
+            grp.addPause(500);
+            grp.addAnimation(anim);
+            grp.addPause(500);
+        } else if (change.unlock) {
+            hasChange = true;
+
+            QVariantAnimation *anim = new QVariantAnimation;
+            anim->setStartValue(0.);
+            anim->setEndValue(1.);
+            anim->setDuration(500);
+            connect(anim, &QVariantAnimation::stateChanged, [=](auto s) {
+                if (s == QAbstractAnimation::Running) {
+                    m_specialMarker->setPixmap(QPixmap(":/core/marker/location_locked"));
+                    m_specialMarker->setOpacity(1);
+                    m_specialMarker->setVisible(true);
+                }
+            });
+            connect(anim, &QVariantAnimation::valueChanged, [=](auto v) {
+                m_specialMarker->setScale(1.+v.toDouble()/4.);
+                m_specialMarker->setOpacity(1.-v.toDouble());
+            });
+            grp.addPause(250);
+            grp.addAnimation(anim);
+        }
+
+        if (change.seal) {
+            hasChange = true;
+            QVariantAnimation *anim = new QVariantAnimation;
+            anim->setStartValue(0.);
+            anim->setEndValue(1.);
+            anim->setDuration(500);
+            connect(anim, &QVariantAnimation::stateChanged, [=](auto s) {
+                if (s == QAbstractAnimation::Running) {
+                    m_specialMarker->setPixmap(QPixmap(":/core/marker/elder_sign").scaled(SPECLIAL_ITEM_SIZE*m_scale, SPECLIAL_ITEM_SIZE*m_scale));
+                    m_specialMarker->setOpacity(0);
+                    m_specialMarker->setVisible(true);
+                }
+            });
+            connect(anim, &QVariantAnimation::valueChanged, [=](auto v) {
+                m_specialMarker->setOpacity(v.toDouble());
+                m_specialMarker->setRotation(180-v.toDouble()*180);
+                m_specialMarker->setScale(v.toDouble());
+            });
+            grp.addPause(250);
+            grp.addAnimation(anim);
+        } else if (change.unseal) {
+            hasChange = true;
+            QVariantAnimation *anim = new QVariantAnimation;
+            anim->setStartValue(1.);
+            anim->setEndValue(0.);
+            anim->setDuration(500);
+            connect(anim, &QVariantAnimation::stateChanged, [=](auto s) {
+                if (s == QAbstractAnimation::Running) {
+                    m_specialMarker->setPixmap(QPixmap(":/core/marker/elder_sign").scaled(SPECLIAL_ITEM_SIZE*m_scale, SPECLIAL_ITEM_SIZE*m_scale));
+                    m_specialMarker->setOpacity(1);
+                    m_specialMarker->setVisible(true);
+                }
+            });
+            connect(anim, &QVariantAnimation::valueChanged, [=](auto v) {
+                m_specialMarker->setOpacity(v.toDouble());
+                m_specialMarker->setRotation(180-v.toDouble()*180);
+                m_specialMarker->setScale(v.toDouble());
+            });
+            grp.addPause(250);
+            grp.addAnimation(anim);
+        }
+
+        if (change.eventNr > 0) {
+            hasChange = true;
+            QVariantAnimation *anim = new QVariantAnimation;
+            anim->setStartValue(0.);
+            anim->setEndValue(1.);
+            anim->setDuration(500);
+            connect(anim, &QVariantAnimation::stateChanged, [=](auto s) {
+                if (s == QAbstractAnimation::Running) {
+                    m_specialMarker->setPixmap(QPixmap(":/core/marker/activity_1").scaled(SPECLIAL_ITEM_SIZE*m_scale, SPECLIAL_ITEM_SIZE*m_scale));
+                    m_specialMarker->setOpacity(1);
+                    m_specialMarker->setVisible(true);
+                }
+            });
+            connect(anim, &QVariantAnimation::valueChanged, [=](auto v) {
+                m_specialMarker->setOpacity(v.toDouble());
+            });
+            grp.addPause(250);
+            grp.addAnimation(anim);
+        }
+    }
+
+    if (hasChange) {
+        auto scn = qobject_cast<AhBoardScene*>(scene());
+        scn->centerOn(this);
+        runAnimation(&grp);
+    }
+    if (itm)
+        delete itm;
 }
 
 QGraphicsItem *AhFieldItem::createOverlayMonster(AH::Common::MonsterData m)

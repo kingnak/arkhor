@@ -5,8 +5,9 @@
 #include <fielddata.h>
 #include <gamefielddata.h>
 #include "asyncobjectreceiver.h"
-#include "monsterdata.h"
-#include "characterdata.h"
+#include <monsterdata.h>
+#include <characterdata.h>
+#include <gamestatechangedata.h>
 
 class QGraphicsProxyWidget;
 class ItemStacker;
@@ -60,6 +61,8 @@ public:
     void animateMonsterMove(AH::Common::MonsterData m, QList<AH::Common::FieldData::FieldID> path);
 
     void animateCharacterMove(AH::Common::CharacterData c, QList<AH::Common::FieldData::FieldID> path);
+
+    void animateFieldStateChange(AH::Common::GameBoardChangeData::FieldChange change);
 
 signals:
     void itemInfoRequested(QString id);

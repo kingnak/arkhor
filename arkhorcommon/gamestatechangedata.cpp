@@ -34,6 +34,30 @@ void operator >> (const QVariant &v, GameBoardChangeData::LocatedChange &t) {
     m["location"] >> t.location;
 }
 
+void operator << (QVariant &v, const GameBoardChangeData::FieldChange &t) {
+    QVariantMap m;
+    m["location"] << t.location;
+    m["clue"] << t.clue;
+    m["lock"] << t.lock;
+    m["unlock"] << t.unlock;
+    m["seal"] << t.seal;
+    m["unseal"] << t.unseal;
+    m["eventNr"] << t.eventNr;
+    v << m;
+}
+
+void operator >> (const QVariant &v, GameBoardChangeData::FieldChange &t) {
+    QVariantMap m;
+    v >> m;
+    m["location"] >> t.location;
+    m["clue"] >> t.clue;
+    m["lock"] >> t.lock;
+    m["unlock"] >> t.unlock;
+    m["seal"] >> t.seal;
+    m["unseal"] >> t.unseal;
+    m["eventNr"] >> t.eventNr;
+}
+
 void operator << (QVariant &v, const GameBoardChangeData &t) {
     QVariantMap m;
     m["characterMovements"] << t.characterMovements;
@@ -43,6 +67,7 @@ void operator << (QVariant &v, const GameBoardChangeData &t) {
     m["gateAppear"] << t.gateAppear;
     m["gateDisapper"] << t.gateDisappear;
     m["gateOpen"] << t.gateOpen;
+    m["fieldChanges"] << t.fieldChanges;
     v << m;
 }
 
@@ -56,6 +81,7 @@ void operator >> (const QVariant &v, GameBoardChangeData &t) {
     m["gateAppear"] >> t.gateAppear;
     m["gateDisapper"] >> t.gateDisappear;
     m["gateOpen"] >> t.gateOpen;
+    m["fieldChanges"] >> t.fieldChanges;
 }
 
 }}

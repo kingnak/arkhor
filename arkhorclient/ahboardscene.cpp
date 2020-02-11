@@ -133,20 +133,26 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
         f->animateGateDisappear();
     }
 
+    for (auto m : changes.monsterDisappear) {
+        auto f = this->getField(m.location);
+        auto monster = reg->getObject<MonsterData>(m.id);
+        f->animateMonsterDisappear(monster);
+    }
+
     for (auto g : changes.gateAppear) {
         auto f = this->getField(g.location);
         f->animateGateAppear(g.id);
-    }
-
-    for (auto g : changes.gateOpen) {
-        auto f = this->getField(g.location);
-        f->animateGateOpen(g.id);
     }
 
     for (auto m : changes.monsterAppear) {
         auto f = this->getField(m.location);
         auto monster = reg->getObject<MonsterData>(m.id);
         f->animateMonsterAppear(monster);
+    }
+
+    for (auto g : changes.gateOpen) {
+        auto f = this->getField(g.location);
+        f->animateGateOpen(g.id);
     }
 
     for (auto m : changes.monsterMovements) {
@@ -160,5 +166,11 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
         auto chr = reg->getObject<CharacterData>(c.id);
         f->animateCharacterMove(chr, c.path);
     }
+
+    for (auto fc : changes.fieldChanges) {
+        auto f = this->getField(fc.location);
+        f->animateFieldStateChange(fc);
+    }
+
     emit endAnimation();
 }

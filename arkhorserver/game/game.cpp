@@ -72,7 +72,8 @@ Game::Game()
     m_settingDirty(false),
     m_terrorLevel(0),
     m_nextSpecialActionNr(1),
-    m_reqAwake(false)
+    m_reqAwake(false),
+    m_ignoreChanges(false)
 {
     Game::s_instance = this;
     m_registry = new GameRegistry;
@@ -1221,9 +1222,11 @@ void Game::returnSpecialActionNumber(int nr)
 
 void Game::initBoard()
 {
+    ignoreChanges(true);
     foreach (GameField *f, m_board->fields(AH::Common::FieldData::Location)) {
         f->putClue();
     }
+    ignoreChanges(false);
 
     // TEST
     //m_board->field(AH::Common::FieldData::DT_ArkhamAsylum)->setGate(new Gate(AH::Dim_Slash, -2, m_board->field(AH::Common::FieldData::OW_Abyss)));
@@ -1498,44 +1501,84 @@ void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity,
 
 }
 
+void Game::ignoreChanges(bool ignore)
+{
+    m_ignoreChanges = ignore;
+}
+
 void Game::changeMonsterAppear(Monster *m)
 {
+    if (m_ignoreChanges) return;
     m_boardChange.monsterAppear << AH::Common::GameBoardChangeData::LocatedChange{m->id(), m->fieldId()};
 }
 
 void Game::changeMonsterDisappear(Monster *m)
 {
+    if (m_ignoreChanges) return;
     m_boardChange.monsterDisappear << AH::Common::GameBoardChangeData::LocatedChange{m->id(), m->fieldId()};
 }
 
 void Game::changeMonsterMove(Monster *m, QList<AH::Common::FieldData::FieldID> path)
 {
-    AH::Common::GameBoardChangeData::Movement move;
-    move.id = m->id();
-    //move.start = path.first();
-    //move.end = path.last();
-    move.path = path;
-    m_boardChange.monsterMovements << move;
+    if (m_ignoreChanges) return;
+    m_boardChange.monsterMovements << AH::Common::GameBoardChangeData::Movement{ m->id(), path};
 }
 
 void Game::changeGateAppear(Gate *g)
 {
+    if (m_ignoreChanges) return;
     m_boardChange.gateAppear << AH::Common::GameBoardChangeData::LocatedChange{g->id(), g->sourceField()->id()};
 }
 
 void Game::changeGateDisappear(Gate *g)
 {
+    if (m_ignoreChanges) return;
     m_boardChange.gateDisappear << AH::Common::GameBoardChangeData::LocatedChange{g->id(), g->sourceField()->id()};
 }
 
 void Game::changeGateOpen(Gate *g)
 {
+    if (m_ignoreChanges) return;
     m_boardChange.gateOpen << AH::Common::GameBoardChangeData::LocatedChange{g->id(), g->sourceField()->id()};
 }
 
 void Game::changeCharacterMove(Character *c, QList<AH::Common::FieldData::FieldID> path)
 {
+    if (m_ignoreChanges) return;
     m_boardChange.characterMovements << AH::Common::GameBoardChangeData::Movement{c->id(), path};
+}
+
+void Game::changeField(AH::Common::GameBoardChangeData::FieldChange change)
+{
+    if (m_ignoreChanges) return;
+
+    auto xorFlags = [](bool l1, bool u1, bool l2, bool u2, bool &lo, bool &uo) {
+        if ((l1 && u2) || (u1 && l2)) {
+            // one locks, other unlocks => conflict. Neither lock nor unlock
+            lo = false;
+            uo = false;
+        } else {
+            lo = l1 || l2;
+            uo = u1 || u2;
+        }
+    };
+
+    // Compress
+    for (auto it = m_boardChange.fieldChanges.begin(); it != m_boardChange.fieldChanges.end(); ++it) {
+        if (it->location == change.location) {
+            AH::Common::GameBoardChangeData::FieldChange comb;
+            comb.location = it->location;
+            comb.clue = it->clue + change.clue;
+            xorFlags(it->lock, it->unlock, change.lock, change.unlock, comb.lock, comb.unlock);
+            xorFlags(it->seal, it->unseal, change.seal, change.unseal, comb.seal, comb.unseal);
+            comb.eventNr = qMax(it->eventNr, change.eventNr);
+            *it = comb;
+            return;
+        }
+    }
+
+    // not found, add
+    m_boardChange.fieldChanges << change;
 }
 
 //private below:

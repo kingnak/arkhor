@@ -19,6 +19,7 @@ void GameField::putClue(int amount)
 {
     m_clues += amount;
     gGame->boardDirty();
+    gGame->changeField(AH::Common::GameBoardChangeData::FieldChange::addClues(m_id, amount));
 }
 
 int GameField::takeClues()
@@ -26,6 +27,7 @@ int GameField::takeClues()
     int ret = m_clues;
     m_clues = 0;
     gGame->boardDirty();
+    gGame->changeField(AH::Common::GameBoardChangeData::FieldChange::addClues(m_id, -ret));
     return ret;
 }
 
@@ -64,6 +66,10 @@ void GameField::setSealed(bool sealed)
     if (m_sealed != sealed) {
         m_sealed = sealed;
         gGame->boardDirty();
+        if (sealed)
+            gGame->changeField(AH::Common::GameBoardChangeData::FieldChange::sealField(m_id));
+        else
+            gGame->changeField(AH::Common::GameBoardChangeData::FieldChange::unsealField(m_id));
     }
 }
 
@@ -74,19 +80,25 @@ void GameField::lockRound()
 
 void GameField::lock(LockReason lockFlag)
 {
+    bool wasLocked = isLocked();
     if (!m_lockFlags.testFlag(lockFlag)) {
         // Set lock
         m_lockFlags.setFlag(lockFlag);
         gGame->boardDirty();
+        if (!wasLocked && isLocked())
+            gGame->changeField(AH::Common::GameBoardChangeData::FieldChange::lockField(m_id));
     }
 }
 
 void GameField::unlock(LockReason lockFlag)
 {
+    bool wasLocked = isLocked();
     if (m_lockFlags.testFlag(lockFlag)) {
         // Remove lock
         m_lockFlags.setFlag(lockFlag, false);
         gGame->boardDirty();
+        if (wasLocked && !isLocked())
+            gGame->changeField(AH::Common::GameBoardChangeData::FieldChange::unlockField(m_id));
     }
 }
 
@@ -100,6 +112,7 @@ void GameField::setSpecialActionNr(int nr)
     if (nr != m_specialActionNr) {
         m_specialActionNr = nr;
         gGame->boardDirty();
+        gGame->changeField(AH::Common::GameBoardChangeData::FieldChange::setEvent(m_id, nr));
     }
 }
 
@@ -109,6 +122,7 @@ void GameField::unsetSpecialActionNr()
         gGame->returnSpecialActionNumber(m_specialActionNr);
         m_specialActionNr = 0;
         gGame->boardDirty();
+        gGame->changeField(AH::Common::GameBoardChangeData::FieldChange::setEvent(m_id, 0));
     }
 }
 

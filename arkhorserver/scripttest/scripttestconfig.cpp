@@ -1,7 +1,7 @@
 #ifdef TEST_SCRIPT_BUILD
 #include "scripttestconfig.h"
 
-bool ScriptTestConfig::m_doAsk = true;
+bool ScriptTestConfig::m_doAsk = false;
 bool ScriptTestConfig::m_askDrawCommon = true;
 bool ScriptTestConfig::m_askDrawUnique = true;
 bool ScriptTestConfig::m_askDrawSpell = true;
@@ -13,9 +13,9 @@ bool ScriptTestConfig::m_askDrawOtherWorldEncounter = true;
 bool ScriptTestConfig::m_askDrawMythos = true;
 bool ScriptTestConfig::m_askDrawGate = true;
 bool ScriptTestConfig::m_askDrawAncientOne = true;
-bool ScriptTestConfig::m_askRollDie = true;
+bool ScriptTestConfig::m_askRollDie = false;
 
-bool ScriptTestConfig::m_debugScript = true;
+bool ScriptTestConfig::m_debugScript = false;
 bool ScriptTestConfig::m_debugAction = true;
 bool ScriptTestConfig::m_debugAvailable = true;
 bool ScriptTestConfig::m_debugAncientOne = true;

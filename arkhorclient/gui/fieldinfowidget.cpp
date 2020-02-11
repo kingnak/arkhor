@@ -113,8 +113,6 @@ void FieldInfoWidget::displayField(AH::Common::GameFieldData fd)
         ui->txtGate->setVisible(false);
         ui->lblClues->setVisible(false);
         ui->txtClues->setVisible(false);
-        ui->lblState->setVisible(false);
-        ui->txtState->setVisible(false);
         break;
     case FieldData::FieldType::OtherWorld:
     case FieldData::FieldType::SpaceAndTime:

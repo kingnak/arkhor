@@ -14,7 +14,7 @@ ScriptTestConfigWidget::ScriptTestConfigWidget(QWidget *parent) : QWidget(parent
 
     QHBoxLayout *h = new QHBoxLayout;
     QCheckBox *b = new QCheckBox("Die rolls");
-    b->setChecked(true);
+    b->setChecked(false);
     connect(b, &QCheckBox::toggled, [](bool b) {ScriptTestConfig::m_askRollDie = b;});
     h->addWidget(b);
     l->addLayout(h);
@@ -26,7 +26,7 @@ QWidget *ScriptTestConfigWidget::buildAsk()
 {
     QGroupBox *ask = new QGroupBox("Ask what to draw for:");
     ask->setCheckable(true);
-    ask->setChecked(true);
+    ask->setChecked(false);
     connect(ask, &QGroupBox::toggled, [](bool b){ScriptTestConfig::m_doAsk = b;});
 
     QVBoxLayout *l2 = new QVBoxLayout(ask);
@@ -115,7 +115,7 @@ QWidget *ScriptTestConfigWidget::buildDebug()
 {
     QGroupBox *dbg = new QGroupBox("Debug");
     dbg->setCheckable(true);
-    dbg->setChecked(true);
+    dbg->setChecked(false);
     connect(dbg, &QGroupBox::toggled, [](bool b){ScriptTestConfig::m_debugScript = b;});
 
     QVBoxLayout *l2 = new QVBoxLayout(dbg);

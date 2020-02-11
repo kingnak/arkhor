@@ -41,7 +41,7 @@ ArkhamEncounter {
     options: {AEOption {
         activate: {{{
             if (!CHAR.pay({type: Constants.Costs.Money, amount: 4}))
-                CHAR.placeOnField(MU_MiskatonicU);
+                CHAR.placeOnField(Constants.Fields.MU_MiskatonicU);
         }}};
     }};
 }

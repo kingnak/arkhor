@@ -34,6 +34,13 @@ void AhBoardScene::initBoard()
     setTerrorLevel(-1);
 }
 
+AhFieldItem *AhBoardScene::getField(FieldData::FieldID id)
+{
+    if (id & AH::Common::FieldData::OWF_2ndFieldFlag)
+        id = static_cast<AH::Common::FieldData::FieldID>(id & ~AH::Common::FieldData::OWF_2ndFieldFlag);
+    return m_fieldMap.value(id);
+}
+
 void AhBoardScene::centerOn(AhFieldItem *f)
 {
     emit requestCenterOn(f->id());
@@ -104,10 +111,11 @@ void AhBoardScene::ensureAnimationObjectsKnown(const GameBoardChangeData &change
     for (auto m : changes.monsterMovements) {
         reqs.addRequest({AH::Common::RequestObjectsData::Monster, m.id});
     }
-    // Monster disappear and move should be known
-    // Gate disappear and open should be kown
     for (auto g : changes.gateAppear) {
         reqs.addRequest({AH::Common::RequestObjectsData::Gate, g.id});
+    }
+    for (auto c : changes.characterMovements) {
+        reqs.addRequest({AH::Common::RequestObjectsData::Character, c.id});
     }
 
     // Return can be ignored, will ask later
@@ -145,6 +153,12 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
         auto f = this->getField(m.path.first());
         auto monster = reg->getObject<MonsterData>(m.id);
         f->animateMonsterMove(monster, m.path);
+    }
+
+    for (auto c : changes.characterMovements) {
+        auto f = this->getField(c.path.first());
+        auto chr = reg->getObject<CharacterData>(c.id);
+        f->animateCharacterMove(chr, c.path);
     }
     emit endAnimation();
 }

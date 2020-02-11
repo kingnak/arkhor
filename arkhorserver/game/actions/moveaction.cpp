@@ -57,6 +57,7 @@ bool MoveAction::moveArkham()
 {
     int speed = gGame->context().getCurCharacterProperty(PropertyValue::Prop_Movement).finalVal();
     MovementPath p = gGame->context().player()->chooseMovement(gGame->context().player()->getCharacter()->field(), speed);
+    QList<AH::Common::FieldData::FieldID> path;
 
     if (p.isEmpty()) {
         return false;
@@ -69,19 +70,23 @@ bool MoveAction::moveArkham()
         m_movement->characterMoved();
         gGame->notifier()->actionStart(this, p.first()->name());
         GameField *stopField = p.endField();
+        path << p.startField()->id();
         for (int i = 1; i < p.size(); ++i) {
             gGame->notifier()->actionUpdate(this, p[i]->name());
             speed--;
             if (p[i]->hasMonsters()) {
                 // STOP HERE!
                 stopField = p[i];
+                path << stopField->id();
                 break;
             }
+            path << p[i]->id();
         }
 
         stopField->placeCharacter(gGame->context().player()->getCharacter());
         gGame->context().player()->getCharacter()->setMovementAmount(speed);
         gGame->notifier()->actionFinish(this, stopField->name());
+        gGame->changeCharacterMove(gGame->context().player()->getCharacter(), path);
         return true;
     }
     return false;
@@ -90,12 +95,17 @@ bool MoveAction::moveArkham()
 bool MoveAction::moveOtherWorld()
 {
     Character *c = gGame->context().player()->getCharacter();
+    QList<AH::Common::FieldData::FieldID> path;
+    path << c->field()->id();
     switch (c->otherWorldPhase()) {
     case AH::OWP_FirstField:
         c->setOtherWoldPhase(AH::OWP_SecondField);
         gGame->notifier()->actionExecute(this, "second");
+        path << static_cast<AH::Common::FieldData::FieldID>(c->field()->id() | AH::Common::FieldData::FieldID::OWF_2ndFieldFlag);
+        gGame->changeCharacterMove(c, path);
         return true;
     case AH::OWP_SecondField:
+        path[0] = static_cast<AH::Common::FieldData::FieldID>(path[0] | AH::Common::FieldData::OWF_2ndFieldFlag);
         if (c->returnToArkham()) {
             gGame->notifier()->actionExecute(this, c->field()->name());
         } else {
@@ -103,6 +113,8 @@ bool MoveAction::moveOtherWorld()
             c->lostInSpaceAndTime();
             gGame->notifier()->actionExecute(this, c->field()->name());
         }
+        path << c->field()->id();
+        gGame->changeCharacterMove(c, path);
         return true;
     default:
         Q_ASSERT_X(false, "Movement Other World", "Unsupported Other World Phase");

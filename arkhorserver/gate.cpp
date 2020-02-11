@@ -37,6 +37,8 @@ void Gate::enter(Character *c)
     open();
     m_destField->placeCharacter(c);
     c->setOtherWoldPhase(AH::OWP_FirstField);
+    // TODO: Different change notification?
+    gGame->changeCharacterMove(c, QList<AH::Common::FieldData::FieldID>() << m_sourceField->id() << m_destField->id());
 }
 
 void Gate::drawThrough(Character *c)

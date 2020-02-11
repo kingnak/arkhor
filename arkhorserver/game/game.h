@@ -185,6 +185,7 @@ public:
     void changeGateAppear(Gate *g);
     void changeGateDisappear(Gate *g);
     void changeGateOpen(Gate *g);
+    void changeCharacterMove(Character *c, QList<AH::Common::FieldData::FieldID> path);
 
 
 protected:

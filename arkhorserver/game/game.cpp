@@ -1533,6 +1533,11 @@ void Game::changeGateOpen(Gate *g)
     m_boardChange.gateOpen << AH::Common::GameBoardChangeData::LocatedChange{g->id(), g->sourceField()->id()};
 }
 
+void Game::changeCharacterMove(Character *c, QList<AH::Common::FieldData::FieldID> path)
+{
+    m_boardChange.characterMovements << AH::Common::GameBoardChangeData::Movement{c->id(), path};
+}
+
 //private below:
 
 void Game::upkeep()

@@ -8,6 +8,7 @@
 #include <QtWidgets>
 #include "ahboardscene.h"
 #include "monsterwidget.h"
+#include "characterwidget.h"
 
 static const double STACK_ITEM_SIZE = 75;
 static const double SPECLIAL_ITEM_SIZE = 25;
@@ -21,7 +22,6 @@ AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, 
     m_id(id),
     m_locked(false),
     m_type(type),
-    m_prxMonst(NULL),
     m_monsters(NULL),
     m_characters(NULL),
     m_secondPhaseCharacters(NULL),
@@ -32,6 +32,9 @@ AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, 
     m_gate(NULL),
     m_specialMarker(NULL),
     m_thisCharacter(NULL),
+    m_prxMonst(NULL),
+    m_prxChar(NULL),
+    m_prxChar2nd(NULL),
     m_scale(scale)
 {
     m_itemRect = QRectF(-rect.width()/2,-rect.height()/2,rect.width(),rect.height());
@@ -142,8 +145,8 @@ void AhFieldItem::initCharacterItem()
     m_characters->setAutoFillBackground(false);
     m_characters->setAttribute(Qt::WA_TranslucentBackground);
     connect(m_characters, SIGNAL(itemActivated(const StackItem*)), this, SLOT(characterClicked(const StackItem*)));
-    QGraphicsProxyWidget *prxChar = new QGraphicsProxyWidget(this);
-    prxChar->setWidget(m_characters);
+    m_prxChar = new QGraphicsProxyWidget(this);
+    m_prxChar->setWidget(m_characters);
 
     QRectF bound = boundingRect();
     qreal stkSize;
@@ -152,8 +155,8 @@ void AhFieldItem::initCharacterItem()
     else if (m_type == OtherWorld) stkSize = qMin(bound.height(), STACK_ITEM_SIZE*m_scale);
     else stkSize = qMin(bound.height(), STACK_ITEM_SIZE*m_scale);
 
-    prxChar->resize(stkSize, stkSize);
-    prxChar->setPos(bound.topLeft());
+    m_prxChar->resize(stkSize, stkSize);
+    m_prxChar->setPos(bound.topLeft());
 
     if (m_type == OtherWorld) {
         m_secondPhaseCharacters = new ItemStacker;
@@ -161,11 +164,11 @@ void AhFieldItem::initCharacterItem()
         m_secondPhaseCharacters->setAutoFillBackground(false);
         m_secondPhaseCharacters->setAttribute(Qt::WA_TranslucentBackground);
         connect(m_secondPhaseCharacters, SIGNAL(itemActivated(const StackItem*)), this, SLOT(characterClicked(const StackItem*)));
-        QGraphicsProxyWidget *prx2nd = new QGraphicsProxyWidget(this);
-        prx2nd->setWidget(m_secondPhaseCharacters);
-        prx2nd->resize(stkSize, stkSize);
-        prxChar->setPos(0,0);
-        prx2nd->setPos(bound.topLeft());
+        m_prxChar2nd = new QGraphicsProxyWidget(this);
+        m_prxChar2nd->setWidget(m_secondPhaseCharacters);
+        m_prxChar2nd->resize(stkSize, stkSize);
+        m_prxChar->setPos(0,0);
+        m_prxChar2nd->setPos(bound.topLeft());
     }
 
 }
@@ -382,13 +385,12 @@ void AhFieldItem::animateMonsterDisappear(AH::Common::MonsterData m)
 
 void AhFieldItem::animateMonsterMove(AH::Common::MonsterData m, QList<AH::Common::FieldData::FieldID> path)
 {
-    // Dummy item
-    auto itm = createOverlayMonster(m);
-    scene()->addItem(itm);
-
-    m_monsters->removeById(m.id());
-
     auto scn = qobject_cast<AhBoardScene*>(scene());
+    m_monsters->removeById(m.id());
+    scn->getField(path.last())->m_monsters->removeById(m.id());
+
+    auto itm = createOverlayMonster(m);
+    scn->addItem(itm);
     scn->centerOn(this);
 
     QSequentialAnimationGroup grp;
@@ -416,6 +418,50 @@ void AhFieldItem::animateMonsterMove(AH::Common::MonsterData m, QList<AH::Common
     delete itm;
 }
 
+void AhFieldItem::animateCharacterMove(AH::Common::CharacterData c, QList<AH::Common::FieldData::FieldID> path)
+{
+    auto scn = qobject_cast<AhBoardScene*>(scene());
+    auto endField = scn->getField(path.last());
+
+    m_characters->removeById(c.id());
+    if (m_secondPhaseCharacters) m_secondPhaseCharacters->removeById(c.id());
+    endField->m_characters->removeById(c.id());
+    if (endField->m_secondPhaseCharacters) endField->m_secondPhaseCharacters->removeById(c.id());
+
+    auto itm = createOverlayCharacter(c, path.first() & AH::Common::FieldData::OWF_2ndFieldFlag);
+    scn->addItem(itm);
+    scn->centerOn(this);
+
+    QSequentialAnimationGroup grp;
+    // 1st element is start
+    for (int i = 1; i < path.size(); ++i) {
+        QVariantAnimation *anim = new QVariantAnimation;
+        anim->setDuration(500);
+
+        QPointF s = scn->getField(path[i-1])->getCharacterGlobalPos(path[i-1] & AH::Common::FieldData::OWF_2ndFieldFlag);
+        QPointF e = scn->getField(path[i])->getCharacterGlobalPos(path[i]  & AH::Common::FieldData::OWF_2ndFieldFlag);
+
+        anim->setStartValue(s);
+        anim->setEndValue(e);
+        connect(anim, &QVariantAnimation::valueChanged, [&](auto v) {
+           itm->setPos(v.toPointF());
+           scn->centerOn(v.toPointF());
+        });
+
+        grp.addAnimation(anim);
+        grp.addPause(500);
+    }
+
+    runAnimation(&grp);
+    //scn->getField(path.last())->m_monsters->addItem(new MonsterStackItem(m.id(), m_scale));
+
+    if ((path.last() & AH::Common::FieldData::OWF_2ndFieldFlag) && endField->m_secondPhaseCharacters)
+        endField->m_secondPhaseCharacters->addItem(new CharacterStackItem(c.id(), m_scale));
+    else
+        endField->m_characters->addItem(new CharacterStackItem(c.id(), m_scale));
+    delete itm;
+}
+
 QGraphicsItem *AhFieldItem::createOverlayMonster(AH::Common::MonsterData m)
 {
     QGraphicsPixmapItem *itm = new QGraphicsPixmapItem;
@@ -431,6 +477,25 @@ QGraphicsItem *AhFieldItem::createOverlayMonster(AH::Common::MonsterData m)
 QPointF AhFieldItem::getMonstersGlobalPos()
 {
     return m_prxMonst->mapToScene(m_prxMonst->boundingRect().topLeft());
+}
+
+QGraphicsItem *AhFieldItem::createOverlayCharacter(AH::Common::CharacterData c, bool secondField)
+{
+    QGraphicsPixmapItem *itm = new QGraphicsPixmapItem;
+
+    auto s = m_prxChar->mapToScene(m_prxChar->boundingRect()).boundingRect().adjusted(0,0,-5,-5).size().toSize();
+    auto p = getCharacterGlobalPos(secondField);
+
+    itm->setPos(p);
+    itm->setPixmap(CharacterWidget::drawCharacterWithStats(&c, m_scale).scaled(s));
+    return itm;
+}
+
+QPointF AhFieldItem::getCharacterGlobalPos(bool secondField)
+{
+    if (secondField && m_prxChar2nd)
+        return m_prxChar2nd->mapToScene(m_prxChar2nd->boundingRect().topLeft());
+    return m_prxChar->mapToScene(m_prxChar->boundingRect().topLeft());
 }
 
 void AhFieldItem::characterClicked(const StackItem *itm)

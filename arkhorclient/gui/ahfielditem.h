@@ -6,6 +6,7 @@
 #include <gamefielddata.h>
 #include "asyncobjectreceiver.h"
 #include "monsterdata.h"
+#include "characterdata.h"
 
 class QGraphicsProxyWidget;
 class ItemStacker;
@@ -58,6 +59,8 @@ public:
     void animateMonsterDisappear(AH::Common::MonsterData m);
     void animateMonsterMove(AH::Common::MonsterData m, QList<AH::Common::FieldData::FieldID> path);
 
+    void animateCharacterMove(AH::Common::CharacterData c, QList<AH::Common::FieldData::FieldID> path);
+
 signals:
     void itemInfoRequested(QString id);
     void fieldClicked(AH::Common::FieldData::FieldID id);
@@ -85,6 +88,8 @@ private:
 
     QGraphicsItem *createOverlayMonster(AH::Common::MonsterData m);
     QPointF getMonstersGlobalPos();
+    QGraphicsItem *createOverlayCharacter(AH::Common::CharacterData c, bool secondField = false);
+    QPointF getCharacterGlobalPos(bool secondField = false);
 
 private:
     friend class ClickAreaItem;
@@ -101,6 +106,8 @@ private:
     ItemStacker *m_secondPhaseCharacters; // For other world
 
     QGraphicsProxyWidget *m_prxMonst;
+    QGraphicsProxyWidget *m_prxChar;
+    QGraphicsProxyWidget *m_prxChar2nd;
 
     //ItemStacker *m_secondPhaseCharacters;
 

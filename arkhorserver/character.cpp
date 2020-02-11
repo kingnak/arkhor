@@ -358,6 +358,8 @@ void Character::unconscious()
         return;
     }
     loseHalfPossessions();
+    // TODO: Better notification?
+    gGame->changeCharacterMove(this, {this->field()->id(), AH::Common::FieldData::UT_StMarysHospital});
     gGame->board()->field(AH::Common::FieldData::UT_StMarysHospital)->placeCharacter(this);
     setSetout(true);
     gGame->characterDirty(this);
@@ -388,6 +390,8 @@ void Character::insane()
         return;
     }
     loseHalfPossessions();
+    // TODO: Better notification?
+    gGame->changeCharacterMove(this, {this->field()->id(), AH::Common::FieldData::DT_ArkhamAsylum});
     gGame->board()->field(AH::Common::FieldData::DT_ArkhamAsylum)->placeCharacter(this);
     setSetout(true);
     gGame->characterDirty(this);
@@ -422,6 +426,8 @@ void Character::lostInSpaceAndTime()
     gGame->notifier()->notifySpecific("You are lost in time and space!", "{C} is lost in time and space", gGame->playerForCharacter(this));
     loseHalfPossessions();
     setDelayed(true);
+    // TODO: Better notification?
+    gGame->changeCharacterMove(this, {this->field()->id(), AH::Common::FieldData::Sp_SpaceAndTime});
     gGame->board()->field(AH::Common::FieldData::Sp_SpaceAndTime)->placeCharacter(this);
     gGame->characterDirty(this);
     //gGame->boardDirty();

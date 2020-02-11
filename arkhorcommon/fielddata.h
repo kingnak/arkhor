@@ -74,7 +74,9 @@ namespace AH {
 
                 Sp_Sky = 0x2000,
                 Sp_Outskirts,
-                Sp_SpaceAndTime
+                Sp_SpaceAndTime,
+
+                OWF_2ndFieldFlag = 0x10000
             };
 
             enum FieldType {

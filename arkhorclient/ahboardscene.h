@@ -25,7 +25,7 @@ public:
     void initBoard();
 
     QList<AH::Common::FieldData::FieldID> getNeighbours(AH::Common::FieldData::FieldID id) { return m_neighbours.value(id); }
-    AhFieldItem *getField(AH::Common::FieldData::FieldID id) { return m_fieldMap.value(id); }
+    AhFieldItem *getField(AH::Common::FieldData::FieldID id);
     QList<AhFieldItem *> allFields() { return m_fieldMap.values(); }
 
     void centerOn(AhFieldItem *f);

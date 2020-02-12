@@ -8,7 +8,8 @@ using namespace AH::Common;
 
 AncientOneWidget::AncientOneWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::AncientOneWidget)
+    ui(new Ui::AncientOneWidget),
+    m_signalAOChange(false)
 {
     ui->setupUi(this);
     ui->lblName->setFont(ResourcePool::instance()->loadMainFont());
@@ -32,9 +33,14 @@ void AncientOneWidget::objectDescribed(const DescribeObjectsData::ObjectDescript
 
 void AncientOneWidget::displayAncientOne(QString aoId)
 {
-    ObjectRegistry::instance()->unsubscribe(this);
-    ObjectRegistry::instance()->asyncSubscribeObject(this, aoId);
-    m_curAoId = aoId;
+    if (aoId != m_curAoId) {
+        ObjectRegistry::instance()->unsubscribe(this);
+        ObjectRegistry::instance()->asyncSubscribeObject(this, aoId);
+        m_curAoId = aoId;
+        if (!m_curAoId.isEmpty()) {
+            m_signalAOChange = true;
+        }
+    }
 }
 
 void AncientOneWidget::displayAncientOne(const AncientOneData *ao)
@@ -56,6 +62,11 @@ void AncientOneWidget::updateAncientOne(const AncientOneData *ao)
         ui->lblAttack->setText(ao->attackText());
         ui->lblDoomTrack->setText(QString("%1 / %2").arg(ao->doomValue()).arg(ao->doomTrack()));
         ui->lblWorshippers->setText(ao->worshippersText());
+
+        if (m_signalAOChange) {
+            emit ancientOneInfoRequested(ao->id());
+        }
+        m_signalAOChange = false;
     } else {
         ui->lblName->setText("");
         ui->lblCombatAdjustment->setText("");

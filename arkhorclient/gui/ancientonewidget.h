@@ -32,6 +32,7 @@ private:
 private:
     Ui::AncientOneWidget *ui;
     QString m_curAoId;
+    bool m_signalAOChange;
 };
 
 #endif // ANCIENTONESHORTWIDGET_H

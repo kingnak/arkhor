@@ -206,7 +206,7 @@ void AhMainGui::setThisCharacterId(QString id)
 
 void AhMainGui::start()
 {
-    show();
+    showMaximized();
     m_registry->getObject(m_registry->thisCharacterId(), AH::Common::RequestObjectsData::Character);
 }
 

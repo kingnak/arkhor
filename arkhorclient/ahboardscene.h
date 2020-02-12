@@ -50,6 +50,8 @@ private:
     void applyUpdate(QVariantMap boardMap);
     void ensureAnimationObjectsKnown(const AH::Common::GameBoardChangeData &changes);
     void animateChanges(AH::Common::GameBoardChangeData changes);
+    void animateTerrorLevel(int level);
+    QPointF terrorLevelPosition(int lvl);
 
 private:
     QMap<AH::Common::FieldData::FieldID, AhFieldItem *> m_fieldMap;
@@ -57,6 +59,7 @@ private:
     QList<QPointF> m_terrorPositions;
 
     QGraphicsItem *m_terrorItem;
+    int m_terrorLevel;
 
     double m_scale;
 

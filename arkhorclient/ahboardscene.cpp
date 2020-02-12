@@ -6,12 +6,14 @@
 #include <gatedata.h>
 #include <monsterdata.h>
 #include "objectregistry.h"
+#include <QtGui>
 
 using namespace AH::Common;
 
 AhBoardScene::AhBoardScene(QObject *parent) :
     QGraphicsScene(parent)
   , m_terrorItem(nullptr)
+  , m_terrorLevel(-1)
   , m_scale(1.0)
   , m_inUpdate(false)
 {
@@ -84,11 +86,13 @@ void AhBoardScene::setTerrorLevel(int level)
     }
     */
 
+    animateTerrorLevel(level);
+    m_terrorLevel = level;
     if (level < 0 || level >= m_terrorPositions.size()) {
         m_terrorItem->setVisible(false);
         return;
     }
-    m_terrorItem->setPos(m_terrorPositions[level] - QPointF(m_terrorItem->boundingRect().width(), m_terrorItem->boundingRect().height())/2);
+    m_terrorItem->setPos(terrorLevelPosition(level));
     m_terrorItem->setVisible(true);
 }
 
@@ -156,6 +160,8 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
         f->animateMonsterDisappear(monster);
     }
 
+    //animateTerrorLevel(changes.terrorLevel);
+
     for (auto g : changes.gateAppear) {
         auto f = this->getField(g.location);
         f->animateGateAppear(g.id);
@@ -193,4 +199,39 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
         auto f = this->getField(fc.location);
         f->animateFieldStateChange(fc);
     }
+}
+
+void AhBoardScene::animateTerrorLevel(int level)
+{
+    if (m_terrorLevel < 0 || level < 0 || m_terrorLevel == level)
+        return;
+
+    QPointF old = terrorLevelPosition(m_terrorLevel);
+    QPointF now = terrorLevelPosition(level);
+
+    if (old.isNull() || now.isNull())
+        return;
+
+    QSequentialAnimationGroup grp;
+    QVariantAnimation *anim = new QVariantAnimation;
+    anim->setDuration(500);
+    anim->setStartValue(old);
+    anim->setEndValue(now);
+    connect(anim, &QVariantAnimation::valueChanged, [=](auto v) {m_terrorItem->setPos(v.toPointF()); });
+    grp.addPause(250);
+    grp.addAnimation(anim);
+
+    QPointF c = (terrorLevelPosition(0) + terrorLevelPosition(m_terrorPositions.size()-1)) / 2;
+    centerOn(c, true);
+
+    QEventLoop l;
+    connect(&grp, &QAbstractAnimation::finished, &l, &QEventLoop::quit);
+    grp.start();
+    l.exec();
+}
+
+QPointF AhBoardScene::terrorLevelPosition(int lvl)
+{
+    if (lvl < 0 || lvl >= m_terrorPositions.size()) return {};
+    return m_terrorPositions[lvl] - QPointF(m_terrorItem->boundingRect().width(), m_terrorItem->boundingRect().height())/2;
 }

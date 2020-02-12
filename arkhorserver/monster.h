@@ -46,7 +46,7 @@ public:
     bool isSpontaneous() const { return m_isSpontaneous; }
     void setSpontaneous(bool spontaneous = true) { m_isSpontaneous = spontaneous; }
 
-    void returnToDeck();
+    void returnToDeck(bool notifyChange = false);
     virtual bool hasCustomHorrorCheck() const { return false; }
     virtual bool horrorCheck(Character *c) { Q_UNUSED(c) return true; }
     virtual void move(AH::MovementDirection dir) = 0;

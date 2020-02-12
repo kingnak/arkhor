@@ -29,34 +29,34 @@ void AhGraphicsView::zoomOut()
 
 void AhGraphicsView::centerOnFieldAnimated(AH::Common::FieldData::FieldID id, qreal zoom)
 {
-    centerOnField(id, zoom, true);
+    centerOnField(id, true, zoom);
 }
 
 void AhGraphicsView::centerOnPointAnimated(QPointF p, qreal zoom)
 {
-    centerOnPoint(p, zoom, true);
+    centerOnPoint(p, true, zoom);
 }
 
 void AhGraphicsView::centerOnFieldStatic(AH::Common::FieldData::FieldID id, qreal zoom)
 {
-    centerOnField(id, zoom, false);
+    centerOnField(id, false, zoom);
 }
 
 void AhGraphicsView::centerOnPointStatic(QPointF p, qreal zoom)
 {
-    centerOnPoint(p, zoom, false);
+    centerOnPoint(p, false, zoom);
 }
 
-void AhGraphicsView::centerOnField(AH::Common::FieldData::FieldID id, qreal zoom, bool animate)
+void AhGraphicsView::centerOnField(AH::Common::FieldData::FieldID id, bool animate, qreal zoom)
 {
     auto f = qobject_cast<AhBoardScene*>(scene())->getField(id);
     if (f) {
         auto cEnd = f->mapToScene(f->boundingRect().center());
-        centerOnPoint(cEnd, zoom, animate);
+        centerOnPoint(cEnd, animate, zoom);
     }
 }
 
-void AhGraphicsView::centerOnPoint(QPointF p, qreal zoom, bool animate)
+void AhGraphicsView::centerOnPoint(QPointF p, bool animate, qreal zoom)
 {
     if (!animate) {
         centerOn(p);
@@ -81,7 +81,7 @@ void AhGraphicsView::storeViewport()
 
 void AhGraphicsView::restoreViewport()
 {
-    centerOnPointAnimated(m_vpCenter, m_vpZoom);
+    centerOnPoint(m_vpCenter, true, m_vpZoom);
 }
 
 void AhGraphicsView::wheelEvent(QWheelEvent *event)

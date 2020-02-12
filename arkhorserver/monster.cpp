@@ -64,8 +64,10 @@ AH::Common::FieldData::FieldID Monster::fieldId() const
     return MonsterData::fieldId();
 }
 
-void Monster::returnToDeck()
+void Monster::returnToDeck(bool notifyChange)
 {
+    if (notifyChange && !isSpontaneous())
+        gGame->changeMonsterDisappear(this);
     gGame->returnMonster(this);
 }
 

@@ -59,6 +59,7 @@ public:
     void animateMonsterAppear(AH::Common::MonsterData m);
     void animateMonsterDisappear(AH::Common::MonsterData m);
     void animateMonsterMove(AH::Common::MonsterData m, QList<AH::Common::FieldData::FieldID> path);
+    void animateMultipleMonsterDisappear(QStringList ids);
 
     void animateCharacterMove(AH::Common::CharacterData c, QList<AH::Common::FieldData::FieldID> path);
 
@@ -89,9 +90,9 @@ private:
     void runAnimation(const QVariant &start, const QVariant &end, int duration, std::function<void(const QVariant &)> update);
     void runAnimation(QAbstractAnimation *anim);
 
-    QGraphicsItem *createOverlayMonster(AH::Common::MonsterData m);
+    QGraphicsPixmapItem *createOverlayMonster(AH::Common::MonsterData m);
     QPointF getMonstersGlobalPos();
-    QGraphicsItem *createOverlayCharacter(AH::Common::CharacterData c, bool secondField = false);
+    QGraphicsPixmapItem *createOverlayCharacter(AH::Common::CharacterData c, bool secondField = false);
     QPointF getCharacterGlobalPos(bool secondField = false);
 
 private:

@@ -40,11 +40,14 @@ GameFieldScript *MonsterScript::fieldScript()
 
 void MonsterScript::placeOnField(int fieldId)
 {
+    GameField *oldField = this->field();
     GameField *f = gGame->board()->field(static_cast<AH::Common::FieldData::FieldID> (fieldId));
     if (f) {
-        gGame->changeMonsterDisappear(this);
         f->placeMonster(this);
-        gGame->changeMonsterAppear(this);
+        if (oldField)
+            gGame->changeMonsterMove(this, {oldField->id(), f->id()});
+        else
+            gGame->changeMonsterAppear(this);
     }
 }
 

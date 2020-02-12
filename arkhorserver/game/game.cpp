@@ -802,8 +802,8 @@ bool Game::putOutskirtsMonster(Monster *m)
 void Game::returnOutskirtsMonsters()
 {
     QList<Monster *> outskirtsMonsters = m_board->field(AH::Common::FieldData::Sp_Outskirts)->monsters();
-    foreach (Monster *mm, outskirtsMonsters) {
-        changeMonsterDisappear(mm);
+    changeClearOutskirts(outskirtsMonsters);
+    for (Monster *mm : outskirtsMonsters) {
         returnMonster(mm);
     }
 }
@@ -821,8 +821,9 @@ void Game::closeGateCleanup(Gate *g)
     monsters << m_board->field(AH::Common::FieldData::Sp_Outskirts)->monsters();
 
     AH::Dimensions closeDim = g->dimensions();
-    foreach (Monster *m, monsters) {
+    for (Monster *m : monsters) {
         if (closeDim.testFlag(m->dimension())) {
+            changeMonsterDisappear(m);
             returnMonster(m);
         }
     }
@@ -1579,6 +1580,13 @@ void Game::changeField(AH::Common::GameBoardChangeData::FieldChange change)
 
     // not found, add
     m_boardChange.fieldChanges << change;
+}
+
+void Game::changeClearOutskirts(QList<Monster *> m)
+{
+    if (m_ignoreChanges) return;
+    for (auto mo : m)
+        m_boardChange.clearOutskirts << mo->id();
 }
 
 //private below:

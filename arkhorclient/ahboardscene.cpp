@@ -42,14 +42,14 @@ AhFieldItem *AhBoardScene::getField(FieldData::FieldID id)
     return m_fieldMap.value(id);
 }
 
-void AhBoardScene::centerOn(AhFieldItem *f)
+void AhBoardScene::centerOn(AhFieldItem *f, bool animated, qreal zoom)
 {
-    emit requestCenterOn(f->id());
+    emit requestCenterOn(f->id(), animated, zoom);
 }
 
-void AhBoardScene::centerOn(QPointF p)
+void AhBoardScene::centerOn(QPointF p, bool animated, qreal zoom)
 {
-    emit requestCenterOn(p);
+    emit requestCenterOn(p, animated, zoom);
 }
 
 void AhBoardScene::updateBoardFromData(QVariantMap boardMap)
@@ -165,6 +165,11 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
         auto f = this->getField(m.location);
         auto monster = reg->getObject<MonsterData>(m.id);
         f->animateMonsterAppear(monster);
+    }
+
+    if (!changes.clearOutskirts.isEmpty()) {
+        auto f = this->getField(FieldData::FieldID::Sp_Outskirts);
+        f->animateMultipleMonsterDisappear(changes.clearOutskirts);
     }
 
     for (auto g : changes.gateOpen) {

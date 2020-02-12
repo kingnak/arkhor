@@ -188,6 +188,7 @@ public:
     void changeGateOpen(Gate *g);
     void changeCharacterMove(Character *c, QList<AH::Common::FieldData::FieldID> path);
     void changeField(AH::Common::GameBoardChangeData::FieldChange change);
+    void changeClearOutskirts(QList<Monster*> m);
 
 protected:
     void initBoard();

@@ -379,9 +379,58 @@ void AhFieldItem::animateMonsterAppear(AH::Common::MonsterData m)
     delete itm;
 }
 
+QImage swirl(const QImage &src, qreal amount, qreal rad = 0) {
+    if (rad <= 0) rad = src.width();
+    QImage dest = src.copy();
+    dest.fill(Qt::transparent);
+    const QRgb *bSrc = reinterpret_cast<const QRgb*> (src.bits());
+    QRgb *bDest = reinterpret_cast<QRgb*> (dest.bits());
+    const int w = src.width();
+    const int h = src.height();
+    const int hw = w/2;
+    const int hh = h/2;
+
+    for (int y = 0; y < h; ++y) {
+        for (int x = 0; x < w; ++x) {
+            int nx = x;
+            int ny = y;
+
+            qreal cx = qreal(x-hw);
+            qreal cy = qreal(y-hh);
+            qreal dist = std::sqrt(cx*cx + cy*cy);
+            qreal angle = std::atan2(cy, cx);
+            qreal sw = 1. - dist/rad;
+
+            if (sw > 0) {
+                qreal twist = amount * sw * M_PI * 2.;
+                angle += twist;
+                nx = std::cos(angle) * dist + hw;
+                ny = std::sin(angle) * dist + hh;
+            }
+
+            if (nx >= 0 && nx < w && ny >= 0 && ny < h)
+                *(bDest + y*w + x) = *(bSrc +ny*w + nx);
+        }
+    }
+
+    return dest;
+}
+
 void AhFieldItem::animateMonsterDisappear(AH::Common::MonsterData m)
 {
-    // TODO: needed? or different way in defeat?
+    // Dummy item
+    auto itm = createOverlayMonster(m);
+    itm->setOpacity(1);
+    scene()->addItem(itm);
+    m_monsters->removeById(m.id());
+    qobject_cast<AhBoardScene*>(scene())->centerOn(this);
+    QImage src = itm->pixmap().toImage();
+    runAnimation(0., 1., 750, [&](auto v) {
+        QImage dest = swirl(src, v.toDouble());
+        itm->setPixmap(QPixmap::fromImage(dest));
+        itm->setScale(1.-v.toDouble());
+    });
+    delete itm;
 }
 
 void AhFieldItem::animateMonsterMove(AH::Common::MonsterData m, QList<AH::Common::FieldData::FieldID> path)
@@ -417,6 +466,20 @@ void AhFieldItem::animateMonsterMove(AH::Common::MonsterData m, QList<AH::Common
     runAnimation(&grp);
     scn->getField(path.last())->m_monsters->addItem(new MonsterStackItem(m.id(), m_scale));
     delete itm;
+}
+
+void AhFieldItem::animateMultipleMonsterDisappear(QStringList ids)
+{
+    if (ids.isEmpty()) return;
+    if (!m_monsters) return;
+    if (m_monsters->items().isEmpty()) return;
+
+    qobject_cast<AhBoardScene*>(scene())->centerOn(this);
+    runAnimation(1., 0., 500, [=](auto v) { m_prxMonst->setOpacity(v.toDouble()); });
+    for (auto id : ids) {
+        m_monsters->removeById(id);
+    }
+    m_prxMonst->setOpacity(1);
 }
 
 void AhFieldItem::animateCharacterMove(AH::Common::CharacterData c, QList<AH::Common::FieldData::FieldID> path)
@@ -615,7 +678,7 @@ void AhFieldItem::animateFieldStateChange(AH::Common::GameBoardChangeData::Field
         delete itm;
 }
 
-QGraphicsItem *AhFieldItem::createOverlayMonster(AH::Common::MonsterData m)
+QGraphicsPixmapItem *AhFieldItem::createOverlayMonster(AH::Common::MonsterData m)
 {
     QGraphicsPixmapItem *itm = new QGraphicsPixmapItem;
 
@@ -632,7 +695,7 @@ QPointF AhFieldItem::getMonstersGlobalPos()
     return m_prxMonst->mapToScene(m_prxMonst->boundingRect().topLeft());
 }
 
-QGraphicsItem *AhFieldItem::createOverlayCharacter(AH::Common::CharacterData c, bool secondField)
+QGraphicsPixmapItem *AhFieldItem::createOverlayCharacter(AH::Common::CharacterData c, bool secondField)
 {
     QGraphicsPixmapItem *itm = new QGraphicsPixmapItem;
 

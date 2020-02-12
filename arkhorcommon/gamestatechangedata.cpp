@@ -68,6 +68,7 @@ void operator << (QVariant &v, const GameBoardChangeData &t) {
     m["gateDisapper"] << t.gateDisappear;
     m["gateOpen"] << t.gateOpen;
     m["fieldChanges"] << t.fieldChanges;
+    m["clearOutskirts"] << t.clearOutskirts;
     v << m;
 }
 
@@ -82,6 +83,7 @@ void operator >> (const QVariant &v, GameBoardChangeData &t) {
     m["gateDisapper"] >> t.gateDisappear;
     m["gateOpen"] >> t.gateOpen;
     m["fieldChanges"] >> t.fieldChanges;
+    m["clearOutskirts"] >> t.clearOutskirts;
 }
 
 }}

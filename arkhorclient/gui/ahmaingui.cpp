@@ -75,8 +75,8 @@ AhMainGui::AhMainGui(QWidget *parent) :
     connect(ui->wgtCharacter, &CharacterWidget::requestCenterOnField, this, [&](auto f) { ui->grvBoard->centerOnFieldAnimated(f); });
     connect(ui->wgtObjectInfo, &ObjectInfoWidget::requestCenterOnField, this, [&](auto f) { ui->grvBoard->centerOnFieldAnimated(f); });
 
-    connect(m_scene, qOverload<AH::Common::FieldData::FieldID>(&AhBoardScene::requestCenterOn), this, [&](auto f) { ui->grvBoard->centerOnFieldAnimated(f); });
-    connect(m_scene, qOverload<const QPointF&>(&AhBoardScene::requestCenterOn), this, [&](auto p) { ui->grvBoard->centerOnPointStatic(p); });
+    connect(m_scene, qOverload<AH::Common::FieldData::FieldID, bool, qreal>(&AhBoardScene::requestCenterOn), ui->grvBoard, &AhGraphicsView::centerOnField);
+    connect(m_scene, qOverload<const QPointF&, bool, qreal>(&AhBoardScene::requestCenterOn), ui->grvBoard, &AhGraphicsView::centerOnPoint);
 
     connect(m_scene, &AhBoardScene::beginAnimation, this, [=]() {
         ui->grvBoard->setInteractive(false);

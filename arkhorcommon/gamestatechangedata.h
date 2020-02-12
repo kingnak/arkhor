@@ -45,6 +45,7 @@ namespace AH {
             QList<LocatedChange> gateDisappear;
             QList<LocatedChange> gateOpen;
             QList<FieldChange> fieldChanges;
+            QStringList clearOutskirts;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, GameBoardChangeData);
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, GameBoardChangeData::Movement);

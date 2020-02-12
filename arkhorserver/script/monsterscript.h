@@ -30,7 +30,7 @@ public:
     GameFieldScript *fieldScript();
 
     Q_INVOKABLE void placeOnField(int fieldId);
-    Q_INVOKABLE void returnToDeck() { Monster::returnToDeck(); }
+    Q_INVOKABLE void returnToDeck() { Monster::returnToDeck(true); }
 
     static MonsterScript *createMonster(QScriptContext *ctx, QScriptEngine *eng);
 

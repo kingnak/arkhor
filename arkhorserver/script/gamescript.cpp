@@ -596,6 +596,7 @@ bool GameScript::returnMonstersFromFields(QList<AH::Common::FieldData::FieldID> 
 
         QList<Monster *> monsters = field->monsters();
         foreach (Monster *m, monsters) {
+            gGame->changeMonsterDisappear(m);
             gGame->returnMonster(m);
             hasRemoved = true;
         }
@@ -609,6 +610,7 @@ bool GameScript::returnMonsterTypeFromBoard(QString typeId)
     QList<Monster *> monsters = gGame->board()->getBoardMonsters();
     foreach (Monster *m, monsters) {
         if (m->typeId() == typeId) {
+            gGame->changeMonsterDisappear(m);
             gGame->returnMonster(m);
             hasRemoved = true;
         }

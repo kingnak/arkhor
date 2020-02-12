@@ -28,8 +28,8 @@ public:
     AhFieldItem *getField(AH::Common::FieldData::FieldID id);
     QList<AhFieldItem *> allFields() { return m_fieldMap.values(); }
 
-    void centerOn(AhFieldItem *f);
-    void centerOn(QPointF p);
+    void centerOn(AhFieldItem *f, bool animated = true, qreal zoom = 1.5);
+    void centerOn(QPointF p, bool animated = false, qreal zoom = 1.5);
 
 public slots:
     void updateBoardFromData(QVariantMap boardMap);
@@ -40,8 +40,8 @@ signals:
     void itemInfoRequested(QString id);
     void fieldClicked(AH::Common::FieldData::FieldID id);
     void fieldInfoRequested(AH::Common::FieldData::FieldID id);
-    void requestCenterOn(AH::Common::FieldData::FieldID id);
-    void requestCenterOn(const QPointF &p);
+    void requestCenterOn(AH::Common::FieldData::FieldID id, bool animated, qreal zoom);
+    void requestCenterOn(const QPointF &p, bool animated, qreal zoom);
 
     void beginAnimation();
     void endAnimation();

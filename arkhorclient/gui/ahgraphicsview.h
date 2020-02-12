@@ -25,8 +25,8 @@ public slots:
     void centerOnPointAnimated(QPointF p, qreal zoom = 1.5);
     void centerOnFieldStatic(AH::Common::FieldData::FieldID id, qreal zoom = 1.5);
     void centerOnPointStatic(QPointF p, qreal zoom = 1.5);
-    void centerOnField(AH::Common::FieldData::FieldID id, qreal zoom, bool animate);
-    void centerOnPoint(QPointF p, qreal zoom, bool animate);
+    void centerOnField(AH::Common::FieldData::FieldID id, bool animate, qreal zoom = 1.5);
+    void centerOnPoint(QPointF p, bool animate, qreal zoom = 1.5);
 
     void storeViewport();
     void restoreViewport();

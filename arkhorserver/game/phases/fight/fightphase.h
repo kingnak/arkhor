@@ -80,6 +80,7 @@ private:
     QList<GameOption *> fightOrFleeOptions();
     QList<GameOption *> horrorOptions();
     QList<GameOption *> chooseWeaponsOptions();
+    QList<GameOption *> attackOptions();
 
 
 private:

@@ -316,11 +316,7 @@ QList<GameOption *> FightPhase::fightOrEvadeOptions()
 
 QList<GameOption *> FightPhase::fightOrFleeOptions()
 {
-    m_hasEnteredFight = true;
-    m_curPhase = FightOrFlee;
-    m_evade->setName("Flee");
-    return QList<GameOption *>()
-            << m_evade << m_fight;
+    return attackOptions();
 }
 
 QList<GameOption *> FightPhase::horrorOptions()
@@ -339,9 +335,16 @@ QList<GameOption *> FightPhase::horrorOptions()
 
 QList<GameOption *> FightPhase::chooseWeaponsOptions()
 {
+    return attackOptions();
+}
+
+QList<GameOption *> FightPhase::attackOptions()
+{
+    m_hasEnteredFight = true;
+    m_evade->setName("Flee");
     m_curPhase = ChooseWeapons;
     return QList<GameOption *> ()
-            << m_chooseWeapons << m_attack;
+            << m_chooseWeapons << m_attack << m_evade;
 }
 
 

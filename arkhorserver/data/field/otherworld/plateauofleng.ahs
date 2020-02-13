@@ -48,9 +48,29 @@ OtherWorldEncounter {
     };
 }
 
-/*
-g	The hooved, wide-mouthed traders of this land are wealthy, but dangerous. You may make a Lore (-2) check to trade with them. If you pass, gain $6. If you fail, you are lost in time and space.
+OtherWorldEncounter LengTrade {
+    field: OW_PlateauOfLeng;
+    color: Green;
+    description: "The hooved, wide-mouthed traders of this land are wealthy, but dangerous. "+
+                 "You may make a <b>Lore (-2) check</b> to trade with them. "+
+                 "If you pass, gain $6. If you fail, you are lost in time and space.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Lore;
+            activate: {{{
+                var res = game.context.skillTest("Trade", this.id, Constants.Skills.Lore, -2, 1);
+                if (res) {
+                    CHAR.addMoney(6);
+                } else {
+                    CHAR.lostInSpaceAndTime();
+                }
+            }}};
+        }
+    };
+}
 
+
+/*
 r	The loathsome villagers send out their strongest warrior to fight you in unarmed combat. Pass a Fight (-1) [2] check to defeat him and draw 1 Unique Item and gain 1 Clue token. Otherwise lose 1 Sanity and 2 Stamina.
 
 g	The rickety bridge collapses as you cross it. Pass a Fight (-1) check to hang on, finding a relic on the other side. Draw 1 Unique Item. If you fail, you plummet into darkness. you are lost in time and space.

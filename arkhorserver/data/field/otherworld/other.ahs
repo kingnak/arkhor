@@ -81,12 +81,55 @@ OtherWorldEncounter {
     };
 }
 
+OtherWorldEncounter OtherMonsterY2 {
+    color: Yellow;
+    description: "A monster appears from the shadows!";
+    options: Option.MonsterAppearsOW;
+}
+
+OtherWorldEncounter {
+    color: Blue;
+    description: "Luck is with you. You stumble on a cache of supplies. Draw 1 Common Item.";
+    options: {
+        OWEOption {
+            activate: {{{
+                game.utility.drawRandomItem(Constants.ObjectType.CommonItem, "Take item", this.id);
+            }}};
+        }
+    };
+}
+
+OtherWorldEncounter {
+    color: Green;
+    description: "Pass a Fight (-2) check to pry open a grate you find built into the wall. Inside, you find something fascinating. Draw 1 Unique Item.";
+    options: {
+        OWEOption {
+            activate: {{{
+                game.utility.drawRandomItem(Constants.ObjectType.UniqueItem, "Take item", this.id);
+            }}};
+        }
+    };
+}
+
+OtherWorldEncounter {
+    color: Red;
+    description: "Pass a <b>Luck (-1) check</b> to find a quiet spot to rest. Gain 2 Stamina and 2 Sanity.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Luck;
+            activate: {{{
+                var res = game.context.skillTest("Discover useful object", this.id, Constants.Skills.Luck, -1, 1);
+                if (res) {
+                    CHAR.addStamina(2);
+                    CHAR.addSanity(2);
+                }
+            }}};
+        }
+    };
+}
+
 /*
-y	A monster appears from the shadows!
-
 y	A ripple in the air passes over you. Pass a Lore (-1) check or lose 1 Spell of your choice as it is burned from your mind.
-
-b	Luck is with you. You stumble on a cache of supplies. Draw 1 Common Item.
 
 b	Monsters lurk everywhere. Pass a Sneak (-2) check or stay here next turn.
 
@@ -94,13 +137,9 @@ b	Pass a Fight (-1) check to hang on to your prize despite the wind. Draw 1 Spel
 
 b	Pass a Fight (-2) check to lever back the lid of the stone chest. Inside, you find $8. If you fail, lose 1 Stamina.
 
-g	Pass a Fight (-2) check to pry open a grate you find built into the wall. Inside, you find something fascinating. Draw 1 Unique Item.
-
 b	Pass a Luck (-1) check to discover a cache of ancient papers containing valuable information about the Mythos. Gain 1 Clue token for every success you rolled on your Luck check.
 
 g	Pass a Luck (-1) check to discover a vital document. Gain 2 Clue tokens.
-
-r	Pass a Luck (-1) check to find a quiet spot to rest. Gain 2 Stamina and 2 Sanity.
 
 b	Pass a Luck (-1) check to find something to defend yourself with. Take the first Weapon from the Common Item deck.
 

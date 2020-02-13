@@ -48,9 +48,15 @@ OtherWorldEncounter {
     };
 }
 
-/*
-y	Breathing hard, you stay huddled against the rock until the sounds of pursuit fade into the distance. No encounter.
 
+OtherWorldEncounter {
+    field: OW_Yuggoth;
+    color: Yellow;
+    description: "Breathing hard, you stay huddled against the rock until the sounds of pursuit fade into the distance. No encounter.";
+    options: Option.SKIP;
+}
+
+/*
 b	Exposure and fear weaken your mind. Pass a Will (-2) check or you must lose either 2 Spells of your choice or lose 2 Sanity.
 
 y	Fear grabs you as the buzzing entities approach. Pass a Will (-1) check or lose 2 Sanity.

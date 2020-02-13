@@ -21,6 +21,7 @@ ArkhamEncounter Admin_Enc1 {
 }
 AEOption Admin_Enc1 {
     baseProperty: DieRoll_Will;
+    name: "Deceive";
     activate: {{{
         var res = game.context.skillTest("Carry on deception", this.id, Constants.Skills.Will, -2, 1);
         if (res) {
@@ -32,7 +33,15 @@ AEOption Admin_Enc1 {
 }
 
 // NOTE: x2
-ArkhamEncounter Admin_Enc2 {
+ArkhamEncounter {
+    field: MU_Administration;
+    description: "Discuss the opportunity to sell a "+
+        "monograph with the President of the University. "+
+        "Pass a <b>Lore (-1) check</b> to make the sale "+
+        "and gain $5.";
+    options: Option.Admin_Enc2;
+}
+ArkhamEncounter {
     field: MU_Administration;
     description: "Discuss the opportunity to sell a "+
         "monograph with the President of the University. "+
@@ -63,8 +72,15 @@ ArkhamEncounter {
     }};
 }
 
+ArkhamEncounter {
+    field: MU_Administration;
+    description: "The Dean introduces you to an anthropology professor who gives you some insight into your investigation. Gain 1 Clue token.";
+    options: {AEOption {
+        activate: {{{ CHAR.addClue(1); }}};
+    }};
+}
+
 /*
-The Dean introduces you to an anthropology professor who gives you some insight into your investigation. Gain 1 Clue token.
 You may choose to help an anthropology professor and his students decipher an ancient stone tablet. If so, make a Lore (-2) check. If you pass, you correctly interpret it, draw 1 Spell. If you fail, you mispronounce a word and are Cursed.	Lore -2
 Your discussions on the Mythos lead campus security to conclude that you are off your rocker, and they escort you off campus. Move to Arkham Asylum and immediately have an encounter there.
 */

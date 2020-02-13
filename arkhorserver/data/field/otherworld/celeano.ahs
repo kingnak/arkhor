@@ -29,16 +29,35 @@ OtherWorldEncounter {
     options: {OWEOption {
         baseProperty: DieRoll_Lore;
         activate: {{{
-            var res = game.context.skillTest("Read page", this.id, Constants.Lore.Luck, -1, 1);
+            var res = game.context.skillTest("Read page", this.id, Constants.Skills.Lore, -1, 1);
             if (!res)
                 game.utility.curseCharacter(CHAR);
         }}};
     }};
 }
 
-/*
-b	Pass a Luck (-1) check or the book is a prison. If you fail, roll a die. On a failure, a monster appears from the book. On a success, you are drawn into the book for a time. Stay here next turn.
+OtherWorldEncounter {
+    field: OW_Celeano;
+    color: Blue;
+    description: "Pass a <b>Luck (-1) check</b> or the book is a prison. If you fail, roll a die. On a failure, a monster appears from the book. "+
+                 "On a success, you are drawn into the book for a time. Stay here next turn.";
+    options: {OWEOption {
+        baseProperty: DieRoll_Luck;
+        activate: {{{
+            var res = game.context.skillTest("Read book", this.id, Constants.Skills.Luck, -1, 1);
+            if (res) {
+                res = game.context.genericDieRollTest("You are captured in the book", this.id, 1, 1);
+                if (res) {
+                    CHAR.delay();
+                } else {
+                    game.context.spontaneousMonsterFight();
+                }
+            }
+        }}};
+    }};
+}
 
+/*
 g	Pass a Luck (-2) check to find a book small enough to carry. Search the Unique Item deck and take the first Tome you find.
 
 g	Pass a Luck (-2) check to find a valuable book. If so, search the Unique Item deck and take the first Tome you find.

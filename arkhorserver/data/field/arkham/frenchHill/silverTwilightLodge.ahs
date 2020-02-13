@@ -8,7 +8,17 @@ FieldOption Lodge_Membership {
 }
 
 // NOTE: This exists 2 times
-ArkhamEncounter Lodge_Enc1 {
+ArkhamEncounter LodgeMembership {
+    field: FH_SilverTwilightLodge;
+    description: "\"Care to join the Order?\" Carl Sanford "+
+        "and several of his henchmen ask. If you accept, "+
+        "pay $3 and take a Silver Twilight Membership. "+
+        "If you decline, pass a <b>Will (-1) check</b> or lose "+
+        "3 Stamina as the henchmen assist you out the door. "+
+        "Whether you pass or not, move to the street.";
+    options: ( Option.Lodge_Enc1_Accept, Option.Lodge_Enc1_Decline );
+}
+ArkhamEncounter LodgeMembership2 {
     field: FH_SilverTwilightLodge;
     description: "\"Care to join the Order?\" Carl Sanford "+
         "and several of his henchmen ask. If you accept, "+
@@ -77,7 +87,22 @@ ArkhamEncounter {
     }};
 }
 
+ArkhamEncounter {
+    field: FH_SilverTwilightLodge;
+    description: "You find an old parchment in the study. Pass a <b>Lore (-1) check</b> to draw 2 Spells and keep one of your choice.";
+    options: {AEOption {
+        baseProperty: DieRoll_Lore;
+        activate: {{{
+            var res = game.context.skillTest("Read parchment", this.id, Constants.Skills.Lore, -1, 1);
+            if (res) {
+                var sel = game.context.drawMultipleObjects(Constants.ObjectType.Spell, "Learn spell", 2, 1, 1);
+                if (sel.length > 0)
+                    CHAR.addToInventory(sel[0]);
+            }
+        }}};
+    }};
+}
+
 /*
-You find an old parchment in the study. Pass a Lore (-1) check to draw 2 Spells and keep one of your choice.	Lore -1
 You hear the quiet sounds of an intruder. If you investigate, you find a woman dressed in black. She attacks you as soon as she sees you. Pass a Fight (-1) check to subdue her long enough to explain your investigation. You find out that her name is Ruby Standish and that she was robbing the Lodge. However, upon hearing your tale, she agrees to join you. Take her Ally card. If it is not available, draw a Unique Item instead.
 */

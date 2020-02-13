@@ -48,3 +48,9 @@ game.utility.selectRandomItem = function(type, message, id, count) {
     }
     return null;
 }
+
+game.utility.randomField = function(type) {
+    var fields = game.context.allFields(type);
+    var idx = Math.floor(Math.random() * fields.length);
+    return fields[idx];
+}

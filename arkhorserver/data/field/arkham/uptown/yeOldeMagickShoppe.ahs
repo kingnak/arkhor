@@ -62,8 +62,29 @@ ArkhamEncounter {
     }};
 }
 
+ArkhamEncounter {
+    field: UT_YeOldeMagickShoppe;
+    description: "Pass a <b>Lore (-1) check</b> to recognize an item that Miriam Beecher has underpriced. "+
+                 "If you do so, draw 1 Unique Item. You may purchase it for half its list price (rounded up).";
+    options: {AEOption {
+        baseProperty: DieRoll_Lore;
+        activate: {{{
+            var res = game.context.skillTest("Recognize item", this.id, Constants.Skills.Lore, -1, 1);
+            if (res) {
+                var sel = game.utility.drawMultipleObjects(Constants.ObjectType.UniqueItem, "Buy item for half price", this.id, 1, 0, 1);
+                if (sel.length > 1) {
+                    if (CHAR.pay({type: Constants.Costs.Money, amount: Math.ceil(sel[0].price/2)})) {
+                        CHAR.addToInventory(sel[0]);
+                    } else {
+                        sel[0].returnToDeck();
+                    }
+                }
+            }
+        }}};
+    }};
+}
+
 /*
-Pass a Lore (-1) check to recognize an item that Miriam Beecher has underpriced. If you do so, draw 1 Unique Item. You may purchase it for half its list price (rounded up).	Lore -1
 There is an old, locked trunk for sale for $5. If you buy it, make a Luck (+0) check and consult the chart below:
 Successes:
 

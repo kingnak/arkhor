@@ -5,14 +5,13 @@ ArkhamEncounter Velmas_Enc1 {
         "slice of cherry pie. If you do, gain 2 Stamina";
     options: ( Option.Velmas_Enc1, Option.SKIP );
 }
-QuickOption Velmas_Enc1 {
-    phases: ArkhamEncountery;
+AEOption Velmas_Enc1 {
     name: "Eat pie";
     costs: [ Money 1 ];
     activate: {{{ CHAR.addStamina(1); }}};
 }
 
-ArkhamEncounter Velmas_Enc2 {
+ArkhamEncounter Velmas_OrderFood {
     field: ET_VelmasDiner;
     description: "\"What'll it be, hon?\" Velma takes "+
         "your order. Pay up to $6 to gain that many points "+
@@ -24,23 +23,22 @@ AEOption Velmas_Enc2 {
     activate: {{{
         var ok = false;
         var amount = 0;
-        var prefix = "";
-        do {
-            amount = game.context.selectChoice(prefix + "How much will you spend?", this.id, [0,1,2,3,4,5,6]);
-            if (amount == 0) return;
-            var costs = { type: Constants.Costs.Money, amount: amount };
-            ok = CHAR.canPay(costs);
-            prefix = "You don't have that much money.<br/>";
-        } while (!ok);
+        var spend = [0];
+        for (var i = 1; i <= CHAR.money && i <= 6; ++i) {
+            spend.push(i);
+        }
+
+        amount = game.context.selectChoice("How much will you spend?", this.id, spend);
+        if (amount == 0) return;
 
         var costs = { type: Constants.Costs.Money, amount: amount };
         ok = CHAR.pay(costs);
         if (!ok) return;
 
         // Ask for stamina
-        var options = new Array(amount+1);
+        var options = [];
         for (var i = 0; i <= amount; ++i) {
-            options[i] = i;
+            options.push(i);
         }
         var stam = game.context.selectChoice("Heal how much stamina?", this.id, options);
         CHAR.addStamina(stam);
@@ -52,9 +50,9 @@ AEOption Velmas_Enc2 {
         }
 
         // Ask for sanity
-        options = new Array(amount+1);
+        options = [];
         for (var i = 0; i <= amount; ++i) {
-            options[i] = i;
+            options.push(i);
         }
         var san = game.context.selectChoice("Heal how much sanity?", this.id, options);
         CHAR.addSanity(san);
@@ -77,8 +75,24 @@ ArkhamEncounter {
     }};
 }
 
+ArkhamEncounter {
+    field: ET_VelmasDiner;
+    description: "Velma reads the tea leaves left in your cup. Make a <b>Luck (-1) check</b>. If you pass, the formation of the leaves indicates hope, "+
+                 "you are <i>Blessed</i>. If you fail, the future looks bleak, you are <i>Cursed</i>.";
+    options: {AEOption {
+        baseProperty: DieRoll_Luck;
+        activate: {{{
+            var res = game.context.skillTest("Read tea leaves", this.id, Constants.Skills.Luck, -1, 1);
+            if (res) {
+                game.utility.blessCharacter(CHAR);
+            } else {
+                game.utility.curseCharacter(CHAR);
+            }
+        }}};
+    }};
+}
+
 /*
-Velma reads the tea leaves left in your cup. Make a Luck (-1) check. If you pass, the formation of the leaves indicates hope, you are Blessed. If you fail, the future looks bleak, you are Cursed.	Luck -1
 You find some money on the floor under the back booth. If you take it, make a Sneak (-1) check. If you pass, roll a die and gain that much money. If you fail, Velma sees you pick up the money. She comes over and swipes it out of your hands screaming, "Stealing my tips!" so loudly that you flee the diner. Move to the street	Sneak -1
 You get food poisoning! Pass a Luck (-1) check or lose 2 Stamina.	Luck -1
 */

@@ -67,9 +67,27 @@ ArkhamEncounter {
     }};
 }
 
+ArkhamEncounter {
+    field: NS_TrainStation;
+    description: "On the loading dock you investigate a large crate with strange markings. "+
+                 "Make <b>Sneak (-1) check</b>. If you pass, you find a very unusual item in the crate. "+
+                 "Gain 1 Unique Item. If you fail, Deputy Dingby catches you breaking it open. "+
+                 "You are arrested and taken to the Police Station.";
+    options: {AEOption {
+        baseProperty: DieRoll_Sneak;
+        activate: {{{
+            var res = game.context.skillTest("Investigate crate", this.id, Constants.Skills.Sneak, -1, 1);
+            if (res) {
+                game.utility.drawRandomItem(Constants.ObjectType.UniqueItem, "Take item", this.id);
+            } else {
+                CHAR.arrest();
+            }
+        }}};
+    }};
+}
+
 /*
 Bill Washington moves the last of the baggage from his cart onto a truck and offers you a ride as he opens the driver's door. If you accept, move to any location or street area in Arkham. If you move to a location, immediately have an encounter there.
-On the loading dock you investigate a large crate with strange markings. Make Sneak (-1) check. If you pass, you find a very unusual item in the crate. Gain 1 Unique Item. If you fail, Deputy Dingby catches you breaking it open. You are arrested and taken to the Police Station.	Sneak -1
 Pay $3 at the Railroad Office to claim an item left in Lost and Found. If you do so, make a Luck (-2) check. If you pass, draw a Unique Item. If you fail, draw a Common Item	Luck -2
 The old train hand Bill Washington sits on the train platform playing his guitar as he awaits the next train. As you listen to his singing you feel yourself healing inside. Gain 2 points divided between Stamina and Sanity however you choose.
 */

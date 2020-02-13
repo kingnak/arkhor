@@ -50,8 +50,16 @@ ArkhamEncounter {
     }};
 }
 
+ArkhamEncounter {
+    field: RT_Graveyard;
+    description: "Entering a stone crypt, you are surprised to find a beautiful fresco and some inspirational words upon the wall. "+
+                 "There is an almost magical peace within the chamber. Gain 2 Sanity.";
+    options: {AEOption {
+        activate: {{{ CHAR.addSanity(2); }}};
+    }};
+}
+
 /*
-Entering a stone crypt, you are surprised to find a beautiful fresco and some inspirational words upon the wall. There is an almost magical peace within the chamber. Gain 2 Sanity.
 Pass a Luck (-2) check to find a valuable clue within your tombstone rubbings. Gain 2 Clue tokens and you may move to any location or street area in Arkham. If you move to a location, immediately have an encounter there.	Luck -2
 You find a half-buried corpse of a strange being. Draw a monster from the cup and take it as a monster trophy, even if it has the Endless ability.
 You find a man painting a picture on one of the horrible gargoyles lining the walls of the graveyard. Seeing you, he introduces himself as Richard Upton Pickman, a painter visiting from Boston. If you spend monster trophies that have a total of 5 toughness, Pickman takes a liking to you. Take his Ally card. If it is not available, he teaches you an incantation instead. Draw 1 Spell.

@@ -95,8 +95,29 @@ ArkhamEncounter {
     }};
 }
 
+ArkhamEncounter ShoppeNoise {
+    field: NS_CuriositieShoppe;
+    description: "As you wander into the back of the shop, you hear a noise. Pass a <b>Speed (-1) check</b> "+
+                 "or you look up just in time to see a descending club. Everything goes black. When you awaken, "+
+                 "you are somewhere else. "+
+                 "You are drawn to a random Other World, and immediately have an encounter there.";
+                 /* ORIGINAL: "Draw a mythos card and move to the gate location shown on it, "+
+                 "then immediately have an encounter there.";*/
+    options: {AEOption {
+        baseProperty: DieRoll_Speed;
+        activate: {{{
+            var res = game.context.skillTest("Evade attack", this.id, Constants.Skills.Speed, -1, 1);
+            if (!res) {
+                var f = game.utility.randomField(Constants.FieldType.OtherWorld);
+                CHAR.placeOnField(f.id);
+                CHAR.otherFieldEncounter(f.id);
+            }
+        }}};
+    }};
+
+}
+
 /*
-As you wander into the back of the shop, you hear a noise. Pass a Speed (-1) check or you look up just in time to see a descending club. Everything goes black. When you awaken, you are somewhere else. Draw a mythos card and move to the gate location shown on it, then immediately have an encounter there.	Speed -1
 Jackpot! You find just what you've been looking for. Search either the Common or Unique Item deck and purchase any one item of your choice at list price.
 Pass a Luck (-1) check or you accidentally drop an item. Discard 1 item of your choice. If you have no items to drop, then draw again for a different encounter.	Luck -1
 You examine an obscene statue. Pass a Luck (-2) check or else you feel a cold dread spread through your body as you hold it. You are Cursed.	Luck -2

@@ -41,7 +41,7 @@ OtherWorldEncounter {
     options: {OWEOption {
         baseProperty: DieRoll_Luck;
         activate: {{{
-            var res = game.context.skillTest("Tour Thran", this.id, Constants.Lore.Luck, -1, 1);
+            var res = game.context.skillTest("Tour Thran", this.id, Constants.Skills.Luck, -1, 1);
             if (res)
                 CHAR.addClue(2);
             else
@@ -50,9 +50,20 @@ OtherWorldEncounter {
     }};
 }
 
+OtherWorldEncounter {
+    field: OW_TheDreamlands;
+    color: Red;
+    description: "Avalanche! Pass a <b>Speed (-1) check</b> or lose 3 Stamina.";
+    options: {OWEOption {
+        baseProperty: DieRoll_Speed;
+        activate: {{{
+            var res = game.context.skillTest("Evade avalanche", this.id, Constants.Skills.Speed, -1, 1);
+            if (!res)
+                CHAR.damageStamina(3);
+        }}};
+    }};
+}
 /*
-r	Avalanche! Pass a Speed (-1) check or lose 3 Stamina.
-
 r	In the valley of Pnoth, where the dholes crawl and burrow nastily, you hear a slithering among the mountains of bone. Make a Sneak (-1) check. If you fail, you are devoured. If you pass, gain 3 Clue tokens and return immediately to Arkham.
 
 g	Make a Luck (-1) check. If you pass, then, waving goodbye, the happy villagers bestow a gift upon you. Draw 1 Common Item.

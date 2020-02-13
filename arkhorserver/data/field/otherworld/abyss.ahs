@@ -43,9 +43,21 @@ OtherWorldEncounter {
     }};
 }
 
-/*
-r	Pass a Speed (-1) check to avoid a monstrous mass. If you fail, you are lost in time and space.
+OtherWorldEncounter {
+    field: OW_Abyss;
+    color: Red;
+    description: "Pass a <b>Speed (-1) check</b> to avoid a monstrous mass. If you fail, you are lost in time and space.";
+    options: {OWEOption {
+        baseProperty: DieRoll_Speed;
+        activate: {{{
+            var res = game.context.skillTest("Avoid mass", this.id, Constants.Skills.Speed, -1, 1);
+            if (!res)
+                CHAR.lostInSpaceAndTime();
+        }}};
+    }};
+}
 
+/*
 r	Starving, you consider eating some of the glowing mushrooms. If you decide to do so, make a Luck (-1) check. If you fail, roll a die and lose that much Stamina. If you succeed, roll a die and gain that much Stamina.
 
 b	The caverns split. Make a Luck (+1) check and consult the chart below:

@@ -40,9 +40,24 @@ OtherWorldEncounter {
     };
 }
 
-/*
-r	Pass a Speed (-1) check or you slip and slide down a barnacled surface, slashing your skin to ribbons. Lose 3 Stamina.
+OtherWorldEncounter {
+    field: OW_R_lyeh;
+    color: Red;
+    description: "Pass a <b>Speed (-1) check</b> or you slip and slide down a barnacled surface, slashing your skin to ribbons. Lose 3 Stamina.";
+    options: {
+        OWEOption {
+            baseProperty: DieRoll_Speed;
+            activate: {{{
+                var res = game.context.skillTest("Keep balance", this.id, Constants.Skills.Speed, -1, 1);
+                if (!res) {
+                    CHAR.damageStamina(3);
+                }
+            }}};
+        }
+    };
+}
 
+/*
 r	Slip on wet stones and slide into a pit. Pass a Luck (+0) check to climb out. If you fail, lose 1 Sanity and stay here next turn.
 
 y	The city is filled with unnerving alien angles. Pass a Speed (-1) check to avoid touching them or lose 1 Sanity.

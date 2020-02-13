@@ -50,8 +50,15 @@ ArkhamEncounter {
     }};
 }
 
+ArkhamEncounter {
+    field: RT_BlackCave;
+    description: "The moaning winds in the cave whisper your name. Lose 1 Sanity.";
+    options: {AEOption {
+        activate: {{{ CHAR.damageSanity(1); }}};
+    }};
+}
+
 /*
-The moaning winds in the cave whisper your name. Lose 1 Sanity.
 You are attacked by a shadowy being, but a large man leaps out of the darkness and drives it off. He introduces himself as Tom "Mountain" Murphy. Make a Luck (-2) check, or discard a Whiskey card to pass it automatically. If you pass, he joins your investigation. Take his Ally card if it's available, otherwise he gives you something to protect yourself with. Search the Common Item deck and take the first Weapon you find. If you fail, nothing happens.	Luck -2
 You are in a maze of twisty passages, all alike. Pass a Lore (-2) check or become lost. If you fail, lose 1 Stamina and stay here next turn.	Lore -2
 You find an old book. If you read it, make a Lore (+0) check and consult the chart below:

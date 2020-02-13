@@ -50,6 +50,7 @@ bool CharacterScript::placeOnField(AH::Common::FieldData::FieldID fieldId)
 {
     GameField *field = gGame->board()->field(fieldId);
     if (field) {
+        gGame->changeCharacterMove(this, {this->field()->id(), field->id()});
         field->placeCharacter(this);
         return true;
     }

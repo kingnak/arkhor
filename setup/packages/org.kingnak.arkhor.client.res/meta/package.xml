@@ -2,8 +2,8 @@
 <Package> 
     <DisplayName>Arkham Horror Client Resources</DisplayName> 
     <Description>Static resources for client</Description> 
-    <Version>0.5.0</Version> 
-    <ReleaseDate>2017-07-08</ReleaseDate> 
+    <Version>0.7.1</Version> 
+    <ReleaseDate>2020-03-08</ReleaseDate> 
 	<Name>org.kingnak.arkhor.client.res</Name> 
 	<Virtual>true</Virtual>
 </Package>

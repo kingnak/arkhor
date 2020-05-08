@@ -29,25 +29,20 @@ ArkhamEncounter MasHouse_Enc1 {
     options: ( Option.MasHouse_Enc1, Option.SKIP );
 }
 AEOption MasHouse_Enc1 {
+    name: "Check Ryan's deal";
     baseProperty: DieRoll_Will;
     activate: {{{
         var res = game.context.skillTest("Talk to Ryan", this.id, Constants.Skills.Will, 0, 1);
         if (res) {
-            // TODO: This is not 100% correct. It offers a Common and Unique item,
-            // and user has to choose one. Not first choose the type, then choose to buy...
-            var types = [
-                        {type: Constants.ObjectType.CommonItem, amount: 1},
-                        {type: Constants.ObjectType.UniqueItem, amount: 1},
-                    ];
-            var sels = game.context.drawMixedObjects("Buy Items", this.id, types, 0, 1);
-            if (sels.length > 0) {
-                var item = sels[0];
-                var costs = { type: Constants.Costs.Money, amount: item.price};
-                if (game.context.character.pay(costs)) {
-                    game.context.character.addToInventory(item);
-                } else {
-                    item.returnToDeck();
-                }
+            var sel = game.context.selectChoice("Get Common or Unique Item?", this.id, [["C", "Common Item", "Buy a Common Item"],["U", "Unique Item", "Buy a Unique Item"]]);
+            var t = (sel == "C") ? Constants.ObjectType.CommonItem : Constants.ObjectType.UniqueItem;
+            var o = game.context.drawMultipleObjects(t, "Buy item", this.id, 1, 0, 1000);
+            if (o.length <= 0) return;
+            o = o[0];
+            if (CHAR.pay({type: Constants.Costs.Money, amount: o.price})) {
+                CHAR.addToInventory(o);
+            } else {
+                o.returnToDeck();
             }
         } else {
             game.context.character.delay();

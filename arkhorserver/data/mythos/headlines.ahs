@@ -444,9 +444,8 @@ Headline StrangeTremorsCease {
 Headline TemperenceFever {
     name: "Temperence Fever Sweeps City";
     description: "Any investigator with Whiskey must pass a Sneak (-1) check or get arrested and taken to the Police Station. "+
-                 "If this occurs, they must discard their Whiskey. ";
-                 //+"In addition, Hibb's Roadhouse is closed until the end of next turn. Leave this card in play until then to indicate this.";
-    // TODO: close Hibb's Roadhouse
+                 "If this occurs, they must discard their Whiskey. "+
+                 "In addition, Hibb's Roadhouse is closed until the end of next turn.";
     //clueField: RT_BlackCave;
     //gateField: FH_TheWitchHouse;
     //moveWhite: Hexagon;
@@ -462,6 +461,7 @@ Headline TemperenceFever {
                 }
             }
         }
+        game.lockFieldUntilNextRound(Constants.Fields.ET_HibbsRoadhouse);
     }}};
 }
 

@@ -50,21 +50,34 @@ ArkhamEncounter Shoppe_Enc2 {
     options: Option.Shoppe_Enc2;
 }
 AEOption Shoppe_Enc2 {
-    // TODO: Let other players participate!
     activate: {{{
-        var types = [
-            {type: Constants.ObjectType.CommonItem, amount: 3},
-            {type: Constants.ObjectType.UniqueItem, amount: 1},
-        ];
-        var sels = game.context.drawMixedObjects("Buy Items", this.id, types, 0, 1000);
-        for (var i = 0; i < sels.length; ++i) {
-            var item = sels[i];
-            var costs = { type: Constants.Costs.Money, amount: item.price};
-            if (CHAR.pay(costs)) {
-                CHAR.addToInventory(item);
-            } else {
-                item.returnToDeck();
+        var objects = [];
+        objects.push(game.drawSingleObject(Constants.ObjectType.CommonItem));
+        objects.push(game.drawSingleObject(Constants.ObjectType.CommonItem));
+        objects.push(game.drawSingleObject(Constants.ObjectType.CommonItem));
+        objects.push(game.drawSingleObject(Constants.ObjectType.UniqueItem));
+
+        for (var i in game.context.allCharacters) {
+            var c = game.context.allCharacters[i];
+            var sel = c.selectObjects(objects, "Buy items", this.id, 0, 1000);
+            for (var j in sel) {
+                var item = sel[j];
+                if (c.pay({ type: Constants.Costs.Money, amount: item.price} )) {
+                    c.addToInventory(item);
+
+                    // Must remove from list
+                    for (var idx in objects) {
+                        if (objects[idx].id == item.id) {
+                            objects.splice(idx, 1);
+                            break;
+                        }
+                    }
+                }
             }
+        }
+
+        for (var i in objects) {
+            objects[i].returnToDeck();
         }
     }}};
 }

@@ -61,6 +61,7 @@ public:
     Q_INVOKABLE void addMovementPoint(int amount) { Character::addMovementPoint(amount); }
     Q_INVOKABLE QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options);
     Q_INVOKABLE QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canBeCanceled);
+    Q_INVOKABLE QList<GameObjectScript *> selectObjects(QList<GameObjectScript *> objects, const QString &desc, const QString &sourceId, int min, int max);
 
     Q_INVOKABLE bool canCloseGate();
 

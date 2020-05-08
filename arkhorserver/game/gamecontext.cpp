@@ -6,6 +6,7 @@
 #include "propertymodifier.h"
 #include "ancientone.h"
 #include "mythoscard.h"
+#include "gameobject.h"
 
 AncientOne *GameContext::ancientOne()
 {
@@ -36,6 +37,37 @@ QString GameContext::selectChoice(Player *p, QString desc, const QString &source
     ch.setCanCancel(canCancel);
     AH::Common::ChoiceResponseData res = p->offerChoice(ch);
     return res.toString();
+}
+
+QList<GameObject *> GameContext::selectObjects(Player *p, const QList<GameObject *> objects, const QString &desc, const QString &sourceId, int min, int max)
+{
+    QList<GameObject *> sels;
+
+    QStringList ids;
+    for (auto o : objects) ids << o->id();
+
+    if (min > max) std::swap(min, max);
+    max = qMin(max, ids.size());
+    if (max <= 0)
+        return sels;
+
+    AH::Common::ChoiceData ch;
+    ch.setSelectObjects(ids, min, max);
+    ch.setDescription(desc);
+    ch.setSourceId(sourceId);
+
+    AH::Common::ChoiceResponseData resp = p->offerChoice(ch);
+
+    QStringList selIds;
+    if (resp.isValid()) {
+        selIds = resp.toStringList();
+    }
+    for (GameObject *o : objects) {
+        if (selIds.contains(o->id())) {
+            sels << o;
+        }
+    }
+    return sels;
 }
 
 /*

@@ -176,6 +176,11 @@ GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type, QString
     return os;
 }
 
+QList<GameObjectScript *> GameContextScript::selectObjects(QList<GameObjectScript *> objects, QString desc, const QString &sourceId, int min, int max)
+{
+    return curCharacter()->selectObjects(objects, desc, sourceId, min, max);
+}
+
 QList<GameObjectScript *> GameContextScript::drawMultipleObjects(AH::GameObjectType type, QString desc, const QString &sourceId, int count, int min, int max)
 {
     ModifiedPropertyValue val = gGame->context().getCurCharacterDrawObject(type);

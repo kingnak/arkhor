@@ -67,6 +67,16 @@ QString CharacterScript::selectChoice(QString desc, const QString &sourceId, QLi
     return gGame->context().selectChoice(gGame->playerForCharacter(this), desc, sourceId, options, canBeCanceled);
 }
 
+QList<GameObjectScript *> CharacterScript::selectObjects(QList<GameObjectScript *> objects, const QString &desc, const QString &sourceId, int min, int max)
+{
+    QList<GameObject *> objs;
+    for (auto o : objects) objs << o;
+    auto sels = gGame->context().selectObjects(gGame->playerForCharacter(this), objs, desc, sourceId, min, max);
+    QList<GameObjectScript *> res;
+    for (auto o : sels) res << static_cast<GameObjectScript *> (o);
+    return res;
+}
+
 bool CharacterScript::canCloseGate()
 {
     if (m_explorededGate && m_explorededGate == gGame->context().gate()) {

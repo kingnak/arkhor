@@ -16,6 +16,7 @@ class Character;
 class Gate;
 class AncientOne;
 class MythosCard;
+class GameObject;
 
 class GameContext
 {
@@ -42,6 +43,7 @@ public:
 
     QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel);
     QString selectChoice(Player *p, QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel);
+    QList<GameObject *> selectObjects(Player *p, const QList<GameObject *> objects, const QString &desc, const QString &sourceId, int min, int max);
 
     ModifiedPropertyValue getCurCharacterProperty(PropertyValue::Property property);
     ModifiedPropertyValue getCurCharacterSkill(AH::Skill skill);

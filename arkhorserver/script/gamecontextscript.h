@@ -60,6 +60,7 @@ public:
     Q_INVOKABLE GameObjectScript *drawObject(AH::GameObjectType type);
     Q_INVOKABLE GameObjectScript *drawObject(AH::GameObjectType type, QString desc, QString sourceId = QString::null);
 
+    Q_INVOKABLE QList<GameObjectScript *> selectObjects(QList<GameObjectScript *> objects, QString desc, const QString &sourceId, int min, int max);
     Q_INVOKABLE QList<GameObjectScript *> drawMultipleObjects(AH::GameObjectType type, QString desc, const QString &sourceId, int count, int min, int max);
     Q_INVOKABLE QList<GameObjectScript *> drawMixedObjects(QString desc, const QString &sourceId, QList<AH::ObjectTypeCount> types, int min, int max);
 

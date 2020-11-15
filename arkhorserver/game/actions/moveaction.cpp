@@ -74,6 +74,7 @@ bool MoveAction::moveArkham()
         for (int i = 1; i < p.size(); ++i) {
             gGame->notifier()->actionUpdate(this, p[i]->name());
             speed--;
+            gGame->context().player()->getCharacter()->addMovementPoint(-1);
             if (p[i]->hasMonsters()) {
                 // STOP HERE!
                 stopField = p[i];
@@ -84,7 +85,6 @@ bool MoveAction::moveArkham()
         }
 
         stopField->placeCharacter(gGame->context().player()->getCharacter());
-        gGame->context().player()->getCharacter()->setMovementAmount(speed);
         gGame->notifier()->actionFinish(this, stopField->name());
         gGame->changeCharacterMove(gGame->context().player()->getCharacter(), path);
         return true;

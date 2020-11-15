@@ -56,6 +56,10 @@ public:
      */
     DieRollResult getResult() const;
 
+    quint32 poolSize() const { return m_dice.size(); }
+    void clear() { m_dice.clear(); }
+    void setDice(QList<Die*> dice) { m_dice = dice; }
+
 private:
     QList<Die*> m_dice;
 };

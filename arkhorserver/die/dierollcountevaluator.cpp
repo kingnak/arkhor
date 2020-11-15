@@ -74,3 +74,41 @@ bool DieRollCountBoolEvaluator::getBoolResult() const
 {
     return boolEvaluate(getResult());
 }
+
+void DieRollCountBoolEvaluator::succeed()
+{
+    m_pool.clear();
+    quint32 t = m_target;
+
+    QList<Die*> dice;
+    // Get values for fail and success die
+    auto l = m_successRolls.toList();
+    qSort(l);
+    quint32 success = l.last();
+    quint32 fail = l.first()-1;
+    if (fail < 1) {
+        fail = l.last()+1;
+    }
+
+    switch (m_evaluationType) {
+    case LESS:
+    case LESS_EQUALS:
+        // 1 fail die will always be less then target
+        dice << DieFactory::instance().createFixedDie(fail);
+        break;
+
+    case GREATER:
+        t++;
+        // fallthrough
+    case GREATER_EQUALS:
+    case EQUALS:
+        // Add success dice until we reach target
+        for (quint32 i = 0; i < t; ++i) {
+            dice << DieFactory::instance().createFixedDie(success);
+        }
+        break;
+    }
+
+    m_pool.setDice(dice);
+    evaluate();
+}

@@ -346,6 +346,7 @@ void GameScript::initGlobalConstants(QScriptValue &consts)
         reroll.setProperty("All", DieRollOption::ReRollAll, QScriptValue::ReadOnly);
         reroll.setProperty("AllFailed", DieRollOption::ReRollAllFailed, QScriptValue::ReadOnly);
         reroll.setProperty("OneFailed", DieRollOption::ReRollOneFailed, QScriptValue::ReadOnly);
+        reroll.setProperty("Succeed", DieRollOption::AutoSucceed, QScriptValue::ReadOnly);
         consts.setProperty("Reroll", reroll, QScriptValue::ReadOnly);
     }
 
@@ -724,9 +725,20 @@ QScriptValue GameScript::getDieRollOption()
 
     DieRollOption::ReRollType type = static_cast<DieRollOption::ReRollType> (iType);
     QString id = QString("OP_DIE_ROLL_%1").arg(DieRollOption::nextId());
-    DieRollOption *op = new DieRollOption(type, skills);
+    QScopedPointer<DieRollOption> op(new DieRollOption(type, skills));
+    AH::Common::Cost c;
+    if (!GameScript::parseCosts(data.property("costs"), c)) {
+        return context()->throwError(QScriptContext::TypeError, "createOption: Invalid Costs specification");
+    }
+    op->setCosts(c);
+
+    if (data.property("discardAfterUse").isBool()) {
+        bool bDisc = data.property("discardAfterUse").toBool();
+        op->setDiscardAfterUse(bDisc);
+    }
+
     op->setId(id);
-    gGame->registerOption(op);
+    gGame->registerOption(op.take());
     return id;
 }
 

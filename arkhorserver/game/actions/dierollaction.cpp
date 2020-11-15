@@ -2,6 +2,8 @@
 #include "game/dietesthelper.h"
 #include "game/game.h"
 #include "die/dierollcountevaluator.h"
+#include "game/player.h"
+#include "character.h"
 
 quint32 DieRollOption::s_nextId = 0;
 
@@ -23,6 +25,14 @@ bool DieRollOption::isAvailable() const
 
 bool DieRollOption::execute()
 {
+    if (!costs().getAlternatives().empty()) {
+        if (!gGame->context().player()->getCharacter()->pay(costs())) {
+            return false;
+        }
+        // Inform about payment
+        gGame->commitUpdates();
+    }
+
     if (m_used) {
         return false;
     }
@@ -30,6 +40,7 @@ bool DieRollOption::execute()
 
     DieTestHelper::DieTestSpec *spec = gGame->context().dieRoll();
     DieRollCountEvaluator *drce = dynamic_cast<DieRollCountEvaluator *> (spec->eval);
+    DieRollBoolEvaluator *drbe = dynamic_cast<DieRollBoolEvaluator *> (spec->eval);
     switch (type()) {
     case DieRollOption::ReRollAll:
         spec->eval->rerollAll();
@@ -44,10 +55,18 @@ bool DieRollOption::execute()
             drce->rerollNumFailed(1);
         }
         break;
+    case DieRollOption::AutoSucceed:
+        if (drbe) {
+            drbe->succeed();
+        }
+        break;
     }
 
     if (m_source) {
         m_source->exhaust();
+        if (m_discardAfterUse) {
+            m_source->returnToDeck();
+        }
     }
 
     return true;
@@ -59,6 +78,7 @@ QString DieRollOption::name() const
     case ReRollAll: return "Reroll all";
     case ReRollAllFailed: return "Reroll all failed";
     case ReRollOneFailed: return "Reroll one die";
+    case AutoSucceed: return "Succeed";
     }
     Q_ASSERT_X(false, "DieRollOption", "Invalid type");
     return "";
@@ -70,6 +90,7 @@ QString DieRollOption::description() const
     case ReRollAll: return "Reroll all dice";
     case ReRollAllFailed: return "Reroll all failed dice";
     case ReRollOneFailed: return "Reroll one die";
+    case AutoSucceed: return "Automatically succeed";
     }
     Q_ASSERT_X(false, "DieRollOption", "Invalid type");
     return "";

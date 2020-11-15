@@ -88,3 +88,29 @@ UniqueItem RubyOfRlyeh : 1 {
     price: 8;
     modifications: [ Prop_Movement +3 ];
 }
+
+UniqueItem BlueWatcherOfThePyramid : 1 {
+    name: "Blue Watcher of the Pyramid";
+    price: 4;
+    exhaustable: true;
+    description: "<b>Any Phase:</b> Lose 2 Stamina and "+
+            "discard Blue Watcher of the Pyramid to "+
+            "automatically succeed at a Combat check or a "+
+            "Fight check or Lore check made to close a gate. "+
+            "This cannot be used against an Ancient One.";
+
+    attributes: DiscardOnEndFight;
+    options: <<<[
+        game.getDieRollOption({
+            type: Constants.Reroll.Succeed,
+            discardAfterUse: true,
+            costs: [{type: Constants.Costs.Stamina, amount: 2}],
+            skills: [
+                Constants.Skills.Combat,
+                // TODO: This lets us succeed ANY lore/fight check, not only for closing gate...
+                Constants.Skills.Fight,
+                Constants.Skills.Lore
+            ]
+        })
+    ]>>>;
+}

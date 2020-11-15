@@ -1,32 +1,4 @@
 
-// BLUE WATCHER OF THE PYRAMID
-var useBlueWatcher = game.quickOption({
-	//id: "CI_USE_BLUE_WATCHER",
-	name: "Use Blue Watcher",
-	costs: { type: Constants.Costs.Stamina, amount: 2},
-	phases: Constants.GamePhases.Any,
-	continueType: Constants.Option.CanContinue,
-	chooseType: Constants.Option.Supplemental,
-	activate: function() {
-        this.discard();
-		// TODO
-	}
-});
-var blueWatcher = game.createObject({
-	tid: "UI_Blue_Watcher_of_the_Pyramid",
-	name: "Blue Watcher of the Pyramid",
-	type: Constants.ObjectType.UniqueItem,
-	exhaustable: true,
-	description: "<b>Any Phase:</b> Lose 2 Stamina and "+
-		"discard Blue Watcher of the Pyramid to "+
-		"automatically succeed at a Combat check or a "+
-		"Fight check or Lore check made to close a gate. "+
-		"This cannot be used against an Ancient One."+
-		"\nNot implemented",
-	price: 4,
-	optionIds: [useBlueWatcher.id]
-});
-game.registerMultiObject(1, blueWatcher); 
 
 // DRAGON'S EYE
 var useDragonsEye = game.quickOption({

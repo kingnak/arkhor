@@ -145,6 +145,8 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
             DieRollOption *dro = dynamic_cast<DieRollOption *> (op);
             if (dro) {
                 dro->execute();
+                AH::Common::DiePoolData &pool = spec.data.rollData().pool();
+                pool.setDieCount(spec.eval->pool()->poolSize());
             }
         }
 

@@ -16,6 +16,7 @@ public:
 
     Die *createStandardDie(StandardDie type);
     Die *createDN(quint32 N);
+    Die *createFixedDie(quint32 value);
 
 private:
     DieFactory();

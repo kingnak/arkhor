@@ -26,3 +26,10 @@ Die *DieFactory::createDN(quint32 N)
 {
     return new Die(1, N);
 }
+
+Die *DieFactory::createFixedDie(quint32 value)
+{
+    Die *d = new Die(value, value);
+    d->roll();
+    return d;
+}

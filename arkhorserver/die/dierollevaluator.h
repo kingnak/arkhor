@@ -38,6 +38,7 @@ public:
         : m_target(target), m_evaluationType(type) {}
 
     virtual bool getBoolResult() const = 0;
+    virtual void succeed() = 0;
 
 protected:
     bool boolEvaluate(quint32 value) const;

@@ -23,7 +23,7 @@ public:
     void rerollFailed();
     void rerollNumFailed(int amount);
 
-private:
+protected:
     const QSet<quint32> m_successRolls;
     QSet<DiePool::DiePoolIndex> m_failed;
     qint32 m_resultValue;
@@ -38,7 +38,8 @@ public:
     DieRollCountBoolEvaluator(DiePool initialPool, const QSet<quint32> &successRolls, quint32 target, EvaluationType type = GREATER);
     ~DieRollCountBoolEvaluator() {}
 
-    virtual bool getBoolResult() const;
+    virtual bool getBoolResult() const override;
+    void succeed() override;
 };
 #pragma warning(pop)
 

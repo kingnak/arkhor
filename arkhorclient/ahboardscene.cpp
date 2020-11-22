@@ -149,19 +149,6 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
     ensureAnimationObjectsKnown(changes);
     auto reg = ObjectRegistry::instance();
 
-    for (auto g : changes.gateDisappear) {
-        auto f = this->getField(g.location);
-        f->animateGateDisappear();
-    }
-
-    for (auto m : changes.monsterDisappear) {
-        auto f = this->getField(m.location);
-        auto monster = reg->getObject<MonsterData>(m.id);
-        f->animateMonsterDisappear(monster);
-    }
-
-    //animateTerrorLevel(changes.terrorLevel);
-
     for (auto g : changes.gateAppear) {
         auto f = this->getField(g.location);
         f->animateGateAppear(g.id);
@@ -173,6 +160,25 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
         f->animateMonsterAppear(monster);
     }
 
+    for (auto g : changes.gateDisappear) {
+        auto f = this->getField(g.location);
+        f->animateGateDisappear();
+    }
+
+    for (auto m : changes.monsterMovements) {
+        auto f = this->getField(m.path.first());
+        auto monster = reg->getObject<MonsterData>(m.id);
+        f->animateMonsterMove(monster, m.path);
+    }
+
+    for (auto m : changes.monsterDisappear) {
+        auto f = this->getField(m.location);
+        auto monster = reg->getObject<MonsterData>(m.id);
+        f->animateMonsterDisappear(monster);
+    }
+
+    //animateTerrorLevel(changes.terrorLevel);
+
     if (!changes.clearOutskirts.isEmpty()) {
         auto f = this->getField(FieldData::FieldID::Sp_Outskirts);
         f->animateMultipleMonsterDisappear(changes.clearOutskirts);
@@ -183,11 +189,7 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
         f->animateGateOpen(g.id);
     }
 
-    for (auto m : changes.monsterMovements) {
-        auto f = this->getField(m.path.first());
-        auto monster = reg->getObject<MonsterData>(m.id);
-        f->animateMonsterMove(monster, m.path);
-    }
+
 
     for (auto c : changes.characterMovements) {
         auto f = this->getField(c.path.first());

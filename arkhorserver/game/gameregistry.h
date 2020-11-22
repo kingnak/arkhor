@@ -66,6 +66,8 @@ public:
 
     bool resolveDependencies();
 
+    static const QString TempObjectId;
+
 private:
     template <typename T>
     bool doRegisterItem(T *t, QMap<QString, T*> &m);

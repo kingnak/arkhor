@@ -139,7 +139,9 @@ GameOptionFieldProxyScript::GameOptionFieldProxyScript(GameField *field, const Q
 bool GameOptionFieldProxyScript::execute()
 {
     gGame->notifier()->setTempData(m_opt->description());
+    m_opt->setSourceId(GameRegistry::TempObjectId);
     bool res = m_opt->execute();
+    m_opt->setSourceId("");
     gGame->notifier()->clearTempData();
     return res;
 }

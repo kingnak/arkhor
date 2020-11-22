@@ -12,6 +12,8 @@
 #include "gate.h"
 #include "ancientone.h"
 
+const QString GameRegistry::TempObjectId("%TMP%");
+
 GameRegistry::GameRegistry()
 :   m_nextActionId(0),
     m_nextOptionId(0),

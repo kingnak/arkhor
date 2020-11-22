@@ -219,10 +219,10 @@ bool Character::canPay(const CostList &cost) const
     return true;
 }
 
-bool Character::pay(const Cost &cost)
+bool Character::pay(const Cost &cost, const QString &sourceId, const QString &description)
 {
     AH::Common::CostList sel;
-    bool ok = ChoiceHelper::choosePayment(this, cost, sel);
+    bool ok = ChoiceHelper::choosePayment(this, cost, sel, sourceId, description);
     if (ok) {
         return pay(sel);
     }

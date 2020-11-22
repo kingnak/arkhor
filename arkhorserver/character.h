@@ -94,7 +94,7 @@ public:
     // Payment
     bool canPay(const AH::Common::Cost &cost) const;
     bool canPay(const AH::Common::CostList &cost) const;
-    bool pay(const AH::Common::Cost &cost);
+    bool pay(const AH::Common::Cost &cost, const QString &sourceId = {}, const QString &description = {});
     bool pay(const AH::Common::CostList &cost);
 
     void loseHalfClues();

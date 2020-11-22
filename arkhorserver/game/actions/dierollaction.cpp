@@ -26,7 +26,7 @@ bool DieRollOption::isAvailable() const
 bool DieRollOption::execute()
 {
     if (!costs().getAlternatives().empty()) {
-        if (!gGame->context().player()->getCharacter()->pay(costs())) {
+        if (!gGame->context().player()->getCharacter()->pay(costs(), m_source?m_source->id():"", description())) {
             return false;
         }
         // Inform about payment

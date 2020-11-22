@@ -20,7 +20,7 @@ public slots:
     void offerChoice(AH::Common::ChoiceData choice);
 
     void selectFromObjectList(QStringList objectIds, int min = 0, int max = 1);
-    void selectPayment(AH::Common::Cost cost);
+    void selectPayment(QString desc, AH::Common::Cost cost);
     void selectString(QString desc, QList<AH::Common::ChoiceData::OptionData> options);
 
     void selectActiveChoice();

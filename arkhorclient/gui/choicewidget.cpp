@@ -14,6 +14,7 @@ ChoiceWidget::ChoiceWidget(QWidget *parent) :
     connect(ui->wgtObjSelection, SIGNAL(requestObjectInfo(QString)), this, SLOT(displayInfo(QString)));
     connect(ui->lblTitle, SIGNAL(linkActivated(QString)), this, SIGNAL(objectInfoRequested(QString)));
     connect(ui->wgtStrings, SIGNAL(objectInfoRequested(QString)), this, SIGNAL(objectInfoRequested(QString)));
+    connect(ui->wgtPayment, SIGNAL(objectInfoRequested(QString)), this, SIGNAL(objectInfoRequested(QString)));
 }
 
 ChoiceWidget::~ChoiceWidget()
@@ -38,7 +39,7 @@ void ChoiceWidget::offerChoice(ChoiceData choice)
         selectFromObjectList(choice.getObjectIds(), choice.getMin(), choice.getMax());
         break;
     case ChoiceData::ChoosePayment:
-        selectPayment(choice.getCosts());
+        selectPayment(desc, choice.getCosts());
         break;
     case ChoiceData::ChooseString:
         selectString(desc, choice.getStrings());
@@ -57,10 +58,10 @@ void ChoiceWidget::selectFromObjectList(QStringList objectIds, int min, int max)
     ui->stkChoices->setCurrentWidget(ui->pageItemSelector);
 }
 
-void ChoiceWidget::selectPayment(Cost cost)
+void ChoiceWidget::selectPayment(QString desc, Cost cost)
 {
     m_type = ChoiceData::ChoosePayment;
-    ui->wgtPayment->displayPayments(cost);
+    ui->wgtPayment->displayPayments(desc, cost);
     ui->stkChoices->setCurrentWidget(ui->pagePaymentSelector);
 }
 

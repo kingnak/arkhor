@@ -51,7 +51,7 @@ bool GameOption::execute()
                 }
             }
             */
-            if (gGame->context().player()->getCharacter()->pay(c)) {
+            if (gGame->context().player()->getCharacter()->pay(c, sourceId(), name())) {
                 return action()->execute();
             }
             return false;

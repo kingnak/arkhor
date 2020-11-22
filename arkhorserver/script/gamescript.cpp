@@ -1122,7 +1122,7 @@ QScriptValue GameScript::call(FunctionType t, QScriptValue f, QScriptValue obj, 
 QScriptValue GameScript::getTempObject()
 {
     static QScriptValue obj = engine()->newObject();
-    obj.setProperty("id", "%TMP%");
+    obj.setProperty("id", GameRegistry::TempObjectId);
     return obj;
 }
 

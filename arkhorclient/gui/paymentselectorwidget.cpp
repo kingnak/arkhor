@@ -11,14 +11,18 @@ PaymentSelectorWidget::PaymentSelectorWidget(QWidget *parent) :
     QWidget(parent), m_selIdx(-1)
 {
     m_display = new QLabel;
+    m_description = new QLabel;
     m_optionsWidget = new QWidget;
 
     m_optionsWidget->setLayout(new QVBoxLayout);
 
     QVBoxLayout *l = new QVBoxLayout(this);
     l->addWidget(m_optionsWidget);
+    l->addWidget(m_description);
     l->addWidget(m_display);
     l->addStretch(1);
+
+    connect(m_description, SIGNAL(linkActivated(QString)), this, SIGNAL(objectInfoRequested(QString)));
 }
 
 AH::Common::CostList PaymentSelectorWidget::getSelectedPayment() const
@@ -34,10 +38,11 @@ int PaymentSelectorWidget::getSelectedPaymentIndex() const
     return m_selIdx;
 }
 
-void PaymentSelectorWidget::displayPayments(AH::Common::Cost costs)
+void PaymentSelectorWidget::displayPayments(QString desc, AH::Common::Cost costs)
 {
     clearPayments();
 
+    m_description->setText(desc);
     m_cost = costs;
     int i = 0;
     foreach (AH::Common::CostList l, m_cost.getAlternatives()) {
@@ -73,6 +78,7 @@ void PaymentSelectorWidget::clearPayments()
         delete w;
     }
 
+    m_description->setText("");
     m_display->setText("");
     m_cost.clear();
     m_selIdx = -1;

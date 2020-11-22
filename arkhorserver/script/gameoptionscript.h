@@ -57,6 +57,7 @@ public:
     virtual QString description() const { return m_opt->description(); }
     virtual AH::GamePhases phases() const { return m_opt->phases(); }
     virtual QString actionId() const { return m_opt->actionId(); }
+    virtual QString sourceId() const { return m_opt->sourceId(); }
 
     virtual AH::Common::Cost costs() const { return m_opt->costs(); }
     virtual bool canPay() const { return m_opt->canPay(); }

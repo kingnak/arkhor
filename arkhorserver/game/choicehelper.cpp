@@ -4,7 +4,7 @@
 #include "game/player.h"
 #include <choicedata.h>
 
-bool ChoiceHelper::choosePayment(Character *c, AH::Common::Cost options, AH::Common::CostList &selected)
+bool ChoiceHelper::choosePayment(Character *c, AH::Common::Cost options, AH::Common::CostList &selected, const QString &sourceId, const QString &description)
 {
     selected.clear();
     if (options.getAlternatives().size() == 0) {
@@ -27,6 +27,8 @@ bool ChoiceHelper::choosePayment(Character *c, AH::Common::Cost options, AH::Com
     AH::Common::ChoiceData choice;
     choice.setSelectPayment(realOptions);
     choice.setCanCancel(true);
+    choice.setSourceId(sourceId);
+    choice.setDescription(description);
     Player *p = gGame->playerForCharacter(c);
     AH::Common::ChoiceResponseData resp = p->offerChoice(choice);
     if (resp.isValid()) {

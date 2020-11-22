@@ -18,12 +18,13 @@ public:
     int getSelectedPaymentIndex() const;
 
 public slots:
-    void displayPayments(AH::Common::Cost costs);
+    void displayPayments(QString desc, AH::Common::Cost costs);
     void clearPayments();
 
 signals:
     void choiceOk(bool ok);
     void activateChoice();
+    void objectInfoRequested(QString id);
 
 private slots:
     void alternativeSelected();
@@ -34,6 +35,7 @@ private:
 
     QWidget *m_optionsWidget;
     QLabel *m_display;
+    QLabel *m_description;
 };
 
 #endif // PAYMENTSELECTORWIDGET_H

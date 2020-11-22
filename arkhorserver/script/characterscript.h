@@ -78,6 +78,7 @@ public:
 
     Q_INVOKABLE bool canPay(AH::Common::Cost cost) { return Character::canPay(cost); }
     Q_INVOKABLE bool pay(AH::Common::Cost cost) { return Character::pay(cost); }
+    Q_INVOKABLE bool pay(AH::Common::Cost cost, const QString &sourceId, const QString &description) { return Character::pay(cost, sourceId, description); }
 
     Q_INVOKABLE void loseHalfPossessions(const QString &sourceId = QString::null) { return Character::loseHalfPossessions(sourceId); }
     Q_INVOKABLE void losePossessions(int count, const QString &sourceId) { return Character::losePossessions(count, sourceId); }

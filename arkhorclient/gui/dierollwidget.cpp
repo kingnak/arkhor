@@ -32,6 +32,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
 {
     int ct = data.rollData().pool().dieCount()+data.rollData().pool().adjustment();
     m_fixedValues = data.rollData().pool().dieValues();
+    ct = qMax(ct, m_fixedValues.count());
     m_fixedCount = ct;
     m_successValues = data.rollData().successRolls();
     while (m_fixedValues.size() < ct) {

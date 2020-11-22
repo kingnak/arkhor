@@ -132,6 +132,7 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
             }
         }
 
+        bool skipUpdate = false;
         // Handle Reroll options!
         if (!upd.dieRollOptionId().isEmpty()) {
             GameOption *op = NULL;
@@ -144,13 +145,16 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
 
             DieRollOption *dro = dynamic_cast<DieRollOption *> (op);
             if (dro) {
-                dro->execute();
+                skipUpdate = !dro->execute();
                 AH::Common::DiePoolData &pool = spec.data.rollData().pool();
                 pool.setDieCount(spec.eval->pool()->poolSize());
             }
         }
 
-        spec.eval->rollNew();
+        if (!skipUpdate) {
+            spec.eval->rollNew();
+        }
+
         QList<quint32> dieVals;
         foreach (DieRollResultItem itm, spec.eval->pool()->getResult()) {
             dieVals << itm.value();
@@ -163,7 +167,7 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
 
         updateReRollOptions(spec);
         upd = p->dieRollUpdate(spec.data);
-        cont = upd.clueBurnAmount() > 0 || !upd.dieRollOptionId().isEmpty();
+        cont = upd.clueBurnAmount() > 0 || !upd.dieRollOptionId().isEmpty() || skipUpdate;
     } while (cont);
 
     //p->dieRollFinish(spec.data);

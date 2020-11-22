@@ -17,8 +17,7 @@ void CleanupThread::run()
 {
     QThread::run();
 
-    typedef QPair<QObject *, QByteArray> SlotSpec;
-    foreach (SlotSpec s, m_slots) {
+    for (auto s : m_slots) {
         QMetaObject::invokeMethod(s.first, s.second.constData(), Qt::DirectConnection);
     }
 }

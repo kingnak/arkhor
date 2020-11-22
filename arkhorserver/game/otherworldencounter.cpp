@@ -5,7 +5,7 @@
 QList<AH::Common::GameOptionData> OtherWorldEncounter::optionData() const
 {
     QList<AH::Common::GameOptionData> ret;
-    foreach (GameOption *o, options()) {
+    for (auto o : options()) {
         ret << *o->data();
     }
     return ret;

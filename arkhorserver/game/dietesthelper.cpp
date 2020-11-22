@@ -136,7 +136,7 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
         // Handle Reroll options!
         if (!upd.dieRollOptionId().isEmpty()) {
             GameOption *op = NULL;
-            foreach (GameOption *o, spec.options) {
+            for (auto o : spec.options) {
                 if (o->id() == upd.dieRollOptionId()) {
                     op = o;
                     break;
@@ -156,7 +156,7 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
         }
 
         QList<quint32> dieVals;
-        foreach (DieRollResultItem itm, spec.eval->pool()->getResult()) {
+        for (auto itm : spec.eval->pool()->getResult()) {
             dieVals << itm.value();
         }
         spec.data.rollData().pool().setDieValues(dieVals);

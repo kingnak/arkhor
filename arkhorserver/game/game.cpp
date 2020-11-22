@@ -289,8 +289,8 @@ bool Game::resolveDependencies()
     bool ok = m_registry->resolveDependencies();
     if (!ok) return false;
     // Resolve Field Options
-    foreach (AH::Common::FieldData::FieldID fid, m_fieldOptionMap.keys()) {
-        foreach (QString opId, m_fieldOptionMap[fid]) {
+    for (auto fid : m_fieldOptionMap.keys()) {
+        for (auto opId : m_fieldOptionMap[fid]) {
             GameOption *op = m_registry->findOptionById(opId);
             if (op) {
                 m_board->field(fid)->addFieldOption(op);
@@ -621,7 +621,7 @@ GameObject *Game::drawObject(AH::GameObjectType t)
 
 GameObject *Game::drawSpecificObject(QString id)
 {
-    foreach (AH::GameObjectType t, m_objectDecks.keys()) {
+    for (auto t : m_objectDecks.keys()) {
         GameObject *o = drawSpecificObject(id, t);
         if (o) return o;
     }
@@ -990,7 +990,7 @@ void Game::commitUpdates()
         m_invalidatedObjects << m_ancientOne->id();
     }
 
-    foreach (Character *c, m_registry->allCharacters()) {
+    for (auto c : m_registry->allCharacters()) {
         c->commitDamage();
         if (c->isDirty()) {
             c->setDirty(false);
@@ -1014,7 +1014,7 @@ void Game::commitUpdates()
 
 Player *Game::playerForCharacter(Character *c)
 {
-    foreach (Player *p, m_playerList) {
+    for (auto p : m_playerList) {
         if (p->getCharacter() == c) {
             return p;
         }
@@ -1026,7 +1026,7 @@ Player *Game::playerForCharacter(Character *c)
 AH::Common::DescribeObjectsData Game::describeObjects(const AH::Common::RequestObjectsData &reqs) const
 {
     AH::Common::DescribeObjectsData ret;
-    foreach (AH::Common::RequestObjectsData::ObjectRequest r, reqs.getRequests()) {
+    for (auto r : reqs.getRequests()) {
         ret.addDescription(describeObject(r));
     }
     return ret;
@@ -1224,7 +1224,7 @@ void Game::returnSpecialActionNumber(int nr)
 void Game::initBoard()
 {
     ignoreChanges(true);
-    foreach (GameField *f, m_board->fields(AH::Common::FieldData::Location)) {
+    for (auto f : m_board->fields(AH::Common::FieldData::Location)) {
         f->putClue();
     }
     ignoreChanges(false);
@@ -1236,24 +1236,24 @@ void Game::initBoard()
 
 void Game::initDecks()
 {
-    foreach (GameObject *o, m_registry->allObjects()) {
+    for (auto o : m_registry->allObjects()) {
         m_objectDecks[o->type()].addCard(o);
     }
-    foreach (AH::GameObjectType t, m_objectDecks.keys()) {
+    for (auto t : m_objectDecks.keys()) {
         m_objectDecks[t].shuffle();
     }
 
     // Shuffeled at each draw, so no need here
-    foreach (ArkhamEncounter *ae, m_registry->allArkhamEncounters()) {
+    for (auto ae : m_registry->allArkhamEncounters()) {
         m_arkEncDecks[ae->fieldId()].addCard(ae);
     }
 
-    foreach (OtherWorldEncounter *e, m_registry->allOtherWorldEncounters()) {
+    for (auto e : m_registry->allOtherWorldEncounters()) {
         m_owEncDeck.addCard(e);
     }
     m_owEncDeck.shuffle();
 
-    foreach (MythosCard *m, m_registry->allMythosCards()) {
+    for (auto m : m_registry->allMythosCards()) {
         m_mythosDeck.addCard(m);
     }
     m_mythosDeck.shuffle();
@@ -1261,7 +1261,7 @@ void Game::initDecks()
 
 void Game::initMonsters()
 {
-    foreach (Monster *m, m_registry->allMonsters())
+    for (auto m : m_registry->allMonsters())
         m_monsterPool.addCard(m);
 
     // Shuffeled at each draw, no need here
@@ -1294,7 +1294,7 @@ void Game::chooseInvestigators()
 
 void Game::chooseAncientOne()
 {
-    foreach (AncientOne *a, m_registry->allAncientOnes()) {
+    for (auto a : m_registry->allAncientOnes()) {
         m_ancientOnePool.addCard(a);
     }
 
@@ -1311,7 +1311,7 @@ void Game::chooseAncientOne()
 void Game::initInvestigators()
 {
     // FIXED POSSESSION
-    foreach (Character *c, m_registry->allCharacters())
+    for (auto c : m_registry->allCharacters())
     {
         m_context.m_player = playerForCharacter(c);
         initCharacterFixedPossession(c);
@@ -1319,7 +1319,7 @@ void Game::initInvestigators()
     }
 
     // RANDOM POSSESSION
-    foreach (Character *c, m_registry->allCharacters())
+    for (auto c : m_registry->allCharacters())
     {
         m_context.m_player = playerForCharacter(c);
         initCharacterRandomPossession(c);
@@ -1327,7 +1327,7 @@ void Game::initInvestigators()
     }
 
     // START FIELD
-    foreach (Character *c, m_registry->allCharacters())
+    for (auto c : m_registry->allCharacters())
     {
         m_context.m_player = playerForCharacter(c);
         m_board->field(c->investigator()->startFieldId())->placeCharacter(c);
@@ -1337,7 +1337,7 @@ void Game::initInvestigators()
     commitUpdates();
 
     // INITIAL FOCUS
-    foreach (Player *p, m_playerList)
+    for (auto p : m_playerList)
     {
         m_notifier->currentPlayerChanged(p);
         FocusAction fa;
@@ -1353,7 +1353,7 @@ void Game::initCharacterFixedPossession(Character *c)
     // Will be dirty after all of this...
     c->setDirty();
 
-    foreach (QString tid, c->investigator()->fixedPossesionObjectIds())
+    for (auto tid : c->investigator()->fixedPossesionObjectIds())
     {
         GameObject *obj = NULL;
         const GameObject *proto = m_registry->findObjectPrototypeByType(tid);
@@ -1375,7 +1375,7 @@ void Game::initCharacterRandomPossession(Character *c)
     // Will be dirty after all of this...
     c->setDirty();
 
-    foreach (AH::ObjectTypeCount otc, c->investigator()->randomPossesions()) {
+    for (auto otc : c->investigator()->randomPossesions()) {
         // TODO: MUST BE INTERACTION! IF THERE IS A SPECIAL ABILITY BY INVESTIGATOR,
         // HE MIGHT CHOOSE FROM VARIOUS CARDS!
         for (int i = 0; i < otc.amount; ++i) {
@@ -1395,7 +1395,7 @@ void Game::replacePlayerCharacter(Player *p, Investigator *i)
     // Return everything character possesses
     QList<GameObject *> inv = oldChar->inventory();
     inv.detach();
-    foreach (GameObject *obj, inv) {
+    for (auto obj : inv) {
         returnObject(obj);
     }
 
@@ -1430,9 +1430,9 @@ void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity,
     QList<GameOption *> options;
 
     do {
-        foreach (GameObject *obj, c->inventory()) {
+        for (auto obj : c->inventory()) {
             if (obj->hasPreventedDamage() || obj->isExhausted()) continue;
-            foreach (GameOption *opt, obj->getOptions()) {
+            for (auto opt : obj->getOptions()) {
                 if (opt->phases().testFlag(AH::CommitDamagePhase)) {
                     PreventDamageOption *pOpt = dynamic_cast<PreventDamageOption *> (opt);
                     if (!pOpt) continue;
@@ -1476,7 +1476,7 @@ void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity,
         damageStamina -= pChosen->preventedStamina();
         damageSanity -= pChosen->preventedSanity();
 
-        foreach (GameOption *o, options) {
+        for (auto o : options) {
             if (PreventDamageOption *pO = dynamic_cast<PreventDamageOption*>(o)) {
                 pO->reset();
             }
@@ -1490,13 +1490,13 @@ void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity,
 
     } while (true);
 
-    foreach (GameOption *o, options) {
+    for (auto o : options) {
         if (PreventDamageOption *pO = dynamic_cast<PreventDamageOption*>(o)) {
             pO->reset();
         }
     }
 
-    foreach (GameObject *obj, c->inventory()) {
+    for (auto obj : c->inventory()) {
         obj->resetPreventDamage();
     }
 
@@ -1631,7 +1631,7 @@ void Game::attackAncientOne()
 void Game::ancientOneAttack()
 {
     // Not a player phase
-    foreach (Player *p, m_playerList) {
+    for (auto p : m_playerList) {
         if (p->isActive()) {
             m_context = GameContext(this, p, NULL, AH::EndFightPhase);
             m_phases[AncientOneAttackIndex]->execute();
@@ -1641,7 +1641,7 @@ void Game::ancientOneAttack()
 
 void Game::executePlayerPhase(GamePhase *ph, AH::GamePhase phase)
 {
-    foreach (Player *p, m_playerList) {
+    for (auto p : m_playerList) {
         if (p->isActive()) {
             m_notifier->currentPlayerChanged(p);
             m_context = GameContext(this, p, NULL, phase);
@@ -1711,7 +1711,7 @@ Game::GameState Game::checkGameState()
         // Count sealed gates and open gates
         int ctSealed = 0;
         int ctOpen = 0;
-        foreach (GameField *gf, m_board->fields(AH::Common::FieldData::Location)) {
+        for (auto gf : m_board->fields(AH::Common::FieldData::Location)) {
             if (gf->isSealed()) ctSealed++;
             if (gf->gate() != NULL) ctOpen++;
         }
@@ -1723,7 +1723,7 @@ Game::GameState Game::checkGameState()
         if (ctOpen == 0) {
             // Count collected trophies
             int ctTrophies = 0;
-            foreach (Player *p, m_playerList) {
+            for (auto p : m_playerList) {
                 ctTrophies += p->getCharacter()->gateMarkerIds().count();
             }
 
@@ -1776,10 +1776,10 @@ void Game::awakeAncientOne()
 void Game::endFight()
 {
     // Remove all items that are to remove when AO awakes
-    foreach (Player *p, getPlayers()) {
+    for (auto p : getPlayers()) {
         if (p->isActive()) {
             QList<GameObject *> lst = p->getCharacter()->inventory();
-            foreach (GameObject *obj, lst) {
+            for (auto obj : lst) {
                 if (obj->getAttributes().testFlag(GameObject::DiscardOnEndFight)) {
                     p->getCharacter()->removeFromInventory(obj);
                 }
@@ -1828,7 +1828,7 @@ void Game::cleanupDeactivatedPlayers()
 {
     //QList<Player *> lst = m_player.values();
     QList<Player *> lst = m_registry->allPlayers();
-    foreach (Player *p, lst) {
+    for (auto p : lst) {
         if (!p->isActive()) {
             //m_player.remove(p->id());
             m_registry->removePlayer(p);
@@ -1843,7 +1843,7 @@ int Game::countActivePlayers() const
 {
     int ct = 0;
     QList<Player *> lst = m_registry->allPlayers();
-    foreach (Player *p, lst) {
+    for (auto p : lst) {
         if (p->isActive()) {
             ct++;
         }

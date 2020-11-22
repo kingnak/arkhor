@@ -85,7 +85,7 @@ void MovementChooser::nextMoveStep(AH::Common::FieldData::FieldID nextId)
 void MovementChooser::setNeighboursActive(AH::Common::FieldData::FieldID id, bool active)
 {
     QList<AH::Common::FieldData::FieldID> neigh = m_scene->getNeighbours(id);
-    foreach (AH::Common::FieldData::FieldID n, neigh) {
+    for (auto n : neigh) {
         AhFieldItem *f = m_scene->getField(n);
         if (active && !f->isLocked()) {
             f->setClickable(true);
@@ -103,7 +103,7 @@ void MovementChooser::setFieldCurrent(AH::Common::FieldData::FieldID id, bool cu
 
 void MovementChooser::disableAllFields()
 {
-    foreach (AhFieldItem *f, m_scene->allFields()) {
+    for (auto f : m_scene->allFields()) {
         f->setClickable(false);
         f->setCurrentField(false);
     }

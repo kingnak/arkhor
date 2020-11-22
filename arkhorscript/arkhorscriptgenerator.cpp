@@ -39,7 +39,7 @@ ArkhorScriptGenerator::~ArkhorScriptGenerator()
 QString ArkhorScriptGenerator::error() const
 {
     QString errs;
-    foreach (ClassGenerator *g, m_generators.values()) {
+    for (auto g : m_generators.values()) {
         errs += g->error();
     }
 
@@ -49,7 +49,7 @@ QString ArkhorScriptGenerator::error() const
 QString ArkhorScriptGenerator::warning() const
 {
     QString warns;
-    foreach (ClassGenerator *g, m_generators.values()) {
+    for (auto g : m_generators.values()) {
         warns += g->warning();
     }
     return warns;
@@ -59,7 +59,7 @@ bool ArkhorScriptGenerator::generate()
 {
     if (!m_parser->parse()) return false;
 
-    foreach (ClassDef c, m_parser->getDefinedClasses()) {
+    for (auto c : m_parser->getDefinedClasses()) {
         if (!generateClass(c)) return false;
     }
 
@@ -113,7 +113,7 @@ bool ArkhorScriptGenerator::setError(QString err)
 
 bool ArkhorScriptGenerator::generateNestedClasses(ClassDef &cls)
 {
-    //foreach (ArkhorScriptParser::AttrDef &a, cls.attrs) {
+    //for (auto &a : cls.attrs) {
     for (auto it = cls.attrs.begin(); it != cls.attrs.end(); ++it) {
         if (it->type == ArkhorScriptParser::NestedObject) {
             if (!doGenerateNestedClass(*it)) {

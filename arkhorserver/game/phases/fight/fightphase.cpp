@@ -43,7 +43,7 @@ bool FightPhase::handleFight(QList<Monster *> monsters)
     m_monsters = monsters;
 
     // Trick: dynamic monsters will be invalidated when requesting attrs/mods
-    foreach (Monster *m, m_monsters) {
+    for (auto m : m_monsters) {
         m->attributes();
         m->getModifications();
     }
@@ -57,7 +57,7 @@ bool FightPhase::handleFight(QList<Monster *> monsters)
 
     // Defeated was already called in AttackAction.
     // Call EndCombat on all flown / evaded monsters
-    foreach (Monster *m, m_flownMonsters) {
+    for (auto m : m_flownMonsters) {
         m->endCombat();
     }
 
@@ -235,7 +235,7 @@ bool FightPhase::damageNightmarish()
 void FightPhase::unequipSpells()
 {
     QList<GameObject *> lst = gGame->context().player()->getCharacter()->inventory();
-    foreach (GameObject *obj, lst) {
+    for (auto obj : lst) {
         if (obj->isFightObject()) {
             if (obj->type() == AH::Obj_Spell) {
                 if (obj->isEquipped()) {

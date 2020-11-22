@@ -63,7 +63,7 @@ bool MythosAction::execute()
     AH::Dimensions b = card->blackMovement();
     AH::Dimensions w = card->whiteMovement();
     QList<Monster *> monsters = gGame->board()->getBoardMonsters();
-    foreach (Monster *m, monsters) {
+    for (auto m : monsters) {
         if (b.testFlag(m->dimension())) {
             m->move(AH::MoveBlack);
         } else if (w.testFlag(m->dimension())) {

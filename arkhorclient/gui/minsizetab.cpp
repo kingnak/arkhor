@@ -76,7 +76,7 @@ void MinSizeStack::setCurrentWidget(QWidget *w)
 
 void MinSizeStack::showCurrentWidget()
 {
-    foreach (QWidget *w, m_wgts)
+    for (auto w : m_wgts)
         w->hide();
     m_wgts.at(m_cur)->show();
     updateGeometry();

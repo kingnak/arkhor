@@ -45,7 +45,7 @@ void OptionChooser::setOptions(QList<AH::Common::GameOptionData> opts)
     usedMnemonics.insert('o');
 
     QLayout *l = ui->wgtOptionsList->layout();
-    foreach (GameOptionData o, opts) {
+    for (auto o : opts) {
         QString name = o.name();
         for (int i = 0; i < name.length(); ++i) {
             QChar c = name.at(i).toLower();
@@ -86,7 +86,7 @@ void OptionChooser::setSkills(QList<ModifiedPropertyValueData> opts)
     cleanupOptions();
 
     QLayout *l = ui->wgtOptionsList->layout();
-    foreach (ModifiedPropertyValueData v, opts) {
+    for (auto v : opts) {
         QString name = Utils::stringForProperty(v.property().property());
         int val = v.finalVal();
         QPushButton *btn = new QPushButton(name);
@@ -112,7 +112,7 @@ void OptionChooser::setEncounter(EncounterData enc)
         usedMnemonics.insert('o');
 
         QLayout *l = ui->wgtOptionsList->layout();
-        foreach (GameOptionData o, enc.optionData()) {
+        for (auto o : enc.optionData()) {
             QString name = o.name();
             for (int i = 0; i < name.length(); ++i) {
                 QChar c = name.at(i).toLower();
@@ -176,7 +176,7 @@ void OptionChooser::cleanupOptions()
             delete child;
         }
     }
-    foreach (QWidget *w, ui->wgtOptionsList->findChildren<QWidget*>()) {
+    for (auto w : ui->wgtOptionsList->findChildren<QWidget*>()) {
         delete w;
     }
 
@@ -199,7 +199,7 @@ void OptionChooser::cleanupMore()
     }
     */
     /*
-    foreach (QWidget *w, ui->wgtMoreDescription->findChildren<QWidget*>()) {
+    for (auto w : ui->wgtMoreDescription->findChildren<QWidget*>()) {
         delete w;
     }
     */
@@ -217,7 +217,7 @@ void OptionChooser::describeObject(QString id)
 void OptionChooser::showOption()
 {
     QList<QPushButton*> btns = ui->wgtOptionsList->findChildren<QPushButton*>();
-    foreach (QPushButton *b, btns) {
+    for (auto b : btns) {
         b->setChecked(false);
     }
     qobject_cast<QPushButton*> (sender())->setChecked(true);
@@ -323,9 +323,9 @@ QString OptionChooser::displayCosts(const Cost &costs)
     }
 
     QStringList alts;
-    foreach (CostList cl, costs.getAlternatives()) {
+    for (auto cl : costs.getAlternatives()) {
         QStringList itms;
-        foreach (CostItem ci, cl) {
+        for (auto ci : cl) {
             itms << QString("%1 %2").arg(ci.amount).arg(Utils::stringForCostItem(ci.type));
         }
         alts << itms.join(" + ");

@@ -106,7 +106,7 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
 
     if (m_monsters) {
         m_monsters->clear();
-        foreach (QString id, data.monsterIds()) {
+        for (auto id : data.monsterIds()) {
             m_monsters->addItem(new MonsterStackItem(id, m_scale));
         }
     }

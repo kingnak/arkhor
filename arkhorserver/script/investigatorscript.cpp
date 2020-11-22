@@ -79,7 +79,7 @@ QScriptValue InvestigatorScript::createInvestigator(QScriptContext *ctx, QScript
 QStringList InvestigatorScript::fixedPossessionNames() const
 {
     QStringList ret;
-    foreach (QString id, fixedPossesionObjectIds()) {
+    for (auto id : fixedPossesionObjectIds()) {
         const GameObject *obj = gGame->registry()->findObjectPrototypeByType(id);
         if (obj) ret << obj->name();
         else ret << id;
@@ -91,7 +91,7 @@ bool InvestigatorScript::parseAttributeList(QScriptValue v, QList<AttributeValue
 {
     if (!v.isArray()) return false;
     QScriptValueList lst = GameScript::array2list(v);
-    foreach (QScriptValue e, lst) {
+    for (auto e : lst) {
         if (!e.isArray()) return false;
         QScriptValueList pair = GameScript::array2list(e);
         if (pair.size() != 2) return false;

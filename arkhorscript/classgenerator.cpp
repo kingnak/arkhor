@@ -190,7 +190,7 @@ bool ClassGenerator::outputAttributes(const ClassDef &cls)
 {
     QSet<QString> handled;
     bool first = true;
-    foreach (AttrDef a, cls.attrs) {
+    for (auto a : cls.attrs) {
         if (!first) m_out << ",\n";
         first = false;
         if (!outputAttribute(cls, a, false))
@@ -200,7 +200,7 @@ bool ClassGenerator::outputAttributes(const ClassDef &cls)
 
     // Handle more: Default if not set, Predefined
     // Check required
-    foreach (AttributeDesc a, getAttributes()) {
+    for (auto a : getAttributes()) {
         switch (a.reqType) {
         case AttributeDesc::R_INVALID:
             Q_ASSERT(false);
@@ -232,7 +232,7 @@ bool ClassGenerator::outputAttribute(const ClassDef &cls, const AttrDef &attr, b
     // Find definition
     AttributeDesc a;
     QList<AttributeDesc> attList = this->getAttributes();
-    foreach (AttributeDesc x, attList) {
+    for (auto x : attList) {
         if (x.name == attr.name) {
             a = x;
             break;
@@ -356,7 +356,7 @@ bool ClassGenerator::doOutputModifications(QString mod)
 {
     QStringList mods = mod.split(',', QString::SkipEmptyParts);
     bool first = true;
-    foreach (QString m, mods) {
+    for (auto m : mods) {
         if (first)
             m_out << "[ ";
         else
@@ -495,7 +495,7 @@ bool ClassGenerator::doOutputCosts(QString costs)
     QStringList lines = costs.split(',');
     m_out << "[ ";
     bool firstL = true;
-    foreach (QString line, lines) {
+    for (auto line : lines) {
         if (!firstL) m_out << ',';
         firstL = false;
         m_out << "\n\t\t";
@@ -503,7 +503,7 @@ bool ClassGenerator::doOutputCosts(QString costs)
         QStringList parts = line.split('+');
         m_out << "[ ";
         bool firstI = true;
-        foreach (QString itm, parts) {
+        for (auto itm : parts) {
             if (!firstI) m_out << ',';
             firstI = false;
             m_out << "\n\t\t\t";
@@ -548,7 +548,7 @@ bool ClassGenerator::outputIDRefArray(const AttrDef &attr, const ClassDef &cls)
         return setError(QString("'%1' must be IDRef or Literal or Array").arg(attr.name), cls);
     }
     bool first = true;
-    foreach (AttributeArrayElem s, attr.array) {
+    for (auto s : attr.array) {
         if (s.first != ArkhorScriptParser::IDRef) {
             return setError(QString("Array values must be IDRefs for '%1'").arg(attr.name), cls);
         }
@@ -592,7 +592,7 @@ bool ClassGenerator::outputEnumValueArray(QString prefix, const AttrDef &attr, c
         return setError(QString("'%1' must be EnumValue, Array or Literal").arg(attr.name), cls);
     }
     bool first = true;
-    foreach (AttributeArrayElem s, attr.array) {
+    for (auto s : attr.array) {
         if (s.first != ArkhorScriptParser::EnumValue) {
             return setError(QString("Array element must be EnumValue in '%1'").arg(attr.name), cls);
         }

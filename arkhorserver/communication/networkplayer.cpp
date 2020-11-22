@@ -86,7 +86,7 @@ void NetworkPlayer::sendBoard(GameBoard *board, GameBoardChangeData changes)
 {
     QVariantMap m;
     m["_changes"] << changes;
-    foreach (GameField *f, board->allFields()) {
+    for (auto f : board->allFields()) {
         m[QString::number(f->id())] << *f->data();
     }
     m_conn->sendMessage(Message::S_BOARD_CONTENT, m);
@@ -95,7 +95,7 @@ void NetworkPlayer::sendBoard(GameBoard *board, GameBoardChangeData changes)
 void NetworkPlayer::sendBoardDescription(GameBoard *board, QVariantMap descriptions)
 {
     QVariantMap boardMap;
-    foreach (GameField *f, board->allFields()) {
+    for (auto f : board->allFields()) {
         boardMap[QString::number(f->id())] << *f->data();
     }
     QVariantMap map;
@@ -295,7 +295,7 @@ Investigator *NetworkPlayer::chooseInvestigator(QList<Investigator *> invs)
     if (ok) {
         // Find investigator by its id
         QString id = resp.payload.toString();
-        foreach (Investigator *i, invs) {
+        for (auto i : invs) {
             if (i->id() == id) {
                 return i;
             }
@@ -342,7 +342,7 @@ GameOption *NetworkPlayer::chooseOption(QList<GameOption *> options)
     if (ok) {
         // Find investigator by its id
         QString id = resp.payload.toString();
-        foreach (GameOption *i, options) {
+        for (auto i : options) {
             if (i->id() == id) {
                 return i;
             }
@@ -391,7 +391,7 @@ MovementPath NetworkPlayer::chooseMovement(GameField *start, int movement)
     if (ok) {
         QList<FieldData::FieldID> lst;
         resp.payload >> lst;
-        foreach (FieldData::FieldID id, lst) {
+        for (auto id : lst) {
             GameField *f = gGame->board()->field(id);
             ret << f;
         }

@@ -9,7 +9,7 @@ void DieRollSumEvaluator::evaluate()
 {
     m_resultValue = 0;
     DieRollResult result = m_pool.getResult();
-    foreach (DieRollResultItem i, result) {
+    for (auto i : result) {
         m_resultValue += i.value();
     }
 }

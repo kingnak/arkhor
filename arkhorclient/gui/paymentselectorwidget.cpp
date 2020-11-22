@@ -45,9 +45,9 @@ void PaymentSelectorWidget::displayPayments(QString desc, AH::Common::Cost costs
     m_description->setText(desc);
     m_cost = costs;
     int i = 0;
-    foreach (AH::Common::CostList l, m_cost.getAlternatives()) {
+    for (auto l : m_cost.getAlternatives()) {
         QStringList desc;
-        foreach (AH::Common::CostItem i, l) {
+        for (auto i : l) {
             QString s = QString("%1 %2")
                     .arg(i.amount)
                     .arg(Utils::stringForCostItem(i.type));
@@ -74,7 +74,7 @@ void PaymentSelectorWidget::clearPayments()
             delete child;
         }
     }
-    foreach (QWidget *w, m_optionsWidget->findChildren<QPushButton*>()) {
+    for (auto w : m_optionsWidget->findChildren<QPushButton*>()) {
         delete w;
     }
 
@@ -87,7 +87,7 @@ void PaymentSelectorWidget::clearPayments()
 void PaymentSelectorWidget::alternativeSelected()
 {
     QList<QPushButton*> btns = m_optionsWidget->findChildren<QPushButton*>();
-    foreach (QPushButton *b, btns) {
+    for (auto b : btns) {
         b->setChecked(false);
     }
     qobject_cast<QPushButton*> (sender())->setChecked(true);

@@ -92,7 +92,7 @@ bool InvestigatorGenerator::outputRandomPossesions(QString v)
 {
     QStringList poss = v.split(',', QString::SkipEmptyParts);
     bool first = true;
-    foreach (QString itm, poss) {
+    for (auto itm : poss) {
         if (first)
             m_out << "[ ";
         else
@@ -158,14 +158,14 @@ bool InvestigatorGenerator::outputInvAttributes(QString v, const ClassDef &cls)
 
     m_out << '{';
     bool firstL = true;
-    foreach (QString a, attrDefs.keys()) {
+    for (auto a : attrDefs.keys()) {
         if (!firstL) m_out << ',';
         firstL = false;
 
         m_out << "\n\t\t" << a << ": [";
 
         bool firstA = true;
-        foreach (IntPair itm, attrDefs[a]) {
+        for (auto itm : attrDefs[a]) {
             if (!firstA) m_out << ",";
             firstA = false;
             m_out << "\n\t\t\t[" << itm.first << ',' << itm.second << ']';

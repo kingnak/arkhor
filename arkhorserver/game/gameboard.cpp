@@ -164,7 +164,7 @@ bool GameBoard::validatePath(MovementPath p)
 
 void GameBoard::unlockFields(GameField::LockReason unlockFlags)
 {
-    foreach (GameField *f, m_fields) {
+    for (auto f : m_fields) {
         f->unlock(unlockFlags);
     }
 }
@@ -172,7 +172,7 @@ void GameBoard::unlockFields(GameField::LockReason unlockFlags)
 QList<GameField *> GameBoard::fields(AH::Common::FieldData::FieldType type)
 {
     QList<GameField *> ret;
-    foreach (GameField *f, m_fields) {
+    for (auto f : m_fields) {
         if (f->type() == type) {
             ret << f;
         }
@@ -222,7 +222,7 @@ void GameBoard::updateCaches()
 
     m_boardMonsterCache.clear();
     m_gateCache.clear();
-    foreach (GameField *f, m_fields.values()) {
+    for (auto f : m_fields.values()) {
         if (f->type() == AH::Common::FieldData::Location
                 || f->type() == AH::Common::FieldData::Street
                 || f->type() == AH::Common::FieldData::Sky)

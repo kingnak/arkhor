@@ -31,7 +31,7 @@ CharacterScript *GameContextScript::curCharacter()
 QObjectList GameContextScript::getAllCharacters()
 {
     QObjectList ret;
-    foreach (Character *c, gGame->registry()->allCharacters()) {
+    for (auto c : gGame->registry()->allCharacters()) {
         CharacterScript *cs = dynamic_cast<CharacterScript *> (c);
         if (cs) {
             ret << cs;
@@ -190,7 +190,7 @@ QList<GameObjectScript *> GameContextScript::drawMultipleObjects(AH::GameObjectT
     QList<GameObject *> objs = hlp.drawObjects(gGame->context().player(), desc, type, ct, min, max, sourceId.isNull(), sourceId);
 
     QList<GameObjectScript *> ret;
-    foreach (GameObject *o, objs) {
+    for (auto o : objs) {
         GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
         if (!os) {
             gGame->returnObject(o);
@@ -210,7 +210,7 @@ QList<GameObjectScript *> GameContextScript::drawMixedObjects(QString desc, cons
     QList<GameObject *> objs = hlp.drawMixedObjects(gGame->context().player(), desc, types, min, max, sourceId.isNull(), sourceId);
 
     QList<GameObjectScript *> ret;
-    foreach (GameObject *o, objs) {
+    for (auto o : objs) {
         GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
         if (!os) {
             gGame->returnObject(o);

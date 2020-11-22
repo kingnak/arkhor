@@ -8,7 +8,7 @@ AH::Skill ChooseSkillHelper::chooseSkill(Player *p, QList<AH::Skill> options)
 {
     QList<AH::Common::ModifiedPropertyValueData> opts;
 
-    foreach (AH::Skill s, options) {
+    for (auto s : options) {
         ModifiedPropertyValue v = gGame->context().getCharacterSkill(p->getCharacter(), s);
         opts.append(v.toModifiedPropertyValueData());
     }

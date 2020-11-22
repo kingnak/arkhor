@@ -18,7 +18,7 @@ bool ResourcePool::addDirectory(QString dir)
 {
     QDir base(dir);
     QFileInfoList lst = base.entryInfoList(QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Files, QDir::Name);
-    foreach (QFileInfo fi, lst) {
+    for (auto fi : lst) {
         if (fi.isDir()) {
             if (!addDirectory(fi.absoluteFilePath()))
                 return false;
@@ -36,7 +36,7 @@ bool ResourcePool::addZip(QString zip)
     if (!z.open(QuaZip::mdUnzip)) return false;
 
     QList<QuaZipFileInfo> entries = z.getFileInfoList();
-    foreach (QuaZipFileInfo e, entries) {
+    for (auto e : entries) {
         if (e.uncompressedSize > 0) {
             addEntry(e.name, ResourceDef(zip, e.name));
         }

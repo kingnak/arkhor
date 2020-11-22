@@ -338,7 +338,7 @@ AH::Dimensions MythosCardScript::parseDimensions(QScriptValue v)
     if (v.isArray()) {
         QScriptValueList lst = GameScript::array2list(v);
         AH::Dimensions dims = AH::NoDimension;
-        foreach (QScriptValue v, lst) {
+        for (auto v : lst) {
             dims |= static_cast<AH::Dimension> (v.toUInt32());
         }
         return dims;

@@ -10,7 +10,7 @@ void DieRollCountEvaluator::evaluate()
     m_resultValue = 0;
     m_failed.clear();
     DieRollResult result = m_pool.getResult();
-    foreach (DieRollResultItem i, result) {
+    for (auto i : result) {
         if ( m_successRolls.contains(i.value()) ) {
             m_resultValue++;
         } else {

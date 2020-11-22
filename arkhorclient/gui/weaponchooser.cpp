@@ -24,7 +24,7 @@ void WeaponChooser::chooseWeapons(QList<AH::Common::GameObjectData> weapons, AH:
 
     m_totHands = hands.finalVal();
 
-    foreach (AH::Common::GameObjectData obj, weapons) {
+    for (auto obj : weapons) {
 
         QListWidgetItem *itm = new QListWidgetItem;
         bool hasData = false;

@@ -117,7 +117,7 @@ void StartForm::setInvestigatorList(QList<AH::Common::InvestigatorData> l)
     ui->btnSelectInv->setEnabled(true);
     ui->cmbInvestigators->clear();
     ui->cmbInvestigators->addItem(QString::null, QVariant());
-    foreach (AH::Common::InvestigatorData i, l) {
+    for (auto i : l) {
         QVariant v;
         v << i;
         ui->cmbInvestigators->addItem(i.name(), v);

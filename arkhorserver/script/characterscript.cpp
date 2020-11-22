@@ -204,7 +204,7 @@ void CharacterScript::instantiateFromInvestigator()
 QObjectList CharacterScript::getInventoryScript() const
 {
     QObjectList ret;
-    foreach (GameObject *o, m_inventory) {
+    for (auto o : m_inventory) {
         GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
         if (os) {
             ret << os;

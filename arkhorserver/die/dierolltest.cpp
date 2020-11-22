@@ -39,7 +39,7 @@ DieRollTest *DieRollTest::parse(const QString &spec)
         }
 
         QSet<quint32> successes;
-        foreach (QString s, successList.split(',')) {
+        for (auto s : successList.split(',')) {
             successes << s.toUInt();
         }
 

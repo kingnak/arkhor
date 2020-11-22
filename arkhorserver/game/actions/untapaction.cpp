@@ -18,7 +18,7 @@ bool UntapAction::execute()
     bool hasUntapped = false;
     QList<GameObject *> &inv = gGame->context().player()->getCharacter()->inventory();
     gGame->notifier()->actionStart(this);
-    foreach (GameObject *o, inv) {
+    for (auto o : inv) {
         if (o->isExhausted()) {
             o->refresh();
             gGame->invalidateObject(o->id());

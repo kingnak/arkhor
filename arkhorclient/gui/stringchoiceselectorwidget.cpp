@@ -40,7 +40,7 @@ void StringChoiceSelectorWidget::displayChoices(QString desc, QList<AH::Common::
     m_description->setText(desc);
     m_options = opts;
     int i = 0;
-    foreach (AH::Common::ChoiceData::OptionData o, m_options) {
+    for (auto o : m_options) {
         DoubleClickButton *btn = new DoubleClickButton(o.name);
         btn->setCheckable(true);
         btn->setProperty(PROPERTY_CHOICE_INDEX, i);
@@ -61,7 +61,7 @@ void StringChoiceSelectorWidget::clearChoices()
             delete child;
         }
     }
-    foreach (QWidget *w, m_optionsWidget->findChildren<QPushButton*>()) {
+    for (auto w : m_optionsWidget->findChildren<QPushButton*>()) {
         delete w;
     }
 
@@ -74,7 +74,7 @@ void StringChoiceSelectorWidget::clearChoices()
 void StringChoiceSelectorWidget::choiceSelected()
 {
     QList<QPushButton*> btns = m_optionsWidget->findChildren<QPushButton*>();
-    foreach (QPushButton *b, btns) {
+    for (auto b : btns) {
         b->setChecked(false);
     }
     qobject_cast<QPushButton*> (sender())->setChecked(true);

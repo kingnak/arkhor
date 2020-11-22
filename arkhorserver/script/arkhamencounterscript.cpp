@@ -18,7 +18,7 @@ QList<GameOption *> ArkhamEncounterScript::options() const
 bool ArkhamEncounterScript::resolveDependencies(GameRegistry *reg)
 {
     bool ok = true;
-    foreach (QString id, m_opts.keys()) {
+    for (auto id : m_opts.keys()) {
         if (m_opts[id] == NULL) {
             GameOption *op = reg->findOptionById(id);
             if (op) {
@@ -49,7 +49,7 @@ ArkhamEncounterScript *ArkhamEncounterScript::createEncounter(QScriptContext *ct
     ret->m_fieldId = static_cast<AH::Common::FieldData::FieldID> (data.property("field").toUInt32());
     ret->m_description = data.property("description").toString();
     ret->m_optionIds = GameScript::array2stringlist(data.property("options"));
-    foreach (QString id, ret->m_optionIds) {
+    for (auto id : ret->m_optionIds) {
         ret->m_opts[id] = NULL;
     }
 

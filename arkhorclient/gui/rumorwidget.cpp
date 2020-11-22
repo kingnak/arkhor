@@ -77,7 +77,7 @@ void RumorWidget::displayRumor(const AH::Common::MythosData *rumor)
             m_desc->setText(rumor->description());
         }
         QStringList lst;
-        foreach (DynamicPropertyData d, rumor->dynamicProperties()) {
+        for (auto d : rumor->dynamicProperties()) {
             lst << QString("<b>%1:</b> %2").arg(d.name(), d.display());
         }
         m_dynProps->setText(lst.join("<br/>"));

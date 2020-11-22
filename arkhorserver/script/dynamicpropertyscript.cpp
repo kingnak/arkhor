@@ -80,7 +80,7 @@ void DynamicScriptableObject::addDynamicProperty(DynamicPropertyScript prop)
 QList<AH::Common::DynamicPropertyData> DynamicScriptableObject::getDynamicPropertyDataList() const
 {
     QList<AH::Common::DynamicPropertyData> ret;
-    foreach (DynamicPropertyScript prop, m_dynamicProperties.values()) {
+    for (auto prop : m_dynamicProperties.values()) {
         QVariant v = property(prop.propertyName());
 
         //QString s = v.toString();
@@ -95,7 +95,7 @@ QList<AH::Common::DynamicPropertyData> DynamicScriptableObject::getDynamicProper
 
 void DynamicScriptableObject::clonePropertiesInto(DynamicScriptableObject *other)
 {
-    foreach (DynamicPropertyScript prop, m_dynamicProperties.values()) {
+    for (auto prop : m_dynamicProperties.values()) {
         other->addDynamicProperty(prop);
     }
 }
@@ -103,7 +103,7 @@ void DynamicScriptableObject::clonePropertiesInto(DynamicScriptableObject *other
 void DynamicScriptableObject::resolveDependencies(QScriptValue thisObj)
 {
     /*
-    foreach (DynamicPropertyScript &prop, m_dynamicProperties.values()) {
+    for (auto &prop : m_dynamicProperties.values()) {
         prop.setObject(thisObj);
     }
     */

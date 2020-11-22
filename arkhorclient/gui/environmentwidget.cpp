@@ -72,7 +72,7 @@ void EnvironmentWidget::displayEnvironment(const MythosData *env)
             m_desc->setText(env->description());
         }
         QStringList lst;
-        foreach (PropertyModificationData d, env->getModificationData()) {
+        for (auto d : env->getModificationData()) {
             lst << Utils::stringForPropertyModification(d);
         }
         m_mods->setText(lst.join("\n"));

@@ -113,7 +113,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     cleanOptions();
     // Spacing
     static_cast<QBoxLayout*>(ui->wgtDieRollOpts->layout())->addStretch(1);
-    foreach (AH::Common::DieRollTestData::OptionDescription opt, data.dieRollOptions()) {
+    for (auto opt : data.dieRollOptions()) {
         QPushButton *btn = new QPushButton(opt.desc);
         btn->setProperty(PROPERTY_OPTION_ID, opt.id);
         connect(btn, SIGNAL(clicked()), this, SLOT(reRollOptionClicked()));
@@ -191,7 +191,7 @@ void DieRollWidget::cleanDice()
             delete child;
         }
     }
-    foreach (QWidget *w, ui->wgtDice->findChildren<DieWidget*>()) {
+    for (QWidget *w : ui->wgtDice->findChildren<DieWidget*>()) {
         delete w;
     }
     delete ui->wgtDice->layout();
@@ -216,7 +216,7 @@ void DieRollWidget::cleanOptions()
             delete child;
         }
     }
-    foreach (QWidget *w, ui->wgtDieRollOpts->findChildren<QPushButton*>()) {
+    for (QWidget *w : ui->wgtDieRollOpts->findChildren<QPushButton*>()) {
         delete w;
     }
 }

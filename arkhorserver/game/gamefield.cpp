@@ -219,7 +219,7 @@ QStringList GameField::secondPhaseCharacterIds() const
 QStringList GameField::monsterIds() const
 {
     QStringList ret;
-    foreach (Monster *m, m_monsters) {
+    for (auto m : m_monsters) {
         ret << m->id();
     }
     return ret;
@@ -236,7 +236,7 @@ QString GameField::gateId() const
 QList<int> GameField::neighbourIds() const
 {
     QList<int> ret;
-    foreach (GameField *f, m_neighbours) {
+    for (auto f : m_neighbours) {
         ret << f->id();
     }
     return ret;

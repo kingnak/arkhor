@@ -582,7 +582,7 @@ bool GameScript::returnMonstersFromField(AH::Common::FieldData::FieldID fieldId)
 bool GameScript::returnMonstersFromFieldType(AH::Common::FieldData::FieldType type)
 {
     QList<AH::Common::FieldData::FieldID> lst;
-    foreach (GameField *f, gGame->board()->fields(type)) {
+    for (auto f : gGame->board()->fields(type)) {
         lst << f->id();
     }
     return returnMonstersFromFields(lst);
@@ -591,12 +591,12 @@ bool GameScript::returnMonstersFromFieldType(AH::Common::FieldData::FieldType ty
 bool GameScript::returnMonstersFromFields(QList<AH::Common::FieldData::FieldID> fieldIds)
 {
     bool hasRemoved = false;
-    foreach (AH::Common::FieldData::FieldID fieldId, fieldIds) {
+    for (auto fieldId : fieldIds) {
         GameField *field = gGame->board()->field(fieldId);
         if (!field) continue;
 
         QList<Monster *> monsters = field->monsters();
-        foreach (Monster *m, monsters) {
+        for (auto m : monsters) {
             gGame->changeMonsterDisappear(m);
             gGame->returnMonster(m);
             hasRemoved = true;
@@ -609,7 +609,7 @@ bool GameScript::returnMonsterTypeFromBoard(QString typeId)
 {
     bool hasRemoved = false;
     QList<Monster *> monsters = gGame->board()->getBoardMonsters();
-    foreach (Monster *m, monsters) {
+    for (auto m : monsters) {
         if (m->typeId() == typeId) {
             gGame->changeMonsterDisappear(m);
             gGame->returnMonster(m);
@@ -943,7 +943,7 @@ bool GameScript::parseCosts(QScriptValue v, AH::Common::Cost &c)
         return true;
         */
     } else {
-        foreach (QScriptValue item, lst) {
+        for (auto item : lst) {
             AH::Common::CostList cl;
             if (!parseCostList(item, cl)) {
                 return false;
@@ -977,7 +977,7 @@ bool GameScript::parseCostList(QScriptValue v, AH::Common::CostList &cl)
         return true;
         */
     } else {
-        foreach (QScriptValue item, lst) {
+        for (auto item : lst) {
             AH::Common::CostItem ci;
             if (!parseCostItem(item, ci)) {
                 return false;
@@ -1008,7 +1008,7 @@ bool GameScript::parseObjectTypeCount(QScriptValue v, QList<AH::ObjectTypeCount>
 {
     o.clear();
     QScriptValueList objTypes = GameScript::array2list(v);
-    foreach (QScriptValue v, objTypes) {
+    for (auto v : objTypes) {
         int type = v.property("type").toInt32();
         int amount = v.property("amount").toInt32();
         AH::ObjectTypeCount otc(static_cast<AH::GameObjectType>(type), amount);
@@ -1187,7 +1187,7 @@ bool GameScript::parseScriptsZip(QString file)
 bool GameScript::parseScriptsDir(QDir base)
 {
     QFileInfoList lst = base.entryInfoList(QStringList() << "*.ahs" << "*.js", QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Files, QDir::Name);
-    foreach (QFileInfo fi, lst) {
+    for (auto fi : lst) {
         if (fi.isDir()) {
             if (!parseScriptsDir(fi.absoluteFilePath()))
                 return false;

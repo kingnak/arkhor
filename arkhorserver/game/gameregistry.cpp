@@ -288,30 +288,30 @@ bool GameRegistry::resolveDependencies()
 {
     bool ok = true;
     // Resolve Actions for Options
-    foreach (GameOption *o, m_options.values()) {
+    for (auto o : m_options.values()) {
         ok &= o->resolveDependencies(this);
     }
 
     // Resolve Objects:
-    foreach (GameObject *o, m_objects.values()) {
+    for (auto o : m_objects.values()) {
         ok &= o->resolveDependencies(this);
     }
 
     // Resolve Investigators:
-    for (auto *i : m_investigators) {
+    for (auto i : m_investigators) {
         ok &= i->resolveDependecies(this);
     }
 
     // Resolve Encounters:
-    foreach (ArkhamEncounter *ae, m_arkEncounters) {
+    for (auto ae : m_arkEncounters) {
         ok &= ae->resolveDependencies(this);
     }
-    foreach (OtherWorldEncounter *owe, m_otherEncounters) {
+    for (auto owe : m_otherEncounters) {
         ok &= owe->resolveDependencies(this);
     }
 
     // Resolve Mythos
-    foreach (MythosCard *mc, m_mythosCards) {
+    for (auto mc : m_mythosCards) {
         ok &= mc->resolveDependencies();
     }
 

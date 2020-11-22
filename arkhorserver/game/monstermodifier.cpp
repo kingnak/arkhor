@@ -23,7 +23,7 @@ PropertyModificationList MonsterModifier::getMonsterModifications(QString typeId
 PropertyModificationList MonsterModifier::getMonsterModifications(MonsterData::MonsterAttributes attrs, bool matchAll) const
 {
     PropertyModificationList ret;
-    foreach (MonsterData::MonsterAttributes k, m_attrMods.keys()) {
+    for (auto k : m_attrMods.keys()) {
         if (matchAll) {
             if ((attrs & k) == attrs) {
                 ret.append(m_attrMods[k]);

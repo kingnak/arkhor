@@ -9,7 +9,7 @@ bool MonsterModifierScript::parseMonsterModifications(QScriptValue data, Monster
     QScriptValue monsterMods = data.property("monsterModifications");
     if (monsterMods.isValid() && !monsterMods.isUndefined()) {
         QScriptValueList mmLst = GameScript::array2list(monsterMods);
-        foreach (QScriptValue mm, mmLst) {
+        for (auto mm : mmLst) {
             QScriptValue mods = mm.property("mod");
             PropertyModificationList lst;
             if (!PropertyModificationScript::parsePropertyModificationList(propMod, mods, lst)) {
@@ -33,7 +33,7 @@ bool MonsterModifierScript::parseMonsterModifications(QScriptValue data, Monster
     QScriptValue monsterMoveMods = data.property("monsterMoveModifications");
     if (monsterMoveMods.isValid() && !monsterMoveMods.isUndefined()) {
         QScriptValueList mmLst = GameScript::array2list(monsterMoveMods);
-        foreach (QScriptValue mm, mmLst) {
+        for (auto mm : mmLst) {
             if (!mm.property("moveAs").isValid() || !mm.property("moveAs").isNumber()) {
                 return false;
             }

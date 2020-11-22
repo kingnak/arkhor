@@ -17,7 +17,7 @@ DiePool::DiePool(const DiePool &o)
 
 DiePool &DiePool::operator = (const DiePool &o) {
 
-    foreach (Die *d, o.m_dice) {
+    for (auto d : o.m_dice) {
         m_dice << d->clone();
     }
     return *this;
@@ -45,7 +45,7 @@ DiePool::DiePoolIndex DiePool::addDie(Die *d)
 QList<DiePool::DiePoolIndex> DiePool::addDice(QList<StandardDieSpec> spec)
 {
     QList<DiePoolIndex> ret;
-    foreach (StandardDieSpec s, spec) {
+    for (auto s : spec) {
         for (quint8 i = 0; i < s.count; ++i) {
             ret << addDie(DieFactory::instance().createStandardDie(s.type));
         }
@@ -87,7 +87,7 @@ void DiePool::roll()
 
 void DiePool::unroll()
 {
-    foreach (Die *d, m_dice) {
+    for (auto d : m_dice) {
         d->unroll();
     }
 }

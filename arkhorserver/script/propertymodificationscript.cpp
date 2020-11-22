@@ -22,7 +22,7 @@ bool PropertyModificationScript::parsePropertyModificationList(const PropertyMod
     }
 
     out = PropertyModificationList();
-    foreach (QScriptValue v, lst) {
+    for (auto v : lst) {
         PropertyModification m(NULL, PropertyValue::NoProperty, 0);
         if (!parsePropertyModification(modifier, v, m)) {
             return false;

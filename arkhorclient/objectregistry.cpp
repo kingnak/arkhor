@@ -97,7 +97,7 @@ DescribeObjectsData ObjectRegistry::doGetObjects(AH::Common::RequestObjectsData 
 
     {
         QReadLocker r(&m_lock);
-        foreach (RequestObjectsData::ObjectRequest r, requests.getRequests())
+        for (auto r : requests.getRequests())
         {
             if (m_registry.contains(r.second)) {
                 DescribeObjectsData::ObjectDescription d = m_registry[r.second];
@@ -199,21 +199,21 @@ void ObjectRegistry::unsubscribe(AsyncObjectReceiver *recv)
     m_subscriberMap.remove(recv);
 
     QSet<QString> toRemove;
-    foreach (QString id, subs) {
+    for (auto id : subs) {
         m_subscribedMap[id].remove(recv);
         if (m_subscribedMap[id].isEmpty()) toRemove << id;
     }
-    foreach (QString id, toRemove) {
+    for (auto id : toRemove) {
         m_subscribedMap.remove(id);
     }
 
     // Remove from single shot
     toRemove.clear();
-    foreach (QString id, m_singleShotSubscriberMap.keys()) {
+    for (auto id : m_singleShotSubscriberMap.keys()) {
         m_singleShotSubscriberMap[id].remove(recv);
         if (m_singleShotSubscriberMap[id].isEmpty()) toRemove << id;
     }
-    foreach (QString id, toRemove) {
+    for (auto id : toRemove) {
         m_singleShotSubscriberMap.remove(id);
     }
 }
@@ -240,7 +240,7 @@ void ObjectRegistry::unsubscribe(AsyncObjectReceiver *recv, QString id)
 DescribeObjectsData ObjectRegistry::getObjectsOfType(QStringList ids, RequestObjectsData::ObjectType type)
 {
     RequestObjectsData reqs;
-    foreach (QString id, ids) {
+    for (auto id : ids) {
         RequestObjectsData::ObjectRequest r;
         r.first = type;
         r.second = id;
@@ -311,7 +311,7 @@ void ObjectRegistry::clearTempData()
 
 void ObjectRegistry::receivedDescriptions(DescribeObjectsData descs)
 {
-    foreach (DescribeObjectsData::ObjectDescription d, descs.getDescriptions()) {
+    for (auto d : descs.getDescriptions()) {
         if (d.type == RequestObjectsData::Unknown) {
             qWarning("Unknown object received");
             continue;
@@ -344,10 +344,10 @@ void ObjectRegistry::receivedDescriptions(DescribeObjectsData descs)
             ws.unlock();
 
             // Inform asnych subscribers and single shots
-            foreach (AsyncObjectReceiver *recv, sssm.value(d.id)) {
+            for (auto recv : sssm.value(d.id)) {
                 recv->objectDescribed(d);
             }
-            foreach (AsyncObjectReceiver *recv, sm.value(d.id)) {
+            for (auto recv : sm.value(d.id)) {
                 recv->objectDescribed(d);
             }
         }
@@ -360,7 +360,7 @@ void ObjectRegistry::receivedInvalidations(QStringList lst)
 
     {
         QWriteLocker l(&m_lock);
-        foreach (QString id, lst) {
+        for (auto id : lst) {
             m_registry.remove(id);
 
             if (m_subscribedMap.contains(id)) {
@@ -371,7 +371,7 @@ void ObjectRegistry::receivedInvalidations(QStringList lst)
 
     if (!rerequests.isEmpty()) {
         AH::Common::RequestObjectsData pendingRequests;
-        foreach (QString id, rerequests) {
+        for (auto id : rerequests) {
             pendingRequests.addRequest(AH::Common::RequestObjectsData::ObjectRequest(AH::Common::RequestObjectsData::Unknown, id));
         }
         m_conn->requestObjects(pendingRequests);
@@ -386,7 +386,7 @@ void ObjectRegistry::receivedTypeInvalidation(AH::Common::RequestObjectsData::Ob
         QWriteLocker l(&m_lock);
         QList<AH::Common::DescribeObjectsData::ObjectDescription> lst = m_registry.values();
         lst.detach();
-        foreach (AH::Common::DescribeObjectsData::ObjectDescription obj, lst) {
+        for (auto obj : lst) {
             if (obj.type == type) {
                 m_registry.remove(obj.id);
 
@@ -399,7 +399,7 @@ void ObjectRegistry::receivedTypeInvalidation(AH::Common::RequestObjectsData::Ob
 
     if (!rerequests.isEmpty()) {
         AH::Common::RequestObjectsData pendingRequests;
-        foreach (QString id, rerequests) {
+        for (auto id : rerequests) {
             pendingRequests.addRequest(AH::Common::RequestObjectsData::ObjectRequest(AH::Common::RequestObjectsData::Unknown, id));
         }
         m_conn->requestObjects(pendingRequests);

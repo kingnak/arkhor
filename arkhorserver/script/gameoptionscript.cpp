@@ -37,7 +37,7 @@ GameOptionScript *GameOptionScript::createGameOption(QScriptValue data, QScriptC
     if (data.property("phases").isArray()) {
         QScriptValueList lst = GameScript::array2list(data.property("phases"));
         AH::GamePhases ph = AH::NoGamePhase;
-        foreach (QScriptValue v, lst) {
+        for (auto v : lst) {
             ph |= static_cast<AH::GamePhase> (v.toUInt32());
         }
         ret->m_phases = ph;

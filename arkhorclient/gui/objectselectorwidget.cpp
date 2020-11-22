@@ -51,7 +51,7 @@ void ObjectSelectorWidget::setItems(QStringList objectIds)
     clearItems();
 
     RequestObjectsData reqs;
-    foreach (QString id, objectIds) {
+    for (auto id : objectIds) {
         QListWidgetItem *itm = new QListWidgetItem(id);
         itm->setData(IdRole, id);
         m_items.insert(id, itm);

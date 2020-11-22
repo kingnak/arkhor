@@ -81,7 +81,7 @@ void AttackAction::discardAfterAttack(PropertyModificationList &lst)
 {
     // Collect which objects to discard
     QList<const GameObject *> toDiscard;
-    foreach (PropertyModification p, lst) {
+    for (auto p : lst) {
         if (const GameObject *obj = dynamic_cast<const GameObject *> (p.getModifier())) {
             if (obj->getAttributes().testFlag(GameObject::DiscardAfterAttack)) {
                 toDiscard << obj;
@@ -94,7 +94,7 @@ void AttackAction::discardAfterAttack(PropertyModificationList &lst)
         // Work on Inventory Copy
         QList<GameObject *> inv = gGame->context().player()->getCharacter()->inventory();
         inv.detach();
-        foreach (GameObject *iObj, inv) {
+        for (auto iObj : inv) {
             if (obj == iObj) {
                 // Remove it
                 gGame->returnObject(iObj);

@@ -83,10 +83,10 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
     ret->m_actionIds = GameScript::array2stringlist(data.property("actions"));
     ret->m_optionIds = GameScript::array2stringlist(data.property("options"));
 
-    foreach (QString id, ret->m_actionIds) {
+    for (auto id : ret->m_actionIds) {
         ret->m_actMap[id] = NULL;
     }
-    foreach (QString id, ret->m_optionIds) {
+    for (auto id : ret->m_optionIds) {
         ret->m_optMap[id] = NULL;
     }
 
@@ -212,7 +212,7 @@ bool GameObjectScript::verify(GameObjectScript *ob, QString *msg)
     if (ob->m_onRemoveFunc.isValid() && !ob->m_onRemoveFunc.isFunction()) errs.append("onRemoveFromInventory must be a function");
     if (ob->type() == AH::Obj_Spell) {
         bool hasMagDmg = false;
-        foreach (PropertyModification m, ob->m_mods) {
+        for (auto m : ob->m_mods) {
             if (m.affectedProperty() == AH::Common::PropertyValueData::Damage_Magical)
                 hasMagDmg = true;
             if (m.affectedProperty() == AH::Common::PropertyValueData::Damage_Physical)
@@ -233,7 +233,7 @@ bool GameObjectScript::verify(GameObjectScript *ob, QString *msg)
 bool GameObjectScript::resolveDependencies(GameRegistry *reg)
 {
     bool ok = true;
-    foreach (QString id, m_actMap.keys()) {
+    for (auto id : m_actMap.keys()) {
         if (!m_actMap[id]) {
             GameAction *a = reg->findActionById(id);
             if (a) {
@@ -250,7 +250,7 @@ bool GameObjectScript::resolveDependencies(GameRegistry *reg)
         }
     }
 
-    foreach (QString id, m_optMap.keys()) {
+    for (auto id : m_optMap.keys()) {
         if (!m_optMap[id]) {
             GameOption *o = reg->findOptionById(id);
             if (o) {

@@ -30,7 +30,7 @@ bool Investigator::resolveDependecies(GameRegistry *reg)
         }
     }
 
-    foreach (QString id, m_fixedPossesionObjectIds) {
+    for (auto id : m_fixedPossesionObjectIds) {
         if (reg->findObjectPrototypeByType(id) == NULL) {
             qWarning() << "Cannot resolve fixed possession" << id << "for character" << this->id();
             ok = false;

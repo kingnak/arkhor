@@ -77,7 +77,7 @@ QObjectList GameFieldScript::characters()
 {
     Q_ASSERT(m_field);
     QObjectList ret;
-    foreach (Character *c, m_field->characters()) {
+    for (auto c : m_field->characters()) {
         CharacterScript *cs = dynamic_cast<CharacterScript *> (c);
         if (cs) {
             ret << cs;

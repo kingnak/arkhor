@@ -37,7 +37,7 @@ CharacterData *Character::data()
 {
     // Synchonize data with character
     m_attrSettings.clear();
-    foreach (AttributeSlider s, m_sliders) {
+    for (auto s : m_sliders) {
         m_attrSettings << s.currentSettingPos();
     }
 
@@ -66,7 +66,7 @@ CharacterData *Character::data()
 PropertyModificationList Character::getPropertyModifiers() const
 {
     PropertyModificationList ret;
-    foreach (GameObject *obj, m_inventory) {
+    for (auto obj : m_inventory) {
         ret.append(obj->getModifications());
     }
     return ret;
@@ -85,8 +85,8 @@ int Character::maxSanity() const
 QList<GameAction *> Character::getActions(AH::GamePhase phase)
 {
     QList<GameAction *> acts;
-    foreach (GameObject *obj, m_inventory) {
-        foreach (GameAction *a, obj->getActions()) {
+    for (auto obj : m_inventory) {
+        for (auto a : obj->getActions()) {
             if (a->phases().testFlag(phase)) {
                 acts << a;
             }
@@ -98,8 +98,8 @@ QList<GameAction *> Character::getActions(AH::GamePhase phase)
 QList<GameOption *> Character::getOptions(AH::GamePhase phase)
 {
     QList<GameOption *> opts;
-    foreach (GameObject *obj, m_inventory) {
-        foreach (GameOption *o, obj->getOptions()) {
+    for (auto obj : m_inventory) {
+        for (auto o : obj->getOptions()) {
             if (o->phases().testFlag(phase)) {
                 opts << o;
             }
@@ -162,7 +162,7 @@ bool Character::canPay(const Cost &cost) const
     if (cost.getAlternatives().isEmpty()) {
         return true;
     }
-    foreach (CostList cl, cost.getAlternatives()) {
+    for (auto cl : cost.getAlternatives()) {
         if (canPay(cl)) return true;
     }
     return false;
@@ -170,7 +170,7 @@ bool Character::canPay(const Cost &cost) const
 
 bool Character::canPay(const CostList &cost) const
 {
-    foreach (CostItem i, cost) {
+    for (auto i : cost) {
         switch (i.type) {
         case CostItem::Pay_None:
             break;
@@ -205,7 +205,7 @@ bool Character::canPay(const CostList &cost) const
         case CostItem::Pay_MonsterToughness:
         {
             int sum = 0;
-            foreach (Monster *m, m_monsterMarkers) {
+            for (auto m : m_monsterMarkers) {
                 sum += m->toughness();
             }
             if (sum < i.amount)
@@ -234,7 +234,7 @@ bool Character::pay(const CostList &cost)
     if (!canPay(cost)) return false;
 
     QStringList pays;
-    foreach (CostItem i, cost) {
+    for (auto i : cost) {
         switch (i.type) {
         case CostItem::Pay_None:
             break;
@@ -446,7 +446,7 @@ void Character::instantiateFromInvestigator()
 
     m_sliders.clear();
     AttributeSlider ss;
-    foreach (AH::Common::InvestigatorData::AttributeValuePair p, m_investigator->attrSpeedSneak()) {
+    for (auto p : m_investigator->attrSpeedSneak()) {
         ss.addAttributePair(AttributePair(
             AttributeValue(AH::Attr_Speed, p.first),
             AttributeValue(AH::Attr_Sneak, p.second)
@@ -455,7 +455,7 @@ void Character::instantiateFromInvestigator()
     m_sliders.append(ss);
 
     AttributeSlider fw;
-    foreach (AH::Common::InvestigatorData::AttributeValuePair p, m_investigator->attrFightWill()) {
+    for (auto p : m_investigator->attrFightWill()) {
         fw.addAttributePair(AttributePair(
             AttributeValue(AH::Attr_Fight, p.first),
             AttributeValue(AH::Attr_Will, p.second)
@@ -464,7 +464,7 @@ void Character::instantiateFromInvestigator()
     m_sliders.append(fw);
 
     AttributeSlider ll;
-    foreach (AH::Common::InvestigatorData::AttributeValuePair p, m_investigator->attrLoreLuck()) {
+    for (auto p : m_investigator->attrLoreLuck()) {
         ll.addAttributePair(AttributePair(
             AttributeValue(AH::Attr_Lore, p.first),
             AttributeValue(AH::Attr_Luck, p.second)
@@ -489,7 +489,7 @@ void Character::instantiateFromInvestigator()
 
 int Character::getAttributeValue(AH::Attribute attr) const
 {
-    foreach (AttributeSlider s, m_sliders) {
+    for (auto s : m_sliders) {
         AttributePair p = s.currentSetting();
         if (p.first().attribute == attr)
             return p.first().value;

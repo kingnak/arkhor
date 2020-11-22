@@ -40,7 +40,7 @@ QList<GameObject *> DrawCardHelper::drawMixedObjects(Player *p, QString desc, QL
     if (types.isEmpty()) return sels;
 
     QList<GameObject *> allObjs;
-    foreach (AH::ObjectTypeCount t, types) {
+    for (auto t : types) {
         for (int i = 0; i < t.amount; ++i) {
             allObjs << gGame->drawObject(t.type);
         }
@@ -111,7 +111,7 @@ QList<GameObject *> DrawCardHelper::doDrawObject(Player *p, QString desc, QList<
     }
 
     QStringList ids;
-    foreach (GameObject *o, avail) {
+    for (auto o : avail) {
         ids << o->id();
     }
 
@@ -126,7 +126,7 @@ QList<GameObject *> DrawCardHelper::doDrawObject(Player *p, QString desc, QList<
     if (resp.isValid()) {
         selIds = resp.toStringList();
     }
-    foreach (GameObject *o, avail) {
+    for (auto o : avail) {
         if (selIds.contains(o->id())) {
             sels << o;
         } else {

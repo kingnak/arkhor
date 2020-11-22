@@ -57,7 +57,7 @@ void FocusChooser::focusChange()
 {
     QList<int> diffs = getAllDiffValues();
     int rem = m_totFocus;
-    foreach (int d, diffs) {
+    for (auto d : diffs) {
         rem -= qAbs(d);
     }
 
@@ -78,7 +78,7 @@ void FocusChooser::cleanWidget(QWidget *w)
             delete child;
         }
     }
-    foreach (QWidget *c, w->findChildren<QWidget*>()) {
+    for (auto c : w->findChildren<QWidget*>()) {
         delete c;
     }
 }
@@ -104,7 +104,7 @@ void FocusChooser::setupWidget(QWidget *w, const AH::Common::AttributeSliderData
 
 int FocusChooser::getDiffValue(QWidget *w)
 {
-    foreach (QRadioButton *btn, w->findChildren<QRadioButton*>()) {
+    for (auto btn : w->findChildren<QRadioButton*>()) {
         if (btn->isChecked()) {
             return btn->property(FOCUS_DIFF_PROPERTY).toInt();
         }

@@ -457,7 +457,7 @@ void AhMainGui::updateCharacter(CharacterData c)
         m_registry->getObjectsOfType(c.inventoryIds(), RequestObjectsData::Object);
 
         ui->lstInventory->clear();
-        foreach (QString id, c.inventoryIds()) {
+        for (auto id : c.inventoryIds()) {
             QListWidgetItem *itm = new InventoryListItem(id);
             ui->lstInventory->addItem(itm);
         }

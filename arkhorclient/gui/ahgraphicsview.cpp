@@ -86,7 +86,7 @@ void AhGraphicsView::restoreViewport()
 
 void AhGraphicsView::wheelEvent(QWheelEvent *event)
 {
-    if (event->modifiers() == Qt::ControlModifier) {
+    if (!event->modifiers().testFlag(Qt::ControlModifier)) {
         scaleView(pow((double)2, event->delta() / 240.0));
         event->accept();
     } else {

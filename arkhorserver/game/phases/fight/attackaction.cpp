@@ -67,7 +67,7 @@ QString AttackAction::notificationString(GameAction::NotificationPart part, cons
 void AttackAction::filterEquipped(PropertyModificationList &lst) const
 {
     for (PropertyModificationList::iterator it = lst.begin(); it != lst.end();) {
-        if (const GameObject * obj = dynamic_cast<const GameObject *> (it->getModifier())) {
+        if (auto obj = dynamic_cast<const GameObject *> (it->getModifier())) {
             if (!obj->isEquipped()) {
                 it = lst.erase(it);
                 continue;
@@ -81,8 +81,8 @@ void AttackAction::discardAfterAttack(PropertyModificationList &lst)
 {
     // Collect which objects to discard
     QList<const GameObject *> toDiscard;
-    for (auto p : lst) {
-        if (const GameObject *obj = dynamic_cast<const GameObject *> (p.getModifier())) {
+    for (const auto &p : lst) {
+        if (auto obj = dynamic_cast<const GameObject *> (p.getModifier())) {
             if (obj->getAttributes().testFlag(GameObject::DiscardAfterAttack)) {
                 toDiscard << obj;
             }
@@ -90,7 +90,7 @@ void AttackAction::discardAfterAttack(PropertyModificationList &lst)
     }
 
     // Go through inventory and remove
-    foreach (const GameObject *obj, toDiscard) {
+    for (auto obj : toDiscard) {
         // Work on Inventory Copy
         QList<GameObject *> inv = gGame->context().player()->getCharacter()->inventory();
         inv.detach();

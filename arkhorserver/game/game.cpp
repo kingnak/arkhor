@@ -59,14 +59,14 @@ T *scriptTestDrawHelper(const QString &title, Deck<T> &d, std::function<bool()> 
 
 #endif
 
-Game *Game::s_instance = NULL;
+Game *Game::s_instance = nullptr;
 
 Game::Game()
-:   m_context(this, NULL, NULL, AH::NoGamePhase),
-    m_board(NULL),
-    m_environment(NULL),
-    m_rumor(NULL),
-    m_ancientOne(NULL),
+:   m_context(this, nullptr, nullptr, AH::NoGamePhase),
+    m_board(nullptr),
+    m_environment(nullptr),
+    m_rumor(nullptr),
+    m_ancientOne(nullptr),
     m_nextPlayerId(0),
     m_started(false),
     m_settingDirty(false),
@@ -215,7 +215,7 @@ Investigator *Game::drawInvestigator()
     return m_investigators.draw();
 }
 
-Investigator *Game::drawSpecificInvestigator(QString id)
+Investigator *Game::drawSpecificInvestigator(const QString &id)
 {
     return m_investigators.drawSpecificById(id);
 }
@@ -290,7 +290,7 @@ bool Game::resolveDependencies()
     if (!ok) return false;
     // Resolve Field Options
     for (auto fid : m_fieldOptionMap.keys()) {
-        for (auto opId : m_fieldOptionMap[fid]) {
+        for (const auto &opId : m_fieldOptionMap[fid]) {
             GameOption *op = m_registry->findOptionById(opId);
             if (op) {
                 m_board->field(fid)->addFieldOption(op);
@@ -352,7 +352,7 @@ bool Game::registerAncientOne(AncientOne *ao)
     return true;
 }
 
-bool Game::registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId)
+bool Game::registerFieldOption(AH::Common::FieldData::FieldID fId, const QString &opId)
 {
     m_fieldOptionMap[fId] << opId;
     return true;
@@ -460,7 +460,7 @@ void Game::killPlayer(Player *p)
     removePlayer(p);
 }
 
-QList<GameField *> Game::neareastFieldsWith(GameField *from, std::function<bool (GameField *)> predicate, QList<AH::Common::FieldData::FieldID> exceptFields)
+QList<GameField *> Game::neareastFieldsWith(GameField *from, std::function<bool (GameField *)> predicate, const QList<AH::Common::FieldData::FieldID> &exceptFields)
 {
     QList<GameField *> ret;
     QSet<GameField *> toCheck;
@@ -561,7 +561,7 @@ Monster *Game::drawMonster()
     int ct = m_monsterPool.size();
     do {
         Monster *m = m_monsterPool.draw();
-        if (!m) return NULL;
+        if (!m) return nullptr;
         if (m->attributes().testFlag(Monster::Mask)) {
             if (context().getGameProperty(PropertyValue::Game_AllowMaskMonster).finalVal() > 0) {
                 return m;
@@ -572,7 +572,7 @@ Monster *Game::drawMonster()
             return m;
         }
     } while (--ct > 0);
-    return NULL;
+    return nullptr;
 }
 
 MythosCard *Game::drawMythos()
@@ -603,7 +603,7 @@ void Game::returnMythos(MythosCard *m)
 GameObject *Game::drawObject(AH::GameObjectType t)
 {
     if (!m_objectDecks.contains(t)) {
-        return NULL;
+        return nullptr;
     }
 
 #ifdef TEST_SCRIPT_BUILD
@@ -619,16 +619,16 @@ GameObject *Game::drawObject(AH::GameObjectType t)
     return ret;
 }
 
-GameObject *Game::drawSpecificObject(QString id)
+GameObject *Game::drawSpecificObject(const QString &id)
 {
     for (auto t : m_objectDecks.keys()) {
         GameObject *o = drawSpecificObject(id, t);
         if (o) return o;
     }
-    return NULL;
+    return nullptr;
 }
 
-GameObject *Game::drawSpecificObject(QString id, AH::GameObjectType t)
+GameObject *Game::drawSpecificObject(const QString &id, AH::GameObjectType t)
 {
     GameObject *o = m_objectDecks[t].drawSpecificByTypeId(id);
     if (o) {
@@ -640,19 +640,19 @@ GameObject *Game::drawSpecificObject(QString id, AH::GameObjectType t)
         return o;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void Game::returnObject(GameObject *o)
 {
     if (!o) return;
-    if (o->owner() != NULL) {
+    if (o->owner() != nullptr) {
         o->owner()->removeFromInventory(o);
-        o->setOwner(NULL);
+        o->setOwner(nullptr);
     }
     if (o->isInfinite()) {
         // Infinite objects are never taken out of deck. No longer used
-        if (QObject *qo = dynamic_cast<QObject*> (o)) qo->deleteLater();
+        if (auto qo = dynamic_cast<QObject*> (o)) qo->deleteLater();
         else delete o;
     } else {
         m_objectDecks[o->type()].returnToDeck(o);
@@ -670,7 +670,7 @@ bool Game::createGate(GameField *field)
         return false;
     }
 
-    if (field->gate() != NULL) {
+    if (field->gate()) {
         // Create Monsters: max of gates and players
         int playerCount = getPlayers().count();
         int gateCount = m_board->getGates().count();
@@ -710,7 +710,7 @@ bool Game::createGate(GameField *field)
 #endif
 
         AH::Dimension d = (dim) ? static_cast<AH::Dimension> (dim) : randomDimension();
-        adj = (adj < -2 || adj > 2) ? RandomSource::instance().nextUint(0, 4)-2 : adj;
+        adj = (adj < -2 || adj > 2) ? static_cast<int>(RandomSource::instance().nextUint(0, 4))-2 : adj;
         auto f = static_cast<AH::Common::FieldData::FieldID>(fid);
         if (!m_board->field(f) || m_board->field(f)->type() != AH::Common::FieldData::OtherWorld) {
             int dest = RandomSource::instance().nextUint(0, 7);
@@ -912,7 +912,7 @@ OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldI
     int ct = m_owEncDeck.size();
 
     // Draw until matching color is found
-    OtherWorldEncounter *e = NULL;
+    OtherWorldEncounter *e = nullptr;
     do {
         ct--;
         e = m_owEncDeck.draw();
@@ -924,12 +924,12 @@ OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldI
             if (e->fieldId() != AH::Common::FieldData::NO_NO_FIELD) {
                 if (e->fieldId() != field) {
                     m_owEncDeck.returnToDeck(e);
-                    e = NULL;
+                    e = nullptr;
                 }
             }
         } else {
             m_owEncDeck.returnToDeck(e);
-            e = NULL;
+            e = nullptr;
         }
     } while (!e && ct >= 0);
 
@@ -962,7 +962,7 @@ void Game::characterDirty(Character *c)
     c->setDirty(true);
 }
 
-void Game::invalidateObject(QString id)
+void Game::invalidateObject(const QString &id)
 {
     m_invalidatedObjects << id;
 }
@@ -1020,13 +1020,13 @@ Player *Game::playerForCharacter(Character *c)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 AH::Common::DescribeObjectsData Game::describeObjects(const AH::Common::RequestObjectsData &reqs) const
 {
     AH::Common::DescribeObjectsData ret;
-    for (auto r : reqs.getRequests()) {
+    for (const auto &r : reqs.getRequests()) {
         ret.addDescription(describeObject(r));
     }
     return ret;
@@ -1135,9 +1135,9 @@ AH::Dimension Game::randomDimension() const
 
 AH::Common::FieldData::FieldID Game::randomLocation(bool onlyStable) const
 {
-    int district = RandomSource::instance().nextUint(1, 9) * 0x0100;
-    int fld = RandomSource::instance().nextUint(1,3);
-    int id = district | fld;
+    quint32 district = RandomSource::instance().nextUint(1, 9) * 0x0100;
+    quint32 fld = RandomSource::instance().nextUint(1,3);
+    quint32 id = district | fld;
     if (id == AH::Common::FieldData::FieldID::FH_InnerSanctum) {
         return randomLocation(onlyStable);
     }
@@ -1145,16 +1145,16 @@ AH::Common::FieldData::FieldID Game::randomLocation(bool onlyStable) const
     // TODO: Check if stable...
 
     AH::Common::FieldData::FieldID ret = static_cast<AH::Common::FieldData::FieldID> (id);
-    Q_ASSERT(m_board->field(ret) != NULL);
+    Q_ASSERT(m_board->field(ret) != nullptr);
     Q_ASSERT(m_board->field(ret)->type() == AH::Common::FieldData::Location);
     return ret;
 }
 
 bool Game::setRumor(MythosCard *r)
 {
-    if (r == NULL) {
+    if (r == nullptr) {
         //returnMythos(m_rumor);
-        m_rumor = NULL;
+        m_rumor = nullptr;
         setSettingDirty();
         return true;
     }
@@ -1177,7 +1177,7 @@ bool Game::setEnvironment(MythosCard *e)
 
     if (m_environment) {
         MythosCard *env = m_environment;
-        m_environment = NULL;
+        m_environment = nullptr;
         env->cleanup();
         if (env->hasMonsterModifications()) {
             invalidateMonsters = true;
@@ -1315,7 +1315,7 @@ void Game::initInvestigators()
     {
         m_context.m_player = playerForCharacter(c);
         initCharacterFixedPossession(c);
-        m_context.m_player = NULL;
+        m_context.m_player = nullptr;
     }
 
     // RANDOM POSSESSION
@@ -1323,7 +1323,7 @@ void Game::initInvestigators()
     {
         m_context.m_player = playerForCharacter(c);
         initCharacterRandomPossession(c);
-        m_context.m_player = NULL;
+        m_context.m_player = nullptr;
     }
 
     // START FIELD
@@ -1331,7 +1331,7 @@ void Game::initInvestigators()
     {
         m_context.m_player = playerForCharacter(c);
         m_board->field(c->investigator()->startFieldId())->placeCharacter(c);
-        m_context.m_player = NULL;
+        m_context.m_player = nullptr;
     }
 
     commitUpdates();
@@ -1344,7 +1344,7 @@ void Game::initInvestigators()
         int amount = 100;
         m_context.m_player = p;
         fa.executeOnPlayer(p, amount);
-        m_context.m_player = NULL;
+        m_context.m_player = nullptr;
     }
 }
 
@@ -1353,9 +1353,9 @@ void Game::initCharacterFixedPossession(Character *c)
     // Will be dirty after all of this...
     c->setDirty();
 
-    for (auto tid : c->investigator()->fixedPossesionObjectIds())
+    for (const auto &tid : c->investigator()->fixedPossesionObjectIds())
     {
-        GameObject *obj = NULL;
+        GameObject *obj = nullptr;
         const GameObject *proto = m_registry->findObjectPrototypeByType(tid);
         if (proto) {
             obj = this->drawSpecificObject(tid, proto->type());
@@ -1477,7 +1477,7 @@ void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity,
         damageSanity -= pChosen->preventedSanity();
 
         for (auto o : options) {
-            if (PreventDamageOption *pO = dynamic_cast<PreventDamageOption*>(o)) {
+            if (auto pO = dynamic_cast<PreventDamageOption*>(o)) {
                 pO->reset();
             }
         }
@@ -1491,7 +1491,7 @@ void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity,
     } while (true);
 
     for (auto o : options) {
-        if (PreventDamageOption *pO = dynamic_cast<PreventDamageOption*>(o)) {
+        if (auto pO = dynamic_cast<PreventDamageOption*>(o)) {
             pO->reset();
         }
     }
@@ -1519,7 +1519,7 @@ void Game::changeMonsterDisappear(Monster *m)
     m_boardChange.monsterDisappear << AH::Common::GameBoardChangeData::LocatedChange{m->id(), m->fieldId()};
 }
 
-void Game::changeMonsterMove(Monster *m, QList<AH::Common::FieldData::FieldID> path)
+void Game::changeMonsterMove(Monster *m, const QList<AH::Common::FieldData::FieldID> &path)
 {
     if (m_ignoreChanges) return;
     m_boardChange.monsterMovements << AH::Common::GameBoardChangeData::Movement{ m->id(), path};
@@ -1543,7 +1543,7 @@ void Game::changeGateOpen(Gate *g)
     m_boardChange.gateOpen << AH::Common::GameBoardChangeData::LocatedChange{g->id(), g->sourceField()->id()};
 }
 
-void Game::changeCharacterMove(Character *c, QList<AH::Common::FieldData::FieldID> path)
+void Game::changeCharacterMove(Character *c, const QList<AH::Common::FieldData::FieldID> &path)
 {
     if (m_ignoreChanges) return;
     m_boardChange.characterMovements << AH::Common::GameBoardChangeData::Movement{c->id(), path};
@@ -1582,7 +1582,7 @@ void Game::changeField(AH::Common::GameBoardChangeData::FieldChange change)
     m_boardChange.fieldChanges << change;
 }
 
-void Game::changeClearOutskirts(QList<Monster *> m)
+void Game::changeClearOutskirts(const QList<Monster *> &m)
 {
     if (m_ignoreChanges) return;
     for (auto mo : m)
@@ -1619,7 +1619,7 @@ void Game::mythos()
 {
     m_notifier->gamePhaseChanged(AH::Mythos);
     // Not a player phase
-    m_context = GameContext(this, getFirstPlayer(), NULL, AH::Mythos);
+    m_context = GameContext(this, getFirstPlayer(), nullptr, AH::Mythos);
     m_phases[MythosIndex]->execute();
 }
 
@@ -1633,7 +1633,7 @@ void Game::ancientOneAttack()
     // Not a player phase
     for (auto p : m_playerList) {
         if (p->isActive()) {
-            m_context = GameContext(this, p, NULL, AH::EndFightPhase);
+            m_context = GameContext(this, p, nullptr, AH::EndFightPhase);
             m_phases[AncientOneAttackIndex]->execute();
         }
     }
@@ -1644,7 +1644,7 @@ void Game::executePlayerPhase(GamePhase *ph, AH::GamePhase phase)
     for (auto p : m_playerList) {
         if (p->isActive()) {
             m_notifier->currentPlayerChanged(p);
-            m_context = GameContext(this, p, NULL, phase);
+            m_context = GameContext(this, p, nullptr, phase);
             ph->execute();
         }
     }
@@ -1713,7 +1713,7 @@ Game::GameState Game::checkGameState()
         int ctOpen = 0;
         for (auto gf : m_board->fields(AH::Common::FieldData::Location)) {
             if (gf->isSealed()) ctSealed++;
-            if (gf->gate() != NULL) ctOpen++;
+            if (gf->gate() != nullptr) ctOpen++;
         }
 
         if (ctSealed >= m_context.getGameProperty(PropertyValue::Game_SealedGatesToWin).finalVal()) {

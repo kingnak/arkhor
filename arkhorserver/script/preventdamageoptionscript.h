@@ -9,14 +9,14 @@ class PreventDamageOptionScript : public QObject, public PreventDamageOption
 {
     Q_OBJECT
 public:
-    explicit PreventDamageOptionScript(const QString &id, const QString &desc, QScriptValue preventStamina, QScriptValue preventSanity, bool discard = false, bool exhaust = true, QObject *parent = 0);
+    explicit PreventDamageOptionScript(const QString &id, const QString &desc, const QScriptValue &preventStamina, const QScriptValue &preventSanity, bool discard = false, bool exhaust = true, QObject *parent = 0);
 
-    virtual bool execute(int damageStamina, int damageSanity);
-    virtual int preventedStamina() const;
-    virtual int preventedSanity() const;
+    bool execute(int damageStamina, int damageSanity) override;
+    int preventedStamina() const override;
+    int preventedSanity() const override;
 
-    virtual bool canPreventStamina() const;
-    virtual bool canPreventSanity() const;
+    bool canPreventStamina() const override;
+    bool canPreventSanity() const override;
 
 private:
     QScriptValue m_staFunc;

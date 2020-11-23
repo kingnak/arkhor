@@ -15,15 +15,15 @@ class AncientOneWidget : public QWidget, public AsyncObjectReceiver
 
 public:
     explicit AncientOneWidget(QWidget *parent = 0);
-    ~AncientOneWidget();
+    ~AncientOneWidget() override;
 
-    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
 
 signals:
     void ancientOneInfoRequested(QString id);
 
 public slots:
-    void displayAncientOne(QString aoId);
+    void displayAncientOne(const QString &aoId);
     void displayAncientOne(const AH::Common::AncientOneData *ao);
 
 private:

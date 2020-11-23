@@ -15,9 +15,9 @@ class GateDataWidget : public QWidget, public AsyncObjectReceiver
 
 public:
     explicit GateDataWidget(QWidget *parent = 0);
-    ~GateDataWidget();
+    ~GateDataWidget() override;
 
-    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
 
 public slots:
     void displayGate(const AH::Common::GateData *g);

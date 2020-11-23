@@ -11,21 +11,21 @@ class InvestigatorWidget : public QWidget
 public:
     explicit InvestigatorWidget(QWidget *parent = 0);
 
-    QSize sizeHint() const;
-    QSize minimumSizeHint() const;
+    QSize sizeHint() const override;
+    QSize minimumSizeHint() const override;
 
 signals:
 
 public slots:
-    void displayInvestigator(AH::Common::InvestigatorData inv);
-    void displayCharacter(AH::Common::CharacterData chr);
+    void displayInvestigator(const AH::Common::InvestigatorData &inv);
+    void displayCharacter(const AH::Common::CharacterData &chr);
 
 protected:
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 
 private:
-    void drawFixedLineHeightText(QPainter *p, QString t, QRect r, int lineHeight);
+    void drawFixedLineHeightText(QPainter *p, const QString &t, QRect r, int lineHeight);
     void paintInvestigator();
     void paintCharacter();
     QPainter *paintBase();

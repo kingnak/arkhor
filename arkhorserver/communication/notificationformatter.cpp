@@ -19,13 +19,13 @@
 #include "game/actions/untapaction.h"
 
 NotificationFormatter::NotificationFormatter()
-    : m_curAction(NULL)
+    : m_curAction(nullptr)
 {
 }
 
 QString NotificationFormatter::formatActionStart(const GameAction *action, const QString &desc)
 {
-    if (m_curAction != NULL) {
+    if (m_curAction) {
         qWarning("Starting new action before finishing current");
         m_bufList.clear();
     }
@@ -53,7 +53,7 @@ QString NotificationFormatter::formatActionFinish(const GameAction *action, cons
         ret = getBasicActionString(action, gGame->getCurrentPlayer(), desc, GameAction::Finish);
     }
     m_bufList.clear();
-    m_curAction = NULL;
+    m_curAction = nullptr;
     return ret;
 }
 

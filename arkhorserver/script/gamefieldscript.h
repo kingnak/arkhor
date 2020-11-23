@@ -21,7 +21,7 @@ public:
     Q_INVOKABLE bool hasMonsters() const { return m_field ? m_field->hasMonsters() : false; }
 
     Q_INVOKABLE QScriptValue nearestFieldsWithCharacters();
-    Q_INVOKABLE QScriptValue nearestFieldsWithCharacters(QScriptValue exceptFields);
+    Q_INVOKABLE QScriptValue nearestFieldsWithCharacters(const QScriptValue &exceptFields);
     Q_INVOKABLE QScriptValue nearestGates();
     Q_INVOKABLE bool unseal();
 
@@ -35,7 +35,7 @@ public:
     quint32 type() { return m_field ? m_field->type() : 0; }
 
 private:
-    QScriptValue nearestFieldsWith(QScriptValue exceptFields, std::function<bool(GameField*)> predicate);
+    QScriptValue nearestFieldsWith(const QScriptValue &exceptFields, std::function<bool(GameField*)> predicate);
 
 private:
     GameField *m_field;

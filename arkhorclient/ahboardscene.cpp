@@ -54,7 +54,7 @@ void AhBoardScene::centerOn(QPointF p, bool animated, qreal zoom)
     emit requestCenterOn(p, animated, zoom);
 }
 
-void AhBoardScene::updateBoardFromData(QVariantMap boardMap)
+void AhBoardScene::updateBoardFromData(const QVariantMap &boardMap)
 {
     m_pendingUpdates << boardMap;
     if (m_inUpdate) {
@@ -96,10 +96,10 @@ void AhBoardScene::setTerrorLevel(int level)
     m_terrorItem->setVisible(true);
 }
 
-void AhBoardScene::initNeighbourHoodFromBoardData(QList<AH::Common::GameFieldData> boardMap)
+void AhBoardScene::initNeighbourHoodFromBoardData(const QList<AH::Common::GameFieldData> &boardMap)
 {
     if (!m_neighbours.isEmpty()) return;
-    for (auto d : boardMap) {
+    for (const auto &d : boardMap) {
         for (int nid : d.neighbourIds()) {
             AH::Common::FieldData::FieldID nfId = static_cast<FieldData::FieldID> (nid);
             m_neighbours[d.id()] << nfId;
@@ -113,7 +113,7 @@ void AhBoardScene::applyUpdate(QVariantMap boardMap)
     boardMap["_changes"] >> changes;
     animateChanges(changes);
 
-    for (QString k : boardMap.keys()) {
+    for (const auto &k : boardMap.keys()) {
         int id = k.toInt();
         AH::Common::FieldData::FieldID fId = static_cast<FieldData::FieldID> (id);
         if (m_fieldMap.contains(fId)) {
@@ -127,16 +127,16 @@ void AhBoardScene::applyUpdate(QVariantMap boardMap)
 void AhBoardScene::ensureAnimationObjectsKnown(const GameBoardChangeData &changes)
 {
     AH::Common::RequestObjectsData reqs;
-    for (auto m : changes.monsterAppear) {
+    for (const auto &m : changes.monsterAppear) {
         reqs.addRequest({AH::Common::RequestObjectsData::Monster, m.id});
     }
-    for (auto m : changes.monsterMovements) {
+    for (const auto &m : changes.monsterMovements) {
         reqs.addRequest({AH::Common::RequestObjectsData::Monster, m.id});
     }
-    for (auto g : changes.gateAppear) {
+    for (const auto &g : changes.gateAppear) {
         reqs.addRequest({AH::Common::RequestObjectsData::Gate, g.id});
     }
-    for (auto c : changes.characterMovements) {
+    for (const auto &c : changes.characterMovements) {
         reqs.addRequest({AH::Common::RequestObjectsData::Character, c.id});
     }
 
@@ -144,23 +144,23 @@ void AhBoardScene::ensureAnimationObjectsKnown(const GameBoardChangeData &change
     ObjectRegistry::instance()->getObjectsBlocking(reqs);
 }
 
-void AhBoardScene::animateChanges(GameBoardChangeData changes)
+void AhBoardScene::animateChanges(const GameBoardChangeData &changes)
 {
     ensureAnimationObjectsKnown(changes);
     auto reg = ObjectRegistry::instance();
 
-    for (auto g : changes.gateAppear) {
+    for (const auto &g : changes.gateAppear) {
         auto f = this->getField(g.location);
         f->animateGateAppear(g.id);
     }
 
-    for (auto m : changes.monsterAppear) {
+    for (const auto &m : changes.monsterAppear) {
         auto f = this->getField(m.location);
         auto monster = reg->getObject<MonsterData>(m.id);
         f->animateMonsterAppear(monster);
     }
 
-    for (auto g : changes.gateDisappear) {
+    for (const auto &g : changes.gateDisappear) {
         auto f = this->getField(g.location);
         f->animateGateDisappear();
     }
@@ -171,7 +171,7 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
         f->animateMonsterMove(monster, m.path);
     }
 
-    for (auto m : changes.monsterDisappear) {
+    for (const auto &m : changes.monsterDisappear) {
         auto f = this->getField(m.location);
         auto monster = reg->getObject<MonsterData>(m.id);
         f->animateMonsterDisappear(monster);
@@ -184,7 +184,7 @@ void AhBoardScene::animateChanges(GameBoardChangeData changes)
         f->animateMultipleMonsterDisappear(changes.clearOutskirts);
     }
 
-    for (auto g : changes.gateOpen) {
+    for (const auto &g : changes.gateOpen) {
         auto f = this->getField(g.location);
         f->animateGateOpen(g.id);
     }

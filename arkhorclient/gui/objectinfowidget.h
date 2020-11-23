@@ -33,7 +33,7 @@ class ObjectInfoWidget : public QWidget
 public:
     explicit ObjectInfoWidget(QWidget *parent = 0);
 
-    QSize sizeHint() const;
+    QSize sizeHint() const override;
 
     bool isDisplayingTempData() const;
 
@@ -44,11 +44,11 @@ signals:
 
 public slots:
     void displayItemInfo(const QString &id);
-    void displayFieldInfo(const AH::Common::GameFieldData fd);
+    void displayFieldInfo(const AH::Common::GameFieldData &fd);
     void displayNothing();
 
 private slots:
-    void receivedDescription(AH::Common::DescribeObjectsData::ObjectDescription desc);
+    void receivedDescription(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
 
 private:
     void displayMonsterDetails(const AH::Common::MonsterData *m);

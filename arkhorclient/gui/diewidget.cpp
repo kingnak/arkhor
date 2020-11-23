@@ -5,17 +5,13 @@
 DieWidget::DieWidget(QWidget *parent) :
     QWidget(parent), m_val(0), m_success(false)
 {
+    setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
     updateImage();
 }
 
 QSize DieWidget::minimumSizeHint() const
 {
-    return QSize(45, 45);
-}
-
-QSizePolicy DieWidget::sizePolicy() const
-{
-    return QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    return {45, 45};
 }
 
 void DieWidget::setDieValue(int val)
@@ -44,9 +40,9 @@ void DieWidget::updateImage()
     int realSize = qMin(s.width(), s.height());
     s = QSize(realSize-1, realSize-1);
     */
-    QSize s = this->sizeHint();
-    int realSize = qMin(s.width(), s.height());
-    s = QSize(realSize-1, realSize-1);
+    QSize sz = this->sizeHint();
+    int realSize = qMin(sz.width(), sz.height());
+    sz = QSize(realSize-1, realSize-1);
 
 
     QColor c1 = Qt::white;
@@ -61,9 +57,9 @@ void DieWidget::updateImage()
         c1 = qRgb(207,255,229);
 
     // Bkg
-    m_cache = QPixmap(s);
+    m_cache = QPixmap(sz);
     m_cache.fill(Qt::transparent);
-    QRectF rect(QPointF(), s);
+    QRectF rect(QPointF(), sz);
     QPainter p(&m_cache);
     p.setRenderHint(QPainter::Antialiasing);
     QRadialGradient g(rect.center()+QPointF(0.5,0.5), realSize/2.+5);

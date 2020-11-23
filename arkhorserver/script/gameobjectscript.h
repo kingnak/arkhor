@@ -20,7 +20,7 @@ class GameObjectScript : public DynamicScriptableObject, public GameObject
 public:
     explicit GameObjectScript(QObject *parent = 0);
 
-    GameObject *clone();
+    GameObject *clone() override;
 
     Q_PROPERTY(QString id READ id)
     Q_PROPERTY(QString typeId READ typeId)
@@ -29,7 +29,7 @@ public:
     Q_PROPERTY(qint32 type READ type)
     Q_PROPERTY(bool isEquipped READ isEquipped)
 
-    Q_INVOKABLE void exhaust() { GameObject::exhaust(); }
+    Q_INVOKABLE void exhaust() override { GameObject::exhaust(); }
     Q_INVOKABLE void returnToDeck() { GameObject::returnToDeck(); }
 
     Q_INVOKABLE void discard() { returnToDeck(); }
@@ -40,18 +40,18 @@ public:
 
     static GameObjectScript *createGameObject(QScriptContext *ctx, QScriptEngine *eng);
 
-    virtual QList<GameAction *> getActions() const { return m_actMap.values(); }
-    virtual QList<GameOption *> getOptions() const { return m_optMap.values(); }
-    virtual PropertyModificationList getModifications() const;
+    QList<GameAction *> getActions() const override { return m_actMap.values(); }
+    QList<GameOption *> getOptions() const override { return m_optMap.values(); }
+    PropertyModificationList getModifications() const override;
 
-    virtual QList<AH::Common::DynamicPropertyData> dynamicProperties() const;
+    QList<AH::Common::DynamicPropertyData> dynamicProperties() const override;
 
-    virtual bool resolveDependencies(GameRegistry *reg);
+    bool resolveDependencies(GameRegistry *reg) override;
 
-    virtual bool cast(Player *p);
+    bool cast(Player *p) override;
 
-    virtual bool onAddToInventory(Character *c);
-    virtual bool onRemoveFromInventory(Character *c);
+    bool onAddToInventory(Character *c) override;
+    bool onRemoveFromInventory(Character *c) override;
 
     CharacterScript *csOwner() const;
 

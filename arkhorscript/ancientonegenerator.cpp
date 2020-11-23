@@ -55,7 +55,7 @@ QList<ClassGenerator::AttributeDesc> AncientOneGenerator::getAttributes()
                ;
 }
 
-bool AncientOneGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr)
+bool AncientOneGenerator::outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr)
 {
     if (desc.name == "defenses") {
         return outputEnumValue("Constants.Monster", attr, cls);

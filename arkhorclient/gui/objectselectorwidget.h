@@ -17,14 +17,14 @@ class ObjectSelectorWidget : public QWidget
 
 public:
     explicit ObjectSelectorWidget(QWidget *parent = 0);
-    ~ObjectSelectorWidget();
+    ~ObjectSelectorWidget() override;
 
     QStringList getSelectedItems() const;
 
 public slots:
     void activate();
     void deactivate();
-    void setItems(QStringList objectIds);
+    void setItems(const QStringList &objectIds);
     void clearItems();
     void setMinItems(int min);
     void setMaxItems(int max);
@@ -37,7 +37,7 @@ signals:
     void activateChoice();
 
 private slots:
-    void describeItem(AH::Common::DescribeObjectsData::ObjectDescription desc);
+    void describeItem(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
     void selectItem();
     void deselectItem();
     void displayItem(QListWidgetItem *itm);

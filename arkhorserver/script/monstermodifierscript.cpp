@@ -4,12 +4,12 @@
 
 using namespace AH::Common;
 
-bool MonsterModifierScript::parseMonsterModifications(QScriptValue data, MonsterModifier &mod, const PropertyModifier *propMod)
+bool MonsterModifierScript::parseMonsterModifications(const QScriptValue &data, MonsterModifier &mod, const PropertyModifier *propMod)
 {
     QScriptValue monsterMods = data.property("monsterModifications");
     if (monsterMods.isValid() && !monsterMods.isUndefined()) {
         QScriptValueList mmLst = GameScript::array2list(monsterMods);
-        for (auto mm : mmLst) {
+        for (const auto &mm : mmLst) {
             QScriptValue mods = mm.property("mod");
             PropertyModificationList lst;
             if (!PropertyModificationScript::parsePropertyModificationList(propMod, mods, lst)) {
@@ -33,7 +33,7 @@ bool MonsterModifierScript::parseMonsterModifications(QScriptValue data, Monster
     QScriptValue monsterMoveMods = data.property("monsterMoveModifications");
     if (monsterMoveMods.isValid() && !monsterMoveMods.isUndefined()) {
         QScriptValueList mmLst = GameScript::array2list(monsterMoveMods);
-        for (auto mm : mmLst) {
+        for (const auto &mm : mmLst) {
             if (!mm.property("moveAs").isValid() || !mm.property("moveAs").isNumber()) {
                 return false;
             }

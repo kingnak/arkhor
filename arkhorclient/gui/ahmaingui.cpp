@@ -11,7 +11,7 @@
 #include "objectlistitem.h"
 #include "detailcardwidget.h"
 
-#define MAXIMUM_WIDGET_WIDTH 16777215
+static constexpr quint32 MAXIMUM_WIDGET_WIDTH = 16777215;
 
 Q_DECLARE_METATYPE(AH::Common::MonsterData);
 Q_DECLARE_METATYPE(QList<AH::Common::MonsterData>)
@@ -21,8 +21,8 @@ using namespace AH::Common;
 AhMainGui::AhMainGui(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AhMainGui),
-    m_conn(NULL),
-    m_registry(NULL),
+    m_conn(nullptr),
+    m_registry(nullptr),
     m_skipOption(PlayerData::NoAutoChoose)
 {
     qRegisterMetaType<AH::Common::MonsterData>();
@@ -193,12 +193,12 @@ void AhMainGui::initConnection(ConnectionHandler *conn)
     m_conn->setSkipOption(m_skipOption);
 }
 
-void AhMainGui::setThisPlayerId(QString id)
+void AhMainGui::setThisPlayerId(const QString &id)
 {
     m_registry->setThisPlayerId(id);
 }
 
-void AhMainGui::setThisCharacterId(QString id)
+void AhMainGui::setThisCharacterId(const QString &id)
 {
     m_registry->setThisCharacterId(id);
     updateCharacter(m_registry->thisCharacter());
@@ -277,16 +277,16 @@ void AhMainGui::doDismissInfoPane()
     //ui->wgtObjectInfo->setVisible(false);
 }
 
-void AhMainGui::updateSceneNeighbours(QList<ObjectRegistry::FieldDescription> descs)
+void AhMainGui::updateSceneNeighbours(const QList<ObjectRegistry::FieldDescription> &descs)
 {
     QList<AH::Common::GameFieldData> fd;
-    for (auto f : descs) {
+    for (const auto &f : descs) {
         fd << f.fieldData;
     }
     m_scene->initNeighbourHoodFromBoardData(fd);
 }
 
-void AhMainGui::characterInstantiated(QString playerId, QString characterId)
+void AhMainGui::characterInstantiated(const QString &playerId, const QString &characterId)
 {
     if (playerId == m_registry->thisPlayerId()) {
         setThisCharacterId(characterId);
@@ -335,7 +335,7 @@ void AhMainGui::displayInventoryData(QListWidgetItem *itm)
     }
 }
 
-void AhMainGui::gameSettingUpdate(GameSettingData data)
+void AhMainGui::gameSettingUpdate(const GameSettingData &data)
 {
     ui->wgtAncientOne->displayAncientOne(data.ancientOneId());
     ui->wgtRumor->displayRumor(data.rumorId());
@@ -350,14 +350,14 @@ void AhMainGui::textMessage(const QString &msg)
     ui->txtLog->append(msg);
 }
 
-void AhMainGui::chooseOption(QList<GameOptionData> opts)
+void AhMainGui::chooseOption(const QList<GameOptionData> &opts)
 {
     ui->wgtOptionChooser->setOptions(opts);
     ui->stkInteraction->setCurrentWidget(ui->pageOptionChooser);
     ui->tabInteract->setCurrentWidget(ui->tabInteraction);
 }
 
-void AhMainGui::optionChosen(QString id)
+void AhMainGui::optionChosen(const QString &id)
 {
     m_conn->selectOption(id);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
@@ -373,7 +373,7 @@ void AhMainGui::chooseMove(AH::Common::FieldData::FieldID startId, int movementP
     ui->grvBoard->centerOnFieldAnimated(startId, 1);
 }
 
-void AhMainGui::movementChosen(QList<FieldData::FieldID> path)
+void AhMainGui::movementChosen(const QList<FieldData::FieldID> &path)
 {
     m_conn->selectMovementPath(path);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
@@ -387,21 +387,21 @@ void AhMainGui::movementCanceled()
     refitGui();
 }
 
-void AhMainGui::chooseFocus(QList<AttributeSliderData> sliders, int focusAmount)
+void AhMainGui::chooseFocus(const QList<AttributeSliderData> &sliders, int focusAmount)
 {
     ui->wgtFocusChooser->chooseFocus(sliders, focusAmount);
     ui->stkInteraction->setCurrentWidget(ui->pageFocusChooser);
     ui->tabInteract->setCurrentWidget(ui->tabInteraction);
 }
 
-void AhMainGui::focusChosen(QList<int> diffs)
+void AhMainGui::focusChosen(const QList<int> &diffs)
 {
     m_conn->selectFocus(diffs);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }
 
-void AhMainGui::chooseSkill(QList<ModifiedPropertyValueData> options)
+void AhMainGui::chooseSkill(const QList<ModifiedPropertyValueData> &options)
 {
     ui->wgtOptionChooser->setSkills(options);
     ui->stkInteraction->setCurrentWidget(ui->pageOptionChooser);
@@ -415,14 +415,14 @@ void AhMainGui::skillChoosen(PropertyValueData::Property skill)
     refitGui();
 }
 
-void AhMainGui::showDieRollInfo(DieRollTestData data)
+void AhMainGui::showDieRollInfo(const DieRollTestData &data)
 {
     ui->wgtDieRoll->displayDieRoll(data);
     ui->stkInteraction->setCurrentWidget(ui->pageDieRoll);
     ui->tabInteract->setCurrentWidget(ui->tabInteraction);
 }
 
-void AhMainGui::dieUpdateChosen(DieTestUpdateData upd)
+void AhMainGui::dieUpdateChosen(const DieTestUpdateData &upd)
 {
     m_conn->chooseDieRollUpdate(upd);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
@@ -447,7 +447,7 @@ void AhMainGui::dieUpdateChosen(DieTestUpdateData upd)
 //    */
 //}
 
-void AhMainGui::updateCharacter(CharacterData c)
+void AhMainGui::updateCharacter(const CharacterData &c)
 {
     if (c.id() == m_registry->thisCharacterId()) {
         ui->wgtCharacter->updateCharacterData(&c);
@@ -457,14 +457,14 @@ void AhMainGui::updateCharacter(CharacterData c)
         m_registry->getObjectsOfType(c.inventoryIds(), RequestObjectsData::Object);
 
         ui->lstInventory->clear();
-        for (auto id : c.inventoryIds()) {
+        for (const auto &id : c.inventoryIds()) {
             QListWidgetItem *itm = new InventoryListItem(id);
             ui->lstInventory->addItem(itm);
         }
     }
 }
 
-void AhMainGui::chooseWeapons(QList<GameObjectData> weapons, ModifiedPropertyValueData hands)
+void AhMainGui::chooseWeapons(const QList<GameObjectData> &weapons, const ModifiedPropertyValueData &hands)
 {
     ui->wgtWeaponChooser->chooseWeapons(weapons, hands);
     ui->stkInteraction->setCurrentWidget(ui->pageWeaponChooser);
@@ -478,42 +478,42 @@ void AhMainGui::weaponsCanceled()
     refitGui();
 }
 
-void AhMainGui::weaponsSelected(QStringList weaponIds)
+void AhMainGui::weaponsSelected(const QStringList &weaponIds)
 {
     m_conn->selectWeapons(weaponIds);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }
 
-void AhMainGui::chooseEncounter(EncounterData encounter)
+void AhMainGui::chooseEncounter(const EncounterData &encounter)
 {
     ui->wgtOptionChooser->setEncounter(encounter);
     ui->stkInteraction->setCurrentWidget(ui->pageOptionChooser);
     ui->tabInteract->setCurrentWidget(ui->tabInteraction);
 }
 
-void AhMainGui::encounterSelected(QString id)
+void AhMainGui::encounterSelected(const QString &id)
 {
     m_conn->selectEncounterOption(id);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }
 
-void AhMainGui::chooseMonster(QString desc, QList<AH::Common::MonsterData> monsters)
+void AhMainGui::chooseMonster(const QString &desc, const QList<AH::Common::MonsterData> &monsters)
 {
     ui->wgtOptionChooser->setMonsters(desc, monsters);
     ui->stkInteraction->setCurrentWidget(ui->pageOptionChooser);
     ui->tabInteract->setCurrentWidget(ui->tabInteraction);
 }
 
-void AhMainGui::monsterSelected(QString id)
+void AhMainGui::monsterSelected(const QString &id)
 {
     m_conn->selectMonster(id);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }
 
-void AhMainGui::displayMythos(MythosData mythos)
+void AhMainGui::displayMythos(const MythosData &mythos)
 {
     ui->wgtMythos->displayMythos(&mythos);
     ui->stkInteraction->setCurrentWidget(ui->pageMythos);
@@ -528,13 +528,13 @@ void AhMainGui::acknowledgeMythos()
 
 void AhMainGui::finishMythos()
 {
-    ui->wgtMythos->displayMythos(NULL);
+    ui->wgtMythos->displayMythos(nullptr);
     if (ui->stkInteraction->currentWidget() == ui->pageMythos) {
         ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     }
 }
 
-void AhMainGui::displayMonsterMovement(MonsterData monster)
+void AhMainGui::displayMonsterMovement(const MonsterData &monster)
 {
     ui->wgtMonsterMovement->displayMonsterMovement(&monster);
     ui->stkInteraction->setCurrentWidget(ui->pageMonsterMovement);
@@ -549,20 +549,20 @@ void AhMainGui::acknowledgeMonsterMovement()
 
 void AhMainGui::finishMonsterMovement()
 {
-    ui->wgtMonsterMovement->displayMonsterMovement(NULL);
+    ui->wgtMonsterMovement->displayMonsterMovement(nullptr);
     if (ui->stkInteraction->currentWidget() == ui->pageMonsterMovement) {
         ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     }
 }
 
-void AhMainGui::offerChoice(ChoiceData choice)
+void AhMainGui::offerChoice(const ChoiceData &choice)
 {
     ui->wgtChoice->offerChoice(choice);
     ui->stkInteraction->setCurrentWidget(ui->pageChoice);
     ui->tabInteract->setCurrentWidget(ui->tabInteraction);
 }
 
-void AhMainGui::choiceSelected(ChoiceResponseData resp)
+void AhMainGui::choiceSelected(const ChoiceResponseData &resp)
 {
     m_conn->choiceSelected(resp);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
@@ -576,21 +576,21 @@ void AhMainGui::choiceCanceled()
      refitGui();
 }
 
-void AhMainGui::offerTrade(TradeData trade)
+void AhMainGui::offerTrade(const TradeData &trade)
 {
     ui->wgtTrade->showTrade(trade);
     ui->stkInteraction->setCurrentWidget(ui->pageTrade);
     ui->tabInteract->setCurrentWidget(ui->tabInteraction);
 }
 
-void AhMainGui::tradeSelected(TradeData trade)
+void AhMainGui::tradeSelected(const TradeData &trade)
 {
     m_conn->tradeSelected(trade);
     ui->stkInteraction->setCurrentWidget(ui->pageEmptyInteraction);
     refitGui();
 }
 
-void AhMainGui::tradeCanceled(QString name)
+void AhMainGui::tradeCanceled(const QString &name)
 {
     QMessageBox::information(this, "Trade", name + " canceled the trade");
     m_conn->acknowledge();
@@ -615,17 +615,17 @@ void AhMainGui::clearTempObject()
     }
 }
 
-void AhMainGui::won(QString msg)
+void AhMainGui::won(const QString &msg)
 {
     QMessageBox::information(this, "WON!", msg);
 }
 
-void AhMainGui::lost(QString msg)
+void AhMainGui::lost(const QString &msg)
 {
     QMessageBox::critical(this, "LOST!", msg);
 }
 
-void AhMainGui::showAlert(QString msg)
+void AhMainGui::showAlert(const QString &msg)
 {
     QMessageBox::information(this, "Arkham Horror", msg);
 }
@@ -636,7 +636,7 @@ void AhMainGui::phaseChange(AH::GamePhase ph)
     ui->lblPhase->setText(Utils::stringForPhase(ph));
 }
 
-void AhMainGui::playerChange(QString id)
+void AhMainGui::playerChange(const QString &id)
 {
     if (id == m_registry->thisPlayerId()) {
         this->updateCharacter(m_registry->thisCharacter());

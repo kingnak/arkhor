@@ -29,17 +29,17 @@ public:
         DieTestResult() : boolResult(false), intResult(0) {}
     };
 
-    static DieTestSpec createClueBurnTest(QString desc, QString sourceId, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target = 1);
-    static DieTestSpec createClueBurnCounter(QString desc, QString sourceId, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment);
+    static DieTestSpec createClueBurnTest(const QString &desc, const QString &sourceId, Character *c, const ModifiedPropertyValue &poolBase, const ModifiedPropertyValue &clueBurnMods, int adjustment, int target = 1);
+    static DieTestSpec createClueBurnCounter(const QString &desc, const QString &sourceId, Character *c, const ModifiedPropertyValue &poolBase, const ModifiedPropertyValue &clueBurnMods, int adjustment);
 
-    static DieTestSpec createSkillTest(QString desc, QString sourceId, Character *c, AH::Skill skill, int adjustment, int target = 1);
+    static DieTestSpec createSkillTest(const QString &desc, const QString &sourceId, Character *c, AH::Skill skill, int adjustment, int target = 1);
     //static DieTestSpec createAttributeTest(Character *c, AH::Attribute attr, int adjustment, int target = 1);
     //static DieTestSpec createGenericTest(int dieCount, QList<int> successVals, int target = 1);
 
-    static DieTestSpec createSkillCounter(QString desc, QString sourceId, Character *c, AH::Skill skill, int adjustment);
+    static DieTestSpec createSkillCounter(const QString &desc, const QString &sourceId, Character *c, AH::Skill skill, int adjustment);
 
-    static DieTestSpec createGenericCounter(QString desc, QString sourceId, int dieCount, QList<quint32> successVals);
-    static DieTestSpec createGenericSummer(QString desc, QString sourceId, int dieCount);
+    static DieTestSpec createGenericCounter(const QString &desc, const QString &sourceId, int dieCount, const QList<quint32> &successVals);
+    static DieTestSpec createGenericSummer(const QString &desc, const QString &sourceId, int dieCount);
 
     static DieTestSpec &addDieRollOptions(DieTestSpec &spec, Character *c, AH::Skill skill);
 
@@ -48,11 +48,11 @@ public:
 private:
     static void fixedPool(DieTestSpec &spec, int size);
     static void skillPool(DieTestSpec &spec, Character *c, AH::Skill skill, int adjust);
-    static void propertyPool(DieTestSpec &spec, ModifiedPropertyValue poolBase, int adjust);
+    static void propertyPool(DieTestSpec &spec, const ModifiedPropertyValue &poolBase, int adjust);
     static void clueBurnSkill(DieTestSpec &spec, Character *c, AH::Skill skill);
-    static void clueBurnProperty(DieTestSpec &spec, ModifiedPropertyValue clueBurnMods);
+    static void clueBurnProperty(DieTestSpec &spec, const ModifiedPropertyValue &clueBurnMods);
     static void summer(DieTestSpec &spec);
-    static void counter(DieTestSpec &spec, QList<quint32> successes);
+    static void counter(DieTestSpec &spec, const QList<quint32> &successes);
     static void successCounter(DieTestSpec &spec, Character *c);
     static void value(DieTestSpec &spec);
     static void test(DieTestSpec &spec, int target);

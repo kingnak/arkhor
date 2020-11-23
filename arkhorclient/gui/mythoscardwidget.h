@@ -15,9 +15,9 @@ class MythosCardWidget : public QWidget, public AsyncObjectReceiver
 
 public:
     explicit MythosCardWidget(QWidget *parent = 0);
-    ~MythosCardWidget();
+    ~MythosCardWidget() override;
 
-    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
 
 public slots:
     void displayMythosCard(const AH::Common::MythosData *mythos);

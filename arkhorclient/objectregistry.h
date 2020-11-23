@@ -31,26 +31,26 @@ public:
     QList<FieldDescription> getFieldDescriptions() const { return m_fieldDescs.values(); }
     FieldDescription getFieldDescription(AH::Common::FieldData::FieldID id) const { return m_fieldDescs.value(id); }
 
-    void setThisCharacterId(QString id);
+    void setThisCharacterId(const QString &id);
     void setThisPlayerId(QString id) { m_thisPlayerId = id; }
 
     AH::Common::CharacterData thisCharacter() const { return m_thisCharacter; }
     QString thisCharacterId() const { return m_thisCharacterId; }
     QString thisPlayerId() const { return m_thisPlayerId; }
 
-    bool hasObject(QString id);
-    AH::Common::DescribeObjectsData getObjects(AH::Common::RequestObjectsData reqs);
-    AH::Common::DescribeObjectsData getObjectsBlocking(AH::Common::RequestObjectsData reqs);
-    AH::Common::DescribeObjectsData::ObjectDescription getObject(QString id, AH::Common::RequestObjectsData::ObjectType type = AH::Common::RequestObjectsData::Unknown);
+    bool hasObject(const QString &id);
+    AH::Common::DescribeObjectsData getObjects(const AH::Common::RequestObjectsData &reqs);
+    AH::Common::DescribeObjectsData getObjectsBlocking(const AH::Common::RequestObjectsData &reqs);
+    AH::Common::DescribeObjectsData::ObjectDescription getObject(const QString &id, AH::Common::RequestObjectsData::ObjectType type = AH::Common::RequestObjectsData::Unknown);
     template<typename T>
     T getObject(QString id);
 
-    void asyncSubscribeObject(AsyncObjectReceiver *recv, QString id, AH::Common::RequestObjectsData::ObjectType type = AH::Common::RequestObjectsData::Unknown);
-    void asyncGetObject(AsyncObjectReceiver *recv, QString id, AH::Common::RequestObjectsData::ObjectType type = AH::Common::RequestObjectsData::Unknown);
+    void asyncSubscribeObject(AsyncObjectReceiver *recv, const QString &id, AH::Common::RequestObjectsData::ObjectType type = AH::Common::RequestObjectsData::Unknown);
+    void asyncGetObject(AsyncObjectReceiver *recv, const QString &id, AH::Common::RequestObjectsData::ObjectType type = AH::Common::RequestObjectsData::Unknown);
     void unsubscribe(AsyncObjectReceiver *recv);
-    void unsubscribe(AsyncObjectReceiver *recv, QString id);
+    void unsubscribe(AsyncObjectReceiver *recv, const QString &id);
 
-    AH::Common::DescribeObjectsData getObjectsOfType(QStringList ids, AH::Common::RequestObjectsData::ObjectType type);
+    AH::Common::DescribeObjectsData getObjectsOfType(const QStringList &ids, AH::Common::RequestObjectsData::ObjectType type);
 
     AH::Common::DescribeObjectsData::ObjectDescription getTempObject();
     bool hasTempObject();
@@ -58,21 +58,21 @@ public:
 signals:
     void objectDescribed(AH::Common::DescribeObjectsData::ObjectDescription desc);
     void thisCharacterUpdated(AH::Common::CharacterData character);
-    void boardDescriptionUpdated(QList<FieldDescription> desc);
+    void boardDescriptionUpdated(QList<ObjectRegistry::FieldDescription> desc);
 
 private slots:
     void receivedBoardDescription(QVariantMap board, QVariantMap desc);
     void receivedBoardUpdate(QVariantMap board);
-    void receivedDescriptions(AH::Common::DescribeObjectsData descs);
-    void receivedInvalidations(QStringList lst);
+    void receivedDescriptions(const AH::Common::DescribeObjectsData &descs);
+    void receivedInvalidations(const QStringList &lst);
     void receivedTypeInvalidation(AH::Common::RequestObjectsData::ObjectType type);
-    void updateCharacter(AH::Common::CharacterData character);
-    void receivedMonsters(QList<AH::Common::MonsterData> monsters);
+    void updateCharacter(const AH::Common::CharacterData &character);
+    void receivedMonsters(const QList<AH::Common::MonsterData> &monsters);
     void setTempData(const QString &data);
     void clearTempData();
 
 private:
-    AH::Common::DescribeObjectsData doGetObjects(AH::Common::RequestObjectsData requests, AH::Common::RequestObjectsData &pending);
+    AH::Common::DescribeObjectsData doGetObjects(const AH::Common::RequestObjectsData &requests, AH::Common::RequestObjectsData &pending);
 
 private:
     ObjectRegistry();

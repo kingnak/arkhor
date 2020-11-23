@@ -36,7 +36,7 @@ public:
 
     AH::Common::FieldData::FieldID id() const { return m_id; }
 
-    QRectF boundingRect() const;
+    QRectF boundingRect() const override;
 
     void setFieldRect(QRectF r);
     void setFieldExtent(QSizeF s);
@@ -45,23 +45,23 @@ public:
 
     bool isLocked() const { return m_locked; }
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
     void initSubItems();
 
-    void updateFromData(AH::Common::GameFieldData data);
+    void updateFromData(const AH::Common::GameFieldData &data);
 
     static QFont getItemFont(int pxSize = 24, bool bold = true);
-    void animateGateAppear(QString id);
+    void animateGateAppear(const QString &id);
     void animateGateDisappear();
-    void animateGateOpen(QString id);
+    void animateGateOpen(const QString &id);
 
-    void animateMonsterAppear(AH::Common::MonsterData m);
-    void animateMonsterDisappear(AH::Common::MonsterData m);
-    void animateMonsterMove(AH::Common::MonsterData m, QList<AH::Common::FieldData::FieldID> path);
-    void animateMultipleMonsterDisappear(QStringList ids);
+    void animateMonsterAppear(const AH::Common::MonsterData &m);
+    void animateMonsterDisappear(const AH::Common::MonsterData &m);
+    void animateMonsterMove(const AH::Common::MonsterData &m, QList<AH::Common::FieldData::FieldID> path);
+    void animateMultipleMonsterDisappear(const QStringList &ids);
 
-    void animateCharacterMove(AH::Common::CharacterData c, QList<AH::Common::FieldData::FieldID> path);
+    void animateCharacterMove(const AH::Common::CharacterData &c, QList<AH::Common::FieldData::FieldID> path);
 
     void animateFieldStateChange(AH::Common::GameBoardChangeData::FieldChange change);
 
@@ -90,9 +90,9 @@ private:
     void runAnimation(const QVariant &start, const QVariant &end, int duration, std::function<void(const QVariant &)> update);
     void runAnimation(QAbstractAnimation *anim);
 
-    QGraphicsPixmapItem *createOverlayMonster(AH::Common::MonsterData m);
+    QGraphicsPixmapItem *createOverlayMonster(const AH::Common::MonsterData &m);
     QPointF getMonstersGlobalPos();
-    QGraphicsPixmapItem *createOverlayCharacter(AH::Common::CharacterData c, bool secondField = false);
+    QGraphicsPixmapItem *createOverlayCharacter(const AH::Common::CharacterData &c, bool secondField = false);
     QPointF getCharacterGlobalPos(bool secondField = false);
 
 private:
@@ -136,10 +136,10 @@ public:
     void setNoHighlight(bool noHighlight);
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
 
 private:
     void updateColor();
@@ -174,10 +174,10 @@ public:
     GateItem(QRectF rect, AhFieldItem *parent);
 
     QString gateId() const { return m_gateId; }
-    void setGateId(const QString id);
+    void setGateId(const QString &id);
     void unsetGate() { setGateId(QString::null); }
 
-    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);

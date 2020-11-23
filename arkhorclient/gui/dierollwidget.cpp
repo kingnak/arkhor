@@ -11,10 +11,11 @@
 
 using namespace AH::Common;
 
-DieRollWidget::DieRollWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::DieRollWidget),
-    m_fixedCount(0)
+DieRollWidget::DieRollWidget(QWidget *parent)
+    : QWidget(parent)
+    , m_clueBurnFactor(1)
+    , m_fixedCount(0)
+    , ui(new Ui::DieRollWidget)
 {
     ui->setupUi(this);
     ui->wgtDice->setLayout(new QGridLayout);
@@ -81,7 +82,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     ui->scrlMods->setModifiers(mods, false);
 
     // Display options in modifiers
-    for (auto d : data.dieRollOptions()) {
+    for (const auto &d : data.dieRollOptions()) {
         QString id = d.sourceId;
         QString name = id;
         if (ObjectRegistry::instance()->hasObject(id)) {
@@ -113,7 +114,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     cleanOptions();
     // Spacing
     static_cast<QBoxLayout*>(ui->wgtDieRollOpts->layout())->addStretch(1);
-    for (auto opt : data.dieRollOptions()) {
+    for (const auto &opt : data.dieRollOptions()) {
         QPushButton *btn = new QPushButton(opt.desc);
         btn->setProperty(PROPERTY_OPTION_ID, opt.id);
         connect(btn, SIGNAL(clicked()), this, SLOT(reRollOptionClicked()));
@@ -121,7 +122,7 @@ void DieRollWidget::displayDieRoll(AH::Common::DieRollTestData data)
     }
 }
 
-void DieRollWidget::displayDice(QList<quint32> values, int initialCount, int additional)
+void DieRollWidget::displayDice(const QList<quint32> &values, int initialCount, int additional)
 {
     bool hasUnrolled = values.count(0) > 0;
     cleanDice();
@@ -163,7 +164,7 @@ void DieRollWidget::on_spnClueBurn_valueChanged(int ct)
     displayDice(m_fixedValues, m_fixedCount, ct*m_clueBurnFactor);
 }
 
-void DieRollWidget::requestObject(QString id)
+void DieRollWidget::requestObject(const QString &id)
 {
     //QString id = sender()->property(PROPERTY_MODIFIER_ID).toString();
     if (!id.isEmpty())
@@ -187,7 +188,7 @@ void DieRollWidget::cleanDice()
     QLayout *l = ui->wgtDice->layout();
     if (l) {
         QLayoutItem *child;
-        while ((child = l->takeAt(0)) != 0) {
+        while ((child = l->takeAt(0)) != nullptr) {
             delete child;
         }
     }
@@ -212,7 +213,7 @@ void DieRollWidget::cleanOptions()
     QLayout *l = ui->wgtDieRollOpts->layout();
     if (l) {
         QLayoutItem *child;
-        while ((child = l->takeAt(0)) != 0) {
+        while ((child = l->takeAt(0)) != nullptr) {
             delete child;
         }
     }

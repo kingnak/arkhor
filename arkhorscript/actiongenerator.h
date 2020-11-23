@@ -10,7 +10,7 @@ class ActionGenerator : public ClassGenerator
 public:
     ActionGenerator(QTextStream &out) : ClassGenerator(out) {}
 
-    virtual bool generate(const ClassDef &cls);
+    bool generate(const ClassDef &cls) override;
 
 protected:
     //virtual bool allowNested(const ClassDef &cls) const { Q_UNUSED(cls); return true; }
@@ -18,8 +18,8 @@ protected:
     void outputCreateActionStart(const ClassDef &cls);
     void outputRegisterAction(const ClassDef &cls);
 
-    virtual QList<AttributeDesc> getAttributes();
-    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
+    QList<AttributeDesc> getAttributes() override;
+    bool outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr) override;
 };
 
 }

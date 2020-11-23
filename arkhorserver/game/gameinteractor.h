@@ -52,7 +52,7 @@ public:
     virtual AH::Common::ChoiceResponseData offerChoice(AH::Common::ChoiceData choice) = 0;
 
     virtual AH::Common::TradeData offerTrade(AH::Common::TradeData trade) = 0;
-    virtual void tradeCanceled(QString name) = 0;
+    virtual void tradeCanceled(const QString &name) = 0;
 };
 
 #endif // GAMEINTERACTOR_H

@@ -17,7 +17,7 @@ class MovementChooser : public QWidget
 
 public:
     explicit MovementChooser(QWidget *parent = 0);
-    ~MovementChooser();
+    ~MovementChooser() override;
 
     void setBoard(AhBoardScene *scene, AhGraphicsView *view);
 

@@ -11,49 +11,49 @@ class BroadcastNotifier : public QObject, public GameNotifier
 public:
     BroadcastNotifier();
 
-    virtual void init(Game *game);
+    void init(Game *game) override;
 
-    virtual void gameStarted();
-    virtual void startGame();
+    void gameStarted() override;
+    void startGame() override;
 
-    virtual void sendBoard(GameBoard *board, AH::Common::GameBoardChangeData changes);
-    virtual void sendBoardDescription(GameBoard *board, QVariantMap descriptions);
-    virtual void sendCharacter(Character *c);
-    virtual void sendSetting(AH::Common::GameSettingData data);
+    void sendBoard(GameBoard *board, AH::Common::GameBoardChangeData changes) override;
+    void sendBoardDescription(GameBoard *board, QVariantMap descriptions) override;
+    void sendCharacter(Character *c) override;
+    void sendSetting(AH::Common::GameSettingData data) override;
 
-    virtual void playerRemoved(Player *p);
+    void playerRemoved(Player *p) override;
 
-    virtual void nextRound();
-    virtual void gamePhaseChanged(AH::GamePhase phase);
+    void nextRound() override;
+    void gamePhaseChanged(AH::GamePhase phase) override;
 
-    virtual void firstPlayerChanged(const Player *player);
-    virtual void currentPlayerChanged(const Player *player);
+    void firstPlayerChanged(const Player *player) override;
+    void currentPlayerChanged(const Player *player) override;
 
-    virtual void actionStart(const GameAction *action, QString desc = QString::null);
-    virtual void actionUpdate(const GameAction *action, QString desc = QString::null);
-    virtual void actionFinish(const GameAction *action, QString desc = QString::null);
-    virtual void actionExecute(const GameAction *action, QString desc = QString::null);
+    void actionStart(const GameAction *action, QString desc = QString::null) override;
+    void actionUpdate(const GameAction *action, QString desc = QString::null) override;
+    void actionFinish(const GameAction *action, QString desc = QString::null) override;
+    void actionExecute(const GameAction *action, QString desc = QString::null) override;
 
-    virtual void objectsInvalidated(QStringList ids);
-    virtual void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type);
-    virtual void setTempData(const QString &data);
-    virtual void clearTempData();
+    void objectsInvalidated(QStringList ids) override;
+    void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type) override;
+    void setTempData(const QString &data) override;
+    void clearTempData() override;
 
-    virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer = NULL);
-    virtual bool acknowledgeMonsterMovement(Monster *m, QObject *observer = NULL);
-    virtual void abortAcknowledge();
+    bool acknowledgeMythos(const MythosCard *m, QObject *observer = NULL) override;
+    bool acknowledgeMonsterMovement(Monster *m, QObject *observer = NULL) override;
+    void abortAcknowledge() override;
 
-    virtual void notifySimple(const QString &str, Player *p, const QString &desc = QString::null);
-    virtual void notifyAlert(const QString &msg, Player *p, const QString &desc = QString::null);
-    virtual void notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc = QString::null);
-    virtual void notifyWon(QString msg);
-    virtual void notifyLost(QString msg);
-    virtual void notifyDied(Player *p);
+    void notifySimple(const QString &str, Player *p, const QString &desc = QString::null) override;
+    void notifyAlert(const QString &msg, Player *p, const QString &desc = QString::null) override;
+    void notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc = QString::null) override;
+    void notifyWon(QString msg) override;
+    void notifyLost(QString msg) override;
+    void notifyDied(Player *p) override;
 
-    virtual bool event(QEvent *eve);
+    bool event(QEvent *eve) override;
 
 private:
-    bool doAcknowledge(std::function<bool(GameNotifier*)> func);
+    bool doAcknowledge(std::function<bool(GameNotifier *)> func);
 
 private:
     Game *m_game;

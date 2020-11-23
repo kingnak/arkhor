@@ -131,7 +131,7 @@ void Monster::move(AH::MovementDirection dir)
         if (curField->type() == AH::Common::FieldData::Sky) {
             checkFields = gGame->board()->fields(AH::Common::FieldData::Street);
         } else {
-            for (auto f : curField->neighbours().toList()) {
+            for (auto f : curField->neighbours()) {
                 if (f->type() == AH::Common::FieldData::Street) {
                     checkFields << f;
                 }

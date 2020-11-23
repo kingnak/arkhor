@@ -51,7 +51,7 @@ QList<ClassGenerator::AttributeDesc> InvestigatorGenerator::getAttributes()
                ;
 }
 
-bool InvestigatorGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr)
+bool InvestigatorGenerator::outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr)
 {
     if (desc.name == "homeFieldId") {
         return outputEnumValue("Constants.Fields", attr, cls);
@@ -88,11 +88,11 @@ bool InvestigatorGenerator::outputSpecialAttribute(AttributeDesc desc, const Cla
     return false;
 }
 
-bool InvestigatorGenerator::outputRandomPossesions(QString v)
+bool InvestigatorGenerator::outputRandomPossesions(const QString &v)
 {
     QStringList poss = v.split(',', QString::SkipEmptyParts);
     bool first = true;
-    for (auto itm : poss) {
+    for (const auto &itm : poss) {
         if (first)
             m_out << "[ ";
         else
@@ -101,8 +101,8 @@ bool InvestigatorGenerator::outputRandomPossesions(QString v)
         QStringList parts = itm.trimmed().split(' ', QString::SkipEmptyParts);
         QString n = parts.value(0);
         parts.pop_front();
-        QString v = parts.join(" ");
-        m_out << "{ type: Constants.ObjectType." << n << ", amount: " << v << " }";
+        QString val = parts.join(" ");
+        m_out << "{ type: Constants.ObjectType." << n << ", amount: " << val << " }";
     }
     if (!first)
         m_out << " ]";
@@ -113,12 +113,12 @@ bool InvestigatorGenerator::outputInvAttributes(QString v, const ClassDef &cls)
 {
     //peedSneak {(1,4), (2,3), (3,4), (4,1)},
 
-    typedef QPair<int,int> IntPair;
-    typedef QList<IntPair> IntPairList;
+    using IntPair = QPair<int,int>;
+    using IntPairList = QList<IntPair>;
     QMap<QString, IntPairList> attrDefs;
 
     v = v.trimmed();
-    QRegExp rx("\\s*(\\S+)\\s+\\{([\\(\\)\\d\\s,]+)\\}\\s*,?\\s*");
+    QRegExp rx(R"(\s*(\S+)\s+\{([\(\)\d\s,]+)\}\s*,?\s*)");
     int pos = 0;
     for (int i = 0; i < 3; ++i) {
         pos = rx.indexIn(v, pos);
@@ -134,7 +134,7 @@ bool InvestigatorGenerator::outputInvAttributes(QString v, const ClassDef &cls)
         pos += rx.matchedLength();
 
         IntPairList attrVals;
-        QRegExp rx2("\\s*\\(\\s*(\\d+)\\s*,\\s*(\\d+)\\s*\\)\\s*,?\\s*");
+        QRegExp rx2(R"(\s*\(\s*(\d+)\s*,\s*(\d+)\s*\)\s*,?\s*)");
         int pos2 = 0;
         while ((pos2 = rx2.indexIn(attrs, pos2)) >= 0) {
             int v1 = rx2.cap(1).toInt();
@@ -158,7 +158,7 @@ bool InvestigatorGenerator::outputInvAttributes(QString v, const ClassDef &cls)
 
     m_out << '{';
     bool firstL = true;
-    for (auto a : attrDefs.keys()) {
+    for (const auto &a : attrDefs.keys()) {
         if (!firstL) m_out << ',';
         firstL = false;
 

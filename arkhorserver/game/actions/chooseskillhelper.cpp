@@ -4,7 +4,7 @@
 #include "game/player.h"
 
 
-AH::Skill ChooseSkillHelper::chooseSkill(Player *p, QList<AH::Skill> options)
+AH::Skill ChooseSkillHelper::chooseSkill(Player *p, const QList<AH::Skill> &options)
 {
     QList<AH::Common::ModifiedPropertyValueData> opts;
 
@@ -18,7 +18,7 @@ AH::Skill ChooseSkillHelper::chooseSkill(Player *p, QList<AH::Skill> options)
     return s;
 }
 
-AH::Skill ChooseSkillHelper::chooseSkillDieRoll(Player *p, QList<AH::Skill> options)
+AH::Skill ChooseSkillHelper::chooseSkillDieRoll(Player *p, const QList<AH::Skill> &options)
 {
     QList<AH::Common::ModifiedPropertyValueData> opts;
 

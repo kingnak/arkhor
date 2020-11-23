@@ -3,7 +3,11 @@
 namespace AH { namespace Common {
 
 AncientOneData::AncientOneData()
-    : m_defenses(0), m_doomTrack(0), m_doomValue(0), m_combatAdjustment(0), m_attackAdjustment(0)
+    : m_defenses(0)
+    , m_doomTrack(0)
+    , m_doomValue(0)
+    , m_combatAdjustment(0)
+    , m_attackAdjustment(0)
 {
 }
 

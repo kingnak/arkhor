@@ -51,7 +51,7 @@ QList<ClassGenerator::AttributeDesc> ObjectGenerator::getAttributes()
                ;
 }
 
-bool ObjectGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+bool ObjectGenerator::outputDefaultAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls)
 {
     /*
     // activated by some
@@ -69,7 +69,7 @@ QString ObjectGenerator::getObjectTypeName(const ClassGenerator::ClassDef &cls) 
     return cls.elemType;
 }
 
-bool ObjectGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls, const ClassGenerator::AttrDef &attr)
+bool ObjectGenerator::outputSpecialAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls, const ClassGenerator::AttrDef &attr)
 {
     if (desc.name == "type") {
         m_out << "Constants.ObjectType."+getObjectTypeName(cls);

@@ -25,7 +25,7 @@ public:
     DiePool &operator = (const DiePool &o);
     ~DiePool();
 
-    static DiePool createDiePool(QList<StandardDieSpec> spec);
+    static DiePool createDiePool(const QList<StandardDieSpec> &spec);
 
     /**
      * @brief addDie Adds a unrolled die
@@ -34,7 +34,7 @@ public:
      */
     DiePoolIndex addDie(Die *d);
 
-    QList<DiePoolIndex> addDice(QList<StandardDieSpec> spec);
+    QList<DiePoolIndex> addDice(const QList<StandardDieSpec> &spec);
 
     /**
      * @brief roll Rolls all unrolled dice

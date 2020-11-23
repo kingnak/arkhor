@@ -7,13 +7,13 @@ class UnlockAction : public GameAction
 {
 public:
     UnlockAction();
-    virtual AH::GamePhases phases() const;
-    virtual bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    AH::GamePhases phases() const override;
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    QString id() const { return "AC_UNLOCK"; }
-    virtual QString name() const { return "Unlock"; }
-    virtual QString description() const { return ""; }
+    QString id() const override { return "AC_UNLOCK"; }
+    QString name() const override { return "Unlock"; }
+    QString description() const override { return ""; }
 };
 
 #endif // UNLOCKACTION_H

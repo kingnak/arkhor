@@ -9,15 +9,15 @@ class CloseGateAction : public GameAction
 public:
     CloseGateAction();
 
-    QString id() const { return "AC_CLOSE_GATE"; }
+    QString id() const override { return "AC_CLOSE_GATE"; }
 
-    virtual AH::GamePhases phases() const { return AH::ArkhamEncountery; }
+    AH::GamePhases phases() const override { return AH::ArkhamEncountery; }
 
-    virtual bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    virtual QString name() const;
-    virtual QString description() const { return ""; }
+    QString name() const override;
+    QString description() const override { return ""; }
 
 private:
     bool m_bSeal;
@@ -33,12 +33,12 @@ public:
         : GameOption(&ca, AH::CannotContinue, AH::ChooseSupplemental, AH::ArkhamEncountery)
     {}
 
-    QString id() const { return "OP_CLOSE_GATE"; }
-    QString sourceId() const;
-    virtual QString name() const { return "Close Gate"; }
+    QString id() const override { return "OP_CLOSE_GATE"; }
+    QString sourceId() const override;
+    QString name() const override { return "Close Gate"; }
 
-    virtual bool isAvailable() const;
-    virtual bool execute();
+    bool isAvailable() const override;
+    bool execute() override;
 
 private:
     CloseGateAction ca;
@@ -51,15 +51,15 @@ public:
         : GameOption(&ca, AH::CannotContinue, AH::ChooseSupplemental, AH::ArkhamEncountery)
     {}
 
-    QString name() const { return "Seal Gate"; }
-    QString id() const { return "OP_SEAL_GATE"; }
+    QString name() const override { return "Seal Gate"; }
+    QString id() const override { return "OP_SEAL_GATE"; }
 
-    QString sourceId() const;
+    QString sourceId() const override;
 
-    AH::Common::Cost costs() const;
+    AH::Common::Cost costs() const override;
 
-    virtual bool isAvailable() const;
-    virtual bool execute();
+    bool isAvailable() const override;
+    bool execute() override;
 
 private:
     CloseGateAction ca;

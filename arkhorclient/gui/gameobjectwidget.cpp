@@ -57,17 +57,17 @@ void GameObjectWidget::updateGameObject(const AH::Common::GameObjectData *obj)
         }
         QString desc = obj->description();
         QStringList props;
-        for (auto dp : obj->dynamicProperties()) {
+        for (const auto &dp : obj->dynamicProperties()) {
             QString s = QString("%1: %2").arg(dp.name(), dp.display());
             props << s;
         }
-        if (props.size() > 0) {
+        if (!props.empty()) {
             desc += "\n\n" + props.join("\n");
         }
         ui->lblDesc->setText(desc);
 
         QStringList l;
-        for (auto mod : obj->getModificationData()) {
+        for (const auto &mod : obj->getModificationData()) {
             l << Utils::stringForPropertyModification(mod);
         }
         ui->lblModifications->setText(l.join("\n"));

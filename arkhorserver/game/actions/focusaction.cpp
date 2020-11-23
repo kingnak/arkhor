@@ -3,9 +3,7 @@
 #include "character.h"
 #include "../player.h"
 
-FocusAction::FocusAction()
-{
-}
+FocusAction::FocusAction() = default;
 
 bool FocusAction::execute()
 {

@@ -18,12 +18,12 @@ public:
     virtual GameObject *clone() = 0;
 
     GameObject() : m_owner(NULL), m_isInfinite(false), m_preventedDamage(false) {}
-    virtual ~GameObject() {}
+    ~GameObject() override {}
 
     Character *owner() const { return m_owner; }
     void setOwner(Character *c) { m_owner = c; }
 
-    virtual QString modifierId() const { return id(); }
+    QString modifierId() const override { return id(); }
 
     virtual void exhaust();
     virtual void refresh();
@@ -38,8 +38,8 @@ public:
     virtual QList<GameAction *> getActions() const = 0;
     virtual QList<GameOption *> getOptions() const = 0;
 
-    virtual QStringList actionIds() const;
-    virtual QStringList optionIds() const;
+    QStringList actionIds() const override;
+    QStringList optionIds() const override;
 
     virtual bool resolveDependencies(GameRegistry *game) = 0;
     virtual bool isFightObject();
@@ -52,7 +52,7 @@ public:
     // For spells
     virtual bool cast(Player *p) = 0;
 
-    virtual QList<AH::Common::PropertyModificationData> getModificationData() const;
+    QList<AH::Common::PropertyModificationData> getModificationData() const override;
 
     //virtual PropertyModificationList getModifications() const = 0;
 

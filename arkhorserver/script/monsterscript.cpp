@@ -12,7 +12,8 @@ QReadWriteLock MonsterScript::s_attrFunctionLock;
 QReadWriteLock MonsterScript::s_modFunctionLock;
 
 MonsterScript::MonsterScript(QObject *parent)
-    : QObject(parent), m_oldDynAttrs(0)
+    : QObject(parent)
+    , m_oldDynAttrs(0)
 {
     m_fieldBridge = new GameFieldScript(this);
 }
@@ -56,7 +57,7 @@ MonsterScript *MonsterScript::createMonster(QScriptContext *ctx, QScriptEngine *
     Q_UNUSED(eng);
     if (ctx->argumentCount() != 1 || !ctx->argument(0).isObject()) {
         ctx->throwError(QScriptContext::TypeError, "createMonster: Must call with 1 object");
-        return NULL;
+        return nullptr;
     }
 
     QScopedPointer<MonsterScript> ret(new MonsterScript);
@@ -95,7 +96,7 @@ MonsterScript *MonsterScript::createMonster(QScriptContext *ctx, QScriptEngine *
     QString err;
     if (!verify(ret.data(), &err)) {
         ctx->throwError(QScriptContext::TypeError, "createMonster: Invalid Monster data. Errors:\n"+err);
-        return NULL;
+        return nullptr;
     }
 
     MonsterScript *pRet = ret.take();

@@ -4,10 +4,10 @@
 #include "game/player.h"
 #include <choicedata.h>
 
-bool ChoiceHelper::choosePayment(Character *c, AH::Common::Cost options, AH::Common::CostList &selected, const QString &sourceId, const QString &description)
+bool ChoiceHelper::choosePayment(Character *c, const AH::Common::Cost &options, AH::Common::CostList &selected, const QString &sourceId, const QString &description)
 {
     selected.clear();
-    if (options.getAlternatives().size() == 0) {
+    if (options.getAlternatives().empty()) {
         return true;
     }
     if (options.getAlternatives().size() == 1) {
@@ -17,7 +17,7 @@ bool ChoiceHelper::choosePayment(Character *c, AH::Common::Cost options, AH::Com
 
     // Remove unpayable options
     AH::Common::Cost realOptions;
-    for (auto l : options.getAlternatives()) {
+    for (const auto &l : options.getAlternatives()) {
         if (c->canPay(l)) {
             realOptions.addAlternative(l);
         }

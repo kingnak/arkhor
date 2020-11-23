@@ -11,9 +11,8 @@ public:
 
     int dieValue() const { return m_val; }
 
-    QSize sizeHint() const { return minimumSizeHint(); }
-    QSize minimumSizeHint() const;
-    QSizePolicy sizePolicy() const;
+    QSize sizeHint() const override { return minimumSizeHint(); }
+    QSize minimumSizeHint() const override;
 
 signals:
 
@@ -22,7 +21,7 @@ public slots:
     void setSuccess(bool success);
 
 protected:
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     void updateImage();

@@ -6,7 +6,7 @@
 #include <QDebug>
 
 OtherWorldEncounterScript::OtherWorldEncounterScript(QObject *parent) :
-    QObject(parent), OtherWorldEncounter()
+    QObject(parent)
 {
 }
 
@@ -18,8 +18,8 @@ QList<GameOption *> OtherWorldEncounterScript::options() const
 bool OtherWorldEncounterScript::resolveDependencies(GameRegistry *reg)
 {
     bool ok = true;
-    for (auto id : m_opts.keys()) {
-        if (m_opts[id] == NULL) {
+    for (const auto &id : m_opts.keys()) {
+        if (m_opts[id] == nullptr) {
             GameOption *op = reg->findOptionById(id);
             if (op) {
                 m_opts[id] = op;
@@ -37,7 +37,7 @@ OtherWorldEncounterScript *OtherWorldEncounterScript::createEncounter(QScriptCon
     Q_UNUSED(eng);
     if (ctx->argumentCount() != 1 || !ctx->argument(0).isObject()) {
         ctx->throwError(QScriptContext::TypeError, "createEncounter: Must call with 1 object");
-        return NULL;
+        return nullptr;
     }
 
     QScopedPointer<OtherWorldEncounterScript> ret(new OtherWorldEncounterScript);
@@ -50,8 +50,8 @@ OtherWorldEncounterScript *OtherWorldEncounterScript::createEncounter(QScriptCon
     ret->m_fieldId = static_cast<AH::Common::FieldData::FieldID> (data.property("field").toUInt32());
     ret->m_description = data.property("description").toString();
     ret->m_optionIds = GameScript::array2stringlist(data.property("options"));
-    for (auto id : ret->m_optionIds) {
-        ret->m_opts[id] = NULL;
+    for (const auto &id : ret->m_optionIds) {
+        ret->m_opts[id] = nullptr;
     }
 
     ret->m_color = static_cast<AH::OtherWorldColor> (data.property("color").toUInt32());
@@ -59,7 +59,7 @@ OtherWorldEncounterScript *OtherWorldEncounterScript::createEncounter(QScriptCon
     QString err;
     if (!verify(ret.data(), &err)) {
         ctx->throwError(QScriptContext::TypeError, "createEncounter: Invalid Encounter data. Errors:\n"+err);
-        return NULL;
+        return nullptr;
     }
 
     OtherWorldEncounterScript *pRet = ret.take();

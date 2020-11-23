@@ -4,7 +4,7 @@
 #include <QStringList>
 
 DieRollTest::DieRollTest()
-    : m_eval(NULL)
+    : m_eval(nullptr)
 {
 
 }
@@ -19,7 +19,7 @@ DieRollTest *DieRollTest::parse(const QString &spec)
     DieRollTest *ret = new DieRollTest;
     // Format "(1)d(6){(4,5,6)}[(1)]?(>)?"
 
-    QRegExp rx("(\\d+)d(\\d+)\\{(\\d+(?:,\\d+)*)\\}(?:\\[(\\d+)\\])?(>|<|>=|<=|=)?");
+    QRegExp rx(R"((\d+)d(\d+)\{(\d+(?:,\d+)*)\}(?:\[(\d+)\])?(>|<|>=|<=|=)?)");
     if (rx.exactMatch(spec)) {
         quint8 count = rx.cap(1).toUInt();
         quint32 type = rx.cap(2).toUInt();
@@ -39,7 +39,7 @@ DieRollTest *DieRollTest::parse(const QString &spec)
         }
 
         QSet<quint32> successes;
-        for (auto s : successList.split(',')) {
+        for (const auto &s : successList.split(',')) {
             successes << s.toUInt();
         }
 

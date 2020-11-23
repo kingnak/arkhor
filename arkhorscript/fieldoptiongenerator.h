@@ -10,12 +10,12 @@ class FieldOptionGenerator : public QuickOptionGenerator
 public:
     FieldOptionGenerator(QTextStream &out) : QuickOptionGenerator(out) {}
 
-    virtual bool generate(const ClassDef &cls);
+    bool generate(const ClassDef &cls) override;
 
 protected:
-    virtual QList<AttributeDesc> getAttributes();
-    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
-    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
+    QList<AttributeDesc> getAttributes() override;
+    bool outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr) override;
+    bool outputDefaultAttribute(const AttributeDesc &desc, const ClassDef &cls) override;
 
 private:
     QString m_field;

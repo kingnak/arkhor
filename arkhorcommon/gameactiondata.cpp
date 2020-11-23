@@ -3,9 +3,7 @@
 
 namespace AH { namespace Common {
 
-GameActionData::GameActionData()
-{
-}
+GameActionData::GameActionData() = default;
 
 void operator <<(QVariant &data, const GameActionData &target)
 {

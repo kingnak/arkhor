@@ -13,7 +13,7 @@ namespace AH {
             Q_OBJECT
         public:
             explicit CleanupThread(QObject *parent = 0);
-            ~CleanupThread();
+            ~CleanupThread() override;
 
             void registerCleanupMethod(QObject *obj, const char *slot);
 

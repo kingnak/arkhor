@@ -8,7 +8,7 @@ class AncientOneAttackPhase : public GamePhase
 public:
     AncientOneAttackPhase(Game *g);
 
-    void execute();
+    void execute() override;
 
 private:
     bool m_firstRound;

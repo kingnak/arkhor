@@ -34,8 +34,8 @@ public:
     ArkhorScriptLexer(QIODevice *input);
     ~ArkhorScriptLexer();
 
-    const Symbol nextSymbol();
-    const Symbol currentSymbol() const;
+    Symbol nextSymbol();
+    Symbol currentSymbol() const;
     bool error() const { return m_symbol.type == Symbol::Error; }
 
 private:

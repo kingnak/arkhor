@@ -32,25 +32,25 @@ bool ClassGenerator::fixClass(ClassGenerator::ClassDef &cls)
     return true;
 }
 
-bool ClassGenerator::setError(QString err)
+bool ClassGenerator::setError(const QString &err)
 {
     m_err += err+"\n";
     return false;
 }
 
-bool ClassGenerator::setError(QString err, const ClassDef &cls)
+bool ClassGenerator::setError(const QString &err, const ClassDef &cls)
 {
     m_err += err + QString(" in %2 %3").arg(cls.elemType, cls.elemName);
     return false;
 }
 
-bool ClassGenerator::setWarning(QString warn)
+bool ClassGenerator::setWarning(const QString &warn)
 {
     m_warn += warn+"\n";
     return false;
 }
 
-bool ClassGenerator::setWarning(QString warn, const ClassDef &cls)
+bool ClassGenerator::setWarning(const QString &warn, const ClassDef &cls)
 {
     m_warn += warn + QString(" in %2 %3").arg(cls.elemType, cls.elemName);
     return false;
@@ -139,23 +139,23 @@ QString ClassGenerator::constantScopeForClass(const QString &classType)
     return classType;
 }
 
-QString ClassGenerator::generateName(QString clsName)
+QString ClassGenerator::generateName(const QString &clsName)
 {
     QString name;
-    for (int i = 0; i < clsName.length(); ++i) {
-        if (clsName[i] == '_') {
+    for (auto c : clsName) {
+        if (c == '_') {
             name += ' ';
             continue;
         }
-        if (clsName[i].isUpper()) {
+        if (c.isUpper()) {
             name += ' ';
         }
-        name += clsName[i];
+        name += c;
     }
     return name.trimmed();
 }
 
-bool ClassGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+bool ClassGenerator::outputDefaultAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls)
 {
     switch (desc.handleType) {
     case AttributeDesc::H_ID:
@@ -176,7 +176,7 @@ void ClassGenerator::outputClassComment(const ClassDef &cls)
     m_out << "\n// Generated " << cls.elemType << " \"" << cls.elemName << "\"\n";
 }
 
-void ClassGenerator::outputCreateStart(QString type, const ClassDef &cls)
+void ClassGenerator::outputCreateStart(const QString &type, const ClassDef &cls)
 {
     m_out << "var " << getJSVariableName(cls) << " = game.create" << type << "({\n";
 }
@@ -190,7 +190,7 @@ bool ClassGenerator::outputAttributes(const ClassDef &cls)
 {
     QSet<QString> handled;
     bool first = true;
-    for (auto a : cls.attrs) {
+    for (const auto &a : cls.attrs) {
         if (!first) m_out << ",\n";
         first = false;
         if (!outputAttribute(cls, a, false))
@@ -200,7 +200,7 @@ bool ClassGenerator::outputAttributes(const ClassDef &cls)
 
     // Handle more: Default if not set, Predefined
     // Check required
-    for (auto a : getAttributes()) {
+    for (const auto &a : getAttributes()) {
         switch (a.reqType) {
         case AttributeDesc::R_INVALID:
             Q_ASSERT(false);
@@ -232,7 +232,7 @@ bool ClassGenerator::outputAttribute(const ClassDef &cls, const AttrDef &attr, b
     // Find definition
     AttributeDesc a;
     QList<AttributeDesc> attList = this->getAttributes();
-    for (auto x : attList) {
+    for (const auto &x : attList) {
         if (x.name == attr.name) {
             a = x;
             break;
@@ -311,13 +311,13 @@ void ClassGenerator::outputCreateEnd(const ClassDef &cls)
     m_out << "});\n";
 }
 
-void ClassGenerator::outputRegisterMulti(QString type, const ClassDef &cls)
+void ClassGenerator::outputRegisterMulti(const QString &type, const ClassDef &cls)
 {
     m_out << "game.register" << type << "(" << cls.elemMult << ", " << getJSVariableName(cls) << ");\n\n";
 }
 
 
-void ClassGenerator::outputRegisterSingle(QString type, const ClassDef &cls)
+void ClassGenerator::outputRegisterSingle(const QString &type, const ClassDef &cls)
 {
     m_out << "game.register" << type << "(" << getJSVariableName(cls) << ");\n\n";
 }
@@ -331,6 +331,7 @@ void ClassGenerator::outputRegisterConstant(const ClassGenerator::ClassDef &cls)
 
 bool ClassGenerator::outputPrimitive(const ClassGenerator::AttrDef &attr, const ClassGenerator::ClassDef &cls)
 {
+    Q_UNUSED(cls)
     Q_ASSERT(attr.type == AttrDef::Type::Primitive);
     m_out << attr.content.first;
     return true;
@@ -352,11 +353,11 @@ bool ClassGenerator::outputModifications(const AttrDef &attr, const ClassDef &cl
     }
 }
 
-bool ClassGenerator::doOutputModifications(QString mod)
+bool ClassGenerator::doOutputModifications(const QString &mod)
 {
     QStringList mods = mod.split(',', QString::SkipEmptyParts);
     bool first = true;
-    for (auto m : mods) {
+    for (const auto &m : mods) {
         if (first)
             m_out << "[ ";
         else
@@ -391,7 +392,7 @@ bool ClassGenerator::doOutputMonsterModifications(QString v, const ClassDef &cls
     bool first = true;
 
     v = v.trimmed();
-    QRegExp rx("\\s*(\\*|(?:Attribute \\.)?\\S+)\\s*\\{([^\\}]+)\\}\\s*,?\\s*");
+    QRegExp rx(R"(\s*(\*|(?:Attribute \.)?\S+)\s*\{([^\}]+)\}\s*,?\s*)");
     int pos = 0;
     int lastPos = -1;
     while ((pos = rx.indexIn(v, pos)) >= 0) {
@@ -445,7 +446,7 @@ bool ClassGenerator::doOutputMonsterMoveModifications(QString v, const ClassDef 
     bool first = true;
 
     v = v.trimmed();
-    QRegExp rx("\\s*((?:Type \\.)?\\S+)\\s+([^,\\s]+)\\s*,?\\s*");
+    QRegExp rx(R"(\s*((?:Type \.)?\S+)\s+([^,\s]+)\s*,?\s*)");
     int pos = 0;
     int lastPos = -1;
     while ((pos = rx.indexIn(v, pos)) >= 0) {
@@ -490,12 +491,12 @@ bool ClassGenerator::outputCosts(const ClassGenerator::AttrDef &attr, const Clas
     }
 }
 
-bool ClassGenerator::doOutputCosts(QString costs)
+bool ClassGenerator::doOutputCosts(const QString &costs)
 {
     QStringList lines = costs.split(',');
     m_out << "[ ";
     bool firstL = true;
-    for (auto line : lines) {
+    for (const auto &line : lines) {
         if (!firstL) m_out << ',';
         firstL = false;
         m_out << "\n\t\t";
@@ -503,15 +504,15 @@ bool ClassGenerator::doOutputCosts(QString costs)
         QStringList parts = line.split('+');
         m_out << "[ ";
         bool firstI = true;
-        for (auto itm : parts) {
+        for (const auto &itm : parts) {
             if (!firstI) m_out << ',';
             firstI = false;
             m_out << "\n\t\t\t";
 
-            QStringList parts = itm.trimmed().split(' ', QString::SkipEmptyParts);
-            QString n = parts.value(0);
-            parts.pop_front();
-            QString v = parts.join(" ");
+            QStringList items= itm.trimmed().split(' ', QString::SkipEmptyParts);
+            QString n = items.value(0);
+            items.pop_front();
+            QString v = items.join(" ");
             m_out << "{ type: Constants.Costs." << n << ", amount: " << v << " }";
         }
         m_out << "\n\t\t]";
@@ -548,7 +549,7 @@ bool ClassGenerator::outputIDRefArray(const AttrDef &attr, const ClassDef &cls)
         return setError(QString("'%1' must be IDRef or Literal or Array").arg(attr.name), cls);
     }
     bool first = true;
-    for (auto s : attr.array) {
+    for (const auto &s : attr.array) {
         if (s.first != ArkhorScriptParser::IDRef) {
             return setError(QString("Array values must be IDRefs for '%1'").arg(attr.name), cls);
         }
@@ -565,14 +566,14 @@ bool ClassGenerator::outputIDRefArray(const AttrDef &attr, const ClassDef &cls)
     return true;
 }
 
-bool ClassGenerator::doOutputIDRef(AttributeValue ref)
+bool ClassGenerator::doOutputIDRef(const AttributeValue &ref)
 {
     QStringList l = ref.first.split('.');
     m_out << '"' << idPrefixForClass(l.value(0)) << '_' << l.value(1) << '"';
     return true;
 }
 
-bool ClassGenerator::outputEnumValue(QString prefix, const AttrDef &attr, const ClassDef &cls)
+bool ClassGenerator::outputEnumValue(const QString &prefix, const AttrDef &attr, const ClassDef &cls)
 {
     if (attr.type == ArkhorScriptParser::EnumValue)
         m_out << prefix << '.' << attr.content.first;
@@ -583,7 +584,7 @@ bool ClassGenerator::outputEnumValue(QString prefix, const AttrDef &attr, const 
     return true;
 }
 
-bool ClassGenerator::outputEnumValueArray(QString prefix, const AttrDef &attr, const ClassDef &cls)
+bool ClassGenerator::outputEnumValueArray(const QString &prefix, const AttrDef &attr, const ClassDef &cls)
 {
     if (attr.type == ArkhorScriptParser::EnumValue || attr.type == ArkhorScriptParser::Literal) {
         return outputEnumValue(prefix, attr, cls);
@@ -592,7 +593,7 @@ bool ClassGenerator::outputEnumValueArray(QString prefix, const AttrDef &attr, c
         return setError(QString("'%1' must be EnumValue, Array or Literal").arg(attr.name), cls);
     }
     bool first = true;
-    for (auto s : attr.array) {
+    for (const auto &s : attr.array) {
         if (s.first != ArkhorScriptParser::EnumValue) {
             return setError(QString("Array element must be EnumValue in '%1'").arg(attr.name), cls);
         }
@@ -609,7 +610,7 @@ bool ClassGenerator::outputEnumValueArray(QString prefix, const AttrDef &attr, c
     return true;
 }
 
-bool ClassGenerator::outputFunction(const ClassGenerator::AttrDef &attr, const ClassGenerator::ClassDef &cls, QString params)
+bool ClassGenerator::outputFunction(const ClassGenerator::AttrDef &attr, const ClassGenerator::ClassDef &cls, const QString &params)
 {
     switch (attr.type) {
     case ArkhorScriptParser::Function:

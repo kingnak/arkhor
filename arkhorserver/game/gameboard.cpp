@@ -148,7 +148,7 @@ void GameBoard::init()
     addField(new GameField(AH::Common::FieldData::Sp_SpaceAndTime, "Lost in Space & Time", AH::Common::FieldData::SpaceAndTime));
 }
 
-bool GameBoard::validatePath(MovementPath p)
+bool GameBoard::validatePath(const MovementPath &p)
 {
     for (int i = 1; i < p.size(); ++i) {
         if (!p.at(i-1)->isConnectedTo(p.at(i))) {
@@ -188,16 +188,16 @@ QList<GameField *> GameBoard::allFields()
 AH::OtherWorldColors GameBoard::colorsForOtherWorld(AH::Common::FieldData::FieldID id) const
 {
     switch (id) {
-    case AH::Common::FieldData::OW_AnotherDimension: return AH::OtherWorldColors(AH::OWC_Red | AH::OWC_Green | AH::OWC_Blue | AH::OWC_Yellow);
-    case AH::Common::FieldData::OW_Abyss: return AH::OtherWorldColors(AH::OWC_Red | AH::OWC_Blue);
-    case AH::Common::FieldData::OW_CityOfGreatRace: return AH::OtherWorldColors(AH::OWC_Green | AH::OWC_Yellow);
-    case AH::Common::FieldData::OW_Yuggoth: return AH::OtherWorldColors(AH::OWC_Blue | AH::OWC_Yellow);
-    case AH::Common::FieldData::OW_Celeano: return AH::OtherWorldColors(AH::OWC_Blue | AH::OWC_Green);
-    case AH::Common::FieldData::OW_TheDreamlands: return AH::OtherWorldColors(AH::OWC_Red | AH::OWC_Green | AH::OWC_Blue | AH::OWC_Yellow);
-    case AH::Common::FieldData::OW_PlateauOfLeng: return AH::OtherWorldColors(AH::OWC_Red | AH::OWC_Green);
-    case AH::Common::FieldData::OW_R_lyeh: return AH::OtherWorldColors(AH::OWC_Red | AH::OWC_Yellow);
+    case AH::Common::FieldData::OW_AnotherDimension: return { AH::OWC_Red | AH::OWC_Green | AH::OWC_Blue | AH::OWC_Yellow };
+    case AH::Common::FieldData::OW_Abyss: return { AH::OWC_Red | AH::OWC_Blue };
+    case AH::Common::FieldData::OW_CityOfGreatRace: return { AH::OWC_Green | AH::OWC_Yellow };
+    case AH::Common::FieldData::OW_Yuggoth: return { AH::OWC_Blue | AH::OWC_Yellow };
+    case AH::Common::FieldData::OW_Celeano: return { AH::OWC_Blue | AH::OWC_Green };
+    case AH::Common::FieldData::OW_TheDreamlands: return { AH::OWC_Red | AH::OWC_Green | AH::OWC_Blue | AH::OWC_Yellow };
+    case AH::Common::FieldData::OW_PlateauOfLeng: return { AH::OWC_Red | AH::OWC_Green };
+    case AH::Common::FieldData::OW_R_lyeh: return { AH::OWC_Red | AH::OWC_Yellow };
     default:
-        return AH::OtherWorldColors(AH::OWC_NoColor);
+        return { AH::OWC_NoColor };
     }
 }
 
@@ -222,7 +222,7 @@ void GameBoard::updateCaches()
 
     m_boardMonsterCache.clear();
     m_gateCache.clear();
-    for (auto f : m_fields.values()) {
+    for (auto f : m_fields) {
         if (f->type() == AH::Common::FieldData::Location
                 || f->type() == AH::Common::FieldData::Street
                 || f->type() == AH::Common::FieldData::Sky)

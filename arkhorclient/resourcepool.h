@@ -13,16 +13,19 @@ class ResourcePool
 public:
     static ResourcePool *instance();
 
-    bool addDirectory(QString dir);
-    bool addZip(QString zip);
+    static const QColor StaminaColor;
+    static const QColor SanityColor;
+
+    bool addDirectory(const QString &dir);
+    bool addZip(const QString &zip);
 
     QPixmap loadMonster(QString id);
-    QPixmap loadCharacterFigure(QString id);
+    QPixmap loadCharacterFigure(const QString &id);
     QFont loadMainFont();
     QPixmap loadDimensionSymbol(AH::Dimension dim);
     QPixmap loadOtherWorldGate(AH::Common::FieldData::FieldID id);
-    QPixmap loadObjectImage(QString id, AH::GameObjectType type);
-    QPixmap loadAncientOne(QString id);
+    QPixmap loadObjectImage(const QString &id, AH::GameObjectType type);
+    QPixmap loadAncientOne(const QString &id);
 
 private:
     struct ResourceDef {
@@ -38,10 +41,10 @@ private:
     };
 
 private:
-    bool addEntry(QString e, ResourceDef d);
+    bool addEntry(const QString &e, const ResourceDef &d);
     QPair<QString, QString> getIdFromEntry(QString e);
     QByteArray intLoadResource(QString id, QString sub = QString::null);
-    QPixmap intLoadPixmap(QString id, QString sub = QString::null);
+    QPixmap intLoadPixmap(const QString &id, const QString &sub = QString::null);
 
     QMap<QString, QPixmap> m_pixmapCache;
     QMap<QString, QMap<QString, ResourceDef> > m_resPaths;

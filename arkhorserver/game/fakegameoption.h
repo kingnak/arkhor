@@ -7,18 +7,18 @@
 class FakeGameAction : public GameAction
 {
 public:
-    FakeGameAction(QString id, QString name, QString description);
+    FakeGameAction(const QString &id, const QString &name, const QString &description);
 
-    virtual bool execute() { return true; }
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const { return {}; }
+    bool execute() override { return true; }
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override { return {}; }
 
 };
 
 class FakeGameOption : public GameOption
 {
 public:
-    FakeGameOption(QString id, QString name, QString description);
-    bool isAvailable() const { return false; }
+    FakeGameOption(const QString &id, const QString &name, const QString &description);
+    bool isAvailable() const override { return false; }
 
 private:
     FakeGameAction fga;

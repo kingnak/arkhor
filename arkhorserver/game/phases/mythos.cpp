@@ -4,7 +4,8 @@
 #include "ancientone.h"
 
 Mythos::Mythos(Game *game)
-    : GamePhase(game), m_activeRumor(NULL)
+    : GamePhase(game)
+    , m_activeRumor(nullptr)
 {
     m_mythos = new MythosAction;
 }

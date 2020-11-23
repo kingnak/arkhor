@@ -16,7 +16,7 @@ public slots:
     QString getSelectedChoiceId() const;
 
 public slots:
-    void displayChoices(QString desc, QList<AH::Common::ChoiceData::OptionData> opts);
+    void displayChoices(const QString &desc, const QList<AH::Common::ChoiceData::OptionData> &opts);
     void clearChoices();
 
 signals:

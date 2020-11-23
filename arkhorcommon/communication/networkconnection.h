@@ -31,12 +31,12 @@ namespace AH {
             void close();
             void abort();
 
-            void sendMessage(const Message &msg);
-            void sendMessage(Message::Type type, const QVariant &payload);
+            void sendMessage(const AH::Common::Message &msg);
+            void sendMessage(AH::Common::Message::Type type, const QVariant &payload);
 
         protected:
             virtual void receivedMessage(const Message &msg);
-            void timerEvent(QTimerEvent *timerEvent);
+            void timerEvent(QTimerEvent *timerEvent) override;
 
         private slots:
             void startPinging();

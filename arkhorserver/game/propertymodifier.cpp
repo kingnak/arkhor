@@ -3,7 +3,7 @@
 PropertyModificationList PropertyModificationList::filtered(PropertyValue::Property prop)
 {
     PropertyModificationList ret;
-    for (auto p : *this) {
+    for (const auto &p : *this) {
         if (p.affectedProperty() == prop) {
             ret << p;
         }
@@ -21,7 +21,7 @@ int PropertyModificationList::apply(int value) const
 {
     QList<PropertyModification> lst = *this;
     qSort(lst.begin(), lst.end(), SortByType());
-    for (PropertyModification p : lst) {
+    for (const auto &p : lst) {
         value = p.modify(value);
     }
     return value;

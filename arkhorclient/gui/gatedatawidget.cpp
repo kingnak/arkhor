@@ -50,7 +50,7 @@ void GateDataWidget::updateGate(const AH::Common::GateData *g)
             ui->lblDims->setText("?");
         }
     } else {
-        ui->wgtGate->displayGate(NULL);
+        ui->wgtGate->displayGate(nullptr);
         ui->lblSrc->setText("");
         ui->lblCloseAdj->setText("");
         ui->lblDest->setText("");

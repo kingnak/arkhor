@@ -7,7 +7,7 @@ PropertyModificationScript::PropertyModificationScript()
 {
 }
 
-bool PropertyModificationScript::parsePropertyModificationList(const PropertyModifier *modifier, QScriptValue propModList, PropertyModificationList &out)
+bool PropertyModificationScript::parsePropertyModificationList(const PropertyModifier *modifier, const QScriptValue &propModList, PropertyModificationList &out)
 {
     QScriptValueList lst;
     if (propModList.isArray()) {
@@ -22,8 +22,8 @@ bool PropertyModificationScript::parsePropertyModificationList(const PropertyMod
     }
 
     out = PropertyModificationList();
-    for (auto v : lst) {
-        PropertyModification m(NULL, PropertyValue::NoProperty, 0);
+    for (const auto &v : lst) {
+        PropertyModification m(nullptr, PropertyValue::NoProperty, 0);
         if (!parsePropertyModification(modifier, v, m)) {
             return false;
         }
@@ -33,7 +33,7 @@ bool PropertyModificationScript::parsePropertyModificationList(const PropertyMod
     return true;
 }
 
-bool PropertyModificationScript::parsePropertyModification(const PropertyModifier *modifier, QScriptValue propMod, PropertyModification &out)
+bool PropertyModificationScript::parsePropertyModification(const PropertyModifier *modifier, const QScriptValue &propMod, PropertyModification &out)
 {
     if (!propMod.isObject()) {
         return false;

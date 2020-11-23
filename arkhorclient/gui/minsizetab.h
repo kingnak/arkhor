@@ -16,7 +16,7 @@ public:
     void addWidget(QWidget *w);
     int count() const;
     const QWidget *currentWidget() const;
-    QSize sizeHint() const;
+    QSize sizeHint() const override;
 
     int indexOf(QWidget *w) const;
 

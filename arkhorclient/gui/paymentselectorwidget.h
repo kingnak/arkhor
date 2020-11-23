@@ -18,7 +18,7 @@ public:
     int getSelectedPaymentIndex() const;
 
 public slots:
-    void displayPayments(QString desc, AH::Common::Cost costs);
+    void displayPayments(const QString &desc, const AH::Common::Cost &costs);
     void clearPayments();
 
 signals:

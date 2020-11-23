@@ -4,9 +4,15 @@
 #include "ahgraphicsview.h"
 #include "ahfielditem.h"
 
-MovementChooser::MovementChooser(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::MovementChooser)
+MovementChooser::MovementChooser(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::MovementChooser)
+    , m_scene(nullptr)
+    , m_view(nullptr)
+    , m_startId(AH::Common::FieldData::FieldID::NO_NO_FIELD)
+    , m_curId(AH::Common::FieldData::FieldID::NO_NO_FIELD)
+    , m_maxMove(0)
+    , m_curMove(0)
 {
     ui->setupUi(this);
 }

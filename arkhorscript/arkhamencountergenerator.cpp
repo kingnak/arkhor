@@ -34,7 +34,7 @@ QList<ClassGenerator::AttributeDesc> ArkhamEncounterGenerator::getAttributes()
                ;
 }
 
-bool ArkhamEncounterGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls, const ClassGenerator::AttrDef &attr)
+bool ArkhamEncounterGenerator::outputSpecialAttribute(const AttributeDesc &desc, const ClassGenerator::ClassDef &cls, const ClassGenerator::AttrDef &attr)
 {
     if (desc.name == "field") {
         return outputEnumValue("Constants.Fields", attr, cls);

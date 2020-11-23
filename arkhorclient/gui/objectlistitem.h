@@ -11,9 +11,9 @@ public:
         ObjectIdRole = Qt::UserRole
     };
 
-    explicit ObjectListItem(QString objectId);
+    explicit ObjectListItem(const QString &objectId);
 
-    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
 };
 
 typedef ObjectListItem InventoryListItem;

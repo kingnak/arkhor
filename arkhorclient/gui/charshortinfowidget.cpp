@@ -20,7 +20,7 @@ CharShortInfoWidget::~CharShortInfoWidget()
 void CharShortInfoWidget::displayCharacter(const AH::Common::CharacterData *chr)
 {
     if (chr) {
-        ui->lblName->setText(QString("<a href=\"%1\" style=\"text-decoration:none;color:rgb(0,0,0);\">%2</a>").arg(chr->id(), chr->investigatorData().name()));
+        ui->lblName->setText(QString(R"(<a href="%1" style="text-decoration:none;color:rgb(0,0,0);">%2</a>)").arg(chr->id(), chr->investigatorData().name()));
         ui->lblSanity->setText(QString("%1 / %2").arg(chr->curSanity()).arg(chr->maxSanity()));
         ui->lblStamina->setText(QString("%1 / %2").arg(chr->curStamina()).arg(chr->maxStamina()));
         ui->lblClue->setText(QString::number(chr->clues()));

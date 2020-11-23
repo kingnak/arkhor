@@ -16,12 +16,12 @@ public:
     Q_PROPERTY(QString id READ id)
     Q_PROPERTY(QString uniqueAbilityId READ uniqueAbilityId)
 
-    virtual Character *instantiate();
+    Character *instantiate() override;
 
     static QScriptValue createInvestigator(QScriptContext *ctx, QScriptEngine *eng);
 
     // For pre-game display
-    virtual QStringList fixedPossessionNames() const;
+    QStringList fixedPossessionNames() const override;
 
 private:
     QScriptValue m_unconsciousFunc;
@@ -35,7 +35,7 @@ signals:
 public slots:
 
 private:
-    static bool parseAttributeList(QScriptValue v, QList<AH::Common::InvestigatorData::AttributeValuePair> &ret);
+    static bool parseAttributeList(const QScriptValue &v, QList<AH::Common::InvestigatorData::AttributeValuePair> &ret);
     static bool verify(InvestigatorScript *inv, QString *msg = NULL);
 
     friend class CharacterScript;

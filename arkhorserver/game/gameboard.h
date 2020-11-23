@@ -13,7 +13,7 @@ public:
 
     void init();
 
-    bool validatePath(MovementPath p);
+    bool validatePath(const MovementPath &p);
 
     void unlockFields(GameField::LockReason unlockFlags);
 

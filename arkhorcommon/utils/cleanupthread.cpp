@@ -17,7 +17,7 @@ void CleanupThread::run()
 {
     QThread::run();
 
-    for (auto s : m_slots) {
+    for (const auto &s : m_slots) {
         QMetaObject::invokeMethod(s.first, s.second.constData(), Qt::DirectConnection);
     }
 }

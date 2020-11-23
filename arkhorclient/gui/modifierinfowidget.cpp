@@ -33,7 +33,7 @@ void ModifierInfoWidget::setModifiers(const QList<AH::Common::PropertyModificati
 {
     cleanModifiers();
 
-    for (AH::Common::PropertyModificationData mod : mods) {
+    for (const AH::Common::PropertyModificationData &mod : mods) {
         // TODO: This assumes modifier is already known
         QString id = mod.modifierId();
         QString name = id;

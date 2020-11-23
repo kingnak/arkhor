@@ -33,14 +33,14 @@ QString StringChoiceSelectorWidget::getSelectedChoiceId() const
     return QString::null;
 }
 
-void StringChoiceSelectorWidget::displayChoices(QString desc, QList<AH::Common::ChoiceData::OptionData> opts)
+void StringChoiceSelectorWidget::displayChoices(const QString &desc, const QList<AH::Common::ChoiceData::OptionData> &opts)
 {
     clearChoices();
 
     m_description->setText(desc);
     m_options = opts;
     int i = 0;
-    for (auto o : m_options) {
+    for (const auto &o : m_options) {
         DoubleClickButton *btn = new DoubleClickButton(o.name);
         btn->setCheckable(true);
         btn->setProperty(PROPERTY_CHOICE_INDEX, i);
@@ -57,7 +57,7 @@ void StringChoiceSelectorWidget::clearChoices()
     QLayout *l = m_optionsWidget->layout();
     if (l) {
         QLayoutItem *child;
-        while ((child = l->takeAt(0)) != 0) {
+        while ((child = l->takeAt(0)) != nullptr) {
             delete child;
         }
     }

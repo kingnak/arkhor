@@ -13,7 +13,7 @@ AncientOneWidget::AncientOneWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->lblName->setFont(ResourcePool::instance()->loadMainFont());
-    displayAncientOne(NULL);
+    displayAncientOne(nullptr);
     connect(ui->lblName, SIGNAL(linkActivated(QString)), this, SIGNAL(ancientOneInfoRequested(QString)));
 }
 
@@ -31,7 +31,7 @@ void AncientOneWidget::objectDescribed(const DescribeObjectsData::ObjectDescript
     }
 }
 
-void AncientOneWidget::displayAncientOne(QString aoId)
+void AncientOneWidget::displayAncientOne(const QString &aoId)
 {
     if (aoId != m_curAoId) {
         ObjectRegistry::instance()->unsubscribe(this);
@@ -56,7 +56,7 @@ void AncientOneWidget::displayAncientOne(const AncientOneData *ao)
 void AncientOneWidget::updateAncientOne(const AncientOneData *ao)
 {
     if (ao) {
-        ui->lblName->setText(QString("<a href=\"%1\" style=\"text-decoration:none;color:rgb(0,0,0);\">%2</a>").arg(ao->id(), ao->name()));
+        ui->lblName->setText(QString(R"(<a href="%1" style="text-decoration:none;color:rgb(0,0,0);">%2</a>)").arg(ao->id(), ao->name()));
         ui->lblCombatAdjustment->setText(Utils::fullNumberString(ao->combatAdjustment()));
         ui->lblPower->setText(QString("<b>%1:</b> %2").arg(ao->powerTitle(), ao->powerText()));
         ui->lblAttack->setText(ao->attackText());

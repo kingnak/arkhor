@@ -14,7 +14,7 @@ using namespace AH::Common;
 Character::Character(Investigator *i)
 :   m_investigator(i),
     m_dirty(false),
-    m_field(NULL),
+    m_field(nullptr),
     m_maxFocus(0),
     /*
     m_maxStamina(0),
@@ -29,7 +29,7 @@ Character::Character(Investigator *i)
     */
     m_curDmgStamina(0),
     m_curDmgSanity(0),
-    m_explorededGate(NULL)
+    m_explorededGate(nullptr)
 {
 }
 
@@ -37,7 +37,7 @@ CharacterData *Character::data()
 {
     // Synchonize data with character
     m_attrSettings.clear();
-    for (auto s : m_sliders) {
+    for (const auto &s : m_sliders) {
         m_attrSettings << s.currentSettingPos();
     }
 
@@ -116,7 +116,7 @@ QList<GameObject *> &Character::inventory()
 void Character::addToInventory(GameObject *obj)
 {
     if (!obj) return;
-    if (obj->owner() == NULL) {
+    if (!obj->owner()) {
         if (!obj->onAddToInventory(this)) {
             // Don't add
             return;
@@ -139,10 +139,10 @@ void Character::removeFromInventory(GameObject *obj)
             return;
         }
         m_inventory.removeAll(obj);
-        obj->setOwner(NULL);
+        obj->setOwner(nullptr);
         gGame->characterDirty(this);
         gGame->notifier()->notifySimple("{C} lost {D}", gGame->playerForCharacter(this), obj->name());
-    } else if (obj->owner() != NULL) {
+    } else if (obj->owner()) {
         Q_ASSERT(false);
     }
 }
@@ -162,7 +162,7 @@ bool Character::canPay(const Cost &cost) const
     if (cost.getAlternatives().isEmpty()) {
         return true;
     }
-    for (auto cl : cost.getAlternatives()) {
+    for (const auto &cl : cost.getAlternatives()) {
         if (canPay(cl)) return true;
     }
     return false;
@@ -279,7 +279,7 @@ bool Character::pay(const CostList &cost)
             // TODO: Let user choose?
             int sum = 0;
             int ct = 0;
-            for (int j = 0; sum < i.amount && m_monsterMarkers.size() > 0; ++j) {
+            for (int j = 0; sum < i.amount && !m_monsterMarkers.empty(); ++j) {
                 Monster *m = m_monsterMarkers.first();
                 sum += m->toughness();
                 gGame->returnMonster(m);
@@ -489,7 +489,7 @@ void Character::instantiateFromInvestigator()
 
 int Character::getAttributeValue(AH::Attribute attr) const
 {
-    for (auto s : m_sliders) {
+    for (const auto &s : m_sliders) {
         AttributePair p = s.currentSetting();
         if (p.first().attribute == attr)
             return p.first().value;
@@ -563,7 +563,8 @@ bool Character::commitDamage()
         return true;
     }
 
-    int preventSta, preventSan;
+    int preventSta;
+    int preventSan;
     gGame->preventDamageHelper(gGame->playerForCharacter(this), m_curDmgStamina, m_curDmgSanity, preventSta, preventSan);
 
     if (m_curDmgSanity <= 0 && m_curDmgStamina <= 0) {

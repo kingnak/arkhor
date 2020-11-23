@@ -11,12 +11,12 @@ AncientOneCardWidget::AncientOneCardWidget(QWidget *parent)
 
 QSize AncientOneCardWidget::sizeHint() const
 {
-    return QSize(700, 980);
+    return {700, 980};
 }
 
 QSize AncientOneCardWidget::minimumSizeHint() const
 {
-    return QSize(350, 490);
+    return {350, 490};
 }
 
 void AncientOneCardWidget::displayAncientOne(AH::Common::AncientOneData *ao)
@@ -45,8 +45,8 @@ void AncientOneCardWidget::resizeEvent(QResizeEvent *event)
 void AncientOneCardWidget::drawAncientOne()
 {
     QPixmap mask = QPixmap(":/core/images/ao_template");
-    QSize s = this->size();
-    m_cache = QPixmap(s);
+    QSize sz = this->size();
+    m_cache = QPixmap(sz);
     m_cache.fill();
     if (m_ao.id().isEmpty()) {
         update();
@@ -54,7 +54,7 @@ void AncientOneCardWidget::drawAncientOne()
     }
 
     QPainter p(&m_cache);
-    p.scale(double(s.width())/mask.width(), double(s.height())/mask.height());
+    p.scale(double(sz.width())/mask.width(), double(sz.height())/mask.height());
     p.setRenderHint(QPainter::Antialiasing);
     QPixmap aoImg = ResourcePool::instance()->loadAncientOne(m_ao.id());
     p.drawPixmap(0, 0, aoImg);

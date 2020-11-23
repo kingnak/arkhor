@@ -88,7 +88,7 @@ private:
     bool ArrayContent(AttrDef &a);
     bool String(QString &value);
 
-    bool setError(QString err);
+    bool setError(const QString &err);
 
     typedef ArkhorScriptLexer::Symbol Symbol;
 

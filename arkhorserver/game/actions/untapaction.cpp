@@ -4,9 +4,7 @@
 #include "character.h"
 #include "../player.h"
 
-UntapAction::UntapAction()
-{
-}
+UntapAction::UntapAction() = default;
 
 AH::GamePhases UntapAction::phases() const
 {

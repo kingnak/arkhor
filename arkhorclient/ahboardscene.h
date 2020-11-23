@@ -32,9 +32,9 @@ public:
     void centerOn(QPointF p, bool animated = false, qreal zoom = 1.5);
 
 public slots:
-    void updateBoardFromData(QVariantMap boardMap);
+    void updateBoardFromData(const QVariantMap &boardMap);
     void setTerrorLevel(int level);
-    void initNeighbourHoodFromBoardData(QList<AH::Common::GameFieldData> boardMap);
+    void initNeighbourHoodFromBoardData(const QList<AH::Common::GameFieldData> &boardMap);
 
 signals:
     void itemInfoRequested(QString id);
@@ -49,7 +49,7 @@ signals:
 private:
     void applyUpdate(QVariantMap boardMap);
     void ensureAnimationObjectsKnown(const AH::Common::GameBoardChangeData &changes);
-    void animateChanges(AH::Common::GameBoardChangeData changes);
+    void animateChanges(const AH::Common::GameBoardChangeData &changes);
     void animateTerrorLevel(int level);
     QPointF terrorLevelPosition(int lvl);
 

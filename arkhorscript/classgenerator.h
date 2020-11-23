@@ -52,45 +52,45 @@ protected:
     virtual bool allowAnonymous(const ClassDef &cls) const { return cls.isNested; }
     virtual bool allowNested(const ClassDef &cls) const { Q_UNUSED(cls); return false; }
 
-    bool setError(QString err);
-    bool setError(QString err, const ClassDef &cls);
-    bool setWarning(QString warn);
-    bool setWarning(QString warn, const ClassDef &cls);
+    bool setError(const QString &err);
+    bool setError(const QString &err, const ClassDef &cls);
+    bool setWarning(const QString &warn);
+    bool setWarning(const QString &warn, const ClassDef &cls);
 
     virtual QList<AttributeDesc> getAttributes() = 0;
-    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr) = 0;
-    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
+    virtual bool outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr) = 0;
+    virtual bool outputDefaultAttribute(const AttributeDesc &desc, const ClassDef &cls);
 
-    QString generateName(QString clsName);
+    QString generateName(const QString &clsName);
 
     void outputClassComment(const ClassDef &cls);
-    void outputCreateStart(QString type, const ClassDef &cls);
+    void outputCreateStart(const QString &type, const ClassDef &cls);
     bool outputAttributes(const ClassDef &cls);
     bool outputAttribute(const ClassDef &cls, const AttrDef &attr, bool inPredefined);
     void outputCreateEnd(const ClassDef &cls);
-    void outputRegisterMulti(QString type, const ClassDef &cls);
-    void outputRegisterSingle(QString type, const ClassDef &cls);
+    void outputRegisterMulti(const QString &type, const ClassDef &cls);
+    void outputRegisterSingle(const QString &type, const ClassDef &cls);
     void outputRegisterConstant(const ClassDef &cls);
 
     bool outputPrimitive(const AttrDef &attr, const ClassDef &cls);
     bool outputIDRef(const AttrDef &attr, const ClassDef &cls);
     bool outputIDRefArray(const AttrDef &attr, const ClassDef &cls);
-    bool outputEnumValue(QString prefix, const AttrDef &attr, const ClassDef &cls);
-    bool outputEnumValueArray(QString prefix, const AttrDef &attr, const ClassDef &cls);
+    bool outputEnumValue(const QString &prefix, const AttrDef &attr, const ClassDef &cls);
+    bool outputEnumValueArray(const QString &prefix, const AttrDef &attr, const ClassDef &cls);
 
     bool outputModifications(const AttrDef &attr, const ClassDef &cls);
     bool outputMonsterModifications(const AttrDef &attr, const ClassDef &cls);
     bool outputMonsterMoveModifications(const AttrDef &attr, const ClassDef &cls);
     bool outputCosts(const AttrDef &attr, const ClassDef &cls);
 
-    bool outputFunction(const AttrDef &attr, const ClassGenerator::ClassDef &cls, QString params = QString::null);
+    bool outputFunction(const AttrDef &attr, const ClassGenerator::ClassDef &cls, const QString &params = QString::null);
 
     QString getJSVariableName(const ClassDef &cls);
 
 private:
-    bool doOutputIDRef(AttributeValue ref);
-    bool doOutputModifications(QString mod);
-    bool doOutputCosts(QString costs);
+    bool doOutputIDRef(const AttributeValue &ref);
+    bool doOutputModifications(const QString &mod);
+    bool doOutputCosts(const QString &costs);
     bool doOutputMonsterModifications(QString v, const ClassDef &cls);
     bool doOutputMonsterMoveModifications(QString v, const ClassDef &cls);
 

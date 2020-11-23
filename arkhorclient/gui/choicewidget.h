@@ -14,14 +14,14 @@ class ChoiceWidget : public QWidget
 
 public:
     explicit ChoiceWidget(QWidget *parent = 0);
-    ~ChoiceWidget();
+    ~ChoiceWidget() override;
 
 public slots:
-    void offerChoice(AH::Common::ChoiceData choice);
+    void offerChoice(const AH::Common::ChoiceData &choice);
 
-    void selectFromObjectList(QStringList objectIds, int min = 0, int max = 1);
-    void selectPayment(QString desc, AH::Common::Cost cost);
-    void selectString(QString desc, QList<AH::Common::ChoiceData::OptionData> options);
+    void selectFromObjectList(const QStringList &objectIds, int min = 0, int max = 1);
+    void selectPayment(const QString &desc, const AH::Common::Cost &cost);
+    void selectString(const QString &desc, const QList<AH::Common::ChoiceData::OptionData> &options);
 
     void selectActiveChoice();
 

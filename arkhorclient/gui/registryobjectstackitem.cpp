@@ -4,9 +4,9 @@
 #include "characterwidget.h"
 #include "resourcepool.h"
 
-RegistryObjectStackItem::RegistryObjectStackItem(QString id, bool subscribe) :
-    m_id(id)
-  , m_subscribing(subscribe)
+RegistryObjectStackItem::RegistryObjectStackItem(const QString &id, bool subscribe)
+    : m_id(id)
+    , m_subscribing(subscribe)
 {
 }
 
@@ -31,7 +31,7 @@ void RegistryObjectStackItem::objectDescribed(const AH::Common::DescribeObjectsD
 
 //////////////////////////////////////
 
-MonsterStackItem::MonsterStackItem(QString id, double scale)
+MonsterStackItem::MonsterStackItem(const QString &id, double scale)
     : RegistryObjectStackItem(id)
     , m_scale(scale)
 {
@@ -59,7 +59,7 @@ void MonsterStackItem::updateObject(AH::Common::DescribeObjectsData::ObjectDescr
 
 /////////////////////////////////////
 
-CharacterStackItem::CharacterStackItem(QString id, double scale)
+CharacterStackItem::CharacterStackItem(const QString &id, double scale)
     : RegistryObjectStackItem(id, true)
     , m_scale(scale)
 {

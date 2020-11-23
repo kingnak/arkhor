@@ -23,12 +23,12 @@ MythosCard *GameContext::rumor()
     return gGame->rumor();
 }
 
-QString GameContext::selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
+QString GameContext::selectChoice(const QString &desc, const QString &sourceId, const QList<AH::Common::ChoiceData::OptionData> &options, bool canCancel)
 {
     return selectChoice(m_player, desc, sourceId, options, canCancel);
 }
 
-QString GameContext::selectChoice(Player *p, QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
+QString GameContext::selectChoice(Player *p, const QString &desc, const QString &sourceId, const QList<AH::Common::ChoiceData::OptionData> &options, bool canCancel)
 {
     AH::Common::ChoiceData ch;
     ch.setSelectStrings(options);
@@ -39,7 +39,7 @@ QString GameContext::selectChoice(Player *p, QString desc, const QString &source
     return res.toString();
 }
 
-QList<GameObject *> GameContext::selectObjects(Player *p, const QList<GameObject *> objects, const QString &desc, const QString &sourceId, int min, int max)
+QList<GameObject *> GameContext::selectObjects(Player *p, const QList<GameObject *> &objects, const QString &desc, const QString &sourceId, int min, int max)
 {
     QList<GameObject *> sels;
 

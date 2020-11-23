@@ -11,7 +11,7 @@ namespace AH {
         class ARKHOR_COMMON_EXPORTS GameSettingData
         {
         public:
-            GameSettingData(int tl = 0, QString aoId = QString::null, QString rId = QString::null, QString eId = QString::null);
+            GameSettingData(int tl = 0, const QString &aoId = QString::null, const QString &rId = QString::null, const QString &eId = QString::null);
             virtual ~GameSettingData() {}
 
             int terrorLevel() const { return m_terror; }

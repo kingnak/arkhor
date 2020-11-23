@@ -6,9 +6,7 @@
 #include "scripttest/scripttestconfig.h"
 #endif
 
-DiePool::DiePool()
-{
-}
+DiePool::DiePool() = default;
 
 DiePool::DiePool(const DiePool &o)
 {
@@ -28,7 +26,7 @@ DiePool::~DiePool()
     qDeleteAll(m_dice);
 }
 
-DiePool DiePool::createDiePool(QList<StandardDieSpec> spec)
+DiePool DiePool::createDiePool(const QList<StandardDieSpec> &spec)
 {
     DiePool p;
     p.addDice(spec);
@@ -42,7 +40,7 @@ DiePool::DiePoolIndex DiePool::addDie(Die *d)
     return static_cast<DiePoolIndex> (m_dice.size()-1);
 }
 
-QList<DiePool::DiePoolIndex> DiePool::addDice(QList<StandardDieSpec> spec)
+QList<DiePool::DiePoolIndex> DiePool::addDice(const QList<StandardDieSpec> &spec)
 {
     QList<DiePoolIndex> ret;
     for (auto s : spec) {

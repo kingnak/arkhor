@@ -22,7 +22,7 @@ void ModifiedPropertyInfoWidget::cleanValue()
     ui->lblProperty->clear();
 }
 
-void ModifiedPropertyInfoWidget::displayPropertyValue(AH::Common::ModifiedPropertyValueData value)
+void ModifiedPropertyInfoWidget::displayPropertyValue(const AH::Common::ModifiedPropertyValueData &value)
 {
     ui->lblProperty->setText(Utils::stringForProperty(value.property().property()));
     ui->lblBase->setText(QString::number(value.property().value()));
@@ -35,7 +35,7 @@ void ModifiedPropertyInfoWidget::displayPropertyValue(AH::Common::ModifiedProper
     }
 }
 
-void ModifiedPropertyInfoWidget::requestObjectInfo(QString id)
+void ModifiedPropertyInfoWidget::requestObjectInfo(const QString &id)
 {
     emit objectInfoRequested(id);
 }

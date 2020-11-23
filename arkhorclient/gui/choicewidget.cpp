@@ -22,7 +22,7 @@ ChoiceWidget::~ChoiceWidget()
     delete ui;
 }
 
-void ChoiceWidget::offerChoice(ChoiceData choice)
+void ChoiceWidget::offerChoice(const ChoiceData &choice)
 {
     QString desc = choice.description().trimmed();
     if (!desc.isEmpty()) {
@@ -49,7 +49,7 @@ void ChoiceWidget::offerChoice(ChoiceData choice)
     }
 }
 
-void ChoiceWidget::selectFromObjectList(QStringList objectIds, int min, int max)
+void ChoiceWidget::selectFromObjectList(const QStringList &objectIds, int min, int max)
 {
     m_type = ChoiceData::ChooseObjects;
     ui->wgtObjSelection->setItems(objectIds);
@@ -58,14 +58,14 @@ void ChoiceWidget::selectFromObjectList(QStringList objectIds, int min, int max)
     ui->stkChoices->setCurrentWidget(ui->pageItemSelector);
 }
 
-void ChoiceWidget::selectPayment(QString desc, Cost cost)
+void ChoiceWidget::selectPayment(const QString &desc, const Cost &cost)
 {
     m_type = ChoiceData::ChoosePayment;
     ui->wgtPayment->displayPayments(desc, cost);
     ui->stkChoices->setCurrentWidget(ui->pagePaymentSelector);
 }
 
-void ChoiceWidget::selectString(QString desc, QList<ChoiceData::OptionData> options)
+void ChoiceWidget::selectString(const QString &desc, const QList<ChoiceData::OptionData> &options)
 {
     m_type = ChoiceData::ChooseString;
     ui->wgtStrings->displayChoices(desc, options);

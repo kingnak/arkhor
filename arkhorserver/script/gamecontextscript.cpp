@@ -21,7 +21,7 @@ GameContextScript::GameContextScript(QObject *parent) :
 CharacterScript *GameContextScript::curCharacter()
 {
 #ifdef DEBUG_SCRIPT_BUILD
-    if (!gGame->context().player()) return NULL;
+    if (!gGame->context().player()) return nullptr;
 #endif
     Character *c = gGame->context().player()->getCharacter();
     CharacterScript *cs = dynamic_cast<CharacterScript *> (c);
@@ -50,7 +50,7 @@ GateScript *GameContextScript::curGate()
         GateScript *gs = new GateScript(g);
         return gs;
     }
-    return NULL;
+    return nullptr;
 }
 
 int GameContextScript::getTerrorLevel()
@@ -79,32 +79,32 @@ AncientOneScript *GameContextScript::curAncientOne()
     return aos;
 }
 
-int GameContextScript::genericDieRollSum(QString desc, QString sourceId, int dieCount)
+int GameContextScript::genericDieRollSum(const QString &desc, const QString &sourceId, int dieCount)
 {
     return curCharacter()->genericDieRollSum(desc, sourceId, dieCount);
 }
 
-bool GameContextScript::genericDieRollTest(QString desc, QString sourceId, int dieCount, int target)
+bool GameContextScript::genericDieRollTest(const QString &desc, const QString &sourceId, int dieCount, int target)
 {
     return curCharacter()->genericDieRollTest(desc, sourceId, dieCount, target);
 }
 
-int GameContextScript::genericDieRollCount(QString desc, QString sourceId, int dieCount)
+int GameContextScript::genericDieRollCount(const QString &desc, const QString &sourceId, int dieCount)
 {
     return curCharacter()->genericDieRollCount(desc, sourceId, dieCount);
 }
 
-int GameContextScript::genericDieRollCountSuccess(QString desc, QString sourceId, int dieCount, QScriptValue successes)
+int GameContextScript::genericDieRollCountSuccess(const QString &desc, const QString &sourceId, int dieCount, const QScriptValue &successes)
 {
     return curCharacter()->genericDieRollCountSuccess(desc, sourceId, dieCount, successes);
 }
 
-bool GameContextScript::skillTest(QString desc, QString sourceId, AH::Skill skill, int adjust, int target)
+bool GameContextScript::skillTest(const QString &desc, const QString &sourceId, AH::Skill skill, int adjust, int target)
 {
     return curCharacter()->skillTest(desc, sourceId, skill, adjust, target);
 }
 
-int GameContextScript::dieRollSkillCount(QString desc, QString sourceId, AH::Skill skill, int adjust)
+int GameContextScript::dieRollSkillCount(const QString &desc, const QString &sourceId, AH::Skill skill, int adjust)
 {
     return curCharacter()->dieRollSkillCount(desc, sourceId, skill, adjust);
 }
@@ -114,12 +114,12 @@ void GameContextScript::increaseTerrorLevel(int amount)
     gGame->increaseTerrorLevel(amount);
 }
 
-QString GameContextScript::selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options)
+QString GameContextScript::selectChoice(const QString &desc, const QString &sourceId, const QList<AH::Common::ChoiceData::OptionData> &options)
 {
     return selectChoice(desc, sourceId, options, false);
 }
 
-QString GameContextScript::selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canCancel)
+QString GameContextScript::selectChoice(const QString &desc, const QString &sourceId, const QList<AH::Common::ChoiceData::OptionData> &options, bool canCancel)
 {
     return gGame->context().selectChoice(desc, sourceId, options, canCancel);
 }
@@ -158,7 +158,7 @@ GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type)
     return drawObject(type, "Select Object", QString::null);
 }
 
-GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type, QString desc, QString sourceId)
+GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type, const QString &desc, const QString &sourceId)
 {
     ModifiedPropertyValue val = gGame->context().getCurCharacterDrawObject(type);
     int ct = val.finalVal();
@@ -167,7 +167,7 @@ GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type, QString
     QList<GameObject *> objs = hlp.drawObjects(gGame->context().player(), desc, type, ct, 1, 1, sourceId.isNull(), sourceId);
 
     GameObject *o = objs.value(0);
-    if (!o) return NULL;
+    if (!o) return nullptr;
     GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
     if (!os) {
         gGame->returnObject(o);
@@ -176,12 +176,12 @@ GameObjectScript *GameContextScript::drawObject(AH::GameObjectType type, QString
     return os;
 }
 
-QList<GameObjectScript *> GameContextScript::selectObjects(QList<GameObjectScript *> objects, QString desc, const QString &sourceId, int min, int max)
+QList<GameObjectScript *> GameContextScript::selectObjects(const QList<GameObjectScript *> &objects, const QString &desc, const QString &sourceId, int min, int max)
 {
     return curCharacter()->selectObjects(objects, desc, sourceId, min, max);
 }
 
-QList<GameObjectScript *> GameContextScript::drawMultipleObjects(AH::GameObjectType type, QString desc, const QString &sourceId, int count, int min, int max)
+QList<GameObjectScript *> GameContextScript::drawMultipleObjects(AH::GameObjectType type, const QString &desc, const QString &sourceId, int count, int min, int max)
 {
     ModifiedPropertyValue val = gGame->context().getCurCharacterDrawObject(type);
     int ct = val.modifiers().apply(count);
@@ -202,7 +202,7 @@ QList<GameObjectScript *> GameContextScript::drawMultipleObjects(AH::GameObjectT
     return ret;
 }
 
-QList<GameObjectScript *> GameContextScript::drawMixedObjects(QString desc, const QString &sourceId, QList<AH::ObjectTypeCount> types, int min, int max)
+QList<GameObjectScript *> GameContextScript::drawMixedObjects(const QString &desc, const QString &sourceId, const QList<AH::ObjectTypeCount> &types, int min, int max)
 {
     // TODO: Handle modifiers?
 

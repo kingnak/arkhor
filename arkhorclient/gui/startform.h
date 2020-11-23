@@ -17,7 +17,7 @@ class StartForm : public QWidget
 
 public:
     explicit StartForm(QWidget *parent = 0);
-    ~StartForm();
+    ~StartForm() override;
 
 private slots:
     void on_btnConnect_clicked();
@@ -31,9 +31,9 @@ private slots:
 
     void promptActive();
     void gameStarted();
-    void setPlayerData(AH::Common::PlayerData d);
-    void setInvestigatorList(QList<AH::Common::InvestigatorData> l);
-    void characterInstantiated(QString playerId, QString charaterId);
+    void setPlayerData(const AH::Common::PlayerData &d);
+    void setInvestigatorList(const QList<AH::Common::InvestigatorData> &l);
+    void characterInstantiated(const QString &playerId, const QString &charaterId);
     void startGame();
 
 private:

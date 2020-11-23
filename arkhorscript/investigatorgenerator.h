@@ -10,18 +10,18 @@ class InvestigatorGenerator : public ClassGenerator
 public:
     InvestigatorGenerator(QTextStream &out) : ClassGenerator(out) {}
 
-    virtual bool generate(const ClassDef &cls);
+    bool generate(const ClassDef &cls) override;
 
 protected:
     void outputCreateInvestigatorStart(const ClassDef &cls);
     void outputRegisterInvestigator(const ClassDef &cls);
 
-    virtual QList<AttributeDesc> getAttributes();
-    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
+    QList<AttributeDesc> getAttributes() override;
+    bool outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr) override;
     //virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
 
 private:
-    bool outputRandomPossesions(QString v);
+    bool outputRandomPossesions(const QString &v);
     bool outputInvAttributes(QString v, const ClassDef &cls);
 };
 

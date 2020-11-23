@@ -4,9 +4,7 @@
 #include "character.h"
 #include "../player.h"
 
-EnterGateAction::EnterGateAction()
-{
-}
+EnterGateAction::EnterGateAction() = default;
 
 bool EnterGateAction::execute()
 {
@@ -27,5 +25,5 @@ bool EnterGateOption::isAvailable() const
 {
     Character *c = gGame->context().player()->getCharacter();
     Gate *g = c->field()->gate();
-    return c->getExploredGate() == NULL && g != NULL;
+    return c->getExploredGate() == nullptr && g != nullptr;
 }

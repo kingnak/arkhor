@@ -12,9 +12,9 @@ public:
     ArkhamEncoutery(Game *game);
 
 protected:
-    virtual QList<GameOption *> getPhaseOptions();
-    virtual void enterPhase();
-    virtual void finishPhase();
+    QList<GameOption *> getPhaseOptions() override;
+    void enterPhase() override;
+    void finishPhase() override;
 
 private:
     ArkhamEncounteryOption *m_enc;

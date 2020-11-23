@@ -35,7 +35,7 @@ QList<ClassGenerator::AttributeDesc> OtherWorldEncounterGenerator::getAttributes
                ;
 }
 
-bool OtherWorldEncounterGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls, const ClassGenerator::AttrDef &attr)
+bool OtherWorldEncounterGenerator::outputSpecialAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls, const ClassGenerator::AttrDef &attr)
 {
     if (desc.name == "field") {
         return outputEnumValue("Constants.Fields", attr, cls);

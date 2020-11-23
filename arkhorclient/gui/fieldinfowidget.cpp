@@ -49,7 +49,7 @@ void FieldInfoWidget::clear()
     ui->grpMonsters->setVisible(true);
 }
 
-void FieldInfoWidget::displayField(AH::Common::GameFieldData fd)
+void FieldInfoWidget::displayField(const AH::Common::GameFieldData &fd)
 {
     clear();
     ui->txtName->setText(Utils::stringForField(fd.id()));
@@ -65,20 +65,20 @@ void FieldInfoWidget::displayField(AH::Common::GameFieldData fd)
     if (fd.isSealed()) states << "Sealed";
     ui->txtState->setText(states.join(", "));
 
-    for (auto cId : fd.characterIds()) {
+    for (const auto &cId : fd.characterIds()) {
         auto c = ObjectRegistry::instance()->getObject<CharacterData>(cId);
         addToList(ui->scrlChars, c.investigatorData().name(), cId);
     }
     addStretch(ui->scrlChars);
 
-    for (auto mId : fd.monsterIds()) {
+    for (const auto &mId : fd.monsterIds()) {
         auto m = ObjectRegistry::instance()->getObject<MonsterData>(mId);
         addToList(ui->scrlMonsters, m.name(), mId);
     }
     addStretch(ui->scrlMonsters);
 
     auto fdd = ObjectRegistry::instance()->getFieldDescription(fd.id());
-    for (auto opt : fdd.additionalOptions) {
+    for (const auto &opt : fdd.additionalOptions) {
         addToList(ui->scrlAdditionalOpts, opt.name, opt.detail);
     }
     addStretch(ui->scrlAdditionalOpts);
@@ -87,7 +87,7 @@ void FieldInfoWidget::displayField(AH::Common::GameFieldData fd)
     }
 
     QStringList fieldOptDescs;
-    for (auto opt : fdd.fieldOptions) {
+    for (const auto &opt : fdd.fieldOptions) {
         fieldOptDescs << QString("<p><b>%1</b><br/>%2</p>").arg(opt.name, opt.detail);
     }
     ui->txtSpecialOpts->setHtml(fieldOptDescs.join('\n'));
@@ -145,7 +145,7 @@ void FieldInfoWidget::cleanList(QScrollArea *list)
     }
 }
 
-void FieldInfoWidget::addToList(QScrollArea *list, QString name, QString id)
+void FieldInfoWidget::addToList(QScrollArea *list, const QString &name, const QString &id)
 {
     QLabel *l = new QLabel(QString("<a href=\"%1\">%2</a>").arg(id, name.toHtmlEscaped()));
     l->setWordWrap(true);

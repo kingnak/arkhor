@@ -37,13 +37,13 @@ class AhMainGui : public QWidget
 
 public:
     explicit AhMainGui(QWidget *parent = 0);
-    ~AhMainGui();
+    ~AhMainGui() override;
 
     void initConnection(ConnectionHandler *conn);
 
 public slots:
-    void setThisPlayerId(QString id);
-    void setThisCharacterId(QString id);
+    void setThisPlayerId(const QString &id);
+    void setThisCharacterId(const QString &id);
     void start();
     void refitGui();
     void dismissInfoPane();
@@ -54,9 +54,9 @@ protected:
 private slots:
     void expandInfoPane();
     void doDismissInfoPane();
-    void updateSceneNeighbours(QList<ObjectRegistry::FieldDescription> descs);
+    void updateSceneNeighbours(const QList<ObjectRegistry::FieldDescription> &descs);
 
-    void characterInstantiated(QString playerId, QString characterId);
+    void characterInstantiated(const QString &playerId, const QString &characterId);
 
     void displayItemInfo(const QString &id);
     void fieldInfoRequested(AH::Common::FieldData::FieldID id);
@@ -65,63 +65,63 @@ private slots:
 
     void displayInventoryData(QListWidgetItem *itm);
 
-    void gameSettingUpdate(AH::Common::GameSettingData data);
+    void gameSettingUpdate(const AH::Common::GameSettingData &data);
 
     void textMessage(const QString &msg);
 
-    void chooseOption(QList<AH::Common::GameOptionData> opts);
-    void optionChosen(QString id);
+    void chooseOption(const QList<AH::Common::GameOptionData> &opts);
+    void optionChosen(const QString &id);
 
     void chooseMove(AH::Common::FieldData::FieldID startId, int movementPoints);
-    void movementChosen(QList<AH::Common::FieldData::FieldID> path);
+    void movementChosen(const QList<AH::Common::FieldData::FieldID> &path);
     void movementCanceled();
 
-    void chooseFocus(QList<AH::Common::AttributeSliderData> sliders, int focusAmount);
-    void focusChosen(QList<int> diffs);
+    void chooseFocus(const QList<AH::Common::AttributeSliderData> &sliders, int focusAmount);
+    void focusChosen(const QList<int> &diffs);
 
-    void chooseSkill(QList<AH::Common::ModifiedPropertyValueData> options);
+    void chooseSkill(const QList<AH::Common::ModifiedPropertyValueData> &options);
     void skillChoosen(AH::Common::PropertyValueData::Property skill);
 
-    void chooseMonster(QString desc, QList<AH::Common::MonsterData> monsters);
-    void monsterSelected(QString id);
+    void chooseMonster(const QString &desc, const QList<AH::Common::MonsterData> &monsters);
+    void monsterSelected(const QString &id);
 
-    void showDieRollInfo(AH::Common::DieRollTestData data);
-    void dieUpdateChosen(AH::Common::DieTestUpdateData upd);
+    void showDieRollInfo(const AH::Common::DieRollTestData &data);
+    void dieUpdateChosen(const AH::Common::DieTestUpdateData &upd);
 
     //void updateObject(AH::Common::DescribeObjectsData::ObjectDescription desc);
-    void updateCharacter(AH::Common::CharacterData c);
+    void updateCharacter(const AH::Common::CharacterData &c);
 
-    void chooseWeapons(QList<AH::Common::GameObjectData> weapons, AH::Common::ModifiedPropertyValueData hands);
+    void chooseWeapons(const QList<AH::Common::GameObjectData> &weapons, const AH::Common::ModifiedPropertyValueData &hands);
     void weaponsCanceled();
-    void weaponsSelected(QStringList weaponIds);
+    void weaponsSelected(const QStringList &weaponIds);
 
-    void chooseEncounter(AH::Common::EncounterData encounter);
-    void encounterSelected(QString id);
+    void chooseEncounter(const AH::Common::EncounterData &encounter);
+    void encounterSelected(const QString &id);
 
-    void displayMythos(AH::Common::MythosData mythos);
+    void displayMythos(const AH::Common::MythosData &mythos);
     void acknowledgeMythos();
     void finishMythos();
 
-    void displayMonsterMovement(AH::Common::MonsterData monster);
+    void displayMonsterMovement(const AH::Common::MonsterData &monster);
     void acknowledgeMonsterMovement();
     void finishMonsterMovement();
 
-    void offerChoice(AH::Common::ChoiceData choice);
-    void choiceSelected(AH::Common::ChoiceResponseData resp);
+    void offerChoice(const AH::Common::ChoiceData &choice);
+    void choiceSelected(const AH::Common::ChoiceResponseData &resp);
     void choiceCanceled();
 
-    void offerTrade(AH::Common::TradeData trade);
-    void tradeSelected(AH::Common::TradeData trade);
-    void tradeCanceled(QString name);
+    void offerTrade(const AH::Common::TradeData &trade);
+    void tradeSelected(const AH::Common::TradeData &trade);
+    void tradeCanceled(const QString &name);
     void cancelTrade();
 
     void clearTempObject();
 
-    void won(QString msg);
-    void lost(QString msg);
-    void showAlert(QString msg);
+    void won(const QString &msg);
+    void lost(const QString &msg);
+    void showAlert(const QString &msg);
     void phaseChange(AH::GamePhase ph);
-    void playerChange(QString id);
+    void playerChange(const QString &id);
 
     void on_btnSkipOptions_clicked();
 
@@ -146,10 +146,10 @@ public:
     VisibilityAnimation(QWidget *target, bool vis, QObject *parent = 0)
         : QAbstractAnimation(parent), m_target(target), m_vis(vis) {}
 
-    int duration() const { return 0; }
+    int duration() const override { return 0; }
 
 protected:
-    void updateCurrentTime(int currentTime) {
+    void updateCurrentTime(int currentTime) override {
         Q_UNUSED(currentTime)
         if (this->direction() == Backward)
             m_target->setVisible(!m_vis);

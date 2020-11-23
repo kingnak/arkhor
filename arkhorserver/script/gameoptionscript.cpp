@@ -6,7 +6,7 @@
 
 GameOptionScript::GameOptionScript(QObject *parent)
     : QObject(parent)
-    , GameOption(NULL, AH::CannotContinue, AH::ChooseOptional)
+    , GameOption(nullptr, AH::CannotContinue, AH::ChooseOptional)
     , m_basePropertyProp(AH::Common::PropertyValueData::NoProperty)
 {
 }
@@ -15,14 +15,14 @@ GameOptionScript *GameOptionScript::createGameOption(QScriptContext *ctx, QScrip
 {
     if (ctx->argumentCount() != 1 || !ctx->argument(0).isObject()) {
         ctx->throwError(QScriptContext::TypeError, "createOption: Must call with 1 object");
-        return NULL;
+        return nullptr;
     }
     QScriptValue data = ctx->argument(0);
 
     return createGameOption(data, ctx, eng);
 }
 
-GameOptionScript *GameOptionScript::createGameOption(QScriptValue data, QScriptContext *ctx, QScriptEngine *eng)
+GameOptionScript *GameOptionScript::createGameOption(const QScriptValue &data, QScriptContext *ctx, QScriptEngine *eng)
 {
     QScopedPointer<GameOptionScript> ret(new GameOptionScript);
 
@@ -55,7 +55,7 @@ GameOptionScript *GameOptionScript::createGameOption(QScriptValue data, QScriptC
 
     if (!GameScript::parseCosts(data.property("costs"), ret->m_costs)) {
         ctx->throwError(QScriptContext::TypeError, "createOption: Invalid Costs specification");
-        return NULL;
+        return nullptr;
     }
 
     if (data.property("baseProperty").isValid() && !data.property("baseProperty").isUndefined())
@@ -64,7 +64,7 @@ GameOptionScript *GameOptionScript::createGameOption(QScriptValue data, QScriptC
     QString err;
     if (!verify(ret.data(), &err)) {
         ctx->throwError(QScriptContext::TypeError, "createOption: Invalid GameOption data. Errors:\n"+err);
-        return NULL;
+        return nullptr;
     }
 
     GameOptionScript *pRet = ret.take();
@@ -87,7 +87,7 @@ AH::Common::ModifiedPropertyValueData GameOptionScript::baseProperty() const
     return {};
 }
 
-bool GameOptionScript::isAvailableWithObject(QScriptValue obj) const
+bool GameOptionScript::isAvailableWithObject(const QScriptValue &obj) const
 {
     if (m_isAvailable.isBool()) {
         return m_isAvailable.toBool();
@@ -131,7 +131,9 @@ bool GameOptionScript::verify(GameOptionScript *op, QString *msg)
 #include <QDebug>
 
 GameOptionFieldProxyScript::GameOptionFieldProxyScript(GameField *field, const QString &optionId)
-    : m_field(field), m_opt(nullptr), m_optId(optionId)
+    : m_opt(nullptr)
+    , m_field(field)
+    , m_optId(optionId)
 {
 
 }

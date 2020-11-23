@@ -23,7 +23,7 @@ bool ArkhamEncounteryAction::executeOnPlayer(Player *p, AH::Common::FieldData::F
 
     gGame->notifier()->actionExecute(this);
 
-    GameOption *opt = NULL;
+    GameOption *opt = nullptr;
     QString id = p->chooseEncounterOption(enc);
     for (auto i : enc->options()) {
         if (i->id() == id) {

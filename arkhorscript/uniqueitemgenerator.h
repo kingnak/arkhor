@@ -11,7 +11,7 @@ public:
     UniqueItemGenerator(QTextStream &out) : ObjectGenerator(out) {}
 
 protected:
-    virtual QList<AttributeDesc> getAttributes();
+    QList<AttributeDesc> getAttributes() override;
 };
 
 }

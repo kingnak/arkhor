@@ -46,12 +46,12 @@ void ObjectSelectorWidget::deactivate()
     m_isActive = false;
 }
 
-void ObjectSelectorWidget::setItems(QStringList objectIds)
+void ObjectSelectorWidget::setItems(const QStringList &objectIds)
 {
     clearItems();
 
     RequestObjectsData reqs;
-    for (auto id : objectIds) {
+    for (const auto &id : objectIds) {
         QListWidgetItem *itm = new QListWidgetItem(id);
         itm->setData(IdRole, id);
         m_items.insert(id, itm);
@@ -92,7 +92,7 @@ void ObjectSelectorWidget::showCounts(bool show)
     ui->frmCounts->setVisible(show);
 }
 
-void ObjectSelectorWidget::describeItem(DescribeObjectsData::ObjectDescription desc)
+void ObjectSelectorWidget::describeItem(const DescribeObjectsData::ObjectDescription &desc)
 {
     QListWidgetItem *itm = m_items.value(desc.id);
     if (!itm) {
@@ -148,7 +148,7 @@ void ObjectSelectorWidget::deselectItem()
     if (row < 0) return;
     QListWidgetItem *itm = ui->lstSelected->takeItem(row);
     if (itm->data(IdRole).toString().startsWith("$:")) {
-        updateMoney(ui->lstAvailable, itm->data(IdRole).toString().mid(2).toInt());
+        updateMoney(ui->lstAvailable, itm->data(IdRole).toString().midRef(2).toInt());
         delete itm;
         checkItemCount();
         return;
@@ -174,7 +174,7 @@ void ObjectSelectorWidget::checkItemCount()
 
 void ObjectSelectorWidget::selectMoney(int row, QListWidgetItem *itm)
 {
-    int max = itm->data(IdRole).toString().mid(2).toInt();
+    int max = itm->data(IdRole).toString().midRef(2).toInt();
     int sel = (max > 1)
             ? QInputDialog::getInt(this, "Select amount", "How much money you want to spend?", 1, 0, max)
             : max;
@@ -216,7 +216,7 @@ void ObjectSelectorWidget::updateMoney(QListWidget *lst, int add)
 
 void ObjectSelectorWidget::updateMoney(QListWidgetItem *itm, int add)
 {
-    int amount = itm->data(IdRole).toString().mid(2).toInt() + add;
+    int amount = itm->data(IdRole).toString().midRef(2).toInt() + add;
     itm->setData(IdRole, QString("$:%1").arg(amount));
     itm->setText(QString("$%1").arg(amount));
     itm->setIcon(QPixmap(":/core/marker/dollar"));

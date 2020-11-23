@@ -59,7 +59,7 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
     Q_UNUSED(eng);
     if (ctx->argumentCount() != 1 || !ctx->argument(0).isObject()) {
         ctx->throwError(QScriptContext::TypeError, "createObject: Must call with 1 object");
-        return NULL;
+        return nullptr;
     }
 
     QScopedPointer<GameObjectScript> ret(new GameObjectScript);
@@ -83,11 +83,11 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
     ret->m_actionIds = GameScript::array2stringlist(data.property("actions"));
     ret->m_optionIds = GameScript::array2stringlist(data.property("options"));
 
-    for (auto id : ret->m_actionIds) {
-        ret->m_actMap[id] = NULL;
+    for (const auto &id : ret->m_actionIds) {
+        ret->m_actMap[id] = nullptr;
     }
-    for (auto id : ret->m_optionIds) {
-        ret->m_optMap[id] = NULL;
+    for (const auto &id : ret->m_optionIds) {
+        ret->m_optMap[id] = nullptr;
     }
 
     QScriptValue propMod = data.property("modifications");
@@ -98,7 +98,7 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
             PropertyModificationList lst;
             if (!PropertyModificationScript::parsePropertyModificationList(ret.data(), propMod, lst)) {
                 ctx->throwError(QScriptContext::TypeError, "createObject: Invalid Property Modification.");
-                return NULL;
+                return nullptr;
             }
             ret->m_mods = lst;
         }
@@ -159,7 +159,7 @@ GameObjectScript *GameObjectScript::createGameObject(QScriptContext *ctx, QScrip
     QString err;
     if (!verify(ret.data(), &err)) {
         ctx->throwError(QScriptContext::TypeError, "createObject: Invalid GameObject data. Errors:\n"+err);
-        return NULL;
+        return nullptr;
     }
 
     GameObjectScript *pRet = ret.take();
@@ -212,7 +212,7 @@ bool GameObjectScript::verify(GameObjectScript *ob, QString *msg)
     if (ob->m_onRemoveFunc.isValid() && !ob->m_onRemoveFunc.isFunction()) errs.append("onRemoveFromInventory must be a function");
     if (ob->type() == AH::Obj_Spell) {
         bool hasMagDmg = false;
-        for (auto m : ob->m_mods) {
+        for (const auto &m : ob->m_mods) {
             if (m.affectedProperty() == AH::Common::PropertyValueData::Damage_Magical)
                 hasMagDmg = true;
             if (m.affectedProperty() == AH::Common::PropertyValueData::Damage_Physical)
@@ -233,7 +233,7 @@ bool GameObjectScript::verify(GameObjectScript *ob, QString *msg)
 bool GameObjectScript::resolveDependencies(GameRegistry *reg)
 {
     bool ok = true;
-    for (auto id : m_actMap.keys()) {
+    for (const auto &id : m_actMap.keys()) {
         if (!m_actMap[id]) {
             GameAction *a = reg->findActionById(id);
             if (a) {
@@ -250,7 +250,7 @@ bool GameObjectScript::resolveDependencies(GameRegistry *reg)
         }
     }
 
-    for (auto id : m_optMap.keys()) {
+    for (const auto &id : m_optMap.keys()) {
         if (!m_optMap[id]) {
             GameOption *o = reg->findOptionById(id);
             if (o) {
@@ -328,7 +328,7 @@ CharacterScript *GameObjectScript::csOwner() const
         }
         qWarning() << "Owner is not a CharacterScript";
     }
-    return NULL;
+    return nullptr;
 }
 
 void GameObjectScript::dynamicPropertyChanged()

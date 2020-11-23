@@ -55,13 +55,13 @@ public:
     DieRollOption(ReRollType type, QList<AH::Skill> skills)
         : m_type(type), m_skills(skills), m_used(false), m_discardAfterUse(false), m_source(NULL) {}
 
-    virtual AH::GamePhases phases() const { return AH::DieRoll; }
-    virtual bool isAvailable() const;
-    virtual bool execute();
+    AH::GamePhases phases() const override { return AH::DieRoll; }
+    bool isAvailable() const override;
+    bool execute() override;
 
-    QString name() const;
-    QString description() const;
-    QString sourceId() const;
+    QString name() const override;
+    QString description() const override;
+    QString sourceId() const override;
 
     void setCosts(const AH::Common::Cost &costs) { m_costs = costs; }
     void setDiscardAfterUse(bool discard) { m_discardAfterUse = discard; }

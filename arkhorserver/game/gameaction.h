@@ -9,7 +9,7 @@ class GameAction : public AH::Common::GameActionData
 {
 public:
     GameAction() {}
-    virtual ~GameAction() {}
+    ~GameAction() override {}
 
     virtual bool execute() = 0;
 

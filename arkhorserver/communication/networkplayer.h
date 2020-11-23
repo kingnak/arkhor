@@ -18,78 +18,78 @@ public:
     ~NetworkPlayer();
 
     void setConnection(ClientConnection *conn);
-    virtual void removedFromGame();
+    void removedFromGame() override;
 
 
-    virtual void init(Game *game);
+    void init(Game *game) override;
 
-    virtual void playerRemoved(Player *p);
+    void playerRemoved(Player *p) override;
 
-    virtual void playerCharacterInstantiated(Player *p);
+    void playerCharacterInstantiated(Player *p) override;
 
-    virtual void gameStarted();
-    virtual void startGame();
+    void gameStarted() override;
+    void startGame() override;
 
-    virtual void sendBoard(GameBoard *board, AH::Common::GameBoardChangeData changes);
-    virtual void sendBoardDescription(GameBoard *board, QVariantMap descriptions);
-    virtual void sendCharacter(Character *c);
-    virtual void sendSetting(AH::Common::GameSettingData data);
+    void sendBoard(GameBoard *board, AH::Common::GameBoardChangeData changes) override;
+    void sendBoardDescription(GameBoard *board, QVariantMap descriptions) override;
+    void sendCharacter(Character *c) override;
+    void sendSetting(AH::Common::GameSettingData data) override;
 
-    virtual void nextRound();
-    virtual void gamePhaseChanged(AH::GamePhase phase);
+    void nextRound() override;
+    void gamePhaseChanged(AH::GamePhase phase) override;
 
-    virtual void firstPlayerChanged(const Player *player);
-    virtual void currentPlayerChanged(const Player *player);
+    void firstPlayerChanged(const Player *player) override;
+    void currentPlayerChanged(const Player *player) override;
 
-    virtual void actionStart(const GameAction *action, QString desc = QString::null);
-    virtual void actionUpdate(const GameAction *action, QString desc = QString::null);
-    virtual void actionFinish(const GameAction *action, QString desc = QString::null);
-    virtual void actionExecute(const GameAction *action, QString desc = QString::null);
+    void actionStart(const GameAction *action, QString desc = QString::null) override;
+    void actionUpdate(const GameAction *action, QString desc = QString::null) override;
+    void actionFinish(const GameAction *action, QString desc = QString::null) override;
+    void actionExecute(const GameAction *action, QString desc = QString::null) override;
 
-    virtual void objectsInvalidated(QStringList id);
-    virtual void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type);    
-    virtual void setTempData(const QString &data);
-    virtual void clearTempData();
+    void objectsInvalidated(QStringList id) override;
+    void objectTypeInvalidated(AH::Common::RequestObjectsData::ObjectType type) override;
+    void setTempData(const QString &data) override;
+    void clearTempData() override;
 
-    virtual bool acknowledgeMythos(const MythosCard *m, QObject *observer);
-    virtual bool acknowledgeMonsterMovement(Monster *m, QObject *observer);
-    virtual void abortAcknowledge();
+    bool acknowledgeMythos(const MythosCard *m, QObject *observer) override;
+    bool acknowledgeMonsterMovement(Monster *m, QObject *observer) override;
+    void abortAcknowledge() override;
 
-    void notifySimple(const QString &str, Player *p, const QString &desc = QString::null);
-    void notifyAlert(const QString &msg, Player *p, const QString &desc = QString::null);
-    void notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc = QString::null);
-    void notifyWon(QString msg);
-    void notifyLost(QString msg);
-    void notifyDied(Player *p);
+    void notifySimple(const QString &str, Player *p, const QString &desc = QString::null) override;
+    void notifyAlert(const QString &msg, Player *p, const QString &desc = QString::null) override;
+    void notifySpecific(const QString &strThat, const QString &strOther, Player *that, const QString &desc = QString::null) override;
+    void notifyWon(QString msg) override;
+    void notifyLost(QString msg) override;
+    void notifyDied(Player *p) override;
 
     ///////// INTERACTOR:
 
-    virtual AH::Common::DieTestUpdateData dieRollStart(const AH::Common::DieRollTestData &test);
-    virtual AH::Common::DieTestUpdateData dieRollUpdate(const AH::Common::DieRollTestData &test);
-    virtual void dieRollFinish(const AH::Common::DieRollTestData &test);
+    AH::Common::DieTestUpdateData dieRollStart(const AH::Common::DieRollTestData &test) override;
+    AH::Common::DieTestUpdateData dieRollUpdate(const AH::Common::DieRollTestData &test) override;
+    void dieRollFinish(const AH::Common::DieRollTestData &test) override;
 
-    virtual Investigator *chooseInvestigator(QList<Investigator *> invs);
+    Investigator *chooseInvestigator(QList<Investigator *> invs) override;
 
-    virtual bool chooseWeapons(QList<GameObject *> weapons, ModifiedPropertyValue hands, QStringList &selected);
+    bool chooseWeapons(QList<GameObject *> weapons, ModifiedPropertyValue hands, QStringList &selected) override;
 
     // Main Game
-    virtual GameOption *chooseOption(QList<GameOption *> options);
-    virtual QList<int> chooseFocus(QList<AttributeSlider> sliders, int totalFocus);
-    virtual MovementPath chooseMovement(GameField *start, int movement);
+    GameOption *chooseOption(QList<GameOption *> options) override;
+    QList<int> chooseFocus(QList<AttributeSlider> sliders, int totalFocus) override;
+    MovementPath chooseMovement(GameField *start, int movement) override;
 
-    virtual QString chooseEncounterOption(AH::Common::EncounterData *enc);
-    virtual QString chooseMonster(QString desc, QList<AH::Common::MonsterData> monsters);
+    QString chooseEncounterOption(AH::Common::EncounterData *enc) override;
+    QString chooseMonster(QString desc, QList<AH::Common::MonsterData> monsters) override;
 
-    //virtual AH::Common::CostList choosePayment(const AH::Common::Cost &c);
-    virtual AH::Common::PropertyValueData::Property chooseSkill(QList<AH::Common::ModifiedPropertyValueData> options);
+    //AH::Common::CostList choosePayment(const AH::Common::Cost &c) override;
+    AH::Common::PropertyValueData::Property chooseSkill(QList<AH::Common::ModifiedPropertyValueData> options) override;
 
-    virtual AH::Common::ChoiceResponseData offerChoice(AH::Common::ChoiceData choice);
+    AH::Common::ChoiceResponseData offerChoice(AH::Common::ChoiceData choice) override;
 
-    virtual AH::Common::TradeData offerTrade(AH::Common::TradeData trade);
-    virtual void tradeCanceled(QString name);
+    AH::Common::TradeData offerTrade(AH::Common::TradeData trade) override;
+    void tradeCanceled(const QString &name) override;
 
     // interface to network
-    void handleMessage(AH::Common::Message msg);
+    void handleMessage(const AH::Common::Message &msg);
 
     void destroy();
 
@@ -104,11 +104,11 @@ private slots:
     void killPlayer();
 
 private:
-    Q_INVOKABLE void doHandleMessage(AH::Common::Message msg);
+    Q_INVOKABLE void doHandleMessage(const AH::Common::Message &msg);
 
-    void sendText(QString txt);
+    void sendText(const QString &txt);
 
-    bool awaitResponse(AH::Common::Message &outMsg, QList<AH::Common::Message::Type> acceptTypes);
+    bool awaitResponse(AH::Common::Message &outMsg, const QList<AH::Common::Message::Type> &acceptTypes);
 
 private:
     Game *m_game;

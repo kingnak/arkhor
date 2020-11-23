@@ -39,7 +39,7 @@ ArkhorScriptGenerator::~ArkhorScriptGenerator()
 QString ArkhorScriptGenerator::error() const
 {
     QString errs;
-    for (auto g : m_generators.values()) {
+    for (auto g : m_generators) {
         errs += g->error();
     }
 
@@ -49,7 +49,7 @@ QString ArkhorScriptGenerator::error() const
 QString ArkhorScriptGenerator::warning() const
 {
     QString warns;
-    for (auto g : m_generators.values()) {
+    for (auto g : m_generators) {
         warns += g->warning();
     }
     return warns;
@@ -105,7 +105,7 @@ bool ArkhorScriptGenerator::generateClass(ClassDef &cls)
     return setError("Unknown ClassType: " + cls.elemType);
 }
 
-bool ArkhorScriptGenerator::setError(QString err)
+bool ArkhorScriptGenerator::setError(const QString &err)
 {
     m_error += err + "\n";
     return false;
@@ -113,21 +113,20 @@ bool ArkhorScriptGenerator::setError(QString err)
 
 bool ArkhorScriptGenerator::generateNestedClasses(ClassDef &cls)
 {
-    //for (auto &a : cls.attrs) {
-    for (auto it = cls.attrs.begin(); it != cls.attrs.end(); ++it) {
-        if (it->type == ArkhorScriptParser::NestedObject) {
-            if (!doGenerateNestedClass(*it)) {
+    for (auto a : cls.attrs) {
+        if (a.type == ArkhorScriptParser::NestedObject) {
+            if (!doGenerateNestedClass(a)) {
                 return false;
             }
-        } else if (it->type == ArkhorScriptParser::ArrayValues) {
-            for (auto jt = it->array.begin(); jt != it->array.end(); ++jt) {
-                if (jt->first == ArkhorScriptParser::NestedObject) {
-                    AttrDef tmp = AttrDef::forArrayElement(*jt);
+        } else if (a.type == ArkhorScriptParser::ArrayValues) {
+            for (auto &e : a.array) {
+                if (e.first == ArkhorScriptParser::NestedObject) {
+                    AttrDef tmp = AttrDef::forArrayElement(e);
                     if (!doGenerateNestedClass(tmp)) {
                         return false;
                     }
-                    jt->second = tmp.content;
-                    jt->first = tmp.type;
+                    e.second = tmp.content;
+                    e.first = tmp.type;
                 }
             }
         }

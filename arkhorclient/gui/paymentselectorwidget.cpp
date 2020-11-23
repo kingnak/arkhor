@@ -38,24 +38,24 @@ int PaymentSelectorWidget::getSelectedPaymentIndex() const
     return m_selIdx;
 }
 
-void PaymentSelectorWidget::displayPayments(QString desc, AH::Common::Cost costs)
+void PaymentSelectorWidget::displayPayments(const QString &desc, const AH::Common::Cost &costs)
 {
     clearPayments();
 
     m_description->setText(desc);
     m_cost = costs;
     int i = 0;
-    for (auto l : m_cost.getAlternatives()) {
-        QStringList desc;
-        for (auto i : l) {
+    for (const auto &l : m_cost.getAlternatives()) {
+        QStringList descs;
+        for (auto itm : l) {
             QString s = QString("%1 %2")
-                    .arg(i.amount)
-                    .arg(Utils::stringForCostItem(i.type));
-            desc << s;
+                    .arg(itm.amount)
+                    .arg(Utils::stringForCostItem(itm.type));
+            descs << s;
         }
         DoubleClickButton *btn = new DoubleClickButton(QString("Alternative &%1").arg(i+1));
         btn->setCheckable(true);
-        btn->setProperty(PROPERTY_COST_DESCRIPTION, desc.join("\nAND\n"));
+        btn->setProperty(PROPERTY_COST_DESCRIPTION, descs.join("\nAND\n"));
         btn->setProperty(PROPERTY_COST_INDEX, i);
         connect(btn, SIGNAL(clicked()), this, SLOT(alternativeSelected()));
         connect(btn, SIGNAL(doubleClicked()), this, SIGNAL(activateChoice()));
@@ -70,7 +70,7 @@ void PaymentSelectorWidget::clearPayments()
     QLayout *l = m_optionsWidget->layout();
     if (l) {
         QLayoutItem *child;
-        while ((child = l->takeAt(0)) != 0) {
+        while ((child = l->takeAt(0)) != nullptr) {
             delete child;
         }
     }

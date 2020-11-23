@@ -55,6 +55,6 @@ void MythosCardWidget::updateMythosCard(const AH::Common::MythosData *mythos)
 
 void MythosCardWidget::displayNothing()
 {
-    ui->pageEnvironment->displayEnvironment(NULL);
-    ui->pageRumor->displayRumor(NULL);
+    ui->pageEnvironment->displayEnvironment(nullptr);
+    ui->pageRumor->displayRumor(nullptr);
 }

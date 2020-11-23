@@ -84,10 +84,10 @@ NetworkConnection::NetworkConnection(qintptr socketDescriptor, QObject *parent)
 :   QObject(parent),
     //QTcpSocket(parent),
     m_sockDesc(socketDescriptor),
-    m_socket(NULL),
+    m_socket(nullptr),
     m_state(ReadHeader),
     m_lengthNeeded(0),
-    m_pingTimer(NULL),
+    m_pingTimer(nullptr),
     m_transferTimer(0),
     m_doPing(false)
 {
@@ -100,7 +100,7 @@ NetworkConnection::NetworkConnection(QTcpSocket *sock, QObject *parent)
     m_socket(sock),
     m_state(ReadHeader),
     m_lengthNeeded(0),
-    m_pingTimer(NULL),
+    m_pingTimer(nullptr),
     m_transferTimer(0),
     m_doPing(false)
 {
@@ -190,7 +190,7 @@ void NetworkConnection::sendPing()
 
 void NetworkConnection::sendMessage(const Message &msg)
 {
-   QMetaObject::invokeMethod(this, "doSendMessage", Q_ARG(const AH::Common::Message &, msg));
+   QMetaObject::invokeMethod(this, "doSendMessage", Q_ARG(AH::Common::Message, msg));
 }
 
 void NetworkConnection::doSendMessage(const Message &msg)

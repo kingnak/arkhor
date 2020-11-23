@@ -16,7 +16,7 @@ class ScriptTestDrawWidget : public QDialog
 public:
     explicit ScriptTestDrawWidget(QWidget *parent = nullptr);
 
-    virtual QString askDraw(const QString &title, QStringList lst);
+    virtual QString askDraw(const QString &title, const QStringList &lst);
     virtual QString moreData() { return QString::null; }
 protected:
     ScriptTestDrawWidget(QWidget *parent, bool);
@@ -37,7 +37,7 @@ class ScriptTestDrawMonsterWidget : public ScriptTestDrawWidget
 public:
     explicit ScriptTestDrawMonsterWidget(QWidget *parent = nullptr);
 
-    QString askDraw(const QString&, QStringList monsters) override;
+    QString askDraw(const QString&, const QStringList &monsters) override;
     QString moreData() override;
 
 private:
@@ -50,7 +50,7 @@ class ScriptTestDrawMythosWidget : public ScriptTestDrawWidget
 public:
     explicit ScriptTestDrawMythosWidget(QWidget *parent = nullptr);
 
-    QString askDraw(const QString &title, QStringList lst) override;
+    QString askDraw(const QString &title, const QStringList &lst) override;
     QString moreData() override;
 
 private:
@@ -67,7 +67,7 @@ public:
     explicit ScriptTestDrawGateWidget(QWidget *parent = nullptr);
 
     QString askDraw() { return askDraw("",QStringList()); }
-    QString askDraw(const QString &title, QStringList lst) override;
+    QString askDraw(const QString &title, const QStringList &lst) override;
     QString moreData() override;
 
 private:

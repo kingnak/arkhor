@@ -19,7 +19,7 @@ TradeWidget::~TradeWidget()
     delete ui;
 }
 
-void TradeWidget::showTrade(AH::Common::TradeData td)
+void TradeWidget::showTrade(const AH::Common::TradeData &td)
 {
     clear();
     if (td.phase == AH::Common::TradeData::NoOffer)
@@ -104,22 +104,22 @@ void TradeWidget::displayItem(QListWidgetItem *itm)
         displayItem(itm->data(ObjectListItem::ObjectIdRole).toString());
 }
 
-void TradeWidget::displayItem(QString id)
+void TradeWidget::displayItem(const QString &id)
 {
     if (!id.startsWith("$:"))
         emit itemInfoRequested(id);
 }
 
-void TradeWidget::fillList(QListWidget *lst, QStringList items)
+void TradeWidget::fillList(QListWidget *lst, const QStringList &items)
 {
     QStringList reqs;
-    for (QString s : items) {
+    for (const QString &s : items) {
         if (!items.startsWith("$:"))
             reqs << s;
     }
     ObjectRegistry::instance()->getObjectsOfType(reqs, AH::Common::RequestObjectsData::Unknown);
     lst->clear();
-    for (QString id : items) {
+    for (const QString &id : items) {
         QListWidgetItem *itm = new ObjectListItem(id);
         lst->addItem(itm);
     }

@@ -4,7 +4,7 @@
 #include <script/gamescript.h>
 #include <character.h>
 
-PreventDamageOptionScript::PreventDamageOptionScript(const QString &id, const QString &desc, QScriptValue preventStamina, QScriptValue preventSanity, bool discard /* = false */, bool exhaust /* = true */, QObject *parent /* = 0 */)
+PreventDamageOptionScript::PreventDamageOptionScript(const QString &id, const QString &desc, const QScriptValue &preventStamina, const QScriptValue &preventSanity, bool discard /* = false */, bool exhaust /* = true */, QObject *parent /* = 0 */)
     : QObject(parent),
       m_staVal(0),
       m_sanVal(0),
@@ -53,7 +53,7 @@ bool PreventDamageOptionScript::execute(int damageStamina, int damageSanity)
         }
     }
 
-    setSource(NULL);
+    setSource(nullptr);
     return ret;
 }
 

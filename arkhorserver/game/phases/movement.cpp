@@ -27,7 +27,7 @@ Movement::~Movement()
 void Movement::characterMoved()
 {
     m_outcome = FightPhase::EndUnknown;
-    gGame->context().player()->getCharacter()->setExploredGate(NULL);
+    gGame->context().player()->getCharacter()->setExploredGate(nullptr);
 }
 
 void Movement::enterPhase()

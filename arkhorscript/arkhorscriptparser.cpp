@@ -5,7 +5,7 @@
 namespace AHS {
 
 ArkhorScriptParser::ArkhorScriptParser(QIODevice *input)
-    : m_curClass(NULL)
+    : m_curClass(nullptr)
 {
     m_lexer = new ArkhorScriptLexer(input);
 }
@@ -48,7 +48,7 @@ bool ArkhorScriptParser::ElementDefinition()
     if (!ElementBlock()) {
         return setError("Expected Class Definition");
     }
-    m_curClass = NULL;
+    m_curClass = nullptr;
     m_allClasses << curClass;
     return true;
 }
@@ -308,7 +308,7 @@ bool ArkhorScriptParser::String(QString &value)
     }
 }
 
-bool ArkhorScriptParser::setError(QString err)
+bool ArkhorScriptParser::setError(const QString &err)
 {
     m_error += QString("%3 @ %1,%2").arg(m_lexer->currentSymbol().line).arg(m_lexer->currentSymbol().pos).arg(err);
     if (m_lexer->currentSymbol().type == Symbol::Error) {

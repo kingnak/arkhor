@@ -4,13 +4,13 @@
 class TabFrame : public QWidget
 {
 public:
-    TabFrame(QWidget *p = NULL) : QWidget(p) {}
+    TabFrame(QWidget *p = nullptr) : QWidget(p) {}
 protected:
-    void paintEvent(QPaintEvent *event) {
+    void paintEvent(QPaintEvent *event) override {
         QStylePainter p(this);
         QStyleOptionTabWidgetFrameV2 opt;
         opt.initFrom(this);
-        opt.lineWidth = style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, this);
+        opt.lineWidth = style()->pixelMetric(QStyle::PM_DefaultFrameWidth, nullptr, this);
         opt.rect = rect();
 
         adjustOptions(opt);
@@ -158,7 +158,7 @@ static bool IsAppThemed()
     if (!inst)
         return false;
 
-    typedef bool(*PtrIsAppThemed)();
+    using PtrIsAppThemed = bool (*)();
     PtrIsAppThemed pIsAppThemed = (PtrIsAppThemed) ::GetProcAddress(inst, "IsAppThemed");
 
     if (!pIsAppThemed)

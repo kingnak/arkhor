@@ -4,9 +4,10 @@
 
 static const char *FOCUS_DIFF_PROPERTY = "FOCUS_DIFF";
 
-FocusChooser::FocusChooser(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::FocusChooser)
+FocusChooser::FocusChooser(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::FocusChooser)
+    , m_totFocus(0)
 {
     ui->setupUi(this);
     ui->wgtSpeedSneak->setLayout(new QVBoxLayout);
@@ -19,7 +20,7 @@ FocusChooser::~FocusChooser()
     delete ui;
 }
 
-void FocusChooser::chooseFocus(QList<AH::Common::AttributeSliderData> sliders, int totAmount)
+void FocusChooser::chooseFocus(const QList<AH::Common::AttributeSliderData> &sliders, int totAmount)
 {
     cleanWidget(ui->wgtSpeedSneak);
     cleanWidget(ui->wgtFightWill);
@@ -74,7 +75,7 @@ void FocusChooser::cleanWidget(QWidget *w)
     QLayout *l = w->layout();
     if (l) {
         QLayoutItem *child;
-        while ((child = l->takeAt(0)) != 0) {
+        while ((child = l->takeAt(0)) != nullptr) {
             delete child;
         }
     }

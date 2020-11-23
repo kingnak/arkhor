@@ -18,7 +18,7 @@ QList<ClassGenerator::AttributeDesc> SpellGenerator::getAttributes()
                ;
 }
 
-bool SpellGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr)
+bool SpellGenerator::outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr)
 {
     /*
     if (desc.name == "cast") {
@@ -37,7 +37,7 @@ bool SpellGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &
     return ObjectGenerator::outputSpecialAttribute(desc, cls, attr);
 }
 
-bool SpellGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+bool SpellGenerator::outputDefaultAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "castTarget") {
         return outputAttribute(cls, AttrDef("castTarget", ArkhorScriptParser::Primitive, "1"), false);

@@ -46,12 +46,12 @@ public:
     GameContextScript *getGameContext();
 
     Q_INVOKABLE GameObjectScript *drawSingleObject(AH::GameObjectType type);
-    Q_INVOKABLE GameObjectScript *drawSpecificObject(QString id);
+    Q_INVOKABLE GameObjectScript *drawSpecificObject(const QString &id);
 
     Q_INVOKABLE bool returnMonstersFromField(AH::Common::FieldData::FieldID fieldId);
     Q_INVOKABLE bool returnMonstersFromFieldType(AH::Common::FieldData::FieldType type);
-    Q_INVOKABLE bool returnMonstersFromFields(QList<AH::Common::FieldData::FieldID> fieldIds);
-    Q_INVOKABLE bool returnMonsterTypeFromBoard(QString typeId);
+    Q_INVOKABLE bool returnMonstersFromFields(const QList<AH::Common::FieldData::FieldID> &fieldIds);
+    Q_INVOKABLE bool returnMonsterTypeFromBoard(const QString &typeId);
 
     Q_INVOKABLE bool spawnMonster(AH::Common::FieldData::FieldID fieldId);
 
@@ -64,7 +64,7 @@ public:
     Q_INVOKABLE void awakeAncientOne();
 
     ////////// SETUP
-    Q_INVOKABLE bool registerConstant(QString scope, QString name, QString value);
+    Q_INVOKABLE bool registerConstant(const QString &scope, const QString &name, const QString &value);
 
     Q_INVOKABLE QScriptValue registerInvestigator(InvestigatorScript *i);
     Q_INVOKABLE QScriptValue createInvestigator();
@@ -85,7 +85,7 @@ public:
     Q_INVOKABLE QScriptValue registerMultiObject(qint32 count, GameObjectScript *o);
     Q_INVOKABLE GameObjectScript *createObject();
 
-    Q_INVOKABLE QScriptValue addFieldOption(AH::Common::FieldData::FieldID fieldId, QString optionId);
+    Q_INVOKABLE QScriptValue addFieldOption(AH::Common::FieldData::FieldID fieldId, const QString &optionId);
 
     Q_INVOKABLE ArkhamEncounterScript *createArkhamEncounter();
     Q_INVOKABLE QScriptValue registerArkhamEncounter(ArkhamEncounterScript *e);
@@ -103,20 +103,20 @@ public:
     Q_INVOKABLE QScriptValue registerAncientOne(AncientOneScript *a);
 
     ///////// HELPER
-    static QStringList array2stringlist(QScriptValue ar);
-    static QScriptValueList array2list(QScriptValue ar);
+    static QStringList array2stringlist(const QScriptValue &ar);
+    static QScriptValueList array2list(const QScriptValue &ar);
     template<typename T>
     static QList<T> array2TypedList(QScriptValue ar);
     template<typename T>
     static QScriptValue makeArray(const QList<T> lst);
 
-    static bool parseCosts(QScriptValue v, AH::Common::Cost &c);
-    static bool parseCostList(QScriptValue v, AH::Common::CostList &cl);
-    static bool parseCostItem(QScriptValue v, AH::Common::CostItem &ci);
+    static bool parseCosts(const QScriptValue &v, AH::Common::Cost &c);
+    static bool parseCostList(const QScriptValue &v, AH::Common::CostList &cl);
+    static bool parseCostItem(const QScriptValue &v, AH::Common::CostItem &ci);
 
-    static bool parseObjectTypeCount(QScriptValue v, QList<AH::ObjectTypeCount> &o);
+    static bool parseObjectTypeCount(const QScriptValue &v, QList<AH::ObjectTypeCount> &o);
 
-    static bool parseOptionChoiceData(QScriptValue v, AH::Common::ChoiceData::OptionData &o);
+    static bool parseOptionChoiceData(const QScriptValue &v, AH::Common::ChoiceData::OptionData &o);
 
     template<typename T>
     static T parseFlags(QScriptValue v, T defVal);
@@ -149,8 +149,8 @@ public:
     };
 
     // Central method caller
-    QScriptValue call(FunctionType t, QScriptValue f, QScriptValue obj, QScriptValue arg);
-    QScriptValue call(FunctionType t, QScriptValue f, QScriptValue obj = QScriptValue(), QScriptValueList args = QScriptValueList());
+    QScriptValue call(FunctionType t, const QScriptValue &f, const QScriptValue &obj, const QScriptValue &arg);
+    QScriptValue call(FunctionType t, QScriptValue f, const QScriptValue &obj = QScriptValue(), const QScriptValueList &args = QScriptValueList());
 
     // Helper for TMP id object
     QScriptValue getTempObject();
@@ -172,9 +172,9 @@ private:
     // Quick access
     static QScriptValue quick_CurChar(QScriptContext *, QScriptEngine *);
 
-    bool parseScripts(QString base);
-    bool parseScriptsDir(QDir base);
-    bool parseScriptsZip(QString file);
+    bool parseScripts(const QString &base);
+    bool parseScriptsDir(const QDir &base);
+    bool parseScriptsZip(const QString &file);
     bool parseScriptFile(QIODevice *d, const QString &fn, const QString &outScriptPath = QString::null);
     bool parseScriptAHSFile(QIODevice *d, const QString &fn, const QString &outScriptPath = QString::null);
     bool parseScriptJSFile(QIODevice *d, const QString &fn);

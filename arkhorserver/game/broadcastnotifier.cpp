@@ -5,7 +5,7 @@
 #include <QTimerEvent>
 
 BroadcastNotifier::BroadcastNotifier()
-:   m_game(NULL),
+:   m_game(nullptr),
     m_ackTimeoutId(0)
 {
 }
@@ -163,7 +163,7 @@ void BroadcastNotifier::clearTempData()
 
 bool BroadcastNotifier::acknowledgeMythos(const MythosCard *m, QObject *observer)
 {
-    Q_ASSERT(observer == NULL);
+    Q_ASSERT(observer == nullptr);
     return doAcknowledge([=](GameNotifier *n) {
         return n->acknowledgeMythos(m, this);
     });
@@ -171,7 +171,7 @@ bool BroadcastNotifier::acknowledgeMythos(const MythosCard *m, QObject *observer
 
 bool BroadcastNotifier::acknowledgeMonsterMovement(Monster *m, QObject *observer)
 {
-    Q_ASSERT(observer == NULL);
+    Q_ASSERT(observer == nullptr);
     return doAcknowledge([=](GameNotifier *n) {
         return n->acknowledgeMonsterMovement(m, this);
     });

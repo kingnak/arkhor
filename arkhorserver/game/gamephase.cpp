@@ -5,14 +5,11 @@
 #include "player.h"
 
 GamePhase::GamePhase(Game *game)
-    : m_game(game)//, m_skip(new SkipOption)
+    : m_game(game)
 {
 }
 
-GamePhase::~GamePhase()
-{
-    //delete m_skip;
-}
+GamePhase::~GamePhase() = default;
 
 void GamePhase::execute()
 {

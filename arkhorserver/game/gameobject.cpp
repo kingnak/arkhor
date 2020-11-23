@@ -72,7 +72,7 @@ QStringList GameObject::optionIds() const
 
 bool GameObject::isFightObject()
 {
-    for (auto m : getModifications()) {
+    for (const auto &m : getModifications()) {
         switch (m.affectedProperty()) {
         case PropertyValue::Damage_General:
         case PropertyValue::Damage_Physical:

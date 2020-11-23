@@ -315,7 +315,7 @@ QString Utils::stringForPhase(AH::GamePhase ph)
     return s;
 }
 
-QString Utils::stringForPropertyModification(PropertyModificationData mod)
+QString Utils::stringForPropertyModification(const PropertyModificationData &mod)
 {
     QString prop = stringForProperty(mod.affectedProperty());
     QString val;

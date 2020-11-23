@@ -3,11 +3,9 @@
 #include <QScriptValueIterator>
 #include <QDynamicPropertyChangeEvent>
 
-DynamicPropertyScript::DynamicPropertyScript()
-{
-}
+DynamicPropertyScript::DynamicPropertyScript() = default;
 
-void DynamicPropertyScript::setObject(QScriptValue v)
+void DynamicPropertyScript::setObject(const QScriptValue &v)
 {
     m_this = v;
 }
@@ -24,7 +22,7 @@ QString DynamicPropertyScript::display() const
     return m_val.toString();
 }
 
-bool DynamicPropertyScript::createDynamicProperties(QScriptValue v, DynamicScriptableObject *o)
+bool DynamicPropertyScript::createDynamicProperties(const QScriptValue &v, DynamicScriptableObject *o)
 {
     if (!v.isObject()) {
         return false;
@@ -46,7 +44,7 @@ bool DynamicPropertyScript::createDynamicProperties(QScriptValue v, DynamicScrip
     return true;
 }
 
-bool DynamicPropertyScript::parseDynamicProperty(QString name, QScriptValue v, DynamicPropertyScript &o)
+bool DynamicPropertyScript::parseDynamicProperty(const QString &name, const QScriptValue &v, DynamicPropertyScript &o)
 {
     o.m_propertyName = name.toUtf8();
     if (v.isObject()) {
@@ -71,7 +69,7 @@ bool DynamicPropertyScript::parseDynamicProperty(QString name, QScriptValue v, D
     return true;
 }
 
-void DynamicScriptableObject::addDynamicProperty(DynamicPropertyScript prop)
+void DynamicScriptableObject::addDynamicProperty(const DynamicPropertyScript &prop)
 {
     m_dynamicProperties.insert(prop.propertyName(), prop);
     setProperty(prop.propertyName(), prop.value().isValid() ? prop.value() : "");
@@ -80,7 +78,7 @@ void DynamicScriptableObject::addDynamicProperty(DynamicPropertyScript prop)
 QList<AH::Common::DynamicPropertyData> DynamicScriptableObject::getDynamicPropertyDataList() const
 {
     QList<AH::Common::DynamicPropertyData> ret;
-    for (auto prop : m_dynamicProperties.values()) {
+    for (const auto &prop : m_dynamicProperties) {
         QVariant v = property(prop.propertyName());
 
         //QString s = v.toString();
@@ -95,12 +93,12 @@ QList<AH::Common::DynamicPropertyData> DynamicScriptableObject::getDynamicProper
 
 void DynamicScriptableObject::clonePropertiesInto(DynamicScriptableObject *other)
 {
-    for (auto prop : m_dynamicProperties.values()) {
+    for (const auto &prop : m_dynamicProperties) {
         other->addDynamicProperty(prop);
     }
 }
 
-void DynamicScriptableObject::resolveDependencies(QScriptValue thisObj)
+void DynamicScriptableObject::resolveDependencies(const QScriptValue &thisObj)
 {
     /*
     for (auto &prop : m_dynamicProperties.values()) {

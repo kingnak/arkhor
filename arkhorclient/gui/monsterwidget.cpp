@@ -11,10 +11,7 @@ MonsterFrontWidget::MonsterFrontWidget(QWidget *parent) :
 
 }
 
-MonsterFrontWidget::~MonsterFrontWidget()
-{
-
-}
+MonsterFrontWidget::~MonsterFrontWidget() = default;
 
 QPixmap MonsterFrontWidget::drawMonster(const AH::Common::MonsterData *m, double scale, QSize s)
 {
@@ -47,7 +44,7 @@ QPixmap MonsterFrontWidget::drawMonster(const AH::Common::MonsterData *m, double
         p.setClipRect(awareRect);
         QPainterPath txtPath;
         txtPath.addText(160*scale, 30*scale, f, Utils::fullNumberString(m->awareness()));
-        p.fillPath(txtPath, QColor(0xD2363A));
+        p.fillPath(txtPath, ResourcePool::StaminaColor);
         QPainterPathStroker txtStroke;
         txtPath = txtStroke.createStroke(txtPath);
         p.drawPath(txtPath);
@@ -75,12 +72,12 @@ void MonsterFrontWidget::displayMonster(const AH::Common::MonsterData *m)
 
 QSize MonsterFrontWidget::sizeHint() const
 {
-    return QSize(200,200);
+    return {200,200};
 }
 
 QSize MonsterFrontWidget::minimumSizeHint() const
 {
-    return QSize(200, 200);
+    return {200, 200};
 }
 
 void MonsterFrontWidget::paintEvent(QPaintEvent *event)
@@ -99,10 +96,7 @@ MonsterBackWidget::MonsterBackWidget(QWidget *parent) :
 
 }
 
-MonsterBackWidget::~MonsterBackWidget()
-{
-
-}
+MonsterBackWidget::~MonsterBackWidget() = default;
 
 void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m, bool minimal)
 {
@@ -139,14 +133,14 @@ void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m, bool mi
                     p.drawPixmap(8, 175, sanity);
                     QPainterPath pathDmg;
                     pathDmg.addText(16, 190, f, QString::number(m->horrorDamage()));
-                    p.fillPath(pathDmg, QColor(0x3672AE));
+                    p.fillPath(pathDmg, ResourcePool::SanityColor);
                     QPainterPathStroker strDmg;
                     pathDmg = strDmg.createStroke(pathDmg);
                     //p.setPen(Qt::white);
                     p.drawPath(pathDmg);
                 }
             }
-            p.fillPath(pathAdj, QColor(0x3672AE));
+            p.fillPath(pathAdj, ResourcePool::SanityColor);
             QPainterPathStroker strAdj;
             pathAdj = strAdj.createStroke(pathAdj);
             //p.setPen(Qt::black);
@@ -164,7 +158,7 @@ void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m, bool mi
                 QPainterPath pathDmg;
                 p.drawPixmap(162, 170, combat);
                 pathDmg.addText(170, 190, f, QString::number(m->combatDamage()));
-                p.fillPath(pathDmg, QColor(0xD2363A));
+                p.fillPath(pathDmg, ResourcePool::StaminaColor);
                 QPainterPathStroker strDmg;
                 pathDmg = strDmg.createStroke(pathDmg);
                 //p.setPen(Qt::white);
@@ -173,7 +167,7 @@ void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m, bool mi
                 pathAdj.addText(160, 165, f, Utils::fullNumberString(m->combatAdjustment()));
             }
 
-            p.fillPath(pathAdj, QColor(0xD2363A));
+            p.fillPath(pathAdj, ResourcePool::StaminaColor);
             QPainterPathStroker strAdj;
             pathAdj = strAdj.createStroke(pathAdj);
             //p.setPen(Qt::black);
@@ -190,7 +184,7 @@ void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m, bool mi
                 p.drawPixmap(75, 170, tough);
                 path.addText(100, 190, f, QString::number(m->toughness()));
             }
-            p.fillPath(path, QColor(0xD2363A));
+            p.fillPath(path, ResourcePool::StaminaColor);
             QPainterPathStroker str;
             path = str.createStroke(path);
             //p.setPen(Qt::white);
@@ -245,12 +239,12 @@ void MonsterBackWidget::displayMonster(const AH::Common::MonsterData *m, bool mi
 
 QSize MonsterBackWidget::sizeHint() const
 {
-    return QSize(200,200);
+    return {200,200};
 }
 
 QSize MonsterBackWidget::minimumSizeHint() const
 {
-    return QSize(200, 200);
+    return {200, 200};
 }
 
 void MonsterBackWidget::paintEvent(QPaintEvent *event)
@@ -267,7 +261,7 @@ MonsterWidget::MonsterWidget(QWidget *parent) :
     ui(new Ui::MonsterWidget)
 {
     ui->setupUi(this);
-    displayMonster(NULL);
+    displayMonster(nullptr);
 }
 
 MonsterWidget::~MonsterWidget()
@@ -324,7 +318,7 @@ void MonsterWidget::updateMonster(const AH::Common::MonsterData *m)
         switch (d) {
         case AH::Common::MonsterData::OnlyFront:
             ui->btnTurn->setVisible(false);
-            ui->wgtBackImg->displayMonster(NULL);
+            ui->wgtBackImg->displayMonster(nullptr);
             break;
         case AH::Common::MonsterData::MinimalBack:
             ui->btnTurn->setVisible(true);
@@ -337,8 +331,8 @@ void MonsterWidget::updateMonster(const AH::Common::MonsterData *m)
             break;
         }
     } else {
-        ui->wgtFrontImg->displayMonster(NULL);
-        ui->wgtBackImg->displayMonster(NULL);
+        ui->wgtFrontImg->displayMonster(nullptr);
+        ui->wgtBackImg->displayMonster(nullptr);
         ui->btnTurn->setVisible(false);
         ui->lblName->setText("");
         ui->lblDimension->setText("");

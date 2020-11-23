@@ -9,7 +9,7 @@ Q_DECLARE_METATYPE(QList<AH::Common::InvestigatorData>)
 StartForm::StartForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::StartForm),
-    m_conn(NULL)
+    m_conn(nullptr)
 {
     ui->setupUi(this);
 
@@ -87,7 +87,7 @@ void StartForm::versionMismatch(quint32 c, quint32 s)
 
     QMessageBox::critical(this, "Version Mismatch",
         QString("This client cannot communicate with the server.\nClient version: %1\nServer version: %2\nUse the appropriate client!")
-                          .arg(cstr).arg(sstr)
+                          .arg(cstr, sstr)
     );
 }
 
@@ -102,7 +102,7 @@ void StartForm::gameStarted()
     ui->btnStart->setEnabled(false);
 }
 
-void StartForm::setPlayerData(AH::Common::PlayerData d)
+void StartForm::setPlayerData(const AH::Common::PlayerData &d)
 {
     m_thisPlayerId = d.id();
     ui->lblId->setText(d.id());
@@ -111,20 +111,20 @@ void StartForm::setPlayerData(AH::Common::PlayerData d)
     m_mainGui->initConnection(m_conn);
 }
 
-void StartForm::setInvestigatorList(QList<AH::Common::InvestigatorData> l)
+void StartForm::setInvestigatorList(const QList<AH::Common::InvestigatorData> &l)
 {
     ui->grpInvestigator->setEnabled(true);
     ui->btnSelectInv->setEnabled(true);
     ui->cmbInvestigators->clear();
     ui->cmbInvestigators->addItem(QString::null, QVariant());
-    for (auto i : l) {
+    for (const auto &i : l) {
         QVariant v;
         v << i;
         ui->cmbInvestigators->addItem(i.name(), v);
     }
 }
 
-void StartForm::characterInstantiated(QString playerId, QString charaterId)
+void StartForm::characterInstantiated(const QString &playerId, const QString &charaterId)
 {
     if (playerId == this->m_thisPlayerId) {
         int idx = ui->cmbInvestigators->findData(charaterId);

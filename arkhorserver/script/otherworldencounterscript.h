@@ -17,8 +17,8 @@ public:
     static void castFromValue(const QScriptValue &v, OtherWorldEncounterScript *&o) { o = qobject_cast<OtherWorldEncounterScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, OtherWorldEncounterScript * const &in) { return eng->newQObject(in); }
 
-    virtual QList<GameOption *> options() const;
-    virtual bool resolveDependencies(GameRegistry *reg);
+    QList<GameOption *> options() const override;
+    bool resolveDependencies(GameRegistry *reg) override;
 
     static OtherWorldEncounterScript *createEncounter(QScriptContext *ctx, QScriptEngine *eng);
 

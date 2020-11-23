@@ -16,7 +16,7 @@ public:
     TradeAction();
 
     bool execute() override;
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
     AH::GamePhases phases() const override { return AH::Movement; }
 
@@ -30,11 +30,11 @@ private:
     bool doTrade(Character *partner);
     Character *chooseTradingPartner(Player *p, const QList<Character*> &partners);
     QStringList getTradables(Character *c);
-    AH::Common::TradeData getTradeOffer(Character *c, AH::Common::TradeData td);
+    AH::Common::TradeData getTradeOffer(Character *c, const AH::Common::TradeData &td);
 
-    void exchange(Character *from, Character *to, QStringList items);
+    void exchange(Character *from, Character *to, const QStringList &items);
     bool getMoney(Character *c, int amount);
-    GameObject *getObject(Character *c, QString id);
+    GameObject *getObject(Character *c, const QString &id);
 };
 
 class TradeOption : public GameOption
@@ -45,7 +45,7 @@ public:
 
     QString id() const override { return "OP_TRADE"; }
 
-    virtual bool isAvailable() const override;
+    bool isAvailable() const override;
 
 private:
     TradeAction ta;

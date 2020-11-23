@@ -54,7 +54,7 @@ QString ChooseWeaponsAction::notificationString(GameAction::NotificationPart par
     return QString::null;
 }
 
-bool ChooseWeaponsAction::doEquip(QList<GameObject *> oldWeapons, QStringList newWeapons, int hands)
+bool ChooseWeaponsAction::doEquip(const QList<GameObject *> &oldWeapons, const QStringList &newWeapons, int hands)
 {
     int newHands = 0;
     for (auto obj : oldWeapons) {

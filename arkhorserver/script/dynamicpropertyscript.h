@@ -11,13 +11,13 @@ class DynamicPropertyScript : public AH::Common::DynamicPropertyData
 public:
     DynamicPropertyScript();
 
-    void setObject(QScriptValue v);
+    void setObject(const QScriptValue &v);
 
-    virtual QString display() const;
+    QString display() const override;
     QByteArray propertyName() const { return m_propertyName; }
 
-    static bool createDynamicProperties(QScriptValue v, DynamicScriptableObject *o);
-    static bool parseDynamicProperty(QString name, QScriptValue v, DynamicPropertyScript &o);
+    static bool createDynamicProperties(const QScriptValue &v, DynamicScriptableObject *o);
+    static bool parseDynamicProperty(const QString &name, const QScriptValue &v, DynamicPropertyScript &o);
 
 private:
     //void appendToObject(QObject *obj);
@@ -33,14 +33,14 @@ class DynamicScriptableObject : public QObject
 {
 public:
     explicit DynamicScriptableObject(QObject *parent) : QObject(parent) {}
-    void addDynamicProperty(DynamicPropertyScript prop);
+    void addDynamicProperty(const DynamicPropertyScript &prop);
     QList<AH::Common::DynamicPropertyData> getDynamicPropertyDataList() const;
 
 protected:
     QMap<QByteArray, DynamicPropertyScript> m_dynamicProperties;
 
     void clonePropertiesInto(DynamicScriptableObject *other);
-    void resolveDependencies(QScriptValue thisObj);
+    void resolveDependencies(const QScriptValue &thisObj);
 
     virtual void dynamicPropertyChanged() {}
 

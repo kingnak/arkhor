@@ -180,7 +180,7 @@ public:
     void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
     void init();

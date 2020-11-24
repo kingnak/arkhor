@@ -9,8 +9,6 @@ GamePhase::GamePhase(Game *game)
 {
 }
 
-GamePhase::~GamePhase() = default;
-
 void GamePhase::execute()
 {
     enterPhase();

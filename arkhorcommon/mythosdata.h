@@ -14,7 +14,7 @@ namespace AH {
         {
         public:
             MythosData();
-            virtual ~MythosData() {}
+            virtual ~MythosData() = default;
 
             enum MythosType {
                 None,

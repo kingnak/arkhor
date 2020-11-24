@@ -12,7 +12,7 @@ namespace AH {
         {
         public:
             GameSettingData(int tl = 0, const QString &aoId = QString::null, const QString &rId = QString::null, const QString &eId = QString::null);
-            virtual ~GameSettingData() {}
+            virtual ~GameSettingData() = default;
 
             int terrorLevel() const { return m_terror; }
             QString ancientOneId() const { return m_ancientOneId; }

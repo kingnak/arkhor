@@ -20,7 +20,7 @@ public:
             m_phases = m_action->phases();
         }
     }
-    ~GameOption() override {}
+    ~GameOption() override = default;
 
     enum class AutoChoose {
         Always,

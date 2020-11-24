@@ -11,7 +11,7 @@ namespace AH {
         {
         public:
             DynamicPropertyData(QString name = QString::null) : m_name(name) {}
-            virtual ~DynamicPropertyData() {}
+            virtual ~DynamicPropertyData() = default;
 
             QString name() const { return m_name; }
             QVariant value() const { return m_val; }

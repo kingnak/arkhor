@@ -15,7 +15,7 @@ public:
     typedef ArkhorScriptParser::AttributeArrayElem AttributeArrayElem;
 
     ClassGenerator(QTextStream &out);
-    virtual ~ClassGenerator() {}
+    virtual ~ClassGenerator() = default;
     virtual bool generate(const ClassDef &cls) = 0;
     QString error() const { return m_err; }
     QString warning() const { return m_warn; }

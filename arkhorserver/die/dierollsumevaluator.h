@@ -7,7 +7,7 @@ class DieRollSumEvaluator : public virtual DieRollEvaluator
 {
 public:
     DieRollSumEvaluator(const DiePool &initialPool);
-    ~DieRollSumEvaluator() override {}
+    ~DieRollSumEvaluator() override = default;
 
     void evaluate() override;
     qint32 getResult() const override;

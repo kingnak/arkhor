@@ -10,7 +10,7 @@ class MonsterModifier
 {
 public:
     MonsterModifier() {}
-    virtual ~MonsterModifier() {}
+    virtual ~MonsterModifier() = default;
 
     virtual PropertyModificationList getMonsterModifications(const AH::Common::MonsterData &monster, bool matchAllAttributes = false) const;
     virtual PropertyModificationList getMonsterModifications(const QString &typeId) const;

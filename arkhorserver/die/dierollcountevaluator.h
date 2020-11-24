@@ -7,7 +7,7 @@ class DieRollCountEvaluator : public virtual DieRollEvaluator
 {
 public:
     DieRollCountEvaluator(const DiePool &initialPool, const QSet<quint32> &successRolls);
-    ~DieRollCountEvaluator() override {}
+    ~DieRollCountEvaluator() override = default;
 
     void evaluate() override;
     qint32 getResult() const override;
@@ -36,7 +36,7 @@ class DieRollCountBoolEvaluator : public DieRollBoolEvaluator, public DieRollCou
 {
 public:
     DieRollCountBoolEvaluator(const DiePool &initialPool, const QSet<quint32> &successRolls, quint32 target, EvaluationType type = GREATER);
-    ~DieRollCountBoolEvaluator() override {}
+    ~DieRollCountBoolEvaluator() override = default;
 
     bool getBoolResult() const override;
     void succeed() override;

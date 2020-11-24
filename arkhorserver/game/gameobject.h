@@ -18,7 +18,7 @@ public:
     virtual GameObject *clone() = 0;
 
     GameObject() : m_owner(NULL), m_isInfinite(false), m_preventedDamage(false) {}
-    ~GameObject() override {}
+    ~GameObject() override = default;
 
     Character *owner() const { return m_owner; }
     void setOwner(Character *c) { m_owner = c; }

@@ -13,7 +13,7 @@ namespace AH {
         {
         public:
             AncientOneData();
-            virtual ~AncientOneData() {}
+            virtual ~AncientOneData() = default;
 
             virtual AncientOneData *data() { return this; }
 

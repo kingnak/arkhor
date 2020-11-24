@@ -11,7 +11,7 @@ class GamePhase
 {
 public:
     GamePhase(Game *game);
-    virtual ~GamePhase();
+    virtual ~GamePhase() = default;
 
     virtual void execute();
 

@@ -10,7 +10,7 @@ namespace AH {
         {
         public:
             PlayerData();
-            virtual ~PlayerData() {}
+            virtual ~PlayerData() = default;
 
             const PlayerData *data() const { return this; }
 

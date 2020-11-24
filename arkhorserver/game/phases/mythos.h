@@ -11,7 +11,7 @@ public:
     MythosAction() {
         m_phases = AH::Mythos;
     }
-    ~MythosAction() override {}
+    ~MythosAction() override = default;
 
     bool execute() override;
     QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;

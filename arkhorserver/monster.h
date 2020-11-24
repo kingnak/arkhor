@@ -11,8 +11,8 @@ class GameField;
 class Monster : public AH::Common::MonsterData, public PropertyModifier
 {
 public:
-    Monster() : m_field(NULL), m_isSpontaneous(false) {}
-    ~Monster() override {}
+    Monster() : m_field(nullptr), m_isSpontaneous(false) {}
+    ~Monster() override = default;
 
     virtual Monster *clone() = 0;
 

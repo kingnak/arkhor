@@ -10,7 +10,8 @@ public:
     FakeGameAction(const QString &id, const QString &name, const QString &description);
 
     bool execute() override { return true; }
-    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override { return {}; }
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override
+    { Q_UNUSED(part); Q_UNUSED(desc); return {}; }
 
 };
 

@@ -13,7 +13,7 @@ namespace AH {
         {
         public:
             MonsterData();
-            virtual ~MonsterData() {}
+            virtual ~MonsterData() = default;
 
             enum DisplayType {
                 OnlyFront,

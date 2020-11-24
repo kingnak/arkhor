@@ -22,8 +22,8 @@ class Player;
 class GameInteractor
 {
 public:
-    GameInteractor() {}
-    virtual ~GameInteractor() {}
+    GameInteractor() = default;
+    virtual ~GameInteractor() = default;
 
     virtual void init(Game *game) = 0;
 

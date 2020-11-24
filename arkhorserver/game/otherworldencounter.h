@@ -10,7 +10,7 @@ class OtherWorldEncounter : public AH::Common::EncounterData
 {
 public:
     OtherWorldEncounter() : m_color(AH::OWC_NoColor) {}
-    ~OtherWorldEncounter() override {}
+    ~OtherWorldEncounter() override = default;
 
     AH::OtherWorldColor color() const { return m_color; }
     virtual QList<GameOption *> options() const = 0;

@@ -18,7 +18,7 @@ namespace AH {
             void registerCleanupMethod(QObject *obj, const char *slot);
 
         protected:
-            void run();
+            void run() override;
 
         signals:
 

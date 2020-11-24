@@ -44,7 +44,7 @@ protected:
 
     virtual void dynamicPropertyChanged() {}
 
-    bool event(QEvent *eve);
+    bool event(QEvent *eve) override;
 };
 
 #endif // DYNAMICPROPERTYSCRIPT_H

@@ -4,10 +4,10 @@
 #include "game/player.h"
 #include <choicedata.h>
 
-bool ChoiceHelper::choosePayment(Character *c, AH::Common::Cost options, AH::Common::CostList &selected, const QString &sourceId, const QString &description)
+bool ChoiceHelper::choosePayment(Character *c, const AH::Common::Cost &options, AH::Common::CostList &selected, const QString &sourceId, const QString &description)
 {
     selected.clear();
-    if (options.getAlternatives().size() == 0) {
+    if (options.getAlternatives().empty()) {
         return true;
     }
     if (options.getAlternatives().size() == 1) {
@@ -17,7 +17,7 @@ bool ChoiceHelper::choosePayment(Character *c, AH::Common::Cost options, AH::Com
 
     // Remove unpayable options
     AH::Common::Cost realOptions;
-    foreach (AH::Common::CostList l, options.getAlternatives()) {
+    for (const auto &l : options.getAlternatives()) {
         if (c->canPay(l)) {
             realOptions.addAlternative(l);
         }
@@ -45,7 +45,7 @@ void ChoiceHelper::loseHalfPossesions(Character *c, const QString &sourceId)
 {
     // Count losable objects
     int ct = 0;
-    foreach (GameObject *o, c->inventory()) {
+    for (auto o : c->inventory()) {
         if (o->type() == AH::Obj_CommonItem || o->type() == AH::Obj_UniqueItem) {
             if (!o->getAttributes().testFlag(AH::Common::GameObjectData::CannotBeLost)) {
                 ct++;
@@ -66,7 +66,7 @@ void ChoiceHelper::losePossessions(Character *c, int count, const QString &sourc
     // Loose objects (let user decide)
     QList<GameObject *> objs;
     QStringList ids;
-    foreach (GameObject *o, c->inventory()) {
+    for (auto o : c->inventory()) {
         if (o->type() == AH::Obj_CommonItem || o->type() == AH::Obj_UniqueItem) {
             if (!o->getAttributes().testFlag(AH::Common::GameObjectData::CannotBeLost)) {
                 objs << o;
@@ -86,7 +86,7 @@ void ChoiceHelper::losePossessions(Character *c, int count, const QString &sourc
     AH::Common::ChoiceResponseData resp = p->offerChoice(choice);
 
     QStringList loseIds = resp.toStringList();
-    foreach (GameObject *obj, objs) {
+    for (auto obj : objs) {
         if (loseIds.contains(obj->id())) {
             c->removeFromInventory(obj);
             gGame->returnObject(obj);

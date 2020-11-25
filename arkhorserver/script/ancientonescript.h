@@ -25,26 +25,26 @@ public:
     Q_PROPERTY(int doomTrack READ doomValue)
     Q_PROPERTY(int maxDoomTrack READ doomTrack)
 
-    void awake();
+    void awake() override;
 
     Q_INVOKABLE void increaseDoomTrack(int amount = 1) { AncientOne::increaseDoomTrack(amount); }
     Q_INVOKABLE void decreaseDoomTrack(int amount = 1) { AncientOne::increaseDoomTrack(-amount); }
     Q_INVOKABLE void setCombatAdjustment(int adjustment) { m_combatAdjustment = adjustment; }
-    Q_INVOKABLE void decreaseAttackAdjustment(int amount = 1) { AncientOne::decreaseAttackAdjustment(amount); }
+    Q_INVOKABLE void decreaseAttackAdjustment(int amount = 1) override { AncientOne::decreaseAttackAdjustment(amount); }
 
-    virtual PropertyModificationList getSlumberModifications() const { return m_slumberModifications; }
+    PropertyModificationList getSlumberModifications() const override { return m_slumberModifications; }
 
-    virtual bool onUnconscious(Character *c);
-    virtual bool onInsane(Character *c);
-    virtual bool onLostInSpaceAndTime(Character *c);
-    virtual bool onDefeatMonster(Character *c, Monster *m);
+    bool onUnconscious(Character *c) override;
+    bool onInsane(Character *c) override;
+    bool onLostInSpaceAndTime(Character *c) override;
+    bool onDefeatMonster(Character *c, Monster *m) override;
 
-    virtual void onEndMythos();
-    virtual void attack();
-    virtual bool postAttack();
-    QList<AH::Common::MythosData::EnvironmentType> ignoreEnvironmentTypes() const { return m_ignEnvTypes; }
+    void onEndMythos() override;
+    void attack() override;
+    bool postAttack() override;
+    QList<AH::Common::MythosData::EnvironmentType> ignoreEnvironmentTypes() const override { return m_ignEnvTypes; }
 
-    static QList<AH::Common::MythosData::EnvironmentType> parseIgnoreEnvironmentTypes(QScriptValue v);
+    static QList<AH::Common::MythosData::EnvironmentType> parseIgnoreEnvironmentTypes(const QScriptValue &v);
 
 signals:
 

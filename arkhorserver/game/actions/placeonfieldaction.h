@@ -12,14 +12,14 @@ class PlaceOnFieldAction : public GameAction
 public:
     PlaceOnFieldAction();
 
-    bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    AH::GamePhases phases() const { return AH::Movement; }
+    AH::GamePhases phases() const override { return AH::Movement; }
 
-    QString id() const { return "AC_PUTONFIELD"; }
-    QString name() const { return "Go to " + m_field->name(); }
-    QString description() const { return name(); }
+    QString id() const override { return "AC_PUTONFIELD"; }
+    QString name() const override { return "Go to " + m_field->name(); }
+    QString description() const override { return name(); }
 
 private:
     GameField *m_field;
@@ -34,9 +34,9 @@ public:
         : GameOption(&pofa, AH::CannotContinue, AH::ChooseMandatory, AH::Movement)
     { }
 
-    QString id() const { return "OP_PUTONFIELD"; }
+    QString id() const override { return "OP_PUTONFIELD"; }
 
-    virtual bool isAvailable() const;
+    bool isAvailable() const override;
 
     void setField(GameField *f) { pofa.m_field = f; }
 

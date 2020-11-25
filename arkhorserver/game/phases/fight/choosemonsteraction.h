@@ -12,14 +12,14 @@ class ChooseMonsterAction : public GameAction
 public:
     ChooseMonsterAction(FightPhase *fight);
 
-    QString id() const { return "AC_CHOOSE_MONSTER"; }
+    QString id() const override { return "AC_CHOOSE_MONSTER"; }
 
-    virtual AH::GamePhases phases() const { return AH::Movement; }
-    virtual bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    AH::GamePhases phases() const override { return AH::Movement; }
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    virtual QString name() const { return "Choose Monster"; }
-    virtual QString description() const { return "Choose Monster to fight"; }
+    QString name() const override { return "Choose Monster"; }
+    QString description() const override { return "Choose Monster to fight"; }
 
 private:
     FightPhase *m_fight;
@@ -34,10 +34,10 @@ public:
         : GameOption(&cma, AH::CanContinue, AH::ChooseMandatory, AH::Movement),
           cma(fight)
     {}
-    QString id() const { return "OP_CHOOSE_MONSTER"; }
+    QString id() const override { return "OP_CHOOSE_MONSTER"; }
 
-    virtual AutoChoose autoChoose() const { return AutoChoose::Always; }
-    virtual bool isAvailable() const { return true; }
+    AutoChoose autoChoose() const override { return AutoChoose::Always; }
+    bool isAvailable() const override { return true; }
     void setMonsters(QList<Monster*> monsters) {
         cma.m_monsters = monsters;
     }

@@ -31,7 +31,7 @@ QPixmap GateWidget::drawGate(const GateData *g, QSize s)
             p.setClipRect(closeRect);
             QPainterPath txtPath;
             txtPath.addText(115, 115, f, close);
-            p.fillPath(txtPath, QColor(0xD2363A));
+            p.fillPath(txtPath, ResourcePool::StaminaColor);
             QPainterPathStroker txtStroke;
             txtPath = txtStroke.createStroke(txtPath);
             p.drawPath(txtPath);
@@ -60,7 +60,7 @@ QSize GateWidget::sizeHint() const
 
 QSize GateWidget::minimumSizeHint() const
 {
-    return QSize(160, 160);
+    return {160, 160};
 }
 
 void GateWidget::displayGate(const AH::Common::GateData *g)

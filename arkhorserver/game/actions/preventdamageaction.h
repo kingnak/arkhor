@@ -12,11 +12,11 @@ public:
 
     void setSource(GameObject *obj) { m_source = obj; }
 
-    virtual QString name() const;
-    virtual QString description() const;
-    virtual AH::GamePhases phases() const { return AH::CommitDamagePhase; }
-    virtual bool isAvailable() const;
-    virtual bool execute() { return false; }
+    QString name() const override;
+    QString description() const override;
+    AH::GamePhases phases() const override { return AH::CommitDamagePhase; }
+    bool isAvailable() const override;
+    bool execute() override { return false; }
     virtual bool execute(int damageStamina, int damageSanity) = 0;
     virtual int preventedStamina() const = 0;
     virtual int preventedSanity() const = 0;
@@ -24,7 +24,7 @@ public:
     virtual bool canPreventStamina() const = 0;
     virtual bool canPreventSanity() const = 0;
 
-    QString sourceId() const;
+    QString sourceId() const override;
 
     static quint32 nextId() { return ++s_nextId; }
 

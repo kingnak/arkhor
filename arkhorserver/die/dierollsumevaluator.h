@@ -6,19 +6,19 @@
 class DieRollSumEvaluator : public virtual DieRollEvaluator
 {
 public:
-    DieRollSumEvaluator(DiePool initialPool);
-    ~DieRollSumEvaluator() {}
+    DieRollSumEvaluator(const DiePool &initialPool);
+    ~DieRollSumEvaluator() override = default;
 
-    virtual void evaluate();
-    virtual qint32 getResult() const;
+    void evaluate() override;
+    qint32 getResult() const override;
 
-    virtual void rerollAll();
-    virtual void rollNew();
+    void rerollAll() override;
+    void rollNew() override;
 
     // forwarders:
-    virtual const DiePool *pool() const { return &m_pool; }
-    virtual void addDie(Die *die);
-    virtual void addDice(QList<StandardDieSpec> specs);
+    const DiePool *pool() const override { return &m_pool; }
+    void addDie(Die *die) override;
+    void addDice(QList<StandardDieSpec> specs) override;
 
 private:
     DiePool m_pool;
@@ -30,9 +30,9 @@ private:
 class DieRollSumBoolEvaluator : public DieRollBoolEvaluator, public DieRollSumEvaluator
 {
 public:
-    DieRollSumBoolEvaluator(DiePool initialPool, quint32 target, EvaluationType type = GREATER);
+    DieRollSumBoolEvaluator(const DiePool &initialPool, quint32 target, EvaluationType type = GREATER);
 
-    virtual bool getBoolResult() const;
+    bool getBoolResult() const override;
 };
 #pragma warning(pop)
 

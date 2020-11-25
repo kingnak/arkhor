@@ -13,13 +13,13 @@ class RumorWidget : public QWidget, public AsyncObjectReceiver
 public:
     explicit RumorWidget(bool shortDisplay = true, QWidget *parent = 0);
 
-    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
 
 signals:
     void rumorInfoRequested(QString id);
 
 public slots:
-    void displayRumor(QString id);
+    void displayRumor(const QString &id);
     void setShortDisplay(bool shortDisplay);
     void setLongDisplay(bool longDisplay);
 

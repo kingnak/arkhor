@@ -16,18 +16,18 @@ class FieldInfoWidget : public QWidget
 
 public:
     explicit FieldInfoWidget(QWidget *parent = nullptr);
-    ~FieldInfoWidget();
+    ~FieldInfoWidget() override;
 
 public slots:
     void clear();
-    void displayField(AH::Common::GameFieldData fd);
+    void displayField(const AH::Common::GameFieldData &fd);
 
 signals:
     void objectDescriptionRequested(QString id);
 
 private:
     void cleanList(QScrollArea *list);
-    void addToList(QScrollArea *list, QString name, QString id);
+    void addToList(QScrollArea *list, const QString &name, const QString &id);
     void addStretch(QScrollArea *list);
 
 private:

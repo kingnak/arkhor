@@ -35,7 +35,7 @@ bool GameObject::onAddToInventory(Character *c)
         // If adding one, and there is already the same,
         // do nothing. If it is other type, remove other.
         // Else, simply add
-        foreach (GameObject *o, c->inventory()) {
+        for (auto o : c->inventory()) {
             if (o->type() == AH::Obj_Blessing_Curse) {
                 if (o->typeId() == typeId()) {
                     // same, don't add.
@@ -72,7 +72,7 @@ QStringList GameObject::optionIds() const
 
 bool GameObject::isFightObject()
 {
-    foreach (PropertyModification m, getModifications()) {
+    for (const auto &m : getModifications()) {
         switch (m.affectedProperty()) {
         case PropertyValue::Damage_General:
         case PropertyValue::Damage_Physical:
@@ -137,7 +137,7 @@ void GameObject::returnToDeck()
 QList<AH::Common::PropertyModificationData> GameObject::getModificationData() const
 {
     QList<AH::Common::PropertyModificationData> ret;
-    foreach (PropertyModification m, getModifications()) {
+    for (auto m : getModifications()) {
         ret << *(m.data());
     }
     return ret;

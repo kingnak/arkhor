@@ -11,7 +11,7 @@ ChooseInvestigator::ChooseInvestigator(Game *game)
 void ChooseInvestigator::execute()
 {
     QList<Investigator *> inv = gGame->allInvestigators();
-    foreach (Player *p, gGame->getPlayers()) {
+    for (auto p : gGame->getPlayers()) {
         if (!p->isActive()) continue;
         Investigator *sel = p->chooseInvestigator(inv);
         if (p->isActive()) {

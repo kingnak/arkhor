@@ -11,7 +11,7 @@ namespace AH {
         {
         public:
             GameActionData();
-            virtual ~GameActionData() {}
+            virtual ~GameActionData() = default;
 
             virtual QString id() const { return m_id; }
             virtual QString name() const { return m_name; }

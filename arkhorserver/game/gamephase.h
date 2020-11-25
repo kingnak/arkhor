@@ -11,7 +11,7 @@ class GamePhase
 {
 public:
     GamePhase(Game *game);
-    virtual ~GamePhase();
+    virtual ~GamePhase() = default;
 
     virtual void execute();
 
@@ -23,8 +23,6 @@ protected:
     virtual QList<GameOption *> getPhaseOptions() { return QList<GameOption* >(); }
     virtual void finishPhase() {}
 
-    //SkipOption *getSkipOption() { return m_skip; }
-
     QList<GameOption *> getOptions();
     GameOption *autoChoose(const QList<GameOption *> &options);
 
@@ -32,7 +30,6 @@ protected:
     Game *m_game;
 
 private:
-    //SkipOption *m_skip;
     static SkipOption *s_skip;
 };
 

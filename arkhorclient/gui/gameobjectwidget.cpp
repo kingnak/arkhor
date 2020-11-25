@@ -57,17 +57,17 @@ void GameObjectWidget::updateGameObject(const AH::Common::GameObjectData *obj)
         }
         QString desc = obj->description();
         QStringList props;
-        foreach (AH::Common::DynamicPropertyData dp, obj->dynamicProperties()) {
+        for (const auto &dp : obj->dynamicProperties()) {
             QString s = QString("%1: %2").arg(dp.name(), dp.display());
             props << s;
         }
-        if (props.size() > 0) {
+        if (!props.empty()) {
             desc += "\n\n" + props.join("\n");
         }
         ui->lblDesc->setText(desc);
 
         QStringList l;
-        foreach (AH::Common::PropertyModificationData mod, obj->getModificationData()) {
+        for (const auto &mod : obj->getModificationData()) {
             l << Utils::stringForPropertyModification(mod);
         }
         ui->lblModifications->setText(l.join("\n"));
@@ -96,7 +96,7 @@ void GameObjectWidget::updateGameObject(const AH::Common::GameObjectData *obj)
     }
 
     // Hide labels without text to preserve space
-    foreach (QLabel *l, this->findChildren<QLabel*>()) {
+    for (auto l : this->findChildren<QLabel*>()) {
         if (l != ui->lblImage && l != ui->lblExhausted) {
             if (l->text().isEmpty()) {
                 l->setVisible(false);

@@ -10,16 +10,16 @@ class OtherWorldEncounterGenerator : public ClassGenerator
 public:
     OtherWorldEncounterGenerator(QTextStream &out) : ClassGenerator(out) {}
 
-    virtual bool generate(const ClassDef &cls);
+    bool generate(const ClassDef &cls) override;
 
 protected:
-    bool allowAnonymous(const ClassDef &cls) const { Q_UNUSED(cls); return true; }
+    bool allowAnonymous(const ClassDef &cls) const override { Q_UNUSED(cls); return true; }
 
     void outputCreateOtherWorldEncounterStart(const ClassDef &cls);
     void outputRegisterOtherWorldEncounter(const ClassDef &cls);
 
-    virtual QList<AttributeDesc> getAttributes();
-    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
+    QList<AttributeDesc> getAttributes() override;
+    bool outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr) override;
     //virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
 
 };

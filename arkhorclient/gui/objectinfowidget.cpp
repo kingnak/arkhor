@@ -134,7 +134,7 @@ void ObjectInfoWidget::displayNothing()
     m_character->updateCharacterData(nullptr);
 }
 
-void ObjectInfoWidget::receivedDescription(DescribeObjectsData::ObjectDescription desc)
+void ObjectInfoWidget::receivedDescription(const DescribeObjectsData::ObjectDescription &desc)
 {
     if (desc.id == m_pendingDisplayId) {
         m_pendingDisplayId = QString::null;
@@ -186,7 +186,7 @@ void ObjectInfoWidget::displayString(const QString &text)
     m_stack->setCurrentWidget(m_text);
 }
 
-void ObjectInfoWidget::displayFieldInfo(const GameFieldData fd)
+void ObjectInfoWidget::displayFieldInfo(const GameFieldData &fd)
 {
     m_fieldInfo->displayField(fd);
     m_stack->setCurrentWidget(m_fieldInfo);

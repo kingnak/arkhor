@@ -12,12 +12,12 @@ class Upkeep : public GamePhase
 {
 public:
     Upkeep(Game *game);
-    ~Upkeep();
+    ~Upkeep() override;
 
 protected:
-    QList<GameAction *> getPhaseActions();
-    QList<GameOption *> getPhaseOptions();
-    void enterPhase();
+    QList<GameAction *> getPhaseActions() override;
+    QList<GameOption *> getPhaseOptions() override;
+    void enterPhase() override;
 
 private:
     SetOutAction *m_setout;

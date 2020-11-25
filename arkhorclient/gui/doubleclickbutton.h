@@ -13,7 +13,7 @@ public:
 signals:
     void doubleClicked();
 protected:
-    void mouseDoubleClickEvent(QMouseEvent *event) {
+    void mouseDoubleClickEvent(QMouseEvent *event) override {
         if (event->button() == Qt::LeftButton) {
             emit doubleClicked();
             event->accept();

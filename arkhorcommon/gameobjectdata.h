@@ -15,7 +15,7 @@ namespace AH {
         {
         public:
             GameObjectData();
-            virtual ~GameObjectData() {}
+            virtual ~GameObjectData() = default;
 
             enum ObjectAttribute {
                 None,

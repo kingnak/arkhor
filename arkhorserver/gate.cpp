@@ -2,12 +2,12 @@
 #include "character.h"
 #include "game/gamefield.h"
 
-Gate::Gate(AH::Dimensions dim, int closeAmount, GameField *dest)
+Gate::Gate(AH::Dimensions dim, int closeAdjustment, GameField *dest)
 :   m_destField(dest),
-    m_sourceField(NULL)
+    m_sourceField(nullptr)
 {
     m_dims = dim;
-    m_adjustment = closeAmount;
+    m_adjustment = closeAdjustment;
 }
 
 AH::Common::FieldData::FieldID Gate::source() const
@@ -55,7 +55,7 @@ void Gate::comeBack(Character *c)
 
 void Gate::close(Character *c)
 {
-    c->setExploredGate(NULL);
+    c->setExploredGate(nullptr);
     m_sourceField->placeCharacter(c);
     m_sourceField->removeGate(this);
     m_destField->removeGate(this);

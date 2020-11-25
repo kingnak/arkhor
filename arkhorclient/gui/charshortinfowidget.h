@@ -15,7 +15,7 @@ class CharShortInfoWidget : public QWidget
 
 public:
     explicit CharShortInfoWidget(QWidget *parent = 0);
-    ~CharShortInfoWidget();
+    ~CharShortInfoWidget() override;
 
 public slots:
     void displayCharacter(const AH::Common::CharacterData *chr);

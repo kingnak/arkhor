@@ -17,10 +17,10 @@ public:
     virtual void addDie(Die *die) = 0;
     virtual void addDice(QList<StandardDieSpec> specs) = 0;
 
-    virtual ~DieRollEvaluator() {}
+    virtual ~DieRollEvaluator() = default;
 
 protected:
-    DieRollEvaluator() {}
+    DieRollEvaluator() = default;
 };
 
 class DieRollBoolEvaluator : public virtual DieRollEvaluator

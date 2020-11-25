@@ -16,7 +16,7 @@ public:
     bool shiftRight();
     bool shiftBy(int amount);
 
-    const AH::Common::AttributePair currentSetting() const;
+    AH::Common::AttributePair currentSetting() const;
 
     //QList<AttributePair> availableSettings() const { return m_attributeSettings; }
 

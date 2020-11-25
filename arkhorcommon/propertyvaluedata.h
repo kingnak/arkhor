@@ -107,7 +107,7 @@ namespace AH {
 
             PropertyValueData(Property prop = NoProperty, int val = 0)
                 : m_val(val), m_prop(prop) {}
-            virtual ~PropertyValueData() {}
+            virtual ~PropertyValueData() = default;
 
             int value() const { return m_val; }
             Property property() const { return m_prop; }
@@ -136,7 +136,7 @@ namespace AH {
 
             PropertyModificationData(PropertyValueData::Property prop = PropertyValueData::NoProperty, int modification = 0, ModificationType type = Additive)
                 : m_prop(prop), m_mod(modification), m_type(type) {}
-            virtual ~PropertyModificationData() {}
+            virtual ~PropertyModificationData() = default;
 
             virtual PropertyModificationData *data() { return this; }
 

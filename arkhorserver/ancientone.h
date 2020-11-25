@@ -19,8 +19,8 @@ public:
     bool isDirty() const { return m_dirty; }
     void setDirty(bool dirty = true) { m_dirty = dirty; }
 
-    virtual QString modifierId() const { return m_id; }
-    virtual PropertyModificationList getModifications() const;
+    QString modifierId() const override { return m_id; }
+    PropertyModificationList getModifications() const override;
 
     virtual PropertyModificationList getCombatModifications() const;
     virtual PropertyModificationList getSlumberModifications() const { return PropertyModificationList(); }
@@ -57,7 +57,7 @@ public:
     virtual QList<AH::Common::MythosData::EnvironmentType> ignoreEnvironmentTypes() const { return {}; }
 
 protected:
-    const PropertyModifier *getMonsterMovementModifier() const { return this; }
+    const PropertyModifier *getMonsterMovementModifier() const override { return this; }
 
 protected:
     bool m_awake;

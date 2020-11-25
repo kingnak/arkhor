@@ -5,9 +5,7 @@
 #include "game/otherworldencounter.h"
 #include "game/drawcardhelper.h"
 
-OtherWorldEncounteryAction::OtherWorldEncounteryAction()
-{
-}
+OtherWorldEncounteryAction::OtherWorldEncounteryAction() = default;
 
 bool OtherWorldEncounteryAction::execute()
 {
@@ -26,9 +24,9 @@ bool OtherWorldEncounteryAction::executeOnPlayer(Player *p, AH::Common::FieldDat
 
     gGame->notifier()->actionExecute(this);
 
-    GameOption *opt = NULL;
+    GameOption *opt = nullptr;
     QString id = p->chooseEncounterOption(enc);
-    foreach (GameOption *i, enc->options()) {
+    for (auto i : enc->options()) {
         if (i->id() == id) {
             opt = i;
             break;

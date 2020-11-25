@@ -11,14 +11,14 @@ class GameField;
 class Monster : public AH::Common::MonsterData, public PropertyModifier
 {
 public:
-    Monster() : m_field(NULL), m_isSpontaneous(false) {}
-    virtual ~Monster() {}
+    Monster() : m_field(nullptr), m_isSpontaneous(false) {}
+    ~Monster() override = default;
 
     virtual Monster *clone() = 0;
 
     virtual void setId(QString id) { m_id = id; }
 
-    virtual MonsterData *data();
+    MonsterData *data() override;
     int baseAwareness() const { return m_awareness; }
     int baseHorrorAdjustment() const { return m_horrorAdjustment; }
     int baseHorrorDamage() const { return m_horrorDamage; }
@@ -28,14 +28,14 @@ public:
     DisplayType baseDisplayType() const;
     MovementType baseMovement() const { return m_movement; }
 
-    virtual int awareness() const;
-    virtual int horrorAdjustment() const;
-    virtual int horrorDamage() const;
-    virtual int combatAdjustment() const;
-    virtual int combatDamage() const;
-    virtual int toughness() const;
-    virtual DisplayType displayType() const;
-    virtual MovementType movementType() const;
+    int awareness() const override;
+    int horrorAdjustment() const override;
+    int horrorDamage() const override;
+    int combatAdjustment() const override;
+    int combatDamage() const override;
+    int toughness() const override;
+    DisplayType displayType() const override;
+    MovementType movementType() const override;
 
     void setDimension(AH::Dimension dim) { m_dimension = dim; }
 
@@ -64,8 +64,8 @@ public:
     virtual void evaded(Character *c) {Q_UNUSED(c)}
     virtual void flown(Character *c) {Q_UNUSED(c)}
 
-    virtual QString modifierId() const { return id(); }
-    virtual PropertyModificationList getModifications() const;
+    QString modifierId() const override { return id(); }
+    PropertyModificationList getModifications() const override;
     PropertyModificationList getFilteredModifications(MonsterAttributes ignoredAttributes) const;
 
 protected:

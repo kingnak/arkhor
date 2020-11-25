@@ -8,12 +8,12 @@
 class RegistryObjectStackItem : public StackItem, public AsyncObjectReceiver
 {
 public:
-    explicit RegistryObjectStackItem(QString id, bool subscribe = false);
+    explicit RegistryObjectStackItem(const QString &id, bool subscribe = false);
 
-    virtual void wasAdded();
-    virtual void wasRemoved();
+    void wasAdded() override;
+    void wasRemoved() override;
 
-    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
 
 protected:
     virtual void updateObject(AH::Common::DescribeObjectsData::ObjectDescription desc) = 0;
@@ -26,11 +26,11 @@ protected:
 class MonsterStackItem : public RegistryObjectStackItem
 {
 public:
-    MonsterStackItem(QString id, double scale);
-    virtual void wasAdded();
+    MonsterStackItem(const QString &id, double scale);
+    void wasAdded() override;
 
 protected:
-    virtual void updateObject(AH::Common::DescribeObjectsData::ObjectDescription desc);
+    void updateObject(AH::Common::DescribeObjectsData::ObjectDescription desc) override;
 
 private:
     double m_scale;
@@ -39,11 +39,11 @@ private:
 class CharacterStackItem : public RegistryObjectStackItem
 {
 public:
-    CharacterStackItem(QString id, double scale);
-    virtual void wasAdded();
+    CharacterStackItem(const QString &id, double scale);
+    void wasAdded() override;
 
 protected:
-    virtual void updateObject(AH::Common::DescribeObjectsData::ObjectDescription desc);
+    void updateObject(AH::Common::DescribeObjectsData::ObjectDescription desc) override;
 
 private:
     double m_scale;

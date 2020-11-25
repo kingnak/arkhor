@@ -38,7 +38,7 @@ QList<ClassGenerator::AttributeDesc> OptionGenerator::getAttributes()
                ;
 }
 
-bool OptionGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr)
+bool OptionGenerator::outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr)
 {
     if (desc.name == "isAvailable") {
         if (attr.type == ArkhorScriptParser::Primitive) {

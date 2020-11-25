@@ -5,8 +5,9 @@
 #include "gatescript.h"
 #include <QDebug>
 
-GameFieldScript::GameFieldScript(QObject *parent) :
-    QObject(parent), m_field(NULL)
+GameFieldScript::GameFieldScript(QObject *parent)
+    : QObject(parent)
+    , m_field(nullptr)
 {
 }
 
@@ -21,7 +22,7 @@ QScriptValue GameFieldScript::nearestFieldsWithCharacters()
     return nearestFieldsWithCharacters({});
 }
 
-QScriptValue GameFieldScript::nearestFieldsWithCharacters(QScriptValue exceptFields)
+QScriptValue GameFieldScript::nearestFieldsWithCharacters(const QScriptValue &exceptFields)
 {
    return nearestFieldsWith(exceptFields, [](GameField *f) -> bool {
        return !f->characters().isEmpty();
@@ -57,7 +58,7 @@ bool GameFieldScript::unseal()
     return false;
 }
 
-QScriptValue GameFieldScript::nearestFieldsWith(QScriptValue exceptFields, std::function<bool (GameField *)> predicate)
+QScriptValue GameFieldScript::nearestFieldsWith(const QScriptValue &exceptFields, std::function<bool (GameField *)> predicate)
 {
     QList<AH::Common::FieldData::FieldID> except;
     if (exceptFields.isArray()) {
@@ -77,7 +78,7 @@ QObjectList GameFieldScript::characters()
 {
     Q_ASSERT(m_field);
     QObjectList ret;
-    foreach (Character *c, m_field->characters()) {
+    for (auto c : m_field->characters()) {
         CharacterScript *cs = dynamic_cast<CharacterScript *> (c);
         if (cs) {
             ret << cs;

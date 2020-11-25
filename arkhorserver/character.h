@@ -23,12 +23,12 @@ class Character : public AH::Common::CharacterData
 public:
     Character(Investigator *i);
 
-    CharacterData *data();
+    CharacterData *data() override;
 
     PropertyModificationList getPropertyModifiers() const;
 
-    virtual int maxStamina() const;
-    virtual int maxSanity() const;
+    int maxStamina() const override;
+    int maxSanity() const override;
     int baseMaxStamina() const { return m_maxStamina; }
     int baseMaxSanity() const { return m_maxSanity; }
 
@@ -39,7 +39,7 @@ public:
     virtual void removeFromInventory(GameObject *obj);
 
     Investigator *investigator() { return m_investigator; }
-    AH::Common::InvestigatorData investigatorData() const { return *m_investigator->data(); }
+    AH::Common::InvestigatorData investigatorData() const override { return *m_investigator->data(); }
 
     void setDirty(bool dirty = true) { m_dirty = dirty; }
     bool isDirty() const { return m_dirty; }

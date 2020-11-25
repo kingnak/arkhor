@@ -7,11 +7,9 @@
 #include "gamecontext.h"
 #include <choicedata.h>
 
-DrawCardHelper::DrawCardHelper()
-{
-}
+DrawCardHelper::DrawCardHelper() = default;
 
-QList<GameObject *> DrawCardHelper::drawObjects(Player *p, QString desc, AH::GameObjectType type, int ct, int min, int max, bool allowQuickReturn, QString sourceId)
+QList<GameObject *> DrawCardHelper::drawObjects(Player *p, const QString &desc, AH::GameObjectType type, int ct, int min, int max, bool allowQuickReturn, const QString &sourceId)
 {
     QList<GameObject *> allObjs;
     QList<GameObject *> sels;
@@ -34,13 +32,13 @@ QList<GameObject *> DrawCardHelper::drawObjects(Player *p, QString desc, AH::Gam
     return sels;
 }
 
-QList<GameObject *> DrawCardHelper::drawMixedObjects(Player *p, QString desc, QList<AH::ObjectTypeCount> types, int min, int max, bool allowQuickReturn, QString sourceId)
+QList<GameObject *> DrawCardHelper::drawMixedObjects(Player *p, const QString &desc, const QList<AH::ObjectTypeCount> &types, int min, int max, bool allowQuickReturn, const QString &sourceId)
 {
     QList<GameObject *> sels;
     if (types.isEmpty()) return sels;
 
     QList<GameObject *> allObjs;
-    foreach (AH::ObjectTypeCount t, types) {
+    for (auto t : types) {
         for (int i = 0; i < t.amount; ++i) {
             allObjs << gGame->drawObject(t.type);
         }
@@ -92,7 +90,7 @@ OtherWorldEncounter *DrawCardHelper::drawOtherWorldEncounter(Player *p, AH::Comm
     return encs.value(res.toInt());
 }
 
-QList<GameObject *> DrawCardHelper::doDrawObject(Player *p, QString desc, QList<GameObject *> avail, int min, int max, bool allowQuickReturn, QString sourceId)
+QList<GameObject *> DrawCardHelper::doDrawObject(Player *p, const QString &desc, QList<GameObject *> avail, int min, int max, bool allowQuickReturn, const QString &sourceId)
 {
     QList<GameObject *> sels;
 
@@ -111,7 +109,7 @@ QList<GameObject *> DrawCardHelper::doDrawObject(Player *p, QString desc, QList<
     }
 
     QStringList ids;
-    foreach (GameObject *o, avail) {
+    for (auto o : avail) {
         ids << o->id();
     }
 
@@ -126,7 +124,7 @@ QList<GameObject *> DrawCardHelper::doDrawObject(Player *p, QString desc, QList<
     if (resp.isValid()) {
         selIds = resp.toStringList();
     }
-    foreach (GameObject *o, avail) {
+    for (auto o : avail) {
         if (selIds.contains(o->id())) {
             sels << o;
         } else {

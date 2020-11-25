@@ -13,7 +13,7 @@ namespace AH {
         {
         public:
             GateData();
-            virtual ~GateData() {}
+            virtual ~GateData() = default;
 
             virtual GateData *data() { return this; }
 

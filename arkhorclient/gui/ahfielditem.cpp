@@ -10,31 +10,33 @@
 #include "monsterwidget.h"
 #include "characterwidget.h"
 
-static const double STACK_ITEM_SIZE = 75;
-static const double SPECLIAL_ITEM_SIZE = 25;
-static const double CLUE_ITEM_SIZE = 25;
-static const double THIS_CHAR_ITEM_W = 50;
-static const double THIS_CHAR_ITEM_H = 75;
-static const double PORTAL_SIZE = 75;
+static constexpr double STACK_ITEM_SIZE = 75;
+static constexpr double SPECLIAL_ITEM_SIZE = 25;
+static constexpr double CLUE_ITEM_SIZE = 25;
+static constexpr double THIS_CHAR_ITEM_W = 50;
+static constexpr double THIS_CHAR_ITEM_H = 75;
+static constexpr double PORTAL_SIZE = 75;
+static constexpr int MONSTER_SIZE = 200;
+static constexpr int GATE_SIZE = 160;
 
 AhFieldItem::AhFieldItem(AH::Common::FieldData::FieldID id, FieldItemType type, QRectF rect, double scale, QGraphicsItem *parent)
 :   QGraphicsObject(parent),
     m_id(id),
     m_locked(false),
     m_type(type),
-    m_monsters(NULL),
-    m_characters(NULL),
-    m_secondPhaseCharacters(NULL),
-//    m_secondPhaseCharacters(NULL),
-    m_infoArea(NULL),
-    m_fieldArea(NULL),
-    m_clues(NULL),
-    m_gate(NULL),
-    m_specialMarker(NULL),
-    m_thisCharacter(NULL),
-    m_prxMonst(NULL),
-    m_prxChar(NULL),
-    m_prxChar2nd(NULL),
+    m_monsters(nullptr),
+    m_characters(nullptr),
+    m_secondPhaseCharacters(nullptr),
+//    m_secondPhaseCharacters(nullptr),
+    m_prxMonst(nullptr),
+    m_prxChar(nullptr),
+    m_prxChar2nd(nullptr),
+    m_infoArea(nullptr),
+    m_fieldArea(nullptr),
+    m_clues(nullptr),
+    m_gate(nullptr),
+    m_specialMarker(nullptr),
+    m_thisCharacter(nullptr),
     m_scale(scale)
 {
     m_itemRect = QRectF(-rect.width()/2,-rect.height()/2,rect.width(),rect.height());
@@ -90,12 +92,12 @@ void AhFieldItem::initSubItems()
     /////////// TEST
 }
 
-void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
+void AhFieldItem::updateFromData(const AH::Common::GameFieldData &data)
 {
     if (m_secondPhaseCharacters) m_secondPhaseCharacters->clear();
     if (m_characters) {
         m_characters->clear();        
-        for (QString id : data.characterIds()) {
+        for (const QString &id : data.characterIds()) {
             if (m_secondPhaseCharacters && data.secondPhaseCharacterIds().contains(id)) {
                 m_secondPhaseCharacters->addItem(new CharacterStackItem(id, m_scale));
             } else {
@@ -106,7 +108,7 @@ void AhFieldItem::updateFromData(AH::Common::GameFieldData data)
 
     if (m_monsters) {
         m_monsters->clear();
-        foreach (QString id, data.monsterIds()) {
+        for (const auto &id : data.monsterIds()) {
             m_monsters->addItem(new MonsterStackItem(id, m_scale));
         }
     }
@@ -182,7 +184,7 @@ void AhFieldItem::initMonsterItem()
     m_monsters = new ItemStacker;
     m_monsters->setFont(getItemFont());
     //m_monsters->setPicSize(QSize(STACK_ITEM_SIZE*m_scale,STACK_ITEM_SIZE*m_scale));
-    m_monsters->setPicSize(QSize(200,200));
+    m_monsters->setPicSize(QSize(MONSTER_SIZE,MONSTER_SIZE));
     m_monsters->setAutoFillBackground(false);
     m_monsters->setAttribute(Qt::WA_TranslucentBackground);
     connect(m_monsters, SIGNAL(itemActivated(const StackItem*)), this, SLOT(monsterClicked(const StackItem*)));
@@ -196,8 +198,8 @@ void AhFieldItem::initMonsterItem()
 
     //prxMonst->resize(stkSize, stkSize);
 
-    m_prxMonst->resize(200,200);
-    double fact = stkSize/200.;
+    m_prxMonst->resize(MONSTER_SIZE,MONSTER_SIZE);
+    double fact = stkSize/MONSTER_SIZE;
     //prxMonst->scale(fact, fact);
     m_prxMonst->setScale(fact);
 
@@ -264,8 +266,8 @@ void AhFieldItem::initGateItem()
     if (m_type != Location)
         return;
     //m_gate = new GateItem(QRectF(0,0,PORTAL_SIZE*m_scale,PORTAL_SIZE*m_scale), this);
-    m_gate = new GateItem(QRectF(-80,-80,160,160), this);
-    m_gate->setScale(PORTAL_SIZE*m_scale/160.);
+    m_gate = new GateItem(QRectF(-GATE_SIZE/2.,-GATE_SIZE/2.,GATE_SIZE,GATE_SIZE), this);
+    m_gate->setScale(PORTAL_SIZE*m_scale/GATE_SIZE);
     m_gate->setZValue(-2);
     //m_gate->setPos(-PORTAL_SIZE*m_scale/2,-PORTAL_SIZE*m_scale/2);
 }
@@ -305,7 +307,7 @@ QFont AhFieldItem::getItemFont(int pxSize, bool bold)
     return f;
 }
 
-void AhFieldItem::animateGateAppear(QString id)
+void AhFieldItem::animateGateAppear(const QString &id)
 {
     if (!m_gate) return;
     if (!m_gate->gateId().isEmpty()) return;
@@ -334,8 +336,9 @@ void AhFieldItem::animateGateDisappear()
     m_gate->setOpacity(1);
 }
 
-void AhFieldItem::animateGateOpen(QString id)
+void AhFieldItem::animateGateOpen(const QString &id)
 {
+    Q_UNUSED(id);
     if (!m_gate) return;
     if (m_gate->gateId().isEmpty()) return;
 
@@ -367,7 +370,7 @@ void AhFieldItem::animateGateOpen(QString id)
     });
 }
 
-void AhFieldItem::animateMonsterAppear(AH::Common::MonsterData m)
+void AhFieldItem::animateMonsterAppear(const AH::Common::MonsterData &m)
 {
     // Dummy item
     auto itm = createOverlayMonster(m);
@@ -416,7 +419,7 @@ QImage swirl(const QImage &src, qreal amount, qreal rad = 0) {
     return dest;
 }
 
-void AhFieldItem::animateMonsterDisappear(AH::Common::MonsterData m)
+void AhFieldItem::animateMonsterDisappear(const AH::Common::MonsterData &m)
 {
     // Dummy item
     auto itm = createOverlayMonster(m);
@@ -433,8 +436,9 @@ void AhFieldItem::animateMonsterDisappear(AH::Common::MonsterData m)
     delete itm;
 }
 
-void AhFieldItem::animateMonsterMove(AH::Common::MonsterData m, QList<AH::Common::FieldData::FieldID> path)
+void AhFieldItem::animateMonsterMove(const AH::Common::MonsterData &m, const QList<AH::Common::FieldData::FieldID> &path)
 {
+    if (path.size() < 2) return;
     auto scn = qobject_cast<AhBoardScene*>(scene());
     m_monsters->removeById(m.id());
     scn->getField(path.last())->m_monsters->removeById(m.id());
@@ -468,7 +472,7 @@ void AhFieldItem::animateMonsterMove(AH::Common::MonsterData m, QList<AH::Common
     delete itm;
 }
 
-void AhFieldItem::animateMultipleMonsterDisappear(QStringList ids)
+void AhFieldItem::animateMultipleMonsterDisappear(const QStringList &ids)
 {
     if (ids.isEmpty()) return;
     if (!m_monsters) return;
@@ -476,14 +480,15 @@ void AhFieldItem::animateMultipleMonsterDisappear(QStringList ids)
 
     qobject_cast<AhBoardScene*>(scene())->centerOn(this);
     runAnimation(1., 0., 500, [=](auto v) { m_prxMonst->setOpacity(v.toDouble()); });
-    for (auto id : ids) {
+    for (const auto &id : ids) {
         m_monsters->removeById(id);
     }
     m_prxMonst->setOpacity(1);
 }
 
-void AhFieldItem::animateCharacterMove(AH::Common::CharacterData c, QList<AH::Common::FieldData::FieldID> path)
+void AhFieldItem::animateCharacterMove(const AH::Common::CharacterData &c, const QList<AH::Common::FieldData::FieldID> &path)
 {
+    if (path.size() < 2) return;
     auto scn = qobject_cast<AhBoardScene*>(scene());
     auto endField = scn->getField(path.last());
 
@@ -678,7 +683,7 @@ void AhFieldItem::animateFieldStateChange(AH::Common::GameBoardChangeData::Field
         delete itm;
 }
 
-QGraphicsPixmapItem *AhFieldItem::createOverlayMonster(AH::Common::MonsterData m)
+QGraphicsPixmapItem *AhFieldItem::createOverlayMonster(const AH::Common::MonsterData &m)
 {
     QGraphicsPixmapItem *itm = new QGraphicsPixmapItem;
 
@@ -695,7 +700,7 @@ QPointF AhFieldItem::getMonstersGlobalPos()
     return m_prxMonst->mapToScene(m_prxMonst->boundingRect().topLeft());
 }
 
-QGraphicsPixmapItem *AhFieldItem::createOverlayCharacter(AH::Common::CharacterData c, bool secondField)
+QGraphicsPixmapItem *AhFieldItem::createOverlayCharacter(const AH::Common::CharacterData &c, bool secondField)
 {
     QGraphicsPixmapItem *itm = new QGraphicsPixmapItem;
 
@@ -835,7 +840,10 @@ void ClickAreaItem::updateColor()
 //////////////////////////////
 
 ClueAreaItem::ClueAreaItem(QRectF rect, double scale, QGraphicsItem *parent)
-    : QGraphicsRectItem(rect, parent), m_clueCount(0)
+    : QGraphicsRectItem(rect, parent)
+    , m_clueCount(0)
+    , m_icon(nullptr)
+    , m_text(nullptr)
 {
     init(scale);
 }
@@ -877,7 +885,7 @@ GateItem::GateItem(QRectF rect, AhFieldItem *parent)
     init();
 }
 
-void GateItem::setGateId(const QString id)
+void GateItem::setGateId(const QString &id)
 {
     if (id == m_gateId) return;
 

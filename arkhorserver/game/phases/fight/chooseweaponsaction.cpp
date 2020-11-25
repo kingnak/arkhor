@@ -17,7 +17,7 @@ bool ChooseWeaponsAction::execute()
 
     QList<GameObject *> lst = gGame->context().player()->getCharacter()->inventory();
     QList<GameObject *> fightObjects;
-    foreach (GameObject *o, lst) {
+    for (auto o : lst) {
         if (o->isFightObject()) {
             if (o->isExhausted()) {
                 // Unequip for security...
@@ -54,10 +54,10 @@ QString ChooseWeaponsAction::notificationString(GameAction::NotificationPart par
     return QString::null;
 }
 
-bool ChooseWeaponsAction::doEquip(QList<GameObject *> oldWeapons, QStringList newWeapons, int hands)
+bool ChooseWeaponsAction::doEquip(const QList<GameObject *> &oldWeapons, const QStringList &newWeapons, int hands)
 {
     int newHands = 0;
-    foreach (GameObject *obj, oldWeapons) {
+    for (auto obj : oldWeapons) {
         if (newWeapons.contains(obj->id())) {
             newHands += obj->handCount();
         }
@@ -69,7 +69,7 @@ bool ChooseWeaponsAction::doEquip(QList<GameObject *> oldWeapons, QStringList ne
 
     bool ok = true;
     // Unequip and equip
-    foreach (GameObject *obj, oldWeapons) {
+    for (auto obj : oldWeapons) {
         if (newWeapons.contains(obj->id())) {
             // Should be equipped
             if (obj->isEquipped()) {

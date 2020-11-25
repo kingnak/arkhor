@@ -14,7 +14,7 @@ class DieRollWidget : public QWidget
 
 public:
     explicit DieRollWidget(QWidget *parent = 0);
-    ~DieRollWidget();
+    ~DieRollWidget() override;
 
 public slots:
     void displayDieRoll(AH::Common::DieRollTestData data);
@@ -27,14 +27,14 @@ private slots:
     void updateClueBurnAmount(int ct);
     void on_btnOk_clicked();
     void on_spnClueBurn_valueChanged(int ct);
-    void requestObject(QString id);
+    void requestObject(const QString &id);
     void reRollOptionClicked();
 
 private:
     void cleanDice();
     void cleanModifiers();
     void cleanOptions();
-    void displayDice(QList<quint32> values, int initialCount, int additional);
+    void displayDice(const QList<quint32> &values, int initialCount, int additional);
 
 private:
     int m_clueBurnFactor;

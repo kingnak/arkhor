@@ -7,7 +7,7 @@ MythosDataWidget::MythosDataWidget(QWidget *parent) :
     ui(new Ui::MythosDataWidget)
 {
     ui->setupUi(this);
-    displayMythos(NULL);
+    displayMythos(nullptr);
 }
 
 MythosDataWidget::~MythosDataWidget()

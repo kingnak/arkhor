@@ -11,15 +11,15 @@ class MoveAction : public GameAction
 public:
     MoveAction(Movement *m);
 
-    QString id() const { return "AC_MOVE"; }
+    QString id() const override { return "AC_MOVE"; }
 
-    virtual AH::GamePhases phases() const { return AH::Movement; }
+    AH::GamePhases phases() const override { return AH::Movement; }
 
-    virtual bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    virtual QString name() const { return "Move"; }
-    virtual QString description() const { return "Move Character"; }
+    QString name() const override { return "Move"; }
+    QString description() const override { return "Move Character"; }
 
 private:
     bool moveArkham();
@@ -33,12 +33,12 @@ class MoveOption : public GameOption
 public:
     MoveOption(Movement *m) : GameOption(&ma, AH::CanContinue, AH::ChooseOptional, AH::Movement), ma(m) {}
 
-    QString id() const { return "OP_MOVE"; }
-    virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
+    QString id() const override { return "OP_MOVE"; }
+    AH::Common::ModifiedPropertyValueData baseProperty() const override;
 
     void determineMovementType();
 
-    virtual bool isAvailable() const;
+    bool isAvailable() const override;
 
 private:
     MoveAction ma;

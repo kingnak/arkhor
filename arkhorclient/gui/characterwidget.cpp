@@ -51,7 +51,7 @@ QPixmap CharacterWidget::drawCharacterWithStats(const AH::Common::CharacterData 
         p.drawPixmap(8*scale, 12*scale, sanity);
         QPainterPath pathSan;
         pathSan.addText(20*scale, 36*scale, f, QString::number(c->curSanity()));
-        p.fillPath(pathSan, QColor(0x3672AE));
+        p.fillPath(pathSan, ResourcePool::SanityColor);
         QPainterPathStroker strSan;
         pathSan = strSan.createStroke(pathSan);
         //p.setPen(Qt::white);
@@ -62,7 +62,7 @@ QPixmap CharacterWidget::drawCharacterWithStats(const AH::Common::CharacterData 
         p.drawPixmap(142*scale, 7*scale, stamina);
         QPainterPath pathSta;
         pathSta.addText(154*scale, 36*scale, f, QString::number(c->curStamina()));
-        p.fillPath(pathSta, QColor(0xD2363A));
+        p.fillPath(pathSta, ResourcePool::StaminaColor);
         QPainterPathStroker strSta;
         pathSta = strSta.createStroke(pathSta);
         //p.setPen(Qt::white);

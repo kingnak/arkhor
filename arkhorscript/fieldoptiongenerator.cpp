@@ -33,7 +33,7 @@ QList<ClassGenerator::AttributeDesc> FieldOptionGenerator::getAttributes()
     return ret;
 }
 
-bool FieldOptionGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr)
+bool FieldOptionGenerator::outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr)
 {
     if (desc.name == "field") {
         m_field = attr.content.first;
@@ -42,7 +42,7 @@ bool FieldOptionGenerator::outputSpecialAttribute(AttributeDesc desc, const Clas
     return QuickOptionGenerator::outputSpecialAttribute(desc, cls, attr);
 }
 
-bool FieldOptionGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+bool FieldOptionGenerator::outputDefaultAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "phases") {
         return outputAttribute(cls, AttrDef("phases", ArkhorScriptParser::EnumValue, "ArkhamEncountery"), true);

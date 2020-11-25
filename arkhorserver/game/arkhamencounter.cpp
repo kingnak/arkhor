@@ -5,7 +5,7 @@
 QList<AH::Common::GameOptionData> ArkhamEncounter::optionData() const
 {
     QList<AH::Common::GameOptionData> ret;
-    foreach (GameOption *o, options()) {
+    for (auto o : options()) {
 #ifdef DEBUG_SCRIPT_BUILD
         if (!o) continue;
 #endif

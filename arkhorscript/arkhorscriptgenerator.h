@@ -27,7 +27,7 @@ private:
     typedef ArkhorScriptParser::AttrDef AttrDef;
 
     bool generateClass(ClassDef &cls);
-    bool setError(QString err);
+    bool setError(const QString &err);
 
     bool generateNestedClasses(ClassDef &cls);
     bool doGenerateNestedClass(AttrDef &attr);

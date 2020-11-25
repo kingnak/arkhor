@@ -11,21 +11,21 @@ InvestigatorWidget::InvestigatorWidget(QWidget *parent) :
 
 QSize InvestigatorWidget::sizeHint() const
 {
-    return QSize(768, 1080);
+    return {768, 1080};
 }
 
 QSize InvestigatorWidget::minimumSizeHint() const
 {
-    return QSize(512, 720);
+    return {512, 720};
 }
 
-void InvestigatorWidget::displayInvestigator(AH::Common::InvestigatorData inv)
+void InvestigatorWidget::displayInvestigator(const AH::Common::InvestigatorData &inv)
 {
     m_inv = inv;
     paintInvestigator();
 }
 
-void InvestigatorWidget::displayCharacter(AH::Common::CharacterData chr)
+void InvestigatorWidget::displayCharacter(const AH::Common::CharacterData &chr)
 {
     m_char = chr;
     m_inv = m_char.investigatorData();
@@ -65,7 +65,7 @@ void InvestigatorWidget::paintInvestigator()
         p.setFont(f);
         p.drawText(hr, "Random Possessions:");
         QStringList rndPoss;
-        foreach (AH::ObjectTypeCount otc, inv.randomPossesions()) {
+        for (auto otc : inv.randomPossesions()) {
             rndPoss << QString("%1 %2").arg(otc.amount).arg(Utils::stringForObjectType(otc.type));
         }
         QRect rndRect(50,826,426,60);
@@ -84,7 +84,7 @@ void InvestigatorWidget::paintInvestigator()
             fixPoss << QString("<b>$</b>%1").arg(inv.money());
         if (inv.clues() > 0)
             fixPoss << QString("%1 Clues").arg(inv.clues());
-        foreach (QString oid, inv.fixedPossessionNames()) {
+        for (const auto &oid : inv.fixedPossessionNames()) {
             fixPoss << oid;
         }
         QRect fixRect(50,700,426,90);
@@ -138,7 +138,7 @@ void InvestigatorWidget::paintCharacter()
         QStringList poss;
         poss << QString("<b>$</b>%1").arg(m_char.money());
         poss << QString("%1 Clues").arg(m_char.clues());
-        foreach (QString oid, m_char.inventoryIds()) {
+        for (const auto &oid : m_char.inventoryIds()) {
             auto o = reg->getObject<AH::Common::GameObjectData>(oid);
             if (o.id().isEmpty()) {
                 poss << oid;
@@ -319,7 +319,7 @@ void InvestigatorWidget::resizeEvent(QResizeEvent *event)
     }
 }
 
-void InvestigatorWidget::drawFixedLineHeightText(QPainter *p, QString t, QRect r, int lineHeight)
+void InvestigatorWidget::drawFixedLineHeightText(QPainter *p, const QString &t, QRect r, int lineHeight)
 {
     p->save();
 

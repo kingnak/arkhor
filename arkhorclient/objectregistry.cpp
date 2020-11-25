@@ -7,7 +7,7 @@ using namespace AH::Common;
 const QString ObjectRegistry::TempObjectId = "%TMP%";
 
 ObjectRegistry::ObjectRegistry()
-    : m_conn(NULL)
+    : m_conn(nullptr)
 {
 }
 
@@ -30,12 +30,12 @@ void ObjectRegistry::init(ConnectionHandler *c)
     connect(m_conn, SIGNAL(characterUpdate(AH::Common::CharacterData)), this, SLOT(updateCharacter(AH::Common::CharacterData)));
     connect(m_conn, SIGNAL(setTempData(QString)), this, SLOT(setTempData(QString)));
     connect(m_conn, SIGNAL(clearTempData()), this, SLOT(clearTempData()));
-    connect(m_conn, &ConnectionHandler::chooseMonster, this, [=](QString, QList<AH::Common::MonsterData> m) {receivedMonsters(m); });
+    connect(m_conn, &ConnectionHandler::chooseMonster, this, [=](const QString&, const QList<AH::Common::MonsterData> &m) {receivedMonsters(m); });
     connect(m_conn, &ConnectionHandler::boardDescription, this, &ObjectRegistry::receivedBoardDescription);
     connect(m_conn, &ConnectionHandler::boardContent, this, &ObjectRegistry::receivedBoardUpdate);
 }
 
-void ObjectRegistry::setThisCharacterId(QString id)
+void ObjectRegistry::setThisCharacterId(const QString &id)
 {
     if (id != m_thisCharacterId) {
         m_thisCharacterId = id;
@@ -45,13 +45,13 @@ void ObjectRegistry::setThisCharacterId(QString id)
     }
 }
 
-bool ObjectRegistry::hasObject(QString id)
+bool ObjectRegistry::hasObject(const QString &id)
 {
     QReadLocker r(&m_lock);
     return m_registry.contains(id);
 }
 
-DescribeObjectsData ObjectRegistry::getObjects(RequestObjectsData reqs)
+DescribeObjectsData ObjectRegistry::getObjects(const RequestObjectsData &reqs)
 {
     RequestObjectsData pendingRequests;
     auto ret = doGetObjects(reqs, pendingRequests);
@@ -61,14 +61,14 @@ DescribeObjectsData ObjectRegistry::getObjects(RequestObjectsData reqs)
     return ret;
 }
 
-DescribeObjectsData ObjectRegistry::getObjectsBlocking(RequestObjectsData reqs)
+DescribeObjectsData ObjectRegistry::getObjectsBlocking(const RequestObjectsData &reqs)
 {
     RequestObjectsData pendingRequests;
     auto ret = doGetObjects(reqs, pendingRequests);
     if (!pendingRequests.getRequests().isEmpty()) {
         QEventLoop loop;
         auto pend = pendingRequests.getRequests().toStdList();
-        auto conn = connect(this, &ObjectRegistry::objectDescribed, &loop, [&](DescribeObjectsData::ObjectDescription desc) {
+        auto conn = connect(this, &ObjectRegistry::objectDescribed, &loop, [&](const DescribeObjectsData::ObjectDescription &desc) {
             auto it = pend.begin();
             while (it != pend.end()) {
                 if (it->second == desc.id) {
@@ -84,20 +84,20 @@ DescribeObjectsData ObjectRegistry::getObjectsBlocking(RequestObjectsData reqs)
         QTimer::singleShot(1000, &loop, &QEventLoop::quit);
         m_conn->requestObjects(pendingRequests);
         loop.exec();
-        this->disconnect(conn);
+        ObjectRegistry::disconnect(conn);
     }
 
     return ret;
 }
 
-DescribeObjectsData ObjectRegistry::doGetObjects(AH::Common::RequestObjectsData requests, RequestObjectsData &pending)
+DescribeObjectsData ObjectRegistry::doGetObjects(const AH::Common::RequestObjectsData &requests, RequestObjectsData &pending)
 {
     DescribeObjectsData descs;
     RequestObjectsData pendingRequests;
 
     {
-        QReadLocker r(&m_lock);
-        foreach (RequestObjectsData::ObjectRequest r, requests.getRequests())
+        QReadLocker lock(&m_lock);
+        for (const auto &r : requests.getRequests())
         {
             if (m_registry.contains(r.second)) {
                 DescribeObjectsData::ObjectDescription d = m_registry[r.second];
@@ -113,7 +113,7 @@ DescribeObjectsData ObjectRegistry::doGetObjects(AH::Common::RequestObjectsData 
     return descs;
 }
 
-DescribeObjectsData::ObjectDescription ObjectRegistry::getObject(QString id, AH::Common::RequestObjectsData::ObjectType type)
+DescribeObjectsData::ObjectDescription ObjectRegistry::getObject(const QString &id, AH::Common::RequestObjectsData::ObjectType type)
 {
     {
         QReadLocker rl(&m_lock);
@@ -141,7 +141,7 @@ DescribeObjectsData::ObjectDescription ObjectRegistry::getObject(QString id, AH:
     return d;
 }
 
-void ObjectRegistry::asyncSubscribeObject(AsyncObjectReceiver *recv, QString id, RequestObjectsData::ObjectType type)
+void ObjectRegistry::asyncSubscribeObject(AsyncObjectReceiver *recv, const QString &id, RequestObjectsData::ObjectType type)
 {
     {
         QWriteLocker r(&m_subscriberLock);
@@ -166,7 +166,7 @@ void ObjectRegistry::asyncSubscribeObject(AsyncObjectReceiver *recv, QString id,
     }
 }
 
-void ObjectRegistry::asyncGetObject(AsyncObjectReceiver *recv, QString id, RequestObjectsData::ObjectType type)
+void ObjectRegistry::asyncGetObject(AsyncObjectReceiver *recv, const QString &id, RequestObjectsData::ObjectType type)
 {
     bool contains;
     AH::Common::DescribeObjectsData::ObjectDescription desc;
@@ -199,26 +199,26 @@ void ObjectRegistry::unsubscribe(AsyncObjectReceiver *recv)
     m_subscriberMap.remove(recv);
 
     QSet<QString> toRemove;
-    foreach (QString id, subs) {
+    for (const auto &id : subs) {
         m_subscribedMap[id].remove(recv);
         if (m_subscribedMap[id].isEmpty()) toRemove << id;
     }
-    foreach (QString id, toRemove) {
+    for (const auto &id : toRemove) {
         m_subscribedMap.remove(id);
     }
 
     // Remove from single shot
     toRemove.clear();
-    foreach (QString id, m_singleShotSubscriberMap.keys()) {
+    for (const auto &id : m_singleShotSubscriberMap.keys()) {
         m_singleShotSubscriberMap[id].remove(recv);
         if (m_singleShotSubscriberMap[id].isEmpty()) toRemove << id;
     }
-    foreach (QString id, toRemove) {
+    for (const auto &id : toRemove) {
         m_singleShotSubscriberMap.remove(id);
     }
 }
 
-void ObjectRegistry::unsubscribe(AsyncObjectReceiver *recv, QString id)
+void ObjectRegistry::unsubscribe(AsyncObjectReceiver *recv, const QString &id)
 {
     QWriteLocker w(&m_subscriberLock);
 
@@ -237,10 +237,10 @@ void ObjectRegistry::unsubscribe(AsyncObjectReceiver *recv, QString id)
     }
 }
 
-DescribeObjectsData ObjectRegistry::getObjectsOfType(QStringList ids, RequestObjectsData::ObjectType type)
+DescribeObjectsData ObjectRegistry::getObjectsOfType(const QStringList &ids, RequestObjectsData::ObjectType type)
 {
     RequestObjectsData reqs;
-    foreach (QString id, ids) {
+    for (const auto &id : ids) {
         RequestObjectsData::ObjectRequest r;
         r.first = type;
         r.second = id;
@@ -269,7 +269,7 @@ bool ObjectRegistry::hasTempObject()
 void ObjectRegistry::receivedBoardDescription(QVariantMap board, QVariantMap desc)
 {
     m_fieldDescs.clear();
-    for (QString field : desc.keys()) {
+    for (const QString &field : desc.keys()) {
         AH::Common::FieldData::FieldID fId = static_cast<AH::Common::FieldData::FieldID> (field.toInt());
         QList<AH::Common::GameFieldData::FieldOptionDescription> opts;
         desc[field] >> opts;
@@ -285,7 +285,7 @@ void ObjectRegistry::receivedBoardDescription(QVariantMap board, QVariantMap des
 
 void ObjectRegistry::receivedBoardUpdate(QVariantMap board)
 {
-    for (QString fId : board.keys()) {
+    for (const QString &fId : board.keys()) {
         AH::Common::GameFieldData f;
         board[fId] >> f;
         if (f.id() == AH::Common::FieldData::NO_NO_FIELD) continue;
@@ -293,7 +293,7 @@ void ObjectRegistry::receivedBoardUpdate(QVariantMap board)
         fd.fieldData = f;
 
         fd.additionalOptions.clear();
-        for (auto o : f.fieldOptions()) {
+        for (const auto &o : f.fieldOptions()) {
             if (!o.id.startsWith("FIELD_")) {
                 fd.additionalOptions << o;
             }
@@ -309,9 +309,9 @@ void ObjectRegistry::clearTempData()
     m_registry.remove(TempObjectId);
 }
 
-void ObjectRegistry::receivedDescriptions(DescribeObjectsData descs)
+void ObjectRegistry::receivedDescriptions(const DescribeObjectsData &descs)
 {
-    foreach (DescribeObjectsData::ObjectDescription d, descs.getDescriptions()) {
+    for (const auto &d : descs.getDescriptions()) {
         if (d.type == RequestObjectsData::Unknown) {
             qWarning("Unknown object received");
             continue;
@@ -344,23 +344,23 @@ void ObjectRegistry::receivedDescriptions(DescribeObjectsData descs)
             ws.unlock();
 
             // Inform asnych subscribers and single shots
-            foreach (AsyncObjectReceiver *recv, sssm.value(d.id)) {
+            for (auto recv : sssm.value(d.id)) {
                 recv->objectDescribed(d);
             }
-            foreach (AsyncObjectReceiver *recv, sm.value(d.id)) {
+            for (auto recv : sm.value(d.id)) {
                 recv->objectDescribed(d);
             }
         }
     }
 }
 
-void ObjectRegistry::receivedInvalidations(QStringList lst)
+void ObjectRegistry::receivedInvalidations(const QStringList &lst)
 {
     QSet<QString> rerequests;
 
     {
         QWriteLocker l(&m_lock);
-        foreach (QString id, lst) {
+        for (const auto &id : lst) {
             m_registry.remove(id);
 
             if (m_subscribedMap.contains(id)) {
@@ -371,7 +371,7 @@ void ObjectRegistry::receivedInvalidations(QStringList lst)
 
     if (!rerequests.isEmpty()) {
         AH::Common::RequestObjectsData pendingRequests;
-        foreach (QString id, rerequests) {
+        for (const auto &id : rerequests) {
             pendingRequests.addRequest(AH::Common::RequestObjectsData::ObjectRequest(AH::Common::RequestObjectsData::Unknown, id));
         }
         m_conn->requestObjects(pendingRequests);
@@ -386,7 +386,7 @@ void ObjectRegistry::receivedTypeInvalidation(AH::Common::RequestObjectsData::Ob
         QWriteLocker l(&m_lock);
         QList<AH::Common::DescribeObjectsData::ObjectDescription> lst = m_registry.values();
         lst.detach();
-        foreach (AH::Common::DescribeObjectsData::ObjectDescription obj, lst) {
+        for (const auto &obj : lst) {
             if (obj.type == type) {
                 m_registry.remove(obj.id);
 
@@ -399,14 +399,14 @@ void ObjectRegistry::receivedTypeInvalidation(AH::Common::RequestObjectsData::Ob
 
     if (!rerequests.isEmpty()) {
         AH::Common::RequestObjectsData pendingRequests;
-        foreach (QString id, rerequests) {
+        for (const auto &id : rerequests) {
             pendingRequests.addRequest(AH::Common::RequestObjectsData::ObjectRequest(AH::Common::RequestObjectsData::Unknown, id));
         }
         m_conn->requestObjects(pendingRequests);
     }
 }
 
-void ObjectRegistry::updateCharacter(CharacterData character)
+void ObjectRegistry::updateCharacter(const CharacterData &character)
 {
     if (character.id() == m_thisCharacterId) {
         m_thisCharacter = character;
@@ -414,9 +414,9 @@ void ObjectRegistry::updateCharacter(CharacterData character)
     }
 }
 
-void ObjectRegistry::receivedMonsters(QList<MonsterData> monsters)
+void ObjectRegistry::receivedMonsters(const QList<MonsterData> &monsters)
 {
-    for (auto m : monsters) {
+    for (const auto &m : monsters) {
         QVariant v;
         v << m;
         AH::Common::DescribeObjectsData::ObjectDescription d{

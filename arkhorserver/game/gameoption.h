@@ -20,7 +20,7 @@ public:
             m_phases = m_action->phases();
         }
     }
-    virtual ~GameOption() {}
+    ~GameOption() override = default;
 
     enum class AutoChoose {
         Always,
@@ -31,17 +31,17 @@ public:
     void setId(QString id) { m_id = id; }
     void setSourceId(QString id) { m_sourceId = id; }
 
-    GameOptionData *data();
+    GameOptionData *data() override;
 
-    virtual AH::GamePhases phases() const;
+    AH::GamePhases phases() const override;
     virtual AutoChoose autoChoose() const;
 
     //virtual bool isAvailable() const = 0;
 
     virtual bool execute();
 
-    QString name() const;
-    QString description() const;
+    QString name() const override;
+    QString description() const override;
 
     virtual bool resolveDependencies(GameRegistry *reg);
 

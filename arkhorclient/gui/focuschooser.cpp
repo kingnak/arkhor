@@ -4,9 +4,10 @@
 
 static const char *FOCUS_DIFF_PROPERTY = "FOCUS_DIFF";
 
-FocusChooser::FocusChooser(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::FocusChooser)
+FocusChooser::FocusChooser(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::FocusChooser)
+    , m_totFocus(0)
 {
     ui->setupUi(this);
     ui->wgtSpeedSneak->setLayout(new QVBoxLayout);
@@ -19,7 +20,7 @@ FocusChooser::~FocusChooser()
     delete ui;
 }
 
-void FocusChooser::chooseFocus(QList<AH::Common::AttributeSliderData> sliders, int totAmount)
+void FocusChooser::chooseFocus(const QList<AH::Common::AttributeSliderData> &sliders, int totAmount)
 {
     cleanWidget(ui->wgtSpeedSneak);
     cleanWidget(ui->wgtFightWill);
@@ -57,7 +58,7 @@ void FocusChooser::focusChange()
 {
     QList<int> diffs = getAllDiffValues();
     int rem = m_totFocus;
-    foreach (int d, diffs) {
+    for (auto d : diffs) {
         rem -= qAbs(d);
     }
 
@@ -74,11 +75,11 @@ void FocusChooser::cleanWidget(QWidget *w)
     QLayout *l = w->layout();
     if (l) {
         QLayoutItem *child;
-        while ((child = l->takeAt(0)) != 0) {
+        while ((child = l->takeAt(0)) != nullptr) {
             delete child;
         }
     }
-    foreach (QWidget *c, w->findChildren<QWidget*>()) {
+    for (auto c : w->findChildren<QWidget*>()) {
         delete c;
     }
 }
@@ -104,7 +105,7 @@ void FocusChooser::setupWidget(QWidget *w, const AH::Common::AttributeSliderData
 
 int FocusChooser::getDiffValue(QWidget *w)
 {
-    foreach (QRadioButton *btn, w->findChildren<QRadioButton*>()) {
+    for (auto btn : w->findChildren<QRadioButton*>()) {
         if (btn->isChecked()) {
             return btn->property(FOCUS_DIFF_PROPERTY).toInt();
         }

@@ -35,7 +35,7 @@ QList<ClassGenerator::AttributeDesc> ActionGenerator::getAttributes()
                ;
 }
 
-bool ActionGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr)
+bool ActionGenerator::outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr)
 {
     if (desc.name == "phases") {
         return outputEnumValueArray("Constants.GamePhases", attr, cls);

@@ -18,13 +18,13 @@ WeaponChooser::~WeaponChooser()
     delete ui;
 }
 
-void WeaponChooser::chooseWeapons(QList<AH::Common::GameObjectData> weapons, AH::Common::ModifiedPropertyValueData hands)
+void WeaponChooser::chooseWeapons(const QList<AH::Common::GameObjectData> &weapons, const AH::Common::ModifiedPropertyValueData &hands)
 {
     cleanWeapons();
 
     m_totHands = hands.finalVal();
 
-    foreach (AH::Common::GameObjectData obj, weapons) {
+    for (const auto &obj : weapons) {
 
         QListWidgetItem *itm = new QListWidgetItem;
         bool hasData = false;

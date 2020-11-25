@@ -8,7 +8,7 @@ class ChooseInvestigator : public GamePhase
 public:
     ChooseInvestigator(Game *game);
 
-    void execute();
+    void execute() override;
 
 private:
     Character *instantiateInvestigator(Investigator *i);

@@ -5,10 +5,10 @@
 #include "gameoption.h"
 
 GameField::GameField(AH::Common::FieldData::FieldID id, const QString &name, AH::Common::FieldData::FieldType type)
-:   m_gate(NULL),
-    m_whiteField(NULL),
-    m_blackField(NULL),
-    m_lockFlags(0)
+    : m_gate(nullptr)
+    , m_whiteField(nullptr)
+    , m_blackField(nullptr)
+    , m_lockFlags(0)
 {
     m_id = id;
     m_name = name;
@@ -42,7 +42,7 @@ void GameField::addBackGate(Gate *p)
 void GameField::removeGate(Gate *p)
 {
     if (m_gate == p) {
-        m_gate = NULL;
+        m_gate = nullptr;
         m_gateId = "";
     }
 
@@ -52,7 +52,7 @@ void GameField::removeGate(Gate *p)
 
 void GameField::setGate(Gate *p)
 {
-    Q_ASSERT_X(m_gate == NULL || p == NULL, "Set Gate", "Already have gate");
+    Q_ASSERT_X(m_gate == nullptr || p == nullptr, "Set Gate", "Already have gate");
     Q_ASSERT_X(m_type == AH::Common::FieldData::Location, "Set Gate", "Can only add gate to Interior");
     m_gate = p;
     if (p) {
@@ -164,7 +164,7 @@ void GameField::removeCharacter(Character *c)
     if (c) {
         if (c->field() == this) {
             m_characters.removeAll(c);
-            c->setField(NULL);
+            c->setField(nullptr);
 
             gGame->boardDirty();
         }
@@ -176,7 +176,7 @@ void GameField::removeMonster(Monster *m)
     if (m) {
         if (m->field() == this) {
             m_monsters.removeAll(m);
-            m->setField(NULL);
+            m->setField(nullptr);
 
             gGame->boardDirty();
         }
@@ -219,7 +219,7 @@ QStringList GameField::secondPhaseCharacterIds() const
 QStringList GameField::monsterIds() const
 {
     QStringList ret;
-    foreach (Monster *m, m_monsters) {
+    for (auto m : m_monsters) {
         ret << m->id();
     }
     return ret;
@@ -236,7 +236,7 @@ QString GameField::gateId() const
 QList<int> GameField::neighbourIds() const
 {
     QList<int> ret;
-    foreach (GameField *f, m_neighbours) {
+    for (auto f : m_neighbours) {
         ret << f->id();
     }
     return ret;

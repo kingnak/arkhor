@@ -9,7 +9,7 @@ class AllyGenerator : public ObjectGenerator
 {
 public:
     AllyGenerator(QTextStream &out) : ObjectGenerator(out) {}
-    bool generate(const ClassGenerator::ClassDef &cls);
+    bool generate(const ClassGenerator::ClassDef &cls) override;
 
 protected:
     //QList<AttributeDesc> getAttributes();

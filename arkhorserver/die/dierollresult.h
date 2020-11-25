@@ -10,7 +10,7 @@ public:
     DiePool::DiePoolIndex index() const { return m_idx; }
     quint32 value() const { return m_value; }
 
-    DieRollResultItem() : m_idx(-1), m_value(Die::UNROLLED_VALUE) {}
+    DieRollResultItem() : m_idx(UINT_MAX), m_value(Die::UNROLLED_VALUE) {}
     DieRollResultItem(const DieRollResultItem &o) : m_idx(o.m_idx), m_value(o.m_value) {}
 
 private:

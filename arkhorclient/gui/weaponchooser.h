@@ -16,10 +16,10 @@ class WeaponChooser : public QWidget
 
 public:
     explicit WeaponChooser(QWidget *parent = 0);
-    ~WeaponChooser();
+    ~WeaponChooser() override;
 
 public slots:
-    void chooseWeapons(QList<AH::Common::GameObjectData> weapons, AH::Common::ModifiedPropertyValueData hands);
+    void chooseWeapons(const QList<AH::Common::GameObjectData> &weapons, const AH::Common::ModifiedPropertyValueData &hands);
 
 signals:
     void weaponsCanceled();

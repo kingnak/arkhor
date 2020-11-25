@@ -15,10 +15,10 @@ public:
         setId("AC_ATTACK_ANCIENT_ONE");
     }
 
-    virtual bool execute();
+    bool execute() override;
 
 protected:
-    virtual PropertyModificationList getMonsterModifications(Character *c) const;
+    PropertyModificationList getMonsterModifications(Character *c) const override;
 };
 
 ////////////////////////////
@@ -37,10 +37,10 @@ class AttackAncientOnePhase : public GamePhase
 {
 public:
     AttackAncientOnePhase(Game *g);
-    ~AttackAncientOnePhase();
+    ~AttackAncientOnePhase() override;
 
 protected:
-    QList<GameOption *> getPhaseOptions();
+    QList<GameOption *> getPhaseOptions() override;
 
 private:
     AttackAncientOneOption *m_attack;

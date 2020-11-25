@@ -12,16 +12,16 @@ class OtherWorldEncounteryAction : public GameAction
 public:
     OtherWorldEncounteryAction();
 
-    QString id() const { return "AC_OTHERWORLD_ENCOUNTERY"; }
+    QString id() const override { return "AC_OTHERWORLD_ENCOUNTERY"; }
 
-    virtual AH::GamePhases phases() const { return AH::OtherWorldEncountery; }
+    AH::GamePhases phases() const override { return AH::OtherWorldEncountery; }
 
-    virtual bool execute();
+    bool execute() override;
     bool executeOnPlayer(Player *p, AH::Common::FieldData::FieldID fieldId);
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    virtual QString name() const { return "Other World Encoutnery"; }
-    virtual QString description() const { return ""; }
+    QString name() const override { return "Other World Encoutnery"; }
+    QString description() const override { return ""; }
 };
 
 class OtherWorldEncounteryOption : public GameOption
@@ -31,11 +31,11 @@ public:
         : GameOption(&ea, AH::CannotContinue, AH::ChooseMandatory, AH::OtherWorldEncountery)
     {}
 
-    QString id() const { return "OP_OTHERWORLD_ENCOUNTERY"; }
+    QString id() const override { return "OP_OTHERWORLD_ENCOUNTERY"; }
 
-    virtual AutoChoose autoChoose() const;
-    virtual bool isAvailable() const;
-    virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
+    AutoChoose autoChoose() const override;
+    bool isAvailable() const override;
+    AH::Common::ModifiedPropertyValueData baseProperty() const override;
 
 private:
     OtherWorldEncounteryAction ea;

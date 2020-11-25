@@ -10,7 +10,7 @@ Investigator::Investigator()
 
 Character *Investigator::instantiate()
 {
-    if (m_isInstantiated) return NULL;
+    if (m_isInstantiated) return nullptr;
     Character *c = new Character(this);
     c->instantiateFromInvestigator();
     m_isInstantiated = true;
@@ -30,8 +30,8 @@ bool Investigator::resolveDependecies(GameRegistry *reg)
         }
     }
 
-    foreach (QString id, m_fixedPossesionObjectIds) {
-        if (reg->findObjectPrototypeByType(id) == NULL) {
+    for (const auto &id : m_fixedPossesionObjectIds) {
+        if (reg->findObjectPrototypeByType(id) == nullptr) {
             qWarning() << "Cannot resolve fixed possession" << id << "for character" << this->id();
             ok = false;
         }

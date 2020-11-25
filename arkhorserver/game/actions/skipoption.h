@@ -12,14 +12,14 @@ public:
         m_id = "OP_SKIP";
     }
 
-    //virtual QString id() const { return "OP_SKIP"; }
-    virtual QString name() const { return "Finish"; }
-    virtual QString description() const { return "Finish your turn."; }
+    //QString id() const override { return "OP_SKIP"; }
+    QString name() const override { return "Finish"; }
+    QString description() const override { return "Finish your turn."; }
 
-    virtual AutoChoose autoChoose() const { return AutoChoose::Always; }
-    virtual bool isAvailable() const { return true; }
+    AutoChoose autoChoose() const override { return AutoChoose::Always; }
+    bool isAvailable() const override { return true; }
 
-    virtual bool execute() { return true; }
+    bool execute() override { return true; }
 };
 
 #endif // SKIPOPTION_H

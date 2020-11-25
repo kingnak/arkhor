@@ -12,17 +12,17 @@ class ChooseWeaponsAction : public GameAction
 public:
     ChooseWeaponsAction(FightPhase *fight);
 
-    QString id() const { return "AC_CHOOSE_WEAPONS"; }
+    QString id() const override { return "AC_CHOOSE_WEAPONS"; }
 
-    virtual AH::GamePhases phases() const { return AH::Movement; }
-    virtual bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    AH::GamePhases phases() const override { return AH::Movement; }
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    virtual QString name() const { return "Choose Weapons"; }
-    virtual QString description() const { return ""; }
+    QString name() const override { return "Choose Weapons"; }
+    QString description() const override { return ""; }
 
 private:
-    bool doEquip(QList<GameObject *> oldWeapons, QStringList newWeapons, int hands);
+    bool doEquip(const QList<GameObject *> &oldWeapons, const QStringList &newWeapons, int hands);
 
     FightPhase *m_fight;
     friend class ChooseWeaponsOption;
@@ -35,9 +35,9 @@ public:
         : GameOption(&cwa, AH::CanContinue, AH::ChooseMandatory, AH::Movement),
           cwa(fight)
     {}
-    QString id() const { return "OP_CHOOSE_WEAPONS"; }
+    QString id() const override { return "OP_CHOOSE_WEAPONS"; }
 
-    virtual bool isAvailable() const { return true; }
+    bool isAvailable() const override { return true; }
 
 private:
     ChooseWeaponsAction cwa;

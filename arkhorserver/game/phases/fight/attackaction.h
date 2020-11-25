@@ -15,14 +15,14 @@ class AttackAction : public GameAction
 public:
     AttackAction(FightPhase *fight);
 
-    QString id() const { return "AC_ATTACK"; }
+    QString id() const override { return "AC_ATTACK"; }
 
-    virtual AH::GamePhases phases() const { return AH::Movement; }
-    virtual bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    AH::GamePhases phases() const override { return AH::Movement; }
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    virtual QString name() const { return "Attack"; }
-    virtual QString description() const { return ""; }
+    QString name() const override { return "Attack"; }
+    QString description() const override { return ""; }
 
 protected:
     void filterEquipped(PropertyModificationList &lst) const;
@@ -55,11 +55,11 @@ public:
           aa(fight)
     {}
 
-    QString id() const { return "OP_ATTACK"; }
-    QString sourceId() const;
+    QString id() const override { return "OP_ATTACK"; }
+    QString sourceId() const override;
 
-    virtual bool isAvailable() const { return true; }
-    virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
+    bool isAvailable() const override { return true; }
+    AH::Common::ModifiedPropertyValueData baseProperty() const override;
 
 private:
     AttackAction aa;

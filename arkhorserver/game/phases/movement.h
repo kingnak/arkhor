@@ -13,14 +13,14 @@ class Movement : public GamePhase
 {
 public:
     Movement(Game *game);
-    ~Movement();
+    ~Movement() override;
 
     void characterMoved();
 
 protected:
-    QList<GameOption *> getPhaseOptions();
-    void enterPhase();
-    void finishPhase();
+    QList<GameOption *> getPhaseOptions() override;
+    void enterPhase() override;
+    void finishPhase() override;
 
 private:
     UndelayOption *m_undelay;

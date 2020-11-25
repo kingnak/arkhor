@@ -3,10 +3,7 @@
 #include "../gameboard.h"
 #include "../gamefield.h"
 
-UnlockAction::UnlockAction()
-{
-
-}
+UnlockAction::UnlockAction() = default;
 
 AH::GamePhases UnlockAction::phases() const
 {
@@ -31,5 +28,6 @@ bool UnlockAction::execute()
 
 QString UnlockAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
 {
+    Q_UNUSED(part);
     return desc + " was unlocked";
 }

@@ -49,7 +49,7 @@ QList<ClassGenerator::AttributeDesc> MonsterGenerator::getAttributes()
                ;
 }
 
-bool MonsterGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr)
+bool MonsterGenerator::outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr)
 {
     if (desc.name == "movementType") {
         return outputEnumValue("Constants.Movement", attr, cls);

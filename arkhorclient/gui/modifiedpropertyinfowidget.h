@@ -14,14 +14,14 @@ class ModifiedPropertyInfoWidget : public QWidget
 
 public:
     explicit ModifiedPropertyInfoWidget(QWidget *parent = nullptr);
-    ~ModifiedPropertyInfoWidget();
+    ~ModifiedPropertyInfoWidget() override;
 
 public slots:
     void cleanValue();
-    void displayPropertyValue(AH::Common::ModifiedPropertyValueData value);
+    void displayPropertyValue(const AH::Common::ModifiedPropertyValueData &value);
 
 private slots:
-    void requestObjectInfo(QString id);
+    void requestObjectInfo(const QString &id);
 
 signals:
     void objectInfoRequested(QString id);

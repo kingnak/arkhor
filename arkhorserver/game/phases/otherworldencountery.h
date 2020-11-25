@@ -9,11 +9,11 @@ class OtherWorldEncountery : public GamePhase
 {
 public:
     OtherWorldEncountery(Game *game);
-    ~OtherWorldEncountery();
+    ~OtherWorldEncountery() override;
 
 protected:
-    virtual QList<GameOption *> getPhaseOptions();
-    virtual void finishPhase();
+    QList<GameOption *> getPhaseOptions() override;
+    void finishPhase() override;
 
 private:
     OtherWorldEncounteryOption *m_enc;

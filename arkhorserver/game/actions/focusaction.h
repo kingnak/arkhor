@@ -12,15 +12,15 @@ class FocusAction : public GameAction
 public:
     FocusAction();
 
-    bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
     bool executeOnPlayer(Player *p, int &focusAmount);
-    AH::GamePhases phases() const { return AH::Upkeep; }
+    AH::GamePhases phases() const override { return AH::Upkeep; }
 
-    QString id() const { return "AC_FOCUS"; }
-    QString name() const { return "Focus"; }
-    QString description() const { return "Set the focus attributes"; }
+    QString id() const override { return "AC_FOCUS"; }
+    QString name() const override { return "Focus"; }
+    QString description() const override { return "Set the focus attributes"; }
 };
 
 class FocusOption : public GameOption
@@ -30,9 +30,9 @@ public:
         : GameOption(&fa, AH::CanContinue, AH::ChooseOptional, AH::Upkeep)
     { }
 
-    QString id() const { return "OP_FOCUS"; }
+    QString id() const override { return "OP_FOCUS"; }
 
-    virtual bool isAvailable() const;
+    bool isAvailable() const override;
 
 private:
     FocusAction fa;

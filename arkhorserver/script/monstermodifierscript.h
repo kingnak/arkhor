@@ -7,7 +7,7 @@
 class MonsterModifierScript
 {
 public:
-    static bool parseMonsterModifications(QScriptValue data, MonsterModifier &mod, const PropertyModifier *propMod);
+    static bool parseMonsterModifications(const QScriptValue &data, MonsterModifier &mod, const PropertyModifier *propMod);
 
 };
 

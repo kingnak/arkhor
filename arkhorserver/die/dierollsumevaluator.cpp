@@ -1,7 +1,8 @@
 #include "die/dierollsumevaluator.h"
 
-DieRollSumEvaluator::DieRollSumEvaluator(DiePool initialPool)
-    : m_pool(initialPool), m_resultValue(0)
+DieRollSumEvaluator::DieRollSumEvaluator(const DiePool &initialPool)
+    : m_pool(initialPool)
+    , m_resultValue(0)
 {
 }
 
@@ -9,7 +10,7 @@ void DieRollSumEvaluator::evaluate()
 {
     m_resultValue = 0;
     DieRollResult result = m_pool.getResult();
-    foreach (DieRollResultItem i, result) {
+    for (const auto &i : result) {
         m_resultValue += i.value();
     }
 }
@@ -45,8 +46,9 @@ void DieRollSumEvaluator::addDice(QList<StandardDieSpec> specs)
 
 ////////////////////////////////////////////////////
 
-DieRollSumBoolEvaluator::DieRollSumBoolEvaluator(DiePool initialPool, quint32 target, DieRollBoolEvaluator::EvaluationType type)
-    : DieRollBoolEvaluator(target, type), DieRollSumEvaluator(initialPool)
+DieRollSumBoolEvaluator::DieRollSumBoolEvaluator(const DiePool &initialPool, quint32 target, DieRollBoolEvaluator::EvaluationType type)
+    : DieRollBoolEvaluator(target, type)
+    , DieRollSumEvaluator(initialPool)
 {
 
 }

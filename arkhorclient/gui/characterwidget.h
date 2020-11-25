@@ -15,11 +15,11 @@ class CharacterWidget : public QWidget, public AsyncObjectReceiver
 
 public:
     explicit CharacterWidget(QWidget *parent = 0);
-    ~CharacterWidget();
+    ~CharacterWidget() override;
 
     static QPixmap drawCharacterWithStats(const AH::Common::CharacterData *c, double scale, QSize s = QSize(200, 200));
 
-    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
 
 public slots:
     void displayCharacterData(const AH::Common::CharacterData *data);

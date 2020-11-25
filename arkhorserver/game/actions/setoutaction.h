@@ -7,13 +7,13 @@ class SetOutAction : public GameAction
 {
 public:
     SetOutAction();
-    virtual AH::GamePhases phases() const { return AH::Upkeep; }
-    virtual bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    AH::GamePhases phases() const override { return AH::Upkeep; }
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    QString id() const { return "AC_SETOUT"; }
-    virtual QString name() const { return "Setout"; }
-    virtual QString description() const { return ""; }
+    QString id() const override { return "AC_SETOUT"; }
+    QString name() const override { return "Setout"; }
+    QString description() const override { return ""; }
 };
 
 #endif // SETOUTACTION_H

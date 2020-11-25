@@ -18,7 +18,7 @@ QList<GameOption *> ArkhamEncounterScript::options() const
 bool ArkhamEncounterScript::resolveDependencies(GameRegistry *reg)
 {
     bool ok = true;
-    foreach (QString id, m_opts.keys()) {
+    for (const auto &id : m_opts.keys()) {
         if (m_opts[id] == NULL) {
             GameOption *op = reg->findOptionById(id);
             if (op) {
@@ -37,7 +37,7 @@ ArkhamEncounterScript *ArkhamEncounterScript::createEncounter(QScriptContext *ct
     Q_UNUSED(eng);
     if (ctx->argumentCount() != 1 || !ctx->argument(0).isObject()) {
         ctx->throwError(QScriptContext::TypeError, "createEncounter: Must call with 1 object");
-        return NULL;
+        return nullptr;
     }
 
     QScopedPointer<ArkhamEncounterScript> ret(new ArkhamEncounterScript);
@@ -49,14 +49,14 @@ ArkhamEncounterScript *ArkhamEncounterScript::createEncounter(QScriptContext *ct
     ret->m_fieldId = static_cast<AH::Common::FieldData::FieldID> (data.property("field").toUInt32());
     ret->m_description = data.property("description").toString();
     ret->m_optionIds = GameScript::array2stringlist(data.property("options"));
-    foreach (QString id, ret->m_optionIds) {
-        ret->m_opts[id] = NULL;
+    for (const auto &id : ret->m_optionIds) {
+        ret->m_opts[id] = nullptr;
     }
 
     QString err;
     if (!verify(ret.data(), &err)) {
         ctx->throwError(QScriptContext::TypeError, "createEncounter: Invalid Encounter data. Errors:\n"+err);
-        return NULL;
+        return nullptr;
     }
 
     ArkhamEncounterScript *pRet = ret.take();

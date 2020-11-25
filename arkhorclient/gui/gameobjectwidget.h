@@ -15,9 +15,9 @@ class GameObjectWidget : public QWidget, public AsyncObjectReceiver
 
 public:
     explicit GameObjectWidget(QWidget *parent = 0);
-    ~GameObjectWidget();
+    ~GameObjectWidget() override;
 
-    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
 
 public slots:
     void displayGameObject(const AH::Common::GameObjectData *obj);

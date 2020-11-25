@@ -12,8 +12,8 @@ public:
 
     static QPixmap drawGate(const AH::Common::GateData *g, QSize s = QSize(160, 160));
 
-    QSize sizeHint() const;
-    QSize minimumSizeHint() const;
+    QSize sizeHint() const override;
+    QSize minimumSizeHint() const override;
 
 signals:
 
@@ -21,7 +21,7 @@ public slots:
     void displayGate(const AH::Common::GateData *g);
 
 protected:
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     QPixmap m_cache;

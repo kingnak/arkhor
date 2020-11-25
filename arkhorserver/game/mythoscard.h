@@ -14,7 +14,7 @@ public:
 
     void setId(QString id) { m_id = id; }
 
-    virtual QString modifierId() const { return m_id; }
+    QString modifierId() const override { return m_id; }
 
     virtual bool resolveDependencies() = 0;
     virtual void resolveDynamicAttributes() = 0;
@@ -23,8 +23,8 @@ public:
     virtual void executeHeadline() = 0;
 
     // Environment
-    virtual PropertyModificationList getModifications() const = 0;
-    virtual QList<AH::Common::PropertyModificationData> getModificationData() const;
+    PropertyModificationList getModifications() const override = 0;
+    QList<AH::Common::PropertyModificationData> getModificationData() const override;
     virtual GameOption *environmentFieldOption() = 0;
     virtual AH::Common::FieldData::FieldID environmentFieldId() = 0;
     virtual void activateEnvironment() = 0;
@@ -58,7 +58,7 @@ protected:
     */
 
 protected:
-    const PropertyModifier *getMonsterMovementModifier() const { return this; }
+    const PropertyModifier *getMonsterMovementModifier() const override { return this; }
 };
 
 #endif // MYTHOSCARD_H

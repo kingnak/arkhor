@@ -13,7 +13,7 @@ namespace AH {
         {
         public:
             EncounterData();
-            virtual ~EncounterData() {}
+            virtual ~EncounterData() = default;
 
             virtual EncounterData *data() { return this; }
 

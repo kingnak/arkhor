@@ -5,9 +5,7 @@
 #include "gui/ahfielditem.h"
 #include "ahboardscene.h"
 
-AhBoardfillerHelper::AhBoardfillerHelper()
-{
-}
+AhBoardfillerHelper::AhBoardfillerHelper() = default;
 
 void AhBoardfillerHelper::initBoard(AhBoardScene *scene, QGraphicsItem *parent)
 {
@@ -36,9 +34,9 @@ double AhBoardfillerHelper::initScale(AhBoardScene *scene)
 
 void AhBoardfillerHelper::initFields(AhBoardScene *scene, QGraphicsItem *parent, double scale)
 {
-    QFile f(":/core/data/boardfields");
-    f.open(QIODevice::ReadOnly);
-    QTextStream ts(&f);
+    QFile file(":/core/data/boardfields");
+    file.open(QIODevice::ReadOnly);
+    QTextStream ts(&file);
 
     forever {
         QString l = ts.readLine();
@@ -93,7 +91,7 @@ void AhBoardfillerHelper::initTerror(AhBoardScene *scene, QGraphicsItem *parent,
     }
 }
 
-AH::Common::FieldData::FieldID AhBoardfillerHelper::parseId(QString id)
+AH::Common::FieldData::FieldID AhBoardfillerHelper::parseId(const QString &id)
 {
     if (id== "NS_Northside") return AH::Common::FieldData::NS_Northside;
     if (id== "NS_TrainStation") return AH::Common::FieldData::NS_TrainStation;
@@ -145,7 +143,7 @@ AH::Common::FieldData::FieldID AhBoardfillerHelper::parseId(QString id)
     return AH::Common::FieldData::NO_NO_FIELD;
 }
 
-AH::Common::FieldData::FieldType AhBoardfillerHelper::parseType(QString type)
+AH::Common::FieldData::FieldType AhBoardfillerHelper::parseType(const QString &type)
 {
     if (type == "Street") return AH::Common::FieldData::Street;
     if (type == "Location") return AH::Common::FieldData::Location;
@@ -157,7 +155,7 @@ AH::Common::FieldData::FieldType AhBoardfillerHelper::parseType(QString type)
     return AH::Common::FieldData::Street;
 }
 
-QRect AhBoardfillerHelper::parseRect(QString r, double scale)
+QRect AhBoardfillerHelper::parseRect(const QString &r, double scale)
 {
     QStringList parts = r.split(",");
     return QRect(scale*parts[0].toInt(), scale*parts[1].toInt(), scale*parts[2].toInt(), scale*parts[3].toInt());

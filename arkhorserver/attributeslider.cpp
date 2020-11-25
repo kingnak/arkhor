@@ -66,7 +66,7 @@ bool AttributeSlider::shiftBy(int amount)
     return true;
 }
 
-const AttributePair AttributeSlider::currentSetting() const
+AttributePair AttributeSlider::currentSetting() const
 {
     return m_attributeSettings.value(m_curSettingPos);
 }

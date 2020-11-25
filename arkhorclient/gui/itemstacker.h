@@ -49,20 +49,20 @@ class ItemStacker : public QWidget
     Q_OBJECT
 public:
     explicit ItemStacker(QWidget *parent = 0);
-    ~ItemStacker();
+    ~ItemStacker() override;
 
     int count() const { return m_items.size(); }
     const StackItem *topItem() const;
     QList<StackItem *> items() const { return m_items; }
 
-    QSize sizeHint() const;
-    QSize minimumSizeHint() const;
+    QSize sizeHint() const override;
+    QSize minimumSizeHint() const override;
 
     void setDisplayOffset(int off);
     void setDisplayCount(bool on = true);
-    void setFont(QFont f);
+    void setFont(const QFont &f);
 
-    bool removeById(QString id);
+    bool removeById(const QString &id);
 
 signals:
     void itemAdded(const StackItem *item);
@@ -77,7 +77,7 @@ public slots:
     void itemUpdated(StackItem *itm);
 
 protected:
-    void resizeEvent(QResizeEvent *ev);
+    void resizeEvent(QResizeEvent *ev) override;
 
 private slots:
     void itemClicked();

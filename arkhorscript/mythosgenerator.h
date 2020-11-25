@@ -8,7 +8,7 @@ namespace AHS {
 class MythosGenerator : public ClassGenerator
 {
 public:
-    virtual bool generate(const ClassDef &cls);
+    bool generate(const ClassDef &cls) override;
 
 protected:
     void outputCreateMythosStart(const ClassDef &cls);
@@ -16,8 +16,8 @@ protected:
 
     MythosGenerator(QTextStream &out) : ClassGenerator(out) {}
 
-    virtual QList<AttributeDesc> getAttributes();
-    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
+    QList<AttributeDesc> getAttributes() override;
+    bool outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr) override;
     //virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
 };
 
@@ -29,11 +29,11 @@ public:
     HeadlineGenerator(QTextStream &out) : MythosGenerator(out) {}
 
 protected:
-    virtual bool allowAnonymous(const ClassDef &cls) const { Q_UNUSED(cls); return true; }
+    bool allowAnonymous(const ClassDef &cls) const override { Q_UNUSED(cls); return true; }
 
-    virtual QList<AttributeDesc> getAttributes();
+    QList<AttributeDesc> getAttributes() override;
     //virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
-    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
+    bool outputDefaultAttribute(const AttributeDesc &desc, const ClassDef &cls) override;
 };
 
 /////////////////////////////////
@@ -44,9 +44,9 @@ public:
     EnvironmentGenerator(QTextStream &out) : MythosGenerator(out) {}
 
 protected:
-    virtual QList<AttributeDesc> getAttributes();
-    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
-    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
+    QList<AttributeDesc> getAttributes() override;
+    bool outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr) override;
+    bool outputDefaultAttribute(const AttributeDesc &desc, const ClassDef &cls) override;
 };
 
 /////////////////////////////////
@@ -57,9 +57,9 @@ public:
     RumorGenerator(QTextStream &out) : MythosGenerator(out) {}
 
 protected:
-    virtual QList<AttributeDesc> getAttributes();
-    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
-    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
+    QList<AttributeDesc> getAttributes() override;
+    bool outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr) override;
+    bool outputDefaultAttribute(const AttributeDesc &desc, const ClassDef &cls) override;
 };
 
 }

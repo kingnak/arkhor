@@ -13,7 +13,7 @@ namespace AH {
         {
         public:
             GameOptionData();
-            virtual ~GameOptionData();
+            virtual ~GameOptionData() = default;
 
             virtual GameOptionData *data() { return this; }
 

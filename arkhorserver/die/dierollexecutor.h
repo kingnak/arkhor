@@ -5,7 +5,7 @@ class DieRollExecutor
 {
 public:
     DieRollExecutor();
-    virtual ~DieRollExecutor() {}
+    virtual ~DieRollExecutor() = default;
 };
 
 #endif // DIEROLLEXECUTOR_H

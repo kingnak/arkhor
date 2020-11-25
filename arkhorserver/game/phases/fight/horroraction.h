@@ -11,15 +11,15 @@ class HorrorAction : public GameAction
 public:
     HorrorAction(FightPhase *fight);
 
-    QString id() const { return "AC_HORROR"; }
+    QString id() const override { return "AC_HORROR"; }
 
-    virtual AH::GamePhases phases() const { return AH::Movement; }
+    AH::GamePhases phases() const override { return AH::Movement; }
 
-    virtual bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    virtual QString name() const { return "Horror Test"; }
-    virtual QString description() const { return ""; }
+    QString name() const override { return "Horror Test"; }
+    QString description() const override { return ""; }
 
 private:
     FightPhase *m_fight;
@@ -33,12 +33,12 @@ public:
         ha(fight)
     {}
 
-    QString id() const { return "OP_HORROR"; }
-    QString sourceId() const;
+    QString id() const override { return "OP_HORROR"; }
+    QString sourceId() const override;
 
-    virtual AutoChoose autoChoose() const { return AutoChoose::Possible; }
-    virtual bool isAvailable() const;
-    virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
+    AutoChoose autoChoose() const override { return AutoChoose::Possible; }
+    bool isAvailable() const override;
+    AH::Common::ModifiedPropertyValueData baseProperty() const override;
 
 private:
     HorrorAction ha;

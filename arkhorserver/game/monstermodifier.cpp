@@ -9,7 +9,7 @@ PropertyModificationList MonsterModifier::getMonsterModifications(const MonsterD
     return ret;
 }
 
-PropertyModificationList MonsterModifier::getMonsterModifications(QString typeId) const
+PropertyModificationList MonsterModifier::getMonsterModifications(const QString &typeId) const
 {
     if (m_typeMods.contains(typeId)) {
         PropertyModificationList ret = m_typeMods[typeId];
@@ -23,7 +23,7 @@ PropertyModificationList MonsterModifier::getMonsterModifications(QString typeId
 PropertyModificationList MonsterModifier::getMonsterModifications(MonsterData::MonsterAttributes attrs, bool matchAll) const
 {
     PropertyModificationList ret;
-    foreach (MonsterData::MonsterAttributes k, m_attrMods.keys()) {
+    for (auto k : m_attrMods.keys()) {
         if (matchAll) {
             if ((attrs & k) == attrs) {
                 ret.append(m_attrMods[k]);
@@ -59,7 +59,7 @@ PropertyModificationList MonsterModifier::getMonsterMovementModifications(const 
     return ret;
 }
 
-MonsterData::MovementType MonsterModifier::getMonsterMovementModifications(QString typeId, MonsterData::MovementType origMove) const
+MonsterData::MovementType MonsterModifier::getMonsterMovementModifications(const QString &typeId, MonsterData::MovementType origMove) const
 {
     if (m_typeMov.contains(typeId))
         return m_typeMov[typeId];
@@ -81,17 +81,17 @@ bool MonsterModifier::hasMonsterModifications() const
             !m_moveMov.isEmpty();
 }
 
-void MonsterModifier::addModifications(QString type, PropertyModificationList mods)
+void MonsterModifier::addModifications(const QString &type, const PropertyModificationList &mods)
 {
     m_typeMods[type] << mods;
 }
 
-void MonsterModifier::addModifications(MonsterData::MonsterAttributes attrs, PropertyModificationList mods)
+void MonsterModifier::addModifications(MonsterData::MonsterAttributes attrs, const PropertyModificationList &mods)
 {
     m_attrMods[attrs] << mods;
 }
 
-void MonsterModifier::addMoveModification(QString type, MonsterData::MovementType mov)
+void MonsterModifier::addMoveModification(const QString &type, MonsterData::MovementType mov)
 {
     m_typeMov[type] = mov;
 }

@@ -15,7 +15,7 @@ class MythosCardScript : public DynamicScriptableObject, public MythosCard
 public:
     explicit MythosCardScript(QObject *parent = 0);
 
-    virtual QList<AH::Common::DynamicPropertyData> dynamicProperties() const;
+    QList<AH::Common::DynamicPropertyData> dynamicProperties() const override;
 
     static void castFromValue(const QScriptValue &v, MythosCardScript *&o) { o = qobject_cast<MythosCardScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, MythosCardScript * const &in) { return eng->newQObject(in); }
@@ -30,39 +30,39 @@ public:
 
     Q_INVOKABLE void removeFromGame() {/* NOOP */}
 
-    Q_INVOKABLE void pass() { MythosCard::pass(); }
-    Q_INVOKABLE void fail() { MythosCard::fail(); }
+    Q_INVOKABLE void pass() override { MythosCard::pass(); }
+    Q_INVOKABLE void fail() override { MythosCard::fail(); }
 
-    virtual bool resolveDependencies();
-    virtual void resolveDynamicAttributes();
+    bool resolveDependencies() override;
+    void resolveDynamicAttributes() override;
 
     // Headlines
-    virtual void executeHeadline();
+    void executeHeadline() override;
 
     // Environment
-    virtual PropertyModificationList getModifications() const;
-    virtual GameOption *environmentFieldOption();
-    virtual AH::Common::FieldData::FieldID environmentFieldId();
-    virtual void activateEnvironment();
-    virtual void onEndMovement();
-    virtual bool onDefeatMonster(Character *byCharacter, Monster *m);
-    virtual bool onAppearMonster(GameField *f, Monster *m);
+    PropertyModificationList getModifications() const override;
+    GameOption *environmentFieldOption() override;
+    AH::Common::FieldData::FieldID environmentFieldId() override;
+    void activateEnvironment() override;
+    void onEndMovement() override;
+    bool onDefeatMonster(Character *byCharacter, Monster *m) override;
+    bool onAppearMonster(GameField *f, Monster *m) override;
 
     // Rumors
-    virtual void onMythos();
-    virtual void onPass();
-    virtual void onFail();
-    virtual void setupRumor();
-    virtual void teardownRumor();
-    virtual GameOption *rumorFieldOption();
-    virtual AH::Common::FieldData::FieldID rumorFieldId();
+    void onMythos() override;
+    void onPass() override;
+    void onFail() override;
+    void setupRumor() override;
+    void teardownRumor() override;
+    GameOption *rumorFieldOption() override;
+    AH::Common::FieldData::FieldID rumorFieldId() override;
 
 signals:
 
 public slots:
 
 protected:
-    virtual void dynamicPropertyChanged();
+    void dynamicPropertyChanged() override;
 
 private:
     static bool verify(MythosCardScript *myth, QString *err = NULL);

@@ -2,7 +2,7 @@
 
 namespace AH { namespace Common {
 
-GameSettingData::GameSettingData(int tl, QString aoId, QString rId, QString eId)
+GameSettingData::GameSettingData(int tl, const QString &aoId, const QString &rId, const QString &eId)
 :   m_terror(tl),
     m_ancientOneId(aoId),
     m_rumorId(rId),

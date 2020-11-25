@@ -13,13 +13,13 @@ class EnvironmentWidget : public QWidget, public AsyncObjectReceiver
 public:
     explicit EnvironmentWidget(bool shortDisplay = true, QWidget *parent = 0);
 
-    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
 
 signals:
     void environmentInfoRequested(QString id);
 
 public slots:
-    void displayEnvironment(QString id);
+    void displayEnvironment(const QString &id);
     void setShortDisplay(bool shortDisplay);
     void setLongDisplay(bool longDisplay);
 

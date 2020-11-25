@@ -32,7 +32,7 @@ class Game : public QObject
     Q_OBJECT
 public:
     Game();
-    ~Game();
+    ~Game() override;
 
     void invoke(const char *method);
 
@@ -44,7 +44,7 @@ public:
     bool registerInvestigator(Investigator *i);
     QList<Investigator *> allInvestigators() const;
     Investigator *drawInvestigator();
-    Investigator *drawSpecificInvestigator(QString id);
+    Investigator *drawSpecificInvestigator(const QString &id);
     void returnInvestigator(Investigator *i);
     void returnEncounter(ArkhamEncounter *e);
     void returnEncounter(OtherWorldEncounter *e);
@@ -60,7 +60,7 @@ public:
     bool registerAncientOne(AncientOne *ao);
     bool resolveDependencies();
 
-    bool registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId);
+    bool registerFieldOption(AH::Common::FieldData::FieldID fId, const QString &opId);
 
     int terrorLevel() const { return m_terrorLevel; }
     void increaseTerrorLevel(int amount = 1);
@@ -102,7 +102,7 @@ public:
 
     void killPlayer(Player *p);
 
-    QList<GameField*> neareastFieldsWith(GameField *from, std::function<bool(GameField*)> predicate, QList<AH::Common::FieldData::FieldID> exceptFields = {});
+    QList<GameField*> neareastFieldsWith(GameField *from, std::function<bool(GameField*)> predicate, const QList<AH::Common::FieldData::FieldID> &exceptFields = {});
 
     bool handleUnconscious(Character *c);
     bool handleInsane(Character *c);
@@ -118,8 +118,8 @@ public:
     void returnMythos(MythosCard *m);
 
     GameObject *drawObject(AH::GameObjectType t);
-    GameObject *drawSpecificObject(QString id);
-    GameObject *drawSpecificObject(QString id, AH::GameObjectType t);
+    GameObject *drawSpecificObject(const QString &id);
+    GameObject *drawSpecificObject(const QString &id, AH::GameObjectType t);
     void returnObject(GameObject *o);
     int drawableObjectCount(AH::GameObjectType t);
 
@@ -151,7 +151,7 @@ public:
 
     void boardDirty();
     void characterDirty(Character *c);
-    void invalidateObject(QString id);
+    void invalidateObject(const QString &id);
     void notifyTempObject(const QString &desc);
 
     void commitUpdates();
@@ -182,13 +182,13 @@ public:
     void ignoreChanges(bool ignore);
     void changeMonsterAppear(Monster *m);
     void changeMonsterDisappear(Monster *m);
-    void changeMonsterMove(Monster *m, QList<AH::Common::FieldData::FieldID> path);
+    void changeMonsterMove(Monster *m, const QList<AH::Common::FieldData::FieldID> &path);
     void changeGateAppear(Gate *g);
     void changeGateDisappear(Gate *g);
     void changeGateOpen(Gate *g);
-    void changeCharacterMove(Character *c, QList<AH::Common::FieldData::FieldID> path);
+    void changeCharacterMove(Character *c, const QList<AH::Common::FieldData::FieldID> &path);
     void changeField(AH::Common::GameBoardChangeData::FieldChange change);
-    void changeClearOutskirts(QList<Monster*> m);
+    void changeClearOutskirts(const QList<Monster *> &m);
 
 protected:
     void initBoard();

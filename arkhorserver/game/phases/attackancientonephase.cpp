@@ -46,7 +46,7 @@ PropertyModificationList AttackAncientOneAction::getMonsterModifications(Charact
 AttackAncientOnePhase::AttackAncientOnePhase(Game *g)
     : GamePhase(g)
 {
-    m_choose = new ChooseWeaponsOption(NULL);
+    m_choose = new ChooseWeaponsOption(nullptr);
     m_attack = new AttackAncientOneOption;
 }
 

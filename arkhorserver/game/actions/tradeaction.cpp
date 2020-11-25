@@ -6,10 +6,7 @@
 #include <choicedata.h>
 #include "../gameobject.h"
 
-TradeAction::TradeAction()
-{
-
-}
+TradeAction::TradeAction() = default;
 
 bool TradeAction::execute()
 {
@@ -109,16 +106,16 @@ QStringList TradeAction::getTradables(Character *c)
     return ret;
 }
 
-AH::Common::TradeData TradeAction::getTradeOffer(Character *c, AH::Common::TradeData td)
+AH::Common::TradeData TradeAction::getTradeOffer(Character *c, const AH::Common::TradeData &td)
 {
     return gGame->playerForCharacter(c)->offerTrade(td);
 }
 
-void TradeAction::exchange(Character *from, Character *to, QStringList items)
+void TradeAction::exchange(Character *from, Character *to, const QStringList &items)
 {
-    for (auto id : items) {
+    for (const auto &id : items) {
         if (id.startsWith("$:")) {
-            int amount = id.mid(2).toInt();
+            int amount = id.midRef(2).toInt();
             if (getMoney(from, amount))
                 to->addMoney(amount);
         } else {
@@ -137,7 +134,7 @@ bool TradeAction::getMoney(Character *c, int amount)
     return c->pay(cost);
 }
 
-GameObject *TradeAction::getObject(Character *c, QString id)
+GameObject *TradeAction::getObject(Character *c, const QString &id)
 {
     GameObject *obj = nullptr;
     for (auto o : c->inventory()) {
@@ -153,6 +150,7 @@ GameObject *TradeAction::getObject(Character *c, QString id)
 
 QString TradeAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
 {
+    Q_UNUSED(desc)
     if (part == GameAction::NotificationPart::Execute) {
         return "{C} traded with {B}";
     }
@@ -175,5 +173,5 @@ QList<Character *> TradeAction::getTradingPartners(Character *c)
 
 bool TradeOption::isAvailable() const
 {
-    return TradeAction::getTradingPartners(gGame->context().player()->getCharacter()).size() > 0;
+    return !TradeAction::getTradingPartners(gGame->context().player()->getCharacter()).empty();
 }

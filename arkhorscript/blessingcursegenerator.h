@@ -9,9 +9,9 @@ class BlessingCurseGenerator : public ObjectGenerator
 {
 public:
     BlessingCurseGenerator(QTextStream &out) : ObjectGenerator(out) {}
-    bool generate(const ClassGenerator::ClassDef &cls);
+    bool generate(const ClassGenerator::ClassDef &cls) override;
 
-    bool allowInfinite(const ClassDef &cls) const { Q_UNUSED(cls); return true; }
+    bool allowInfinite(const ClassDef &cls) const override { Q_UNUSED(cls); return true; }
 };
 
 }

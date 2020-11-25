@@ -13,7 +13,7 @@ InvestigatorScript::InvestigatorScript(QObject *parent) :
 
 Character *InvestigatorScript::instantiate()
 {
-    if (m_isInstantiated) return NULL;
+    if (m_isInstantiated) return nullptr;
     CharacterScript *c = new CharacterScript(this);
     c->instantiateFromInvestigator();
     m_isInstantiated = true;
@@ -79,7 +79,7 @@ QScriptValue InvestigatorScript::createInvestigator(QScriptContext *ctx, QScript
 QStringList InvestigatorScript::fixedPossessionNames() const
 {
     QStringList ret;
-    foreach (QString id, fixedPossesionObjectIds()) {
+    for (const auto &id : fixedPossesionObjectIds()) {
         const GameObject *obj = gGame->registry()->findObjectPrototypeByType(id);
         if (obj) ret << obj->name();
         else ret << id;
@@ -87,11 +87,11 @@ QStringList InvestigatorScript::fixedPossessionNames() const
     return ret;
 }
 
-bool InvestigatorScript::parseAttributeList(QScriptValue v, QList<AttributeValuePair> &ret)
+bool InvestigatorScript::parseAttributeList(const QScriptValue &v, QList<AttributeValuePair> &ret)
 {
     if (!v.isArray()) return false;
     QScriptValueList lst = GameScript::array2list(v);
-    foreach (QScriptValue e, lst) {
+    for (const auto &e : lst) {
         if (!e.isArray()) return false;
         QScriptValueList pair = GameScript::array2list(e);
         if (pair.size() != 2) return false;
@@ -107,15 +107,15 @@ bool InvestigatorScript::verify(InvestigatorScript *inv, QString *msg)
 
     if (inv->m_id.isEmpty()) errs.append("id must be set");
     if (inv->m_name.isEmpty()) errs.append("name must be set");
-    AH::Common::FieldData::FieldID fid = static_cast<AH::Common::FieldData::FieldID> (inv->m_homeFieldId);
-    if (gGame->board()->field(fid) == NULL) errs.append("home field is invalid");
+    auto fid = static_cast<AH::Common::FieldData::FieldID> (inv->m_homeFieldId);
+    if (gGame->board()->field(fid) == nullptr) errs.append("home field is invalid");
     //else if (gGame->board()->field(fid)->type() != AH::Common::FieldData::Location) errs.append("home field must be a Location field");
     if (inv->m_sanity <= 0) errs.append("sanity must be greater than 0");
     if (inv->m_stamina <= 0) errs.append("stamina must be greater than 0");
     if (inv->m_focus <= 0) errs.append("focus must be greater than 0");
-    if (inv->attrSpeedSneak().size() < 1) errs.append("Speed/Sneak attributes must not be empty");
-    if (inv->attrFightWill().size() < 1) errs.append("Speed/Sneak attributes must not be empty");
-    if (inv->attrLoreLuck().size() < 1) errs.append("Speed/Sneak attributes must not be empty");
+    if (inv->attrSpeedSneak().empty()) errs.append("Speed/Sneak attributes must not be empty");
+    if (inv->attrFightWill().empty()) errs.append("Speed/Sneak attributes must not be empty");
+    if (inv->attrLoreLuck().empty()) errs.append("Speed/Sneak attributes must not be empty");
     if (inv->m_unconsciousFunc.isValid() && !inv->m_unconsciousFunc.isFunction()) errs.append("onUnconscious mut be a function");
     if (inv->m_insaneFunc.isValid() && !inv->m_insaneFunc.isFunction()) errs.append("onInsane mut be a function");
     if (inv->m_lostFunc.isValid() && !inv->m_lostFunc.isFunction()) errs.append("onLostInSpaceAndTime mut be a function");

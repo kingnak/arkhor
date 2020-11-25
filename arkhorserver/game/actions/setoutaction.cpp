@@ -3,9 +3,7 @@
 #include "game/player.h"
 #include "character.h"
 
-SetOutAction::SetOutAction()
-{
-}
+SetOutAction::SetOutAction() = default;
 
 bool SetOutAction::execute()
 {

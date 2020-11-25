@@ -4,7 +4,7 @@
 #include <playerdata.h>
 #include <investigatordata.h>
 
-ConnectionHandler::ConnectionHandler(QString host, int port, int ct)
+ConnectionHandler::ConnectionHandler(const QString &host, int port, int ct)
     : m_host(host)
     , m_port(port)
     //, m_conn(NULL)
@@ -45,24 +45,24 @@ void ConnectionHandler::startGame()
     S_MAIN(send(AH::Common::Message::C_START_GAME);)
 }
 
-void ConnectionHandler::chooseInvestigator(AH::Common::InvestigatorData i)
+void ConnectionHandler::chooseInvestigator(const AH::Common::InvestigatorData &i)
 {
     S_RET(send(AH::Common::Message::C_SELECT_INVESTIGATOR, i.id());)
 }
 
-void ConnectionHandler::selectOption(QString id)
+void ConnectionHandler::selectOption(const QString &id)
 {
     S_RET(send(AH::Common::Message::C_SELECT_OPTION, id);)
 }
 
-void ConnectionHandler::selectMovementPath(QList<AH::Common::FieldData::FieldID> fieldIds)
+void ConnectionHandler::selectMovementPath(const QList<AH::Common::FieldData::FieldID> &fieldIds)
 {
     QVariant v;
     v << fieldIds;
     S_RET(send(AH::Common::Message::C_MOVE_PATH, v);)
 }
 
-void ConnectionHandler::selectFocus(QList<int> positionDiffs)
+void ConnectionHandler::selectFocus(const QList<int> &positionDiffs)
 {
     QVariant v;
     v << positionDiffs;
@@ -76,14 +76,14 @@ void ConnectionHandler::selectSkill(AH::Common::PropertyValueData::Property prop
     S_RET(send(AH::Common::Message::C_SELECT_SKILL, prop);)
 }
 
-void ConnectionHandler::chooseDieRollUpdate(AH::Common::DieTestUpdateData upd)
+void ConnectionHandler::chooseDieRollUpdate(const AH::Common::DieTestUpdateData &upd)
 {
     QVariant v;
     v << upd;
     S_RET(send(AH::Common::Message::C_DIE_ROLL_UPDATE, v);)
 }
 
-void ConnectionHandler::requestObjects(AH::Common::RequestObjectsData reqs)
+void ConnectionHandler::requestObjects(const AH::Common::RequestObjectsData &reqs)
 {
     QVariant v;
     v << reqs;
@@ -95,19 +95,19 @@ void ConnectionHandler::cancelWeapons()
     S_RET(send(AH::Common::Message::C_CANCEL_WEAPONS);)
 }
 
-void ConnectionHandler::selectWeapons(QStringList weaponIds)
+void ConnectionHandler::selectWeapons(const QStringList &weaponIds)
 {
     QVariant v;
     v << weaponIds;
     S_RET(send(AH::Common::Message::C_SELECT_WEAPONS, v);)
 }
 
-void ConnectionHandler::selectEncounterOption(QString id)
+void ConnectionHandler::selectEncounterOption(const QString &id)
 {
     S_RET(send(AH::Common::Message::C_SELECT_ENCOUNTER, id);)
 }
 
-void ConnectionHandler::selectMonster(QString id)
+void ConnectionHandler::selectMonster(const QString &id)
 {
     S_RET(send(AH::Common::Message::C_SELECT_MONSTER, id);)
 }
@@ -118,7 +118,7 @@ void ConnectionHandler::acknowledge()
     S_ALL(send(AH::Common::Message::C_ACKNOWLEDGED);)
 }
 
-void ConnectionHandler::choiceSelected(AH::Common::ChoiceResponseData resp)
+void ConnectionHandler::choiceSelected(const AH::Common::ChoiceResponseData &resp)
 {
     S_RET(send(AH::Common::Message::C_SELECT_CHOICE, resp);)
 }
@@ -128,7 +128,7 @@ void ConnectionHandler::choiceCanceled()
     S_RET(send(AH::Common::Message::C_CANCEL_CHOICE);)
 }
 
-void ConnectionHandler::tradeSelected(AH::Common::TradeData trade)
+void ConnectionHandler::tradeSelected(const AH::Common::TradeData &trade)
 {
     QVariant v;
     v << trade;
@@ -183,7 +183,7 @@ void ConnectionHandler::cleanup()
     ARG \
     }
 
-void ConnectionHandler::handleMessage(AH::Common::Message msg)
+void ConnectionHandler::handleMessage(const AH::Common::Message &msg)
 {
     switch (msg.type) {
     case AH::Common::Message::S_VERSION:
@@ -455,6 +455,7 @@ void ConnectionHandler::handleMessage(AH::Common::Message msg)
     case AH::Common::Message::S_ABORT_ACKNOWLEDGE:
     {
         M_ALL(
+        Q_UNUSED(c_);
         emit finishAcknowledge();
         )
         break;
@@ -592,12 +593,12 @@ void ConnectionHandler::established()
 }
 
 
-void ConnectionHandler::send(AH::Common::Message::Type type, QVariant data)
+void ConnectionHandler::send(AH::Common::Message::Type type, const QVariant &data)
 {
     rsend(m_ret, type, data);
 }
 
-void ConnectionHandler::rsend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, QVariant data)
+void ConnectionHandler::rsend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, const QVariant &data)
 {
     if (QThread::currentThread() == this->thread()) {
         doSend(c, type, data);
@@ -611,7 +612,7 @@ void ConnectionHandler::rsend(AH::Common::NetworkConnection *c, AH::Common::Mess
     }
 }
 
-void ConnectionHandler::doSend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, QVariant data)
+void ConnectionHandler::doSend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, const QVariant &data)
 {
     c->sendMessage(type, data);
 }

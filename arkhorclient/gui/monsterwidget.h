@@ -15,7 +15,7 @@ class MonsterFrontWidget : public QWidget
 
 public:
     explicit MonsterFrontWidget(QWidget *parent = 0);
-    ~MonsterFrontWidget();
+    ~MonsterFrontWidget() override;
 
     static QPixmap drawMonster(const AH::Common::MonsterData *m, double scale = 1.0, QSize s = QSize(200, 200));
 
@@ -23,11 +23,11 @@ public slots:
     void displayMonster(const AH::Common::MonsterData *m);
 
 public:
-    QSize sizeHint() const;
-    QSize minimumSizeHint() const;
+    QSize sizeHint() const override;
+    QSize minimumSizeHint() const override;
 
 protected:
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     QPixmap m_cache;
@@ -41,17 +41,17 @@ class MonsterBackWidget : public QWidget
 
 public:
     explicit MonsterBackWidget(QWidget *parent = 0);
-    ~MonsterBackWidget();
+    ~MonsterBackWidget() override;
 
 public slots:
     void displayMonster(const AH::Common::MonsterData *m, bool minimal = false);
 
 public:
-    QSize sizeHint() const;
-    QSize minimumSizeHint() const;
+    QSize sizeHint() const override;
+    QSize minimumSizeHint() const override;
 
 protected:
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     QPixmap m_cache;
@@ -65,9 +65,9 @@ class MonsterWidget : public QWidget, public AsyncObjectReceiver
 
 public:
     explicit MonsterWidget(QWidget *parent = 0);
-    ~MonsterWidget();
+    ~MonsterWidget() override;
 
-    virtual void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+    void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
 
 public slots:
     void displayMonster(const AH::Common::MonsterData *m);

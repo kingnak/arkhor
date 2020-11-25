@@ -1,7 +1,9 @@
 #include "die/dierollcountevaluator.h"
 
-DieRollCountEvaluator::DieRollCountEvaluator(DiePool initialPool, const QSet<quint32> &successRolls)
-    : m_successRolls(successRolls), m_resultValue(0), m_pool(initialPool)
+DieRollCountEvaluator::DieRollCountEvaluator(const DiePool &initialPool, const QSet<quint32> &successRolls)
+    : m_successRolls(successRolls)
+    , m_resultValue(0)
+    , m_pool(initialPool)
 {
 }
 
@@ -10,7 +12,7 @@ void DieRollCountEvaluator::evaluate()
     m_resultValue = 0;
     m_failed.clear();
     DieRollResult result = m_pool.getResult();
-    foreach (DieRollResultItem i, result) {
+    for (const auto &i : result) {
         if ( m_successRolls.contains(i.value()) ) {
             m_resultValue++;
         } else {
@@ -64,8 +66,9 @@ void DieRollCountEvaluator::rerollNumFailed(int amount)
 
 ////////////////////////////////////////////////////
 
-DieRollCountBoolEvaluator::DieRollCountBoolEvaluator(DiePool initialPool, const QSet<quint32> &successRolls, quint32 target, DieRollBoolEvaluator::EvaluationType type)
-    : DieRollBoolEvaluator(target, type), DieRollCountEvaluator(initialPool, successRolls)
+DieRollCountBoolEvaluator::DieRollCountBoolEvaluator(const DiePool &initialPool, const QSet<quint32> &successRolls, quint32 target, DieRollBoolEvaluator::EvaluationType type)
+    : DieRollBoolEvaluator(target, type)
+    , DieRollCountEvaluator(initialPool, successRolls)
 {
 
 }

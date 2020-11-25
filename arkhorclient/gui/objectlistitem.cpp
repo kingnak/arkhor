@@ -4,7 +4,7 @@
 
 using namespace AH::Common;
 
-ObjectListItem::ObjectListItem(QString objectId)
+ObjectListItem::ObjectListItem(const QString &objectId)
 {
     setData(ObjectIdRole, objectId);
     if (objectId.startsWith("$:")) {

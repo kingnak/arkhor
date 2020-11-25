@@ -10,7 +10,7 @@ public:
     static const quint32 UNROLLED_VALUE = 0xDEADBEEF;
 
     Die(quint32 min = 1, quint32 max = 6, quint32 multiplier = 1);
-    virtual ~Die() {}
+    virtual ~Die() = default;
 
     void roll();
     void unroll();
@@ -51,8 +51,8 @@ class UnequalDie : public Die
 public:
     UnequalDie(const QList<quint32> &values);
 
-    virtual quint32 value() const;
-    virtual Die *clone() const;
+    quint32 value() const override;
+    Die *clone() const override;
 
 private:
     QList<quint32> m_values;

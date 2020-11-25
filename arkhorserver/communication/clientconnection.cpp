@@ -7,7 +7,7 @@ using namespace AH::Common;
 
 ClientConnection::ClientConnection(qintptr socketDescriptor)
 :   NetworkConnection(socketDescriptor),
-    m_player(NULL),
+    m_player(nullptr),
     m_versionReceived(false)
 {
     setPinging();
@@ -84,7 +84,7 @@ void ClientConnection::handleRegisterPlayer()
         sendMessage(Message::S_REGISTER_PLAYER_SUCCESSFUL, v);
     } else {
         delete m_player;
-        m_player = NULL;
+        m_player = nullptr;
 
         sendMessage(Message::S_REGISTER_PLAYER_FAILED, "Error in register");
     }

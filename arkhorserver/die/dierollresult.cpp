@@ -1,8 +1,6 @@
 #include "die/dierollresult.h"
 
-DieRollResult::DieRollResult()
-{
-}
+DieRollResult::DieRollResult() = default;
 
 void DieRollResult::add(DiePool::DiePoolIndex idx, quint32 value)
 {

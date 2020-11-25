@@ -11,8 +11,9 @@ void StackItem::setPixmap(const QPixmap &pixmap)
 
 ////////////////////////
 
-ItemStacker::ItemStacker(QWidget *parent) :
-    QWidget(parent), m_displayOffset(4)
+ItemStacker::ItemStacker(QWidget *parent)
+    : QWidget(parent)
+    , m_displayOffset(4)
 {
     for (int i = DISPLAY_COUNT-1; i >= 0; --i) {
         m_displays[i] = new QPushButton(this);
@@ -49,12 +50,12 @@ const StackItem *ItemStacker::topItem() const
 
 QSize ItemStacker::sizeHint() const
 {
-    return QSize(qMin(width(), height())+fixedWidth(), qMin(width(), height()));
+    return {qMin(width(), height())+fixedWidth(), qMin(width(), height())};
 }
 
 QSize ItemStacker::minimumSizeHint() const
 {
-    return QSize(50+fixedWidth(), 50);
+    return {50+fixedWidth(), 50};
 }
 
 void ItemStacker::setDisplayOffset(int off)
@@ -67,12 +68,12 @@ void ItemStacker::setDisplayCount(bool on)
     m_lblCount->setVisible(on);
 }
 
-void ItemStacker::setFont(QFont f)
+void ItemStacker::setFont(const QFont &f)
 {
     m_lblCount->setFont(f);
 }
 
-bool ItemStacker::removeById(QString id)
+bool ItemStacker::removeById(const QString &id)
 {
     QList<int> idx;
     for (int i = 0; i < m_items.size(); ++i) {

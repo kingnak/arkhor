@@ -21,10 +21,11 @@ static const char *OPTION_OBJECT_PROPERTY = "OBJECT";
 static const char *OPTION_GATE_PROPERTY = "GATE";
 static const char *OPTION_BASE_PROPERTY_PROPERTY = "BASE_PROPERTY";
 
-OptionChooser::OptionChooser(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::OptionChooser),
-    m_moreWgt(NULL)
+OptionChooser::OptionChooser(QWidget *parent)
+    : QWidget(parent)
+    , m_type(ChooseSkill)
+    , ui(new Ui::OptionChooser)
+    , m_moreWgt(nullptr)
 {
     ui->setupUi(this);
     //ui->wgtOptionsList->setLayout(new FlowLayout);
@@ -36,7 +37,7 @@ OptionChooser::~OptionChooser()
     delete ui;
 }
 
-void OptionChooser::setOptions(QList<AH::Common::GameOptionData> opts)
+void OptionChooser::setOptions(const QList<AH::Common::GameOptionData> &opts)
 {
     m_type = ChooseOption;
     cleanupOptions();
@@ -45,7 +46,7 @@ void OptionChooser::setOptions(QList<AH::Common::GameOptionData> opts)
     usedMnemonics.insert('o');
 
     QLayout *l = ui->wgtOptionsList->layout();
-    foreach (GameOptionData o, opts) {
+    for (const auto &o : opts) {
         QString name = o.name();
         for (int i = 0; i < name.length(); ++i) {
             QChar c = name.at(i).toLower();
@@ -80,15 +81,14 @@ void OptionChooser::setOptions(QList<AH::Common::GameOptionData> opts)
     //ui->wgtOptionsList->setLayout(l);
 }
 
-void OptionChooser::setSkills(QList<ModifiedPropertyValueData> opts)
+void OptionChooser::setSkills(const QList<ModifiedPropertyValueData> &opts)
 {
     m_type = ChooseSkill;
     cleanupOptions();
 
     QLayout *l = ui->wgtOptionsList->layout();
-    foreach (ModifiedPropertyValueData v, opts) {
+    for (const auto &v : opts) {
         QString name = Utils::stringForProperty(v.property().property());
-        int val = v.finalVal();
         QPushButton *btn = new QPushButton(name);
         btn->setCheckable(true);
         //btn->setProperty(OPTION_DESCRIPTION_PROPERTY, QString("Skill %1. Current Value: %2").arg(name).arg(val));
@@ -101,7 +101,7 @@ void OptionChooser::setSkills(QList<ModifiedPropertyValueData> opts)
     }
 }
 
-void OptionChooser::setEncounter(EncounterData enc)
+void OptionChooser::setEncounter(const EncounterData &enc)
 {
     m_type = ChooseEncounter;
     QString baseDesc = enc.description();
@@ -112,7 +112,7 @@ void OptionChooser::setEncounter(EncounterData enc)
         usedMnemonics.insert('o');
 
         QLayout *l = ui->wgtOptionsList->layout();
-        foreach (GameOptionData o, enc.optionData()) {
+        for (const auto &o : enc.optionData()) {
             QString name = o.name();
             for (int i = 0; i < name.length(); ++i) {
                 QChar c = name.at(i).toLower();
@@ -148,7 +148,7 @@ void OptionChooser::setEncounter(EncounterData enc)
     ui->btnOptionActivate->setDefault(true);
 }
 
-void OptionChooser::setMonsters(QString desc, QList<MonsterData> monsters)
+void OptionChooser::setMonsters(const QString &desc, const QList<MonsterData> &monsters)
 {
     m_type = ChooseMonster;
     cleanupOptions();
@@ -156,7 +156,7 @@ void OptionChooser::setMonsters(QString desc, QList<MonsterData> monsters)
     ui->lblOptionDescription->setText(desc);
 
     QLayout *l = ui->wgtOptionsList->layout();
-    for (MonsterData m : monsters) {
+    for (const MonsterData &m : monsters) {
         QString name = m.name();
         QPushButton *btn = new QPushButton(name);
         btn->setCheckable(true);
@@ -172,11 +172,11 @@ void OptionChooser::cleanupOptions()
     QLayout *l = ui->wgtOptionsList->layout();
     if (l) {
         QLayoutItem *child;
-        while ((child = l->takeAt(0)) != 0) {
+        while ((child = l->takeAt(0)) != nullptr) {
             delete child;
         }
     }
-    foreach (QWidget *w, ui->wgtOptionsList->findChildren<QWidget*>()) {
+    for (auto w : ui->wgtOptionsList->findChildren<QWidget*>()) {
         delete w;
     }
 
@@ -199,17 +199,17 @@ void OptionChooser::cleanupMore()
     }
     */
     /*
-    foreach (QWidget *w, ui->wgtMoreDescription->findChildren<QWidget*>()) {
+    for (auto w : ui->wgtMoreDescription->findChildren<QWidget*>()) {
         delete w;
     }
     */
     delete m_moreWgt;
-    m_moreWgt = NULL;
+    m_moreWgt = nullptr;
     ui->wgtPropertyInfo->cleanValue();
     ui->wgtPropertyInfo->setVisible(false);
 }
 
-void OptionChooser::describeObject(QString id)
+void OptionChooser::describeObject(const QString &id)
 {
     emit objectDescriptionRequested(id);
 }
@@ -217,7 +217,7 @@ void OptionChooser::describeObject(QString id)
 void OptionChooser::showOption()
 {
     QList<QPushButton*> btns = ui->wgtOptionsList->findChildren<QPushButton*>();
-    foreach (QPushButton *b, btns) {
+    for (auto b : btns) {
         b->setChecked(false);
     }
     qobject_cast<QPushButton*> (sender())->setChecked(true);
@@ -287,7 +287,7 @@ void OptionChooser::showOption()
     }
 }
 
-void OptionChooser::showBaseProperty(AH::Common::ModifiedPropertyValueData p)
+void OptionChooser::showBaseProperty(const AH::Common::ModifiedPropertyValueData &p)
 {
     if (p.property().property() != AH::Common::PropertyValueData::Property::NoProperty) {
         ui->wgtPropertyInfo->displayPropertyValue(p);
@@ -323,9 +323,9 @@ QString OptionChooser::displayCosts(const Cost &costs)
     }
 
     QStringList alts;
-    foreach (CostList cl, costs.getAlternatives()) {
+    for (const auto &cl : costs.getAlternatives()) {
         QStringList itms;
-        foreach (CostItem ci, cl) {
+        for (auto ci : cl) {
             itms << QString("%1 %2").arg(ci.amount).arg(Utils::stringForCostItem(ci.type));
         }
         alts << itms.join(" + ");

@@ -16,7 +16,7 @@ AncientOneScript *AncientOneScript::createAncientOne(QScriptContext *ctx, QScrip
     Q_UNUSED(eng);
     if (ctx->argumentCount() != 1 || !ctx->argument(0).isObject()) {
         ctx->throwError(QScriptContext::TypeError, "createAncientOne: Must call with 1 object");
-        return NULL;
+        return nullptr;
     }
 
     QScopedPointer<AncientOneScript> ret(new AncientOneScript);
@@ -53,7 +53,7 @@ AncientOneScript *AncientOneScript::createAncientOne(QScriptContext *ctx, QScrip
         PropertyModificationList lst;
         if (!PropertyModificationScript::parsePropertyModificationList(ret.data(), propMod, lst)) {
             ctx->throwError(QScriptContext::TypeError, "createAncientOne: Invalid Slumber Modification.");
-            return NULL;
+            return nullptr;
         }
         ret->m_slumberModifications = lst;
     }
@@ -66,7 +66,7 @@ AncientOneScript *AncientOneScript::createAncientOne(QScriptContext *ctx, QScrip
     QString err;
     if (!verify(ret.data(), &err)) {
         ctx->throwError(QScriptContext::TypeError, "createAncientOne: Invalid AncientOne data. Errors:\n"+err);
-        return NULL;
+        return nullptr;
     }
 
     AncientOneScript *pRet = ret.take();
@@ -160,7 +160,7 @@ bool AncientOneScript::postAttack()
     return true;
 }
 
-QList<AH::Common::MythosData::EnvironmentType> AncientOneScript::parseIgnoreEnvironmentTypes(QScriptValue v)
+QList<AH::Common::MythosData::EnvironmentType> AncientOneScript::parseIgnoreEnvironmentTypes(const QScriptValue &v)
 {
     if (!v.isValid()) {
         return {};

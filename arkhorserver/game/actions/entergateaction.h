@@ -9,15 +9,15 @@ class EnterGateAction : public GameAction
 public:
     EnterGateAction();
 
-    QString id() const { return "AC_ENTER_GATE"; }
+    QString id() const override { return "AC_ENTER_GATE"; }
 
-    virtual AH::GamePhases phases() const { return AH::ArkhamEncountery; }
+    AH::GamePhases phases() const override { return AH::ArkhamEncountery; }
 
-    virtual bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    virtual QString name() const { return "Enter Gate"; }
-    virtual QString description() const { return ""; }
+    QString name() const override { return "Enter Gate"; }
+    QString description() const override { return ""; }
 };
 
 class EnterGateOption : public GameOption
@@ -27,9 +27,9 @@ public:
         : GameOption(&ea, AH::CannotContinue, AH::ChooseMandatory, AH::ArkhamEncountery)
     {}
 
-    QString id() const { return "OP_ENTER_GATE"; }
+    QString id() const override { return "OP_ENTER_GATE"; }
 
-    virtual bool isAvailable() const;
+    bool isAvailable() const override;
 
 private:
     EnterGateAction ea;

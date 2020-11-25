@@ -11,8 +11,8 @@ class PropertyModificationScript
 public:
     PropertyModificationScript();
 
-    static bool parsePropertyModificationList(const PropertyModifier *modifier, QScriptValue propModList, PropertyModificationList &out);
-    static bool parsePropertyModification(const PropertyModifier *modifier, QScriptValue propMod, PropertyModification &out);
+    static bool parsePropertyModificationList(const PropertyModifier *modifier, const QScriptValue &propModList, PropertyModificationList &out);
+    static bool parsePropertyModification(const PropertyModifier *modifier, const QScriptValue &propMod, PropertyModification &out);
 
 private:
     QScriptEngine *m_engine;

@@ -25,7 +25,7 @@ RumorWidget::RumorWidget(bool shortDisplay, QWidget *parent) :
 
     connect(m_name, SIGNAL(linkActivated(QString)), this, SIGNAL(rumorInfoRequested(QString)));
 
-    displayRumor(NULL);
+    displayRumor(nullptr);
 }
 
 void RumorWidget::objectDescribed(const DescribeObjectsData::ObjectDescription &desc)
@@ -37,11 +37,11 @@ void RumorWidget::objectDescribed(const DescribeObjectsData::ObjectDescription &
     }
 }
 
-void RumorWidget::displayRumor(QString id)
+void RumorWidget::displayRumor(const QString &id)
 {
     if (id.isEmpty()) {
         ObjectRegistry::instance()->unsubscribe(this);
-        displayRumor(NULL);
+        displayRumor(nullptr);
     } else {
         if (!m_subscribedId.isEmpty()) {
             if (m_subscribedId != id) {
@@ -58,7 +58,7 @@ void RumorWidget::displayRumor(QString id)
 void RumorWidget::setShortDisplay(bool shortDisplay)
 {
     m_shortDisplay = shortDisplay;
-    displayRumor(NULL);
+    displayRumor(nullptr);
 }
 
 void RumorWidget::setLongDisplay(bool longDisplay)
@@ -77,7 +77,7 @@ void RumorWidget::displayRumor(const AH::Common::MythosData *rumor)
             m_desc->setText(rumor->description());
         }
         QStringList lst;
-        foreach (DynamicPropertyData d, rumor->dynamicProperties()) {
+        for (const auto &d : rumor->dynamicProperties()) {
             lst << QString("<b>%1:</b> %2").arg(d.name(), d.display());
         }
         m_dynProps->setText(lst.join("<br/>"));

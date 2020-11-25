@@ -4,7 +4,7 @@
 #include "character.h"
 
 PlaceOnFieldAction::PlaceOnFieldAction()
-    : m_field(NULL)
+    : m_field(nullptr)
 {
 }
 
@@ -26,5 +26,5 @@ QString PlaceOnFieldAction::notificationString(GameAction::NotificationPart part
 
 bool PlaceOnFieldOption::isAvailable() const
 {
-    return pofa.m_field != NULL;
+    return pofa.m_field != nullptr;
 }

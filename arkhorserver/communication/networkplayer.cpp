@@ -18,10 +18,11 @@
 using namespace AH::Common;
 
 NetworkPlayer::NetworkPlayer()
-:   m_game(NULL),
-    m_conn(NULL),
-    m_ackReceiver(NULL),
-    m_formatter(new NotificationFormatter)
+    : m_game(nullptr)
+    , m_conn(nullptr)
+    , m_bWaitSuccessful(false)
+    , m_ackReceiver(nullptr)
+    , m_formatter(new NotificationFormatter)
 {
     m_promptTimer = new QTimer(this);
     m_promptTimer->setSingleShot(true);
@@ -86,7 +87,7 @@ void NetworkPlayer::sendBoard(GameBoard *board, GameBoardChangeData changes)
 {
     QVariantMap m;
     m["_changes"] << changes;
-    foreach (GameField *f, board->allFields()) {
+    for (auto f : board->allFields()) {
         m[QString::number(f->id())] << *f->data();
     }
     m_conn->sendMessage(Message::S_BOARD_CONTENT, m);
@@ -95,7 +96,7 @@ void NetworkPlayer::sendBoard(GameBoard *board, GameBoardChangeData changes)
 void NetworkPlayer::sendBoardDescription(GameBoard *board, QVariantMap descriptions)
 {
     QVariantMap boardMap;
-    foreach (GameField *f, board->allFields()) {
+    for (auto f : board->allFields()) {
         boardMap[QString::number(f->id())] << *f->data();
     }
     QVariantMap map;
@@ -214,7 +215,7 @@ bool NetworkPlayer::acknowledgeMonsterMovement(Monster *m, QObject *observer)
 void NetworkPlayer::abortAcknowledge()
 {
     m_conn->sendMessage(AH::Common::Message::S_ABORT_ACKNOWLEDGE, QVariant());
-    m_ackReceiver = NULL;
+    m_ackReceiver = nullptr;
 }
 
 void NetworkPlayer::notifyWon(QString msg)
@@ -295,14 +296,14 @@ Investigator *NetworkPlayer::chooseInvestigator(QList<Investigator *> invs)
     if (ok) {
         // Find investigator by its id
         QString id = resp.payload.toString();
-        foreach (Investigator *i, invs) {
+        for (auto i : invs) {
             if (i->id() == id) {
                 return i;
             }
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 bool NetworkPlayer::chooseWeapons(QList<GameObject *> weapons, ModifiedPropertyValue hands, QStringList &selected)
@@ -342,13 +343,13 @@ GameOption *NetworkPlayer::chooseOption(QList<GameOption *> options)
     if (ok) {
         // Find investigator by its id
         QString id = resp.payload.toString();
-        foreach (GameOption *i, options) {
+        for (auto i : options) {
             if (i->id() == id) {
                 return i;
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 QList<int> NetworkPlayer::chooseFocus(QList<AttributeSlider> sliders, int totalFocus)
@@ -391,7 +392,7 @@ MovementPath NetworkPlayer::chooseMovement(GameField *start, int movement)
     if (ok) {
         QList<FieldData::FieldID> lst;
         resp.payload >> lst;
-        foreach (FieldData::FieldID id, lst) {
+        for (auto id : lst) {
             GameField *f = gGame->board()->field(id);
             ret << f;
         }
@@ -515,14 +516,14 @@ TradeData NetworkPlayer::offerTrade(TradeData trade)
     return ret;
 }
 
-void NetworkPlayer::tradeCanceled(QString name)
+void NetworkPlayer::tradeCanceled(const QString &name)
 {
     m_conn->sendMessage(AH::Common::Message::S_CANCEL_TRADE, name);
     //Message r;
     //awaitResponse(r, QList<Message::Type>() << Message::C_ACKNOWLEDGED);
 }
 
-void NetworkPlayer::handleMessage(Message msg)
+void NetworkPlayer::handleMessage(const Message &msg)
 {
     Qt::ConnectionType t = (QThread::currentThread() == this->thread()) ? Qt::DirectConnection : Qt::QueuedConnection;
     QMetaObject::invokeMethod(this, "doHandleMessage", t, Q_ARG(AH::Common::Message, msg));
@@ -535,7 +536,7 @@ void NetworkPlayer::destroy()
     emit receivedWaitedMesage();
 }
 
-void NetworkPlayer::doHandleMessage(Message msg)
+void NetworkPlayer::doHandleMessage(const Message &msg)
 {
     if (msg.type == Message::C_CONFIRM_ACTIVE) {
         m_killTimer->stop();
@@ -559,13 +560,13 @@ void NetworkPlayer::doHandleMessage(Message msg)
     // TODO: Handle other messages
 }
 
-void NetworkPlayer::sendText(QString txt)
+void NetworkPlayer::sendText(const QString &txt)
 {
     if (!txt.isEmpty())
         m_conn->sendMessage(AH::Common::Message::S_TEXT_MESSAGE, txt);
 }
 
-bool NetworkPlayer::awaitResponse(Message &outMsg, QList<Message::Type> acceptTypes)
+bool NetworkPlayer::awaitResponse(Message &outMsg, const QList<Message::Type> &acceptTypes)
 {
     //Is this true?: Q_ASSERT_X(QThread::currentThread() != this->thread(), "NetworkPlayer::awaitResponse", "Waiting in same thread will cause a DEADLOCK");
 

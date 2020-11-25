@@ -18,9 +18,9 @@ private:
     void initFields(AhBoardScene *scene, QGraphicsItem *parent, double scale);
     void initTerror(AhBoardScene *scene, QGraphicsItem *parent, double scale);
 
-    AH::Common::FieldData::FieldID parseId(QString id);
-    AH::Common::FieldData::FieldType parseType(QString type);
-    QRect parseRect(QString r, double scale);
+    AH::Common::FieldData::FieldID parseId(const QString &id);
+    AH::Common::FieldData::FieldType parseType(const QString &type);
+    QRect parseRect(const QString &r, double scale);
 };
 
 #endif // AHBOARDFILLERHELPER_H

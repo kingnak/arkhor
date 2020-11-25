@@ -12,7 +12,7 @@ namespace AH {
         {
         public:
             GameFieldData();
-            virtual ~GameFieldData() {}
+            virtual ~GameFieldData() = default;
 
             // Id, Name, Description/SourceId
             //typedef QPair<QString, QPair<QString, QString>> FieldOptionDescription;

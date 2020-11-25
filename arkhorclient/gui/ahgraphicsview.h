@@ -13,7 +13,7 @@ public:
     explicit AhGraphicsView(QWidget *parent = 0);
 
 public:
-    QSize sizeHint() const;
+    QSize sizeHint() const override;
 
 signals:
     void receivedFocus();
@@ -32,8 +32,8 @@ public slots:
     void restoreViewport();
 
 protected:
-    void wheelEvent(QWheelEvent *event);
-    void mousePressEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
 private:
     qreal currentScaleFactor() const;

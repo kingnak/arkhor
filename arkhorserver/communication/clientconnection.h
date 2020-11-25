@@ -11,10 +11,10 @@ public:
     ClientConnection(qintptr socketDescriptor);
 
 protected slots:
-    void cleanup();
+    void cleanup() override;
 
 protected:
-    void receivedMessage(const AH::Common::Message &msg);
+    void receivedMessage(const AH::Common::Message &msg) override;
 
 private:
     void handleVersion(const QVariant &v);

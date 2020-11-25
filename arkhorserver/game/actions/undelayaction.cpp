@@ -3,9 +3,7 @@
 #include "game/player.h"
 #include "character.h"
 
-UndelayAction::UndelayAction()
-{
-}
+UndelayAction::UndelayAction() = default;
 
 bool UndelayAction::execute()
 {

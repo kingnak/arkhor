@@ -8,8 +8,8 @@
 class GameAction : public AH::Common::GameActionData
 {
 public:
-    GameAction() {}
-    virtual ~GameAction() {}
+    GameAction() = default;
+    ~GameAction() override = default;
 
     virtual bool execute() = 0;
 

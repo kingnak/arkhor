@@ -12,6 +12,9 @@
 
 FightPhase::FightPhase()
     : GamePhase(gGame)
+    , m_curPhase(FightEnter)
+    , m_outcome(EndEvaded)
+    , m_hasEnteredFight(false)
 {
     m_chooseMonster = new ChooseMonsterOption(this);
     m_evade = new EvadeOption(this);
@@ -38,12 +41,12 @@ bool FightPhase::isFightSituation() const
     return gGame->context().player()->getCharacter()->field()->hasMonsters();
 }
 
-bool FightPhase::handleFight(QList<Monster *> monsters)
+bool FightPhase::handleFight(const QList<Monster *> &monsters)
 {
     m_monsters = monsters;
 
     // Trick: dynamic monsters will be invalidated when requesting attrs/mods
-    foreach (Monster *m, m_monsters) {
+    for (auto m : m_monsters) {
         m->attributes();
         m->getModifications();
     }
@@ -57,7 +60,7 @@ bool FightPhase::handleFight(QList<Monster *> monsters)
 
     // Defeated was already called in AttackAction.
     // Call EndCombat on all flown / evaded monsters
-    foreach (Monster *m, m_flownMonsters) {
+    for (auto m : m_flownMonsters) {
         m->endCombat();
     }
 
@@ -65,7 +68,7 @@ bool FightPhase::handleFight(QList<Monster *> monsters)
     m_flownMonsters.clear();
 
     gGame->context().setPhase(returnPhase);
-    gGame->context().setMonster(NULL);
+    gGame->context().setMonster(nullptr);
 
     // Unequip all spells
     unequipSpells();
@@ -235,7 +238,7 @@ bool FightPhase::damageNightmarish()
 void FightPhase::unequipSpells()
 {
     QList<GameObject *> lst = gGame->context().player()->getCharacter()->inventory();
-    foreach (GameObject *obj, lst) {
+    for (auto obj : lst) {
         if (obj->isFightObject()) {
             if (obj->type() == AH::Obj_Spell) {
                 if (obj->isEquipped()) {

@@ -11,26 +11,26 @@ public:
     MythosAction() {
         m_phases = AH::Mythos;
     }
-    ~MythosAction() {}
+    ~MythosAction() override = default;
 
-    bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    QString id() const { return "AC_MYTHOS"; }
+    QString id() const override { return "AC_MYTHOS"; }
 };
 
 class Mythos : public GamePhase
 {
 public:
     Mythos(Game *game);
-    ~Mythos();
+    ~Mythos() override;
 
 
 protected:
-    void enterPhase();
-    QList<GameAction *> getPhaseActions();
-    QList<GameOption *> getPhaseOptions();
-    void finishPhase();
+    void enterPhase() override;
+    QList<GameAction *> getPhaseActions() override;
+    QList<GameOption *> getPhaseOptions() override;
+    void finishPhase() override;
 
 private:
     MythosAction *m_mythos;

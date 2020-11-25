@@ -15,7 +15,7 @@ ArkhorScriptLexer::ArkhorScriptLexer(QIODevice *input)
     if (m_input) {
         m_stream = new QTextStream(m_input);
     } else {
-        m_stream = NULL;
+        m_stream = nullptr;
     }
 }
 
@@ -24,13 +24,13 @@ ArkhorScriptLexer::~ArkhorScriptLexer()
     delete m_stream;
 }
 
-const ArkhorScriptLexer::Symbol ArkhorScriptLexer::nextSymbol()
+ArkhorScriptLexer::Symbol ArkhorScriptLexer::nextSymbol()
 {
     parse();
     return currentSymbol();
 }
 
-const ArkhorScriptLexer::Symbol ArkhorScriptLexer::currentSymbol() const
+ArkhorScriptLexer::Symbol ArkhorScriptLexer::currentSymbol() const
 {
     return m_symbol;
 }
@@ -253,10 +253,9 @@ bool ArkhorScriptLexer::parseString(QChar match)
 
 bool ArkhorScriptLexer::parseBlock(QChar delimStart, QChar delimEnd, Symbol::Type type)
 {
-    QChar c1, c2, c3;
-    c1 = delimStart;
-    c2 = parseChar();
-    c3 = parseChar();
+    QChar c1 = delimStart;
+    QChar c2 = parseChar();
+    QChar c3 = parseChar();
 
 
     // Need "<<<"
@@ -265,7 +264,8 @@ bool ArkhorScriptLexer::parseBlock(QChar delimStart, QChar delimEnd, Symbol::Typ
         return false;
     }
 
-    const int sl = m_lineCount, sp = m_linePos;
+    const int sl = m_lineCount;
+    const int sp = m_linePos;
     QString delimEndStr(3, delimEnd);
     QString img;
     while (!m_stream->atEnd()) {

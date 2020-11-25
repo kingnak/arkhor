@@ -40,19 +40,19 @@ public:
     bool removePlayer(Player *p);
     bool removeCharacter(Character *c);
 
-    GameAction *findActionById(QString id);
-    GameOption *findOptionById(QString id);
-    Investigator *findInvestigatorById(QString id);
-    Player *findPlayerById(QString id);
-    Character *findCharacterById(QString id);
-    Monster *findMonsterById(QString id);
-    Gate *findGateById(QString id);
-    MythosCard *findMythosById(QString id);
-    AncientOne *findAncientOneById(QString id);
+    GameAction *findActionById(const QString &id);
+    GameOption *findOptionById(const QString &id);
+    Investigator *findInvestigatorById(const QString &id);
+    Player *findPlayerById(const QString &id);
+    Character *findCharacterById(const QString &id);
+    Monster *findMonsterById(const QString &id);
+    Gate *findGateById(const QString &id);
+    MythosCard *findMythosById(const QString &id);
+    AncientOne *findAncientOneById(const QString &id);
 
-    const GameObject *findObjectPrototypeByType(QString tid);
+    const GameObject *findObjectPrototypeByType(const QString &tid);
     GameObject *findObjectInstanceByType(QString tid);
-    GameObject *findObjectById(QString id);
+    GameObject *findObjectById(const QString &id);
 
     QList<GameObject *> allObjects();
     QList<Investigator *> allInvestigators();

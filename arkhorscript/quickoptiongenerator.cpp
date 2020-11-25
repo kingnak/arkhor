@@ -37,7 +37,7 @@ QList<ClassGenerator::AttributeDesc> QuickOptionGenerator::getAttributes()
     return ret;
 }
 
-bool QuickOptionGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr)
+bool QuickOptionGenerator::outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr)
 {
     if (desc.name == "phases") {
         return outputEnumValueArray("Constants.GamePhases", attr, cls);
@@ -63,7 +63,7 @@ QList<ClassGenerator::AttributeDesc> ArkhamEncounterOptionGenerator::getAttribut
     return ret;
 }
 
-bool ArkhamEncounterOptionGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+bool ArkhamEncounterOptionGenerator::outputDefaultAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "phases") {
         return outputAttribute(cls, AttrDef("phases", ArkhorScriptParser::EnumValue, "ArkhamEncountery"), true);
@@ -89,7 +89,7 @@ QList<ClassGenerator::AttributeDesc> OtherWorldEncounterOptionGenerator::getAttr
     return ret;
 }
 
-bool OtherWorldEncounterOptionGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+bool OtherWorldEncounterOptionGenerator::outputDefaultAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "phases") {
         return outputAttribute(cls, AttrDef("phases", ArkhorScriptParser::EnumValue, "OtherWorldEncountery"), true);

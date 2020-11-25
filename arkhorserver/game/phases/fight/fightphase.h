@@ -16,10 +16,10 @@ class FightPhase : public GamePhase
 {
 public:
     FightPhase();
-    ~FightPhase();
+    ~FightPhase() override;
 
     bool isFightSituation() const;
-    bool handleFight(QList<Monster *> monsters);
+    bool handleFight(const QList<Monster *> &monsters);
 
     //void execute();
 
@@ -50,9 +50,9 @@ public:
     FightOutcome getOutcome() const { return m_outcome; }
 
 protected:
-    //virtual void enterPhase();
-    //virtual QList<GameAction *> getPhaseActions();
-    virtual QList<GameOption *> getPhaseOptions();
+    //void enterPhase() override;
+    //QList<GameAction *> getPhaseActions() override;
+    QList<GameOption *> getPhaseOptions() override;
 
 private:
 

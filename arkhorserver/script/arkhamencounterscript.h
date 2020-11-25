@@ -26,8 +26,8 @@ public:
     static void castFromValue(const QScriptValue &v, ArkhamEncounterScript *&o) { o = qobject_cast<ArkhamEncounterScript *> (v.toQObject()); }
     static QScriptValue castToValue(QScriptEngine *eng, ArkhamEncounterScript * const &in) { return eng->newQObject(in); }
 
-    virtual QList<GameOption *> options() const;
-    virtual bool resolveDependencies(GameRegistry *reg);
+    QList<GameOption *> options() const override;
+    bool resolveDependencies(GameRegistry *reg) override;
 
     static ArkhamEncounterScript *createEncounter(QScriptContext *ctx, QScriptEngine *eng);
 

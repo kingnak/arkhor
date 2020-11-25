@@ -59,14 +59,14 @@ T *scriptTestDrawHelper(const QString &title, Deck<T> &d, std::function<bool()> 
 
 #endif
 
-Game *Game::s_instance = NULL;
+Game *Game::s_instance = nullptr;
 
 Game::Game()
-:   m_context(this, NULL, NULL, AH::NoGamePhase),
-    m_board(NULL),
-    m_environment(NULL),
-    m_rumor(NULL),
-    m_ancientOne(NULL),
+:   m_context(this, nullptr, nullptr, AH::NoGamePhase),
+    m_board(nullptr),
+    m_environment(nullptr),
+    m_rumor(nullptr),
+    m_ancientOne(nullptr),
     m_nextPlayerId(0),
     m_started(false),
     m_settingDirty(false),
@@ -215,7 +215,7 @@ Investigator *Game::drawInvestigator()
     return m_investigators.draw();
 }
 
-Investigator *Game::drawSpecificInvestigator(QString id)
+Investigator *Game::drawSpecificInvestigator(const QString &id)
 {
     return m_investigators.drawSpecificById(id);
 }
@@ -289,8 +289,8 @@ bool Game::resolveDependencies()
     bool ok = m_registry->resolveDependencies();
     if (!ok) return false;
     // Resolve Field Options
-    foreach (AH::Common::FieldData::FieldID fid, m_fieldOptionMap.keys()) {
-        foreach (QString opId, m_fieldOptionMap[fid]) {
+    for (auto fid : m_fieldOptionMap.keys()) {
+        for (const auto &opId : m_fieldOptionMap[fid]) {
             GameOption *op = m_registry->findOptionById(opId);
             if (op) {
                 m_board->field(fid)->addFieldOption(op);
@@ -352,7 +352,7 @@ bool Game::registerAncientOne(AncientOne *ao)
     return true;
 }
 
-bool Game::registerFieldOption(AH::Common::FieldData::FieldID fId, QString opId)
+bool Game::registerFieldOption(AH::Common::FieldData::FieldID fId, const QString &opId)
 {
     m_fieldOptionMap[fId] << opId;
     return true;
@@ -460,7 +460,7 @@ void Game::killPlayer(Player *p)
     removePlayer(p);
 }
 
-QList<GameField *> Game::neareastFieldsWith(GameField *from, std::function<bool (GameField *)> predicate, QList<AH::Common::FieldData::FieldID> exceptFields)
+QList<GameField *> Game::neareastFieldsWith(GameField *from, std::function<bool (GameField *)> predicate, const QList<AH::Common::FieldData::FieldID> &exceptFields)
 {
     QList<GameField *> ret;
     QSet<GameField *> toCheck;
@@ -561,7 +561,7 @@ Monster *Game::drawMonster()
     int ct = m_monsterPool.size();
     do {
         Monster *m = m_monsterPool.draw();
-        if (!m) return NULL;
+        if (!m) return nullptr;
         if (m->attributes().testFlag(Monster::Mask)) {
             if (context().getGameProperty(PropertyValue::Game_AllowMaskMonster).finalVal() > 0) {
                 return m;
@@ -572,7 +572,7 @@ Monster *Game::drawMonster()
             return m;
         }
     } while (--ct > 0);
-    return NULL;
+    return nullptr;
 }
 
 MythosCard *Game::drawMythos()
@@ -603,7 +603,7 @@ void Game::returnMythos(MythosCard *m)
 GameObject *Game::drawObject(AH::GameObjectType t)
 {
     if (!m_objectDecks.contains(t)) {
-        return NULL;
+        return nullptr;
     }
 
 #ifdef TEST_SCRIPT_BUILD
@@ -619,16 +619,16 @@ GameObject *Game::drawObject(AH::GameObjectType t)
     return ret;
 }
 
-GameObject *Game::drawSpecificObject(QString id)
+GameObject *Game::drawSpecificObject(const QString &id)
 {
-    foreach (AH::GameObjectType t, m_objectDecks.keys()) {
+    for (auto t : m_objectDecks.keys()) {
         GameObject *o = drawSpecificObject(id, t);
         if (o) return o;
     }
-    return NULL;
+    return nullptr;
 }
 
-GameObject *Game::drawSpecificObject(QString id, AH::GameObjectType t)
+GameObject *Game::drawSpecificObject(const QString &id, AH::GameObjectType t)
 {
     GameObject *o = m_objectDecks[t].drawSpecificByTypeId(id);
     if (o) {
@@ -640,19 +640,19 @@ GameObject *Game::drawSpecificObject(QString id, AH::GameObjectType t)
         return o;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void Game::returnObject(GameObject *o)
 {
     if (!o) return;
-    if (o->owner() != NULL) {
+    if (o->owner() != nullptr) {
         o->owner()->removeFromInventory(o);
-        o->setOwner(NULL);
+        o->setOwner(nullptr);
     }
     if (o->isInfinite()) {
         // Infinite objects are never taken out of deck. No longer used
-        if (QObject *qo = dynamic_cast<QObject*> (o)) qo->deleteLater();
+        if (auto qo = dynamic_cast<QObject*> (o)) qo->deleteLater();
         else delete o;
     } else {
         m_objectDecks[o->type()].returnToDeck(o);
@@ -670,7 +670,7 @@ bool Game::createGate(GameField *field)
         return false;
     }
 
-    if (field->gate() != NULL) {
+    if (field->gate()) {
         // Create Monsters: max of gates and players
         int playerCount = getPlayers().count();
         int gateCount = m_board->getGates().count();
@@ -710,7 +710,7 @@ bool Game::createGate(GameField *field)
 #endif
 
         AH::Dimension d = (dim) ? static_cast<AH::Dimension> (dim) : randomDimension();
-        adj = (adj < -2 || adj > 2) ? RandomSource::instance().nextUint(0, 4)-2 : adj;
+        adj = (adj < -2 || adj > 2) ? static_cast<int>(RandomSource::instance().nextUint(0, 4))-2 : adj;
         auto f = static_cast<AH::Common::FieldData::FieldID>(fid);
         if (!m_board->field(f) || m_board->field(f)->type() != AH::Common::FieldData::OtherWorld) {
             int dest = RandomSource::instance().nextUint(0, 7);
@@ -912,7 +912,7 @@ OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldI
     int ct = m_owEncDeck.size();
 
     // Draw until matching color is found
-    OtherWorldEncounter *e = NULL;
+    OtherWorldEncounter *e = nullptr;
     do {
         ct--;
         e = m_owEncDeck.draw();
@@ -924,12 +924,12 @@ OtherWorldEncounter *Game::drawOtherWorldEncounter(AH::Common::FieldData::FieldI
             if (e->fieldId() != AH::Common::FieldData::NO_NO_FIELD) {
                 if (e->fieldId() != field) {
                     m_owEncDeck.returnToDeck(e);
-                    e = NULL;
+                    e = nullptr;
                 }
             }
         } else {
             m_owEncDeck.returnToDeck(e);
-            e = NULL;
+            e = nullptr;
         }
     } while (!e && ct >= 0);
 
@@ -962,7 +962,7 @@ void Game::characterDirty(Character *c)
     c->setDirty(true);
 }
 
-void Game::invalidateObject(QString id)
+void Game::invalidateObject(const QString &id)
 {
     m_invalidatedObjects << id;
 }
@@ -990,7 +990,7 @@ void Game::commitUpdates()
         m_invalidatedObjects << m_ancientOne->id();
     }
 
-    foreach (Character *c, m_registry->allCharacters()) {
+    for (auto c : m_registry->allCharacters()) {
         c->commitDamage();
         if (c->isDirty()) {
             c->setDirty(false);
@@ -1014,19 +1014,19 @@ void Game::commitUpdates()
 
 Player *Game::playerForCharacter(Character *c)
 {
-    foreach (Player *p, m_playerList) {
+    for (auto p : m_playerList) {
         if (p->getCharacter() == c) {
             return p;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 AH::Common::DescribeObjectsData Game::describeObjects(const AH::Common::RequestObjectsData &reqs) const
 {
     AH::Common::DescribeObjectsData ret;
-    foreach (AH::Common::RequestObjectsData::ObjectRequest r, reqs.getRequests()) {
+    for (const auto &r : reqs.getRequests()) {
         ret.addDescription(describeObject(r));
     }
     return ret;
@@ -1135,9 +1135,9 @@ AH::Dimension Game::randomDimension() const
 
 AH::Common::FieldData::FieldID Game::randomLocation(bool onlyStable) const
 {
-    int district = RandomSource::instance().nextUint(1, 9) * 0x0100;
-    int fld = RandomSource::instance().nextUint(1,3);
-    int id = district | fld;
+    quint32 district = RandomSource::instance().nextUint(1, 9) * 0x0100;
+    quint32 fld = RandomSource::instance().nextUint(1,3);
+    quint32 id = district | fld;
     if (id == AH::Common::FieldData::FieldID::FH_InnerSanctum) {
         return randomLocation(onlyStable);
     }
@@ -1145,16 +1145,16 @@ AH::Common::FieldData::FieldID Game::randomLocation(bool onlyStable) const
     // TODO: Check if stable...
 
     AH::Common::FieldData::FieldID ret = static_cast<AH::Common::FieldData::FieldID> (id);
-    Q_ASSERT(m_board->field(ret) != NULL);
+    Q_ASSERT(m_board->field(ret) != nullptr);
     Q_ASSERT(m_board->field(ret)->type() == AH::Common::FieldData::Location);
     return ret;
 }
 
 bool Game::setRumor(MythosCard *r)
 {
-    if (r == NULL) {
+    if (r == nullptr) {
         //returnMythos(m_rumor);
-        m_rumor = NULL;
+        m_rumor = nullptr;
         setSettingDirty();
         return true;
     }
@@ -1177,7 +1177,7 @@ bool Game::setEnvironment(MythosCard *e)
 
     if (m_environment) {
         MythosCard *env = m_environment;
-        m_environment = NULL;
+        m_environment = nullptr;
         env->cleanup();
         if (env->hasMonsterModifications()) {
             invalidateMonsters = true;
@@ -1224,7 +1224,7 @@ void Game::returnSpecialActionNumber(int nr)
 void Game::initBoard()
 {
     ignoreChanges(true);
-    foreach (GameField *f, m_board->fields(AH::Common::FieldData::Location)) {
+    for (auto f : m_board->fields(AH::Common::FieldData::Location)) {
         f->putClue();
     }
     ignoreChanges(false);
@@ -1236,24 +1236,24 @@ void Game::initBoard()
 
 void Game::initDecks()
 {
-    foreach (GameObject *o, m_registry->allObjects()) {
+    for (auto o : m_registry->allObjects()) {
         m_objectDecks[o->type()].addCard(o);
     }
-    foreach (AH::GameObjectType t, m_objectDecks.keys()) {
+    for (auto t : m_objectDecks.keys()) {
         m_objectDecks[t].shuffle();
     }
 
     // Shuffeled at each draw, so no need here
-    foreach (ArkhamEncounter *ae, m_registry->allArkhamEncounters()) {
+    for (auto ae : m_registry->allArkhamEncounters()) {
         m_arkEncDecks[ae->fieldId()].addCard(ae);
     }
 
-    foreach (OtherWorldEncounter *e, m_registry->allOtherWorldEncounters()) {
+    for (auto e : m_registry->allOtherWorldEncounters()) {
         m_owEncDeck.addCard(e);
     }
     m_owEncDeck.shuffle();
 
-    foreach (MythosCard *m, m_registry->allMythosCards()) {
+    for (auto m : m_registry->allMythosCards()) {
         m_mythosDeck.addCard(m);
     }
     m_mythosDeck.shuffle();
@@ -1261,7 +1261,7 @@ void Game::initDecks()
 
 void Game::initMonsters()
 {
-    foreach (Monster *m, m_registry->allMonsters())
+    for (auto m : m_registry->allMonsters())
         m_monsterPool.addCard(m);
 
     // Shuffeled at each draw, no need here
@@ -1294,7 +1294,7 @@ void Game::chooseInvestigators()
 
 void Game::chooseAncientOne()
 {
-    foreach (AncientOne *a, m_registry->allAncientOnes()) {
+    for (auto a : m_registry->allAncientOnes()) {
         m_ancientOnePool.addCard(a);
     }
 
@@ -1311,40 +1311,40 @@ void Game::chooseAncientOne()
 void Game::initInvestigators()
 {
     // FIXED POSSESSION
-    foreach (Character *c, m_registry->allCharacters())
+    for (auto c : m_registry->allCharacters())
     {
         m_context.m_player = playerForCharacter(c);
         initCharacterFixedPossession(c);
-        m_context.m_player = NULL;
+        m_context.m_player = nullptr;
     }
 
     // RANDOM POSSESSION
-    foreach (Character *c, m_registry->allCharacters())
+    for (auto c : m_registry->allCharacters())
     {
         m_context.m_player = playerForCharacter(c);
         initCharacterRandomPossession(c);
-        m_context.m_player = NULL;
+        m_context.m_player = nullptr;
     }
 
     // START FIELD
-    foreach (Character *c, m_registry->allCharacters())
+    for (auto c : m_registry->allCharacters())
     {
         m_context.m_player = playerForCharacter(c);
         m_board->field(c->investigator()->startFieldId())->placeCharacter(c);
-        m_context.m_player = NULL;
+        m_context.m_player = nullptr;
     }
 
     commitUpdates();
 
     // INITIAL FOCUS
-    foreach (Player *p, m_playerList)
+    for (auto p : m_playerList)
     {
         m_notifier->currentPlayerChanged(p);
         FocusAction fa;
         int amount = 100;
         m_context.m_player = p;
         fa.executeOnPlayer(p, amount);
-        m_context.m_player = NULL;
+        m_context.m_player = nullptr;
     }
 }
 
@@ -1353,9 +1353,9 @@ void Game::initCharacterFixedPossession(Character *c)
     // Will be dirty after all of this...
     c->setDirty();
 
-    foreach (QString tid, c->investigator()->fixedPossesionObjectIds())
+    for (const auto &tid : c->investigator()->fixedPossesionObjectIds())
     {
-        GameObject *obj = NULL;
+        GameObject *obj = nullptr;
         const GameObject *proto = m_registry->findObjectPrototypeByType(tid);
         if (proto) {
             obj = this->drawSpecificObject(tid, proto->type());
@@ -1375,7 +1375,7 @@ void Game::initCharacterRandomPossession(Character *c)
     // Will be dirty after all of this...
     c->setDirty();
 
-    foreach (AH::ObjectTypeCount otc, c->investigator()->randomPossesions()) {
+    for (auto otc : c->investigator()->randomPossesions()) {
         // TODO: MUST BE INTERACTION! IF THERE IS A SPECIAL ABILITY BY INVESTIGATOR,
         // HE MIGHT CHOOSE FROM VARIOUS CARDS!
         for (int i = 0; i < otc.amount; ++i) {
@@ -1395,7 +1395,7 @@ void Game::replacePlayerCharacter(Player *p, Investigator *i)
     // Return everything character possesses
     QList<GameObject *> inv = oldChar->inventory();
     inv.detach();
-    foreach (GameObject *obj, inv) {
+    for (auto obj : inv) {
         returnObject(obj);
     }
 
@@ -1430,9 +1430,9 @@ void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity,
     QList<GameOption *> options;
 
     do {
-        foreach (GameObject *obj, c->inventory()) {
+        for (auto obj : c->inventory()) {
             if (obj->hasPreventedDamage() || obj->isExhausted()) continue;
-            foreach (GameOption *opt, obj->getOptions()) {
+            for (auto opt : obj->getOptions()) {
                 if (opt->phases().testFlag(AH::CommitDamagePhase)) {
                     PreventDamageOption *pOpt = dynamic_cast<PreventDamageOption *> (opt);
                     if (!pOpt) continue;
@@ -1476,8 +1476,8 @@ void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity,
         damageStamina -= pChosen->preventedStamina();
         damageSanity -= pChosen->preventedSanity();
 
-        foreach (GameOption *o, options) {
-            if (PreventDamageOption *pO = dynamic_cast<PreventDamageOption*>(o)) {
+        for (auto o : options) {
+            if (auto pO = dynamic_cast<PreventDamageOption*>(o)) {
                 pO->reset();
             }
         }
@@ -1490,13 +1490,13 @@ void Game::preventDamageHelper(Player *p, int &damageStamina, int &damageSanity,
 
     } while (true);
 
-    foreach (GameOption *o, options) {
-        if (PreventDamageOption *pO = dynamic_cast<PreventDamageOption*>(o)) {
+    for (auto o : options) {
+        if (auto pO = dynamic_cast<PreventDamageOption*>(o)) {
             pO->reset();
         }
     }
 
-    foreach (GameObject *obj, c->inventory()) {
+    for (auto obj : c->inventory()) {
         obj->resetPreventDamage();
     }
 
@@ -1519,7 +1519,7 @@ void Game::changeMonsterDisappear(Monster *m)
     m_boardChange.monsterDisappear << AH::Common::GameBoardChangeData::LocatedChange{m->id(), m->fieldId()};
 }
 
-void Game::changeMonsterMove(Monster *m, QList<AH::Common::FieldData::FieldID> path)
+void Game::changeMonsterMove(Monster *m, const QList<AH::Common::FieldData::FieldID> &path)
 {
     if (m_ignoreChanges) return;
     m_boardChange.monsterMovements << AH::Common::GameBoardChangeData::Movement{ m->id(), path};
@@ -1543,7 +1543,7 @@ void Game::changeGateOpen(Gate *g)
     m_boardChange.gateOpen << AH::Common::GameBoardChangeData::LocatedChange{g->id(), g->sourceField()->id()};
 }
 
-void Game::changeCharacterMove(Character *c, QList<AH::Common::FieldData::FieldID> path)
+void Game::changeCharacterMove(Character *c, const QList<AH::Common::FieldData::FieldID> &path)
 {
     if (m_ignoreChanges) return;
     m_boardChange.characterMovements << AH::Common::GameBoardChangeData::Movement{c->id(), path};
@@ -1582,7 +1582,7 @@ void Game::changeField(AH::Common::GameBoardChangeData::FieldChange change)
     m_boardChange.fieldChanges << change;
 }
 
-void Game::changeClearOutskirts(QList<Monster *> m)
+void Game::changeClearOutskirts(const QList<Monster *> &m)
 {
     if (m_ignoreChanges) return;
     for (auto mo : m)
@@ -1619,7 +1619,7 @@ void Game::mythos()
 {
     m_notifier->gamePhaseChanged(AH::Mythos);
     // Not a player phase
-    m_context = GameContext(this, getFirstPlayer(), NULL, AH::Mythos);
+    m_context = GameContext(this, getFirstPlayer(), nullptr, AH::Mythos);
     m_phases[MythosIndex]->execute();
 }
 
@@ -1631,9 +1631,9 @@ void Game::attackAncientOne()
 void Game::ancientOneAttack()
 {
     // Not a player phase
-    foreach (Player *p, m_playerList) {
+    for (auto p : m_playerList) {
         if (p->isActive()) {
-            m_context = GameContext(this, p, NULL, AH::EndFightPhase);
+            m_context = GameContext(this, p, nullptr, AH::EndFightPhase);
             m_phases[AncientOneAttackIndex]->execute();
         }
     }
@@ -1641,10 +1641,10 @@ void Game::ancientOneAttack()
 
 void Game::executePlayerPhase(GamePhase *ph, AH::GamePhase phase)
 {
-    foreach (Player *p, m_playerList) {
+    for (auto p : m_playerList) {
         if (p->isActive()) {
             m_notifier->currentPlayerChanged(p);
-            m_context = GameContext(this, p, NULL, phase);
+            m_context = GameContext(this, p, nullptr, phase);
             ph->execute();
         }
     }
@@ -1711,9 +1711,9 @@ Game::GameState Game::checkGameState()
         // Count sealed gates and open gates
         int ctSealed = 0;
         int ctOpen = 0;
-        foreach (GameField *gf, m_board->fields(AH::Common::FieldData::Location)) {
+        for (auto gf : m_board->fields(AH::Common::FieldData::Location)) {
             if (gf->isSealed()) ctSealed++;
-            if (gf->gate() != NULL) ctOpen++;
+            if (gf->gate() != nullptr) ctOpen++;
         }
 
         if (ctSealed >= m_context.getGameProperty(PropertyValue::Game_SealedGatesToWin).finalVal()) {
@@ -1723,7 +1723,7 @@ Game::GameState Game::checkGameState()
         if (ctOpen == 0) {
             // Count collected trophies
             int ctTrophies = 0;
-            foreach (Player *p, m_playerList) {
+            for (auto p : m_playerList) {
                 ctTrophies += p->getCharacter()->gateMarkerIds().count();
             }
 
@@ -1776,10 +1776,10 @@ void Game::awakeAncientOne()
 void Game::endFight()
 {
     // Remove all items that are to remove when AO awakes
-    foreach (Player *p, getPlayers()) {
+    for (auto p : getPlayers()) {
         if (p->isActive()) {
             QList<GameObject *> lst = p->getCharacter()->inventory();
-            foreach (GameObject *obj, lst) {
+            for (auto obj : lst) {
                 if (obj->getAttributes().testFlag(GameObject::DiscardOnEndFight)) {
                     p->getCharacter()->removeFromInventory(obj);
                 }
@@ -1828,7 +1828,7 @@ void Game::cleanupDeactivatedPlayers()
 {
     //QList<Player *> lst = m_player.values();
     QList<Player *> lst = m_registry->allPlayers();
-    foreach (Player *p, lst) {
+    for (auto p : lst) {
         if (!p->isActive()) {
             //m_player.remove(p->id());
             m_registry->removePlayer(p);
@@ -1843,7 +1843,7 @@ int Game::countActivePlayers() const
 {
     int ct = 0;
     QList<Player *> lst = m_registry->allPlayers();
-    foreach (Player *p, lst) {
+    for (auto p : lst) {
         if (p->isActive()) {
             ct++;
         }

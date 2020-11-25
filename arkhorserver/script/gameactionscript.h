@@ -20,11 +20,11 @@ public:
     Q_PROPERTY(QString id READ id)
 
     static GameActionScript *createGameAction(QScriptContext *ctx, QScriptEngine *eng);
-    static GameActionScript *createGameAction(QScriptValue data, QScriptContext *ctx, QScriptEngine *eng);
+    static GameActionScript *createGameAction(const QScriptValue &data, QScriptContext *ctx, QScriptEngine *eng);
 
-    virtual bool execute();
-    virtual bool executeOnObject(QScriptValue obj);
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    bool execute() override;
+    virtual bool executeOnObject(const QScriptValue &obj);
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
 signals:
 

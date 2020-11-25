@@ -17,14 +17,14 @@ GameActionScript *GameActionScript::createGameAction(QScriptContext *ctx, QScrip
 {
     if (ctx->argumentCount() != 1 || !ctx->argument(0).isObject()) {
         ctx->throwError(QScriptContext::TypeError, "createAction: Must call with 1 object");
-        return NULL;
+        return nullptr;
     }
     QScriptValue data = ctx->argument(0);
 
     return createGameAction(data, ctx, eng);
 }
 
-GameActionScript *GameActionScript::createGameAction(QScriptValue data, QScriptContext *ctx, QScriptEngine *eng)
+GameActionScript *GameActionScript::createGameAction(const QScriptValue &data, QScriptContext *ctx, QScriptEngine *eng)
 {
     Q_UNUSED(eng)
     QScopedPointer<GameActionScript> ret(new GameActionScript);
@@ -40,7 +40,7 @@ GameActionScript *GameActionScript::createGameAction(QScriptValue data, QScriptC
     QString err;
     if (!verify(ret.data(), &err)) {
         ctx->throwError(QScriptContext::TypeError, "createAction: Invalid GameAction data. Errors:\n"+err);
-        return NULL;
+        return nullptr;
     }
 
     GameActionScript *pRet = ret.take();
@@ -57,7 +57,7 @@ bool GameActionScript::execute()
     return executeOnObject(gGameScript->getTempObject());
 }
 
-bool GameActionScript::executeOnObject(QScriptValue obj)
+bool GameActionScript::executeOnObject(const QScriptValue &obj)
 {
     GameObjectScript *gobj = qscriptvalue_cast<GameObjectScript *> (obj);
     if (gobj)

@@ -9,9 +9,9 @@
 #include <QDebug>
 
 MythosCardScript::MythosCardScript(QObject *parent) : DynamicScriptableObject(parent)
-  , m_envFieldOption(NULL)
+  , m_envFieldOption(nullptr)
   , m_envFieldId(AH::Common::FieldData::NO_NO_FIELD)
-  , m_rumorFieldOption(NULL)
+  , m_rumorFieldOption(nullptr)
   , m_rumorFieldId(AH::Common::FieldData::NO_NO_FIELD)
 {
 }
@@ -25,7 +25,7 @@ MythosCardScript *MythosCardScript::createMythosCard(QScriptContext *ctx, QScrip
 {
     if (ctx->argumentCount() != 1 || !ctx->argument(0).isObject()) {
         ctx->throwError(QScriptContext::TypeError, "createMythosCard: Must call with 1 object");
-        return NULL;
+        return nullptr;
     }
 
     QScriptValue data = ctx->argument(0);
@@ -65,7 +65,7 @@ MythosCardScript *MythosCardScript::createMythosCard(QScriptContext *ctx, QScrip
             PropertyModificationList lst;
             if (!PropertyModificationScript::parsePropertyModificationList(ret.data(), envMods, lst)) {
                 ctx->throwError(QScriptContext::TypeError, "createMythosCard: Invalid environment modifications");
-                return NULL;
+                return nullptr;
             }
             ret->m_envMods = lst;
         }
@@ -98,7 +98,7 @@ MythosCardScript *MythosCardScript::createMythosCard(QScriptContext *ctx, QScrip
     QString err;
     if (!verify(ret.data(), &err)) {
         ctx->throwError(QScriptContext::TypeError, "createMythosCard: Invalid MythosCard data. Errors:\n"+err);
-        return NULL;
+        return nullptr;
     }
 
     MythosCardScript *pRet = ret.take();
@@ -338,7 +338,7 @@ AH::Dimensions MythosCardScript::parseDimensions(QScriptValue v)
     if (v.isArray()) {
         QScriptValueList lst = GameScript::array2list(v);
         AH::Dimensions dims = AH::NoDimension;
-        foreach (QScriptValue v, lst) {
+        for (auto v : lst) {
             dims |= static_cast<AH::Dimension> (v.toUInt32());
         }
         return dims;

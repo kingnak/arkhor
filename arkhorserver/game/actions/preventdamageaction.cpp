@@ -50,6 +50,6 @@ void PreventDamageOption::updateOverrideDescription(int damageSta, int damageSan
 
 void PreventDamageOption::reset()
 {
-    m_source = NULL;
+    m_source = nullptr;
     m_overrideDescription = "";
 }

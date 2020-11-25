@@ -21,8 +21,8 @@ class Monster;
 class GameNotifier
 {
 public:
-    GameNotifier() {}
-    virtual ~GameNotifier() {}
+    GameNotifier() = default;
+    virtual ~GameNotifier() = default;
 
     virtual void init(Game *game) = 0;
     virtual void gameStarted() = 0;

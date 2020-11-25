@@ -184,57 +184,57 @@ bool GameRegistry::registerAncientOne(AncientOne *ao)
     return true;
 }
 
-GameAction *GameRegistry::findActionById(QString id)
+GameAction *GameRegistry::findActionById(const QString &id)
 {
     return m_actions.value(id);
 }
 
-GameOption *GameRegistry::findOptionById(QString id)
+GameOption *GameRegistry::findOptionById(const QString &id)
 {
     return m_options.value(id);
 }
 
-const GameObject *GameRegistry::findObjectPrototypeByType(QString tid)
+const GameObject *GameRegistry::findObjectPrototypeByType(const QString &tid)
 {
     return m_objectTypes.value(tid);
 }
 
-GameObject *GameRegistry::findObjectById(QString id)
+GameObject *GameRegistry::findObjectById(const QString &id)
 {
     return m_objects.value(id);
 }
 
-Investigator *GameRegistry::findInvestigatorById(QString id)
+Investigator *GameRegistry::findInvestigatorById(const QString &id)
 {
     return m_investigators.value(id);
 }
 
-Player *GameRegistry::findPlayerById(QString id)
+Player *GameRegistry::findPlayerById(const QString &id)
 {
     return m_players.value(id);
 }
 
-Character *GameRegistry::findCharacterById(QString id)
+Character *GameRegistry::findCharacterById(const QString &id)
 {
     return m_characters.value(id);
 }
 
-Monster *GameRegistry::findMonsterById(QString id)
+Monster *GameRegistry::findMonsterById(const QString &id)
 {
     return m_monsters.value(id);
 }
 
-Gate *GameRegistry::findGateById(QString id)
+Gate *GameRegistry::findGateById(const QString &id)
 {
     return m_gates.value(id);
 }
 
-MythosCard *GameRegistry::findMythosById(QString id)
+MythosCard *GameRegistry::findMythosById(const QString &id)
 {
     return m_mythosCards.value(id);
 }
 
-AncientOne *GameRegistry::findAncientOneById(QString id)
+AncientOne *GameRegistry::findAncientOneById(const QString &id)
 {
     return m_ancientOnes.value(id);
 }
@@ -288,30 +288,30 @@ bool GameRegistry::resolveDependencies()
 {
     bool ok = true;
     // Resolve Actions for Options
-    foreach (GameOption *o, m_options.values()) {
+    for (auto o : m_options) {
         ok &= o->resolveDependencies(this);
     }
 
     // Resolve Objects:
-    foreach (GameObject *o, m_objects.values()) {
+    for (auto o : m_objects) {
         ok &= o->resolveDependencies(this);
     }
 
     // Resolve Investigators:
-    for (auto *i : m_investigators) {
+    for (auto i : m_investigators) {
         ok &= i->resolveDependecies(this);
     }
 
     // Resolve Encounters:
-    foreach (ArkhamEncounter *ae, m_arkEncounters) {
+    for (auto ae : m_arkEncounters) {
         ok &= ae->resolveDependencies(this);
     }
-    foreach (OtherWorldEncounter *owe, m_otherEncounters) {
+    for (auto owe : m_otherEncounters) {
         ok &= owe->resolveDependencies(this);
     }
 
     // Resolve Mythos
-    foreach (MythosCard *mc, m_mythosCards) {
+    for (auto mc : m_mythosCards) {
         ok &= mc->resolveDependencies();
     }
 

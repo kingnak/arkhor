@@ -9,14 +9,14 @@ class UndelayAction : public GameAction
 public:
     UndelayAction();
 
-    bool execute();
-    virtual QString notificationString(NotificationPart part, const QString &desc = QString::null) const;
+    bool execute() override;
+    QString notificationString(NotificationPart part, const QString &desc = QString::null) const override;
 
-    AH::GamePhases phases() const { return AH::Movement; }
+    AH::GamePhases phases() const override { return AH::Movement; }
 
-    QString id() const { return "AC_UNDELAY"; }
-    QString name() const { return "Undelay"; }
-    QString description() const { return "You are no longer delayed"; }
+    QString id() const override { return "AC_UNDELAY"; }
+    QString name() const override { return "Undelay"; }
+    QString description() const override { return "You are no longer delayed"; }
 };
 
 class UndelayOption : public GameOption
@@ -26,9 +26,9 @@ public:
         : GameOption(&ua, AH::CannotContinue, AH::ChooseMandatory, AH::Movement)
     { }
 
-    QString id() const { return "OP_UNDELAY"; }
+    QString id() const override { return "OP_UNDELAY"; }
 
-    virtual bool isAvailable() const;
+    bool isAvailable() const override;
 
 private:
     UndelayAction ua;

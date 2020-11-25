@@ -15,12 +15,12 @@ class FocusChooser : public QWidget
 
 public:
     explicit FocusChooser(QWidget *parent = 0);
-    ~FocusChooser();
+    ~FocusChooser() override;
 
     QList<int> getChosenFocusSettings();
 
 public slots:
-    void chooseFocus(QList<AH::Common::AttributeSliderData> sliders, int totAmount);
+    void chooseFocus(const QList<AH::Common::AttributeSliderData> &sliders, int totAmount);
 
 signals:
     void focusConfirmed(QList<int> diffs);

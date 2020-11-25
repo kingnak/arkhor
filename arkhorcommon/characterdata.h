@@ -14,7 +14,7 @@ namespace AH {
         {
         public:
             CharacterData();
-            virtual ~CharacterData() {}
+            virtual ~CharacterData() = default;
 
             virtual CharacterData *data() { return this; }
 

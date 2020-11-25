@@ -17,7 +17,7 @@ public:
 
     bool operator == (const PropertyModification &o) const;
 
-    virtual PropertyModificationData *data();
+    PropertyModificationData *data() override;
 
     const PropertyModifier *getModifier() const { return m_modifier; }
     int modify(int base) const;

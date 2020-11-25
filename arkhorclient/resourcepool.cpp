@@ -8,17 +8,20 @@
 #include <QDir>
 #include <QDebug>
 
+const QColor ResourcePool::StaminaColor(0xD2363A);
+const QColor ResourcePool::SanityColor(0x3672AE);
+
 ResourcePool *ResourcePool::instance()
 {
     static ResourcePool inst_;
     return &inst_;
 }
 
-bool ResourcePool::addDirectory(QString dir)
+bool ResourcePool::addDirectory(const QString &dir)
 {
     QDir base(dir);
     QFileInfoList lst = base.entryInfoList(QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Files, QDir::Name);
-    foreach (QFileInfo fi, lst) {
+    for (const auto &fi : lst) {
         if (fi.isDir()) {
             if (!addDirectory(fi.absoluteFilePath()))
                 return false;
@@ -30,13 +33,13 @@ bool ResourcePool::addDirectory(QString dir)
     return true;
 }
 
-bool ResourcePool::addZip(QString zip)
+bool ResourcePool::addZip(const QString &zip)
 {
     QuaZip z(zip);
     if (!z.open(QuaZip::mdUnzip)) return false;
 
     QList<QuaZipFileInfo> entries = z.getFileInfoList();
-    foreach (QuaZipFileInfo e, entries) {
+    for (const auto &e : entries) {
         if (e.uncompressedSize > 0) {
             addEntry(e.name, ResourceDef(zip, e.name));
         }
@@ -76,7 +79,7 @@ QPixmap ResourcePool::loadMonster(QString id)
     return ret;
 }
 
-QPixmap ResourcePool::loadCharacterFigure(QString id)
+QPixmap ResourcePool::loadCharacterFigure(const QString &id)
 {
     QPixmap ret = intLoadPixmap(id, "figure");
     if (ret.isNull()) return QPixmap(":/core/images/unknown_character");
@@ -125,7 +128,7 @@ QPixmap ResourcePool::loadOtherWorldGate(AH::Common::FieldData::FieldID id)
     }
 }
 
-QPixmap ResourcePool::loadObjectImage(QString id, AH::GameObjectType type)
+QPixmap ResourcePool::loadObjectImage(const QString &id, AH::GameObjectType type)
 {
     // TODO: id specific images
     switch (type) {
@@ -149,14 +152,14 @@ QPixmap ResourcePool::loadObjectImage(QString id, AH::GameObjectType type)
     return QPixmap();
 }
 
-QPixmap ResourcePool::loadAncientOne(QString id)
+QPixmap ResourcePool::loadAncientOne(const QString &id)
 {
     QPixmap ret = intLoadPixmap(id);
     if (ret.isNull()) return QPixmap(":/core/images/unknown_ao");
     return ret;
 }
 
-bool ResourcePool::addEntry(QString e, ResourcePool::ResourceDef d)
+bool ResourcePool::addEntry(const QString &e, const ResourcePool::ResourceDef &d)
 {
     QPair<QString, QString> data = getIdFromEntry(e);
     QString id = data.first;
@@ -203,7 +206,7 @@ QByteArray ResourcePool::intLoadResource(QString id, QString sub)
     }
 
     ResourceDef rd = m_resPaths[id].value(sub);
-    QIODevice *dev = NULL;
+    QIODevice *dev = nullptr;
     if (rd.type == ResourceDef::Zip) {
         dev = new QuaZipFile(rd.base, rd.rel);
     } else if (rd.type == ResourceDef::File) {
@@ -222,7 +225,7 @@ QByteArray ResourcePool::intLoadResource(QString id, QString sub)
     return d;
 }
 
-QPixmap ResourcePool::intLoadPixmap(QString id, QString sub)
+QPixmap ResourcePool::intLoadPixmap(const QString &id, const QString &sub)
 {
     QString key = id + "-" + sub;
     if (m_pixmapCache.contains(key)) return m_pixmapCache[key];

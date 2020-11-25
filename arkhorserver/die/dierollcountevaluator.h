@@ -6,19 +6,19 @@
 class DieRollCountEvaluator : public virtual DieRollEvaluator
 {
 public:
-    DieRollCountEvaluator(DiePool initialPool, const QSet<quint32> &successRolls);
-    ~DieRollCountEvaluator() {}
+    DieRollCountEvaluator(const DiePool &initialPool, const QSet<quint32> &successRolls);
+    ~DieRollCountEvaluator() override = default;
 
-    virtual void evaluate();
-    virtual qint32 getResult() const;
+    void evaluate() override;
+    qint32 getResult() const override;
 
-    virtual void rerollAll();
-    virtual void rollNew();
+    void rerollAll() override;
+    void rollNew() override;
 
     // forwarders:
-    virtual const DiePool *pool() const { return &m_pool; }
-    virtual void addDie(Die *die);
-    virtual void addDice(QList<StandardDieSpec> specs);
+    const DiePool *pool() const override { return &m_pool; }
+    void addDie(Die *die) override;
+    void addDice(QList<StandardDieSpec> specs) override;
 
     void rerollFailed();
     void rerollNumFailed(int amount);
@@ -35,10 +35,10 @@ protected:
 class DieRollCountBoolEvaluator : public DieRollBoolEvaluator, public DieRollCountEvaluator
 {
 public:
-    DieRollCountBoolEvaluator(DiePool initialPool, const QSet<quint32> &successRolls, quint32 target, EvaluationType type = GREATER);
-    ~DieRollCountBoolEvaluator() {}
+    DieRollCountBoolEvaluator(const DiePool &initialPool, const QSet<quint32> &successRolls, quint32 target, EvaluationType type = GREATER);
+    ~DieRollCountBoolEvaluator() override = default;
 
-    virtual bool getBoolResult() const override;
+    bool getBoolResult() const override;
     void succeed() override;
 };
 #pragma warning(pop)

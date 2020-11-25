@@ -11,9 +11,9 @@ public:
     SpellGenerator(QTextStream &out) : ObjectGenerator(out) {}
 
 protected:
-    virtual QList<AttributeDesc> getAttributes();
-    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
-    virtual bool outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls);
+    QList<AttributeDesc> getAttributes() override;
+    bool outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr) override;
+    bool outputDefaultAttribute(const AttributeDesc &desc, const ClassGenerator::ClassDef &cls) override;
 };
 
 }

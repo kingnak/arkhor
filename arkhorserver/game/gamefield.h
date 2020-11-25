@@ -45,7 +45,7 @@ public:
     void lockRound();
     void lock(LockReason lockFlag);
     void unlock(LockReason lockFlag);
-    bool isLocked() const;
+    bool isLocked() const override;
     LockReasons lockReason() const { return m_lockFlags; }
 
     QSet<GameField *> neighbours() { return m_neighbours; }
@@ -68,12 +68,12 @@ public:
     void removeCharacter(Character *c);
     void removeMonster(Monster *m);
 
-    virtual QList<FieldOptionDescription> fieldOptions() const override;
-    virtual QStringList characterIds() const;
-    virtual QStringList secondPhaseCharacterIds() const;
-    virtual QStringList monsterIds() const;
-    virtual QString gateId() const;
-    virtual QList<int> neighbourIds() const;
+    QList<FieldOptionDescription> fieldOptions() const override;
+    QStringList characterIds() const override;
+    QStringList secondPhaseCharacterIds() const override;
+    QStringList monsterIds() const override;
+    QString gateId() const override;
+    QList<int> neighbourIds() const override;
 
 private:
     QSet<GameField *> m_neighbours;

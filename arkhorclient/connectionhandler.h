@@ -26,33 +26,33 @@ class ConnectionHandler : public QObject
 {
     Q_OBJECT
 public:
-    ConnectionHandler(QString host, int port, int ct);
+    ConnectionHandler(const QString &host, int port, int ct);
 
     void confirmActive();
     void registerPlayer();
     void startGame();
-    void chooseInvestigator(AH::Common::InvestigatorData i);
-    void selectOption(QString id);
-    void selectMovementPath(QList<AH::Common::FieldData::FieldID> fieldIds);
-    void selectFocus(QList<int> positionDiffs);
+    void chooseInvestigator(const AH::Common::InvestigatorData &i);
+    void selectOption(const QString &id);
+    void selectMovementPath(const QList<AH::Common::FieldData::FieldID> &fieldIds);
+    void selectFocus(const QList<int> &positionDiffs);
     void selectSkill(AH::Common::PropertyValueData::Property prop);
-    void chooseDieRollUpdate(AH::Common::DieTestUpdateData upd);
+    void chooseDieRollUpdate(const AH::Common::DieTestUpdateData &upd);
 
-    void requestObjects(AH::Common::RequestObjectsData reqs);
+    void requestObjects(const AH::Common::RequestObjectsData &reqs);
 
     void cancelWeapons();
-    void selectWeapons(QStringList weaponIds);
+    void selectWeapons(const QStringList &weaponIds);
 
-    void selectEncounterOption(QString id);
+    void selectEncounterOption(const QString &id);
 
-    void selectMonster(QString id);
+    void selectMonster(const QString &id);
 
     void acknowledge();
 
-    void choiceSelected(AH::Common::ChoiceResponseData resp);
+    void choiceSelected(const AH::Common::ChoiceResponseData &resp);
     void choiceCanceled();
 
-    void tradeSelected(AH::Common::TradeData trade);
+    void tradeSelected(const AH::Common::TradeData &trade);
     void tradeCanceled();
 
     void setSkipOption(AH::Common::PlayerData::AutoSkipData skipOption);
@@ -117,14 +117,14 @@ signals:
     void playerChange(QString playerId);
 
 private slots:
-    void handleMessage(AH::Common::Message msg);
+    void handleMessage(const AH::Common::Message &msg);
     void sockError();
     void established();
-    void rsend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, QVariant data = QVariant());
-    void send(AH::Common::Message::Type type, QVariant data = QVariant());
+    void rsend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, const QVariant &data = QVariant());
+    void send(AH::Common::Message::Type type, const QVariant &data = QVariant());
 
 private:
-    Q_INVOKABLE void doSend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, QVariant data);
+    Q_INVOKABLE void doSend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, const QVariant &data);
 
 private:
     QString m_host;

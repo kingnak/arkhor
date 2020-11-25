@@ -9,13 +9,13 @@ class QuickOptionGenerator : public OptionGenerator
 {
 public:
     QuickOptionGenerator(QTextStream &out) : OptionGenerator(out) {}
-    virtual bool generate(const ClassDef &cls);
+    bool generate(const ClassDef &cls) override;
 
 protected:
-    virtual bool allowNested(const ClassDef &cls) const { Q_UNUSED(cls); return true; }
+    bool allowNested(const ClassDef &cls) const override { Q_UNUSED(cls); return true; }
 
-    virtual QList<AttributeDesc> getAttributes();
-    virtual bool outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr);
+    QList<AttributeDesc> getAttributes() override;
+    bool outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr) override;
 };
 
 ///////////////////////////////////////////////////////
@@ -26,8 +26,8 @@ class ArkhamEncounterOptionGenerator : public QuickOptionGenerator
 public:
     ArkhamEncounterOptionGenerator(QTextStream &out) : QuickOptionGenerator(out) {}
 protected:
-    virtual QList<AttributeDesc> getAttributes();
-    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
+    QList<AttributeDesc> getAttributes() override;
+    bool outputDefaultAttribute(const AttributeDesc &desc, const ClassDef &cls) override;
 };
 
 class OtherWorldEncounterOptionGenerator : public QuickOptionGenerator
@@ -35,8 +35,8 @@ class OtherWorldEncounterOptionGenerator : public QuickOptionGenerator
 public:
     OtherWorldEncounterOptionGenerator(QTextStream &out) : QuickOptionGenerator(out) {}
 protected:
-    virtual QList<AttributeDesc> getAttributes();
-    virtual bool outputDefaultAttribute(AttributeDesc desc, const ClassDef &cls);
+    QList<AttributeDesc> getAttributes() override;
+    bool outputDefaultAttribute(const AttributeDesc &desc, const ClassDef &cls) override;
 };
 
 }

@@ -5,8 +5,8 @@
 #include "game.h"
 
 Player::Player()
-:   m_active(true),
-    m_character(NULL)
+    : m_active(true)
+    , m_character(nullptr)
 {
 }
 

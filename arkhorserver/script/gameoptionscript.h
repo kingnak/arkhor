@@ -19,12 +19,12 @@ public:
     Q_PROPERTY(QString id READ id)
 
     static GameOptionScript *createGameOption(QScriptContext *ctx, QScriptEngine *eng);
-    static GameOptionScript *createGameOption(QScriptValue data, QScriptContext *ctx, QScriptEngine *eng);
+    static GameOptionScript *createGameOption(const QScriptValue &data, QScriptContext *ctx, QScriptEngine *eng);
 
-    virtual bool isAvailable() const;
-    virtual AH::Common::ModifiedPropertyValueData baseProperty() const;
+    bool isAvailable() const override;
+    AH::Common::ModifiedPropertyValueData baseProperty() const override;
 
-    bool isAvailableWithObject(QScriptValue obj) const;
+    bool isAvailableWithObject(const QScriptValue &obj) const;
 
 signals:
 
@@ -47,27 +47,27 @@ class GameOptionFieldProxyScript : public GameOption
 public:
     GameOptionFieldProxyScript(GameField *field, const QString &optionId);
 
-    virtual bool execute();
+    bool execute() override;
 
-    virtual bool resolveDependencies(GameRegistry *reg);
-    virtual AH::Common::GameOptionData *data();
+    bool resolveDependencies(GameRegistry *reg) override;
+    AH::Common::GameOptionData *data() override;
 
-    virtual QString id() const;
-    virtual QString name() const { return m_opt->name(); }
-    virtual QString description() const { return m_opt->description(); }
-    virtual AH::GamePhases phases() const { return m_opt->phases(); }
-    virtual QString actionId() const { return m_opt->actionId(); }
-    virtual QString sourceId() const { return m_opt->sourceId(); }
+    QString id() const override;
+    QString name() const override { return m_opt->name(); }
+    QString description() const override { return m_opt->description(); }
+    AH::GamePhases phases() const override { return m_opt->phases(); }
+    QString actionId() const override { return m_opt->actionId(); }
+    QString sourceId() const override { return m_opt->sourceId(); }
 
-    virtual AH::Common::Cost costs() const { return m_opt->costs(); }
-    virtual bool canPay() const { return m_opt->canPay(); }
-    virtual bool isAvailable() const;
+    AH::Common::Cost costs() const override { return m_opt->costs(); }
+    bool canPay() const override { return m_opt->canPay(); }
+    bool isAvailable() const override;
 
-    virtual AH::ChooseType chooseType() const { return m_opt->chooseType(); }
-    virtual AH::ContinueType continueType() const { return m_opt->continueType(); }
+    AH::ChooseType chooseType() const override { return m_opt->chooseType(); }
+    AH::ContinueType continueType() const override { return m_opt->continueType(); }
 
-    virtual GameAction *action() { return m_opt->action(); }
-    virtual const GameAction *action() const { return m_opt->action(); }
+    GameAction *action() override { return m_opt->action(); }
+    const GameAction *action() const override { return m_opt->action(); }
 
     GameOption *realOption() { return m_opt; }
 

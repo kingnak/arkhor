@@ -3,9 +3,7 @@
 #include "character.h"
 #include "../player.h"
 
-FocusAction::FocusAction()
-{
-}
+FocusAction::FocusAction() = default;
 
 bool FocusAction::execute()
 {
@@ -42,7 +40,7 @@ bool FocusAction::executeOnPlayer(Player *p, int &focusAmount)
     QList<int> diffs = p->chooseFocus(attrs, focusAmount);
 
     int sum = 0;
-    foreach (int i, diffs) {
+    for (auto i : diffs) {
         sum += qAbs(i);
     }
 

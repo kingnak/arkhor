@@ -50,12 +50,16 @@ Q_DECLARE_METATYPE(AH::Common::FieldData::FieldType)
 Q_DECLARE_METATYPE(AH::GameObjectType)
 Q_DECLARE_METATYPE(AH::Skill)
 
-GameScript *GameScript::s_instance = NULL;
+GameScript *GameScript::s_instance = nullptr;
 
-GameScript::GameScript(Game *game, QObject *parent) :
-    QObject(parent), m_game(game)
+GameScript::GameScript(Game *game, QObject *parent)
+    : QObject(parent)
+    , m_game(game)
+#ifdef TEST_SCRIPT_BUILD
+    , m_debugger(nullptr)
+#endif
 {
-    Q_ASSERT(s_instance == NULL);
+    Q_ASSERT(s_instance == nullptr);
 
     s_instance = this;
     m_engine = new QScriptEngine(this);
@@ -141,7 +145,7 @@ GameContextScript *GameScript::getGameContext()
 GameObjectScript *GameScript::drawSingleObject(AH::GameObjectType type)
 {
     GameObject *o = gGame->drawObject(type);
-    if (!o) return NULL;
+    if (!o) return nullptr;
     GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
     if (!os) {
         gGame->returnObject(o);
@@ -562,10 +566,10 @@ GameObjectScript *GameScript::drawObject(qint32 type)
 }
 */
 
-GameObjectScript *GameScript::drawSpecificObject(QString id)
+GameObjectScript *GameScript::drawSpecificObject(const QString &id)
 {
     GameObject *o = gGame->drawSpecificObject(id);
-    if (!o) return NULL;
+    if (!o) return nullptr;
     GameObjectScript *os = dynamic_cast<GameObjectScript *> (o);
     if (!os) {
         gGame->returnObject(o);
@@ -582,21 +586,21 @@ bool GameScript::returnMonstersFromField(AH::Common::FieldData::FieldID fieldId)
 bool GameScript::returnMonstersFromFieldType(AH::Common::FieldData::FieldType type)
 {
     QList<AH::Common::FieldData::FieldID> lst;
-    foreach (GameField *f, gGame->board()->fields(type)) {
+    for (auto f : gGame->board()->fields(type)) {
         lst << f->id();
     }
     return returnMonstersFromFields(lst);
 }
 
-bool GameScript::returnMonstersFromFields(QList<AH::Common::FieldData::FieldID> fieldIds)
+bool GameScript::returnMonstersFromFields(const QList<AH::Common::FieldData::FieldID> &fieldIds)
 {
     bool hasRemoved = false;
-    foreach (AH::Common::FieldData::FieldID fieldId, fieldIds) {
+    for (const auto &fieldId : fieldIds) {
         GameField *field = gGame->board()->field(fieldId);
         if (!field) continue;
 
         QList<Monster *> monsters = field->monsters();
-        foreach (Monster *m, monsters) {
+        for (auto m : monsters) {
             gGame->changeMonsterDisappear(m);
             gGame->returnMonster(m);
             hasRemoved = true;
@@ -605,11 +609,11 @@ bool GameScript::returnMonstersFromFields(QList<AH::Common::FieldData::FieldID> 
     return hasRemoved;
 }
 
-bool GameScript::returnMonsterTypeFromBoard(QString typeId)
+bool GameScript::returnMonsterTypeFromBoard(const QString &typeId)
 {
     bool hasRemoved = false;
     QList<Monster *> monsters = gGame->board()->getBoardMonsters();
-    foreach (Monster *m, monsters) {
+    for (auto m : monsters) {
         if (m->typeId() == typeId) {
             gGame->changeMonsterDisappear(m);
             gGame->returnMonster(m);
@@ -631,9 +635,9 @@ int GameScript::cardsOnDeck(AH::GameObjectType type)
     return gGame->drawableObjectCount(type);
 }
 
-void GameScript::createGate(AH::Common::FieldData::FieldID fieldld)
+void GameScript::createGate(AH::Common::FieldData::FieldID fieldId)
 {
-    GameField *field = gGame->board()->field(fieldld);
+    GameField *field = gGame->board()->field(fieldId);
     if (field)
         gGame->createGate(field);
 }
@@ -650,7 +654,7 @@ void GameScript::awakeAncientOne()
     gGame->requestAwakeAncientOne();
 }
 
-bool GameScript::registerConstant(QString scope, QString name, QString value)
+bool GameScript::registerConstant(const QString &scope, const QString &name, const QString &value)
 {
     QScriptValue sc = m_engine->globalObject().property(scope);
     if (!sc.isValid()) {
@@ -803,7 +807,7 @@ GameObjectScript *GameScript::createObject()
     return GameObjectScript::createGameObject(context(), engine());
 }
 
-QScriptValue GameScript::addFieldOption(AH::Common::FieldData::FieldID fieldId, QString optionId)
+QScriptValue GameScript::addFieldOption(AH::Common::FieldData::FieldID fieldId, const QString &optionId)
 {
     GameField *f = m_game->board()->field(fieldId);
     if (!f) {
@@ -885,7 +889,7 @@ QScriptValue GameScript::registerAncientOne(AncientOneScript *a)
     return m_engine->newQObject(a);
 }
 
-QStringList GameScript::array2stringlist(QScriptValue ar)
+QStringList GameScript::array2stringlist(const QScriptValue &ar)
 {
     QStringList ret;
     if (ar.isArray()) {
@@ -900,7 +904,7 @@ QStringList GameScript::array2stringlist(QScriptValue ar)
     return ret;
 }
 
-QScriptValueList GameScript::array2list(QScriptValue ar)
+QScriptValueList GameScript::array2list(const QScriptValue &ar)
 {
     QScriptValueList ret;
     if (ar.isArray()) {
@@ -915,7 +919,7 @@ QScriptValueList GameScript::array2list(QScriptValue ar)
     return ret;
 }
 
-bool GameScript::parseCosts(QScriptValue v, AH::Common::Cost &c)
+bool GameScript::parseCosts(const QScriptValue &v, AH::Common::Cost &c)
 {
     c.clear();
     if (!v.isValid() || v.isNull() || v.isUndefined()) {
@@ -931,7 +935,7 @@ bool GameScript::parseCosts(QScriptValue v, AH::Common::Cost &c)
         return false;
     }
 
-    if (lst.size() == 0) {
+    if (lst.empty()) {
         return true;
         /*
     } else if (lst.size() == 1) {
@@ -943,7 +947,7 @@ bool GameScript::parseCosts(QScriptValue v, AH::Common::Cost &c)
         return true;
         */
     } else {
-        foreach (QScriptValue item, lst) {
+        for (const auto &item : lst) {
             AH::Common::CostList cl;
             if (!parseCostList(item, cl)) {
                 return false;
@@ -954,7 +958,7 @@ bool GameScript::parseCosts(QScriptValue v, AH::Common::Cost &c)
     }
 }
 
-bool GameScript::parseCostList(QScriptValue v, AH::Common::CostList &cl)
+bool GameScript::parseCostList(const QScriptValue &v, AH::Common::CostList &cl)
 {
     QScriptValueList lst;
     if (v.isArray()) {
@@ -965,7 +969,7 @@ bool GameScript::parseCostList(QScriptValue v, AH::Common::CostList &cl)
         return false;
     }
 
-    if (lst.size() == 0) {
+    if (lst.empty()) {
         return false;
         /*
     } else if (lst.size() == 1) {
@@ -977,7 +981,7 @@ bool GameScript::parseCostList(QScriptValue v, AH::Common::CostList &cl)
         return true;
         */
     } else {
-        foreach (QScriptValue item, lst) {
+        for (const auto &item : lst) {
             AH::Common::CostItem ci;
             if (!parseCostItem(item, ci)) {
                 return false;
@@ -988,7 +992,7 @@ bool GameScript::parseCostList(QScriptValue v, AH::Common::CostList &cl)
     }
 }
 
-bool GameScript::parseCostItem(QScriptValue v, AH::Common::CostItem &ci)
+bool GameScript::parseCostItem(const QScriptValue &v, AH::Common::CostItem &ci)
 {
     if (!v.isObject()) {
         return false;
@@ -1004,22 +1008,24 @@ bool GameScript::parseCostItem(QScriptValue v, AH::Common::CostItem &ci)
     return true;
 }
 
-bool GameScript::parseObjectTypeCount(QScriptValue v, QList<AH::ObjectTypeCount> &o)
+bool GameScript::parseObjectTypeCount(const QScriptValue &v, QList<AH::ObjectTypeCount> &o)
 {
     o.clear();
     QScriptValueList objTypes = GameScript::array2list(v);
-    foreach (QScriptValue v, objTypes) {
-        int type = v.property("type").toInt32();
-        int amount = v.property("amount").toInt32();
+    for (const auto &t : objTypes) {
+        int type = t.property("type").toInt32();
+        int amount = t.property("amount").toInt32();
         AH::ObjectTypeCount otc(static_cast<AH::GameObjectType>(type), amount);
         o << otc;
     }
     return true;
 }
 
-bool GameScript::parseOptionChoiceData(QScriptValue v, AH::Common::ChoiceData::OptionData &o)
+bool GameScript::parseOptionChoiceData(const QScriptValue &v, AH::Common::ChoiceData::OptionData &o)
 {
-    QString id, name, desc;
+    QString id;
+    QString name;
+    QString desc;
     if (v.isArray()) {
         int len = v.property("length").toInt32();
         if (len > 0) {
@@ -1089,12 +1095,12 @@ void GameScript::castChoiceOptionFromValue(const QScriptValue &v, AH::Common::Ch
     }
 }
 
-QScriptValue GameScript::call(FunctionType t, QScriptValue f, QScriptValue obj, QScriptValue arg)
+QScriptValue GameScript::call(FunctionType t, const QScriptValue &f, const QScriptValue &obj, const QScriptValue &arg)
 {
     return call(t, f, obj, QScriptValueList() << arg);
 }
 
-QScriptValue GameScript::call(FunctionType t, QScriptValue f, QScriptValue obj, QScriptValueList args)
+QScriptValue GameScript::call(FunctionType t, QScriptValue f, const QScriptValue &obj, const QScriptValueList &args)
 {
     if (!isGameThread()) {
         qFatal("Calling function from foreign thread");
@@ -1142,7 +1148,7 @@ bool GameScript::isGameThread() const
     return QThread::currentThread() == gGame->thread();
 }
 
-bool GameScript::parseScripts(QString base)
+bool GameScript::parseScripts(const QString &base)
 {
     if (QFileInfo(base).isDir()) {
         return parseScriptsDir(base);
@@ -1152,7 +1158,7 @@ bool GameScript::parseScripts(QString base)
     }
 }
 
-bool GameScript::parseScriptsZip(QString file)
+bool GameScript::parseScriptsZip(const QString &file)
 {
     QuaZip z(file);
     if (!z.open(QuaZip::mdUnzip)) {
@@ -1161,7 +1167,7 @@ bool GameScript::parseScriptsZip(QString file)
     }
 
     QList<QuaZipFileInfo> entries = z.getFileInfoList();
-    for (auto e : entries) {
+    for (const auto &e : entries) {
         if (e.uncompressedSize > 0) {
             QString type = QFileInfo(e.name).suffix().toLower();
             if (type != "ahs" && type != "js") {
@@ -1184,10 +1190,10 @@ bool GameScript::parseScriptsZip(QString file)
     return true;
 }
 
-bool GameScript::parseScriptsDir(QDir base)
+bool GameScript::parseScriptsDir(const QDir &base)
 {
     QFileInfoList lst = base.entryInfoList(QStringList() << "*.ahs" << "*.js", QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Files, QDir::Name);
-    foreach (QFileInfo fi, lst) {
+    for (const auto &fi : lst) {
         if (fi.isDir()) {
             if (!parseScriptsDir(fi.absoluteFilePath()))
                 return false;

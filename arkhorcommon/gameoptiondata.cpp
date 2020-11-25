@@ -11,10 +11,6 @@ GameOptionData::GameOptionData()
 {
 }
 
-GameOptionData::~GameOptionData()
-{
-}
-
 void operator <<(QVariant &data, const GameOptionData &target)
 {
     QVariantMap map;

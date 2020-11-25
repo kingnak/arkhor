@@ -27,8 +27,8 @@ public:
     Q_INVOKABLE void addToInventory(GameObjectScript *o) { Character::addToInventory(o); }
     Q_INVOKABLE void removeFromInventory(GameObjectScript *o) { Character::removeFromInventory(o); }
 
-    Q_INVOKABLE bool hasObject(QString typeId);
-    Q_INVOKABLE bool removeTypeFromInventory(QString typeId);
+    Q_INVOKABLE bool hasObject(const QString &typeId);
+    Q_INVOKABLE bool removeTypeFromInventory(const QString &typeId);
 
     Q_PROPERTY(int sanity READ curSanity)
     Q_INVOKABLE void restoreSanity() { Character::restoreSanity(); }
@@ -59,9 +59,9 @@ public:
     Q_INVOKABLE bool returnToArkham() { return Character::returnToArkham(); }
     Q_INVOKABLE bool placeOnField(AH::Common::FieldData::FieldID fieldId);
     Q_INVOKABLE void addMovementPoint(int amount) { Character::addMovementPoint(amount); }
-    Q_INVOKABLE QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options);
-    Q_INVOKABLE QString selectChoice(QString desc, const QString &sourceId, QList<AH::Common::ChoiceData::OptionData> options, bool canBeCanceled);
-    Q_INVOKABLE QList<GameObjectScript *> selectObjects(QList<GameObjectScript *> objects, const QString &desc, const QString &sourceId, int min, int max);
+    Q_INVOKABLE QString selectChoice(const QString &desc, const QString &sourceId, const QList<AH::Common::ChoiceData::OptionData> &options);
+    Q_INVOKABLE QString selectChoice(const QString &desc, const QString &sourceId, const QList<AH::Common::ChoiceData::OptionData> &options, bool canBeCanceled);
+    Q_INVOKABLE QList<GameObjectScript *> selectObjects(const QList<GameObjectScript *> &objects, const QString &desc, const QString &sourceId, int min, int max);
 
     Q_INVOKABLE bool canCloseGate();
 
@@ -83,25 +83,25 @@ public:
     Q_INVOKABLE void loseHalfPossessions(const QString &sourceId = QString::null) { return Character::loseHalfPossessions(sourceId); }
     Q_INVOKABLE void losePossessions(int count, const QString &sourceId) { return Character::losePossessions(count, sourceId); }
 
-    Q_INVOKABLE int genericDieRollSum(QString desc, QString sourceId, int dieCount);
-    Q_INVOKABLE bool genericDieRollTest(QString desc, QString sourceId, int dieCount, int target);
-    Q_INVOKABLE int genericDieRollCount(QString desc, QString sourceId, int dieCount);
-    Q_INVOKABLE int genericDieRollCountSuccess(QString desc, QString sourceId, int dieCount, QScriptValue successes);
-    Q_INVOKABLE bool skillTest(QString desc, QString sourceId, AH::Skill skill, int adjust, int target);
-    Q_INVOKABLE int dieRollSkillCount(QString desc, QString sourceId, AH::Skill skill, int adjust);
+    Q_INVOKABLE int genericDieRollSum(const QString &desc, const QString &sourceId, int dieCount);
+    Q_INVOKABLE bool genericDieRollTest(const QString &desc, const QString &sourceId, int dieCount, int target);
+    Q_INVOKABLE int genericDieRollCount(const QString &desc, const QString &sourceId, int dieCount);
+    Q_INVOKABLE int genericDieRollCountSuccess(const QString &desc, const QString &sourceId, int dieCount, const QScriptValue &successes);
+    Q_INVOKABLE bool skillTest(const QString &desc, const QString &sourceId, AH::Skill skill, int adjust, int target);
+    Q_INVOKABLE int dieRollSkillCount(const QString &desc, const QString &sourceId, AH::Skill skill, int adjust);
 
-    virtual bool onUnconscious();
-    virtual bool onInsane();
-    virtual bool onLostInSpaceAndTime();
-    virtual bool onOpenGate(Gate *g);
-    virtual bool onAppearMonster(Monster *m);
+    bool onUnconscious() override;
+    bool onInsane() override;
+    bool onLostInSpaceAndTime() override;
+    bool onOpenGate(Gate *g) override;
+    bool onAppearMonster(Monster *m) override;
 
 signals:
 
 public slots:
 
 protected:
-    void instantiateFromInvestigator();
+    void instantiateFromInvestigator() override;
 
 private:
     QObjectList getInventoryScript() const;

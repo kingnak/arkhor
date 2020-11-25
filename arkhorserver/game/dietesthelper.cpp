@@ -13,7 +13,7 @@
 
 using namespace AH::Common;
 
-DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(QString desc, QString sourceId, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment, int target)
+DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(const QString &desc, const QString &sourceId, Character *c, const ModifiedPropertyValue &poolBase, const ModifiedPropertyValue &clueBurnMods, int adjustment, int target)
 {
     DieTestSpec spec;
     propertyPool(spec, poolBase, adjustment);
@@ -24,7 +24,7 @@ DieTestHelper::DieTestSpec DieTestHelper::createClueBurnTest(QString desc, QStri
     return spec;
 }
 
-DieTestHelper::DieTestSpec DieTestHelper::createClueBurnCounter(QString desc, QString sourceId, Character *c, ModifiedPropertyValue poolBase, ModifiedPropertyValue clueBurnMods, int adjustment)
+DieTestHelper::DieTestSpec DieTestHelper::createClueBurnCounter(const QString &desc, const QString &sourceId, Character *c, const ModifiedPropertyValue &poolBase, const ModifiedPropertyValue &clueBurnMods, int adjustment)
 {
     DieTestSpec spec;
     propertyPool(spec, poolBase, adjustment);
@@ -35,7 +35,7 @@ DieTestHelper::DieTestSpec DieTestHelper::createClueBurnCounter(QString desc, QS
     return spec;
 }
 
-DieTestHelper::DieTestSpec DieTestHelper::createSkillTest(QString desc, QString sourceId, Character *c, AH::Skill skill, int adjustment, int target)
+DieTestHelper::DieTestSpec DieTestHelper::createSkillTest(const QString &desc, const QString &sourceId, Character *c, AH::Skill skill, int adjustment, int target)
 {
     DieTestSpec spec;
     skillPool(spec, c, skill, adjustment);
@@ -46,7 +46,7 @@ DieTestHelper::DieTestSpec DieTestHelper::createSkillTest(QString desc, QString 
     return spec;
 }
 
-DieTestHelper::DieTestSpec DieTestHelper::createSkillCounter(QString desc, QString sourceId, Character *c, AH::Skill skill, int adjustment)
+DieTestHelper::DieTestSpec DieTestHelper::createSkillCounter(const QString &desc, const QString &sourceId, Character *c, AH::Skill skill, int adjustment)
 {
     DieTestSpec spec;
     skillPool(spec, c, skill, adjustment);
@@ -57,7 +57,7 @@ DieTestHelper::DieTestSpec DieTestHelper::createSkillCounter(QString desc, QStri
     return spec;
 }
 
-DieTestHelper::DieTestSpec DieTestHelper::createGenericCounter(QString desc, QString sourceId, int dieCount, QList<quint32> successVals)
+DieTestHelper::DieTestSpec DieTestHelper::createGenericCounter(const QString &desc, const QString &sourceId, int dieCount, const QList<quint32> &successVals)
 {
     DieTestSpec spec;
     fixedPool(spec, dieCount);
@@ -67,7 +67,7 @@ DieTestHelper::DieTestSpec DieTestHelper::createGenericCounter(QString desc, QSt
     return spec;
 }
 
-DieTestHelper::DieTestSpec DieTestHelper::createGenericSummer(QString desc, QString sourceId, int dieCount)
+DieTestHelper::DieTestSpec DieTestHelper::createGenericSummer(const QString &desc, const QString &sourceId, int dieCount)
 {
     DieTestSpec spec;
     fixedPool(spec, dieCount);
@@ -135,8 +135,8 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
         bool skipUpdate = false;
         // Handle Reroll options!
         if (!upd.dieRollOptionId().isEmpty()) {
-            GameOption *op = NULL;
-            foreach (GameOption *o, spec.options) {
+            GameOption *op = nullptr;
+            for (auto o : spec.options) {
                 if (o->id() == upd.dieRollOptionId()) {
                     op = o;
                     break;
@@ -156,7 +156,7 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
         }
 
         QList<quint32> dieVals;
-        foreach (DieRollResultItem itm, spec.eval->pool()->getResult()) {
+        for (const auto &itm : spec.eval->pool()->getResult()) {
             dieVals << itm.value();
         }
         spec.data.rollData().pool().setDieValues(dieVals);
@@ -171,7 +171,7 @@ DieTestHelper::DieTestResult DieTestHelper::executeDieTest(Player *p, DieTestHel
     } while (cont);
 
     //p->dieRollFinish(spec.data);
-    gGame->context().setDieRoll(NULL);
+    gGame->context().setDieRoll(nullptr);
 
     // Clean up options
     for (auto o : spec.options) {
@@ -205,7 +205,7 @@ void DieTestHelper::skillPool(DieTestHelper::DieTestSpec &spec, Character *c, AH
     spec.data.rollData().setPool(pd);
 }
 
-void DieTestHelper::propertyPool(DieTestHelper::DieTestSpec &spec, ModifiedPropertyValue poolBase, int adjust)
+void DieTestHelper::propertyPool(DieTestHelper::DieTestSpec &spec, const ModifiedPropertyValue &poolBase, int adjust)
 {
     spec.baseVal = poolBase.toModifiedPropertyValueData();
     DiePoolData pd(poolBase.toModifiedPropertyValueData(), adjust);
@@ -219,7 +219,7 @@ void DieTestHelper::clueBurnSkill(DieTestHelper::DieTestSpec &spec, Character *c
     spec.data.setDiceForClueBurn(clueBurnMods.finalVal());
 }
 
-void DieTestHelper::clueBurnProperty(DieTestHelper::DieTestSpec &spec, ModifiedPropertyValue clueBurnMods)
+void DieTestHelper::clueBurnProperty(DieTestHelper::DieTestSpec &spec, const ModifiedPropertyValue &clueBurnMods)
 {
     spec.data.setClueBurnMods(clueBurnMods.toModifiedPropertyValueData());
     spec.data.setDiceForClueBurn(clueBurnMods.finalVal());
@@ -230,7 +230,7 @@ void DieTestHelper::summer(DieTestHelper::DieTestSpec &spec)
     spec.data.rollData().setType(DieRollData::Sum);
 }
 
-void DieTestHelper::counter(DieTestHelper::DieTestSpec &spec, QList<quint32> successes)
+void DieTestHelper::counter(DieTestHelper::DieTestSpec &spec, const QList<quint32> &successes)
 {
     spec.data.rollData().setType(DieRollData::Count);
     spec.data.rollData().setSuccessRolls(successes);
@@ -278,7 +278,8 @@ void DieTestHelper::finalize(DieTestHelper::DieTestSpec &spec, const QString &de
             break;
             */
         default:
-            Q_ASSERT_X(false, "DieTestHelper::finalize", "Invalid Test Type");
+            qFatal("DieTestHelper::finalize", "Invalid Test Type");
+            return;
         }
         break;
 
@@ -291,11 +292,13 @@ void DieTestHelper::finalize(DieTestHelper::DieTestSpec &spec, const QString &de
             eval = new DieRollCountBoolEvaluator(p, spec.data.rollData().successRolls().toSet(), spec.data.targetValue(), DieRollBoolEvaluator::GREATER_EQUALS);
             break;
         default:
-            Q_ASSERT_X(false, "DieTestHelper::finalize", "Invalid Test Type");
+            qFatal("DieTestHelper::finalize", "Invalid Test Type");
+            return;
         }
         break;
     default:
-        Q_ASSERT_X(false, "DieTestHelper::finalize", "Invalid Test Type");
+        qFatal("DieTestHelper::finalize", "Invalid Test Type");
+        return;
     }
 
     spec.eval = eval;
@@ -309,7 +312,7 @@ void DieTestHelper::updateReRollOptions(DieTestHelper::DieTestSpec &spec)
     QList<GameOption *> &opts = spec.options;
     for (QList<GameOption *>::iterator it = opts.begin(); it != opts.end(); ) {
         if (!(*it)->isAvailable()) {
-            if (DieRollOption *op = dynamic_cast<DieRollOption *> (*it)) op->reset();
+            if (auto op = dynamic_cast<DieRollOption *> (*it)) op->reset();
             it = opts.erase(it);
         } else {
             descs.append(DieRollTestData::OptionDescription{ (*it)->id(), (*it)->name(), (*it)->sourceId() });

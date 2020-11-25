@@ -14,7 +14,7 @@ namespace AH {
         {
         public:
             InvestigatorData();
-            virtual ~InvestigatorData() {}
+            virtual ~InvestigatorData() = default;
 
             struct AttributeValuePair {
                 int first;

@@ -3,14 +3,12 @@
 #include "clientconnection.h"
 #include <utils/cleanupthread.h>
 
-GameServer::GameServer()
-{
-}
+GameServer::GameServer() = default;
 
 void GameServer::start()
 {
     AH::registerCommonMetaTypes();
-    bool ok = listen(QHostAddress::Any, 6572);
+    bool ok = listen(QHostAddress::Any, ServerPort);
     if (!ok) {
         qFatal("Cannot listen on socket");
     }

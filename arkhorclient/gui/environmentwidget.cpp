@@ -32,7 +32,7 @@ EnvironmentWidget::EnvironmentWidget(bool shortDisplay, QWidget *parent) :
 
     connect(m_name, SIGNAL(linkActivated(QString)), this, SIGNAL(environmentInfoRequested(QString)));
 
-    displayEnvironment(NULL);
+    displayEnvironment(nullptr);
 }
 
 void EnvironmentWidget::objectDescribed(const DescribeObjectsData::ObjectDescription &desc)
@@ -44,7 +44,7 @@ void EnvironmentWidget::objectDescribed(const DescribeObjectsData::ObjectDescrip
     }
 }
 
-void EnvironmentWidget::displayEnvironment(QString id)
+void EnvironmentWidget::displayEnvironment(const QString &id)
 {
     ObjectRegistry::instance()->asyncGetObject(this, id);
 }
@@ -52,7 +52,7 @@ void EnvironmentWidget::displayEnvironment(QString id)
 void EnvironmentWidget::setShortDisplay(bool shortDisplay)
 {
     m_shortDisplay = shortDisplay;
-    displayEnvironment(NULL);
+    displayEnvironment(nullptr);
 }
 
 void EnvironmentWidget::setLongDisplay(bool longDisplay)
@@ -72,7 +72,7 @@ void EnvironmentWidget::displayEnvironment(const MythosData *env)
             m_desc->setText(env->description());
         }
         QStringList lst;
-        foreach (PropertyModificationData d, env->getModificationData()) {
+        for (const auto &d : env->getModificationData()) {
             lst << Utils::stringForPropertyModification(d);
         }
         m_mods->setText(lst.join("\n"));

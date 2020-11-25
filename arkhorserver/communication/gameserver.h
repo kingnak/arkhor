@@ -10,8 +10,10 @@ public:
 
     void start();
 
+    static constexpr quint16 ServerPort = 6572;
+
 protected:
-    virtual void incomingConnection ( qintptr socketDescriptor ) override;
+    void incomingConnection ( qintptr socketDescriptor ) override;
 
 private:
 };

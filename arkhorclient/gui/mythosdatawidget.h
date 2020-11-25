@@ -14,7 +14,7 @@ class MythosDataWidget : public QWidget
 
 public:
     explicit MythosDataWidget(QWidget *parent = 0);
-    ~MythosDataWidget();
+    ~MythosDataWidget() override;
 
 signals:
     void acknowledgeMythos();

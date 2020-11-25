@@ -4,9 +4,15 @@
 #include "ahgraphicsview.h"
 #include "ahfielditem.h"
 
-MovementChooser::MovementChooser(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::MovementChooser)
+MovementChooser::MovementChooser(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::MovementChooser)
+    , m_scene(nullptr)
+    , m_view(nullptr)
+    , m_startId(AH::Common::FieldData::FieldID::NO_NO_FIELD)
+    , m_curId(AH::Common::FieldData::FieldID::NO_NO_FIELD)
+    , m_maxMove(0)
+    , m_curMove(0)
 {
     ui->setupUi(this);
 }
@@ -85,7 +91,7 @@ void MovementChooser::nextMoveStep(AH::Common::FieldData::FieldID nextId)
 void MovementChooser::setNeighboursActive(AH::Common::FieldData::FieldID id, bool active)
 {
     QList<AH::Common::FieldData::FieldID> neigh = m_scene->getNeighbours(id);
-    foreach (AH::Common::FieldData::FieldID n, neigh) {
+    for (auto n : neigh) {
         AhFieldItem *f = m_scene->getField(n);
         if (active && !f->isLocked()) {
             f->setClickable(true);
@@ -103,7 +109,7 @@ void MovementChooser::setFieldCurrent(AH::Common::FieldData::FieldID id, bool cu
 
 void MovementChooser::disableAllFields()
 {
-    foreach (AhFieldItem *f, m_scene->allFields()) {
+    for (auto f : m_scene->allFields()) {
         f->setClickable(false);
         f->setCurrentField(false);
     }

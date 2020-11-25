@@ -17,7 +17,7 @@ class MonsterScript : public QObject, public Monster
 public:
     explicit MonsterScript(QObject *parent = 0);
 
-    Monster *clone();
+    Monster *clone() override;
 
     Q_PROPERTY(QString id READ id)
     Q_PROPERTY(quint32 attributes READ attributes)
@@ -38,16 +38,16 @@ public:
     static QScriptValue castToValue(QScriptEngine *eng, MonsterScript * const &in) { return eng->newQObject(in); }
 
 
-    MonsterAttributes attributes() const;
-    void move(AH::MovementDirection dir);
-    void defeat(Character *byCharacter);
-    virtual bool hasCustomHorrorCheck() const;
-    virtual bool horrorCheck(Character *c);
-    virtual bool damage(Character *c, DamageType t);
-    virtual void evaded(Character *c);
-    virtual void flown(Character *c);
+    MonsterAttributes attributes() const override;
+    void move(AH::MovementDirection dir) override;
+    void defeat(Character *byCharacter) override;
+    bool hasCustomHorrorCheck() const override;
+    bool horrorCheck(Character *c) override;
+    bool damage(Character *c, DamageType t) override;
+    void evaded(Character *c) override;
+    void flown(Character *c) override;
 
-    virtual PropertyModificationList getModifications() const;
+    PropertyModificationList getModifications() const override;
 
 private:
     QScriptValue m_attrFunc;

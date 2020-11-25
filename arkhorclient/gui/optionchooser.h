@@ -21,16 +21,16 @@ class OptionChooser : public QWidget
 
 public:
     explicit OptionChooser(QWidget *parent = 0);
-    ~OptionChooser();
+    ~OptionChooser() override;
 
-    QSize sizeHint() const { return QSize(100,100); }
-    QSize minimumSizeHint() const { return QSize(100,100); }
+    QSize sizeHint() const override { return QSize(100,100); }
+    QSize minimumSizeHint() const override { return QSize(100,100); }
 
 public slots:
-    void setOptions(QList<AH::Common::GameOptionData> opts);
-    void setSkills(QList<AH::Common::ModifiedPropertyValueData> opts);
-    void setEncounter(AH::Common::EncounterData enc);
-    void setMonsters(QString desc, QList<AH::Common::MonsterData> monsters);
+    void setOptions(const QList<AH::Common::GameOptionData> &opts);
+    void setSkills(const QList<AH::Common::ModifiedPropertyValueData> &opts);
+    void setEncounter(const AH::Common::EncounterData &enc);
+    void setMonsters(const QString &desc, const QList<AH::Common::MonsterData> &monsters);
 
 signals:
     void optionChosen(QString id);
@@ -42,7 +42,7 @@ signals:
 private slots:
     void cleanupOptions();
     void cleanupMore();
-    void describeObject(QString id);
+    void describeObject(const QString &id);
 
     void showOption();
     void on_btnOptionActivate_clicked();
@@ -50,7 +50,7 @@ private slots:
 private:
     static QString displayCosts(const AH::Common::Cost &costs);
     void setMoreWidget(QWidget *w);
-    void showBaseProperty(AH::Common::ModifiedPropertyValueData p);
+    void showBaseProperty(const AH::Common::ModifiedPropertyValueData &p);
 
 private:
     enum {
@@ -64,7 +64,7 @@ private:
 
     struct OptionDescUpdater : public AsyncObjectReceiver {
         QPointer<QPushButton> btn;
-        void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc);
+        void objectDescribed(const AH::Common::DescribeObjectsData::ObjectDescription &desc) override;
         OptionDescUpdater(QPushButton *b);
     };
 

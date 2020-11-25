@@ -18,10 +18,10 @@ class TradeWidget : public QWidget
 
 public:
     explicit TradeWidget(QWidget *parent = nullptr);
-    ~TradeWidget();
+    ~TradeWidget() override;
 
 public slots:
-    void showTrade(AH::Common::TradeData td);
+    void showTrade(const AH::Common::TradeData &td);
 
 signals:
     void cancelTrade();
@@ -34,10 +34,10 @@ private slots:
     void doOffer();
     void doAccept();
     void displayItem(QListWidgetItem *itm);
-    void displayItem(QString id);
+    void displayItem(const QString &id);
 
 private:
-    void fillList(QListWidget *lst, QStringList items);
+    void fillList(QListWidget *lst, const QStringList &items);
     QString getName(QString characterId);
 
 private:

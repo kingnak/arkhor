@@ -42,7 +42,7 @@ QList<ClassGenerator::AttributeDesc> MythosGenerator::getAttributes()
                ;
 }
 
-bool MythosGenerator::outputSpecialAttribute(AttributeDesc desc, const ClassDef &cls, const AttrDef &attr)
+bool MythosGenerator::outputSpecialAttribute(const AttributeDesc &desc, const ClassDef &cls, const AttrDef &attr)
 {
     if (desc.name == "clueField" || desc.name == "gateField") {
         return outputEnumValue("Constants.Fields", attr, cls);
@@ -66,7 +66,7 @@ QList<ClassGenerator::AttributeDesc> HeadlineGenerator::getAttributes()
                ;
 }
 
-bool HeadlineGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+bool HeadlineGenerator::outputDefaultAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "type") {
         return outputAttribute(cls, AttrDef("type", ArkhorScriptParser::EnumValue, "Headline"), true);
@@ -92,7 +92,7 @@ QList<ClassGenerator::AttributeDesc> EnvironmentGenerator::getAttributes()
                ;
 }
 
-bool EnvironmentGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls, const ClassGenerator::AttrDef &attr)
+bool EnvironmentGenerator::outputSpecialAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls, const ClassGenerator::AttrDef &attr)
 {
     if (desc.name == "environmentType") {
         return outputEnumValue("Constants.EnvironmentType", attr, cls);
@@ -118,7 +118,7 @@ bool EnvironmentGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc 
     return MythosGenerator::outputSpecialAttribute(desc, cls, attr);
 }
 
-bool EnvironmentGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+bool EnvironmentGenerator::outputDefaultAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "type") {
         return outputAttribute(cls, AttrDef("type", ArkhorScriptParser::EnumValue, "Environment"), true);
@@ -141,7 +141,7 @@ QList<ClassGenerator::AttributeDesc> RumorGenerator::getAttributes()
                ;
 }
 
-bool RumorGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls, const ClassGenerator::AttrDef &attr)
+bool RumorGenerator::outputSpecialAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls, const ClassGenerator::AttrDef &attr)
 {
     if (desc.name == "rumorField") {
         return outputEnumValue("Constants.Fields", attr, cls);
@@ -149,7 +149,7 @@ bool RumorGenerator::outputSpecialAttribute(ClassGenerator::AttributeDesc desc, 
     return MythosGenerator::outputSpecialAttribute(desc, cls, attr);
 }
 
-bool RumorGenerator::outputDefaultAttribute(ClassGenerator::AttributeDesc desc, const ClassGenerator::ClassDef &cls)
+bool RumorGenerator::outputDefaultAttribute(const ClassGenerator::AttributeDesc &desc, const ClassGenerator::ClassDef &cls)
 {
     if (desc.name == "type") {
         return outputAttribute(cls, AttrDef("type", ArkhorScriptParser::EnumValue, "Rumor"), true);

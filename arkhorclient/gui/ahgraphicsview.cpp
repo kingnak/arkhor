@@ -2,7 +2,7 @@
 #include <QWheelEvent>
 #include "ahboardscene.h"
 #include "ahfielditem.h"
-#include <math.h>
+#include <cmath>
 #include <QtGui>
 
 AhGraphicsView::AhGraphicsView(QWidget *parent)

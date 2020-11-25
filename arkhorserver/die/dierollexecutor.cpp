@@ -1,5 +1,3 @@
 #include "die/dierollexecutor.h"
 
-DieRollExecutor::DieRollExecutor()
-{
-}
+DieRollExecutor::DieRollExecutor() = default;

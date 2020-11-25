@@ -113,13 +113,13 @@ void forFields(std::function<void(AH::Common::FieldData::FieldID,QString)> cb, b
     }
 }
 
-QComboBox *setupCmbForFields(QList<AH::Common::FieldData::FieldType> types)
+QComboBox *setupCmbForFields(const QList<AH::Common::FieldData::FieldType> &types)
 {
     QComboBox *ret = new QComboBox;
     ret->setEditable(true);
     ret->setInsertPolicy(QComboBox::NoInsert);
     QStringList itms;
-    forFields([=,&itms](AH::Common::FieldData::FieldID f, QString s) {
+    forFields([=,&itms](AH::Common::FieldData::FieldID f, const QString &s) {
         auto fld = gGame->board()->field(f);
         auto t = fld ? fld->type() : static_cast<AH::Common::FieldData::FieldType> (0);
         if (f == AH::Common::FieldData::NO_NO_FIELD || types.contains(t)) {
@@ -141,7 +141,7 @@ ScriptTestDrawWidget::ScriptTestDrawWidget(QWidget *parent) : QDialog(parent)
     setupUi(new QHBoxLayout(this));
 }
 
-ScriptTestDrawWidget::ScriptTestDrawWidget(QWidget *parent, bool) : QDialog(parent), m_cmb(nullptr), m_title(nullptr), m_rnd(nullptr)
+ScriptTestDrawWidget::ScriptTestDrawWidget(QWidget *parent, bool) : QDialog(parent), m_title(nullptr), m_cmb(nullptr), m_rnd(nullptr)
 {
 }
 
@@ -170,7 +170,7 @@ void ScriptTestDrawWidget::setupButtons(QHBoxLayout *l)
     l->addWidget(b);
 }
 
-QString ScriptTestDrawWidget::askDraw(const QString &title, QStringList lst)
+QString ScriptTestDrawWidget::askDraw(const QString &title, const QStringList &lst)
 {
     prepareShow(title, lst);
     return doShow();
@@ -222,7 +222,7 @@ ScriptTestDrawMonsterWidget::ScriptTestDrawMonsterWidget(QWidget *parent)
 
     l = new QHBoxLayout;
     m_dim = new QComboBox;
-    forDimensions([=](AH::Dimension d, QString s){
+    forDimensions([=](AH::Dimension d, const QString &s){
         m_dim->addItem(s, QVariant(int(d)));
     });
 
@@ -233,7 +233,7 @@ ScriptTestDrawMonsterWidget::ScriptTestDrawMonsterWidget(QWidget *parent)
     v->addStretch(1);
 }
 
-QString ScriptTestDrawMonsterWidget::askDraw(const QString&, QStringList monsters)
+QString ScriptTestDrawMonsterWidget::askDraw(const QString&, const QStringList &monsters)
 {
     return ScriptTestDrawWidget::askDraw("Monster", monsters);
 }
@@ -302,10 +302,11 @@ ScriptTestDrawMythosWidget::ScriptTestDrawMythosWidget(QWidget *parent)
     v->addStretch(1);
 }
 
-QString ScriptTestDrawMythosWidget::askDraw(const QString&, QStringList monsters)
+QString ScriptTestDrawMythosWidget::askDraw(const QString &title, const QStringList &lst)
 {
+    Q_UNUSED(title)
     m_white = m_black = 0;
-    return ScriptTestDrawWidget::askDraw("Mythos", monsters);
+    return ScriptTestDrawWidget::askDraw("Mythos", lst);
 }
 
 QString ScriptTestDrawMythosWidget::moreData()
@@ -358,7 +359,7 @@ ScriptTestDrawGateWidget::ScriptTestDrawGateWidget(QWidget *parent)
     v->addWidget(dim);
 }
 
-QString ScriptTestDrawGateWidget::askDraw(const QString &, QStringList)
+QString ScriptTestDrawGateWidget::askDraw(const QString &, const QStringList &)
 {
     connect(this, &QDialog::rejected, [=](){m_adj=-10;});
     ScriptTestDrawWidget::doShow();

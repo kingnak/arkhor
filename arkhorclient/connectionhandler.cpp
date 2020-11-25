@@ -455,6 +455,7 @@ void ConnectionHandler::handleMessage(const AH::Common::Message &msg)
     case AH::Common::Message::S_ABORT_ACKNOWLEDGE:
     {
         M_ALL(
+        Q_UNUSED(c_);
         emit finishAcknowledge();
         )
         break;

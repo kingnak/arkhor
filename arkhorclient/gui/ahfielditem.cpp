@@ -436,8 +436,9 @@ void AhFieldItem::animateMonsterDisappear(const AH::Common::MonsterData &m)
     delete itm;
 }
 
-void AhFieldItem::animateMonsterMove(const AH::Common::MonsterData &m, QList<AH::Common::FieldData::FieldID> path)
+void AhFieldItem::animateMonsterMove(const AH::Common::MonsterData &m, const QList<AH::Common::FieldData::FieldID> &path)
 {
+    if (path.size() < 2) return;
     auto scn = qobject_cast<AhBoardScene*>(scene());
     m_monsters->removeById(m.id());
     scn->getField(path.last())->m_monsters->removeById(m.id());
@@ -485,8 +486,9 @@ void AhFieldItem::animateMultipleMonsterDisappear(const QStringList &ids)
     m_prxMonst->setOpacity(1);
 }
 
-void AhFieldItem::animateCharacterMove(const AH::Common::CharacterData &c, QList<AH::Common::FieldData::FieldID> path)
+void AhFieldItem::animateCharacterMove(const AH::Common::CharacterData &c, const QList<AH::Common::FieldData::FieldID> &path)
 {
+    if (path.size() < 2) return;
     auto scn = qobject_cast<AhBoardScene*>(scene());
     auto endField = scn->getField(path.last());
 

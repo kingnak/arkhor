@@ -58,10 +58,10 @@ public:
 
     void animateMonsterAppear(const AH::Common::MonsterData &m);
     void animateMonsterDisappear(const AH::Common::MonsterData &m);
-    void animateMonsterMove(const AH::Common::MonsterData &m, QList<AH::Common::FieldData::FieldID> path);
+    void animateMonsterMove(const AH::Common::MonsterData &m, const QList<AH::Common::FieldData::FieldID> &path);
     void animateMultipleMonsterDisappear(const QStringList &ids);
 
-    void animateCharacterMove(const AH::Common::CharacterData &c, QList<AH::Common::FieldData::FieldID> path);
+    void animateCharacterMove(const AH::Common::CharacterData &c, const QList<AH::Common::FieldData::FieldID> &path);
 
     void animateFieldStateChange(AH::Common::GameBoardChangeData::FieldChange change);
 

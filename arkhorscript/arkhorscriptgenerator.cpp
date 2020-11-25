@@ -113,7 +113,7 @@ bool ArkhorScriptGenerator::setError(const QString &err)
 
 bool ArkhorScriptGenerator::generateNestedClasses(ClassDef &cls)
 {
-    for (auto a : cls.attrs) {
+    for (auto &a : cls.attrs) {
         if (a.type == ArkhorScriptParser::NestedObject) {
             if (!doGenerateNestedClass(a)) {
                 return false;

@@ -10,7 +10,9 @@ ClientConnection::ClientConnection(qintptr socketDescriptor)
     m_player(nullptr),
     m_versionReceived(false)
 {
+#ifndef DEBUG_SCRIPT_BUILD
     setPinging();
+#endif
 }
 
 void ClientConnection::cleanup()

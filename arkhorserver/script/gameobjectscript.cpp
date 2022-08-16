@@ -35,7 +35,7 @@ GameObject *GameObjectScript::clone()
     }
 
     foreach (const PropertyModification &m, m_mods) {
-        c->m_mods.append(PropertyModification(c, m.affectedProperty(), m.modificationAmount()));
+        c->m_mods.append(PropertyModification(c, m.affectedProperty(), m.modificationAmount(), m.type()));
     }
     c->m_modsFunc = m_modsFunc;
     c->m_onAddFunc = m_onAddFunc;
@@ -366,7 +366,11 @@ GameObjectScriptProxyOption::GameObjectScriptProxyOption(GameObjectScript *obj, 
 
 AH::Common::GameOptionData *GameObjectScriptProxyOption::data()
 {
+    auto t = m_opt->m_this;
+    m_opt->m_this = gGameScript->engine()->newQObject(m_obj, QScriptEngine::QtOwnership, QScriptEngine::PreferExistingWrapperObject);
     *static_cast<AH::Common::GameOptionData* const> (this) = *m_opt->data();
+    m_opt->m_this = t;
+
     m_id = id();
     return this;
 }
@@ -406,6 +410,7 @@ bool CastSpellAction::executeOnObject(QScriptValue obj)
 QString CastSpellAction::notificationString(GameAction::NotificationPart part, const QString &desc) const
 {
     Q_UNUSED(desc);
-    Q_ASSERT(part == Execute);
-    return "{C} casts {D}";
+    if(part == Execute)
+        return "{C} casts {D}";
+    return QString();
 }

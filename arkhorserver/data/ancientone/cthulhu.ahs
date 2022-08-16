@@ -11,7 +11,7 @@ AncientOne Cthulhu {
         "if it isn't already full.";
     doomTrack: 13;
     monsterModifications: [
-        Cultist { Monster_HorrorAdjustment -2, Monster_HorrorDamage +1 }
+        Cultist { Monster_HorrorAdjustment -2, Monster_HorrorDamage +2 }
     ];
     
     slumberModifications: [

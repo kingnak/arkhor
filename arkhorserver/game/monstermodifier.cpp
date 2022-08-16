@@ -11,9 +11,6 @@ PropertyModificationList MonsterModifier::getMonsterModifications(const MonsterD
 
 PropertyModificationList MonsterModifier::getMonsterModifications(const QString &typeId) const
 {
-    if (m_typeMods.contains(typeId)) {
-        PropertyModificationList ret = m_typeMods[typeId];
-    }
     PropertyModificationList ret = m_typeMods[typeId];
     if (typeId != "*")
         ret << m_typeMods["*"];

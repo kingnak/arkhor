@@ -37,6 +37,8 @@ private:
     QScriptValue m_this;
     QScriptValue m_isAvailable;
     AH::Common::PropertyValueData::Property m_basePropertyProp;
+
+    friend class GameObjectScriptProxyOption;
 };
 
 Q_DECLARE_METATYPE(GameOptionScript*)

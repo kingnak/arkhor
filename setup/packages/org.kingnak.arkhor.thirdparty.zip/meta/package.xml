@@ -2,8 +2,8 @@
 <Package> 
     <DisplayName>Zip Component</DisplayName> 
     <Description>QuaZip library based on zlib</Description> 
-    <Version>0.7.1</Version> 
-    <ReleaseDate>2020-03-08</ReleaseDate> 
+    <Version>0.8.0</Version> 
+    <ReleaseDate>2022-09-13</ReleaseDate> 
 	<Name>org.kingnak.arkhor.thirdparty.zip</Name> 
 	<Virtual>true</Virtual>
 </Package>

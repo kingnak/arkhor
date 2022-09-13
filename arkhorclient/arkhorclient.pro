@@ -1,5 +1,7 @@
 QT += network widgets
 
+VERSION = 0.8.0.0
+
 unix:CONFIG(debug, debug|release): DEFINES += "_DEBUG=1"
 
 HEADERS += \

@@ -6,6 +6,8 @@
 
 QT       -= gui
 
+VERSION = 0.8.0.0
+
 TARGET = arkhorscript
 TEMPLATE = lib
 

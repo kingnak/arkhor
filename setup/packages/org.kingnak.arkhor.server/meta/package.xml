@@ -2,8 +2,8 @@
 <Package> 
     <DisplayName>Arkham Horror Server</DisplayName> 
     <Description>Arkham Horror Server</Description> 
-    <Version>0.8.0</Version> 
-    <ReleaseDate>2022-09-13</ReleaseDate> 
+    <Version>0.8.1</Version> 
+    <ReleaseDate>2022-09-14</ReleaseDate> 
 	<Name>org.kingnak.arkhor.server</Name> 
 	<Dependencies>org.kingnak.arkhor.qt5.base,org.kingnak.arkhor.qt5.server,org.kingnak.arkhor.server.data,org.kingnak.arkhor.common,org.kingnak.arkhor.thirdparty.zip</Dependencies> 
 	<Script>installscript.qs</Script> 

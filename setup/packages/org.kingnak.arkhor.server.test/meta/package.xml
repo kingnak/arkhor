@@ -2,8 +2,8 @@
 <Package> 
     <DisplayName>Arkham Horror Test Server</DisplayName> 
     <Description>Arkham Horror Server with UI to test various scenarios</Description> 
-    <Version>0.8.0</Version> 
-    <ReleaseDate>2022-09-13</ReleaseDate> 
+    <Version>0.8.1</Version> 
+    <ReleaseDate>2022-09-14</ReleaseDate> 
 	<Name>org.kingnak.arkhor.server.test</Name> 
 	<Dependencies>org.kingnak.arkhor.qt5.base,org.kingnak.arkhor.qt5.server,org.kingnak.arkhor.qt5.server.ui,org.kingnak.arkhor.server.data,org.kingnak.arkhor.common,org.kingnak.arkhor.thirdparty.zip</Dependencies> 
 	<Script>installscript.qs</Script> 

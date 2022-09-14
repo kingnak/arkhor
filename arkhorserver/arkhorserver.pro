@@ -5,7 +5,7 @@ CONFIG += console
 CONFIG -= windows
 QT += network script scripttools
 
-VERSION = 0.8.0.0
+VERSION = 0.8.1.0
 
 DEBUG_SCRIPT|TEST_SCRIPT {
     QT += widgets

@@ -1,6 +1,6 @@
 TEMPLATE = lib
 
-VERSION = 0.8.0.0
+VERSION = 0.8.1.0
 
 QT -= gui
 QT += network

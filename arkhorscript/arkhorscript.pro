@@ -11,6 +11,7 @@ VERSION = 0.8.0.0
 TARGET = arkhorscript
 TEMPLATE = lib
 VERSION = 0.8.1.0
+CONFIG += skip_target_version_ext
 
 DEFINES += ARKHORSCRIPT_LIBRARY
 

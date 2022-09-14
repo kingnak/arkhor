@@ -2,8 +2,8 @@
 <Package> 
     <DisplayName>Arkham Horror Client</DisplayName> 
     <Description>Arkham Horror Client</Description> 
-    <Version>0.8.0</Version> 
-    <ReleaseDate>2022-09-13</ReleaseDate> 
+    <Version>0.8.1</Version> 
+    <ReleaseDate>2022-09-14</ReleaseDate> 
 	<Name>org.kingnak.arkhor.client</Name> 
 	<Dependencies>org.kingnak.arkhor.qt5.base,org.kingnak.arkhor.qt5.ui,org.kingnak.arkhor.qt5.ui.image,org.kingnak.arkhor.client.res,org.kingnak.arkhor.common,org.kingnak.arkhor.thirdparty.zip</Dependencies> 
 	<Script>installscript.qs</Script> 

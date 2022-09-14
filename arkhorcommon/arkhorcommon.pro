@@ -4,6 +4,7 @@ VERSION = 0.8.0.0
 
 QT -= gui
 QT += network
+CONFIG += skip_target_version_ext
 
 DEFINES += ARKHOR_COMMON_DLL
 

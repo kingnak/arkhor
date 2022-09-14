@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "resourcepool.h"
 #include <QPainter>
+#include <QPainterPath>
 
 using namespace AH::Common;
 

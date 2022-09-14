@@ -2,7 +2,7 @@
 pushd %~dp0
 
 IF "%Qt5Dir64%" == "" (
-	set QT5SRC=D:\Qt\5.12.6\msvc2017_64
+	set QT5SRC=D:\Qt\5.15.2\msvc2019_64
 ) ELSE (
 	set QT5SRC=%Qt5Dir64%
 )
@@ -41,6 +41,9 @@ copy /Y "%QT5SRC%\bin\Qt5Widgets.dll" "%QT5DEST%"
 
 mkdir "%QT5DEST%\platforms"
 copy /Y "%QT5SRC%\plugins\platforms\qwindows.dll" "%QT5DEST%\platforms"
+
+mkdir "%QT5DEST%\styles"
+copy /Y "%QT5SRC%\plugins\styles\qwindowsvistastyle.dll" "%QT5DEST%\styles"
 
 REM SERVER TEST
 REM ------------------------------------

@@ -1,5 +1,6 @@
 #include "objectregistry.h"
 #include <QEventLoop>
+#include <QTimer>
 #include <list>
 
 using namespace AH::Common;

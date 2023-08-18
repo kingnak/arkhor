@@ -22,6 +22,7 @@ unix:CONFIG(debug, debug|release): DEFINES += "_DEBUG=1"
 HEADERS += \
     communication/clientconnection.h \
     communication/gameserver.h \
+    communication/httpserver.h \
     communication/networkplayer.h \
     die/die.h \
     die/diefactory.h \
@@ -125,6 +126,7 @@ HEADERS += \
 SOURCES += \
     communication/clientconnection.cpp \
     communication/gameserver.cpp \
+    communication/httpserver.cpp \
     communication/networkplayer.cpp \
     die/die.cpp \
     die/diefactory.cpp \

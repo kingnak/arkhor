@@ -17,6 +17,10 @@ namespace AH{
                 C_VERSION,
                 S_VERSION,
 
+                // Only for HTTP
+                C_REGISTER_CLIENT,
+                S_REGISTER_CLIENT,
+
                 S_TEXT_MESSAGE,
 
                 MSG_PING,
@@ -112,6 +116,8 @@ namespace AH{
             QVariant payload;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, Message);
+
+            static QString msg_to_str(AH::Common::Message::Type t);
         };
     }
 }

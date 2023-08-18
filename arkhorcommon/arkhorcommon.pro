@@ -9,6 +9,8 @@ CONFIG += skip_target_version_ext
 DEFINES += ARKHOR_COMMON_DLL
 
 HEADERS += \
+    communication/httpparser.h \
+    communication/inetworkconnection.h \
     communication/message.h \
     communication/networkconnection.h \
     gamestatechangedata.h \
@@ -40,6 +42,8 @@ HEADERS += \
     gamesettingdata.h
 
 SOURCES += \
+    communication/httpparser.cpp \
+    communication/inetworkconnection.cpp \
     communication/message.cpp \
     communication/networkconnection.cpp \
     gamestatechangedata.cpp \

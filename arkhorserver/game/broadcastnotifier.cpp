@@ -256,4 +256,11 @@ bool BroadcastNotifier::event(QEvent *eve)
     return false;
 }
 
+void BroadcastNotifier::flush()
+{
+    for (auto c : m_game->getPlayers()) {
+        c->flush();
+    }
+}
+
 const QEvent::Type AcknowledgeEvent::s_type = static_cast<QEvent::Type> (QEvent::registerEventType());

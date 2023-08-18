@@ -11,9 +11,9 @@ namespace AH {
         struct ARKHOR_COMMON_EXPORTS AttributeValue
         {
             AH::Attribute attribute;
-            quint8 value;
+            quint16 value;
 
-            AttributeValue(AH::Attribute attribute, quint8 value)
+            AttributeValue(AH::Attribute attribute, quint16 value)
                 : attribute(attribute), value(value) {}
 
             bool operator == (const AttributeValue &o) const {
@@ -48,13 +48,13 @@ namespace AH {
         class ARKHOR_COMMON_EXPORTS AttributeSliderData {
         public:
             QList<AttributePair> availableSettings() const { return m_attributeSettings; }
-            qint8 currentSettingPos() const { return m_curSettingPos; }
+            qint16 currentSettingPos() const { return m_curSettingPos; }
 
             const AttributeSliderData *data() const { return this; }
 
         protected:
             QList<AttributePair> m_attributeSettings;
-            qint8 m_curSettingPos;
+            qint16 m_curSettingPos;
 
             DECLARE_SERIALIZABLE_EXPORT(ARKHOR_COMMON_EXPORTS, AttributeSliderData);
         };

@@ -62,6 +62,8 @@ public:
     void notifyLost(QString msg) override;
     void notifyDied(Player *p) override;
 
+    void flush() override;
+
     ///////// INTERACTOR:
 
     AH::Common::DieTestUpdateData dieRollStart(const AH::Common::DieRollTestData &test) override;

@@ -81,6 +81,7 @@ void NetworkPlayer::gameStarted()
 void NetworkPlayer::startGame()
 {
     m_conn->sendMessage(Message::S_GAME_START, QVariant());
+    m_conn->flush();
 }
 
 void NetworkPlayer::sendBoard(GameBoard *board, GameBoardChangeData changes)
@@ -235,6 +236,11 @@ void NetworkPlayer::notifyDied(Player *p)
     } else {
         m_conn->sendMessage(AH::Common::Message::S_DIED, m_formatter->formatSimple("{C} is dead", p));
     }
+}
+
+void NetworkPlayer::flush()
+{
+    m_conn->flush();
 }
 
 void NetworkPlayer::notifyAlert(const QString &msg, Player *p, const QString &desc)
@@ -554,7 +560,8 @@ void NetworkPlayer::doHandleMessage(const Message &msg)
         m_waitMsg = msg;
         m_bWaitSuccessful = true;
         emit receivedWaitedMesage();
-        return;
+    } else {
+        qWarning() << "Network player received unexpected message: " << Message::msg_to_str(msg.type);
     }
 
     // TODO: Handle other messages
@@ -569,6 +576,8 @@ void NetworkPlayer::sendText(const QString &txt)
 bool NetworkPlayer::awaitResponse(Message &outMsg, const QList<Message::Type> &acceptTypes)
 {
     //Is this true?: Q_ASSERT_X(QThread::currentThread() != this->thread(), "NetworkPlayer::awaitResponse", "Waiting in same thread will cause a DEADLOCK");
+
+    m_conn->flush();
 
     m_waitMsgTypes = acceptTypes;
     QEventLoop w;

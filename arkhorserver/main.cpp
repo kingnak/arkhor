@@ -6,6 +6,7 @@
 
 #include "game/game.h"
 #include "game/gameboard.h"
+#include "communication/httpserver.h"
 #include "character.h"
 #include "monster.h"
 #include "gate.h"
@@ -14,6 +15,7 @@
 #include <QFile>
 #include <QTextStream>
 #include "communication/gameserver.h"
+#include <utils/cleanupthread.h>
 //#include <vld.h>
 
 #include <arkhorscriptgenerator.h>
@@ -52,8 +54,21 @@ int main(int argc, char *argv[])
     if (!script->init(baseDir))
         return 1;
 
-    GameServer srv;
-    srv.start();
+
+    GameServer *srv = new GameServer;
+    HttpServer *hsrv = new HttpServer;
+    AH::Common::CleanupThread *t = new AH::Common::CleanupThread(&app);
+    QObject::connect(t, &QThread::started, srv, &GameServer::start);
+    QObject::connect(t, &QThread::started, hsrv, &HttpServer::start);
+    QObject::connect(t, &QThread::finished, srv, &GameServer::stop);
+    QObject::connect(t, &QThread::finished, hsrv, &HttpServer::stop);
+    QObject::connect(t, &QThread::finished, srv, &QObject::deleteLater);
+    QObject::connect(t, &QThread::finished, hsrv, &QObject::deleteLater);
+    QObject::connect(t, &QThread::finished, t, &QObject::deleteLater);
+    QObject::connect(&app, &QCoreApplication::aboutToQuit, t, &QThread::quit);
+    srv->moveToThread(t);
+    hsrv->moveToThread(t);
+    t->start();
 
     app.exec();
 

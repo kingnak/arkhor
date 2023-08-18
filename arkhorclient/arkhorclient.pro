@@ -15,6 +15,7 @@ HEADERS += \
     gui/modifierinfowidget.h \
     gui/objectlistitem.h \
     gui/tradewidget.h \
+    httpconnection.h \
     objectregistry.h \
     resourcepool.h \
     utils.h \
@@ -62,6 +63,7 @@ SOURCES += \
     gui/modifierinfowidget.cpp \
     gui/objectlistitem.cpp \
     gui/tradewidget.cpp \
+    httpconnection.cpp \
     main.cpp \
     ahboardscene.cpp \
     ahboardfillerhelper.cpp \

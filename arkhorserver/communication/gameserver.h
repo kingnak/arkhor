@@ -5,12 +5,15 @@
 
 class GameServer : public QTcpServer
 {
+    Q_OBJECT
 public:
     GameServer();
-
-    void start();
-
     static constexpr quint16 ServerPort = 6572;
+
+public slots:
+    void start();
+    void stop();
+
 
 protected:
     void incomingConnection ( qintptr socketDescriptor ) override;

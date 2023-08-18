@@ -24,6 +24,7 @@ private slots:
     void on_btnStart_clicked();
     void on_cmbInvestigators_currentIndexChanged(int);
     void on_btnSelectInv_clicked();
+    void on_radTcp_toggled(bool on);
 
     void connectionEstablished();
 

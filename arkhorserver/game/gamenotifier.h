@@ -64,6 +64,8 @@ public:
     virtual void notifyWon(QString msg) = 0;
     virtual void notifyLost(QString msg) = 0;
     virtual void notifyDied(Player *p) = 0;
+
+    virtual void flush() = 0;
 };
 
 

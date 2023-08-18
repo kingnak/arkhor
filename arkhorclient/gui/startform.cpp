@@ -30,7 +30,11 @@ void StartForm::on_btnConnect_clicked()
     int p = ui->spnPort->value();
     int ct = ui->spnNrPlayers->value();
 
-    m_conn = new ConnectionHandler(h, p, ct);
+    auto type = ui->radTcp->isChecked()
+            ? ConnectionHandler::ConnectionType::TCP
+            : ConnectionHandler::ConnectionType::HTTP;
+
+    m_conn = new ConnectionHandler(h, p, ct, type);
     AH::Common::CleanupThread *t = new AH::Common::CleanupThread;
     m_conn->moveToThread(t);
     connect(t, SIGNAL(started()), m_conn, SLOT(startup()));
@@ -72,6 +76,15 @@ void StartForm::on_btnSelectInv_clicked()
     AH::Common::InvestigatorData d;
     v >> d;
     m_conn->chooseInvestigator(d);
+}
+
+void StartForm::on_radTcp_toggled(bool on)
+{
+    if (on) {
+        ui->spnPort->setValue(6572);
+    } else {
+        ui->spnPort->setValue(80);
+    }
 }
 
 void StartForm::connectionEstablished()

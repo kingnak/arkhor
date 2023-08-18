@@ -5,14 +5,18 @@
 
 using namespace AH::Common;
 
-ClientConnection::ClientConnection(qintptr socketDescriptor)
-:   NetworkConnection(socketDescriptor),
+ClientConnection::ClientConnection(INetworkConnection *conn)
+:   m_conn(conn),
     m_player(nullptr),
     m_versionReceived(false)
 {
 #ifndef DEBUG_SCRIPT_BUILD
-    setPinging();
+    m_conn->setPinging();
 #endif
+
+    connect(conn, &INetworkConnection::shutdown, this, &ClientConnection::shutdown);
+    connect(conn, &INetworkConnection::messageReceived, this, &ClientConnection::handleMessage);
+    connect(conn, &INetworkConnection::messageReceivedWithId, this, &ClientConnection::handleMessageWithId);
 }
 
 void ClientConnection::cleanup()
@@ -20,10 +24,15 @@ void ClientConnection::cleanup()
     if (m_player) {
         m_player->destroy();
     }
-    NetworkConnection::cleanup();
+    m_conn->cleanup();
 }
 
-void ClientConnection::receivedMessage(const Message &msg)
+void ClientConnection::handleMessage(const Message &msg)
+{
+    handleMessageWithId(msg, -1);
+}
+
+void ClientConnection::handleMessageWithId(const Message &msg, intptr_t msgId)
 {
     if (msg.type != Message::C_VERSION) {
         if (!m_versionReceived) {
@@ -46,7 +55,7 @@ void ClientConnection::receivedMessage(const Message &msg)
         break;
 
     case Message::C_REQUEST_OBJECTS:
-        handleRequestObjects(msg.payload);
+        handleRequestObjects(msg.payload, msgId);
         break;
 
     default:
@@ -54,6 +63,7 @@ void ClientConnection::receivedMessage(const Message &msg)
             m_player->handleMessage(msg);
         } else {
             // ???
+            qWarning() << "Client connection received unexpected message while not having player: " << Message::msg_to_str(msg.type);
         }
     }
 }
@@ -97,7 +107,7 @@ void ClientConnection::handleStartGame()
     gGame->invoke("start");
 }
 
-void ClientConnection::handleRequestObjects(const QVariant &reqsData)
+void ClientConnection::handleRequestObjects(const QVariant &reqsData, intptr_t msgId)
 {
     RequestObjectsData reqs;
     reqsData >> reqs;
@@ -105,5 +115,30 @@ void ClientConnection::handleRequestObjects(const QVariant &reqsData)
     DescribeObjectsData descs = gGame->describeObjects(reqs);
     QVariant v;
     v << descs;
-    sendMessage(Message::S_DESCRIBE_OBJECTS, v);
+    m_conn->sendMessage(Message::S_DESCRIBE_OBJECTS, v, msgId);
+}
+
+void ClientConnection::sendMessage(Message::Type type, QVariant payload)
+{
+    m_conn->sendMessage(type, payload);
+}
+
+void ClientConnection::close()
+{
+    m_conn->close();
+}
+
+void ClientConnection::stop()
+{
+    m_conn->stop();
+}
+
+void ClientConnection::startup()
+{
+    m_conn->startup();
+}
+
+void ClientConnection::flush()
+{
+    m_conn->flush();
 }

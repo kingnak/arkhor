@@ -176,6 +176,7 @@ void Game::play()
     case GS_Continue:
         Q_ASSERT_X(false, "Game::play()", "Should not be in continue state after main game");
     }
+    m_notifier->flush();
 }
 
 Game *Game::instance()
@@ -1010,6 +1011,8 @@ void Game::commitUpdates()
 
         m_invalidatedObjects.clear();
     }
+
+    m_notifier->flush();
 }
 
 Player *Game::playerForCharacter(Character *c)
@@ -1637,6 +1640,7 @@ void Game::ancientOneAttack()
             m_phases[AncientOneAttackIndex]->execute();
         }
     }
+    m_notifier->flush();
 }
 
 void Game::executePlayerPhase(GamePhase *ph, AH::GamePhase phase)
@@ -1748,12 +1752,14 @@ void Game::won(Game::GameState gs)
 {
     Q_UNUSED(gs)
     m_notifier->notifyWon("You have won!");
+    m_notifier->flush();
 }
 
 void Game::lost(Game::GameState gs)
 {
     Q_UNUSED(gs)
     m_notifier->notifyLost("You have lost!");
+    m_notifier->flush();
 }
 
 void Game::awakeAncientOne()

@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QTcpSocket>
-#include <communication/networkconnection.h>
+#include <communication/inetworkconnection.h>
 #include <playerdata.h>
 #include <investigatordata.h>
 #include <gameoptiondata.h>
@@ -26,7 +26,11 @@ class ConnectionHandler : public QObject
 {
     Q_OBJECT
 public:
-    ConnectionHandler(const QString &host, int port, int ct);
+    enum class ConnectionType {
+        TCP,
+        HTTP
+    };
+    ConnectionHandler(const QString &host, int port, int ct, ConnectionType type);
 
     void confirmActive();
     void registerPlayer();
@@ -120,21 +124,22 @@ private slots:
     void handleMessage(const AH::Common::Message &msg);
     void sockError();
     void established();
-    void rsend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, const QVariant &data = QVariant());
+    void rsend(AH::Common::INetworkConnection *c, AH::Common::Message::Type type, const QVariant &data = QVariant());
     void send(AH::Common::Message::Type type, const QVariant &data = QVariant());
 
 private:
-    Q_INVOKABLE void doSend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, const QVariant &data);
+    Q_INVOKABLE void doSend(AH::Common::INetworkConnection *c, AH::Common::Message::Type type, const QVariant &data);
 
 private:
     QString m_host;
     int m_port;
-
+    ConnectionType m_type;
     int m_ct;
-    QMap<QTcpSocket*, AH::Common::NetworkConnection *> m_conns;
-    AH::Common::NetworkConnection *m_mc = nullptr;
-    QStack<AH::Common::NetworkConnection*> m_rc;
-    AH::Common::NetworkConnection *m_ret = nullptr;
+
+    QMap<int, AH::Common::INetworkConnection *> m_conns;
+    AH::Common::INetworkConnection *m_mc = nullptr;
+    QStack<AH::Common::INetworkConnection*> m_rc;
+    AH::Common::INetworkConnection *m_ret = nullptr;
 
     QMap<QString, AH::Common::PlayerData> m_thisPlayers;
     QMap<QString, QString> m_thisChars;

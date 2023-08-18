@@ -1,13 +1,19 @@
 #include "connectionhandler.h"
 #include <QThread>
 #include <QDebug>
+#include <QUuid>
 #include <playerdata.h>
 #include <investigatordata.h>
+#include <communication/networkconnection.h>
+#include "httpconnection.h"
 
-ConnectionHandler::ConnectionHandler(const QString &host, int port, int ct)
+static const char *CLIENT_ID_PROPERTY = "CLIENT_ID";
+
+ConnectionHandler::ConnectionHandler(const QString &host, int port, int ct, ConnectionType type)
     : m_host(host)
     , m_port(port)
     //, m_conn(NULL)
+    , m_type(type)
     , m_ct(ct)
 {
 }
@@ -148,12 +154,22 @@ void ConnectionHandler::setSkipOption(AH::Common::PlayerData::AutoSkipData skipO
 void ConnectionHandler::startup()
 {
     for (int i = 0; i < m_ct; ++i) {
-        QTcpSocket *sock = new QTcpSocket;
-        m_conns[sock] = new AH::Common::NetworkConnection(sock);
-        if (i == 0) m_mc = m_conns[sock];
-        connect(sock, SIGNAL(connected()), this, SLOT(established()));
-        connect(sock, SIGNAL(disconnected()), this, SLOT(sockError()));
-        sock->connectToHost(m_host, m_port);
+        if (m_type == ConnectionType::TCP) {
+            QTcpSocket *sock = new QTcpSocket;
+            sock->setProperty(CLIENT_ID_PROPERTY, i);
+            m_conns[i] = new AH::Common::NetworkConnection(sock);
+            if (i == 0) m_mc = m_conns[i];
+            connect(sock, SIGNAL(connected()), this, SLOT(established()));
+            connect(sock, SIGNAL(disconnected()), this, SLOT(sockError()));
+            sock->connectToHost(m_host, m_port);
+        } else {
+            HttpConnection *c = new HttpConnection(m_host, m_port);
+            m_conns[i] = c;
+            if (i == 0) m_mc = m_conns[i];
+            connect(c, SIGNAL(messageReceived(AH::Common::Message)), this, SLOT(handleMessage(AH::Common::Message)));
+
+            rsend(c, AH::Common::Message::C_VERSION, QVariant(AH::Common::Message::PROTOCOL_VERSION));
+        }
     }
 }
 #undef S_ALL
@@ -173,13 +189,13 @@ void ConnectionHandler::cleanup()
 #define M_SINGLE(ARG) {\
     ARG \
     }
-#define M_MAIN(ARG) if (static_cast<AH::Common::NetworkConnection*>(sender()) == m_mc) {\
+#define M_MAIN(ARG) if (static_cast<AH::Common::INetworkConnection*>(sender()) == m_mc) {\
     ARG \
     }
 #define M_ALL(ARG) {for (auto c_ : m_conns) \
     ARG \
     }
-#define M_RET(ARG) {auto c_ = static_cast<AH::Common::NetworkConnection*>(sender()); m_rc<<c_;\
+#define M_RET(ARG) {auto c_ = static_cast<AH::Common::INetworkConnection*>(sender()); m_rc<<c_;\
     ARG \
     }
 
@@ -193,8 +209,15 @@ void ConnectionHandler::handleMessage(const AH::Common::Message &msg)
         msg.payload >> v;
         if (v != AH::Common::Message::PROTOCOL_VERSION) {
             emit versionMismatch(AH::Common::Message::PROTOCOL_VERSION, v);
+            return;
         }
         )
+        break;
+    }
+
+    case AH::Common::Message::S_REGISTER_CLIENT:
+    {
+        emit connected();
         break;
     }
 
@@ -213,7 +236,7 @@ void ConnectionHandler::handleMessage(const AH::Common::Message &msg)
         emit promptActive();
         break;
         );*/
-        static_cast<AH::Common::NetworkConnection*>(sender())->sendMessage(AH::Common::Message::C_CONFIRM_ACTIVE, {});
+        static_cast<AH::Common::INetworkConnection*>(sender())->sendMessage(AH::Common::Message::C_CONFIRM_ACTIVE, {});
         break;
 
     case AH::Common::Message::S_REGISTER_PLAYER_SUCCESSFUL:
@@ -583,7 +606,7 @@ void ConnectionHandler::sockError()
 
 void ConnectionHandler::established()
 {
-    AH::Common::NetworkConnection *c = m_conns[(QTcpSocket*)sender()];
+    AH::Common::INetworkConnection *c = m_conns[static_cast<QTcpSocket*>(sender())->property(CLIENT_ID_PROPERTY).toInt()];
     c->startup();
     connect(c, SIGNAL(messageReceived(AH::Common::Message)), this, SLOT(handleMessage(AH::Common::Message)));
 
@@ -598,7 +621,7 @@ void ConnectionHandler::send(AH::Common::Message::Type type, const QVariant &dat
     rsend(m_ret, type, data);
 }
 
-void ConnectionHandler::rsend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, const QVariant &data)
+void ConnectionHandler::rsend(AH::Common::INetworkConnection *c, AH::Common::Message::Type type, const QVariant &data)
 {
     if (QThread::currentThread() == this->thread()) {
         doSend(c, type, data);
@@ -606,13 +629,13 @@ void ConnectionHandler::rsend(AH::Common::NetworkConnection *c, AH::Common::Mess
         QMetaObject::invokeMethod(this,
                 "doSend",
                 Qt::QueuedConnection,
-                Q_ARG(AH::Common::NetworkConnection*, c),
+                Q_ARG(AH::Common::INetworkConnection*, c),
                 Q_ARG(AH::Common::Message::Type, type),
                 Q_ARG(QVariant, data));
     }
 }
 
-void ConnectionHandler::doSend(AH::Common::NetworkConnection *c, AH::Common::Message::Type type, const QVariant &data)
+void ConnectionHandler::doSend(AH::Common::INetworkConnection *c, AH::Common::Message::Type type, const QVariant &data)
 {
     c->sendMessage(type, data);
 }

@@ -52,6 +52,8 @@ public:
 
     bool event(QEvent *eve) override;
 
+    void flush() override;
+
 private:
     bool doAcknowledge(std::function<bool(GameNotifier *)> func);
 

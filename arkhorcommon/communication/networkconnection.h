@@ -2,6 +2,7 @@
 #define NETWORKCONNECTION_H
 
 #include "arkhorcommonglobal.h"
+#include "inetworkconnection.h"
 #include <QObject>
 #include <QTcpSocket>
 #include <QTime>
@@ -11,28 +12,25 @@
 namespace AH {
     namespace Common {
 
-        class ARKHOR_COMMON_EXPORTS NetworkConnection : public QObject // : public QTcpSocket
+        class ARKHOR_COMMON_EXPORTS NetworkConnection : public INetworkConnection // : public QTcpSocket
         {
             Q_OBJECT
         public:
             explicit NetworkConnection(qintptr socketDescriptor, QObject *parent = 0);
             explicit NetworkConnection(QTcpSocket *sock, QObject *parent = 0);
 
-            void setPinging() { m_doPing = true; startPinging(); }
-
-        signals:
-            void shutdown();
-            void messageReceived(AH::Common::Message msg);
+            void setPinging() override { m_doPing = true; startPinging(); }
 
         public slots:
-            void startup();
-            void stop();
-            virtual void cleanup();
-            void close();
-            void abort();
+            virtual void startup() override;
+            virtual void stop() override;
+            virtual void cleanup() override;
+            virtual void close() override;
+            virtual void abort() override;
 
-            void sendMessage(const AH::Common::Message &msg);
-            void sendMessage(AH::Common::Message::Type type, const QVariant &payload);
+        public:
+            virtual void sendMessage(const AH::Common::Message &msg) override;
+            using INetworkConnection::sendMessage;
 
         protected:
             virtual void receivedMessage(const Message &msg);

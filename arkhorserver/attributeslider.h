@@ -24,7 +24,7 @@ public:
 
 private:
     //QList<AttributePair> m_attributeSettings;
-    //qint8 m_curSetting;
+    //qint16 m_curSetting;
 };
 
 #endif // ATTRIBUTESLIDER_H

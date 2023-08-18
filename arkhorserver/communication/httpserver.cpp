@@ -274,7 +274,7 @@ void HttpServer::sendMessages(QTcpSocket *socket, QList<Message> msgs, bool clos
     }
     QJsonDocument d;
     d.setArray(a);
-    QByteArray ba = d.toJson(QJsonDocument::JsonFormat::Indented);
+    QByteArray ba = d.toJson(QJsonDocument::JsonFormat::Compact);
 
     sendMessage(socket, ba, closeSocket);
 }
@@ -284,7 +284,7 @@ void HttpServer::sendMessage(QTcpSocket *socket, Message msg, bool closeSocket)
     QVariant v;
     v << msg;
     QJsonDocument d = QJsonDocument::fromVariant(v);
-    QByteArray data = d.toJson(QJsonDocument::JsonFormat::Indented);
+    QByteArray data = d.toJson(QJsonDocument::JsonFormat::Compact);
 
     qDebug() << "Sending Message " << AH::Common::Message::msg_to_str(msg.type);
     sendMessage(socket, data, closeSocket);

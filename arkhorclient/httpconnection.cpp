@@ -38,7 +38,7 @@ void HttpConnection::sendMessage(const AH::Common::Message &msg)
     ep += messageToEP(msg.type);
     if (messageHasClientId(msg.type)) ep += "/" + m_clientId.toString(QUuid::StringFormat::WithoutBraces);
     if (messageHasData(msg.type)) {
-        auto data = QJsonDocument::fromVariant(v).toJson(QJsonDocument::JsonFormat::Indented);
+        auto data = QJsonDocument::fromVariant(v).toJson(QJsonDocument::JsonFormat::Compact);
         QNetworkRequest req = QNetworkRequest(QUrl(ep));
         req.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "text/json");
         m_mgm->post(req, data);

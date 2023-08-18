@@ -28,8 +28,6 @@ void HttpConnection::startup()
 void HttpConnection::sendMessage(const AH::Common::Message &msg)
 {
     if (m_pollReply) {
-        m_pollReply->abort();
-        m_pollReply->deleteLater();
         m_pollReply = nullptr;
     }
 
